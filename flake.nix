@@ -65,7 +65,7 @@
       in
       {
         packages.default = updater;
-        apps. default = {
+        apps.default = {
           type = "app";
           program = "${updater}";
         };
