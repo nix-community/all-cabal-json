@@ -1,0 +1,47 @@
+name: "all cabal2json converter"
+
+on:
+  push:
+    branches: [ "ci*" ]
+  schedule:
+    # run everyday at 03:00
+    - cron:  "0 3 * * *"
+  workflow_dispatch:
+
+jobs:
+  run:
+    name: all cabal2json
+    runs-on: ubuntu-latest
+    steps:
+
+    - uses: actions/checkout@v2
+      with:
+        fetch-depth: 1
+
+    - name: Install/Setup - NIX
+      uses: cachix/install-nix-action@v13
+      with:
+        nix_path: nixpkgs=channel:nixos-unstable
+        install_url: https://nixos-nix-install-tests.cachix.org/serve/i41jvy44n7vlgwlvyvii49zzjrl6x9z1/install
+        install_options: '--tarball-url-prefix https://nixos-nix-install-tests.cachix.org/serve'
+        # GC 30GB when free space < 3GB
+        extra_nix_config: |
+          experimental-features = nix-command flakes
+          min-free = 3000000000
+          max-free = 30000000000
+
+    - name: update sdist/wheel deps
+      run: |
+        set -x
+        git config --local user.email "${{ github.actor }}@users.noreply.github.com"
+        git config --local user.name "github-actions[bot]"
+        # create temporary directory for downloads
+        export TMP_DIR=./tmplocal
+        mkdir $TMP_DIR
+        export WORKERS=5
+        # make sure that githubs time limit of 6h is not exceeded
+        export MAX_MINUTES_WHEEL=30
+        export MAX_MINUTES_SDIST=300
+        nix run -L . -- ./output
+        git push
+      shell: bash
