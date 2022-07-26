@@ -1,8 +1,6 @@
-name: "all cabal2json converter"
+name: "all cabal2json action"
 
 on:
-  push:
-    branches: [ "ci*" ]
   schedule:
     # run everyday at 03:00
     - cron:  "0 3 * * *"
@@ -10,12 +8,13 @@ on:
 
 jobs:
   run:
-    name: all cabal2json
+    name: update all cabal2json files
     runs-on: ubuntu-latest
     steps:
 
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
       with:
+        ref: hackage
         fetch-depth: 1
 
     - name: Install/Setup - NIX
@@ -30,18 +29,20 @@ jobs:
           min-free = 3000000000
           max-free = 30000000000
 
-    - name: update sdist/wheel deps
+    - name: run updater app
       run: |
         set -x
         git config --local user.email "${{ github.actor }}@users.noreply.github.com"
         git config --local user.name "github-actions[bot]"
+
         # create temporary directory for downloads
         export TMP_DIR=./tmplocal
         mkdir $TMP_DIR
         export WORKERS=5
-        # make sure that githubs time limit of 6h is not exceeded
-        export MAX_MINUTES_WHEEL=30
-        export MAX_MINUTES_SDIST=300
-        nix run -L .#updaterApp -- ./output
+
+        nix run -L github:$GITHUB_REPOSITORY
+
+        git add .
+        git commit -m "$(date)"
         git push
       shell: bash

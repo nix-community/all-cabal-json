@@ -30,7 +30,7 @@
 
           cabalFile=$1
           targetFolder=$2
-          targetFile=~/repos/all-cabal-json/$targetFolder/''${cabalFile%.*}.json
+          targetFile=$targetFolder/''${cabalFile%.*}.json
           echo "creating: $targetFile"
           mkdir -p $(dirname $targetFile)
           ${pkgs.haskellPackages.cabal2json}/bin/cabal2json $cabalFile | ${pkgs.jq}/bin/jq . > $targetFile
@@ -40,41 +40,22 @@
           #!/usr/bin/env bash
           set -eou pipefail
 
-          indexRevPrev=$(nix flake metadata --json | jq -e --raw-output '.locks.nodes."all-cabal-files".locked.rev')
-          nix flake lock --update-input "all-cabal-files"
-          indexRev=$(nix flake metadata --json | jq -e --raw-output '.locks.nodes."all-cabal-files".locked.rev')
-          if [ "$indexRevPrev" == "$indexRev" ]; then
-            echo "Index unchanged. Nothing to do. Exiting..."
-            exit 0
-          fi
-
-          if [ $# -eq 0 ]
-          then
-            echo "Please provide output folder as argument."
-            exit 1
-          fi
-
-          targetFolder=$1
+          currFolder=$PWD
 
           cd ${all-cabal-files}
           ${pkgs.parallel}/bin/parallel \
             --halt now,fail,1 \
             -a <(${pkgs.findutils}/bin/find . -type f -name '*.cabal') \
-            ${converter} {} $targetFolder
+            ${converter} {} $currFolder
         '';
+
       in
       {
         packages.default = updater;
-        apps =
-          let
-            updaterApp = {
-              type = "app";
-              program = "${updater}";
-            };
-          in {
-            inherit updaterApp;
-            default = updaterApp;
-          };
+        defaultApp = {
+          type = "app";
+          program = "${updater}";
+        };
       }
     );
 }
