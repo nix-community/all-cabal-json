@@ -1,0 +1,202 @@
+{
+  "description": {
+    "spec-version": {
+      "Right": ">=1.10"
+    },
+    "package": {
+      "name": "hflags",
+      "version": [
+        0,
+        4,
+        3
+      ]
+    },
+    "license": {
+      "Right": "OtherLicense"
+    },
+    "license-files": [
+      "COPYING"
+    ],
+    "copyright": "",
+    "maintainer": "Gergely Risko <gergely@risko.hu>",
+    "author": "Mihaly Barasz <klao@google.com>, Gergely Risko <gergely@risko.hu>",
+    "stability": "provisional",
+    "tested-with": [],
+    "homepage": "http://github.com/errge/hflags",
+    "pkg-url": "",
+    "bug-reports": "http://github.com/errge/hflags/issues",
+    "source-repos": [
+      {
+        "kind": {},
+        "type": "Git",
+        "location": "http://github.com/errge/hflags",
+        "module": null,
+        "branch": null,
+        "tag": null,
+        "subdir": null
+      }
+    ],
+    "synopsis": "Command line flag parser, very similar to Google's gflags",
+    "description": "The @HFlags@ library supports easy definition of command line flags,\nreimplementing the ideas from Google's @gflags@\n(<http://code.google.com/p/gflags>).\n\nCommand line flags can be declared in any file at the toplevel,\nusing 'defineFlag'.  At runtime, the actual values are assigned to\nthe toplevel @flags_name@ constants.  Those can be used purely\nthroughout the program.\n\nAt the beginning of the @main@ function, @$initHFlags \\\"program\ndescription\\\"@ has to be called to initialize the flags.  All flags\nwill be initialized that are transitively reachable via imports from\n@main@.  This means, that any Haskell package can easily define\ncommand line flags with @HFlags@.  This feature is demonstrated by\n<http://github.com/errge/hflags/blob/master/examples/ImportExample.hs>\nand <http://github.com/errge/hflags/tree/master/examples/package>.\n\nA simple example (more in the\n<http://github.com/errge/hflags/tree/master/examples> directory):\n\n@\n\\#!\\/usr\\/bin\\/env runhaskell\n\n&#x7b;-\\# LANGUAGE TemplateHaskell \\#-&#x7d;\n\nimport HFlags\n\n'defineFlag' \\\"name\\\" \\\"Indiana Jones\\\" \\\"Who to greet.\\\"\n'defineFlag' \\\"r:repeat\\\" (3 + 4 :: Int) \\\"Number of times to repeat the message.\\\"\n\nmain = do s <- $initHFlags \\\"Simple program v0.1\\\"\n&#x20;         sequence_ $ replicate flags_repeat greet\n&#x20;         putStrLn $ \\\"Your additional arguments were: \\\" ++ show s\n&#x20;         putStrLn $ \\\"Which is the same as: \\\" ++ show HFlags.arguments\n&#x20; where\n&#x20;   greet = putStrLn $ \\\"Hello \\\" ++ flags_name ++ \\\", very nice to meet you!\\\"\n@\n\nAt @initHFlags@ time, the library also tries to gather flags out of\nenvironment variables.  @HFLAGS_verbose=True@ is equivalent to\nspecify --verbose=True.  This environment feature only works with\nlong options and the user has to specify a value even for Bools.\n\n/Since version 0.2, you mustn't put the initHFlags in a parentheses with the program description.  Just/ @$initHFlags@, /it's cleaner./\n\nSee <http://github.com/errge/hflags/tree/master/changelog> for recent changes.",
+    "category": "Console",
+    "custom-fields": [],
+    "build-type-raw": "Simple",
+    "custom-setup": null,
+    "library": null,
+    "sublibraries": [],
+    "executables": [],
+    "foreign-libs": [],
+    "test-suites": [],
+    "benchmarks": [],
+    "data-files": [],
+    "data-dir": ".",
+    "extra-source-files": [
+      "examples/ComplexExample.hs",
+      "examples/ImportExample.hs",
+      "examples/SimpleExample.hs",
+      "examples/X/B.hs",
+      "examples/X/Y_Y/A.hs",
+      "examples/package/Tup.hs",
+      "examples/package/test/main.hs",
+      "examples/package/tup.cabal",
+      "BLOG.md",
+      "README.md",
+      "changelog"
+    ],
+    "extra-tmp-files": [],
+    "extra-doc-files": []
+  },
+  "library": {
+    "condTreeData": {
+      "name": {},
+      "exposed-modules": [
+        [
+          "HFlags"
+        ]
+      ],
+      "re-exported-modules": [],
+      "signatures": [],
+      "exposed": true,
+      "visibility": "LibraryVisibilityPublic",
+      "build-info": {
+        "buildable": true,
+        "buildTools": [],
+        "buildToolDepends": [],
+        "cppOptions": [],
+        "asmOptions": [],
+        "cmmOptions": [],
+        "ccOptions": [],
+        "cxxOptions": [],
+        "ldOptions": [],
+        "pkgconfigDepends": [],
+        "frameworks": [],
+        "extraFrameworkDirs": [],
+        "asmSources": [],
+        "cmmSources": [],
+        "cSources": [],
+        "cxxSources": [],
+        "jsSources": [],
+        "hsSourceDirs": [],
+        "otherModules": [],
+        "virtualModules": [],
+        "autogenModules": [],
+        "defaultLanguage": "Haskell2010",
+        "otherLanguages": [],
+        "defaultExtensions": [],
+        "otherExtensions": [],
+        "oldExtensions": [],
+        "extraLibs": [],
+        "extraGHCiLibs": [],
+        "extraBundledLibs": [],
+        "extraLibFlavours": [],
+        "extraDynLibFlavours": [],
+        "extraLibDirs": [],
+        "includeDirs": [],
+        "includes": [],
+        "autogenIncludes": [],
+        "installIncludes": [],
+        "options": [
+          [
+            "-Wall"
+          ],
+          []
+        ],
+        "profOptions": [
+          [],
+          []
+        ],
+        "sharedOptions": [
+          [],
+          []
+        ],
+        "staticOptions": [
+          [],
+          []
+        ],
+        "customFieldsBI": [],
+        "targetBuildDepends": [
+          {
+            "package-name": "base",
+            "version-range": ">=4.6 && <5",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "containers",
+            "version-range": ">=0.4",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "template-haskell",
+            "version-range": ">=2.8",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "text",
+            "version-range": ">=0.11",
+            "library": [
+              {}
+            ]
+          }
+        ],
+        "mixins": []
+      }
+    },
+    "condTreeConstraints": [
+      {
+        "package-name": "base",
+        "version-range": ">=4.6 && <5",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "containers",
+        "version-range": ">=0.4",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "template-haskell",
+        "version-range": ">=2.8",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "text",
+        "version-range": ">=0.11",
+        "library": [
+          {}
+        ]
+      }
+    ],
+    "condTreeComponents": []
+  }
+}

@@ -1,0 +1,1361 @@
+{
+  "description": {
+    "spec-version": {
+      "Right": ">=1.10"
+    },
+    "package": {
+      "name": "splitmix",
+      "version": [
+        0,
+        0,
+        4
+      ]
+    },
+    "license": {
+      "Right": "BSD3"
+    },
+    "license-files": [
+      "LICENSE"
+    ],
+    "copyright": "",
+    "maintainer": "Oleg Grenrus <oleg.grenrus@iki.fi>",
+    "author": "",
+    "stability": "",
+    "tested-with": [
+      {
+        "compiler": "GHC",
+        "versionRange": "==7.0.4 || ==7.2.2 || ==7.4.2 || ==7.6.3 || ==7.8.4 || ==7.10.3 || ==8.0.2 || ==8.2.2 || ==8.4.4 || ==8.6.5 || ==8.8.2 || ==8.10.1"
+      },
+      {
+        "compiler": "GHCJS",
+        "versionRange": "==8.4"
+      }
+    ],
+    "homepage": "",
+    "pkg-url": "",
+    "bug-reports": "https://github.com/phadej/splitmix#issues",
+    "source-repos": [
+      {
+        "kind": {},
+        "type": "Git",
+        "location": "https://github.com/phadej/splitmix.git",
+        "module": null,
+        "branch": null,
+        "tag": null,
+        "subdir": null
+      }
+    ],
+    "synopsis": "Fast Splittable PRNG",
+    "description": "Pure Haskell implementation of SplitMix described in\n\nGuy L. Steele, Jr., Doug Lea, and Christine H. Flood. 2014.\nFast splittable pseudorandom number generators. In Proceedings\nof the 2014 ACM International Conference on Object Oriented\nProgramming Systems Languages & Applications (OOPSLA '14). ACM,\nNew York, NY, USA, 453-472. DOI:\n<https://doi.org/10.1145/2660193.2660195>\n\nThe paper describes a new algorithm /SplitMix/ for /splittable/\npseudorandom number generator that is quite fast: 9 64 bit arithmetic/logical\noperations per 64 bits generated.\n\n/SplitMix/ is tested with two standard statistical test suites (DieHarder and\nTestU01, this implementation only using the former) and it appears to be\nadequate for \"everyday\" use, such as Monte Carlo algorithms and randomized\ndata structures where speed is important.\n\nIn particular, it __should not be used for cryptographic or security applications__,\nbecause generated sequences of pseudorandom values are too predictable\n(the mixing functions are easily inverted, and two successive outputs\nsuffice to reconstruct the internal state).",
+    "category": "System, Random",
+    "custom-fields": [],
+    "build-type-raw": "Simple",
+    "custom-setup": null,
+    "library": null,
+    "sublibraries": [],
+    "executables": [],
+    "foreign-libs": [],
+    "test-suites": [],
+    "benchmarks": [],
+    "data-files": [],
+    "data-dir": ".",
+    "extra-source-files": [
+      "README.md",
+      "Changelog.md"
+    ],
+    "extra-tmp-files": [],
+    "extra-doc-files": []
+  },
+  "package-flags": [
+    {
+      "name": "optimised-mixer",
+      "description": "Use JavaScript for mix32",
+      "default": false,
+      "manual": true
+    },
+    {
+      "name": "random",
+      "description": "Providen RandomGen SMGen instance",
+      "default": true,
+      "manual": true
+    }
+  ],
+  "library": {
+    "condTreeData": {
+      "name": {},
+      "exposed-modules": [
+        [
+          "System",
+          "Random",
+          "SplitMix"
+        ],
+        [
+          "System",
+          "Random",
+          "SplitMix32"
+        ]
+      ],
+      "re-exported-modules": [],
+      "signatures": [],
+      "exposed": true,
+      "visibility": "LibraryVisibilityPublic",
+      "build-info": {
+        "buildable": true,
+        "buildTools": [],
+        "buildToolDepends": [],
+        "cppOptions": [],
+        "asmOptions": [],
+        "cmmOptions": [],
+        "ccOptions": [],
+        "cxxOptions": [],
+        "ldOptions": [],
+        "pkgconfigDepends": [],
+        "frameworks": [],
+        "extraFrameworkDirs": [],
+        "asmSources": [],
+        "cmmSources": [],
+        "cSources": [],
+        "cxxSources": [],
+        "jsSources": [],
+        "hsSourceDirs": [
+          "src",
+          "src-compat"
+        ],
+        "otherModules": [
+          [
+            "Data",
+            "Bits",
+            "Compat"
+          ]
+        ],
+        "virtualModules": [],
+        "autogenModules": [],
+        "defaultLanguage": "Haskell2010",
+        "otherLanguages": [],
+        "defaultExtensions": [],
+        "otherExtensions": [],
+        "oldExtensions": [],
+        "extraLibs": [],
+        "extraGHCiLibs": [],
+        "extraBundledLibs": [],
+        "extraLibFlavours": [],
+        "extraDynLibFlavours": [],
+        "extraLibDirs": [],
+        "includeDirs": [],
+        "includes": [],
+        "autogenIncludes": [],
+        "installIncludes": [],
+        "options": [
+          [
+            "-Wall"
+          ],
+          []
+        ],
+        "profOptions": [
+          [],
+          []
+        ],
+        "sharedOptions": [
+          [],
+          []
+        ],
+        "staticOptions": [
+          [],
+          []
+        ],
+        "customFieldsBI": [],
+        "targetBuildDepends": [
+          {
+            "package-name": "base",
+            "version-range": ">=4.3 && <4.15",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "deepseq",
+            "version-range": ">=1.3.0.0 && <1.5",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "time",
+            "version-range": ">=1.2.0.3 && <1.10",
+            "library": [
+              {}
+            ]
+          }
+        ],
+        "mixins": []
+      }
+    },
+    "condTreeConstraints": [
+      {
+        "package-name": "base",
+        "version-range": ">=4.3 && <4.15",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "deepseq",
+        "version-range": ">=1.3.0.0 && <1.5",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "time",
+        "version-range": ">=1.2.0.3 && <1.10",
+        "library": [
+          {}
+        ]
+      }
+    ],
+    "condTreeComponents": [
+      {
+        "condBranchCondition": {
+          "v": {
+            "flag": "random"
+          }
+        },
+        "condBranchIfTrue": {
+          "condTreeData": {
+            "name": {},
+            "exposed-modules": [],
+            "re-exported-modules": [],
+            "signatures": [],
+            "exposed": true,
+            "visibility": "LibraryVisibilityPublic",
+            "build-info": {
+              "buildable": true,
+              "buildTools": [],
+              "buildToolDepends": [],
+              "cppOptions": [],
+              "asmOptions": [],
+              "cmmOptions": [],
+              "ccOptions": [],
+              "cxxOptions": [],
+              "ldOptions": [],
+              "pkgconfigDepends": [],
+              "frameworks": [],
+              "extraFrameworkDirs": [],
+              "asmSources": [],
+              "cmmSources": [],
+              "cSources": [],
+              "cxxSources": [],
+              "jsSources": [],
+              "hsSourceDirs": [],
+              "otherModules": [],
+              "virtualModules": [],
+              "autogenModules": [],
+              "defaultLanguage": null,
+              "otherLanguages": [],
+              "defaultExtensions": [],
+              "otherExtensions": [],
+              "oldExtensions": [],
+              "extraLibs": [],
+              "extraGHCiLibs": [],
+              "extraBundledLibs": [],
+              "extraLibFlavours": [],
+              "extraDynLibFlavours": [],
+              "extraLibDirs": [],
+              "includeDirs": [],
+              "includes": [],
+              "autogenIncludes": [],
+              "installIncludes": [],
+              "options": [
+                [],
+                []
+              ],
+              "profOptions": [
+                [],
+                []
+              ],
+              "sharedOptions": [
+                [],
+                []
+              ],
+              "staticOptions": [
+                [],
+                []
+              ],
+              "customFieldsBI": [],
+              "targetBuildDepends": [
+                {
+                  "package-name": "random",
+                  "version-range": ">=1.0 && <1.2",
+                  "library": [
+                    {}
+                  ]
+                }
+              ],
+              "mixins": []
+            }
+          },
+          "condTreeConstraints": [
+            {
+              "package-name": "random",
+              "version-range": ">=1.0 && <1.2",
+              "library": [
+                {}
+              ]
+            }
+          ],
+          "condTreeComponents": []
+        }
+      },
+      {
+        "condBranchCondition": {
+          "v": {
+            "flag": "optimised-mixer"
+          }
+        },
+        "condBranchIfTrue": {
+          "condTreeData": {
+            "name": {},
+            "exposed-modules": [],
+            "re-exported-modules": [],
+            "signatures": [],
+            "exposed": true,
+            "visibility": "LibraryVisibilityPublic",
+            "build-info": {
+              "buildable": true,
+              "buildTools": [],
+              "buildToolDepends": [],
+              "cppOptions": [
+                "-DOPTIMISED_MIX32=1"
+              ],
+              "asmOptions": [],
+              "cmmOptions": [],
+              "ccOptions": [],
+              "cxxOptions": [],
+              "ldOptions": [],
+              "pkgconfigDepends": [],
+              "frameworks": [],
+              "extraFrameworkDirs": [],
+              "asmSources": [],
+              "cmmSources": [],
+              "cSources": [],
+              "cxxSources": [],
+              "jsSources": [],
+              "hsSourceDirs": [],
+              "otherModules": [],
+              "virtualModules": [],
+              "autogenModules": [],
+              "defaultLanguage": null,
+              "otherLanguages": [],
+              "defaultExtensions": [],
+              "otherExtensions": [],
+              "oldExtensions": [],
+              "extraLibs": [],
+              "extraGHCiLibs": [],
+              "extraBundledLibs": [],
+              "extraLibFlavours": [],
+              "extraDynLibFlavours": [],
+              "extraLibDirs": [],
+              "includeDirs": [],
+              "includes": [],
+              "autogenIncludes": [],
+              "installIncludes": [],
+              "options": [
+                [],
+                []
+              ],
+              "profOptions": [
+                [],
+                []
+              ],
+              "sharedOptions": [
+                [],
+                []
+              ],
+              "staticOptions": [
+                [],
+                []
+              ],
+              "customFieldsBI": [],
+              "targetBuildDepends": [],
+              "mixins": []
+            }
+          },
+          "condTreeConstraints": [],
+          "condTreeComponents": []
+        }
+      }
+    ]
+  },
+  "test-suites": {
+    "montecarlo-pi-32": {
+      "condTreeData": {
+        "name": "",
+        "interface": {
+          "version": [
+            1,
+            0
+          ],
+          "filepath": "SplitMixPi32.hs"
+        },
+        "build-info": {
+          "buildable": true,
+          "buildTools": [],
+          "buildToolDepends": [],
+          "cppOptions": [],
+          "asmOptions": [],
+          "cmmOptions": [],
+          "ccOptions": [],
+          "cxxOptions": [],
+          "ldOptions": [],
+          "pkgconfigDepends": [],
+          "frameworks": [],
+          "extraFrameworkDirs": [],
+          "asmSources": [],
+          "cmmSources": [],
+          "cSources": [],
+          "cxxSources": [],
+          "jsSources": [],
+          "hsSourceDirs": [
+            "tests"
+          ],
+          "otherModules": [],
+          "virtualModules": [],
+          "autogenModules": [],
+          "defaultLanguage": "Haskell2010",
+          "otherLanguages": [],
+          "defaultExtensions": [],
+          "otherExtensions": [],
+          "oldExtensions": [],
+          "extraLibs": [],
+          "extraGHCiLibs": [],
+          "extraBundledLibs": [],
+          "extraLibFlavours": [],
+          "extraDynLibFlavours": [],
+          "extraLibDirs": [],
+          "includeDirs": [],
+          "includes": [],
+          "autogenIncludes": [],
+          "installIncludes": [],
+          "options": [
+            [
+              "-Wall"
+            ],
+            []
+          ],
+          "profOptions": [
+            [],
+            []
+          ],
+          "sharedOptions": [
+            [],
+            []
+          ],
+          "staticOptions": [
+            [],
+            []
+          ],
+          "customFieldsBI": [],
+          "targetBuildDepends": [
+            {
+              "package-name": "base",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "splitmix",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            }
+          ],
+          "mixins": []
+        }
+      },
+      "condTreeConstraints": [
+        {
+          "package-name": "base",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "splitmix",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        }
+      ],
+      "condTreeComponents": []
+    },
+    "examples": {
+      "condTreeData": {
+        "name": "",
+        "interface": {
+          "version": [
+            1,
+            0
+          ],
+          "filepath": "Examples.hs"
+        },
+        "build-info": {
+          "buildable": true,
+          "buildTools": [],
+          "buildToolDepends": [],
+          "cppOptions": [],
+          "asmOptions": [],
+          "cmmOptions": [],
+          "ccOptions": [],
+          "cxxOptions": [],
+          "ldOptions": [],
+          "pkgconfigDepends": [],
+          "frameworks": [],
+          "extraFrameworkDirs": [],
+          "asmSources": [],
+          "cmmSources": [],
+          "cSources": [],
+          "cxxSources": [],
+          "jsSources": [],
+          "hsSourceDirs": [
+            "tests"
+          ],
+          "otherModules": [],
+          "virtualModules": [],
+          "autogenModules": [],
+          "defaultLanguage": "Haskell2010",
+          "otherLanguages": [],
+          "defaultExtensions": [],
+          "otherExtensions": [],
+          "oldExtensions": [],
+          "extraLibs": [],
+          "extraGHCiLibs": [],
+          "extraBundledLibs": [],
+          "extraLibFlavours": [],
+          "extraDynLibFlavours": [],
+          "extraLibDirs": [],
+          "includeDirs": [],
+          "includes": [],
+          "autogenIncludes": [],
+          "installIncludes": [],
+          "options": [
+            [
+              "-Wall"
+            ],
+            []
+          ],
+          "profOptions": [
+            [],
+            []
+          ],
+          "sharedOptions": [
+            [],
+            []
+          ],
+          "staticOptions": [
+            [],
+            []
+          ],
+          "customFieldsBI": [],
+          "targetBuildDepends": [
+            {
+              "package-name": "base",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "HUnit",
+              "version-range": "==1.3.1.2 || >=1.6.0.0 && <1.7",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "splitmix",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            }
+          ],
+          "mixins": []
+        }
+      },
+      "condTreeConstraints": [
+        {
+          "package-name": "base",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "HUnit",
+          "version-range": "==1.3.1.2 || >=1.6.0.0 && <1.7",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "splitmix",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        }
+      ],
+      "condTreeComponents": []
+    },
+    "splitmix-dieharder": {
+      "condTreeData": {
+        "name": "",
+        "interface": {
+          "version": [
+            1,
+            0
+          ],
+          "filepath": "Dieharder.hs"
+        },
+        "build-info": {
+          "buildable": true,
+          "buildTools": [],
+          "buildToolDepends": [],
+          "cppOptions": [],
+          "asmOptions": [],
+          "cmmOptions": [],
+          "ccOptions": [],
+          "cxxOptions": [],
+          "ldOptions": [],
+          "pkgconfigDepends": [],
+          "frameworks": [],
+          "extraFrameworkDirs": [],
+          "asmSources": [],
+          "cmmSources": [],
+          "cSources": [],
+          "cxxSources": [],
+          "jsSources": [],
+          "hsSourceDirs": [
+            "tests"
+          ],
+          "otherModules": [],
+          "virtualModules": [],
+          "autogenModules": [],
+          "defaultLanguage": "Haskell2010",
+          "otherLanguages": [],
+          "defaultExtensions": [],
+          "otherExtensions": [],
+          "oldExtensions": [],
+          "extraLibs": [],
+          "extraGHCiLibs": [],
+          "extraBundledLibs": [],
+          "extraLibFlavours": [],
+          "extraDynLibFlavours": [],
+          "extraLibDirs": [],
+          "includeDirs": [],
+          "includes": [],
+          "autogenIncludes": [],
+          "installIncludes": [],
+          "options": [
+            [
+              "-Wall",
+              "-threaded",
+              "-rtsopts"
+            ],
+            []
+          ],
+          "profOptions": [
+            [],
+            []
+          ],
+          "sharedOptions": [
+            [],
+            []
+          ],
+          "staticOptions": [
+            [],
+            []
+          ],
+          "customFieldsBI": [],
+          "targetBuildDepends": [
+            {
+              "package-name": "async",
+              "version-range": ">=2.2.1 && <2.3",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "base",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "base-compat-batteries",
+              "version-range": ">=0.10.5 && <0.11",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "bytestring",
+              "version-range": ">=0.9.1.8 && <0.11",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "deepseq",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "process",
+              "version-range": ">=1.0.1.5 && <1.7",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "random",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "splitmix",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "tf-random",
+              "version-range": ">=0.5 && <0.6",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "vector",
+              "version-range": ">=0.11.0.0 && <0.13",
+              "library": [
+                {}
+              ]
+            }
+          ],
+          "mixins": []
+        }
+      },
+      "condTreeConstraints": [
+        {
+          "package-name": "async",
+          "version-range": ">=2.2.1 && <2.3",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "base",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "base-compat-batteries",
+          "version-range": ">=0.10.5 && <0.11",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "bytestring",
+          "version-range": ">=0.9.1.8 && <0.11",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "deepseq",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "process",
+          "version-range": ">=1.0.1.5 && <1.7",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "random",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "splitmix",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "tf-random",
+          "version-range": ">=0.5 && <0.6",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "vector",
+          "version-range": ">=0.11.0.0 && <0.13",
+          "library": [
+            {}
+          ]
+        }
+      ],
+      "condTreeComponents": []
+    },
+    "montecarlo-pi": {
+      "condTreeData": {
+        "name": "",
+        "interface": {
+          "version": [
+            1,
+            0
+          ],
+          "filepath": "SplitMixPi.hs"
+        },
+        "build-info": {
+          "buildable": true,
+          "buildTools": [],
+          "buildToolDepends": [],
+          "cppOptions": [],
+          "asmOptions": [],
+          "cmmOptions": [],
+          "ccOptions": [],
+          "cxxOptions": [],
+          "ldOptions": [],
+          "pkgconfigDepends": [],
+          "frameworks": [],
+          "extraFrameworkDirs": [],
+          "asmSources": [],
+          "cmmSources": [],
+          "cSources": [],
+          "cxxSources": [],
+          "jsSources": [],
+          "hsSourceDirs": [
+            "tests"
+          ],
+          "otherModules": [],
+          "virtualModules": [],
+          "autogenModules": [],
+          "defaultLanguage": "Haskell2010",
+          "otherLanguages": [],
+          "defaultExtensions": [],
+          "otherExtensions": [],
+          "oldExtensions": [],
+          "extraLibs": [],
+          "extraGHCiLibs": [],
+          "extraBundledLibs": [],
+          "extraLibFlavours": [],
+          "extraDynLibFlavours": [],
+          "extraLibDirs": [],
+          "includeDirs": [],
+          "includes": [],
+          "autogenIncludes": [],
+          "installIncludes": [],
+          "options": [
+            [
+              "-Wall"
+            ],
+            []
+          ],
+          "profOptions": [
+            [],
+            []
+          ],
+          "sharedOptions": [
+            [],
+            []
+          ],
+          "staticOptions": [
+            [],
+            []
+          ],
+          "customFieldsBI": [],
+          "targetBuildDepends": [
+            {
+              "package-name": "base",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "splitmix",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            }
+          ],
+          "mixins": []
+        }
+      },
+      "condTreeConstraints": [
+        {
+          "package-name": "base",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "splitmix",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        }
+      ],
+      "condTreeComponents": []
+    }
+  },
+  "benchmarks": {
+    "comparison": {
+      "condTreeData": {
+        "name": "",
+        "interface": {
+          "version": [
+            1,
+            0
+          ],
+          "filepath": "Bench.hs"
+        },
+        "build-info": {
+          "buildable": true,
+          "buildTools": [],
+          "buildToolDepends": [],
+          "cppOptions": [],
+          "asmOptions": [],
+          "cmmOptions": [],
+          "ccOptions": [],
+          "cxxOptions": [],
+          "ldOptions": [],
+          "pkgconfigDepends": [],
+          "frameworks": [],
+          "extraFrameworkDirs": [],
+          "asmSources": [],
+          "cmmSources": [],
+          "cSources": [],
+          "cxxSources": [],
+          "jsSources": [],
+          "hsSourceDirs": [
+            "bench"
+          ],
+          "otherModules": [],
+          "virtualModules": [],
+          "autogenModules": [],
+          "defaultLanguage": "Haskell2010",
+          "otherLanguages": [],
+          "defaultExtensions": [],
+          "otherExtensions": [],
+          "oldExtensions": [],
+          "extraLibs": [],
+          "extraGHCiLibs": [],
+          "extraBundledLibs": [],
+          "extraLibFlavours": [],
+          "extraDynLibFlavours": [],
+          "extraLibDirs": [],
+          "includeDirs": [],
+          "includes": [],
+          "autogenIncludes": [],
+          "installIncludes": [],
+          "options": [
+            [
+              "-Wall"
+            ],
+            []
+          ],
+          "profOptions": [
+            [],
+            []
+          ],
+          "sharedOptions": [
+            [],
+            []
+          ],
+          "staticOptions": [
+            [],
+            []
+          ],
+          "customFieldsBI": [],
+          "targetBuildDepends": [
+            {
+              "package-name": "base",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "containers",
+              "version-range": ">=0.4.2.1 && <0.7",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "criterion",
+              "version-range": ">=1.1.0.0 && <1.6",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "random",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "splitmix",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "tf-random",
+              "version-range": ">=0.5 && <0.6",
+              "library": [
+                {}
+              ]
+            }
+          ],
+          "mixins": []
+        }
+      },
+      "condTreeConstraints": [
+        {
+          "package-name": "base",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "containers",
+          "version-range": ">=0.4.2.1 && <0.7",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "criterion",
+          "version-range": ">=1.1.0.0 && <1.6",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "random",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "splitmix",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "tf-random",
+          "version-range": ">=0.5 && <0.6",
+          "library": [
+            {}
+          ]
+        }
+      ],
+      "condTreeComponents": []
+    },
+    "range": {
+      "condTreeData": {
+        "name": "",
+        "interface": {
+          "version": [
+            1,
+            0
+          ],
+          "filepath": "Range.hs"
+        },
+        "build-info": {
+          "buildable": true,
+          "buildTools": [],
+          "buildToolDepends": [],
+          "cppOptions": [],
+          "asmOptions": [],
+          "cmmOptions": [],
+          "ccOptions": [],
+          "cxxOptions": [],
+          "ldOptions": [],
+          "pkgconfigDepends": [],
+          "frameworks": [],
+          "extraFrameworkDirs": [],
+          "asmSources": [],
+          "cmmSources": [],
+          "cSources": [],
+          "cxxSources": [],
+          "jsSources": [],
+          "hsSourceDirs": [
+            "bench",
+            "src-compat"
+          ],
+          "otherModules": [
+            [
+              "Data",
+              "Bits",
+              "Compat"
+            ]
+          ],
+          "virtualModules": [],
+          "autogenModules": [],
+          "defaultLanguage": "Haskell2010",
+          "otherLanguages": [],
+          "defaultExtensions": [],
+          "otherExtensions": [],
+          "oldExtensions": [],
+          "extraLibs": [],
+          "extraGHCiLibs": [],
+          "extraBundledLibs": [],
+          "extraLibFlavours": [],
+          "extraDynLibFlavours": [],
+          "extraLibDirs": [],
+          "includeDirs": [],
+          "includes": [],
+          "autogenIncludes": [],
+          "installIncludes": [],
+          "options": [
+            [
+              "-Wall"
+            ],
+            []
+          ],
+          "profOptions": [
+            [],
+            []
+          ],
+          "sharedOptions": [
+            [],
+            []
+          ],
+          "staticOptions": [
+            [],
+            []
+          ],
+          "customFieldsBI": [],
+          "targetBuildDepends": [
+            {
+              "package-name": "base",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "clock",
+              "version-range": ">=0.8 && <0.9",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "random",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "splitmix",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            }
+          ],
+          "mixins": []
+        }
+      },
+      "condTreeConstraints": [
+        {
+          "package-name": "base",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "clock",
+          "version-range": ">=0.8 && <0.9",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "random",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "splitmix",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        }
+      ],
+      "condTreeComponents": []
+    },
+    "simple-sum": {
+      "condTreeData": {
+        "name": "",
+        "interface": {
+          "version": [
+            1,
+            0
+          ],
+          "filepath": "SimpleSum.hs"
+        },
+        "build-info": {
+          "buildable": true,
+          "buildTools": [],
+          "buildToolDepends": [],
+          "cppOptions": [],
+          "asmOptions": [],
+          "cmmOptions": [],
+          "ccOptions": [],
+          "cxxOptions": [],
+          "ldOptions": [],
+          "pkgconfigDepends": [],
+          "frameworks": [],
+          "extraFrameworkDirs": [],
+          "asmSources": [],
+          "cmmSources": [],
+          "cSources": [],
+          "cxxSources": [],
+          "jsSources": [],
+          "hsSourceDirs": [
+            "bench"
+          ],
+          "otherModules": [],
+          "virtualModules": [],
+          "autogenModules": [],
+          "defaultLanguage": "Haskell2010",
+          "otherLanguages": [],
+          "defaultExtensions": [],
+          "otherExtensions": [],
+          "oldExtensions": [],
+          "extraLibs": [],
+          "extraGHCiLibs": [],
+          "extraBundledLibs": [],
+          "extraLibFlavours": [],
+          "extraDynLibFlavours": [],
+          "extraLibDirs": [],
+          "includeDirs": [],
+          "includes": [],
+          "autogenIncludes": [],
+          "installIncludes": [],
+          "options": [
+            [
+              "-Wall"
+            ],
+            []
+          ],
+          "profOptions": [
+            [],
+            []
+          ],
+          "sharedOptions": [
+            [],
+            []
+          ],
+          "staticOptions": [
+            [],
+            []
+          ],
+          "customFieldsBI": [],
+          "targetBuildDepends": [
+            {
+              "package-name": "base",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "random",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "splitmix",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            }
+          ],
+          "mixins": []
+        }
+      },
+      "condTreeConstraints": [
+        {
+          "package-name": "base",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "random",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "splitmix",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        }
+      ],
+      "condTreeComponents": []
+    }
+  }
+}

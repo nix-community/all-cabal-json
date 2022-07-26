@@ -1,0 +1,1059 @@
+{
+  "description": {
+    "spec-version": {
+      "Right": ">=1.6"
+    },
+    "package": {
+      "name": "haskell-mpi",
+      "version": [
+        1,
+        2,
+        0
+      ]
+    },
+    "license": {
+      "Right": "BSD3"
+    },
+    "license-files": [
+      "LICENSE"
+    ],
+    "copyright": "(c) 2010 Bernard James Pope, Dmitry Astapov",
+    "maintainer": "florbitous@gmail.com",
+    "author": "Bernard James Pope (Bernie Pope)",
+    "stability": "experimental",
+    "tested-with": [
+      {
+        "compiler": "GHC",
+        "versionRange": "==6.10.4"
+      },
+      {
+        "compiler": "GHC",
+        "versionRange": "==6.12.1"
+      }
+    ],
+    "homepage": "http://github.com/bjpop/haskell-mpi",
+    "pkg-url": "",
+    "bug-reports": "",
+    "source-repos": [
+      {
+        "kind": {},
+        "type": "Git",
+        "location": "git://github.com/bjpop/haskell-mpi.git",
+        "module": null,
+        "branch": null,
+        "tag": null,
+        "subdir": null
+      }
+    ],
+    "synopsis": "Distributed parallel programming in Haskell using MPI.",
+    "description": "MPI is defined by the Message-Passing Interface Standard,\nas specified by the Message Passing Interface Forum. The latest release\nof the standard is known as MPI-2. These Haskell\nbindings are designed to work with any standards compliant\nimplementation of MPI-2. Examples are MPICH2:\n<http://www.mcs.anl.gov/research/projects/mpich2> and\nOpenMPI: <http://www.open-mpi.org>.\n\nIn addition to reading these documents, users may also find it\nbeneficial to consult the MPI-2 standard documentation provided by the\nMPI Forum: <http://www.mpi-forum.org>, and also the documentation for\nthe MPI implementation linked to this library (that is, the MPI\nimplementation that was chosen when this Haskell library was compiled).\n\n\"Control.Parallel.MPI.Fast\" contains a high-performance interface\nfor working with (possibly mutable) arrays of storable Haskell data types.\n\n\"Control.Parallel.MPI.Simple\" contains a convenient (but slower)\ninterface for sending arbitrary serializable Haskell data values as messages.\n\n\"Control.Parallel.MPI.Internal\" contains a direct binding to the\nC interface.\n\n\"Control.Parallel.MPI.Base\" contains essential MPI functionality\nwhich is independent of the message passing API. This is re-exported\nby the Fast and Simple modules, and usually does not need to be\nexplcitly imported itself.\n\nNotable differences between Haskell-MPI and the standard C interface to MPI:\n\n1. Some collective message passing operations are split into send\nand receive parts to facilitate a more idiomatic Haskell style of programming.\nFor example, C provides the @MPI_Gather@ function which is called\nby all processes participating in the communication, whereas\nHaskell-MPI provides 'gatherSend' and 'gatherRecv' which are called\nby the sending and receiving processes respectively.\n\n2. The order of arguments for some functions is changed to allow\nfor the most common patterns of partial function application.\n\n3. Errors are raised as exceptions rather than return codes (assuming\nthat the error handler to 'errorsThrowExceptions', otherwise errors\nwill terminate the computation just like C interface).\n\nBelow is a small but complete MPI program. Process 1 sends the message\n@\\\"Hello World\\\"@ to process 0, which in turn receives the message and\nprints it to standard output. All other processes, if there are any,\ndo nothing.\n\n>module Main where\n>\n>import Control.Parallel.MPI.Simple (mpiWorld, commWorld, unitTag, send, recv)\n>\n>main :: IO ()\n>main = mpiWorld $ \\size rank ->\n>   if size < 2\n>      then putStrLn \"At least two processes are needed\"\n>      else case rank of\n>         0 -> do (msg, _status) <- recv commWorld 1 unitTag\n>                 putStrLn msg\n>         1 -> send commWorld 0 unitTag \"Hello World\"\n>         _ -> return ()",
+    "category": "FFI, Distributed Computing",
+    "custom-fields": [],
+    "build-type-raw": "Simple",
+    "custom-setup": null,
+    "library": null,
+    "sublibraries": [],
+    "executables": [],
+    "foreign-libs": [],
+    "test-suites": [],
+    "benchmarks": [],
+    "data-files": [],
+    "data-dir": ".",
+    "extra-source-files": [
+      "src/cbits/*.c",
+      "src/include/*.h",
+      "README.txt",
+      "test/examples/HaskellAndC/Makefile",
+      "test/examples/HaskellAndC/*.c",
+      "test/examples/HaskellAndC/*.hs",
+      "test/examples/PiByIntegration/*.hs",
+      "test/examples/PiByIntegration/*.test",
+      "test/examples/simple/*.hs",
+      "test/examples/simple/*.test",
+      "test/examples/speed/*.hs",
+      "test/examples/speed/simple-api/*.hs"
+    ],
+    "extra-tmp-files": [],
+    "extra-doc-files": []
+  },
+  "package-flags": [
+    {
+      "name": "test",
+      "description": "Build testsuite and code coverage tests",
+      "default": false,
+      "manual": false
+    },
+    {
+      "name": "mpich14",
+      "description": "Link with extra libraries for MPICH 1.4",
+      "default": false,
+      "manual": false
+    }
+  ],
+  "library": {
+    "condTreeData": {
+      "name": {},
+      "exposed-modules": [
+        [
+          "Control",
+          "Parallel",
+          "MPI",
+          "Base"
+        ],
+        [
+          "Control",
+          "Parallel",
+          "MPI",
+          "Internal"
+        ],
+        [
+          "Control",
+          "Parallel",
+          "MPI",
+          "Fast"
+        ],
+        [
+          "Control",
+          "Parallel",
+          "MPI",
+          "Simple"
+        ]
+      ],
+      "re-exported-modules": [],
+      "signatures": [],
+      "exposed": true,
+      "visibility": "LibraryVisibilityPublic",
+      "build-info": {
+        "buildable": true,
+        "buildTools": [
+          {
+            "package-name": "c2hs",
+            "include-renaming": "-any"
+          }
+        ],
+        "buildToolDepends": [],
+        "cppOptions": [],
+        "asmOptions": [],
+        "cmmOptions": [],
+        "ccOptions": [],
+        "cxxOptions": [],
+        "ldOptions": [],
+        "pkgconfigDepends": [],
+        "frameworks": [],
+        "extraFrameworkDirs": [],
+        "asmSources": [],
+        "cmmSources": [],
+        "cSources": [
+          "src/cbits/init_wrapper.c",
+          "src/cbits/constants.c"
+        ],
+        "cxxSources": [],
+        "jsSources": [],
+        "hsSourceDirs": [
+          "src"
+        ],
+        "otherModules": [
+          [
+            "C2HS"
+          ],
+          [
+            "Control",
+            "Parallel",
+            "MPI",
+            "Utils"
+          ]
+        ],
+        "virtualModules": [],
+        "autogenModules": [],
+        "defaultLanguage": null,
+        "otherLanguages": [],
+        "defaultExtensions": [],
+        "otherExtensions": [],
+        "oldExtensions": [],
+        "extraLibs": [
+          "mpi"
+        ],
+        "extraGHCiLibs": [],
+        "extraBundledLibs": [],
+        "extraLibFlavours": [],
+        "extraDynLibFlavours": [],
+        "extraLibDirs": [],
+        "includeDirs": [
+          "src/include"
+        ],
+        "includes": [],
+        "autogenIncludes": [],
+        "installIncludes": [],
+        "options": [
+          [
+            "-Wall",
+            "-fno-warn-name-shadowing",
+            "-fno-warn-orphans"
+          ],
+          []
+        ],
+        "profOptions": [
+          [],
+          []
+        ],
+        "sharedOptions": [
+          [],
+          []
+        ],
+        "staticOptions": [
+          [],
+          []
+        ],
+        "customFieldsBI": [],
+        "targetBuildDepends": [
+          {
+            "package-name": "base",
+            "version-range": ">3 && <=5",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "haskell98",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "bytestring",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "cereal",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "extensible-exceptions",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "array",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          }
+        ],
+        "mixins": []
+      }
+    },
+    "condTreeConstraints": [
+      {
+        "package-name": "base",
+        "version-range": ">3 && <=5",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "haskell98",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "bytestring",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "cereal",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "extensible-exceptions",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "array",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      }
+    ],
+    "condTreeComponents": [
+      {
+        "condBranchCondition": {
+          "v": {
+            "flag": "mpich14"
+          }
+        },
+        "condBranchIfTrue": {
+          "condTreeData": {
+            "name": {},
+            "exposed-modules": [],
+            "re-exported-modules": [],
+            "signatures": [],
+            "exposed": true,
+            "visibility": "LibraryVisibilityPublic",
+            "build-info": {
+              "buildable": true,
+              "buildTools": [],
+              "buildToolDepends": [],
+              "cppOptions": [],
+              "asmOptions": [],
+              "cmmOptions": [],
+              "ccOptions": [],
+              "cxxOptions": [],
+              "ldOptions": [],
+              "pkgconfigDepends": [],
+              "frameworks": [],
+              "extraFrameworkDirs": [],
+              "asmSources": [],
+              "cmmSources": [],
+              "cSources": [],
+              "cxxSources": [],
+              "jsSources": [],
+              "hsSourceDirs": [],
+              "otherModules": [],
+              "virtualModules": [],
+              "autogenModules": [],
+              "defaultLanguage": null,
+              "otherLanguages": [],
+              "defaultExtensions": [],
+              "otherExtensions": [],
+              "oldExtensions": [],
+              "extraLibs": [
+                "mpl"
+              ],
+              "extraGHCiLibs": [],
+              "extraBundledLibs": [],
+              "extraLibFlavours": [],
+              "extraDynLibFlavours": [],
+              "extraLibDirs": [],
+              "includeDirs": [],
+              "includes": [],
+              "autogenIncludes": [],
+              "installIncludes": [],
+              "options": [
+                [],
+                []
+              ],
+              "profOptions": [
+                [],
+                []
+              ],
+              "sharedOptions": [
+                [],
+                []
+              ],
+              "staticOptions": [
+                [],
+                []
+              ],
+              "customFieldsBI": [],
+              "targetBuildDepends": [],
+              "mixins": []
+            }
+          },
+          "condTreeConstraints": [],
+          "condTreeComponents": []
+        }
+      }
+    ]
+  },
+  "executables": {
+    "haskell-mpi-comprunclean": {
+      "condTreeData": {
+        "name": "haskell-mpi-comprunclean",
+        "module-path": "CompileRunClean.hs",
+        "scope": "public",
+        "build-info": {
+          "buildable": true,
+          "buildTools": [],
+          "buildToolDepends": [],
+          "cppOptions": [],
+          "asmOptions": [],
+          "cmmOptions": [],
+          "ccOptions": [],
+          "cxxOptions": [],
+          "ldOptions": [],
+          "pkgconfigDepends": [],
+          "frameworks": [],
+          "extraFrameworkDirs": [],
+          "asmSources": [],
+          "cmmSources": [],
+          "cSources": [],
+          "cxxSources": [],
+          "jsSources": [],
+          "hsSourceDirs": [
+            "./test"
+          ],
+          "otherModules": [],
+          "virtualModules": [],
+          "autogenModules": [],
+          "defaultLanguage": null,
+          "otherLanguages": [],
+          "defaultExtensions": [],
+          "otherExtensions": [],
+          "oldExtensions": [],
+          "extraLibs": [],
+          "extraGHCiLibs": [],
+          "extraBundledLibs": [],
+          "extraLibFlavours": [],
+          "extraDynLibFlavours": [],
+          "extraLibDirs": [],
+          "includeDirs": [],
+          "includes": [],
+          "autogenIncludes": [],
+          "installIncludes": [],
+          "options": [
+            [
+              "-Wall",
+              "-fno-warn-name-shadowing",
+              "-fno-warn-orphans"
+            ],
+            []
+          ],
+          "profOptions": [
+            [],
+            []
+          ],
+          "sharedOptions": [
+            [],
+            []
+          ],
+          "staticOptions": [
+            [],
+            []
+          ],
+          "customFieldsBI": [],
+          "targetBuildDepends": [],
+          "mixins": []
+        }
+      },
+      "condTreeConstraints": [],
+      "condTreeComponents": [
+        {
+          "condBranchCondition": {
+            "v": {
+              "flag": "test"
+            }
+          },
+          "condBranchIfTrue": {
+            "condTreeData": {
+              "name": "haskell-mpi-comprunclean",
+              "module-path": "",
+              "scope": "public",
+              "build-info": {
+                "buildable": true,
+                "buildTools": [],
+                "buildToolDepends": [],
+                "cppOptions": [],
+                "asmOptions": [],
+                "cmmOptions": [],
+                "ccOptions": [],
+                "cxxOptions": [],
+                "ldOptions": [],
+                "pkgconfigDepends": [],
+                "frameworks": [],
+                "extraFrameworkDirs": [],
+                "asmSources": [],
+                "cmmSources": [],
+                "cSources": [],
+                "cxxSources": [],
+                "jsSources": [],
+                "hsSourceDirs": [],
+                "otherModules": [],
+                "virtualModules": [],
+                "autogenModules": [],
+                "defaultLanguage": null,
+                "otherLanguages": [],
+                "defaultExtensions": [],
+                "otherExtensions": [],
+                "oldExtensions": [],
+                "extraLibs": [],
+                "extraGHCiLibs": [],
+                "extraBundledLibs": [],
+                "extraLibFlavours": [],
+                "extraDynLibFlavours": [],
+                "extraLibDirs": [],
+                "includeDirs": [],
+                "includes": [],
+                "autogenIncludes": [],
+                "installIncludes": [],
+                "options": [
+                  [],
+                  []
+                ],
+                "profOptions": [
+                  [],
+                  []
+                ],
+                "sharedOptions": [
+                  [],
+                  []
+                ],
+                "staticOptions": [
+                  [],
+                  []
+                ],
+                "customFieldsBI": [],
+                "targetBuildDepends": [
+                  {
+                    "package-name": "base",
+                    "version-range": ">=3 && <=5",
+                    "library": [
+                      {}
+                    ]
+                  },
+                  {
+                    "package-name": "process",
+                    "version-range": "-any",
+                    "library": [
+                      {}
+                    ]
+                  }
+                ],
+                "mixins": []
+              }
+            },
+            "condTreeConstraints": [
+              {
+                "package-name": "base",
+                "version-range": ">=3 && <=5",
+                "library": [
+                  {}
+                ]
+              },
+              {
+                "package-name": "process",
+                "version-range": "-any",
+                "library": [
+                  {}
+                ]
+              }
+            ],
+            "condTreeComponents": []
+          },
+          "condBranchIfFalse": {
+            "condTreeData": {
+              "name": "haskell-mpi-comprunclean",
+              "module-path": "",
+              "scope": "public",
+              "build-info": {
+                "buildable": false,
+                "buildTools": [],
+                "buildToolDepends": [],
+                "cppOptions": [],
+                "asmOptions": [],
+                "cmmOptions": [],
+                "ccOptions": [],
+                "cxxOptions": [],
+                "ldOptions": [],
+                "pkgconfigDepends": [],
+                "frameworks": [],
+                "extraFrameworkDirs": [],
+                "asmSources": [],
+                "cmmSources": [],
+                "cSources": [],
+                "cxxSources": [],
+                "jsSources": [],
+                "hsSourceDirs": [],
+                "otherModules": [],
+                "virtualModules": [],
+                "autogenModules": [],
+                "defaultLanguage": null,
+                "otherLanguages": [],
+                "defaultExtensions": [],
+                "otherExtensions": [],
+                "oldExtensions": [],
+                "extraLibs": [],
+                "extraGHCiLibs": [],
+                "extraBundledLibs": [],
+                "extraLibFlavours": [],
+                "extraDynLibFlavours": [],
+                "extraLibDirs": [],
+                "includeDirs": [],
+                "includes": [],
+                "autogenIncludes": [],
+                "installIncludes": [],
+                "options": [
+                  [],
+                  []
+                ],
+                "profOptions": [
+                  [],
+                  []
+                ],
+                "sharedOptions": [
+                  [],
+                  []
+                ],
+                "staticOptions": [
+                  [],
+                  []
+                ],
+                "customFieldsBI": [],
+                "targetBuildDepends": [],
+                "mixins": []
+              }
+            },
+            "condTreeConstraints": [],
+            "condTreeComponents": []
+          }
+        }
+      ]
+    },
+    "haskell-mpi-testsuite": {
+      "condTreeData": {
+        "name": "haskell-mpi-testsuite",
+        "module-path": "Testsuite.hs",
+        "scope": "public",
+        "build-info": {
+          "buildable": true,
+          "buildTools": [
+            {
+              "package-name": "c2hs",
+              "include-renaming": "-any"
+            }
+          ],
+          "buildToolDepends": [],
+          "cppOptions": [],
+          "asmOptions": [],
+          "cmmOptions": [],
+          "ccOptions": [],
+          "cxxOptions": [],
+          "ldOptions": [],
+          "pkgconfigDepends": [],
+          "frameworks": [],
+          "extraFrameworkDirs": [],
+          "asmSources": [],
+          "cmmSources": [],
+          "cSources": [
+            "src/cbits/init_wrapper.c",
+            "src/cbits/constants.c"
+          ],
+          "cxxSources": [],
+          "jsSources": [],
+          "hsSourceDirs": [
+            "./test",
+            "./src"
+          ],
+          "otherModules": [
+            [
+              "Control",
+              "Parallel",
+              "MPI",
+              "Base"
+            ],
+            [
+              "Control",
+              "Parallel",
+              "MPI",
+              "Internal"
+            ],
+            [
+              "Control",
+              "Parallel",
+              "MPI",
+              "Fast"
+            ],
+            [
+              "Control",
+              "Parallel",
+              "MPI",
+              "Simple"
+            ],
+            [
+              "Control",
+              "Parallel",
+              "MPI",
+              "Utils"
+            ],
+            [
+              "C2HS"
+            ],
+            [
+              "IOArrayTests"
+            ],
+            [
+              "SimpleTests"
+            ],
+            [
+              "FastAndSimpleTests"
+            ],
+            [
+              "StorableArrayTests"
+            ],
+            [
+              "GroupTests"
+            ],
+            [
+              "PrimTypeTests"
+            ],
+            [
+              "ExceptionTests"
+            ],
+            [
+              "OtherTests"
+            ],
+            [
+              "TestHelpers"
+            ]
+          ],
+          "virtualModules": [],
+          "autogenModules": [],
+          "defaultLanguage": null,
+          "otherLanguages": [],
+          "defaultExtensions": [],
+          "otherExtensions": [],
+          "oldExtensions": [],
+          "extraLibs": [
+            "mpi"
+          ],
+          "extraGHCiLibs": [],
+          "extraBundledLibs": [],
+          "extraLibFlavours": [],
+          "extraDynLibFlavours": [],
+          "extraLibDirs": [],
+          "includeDirs": [
+            "src/include"
+          ],
+          "includes": [],
+          "autogenIncludes": [],
+          "installIncludes": [],
+          "options": [
+            [
+              "-Wall",
+              "-fno-warn-name-shadowing",
+              "-fno-warn-orphans"
+            ],
+            []
+          ],
+          "profOptions": [
+            [],
+            []
+          ],
+          "sharedOptions": [
+            [],
+            []
+          ],
+          "staticOptions": [
+            [],
+            []
+          ],
+          "customFieldsBI": [],
+          "targetBuildDepends": [],
+          "mixins": []
+        }
+      },
+      "condTreeConstraints": [],
+      "condTreeComponents": [
+        {
+          "condBranchCondition": {
+            "v": {
+              "flag": "mpich14"
+            }
+          },
+          "condBranchIfTrue": {
+            "condTreeData": {
+              "name": "haskell-mpi-testsuite",
+              "module-path": "",
+              "scope": "public",
+              "build-info": {
+                "buildable": true,
+                "buildTools": [],
+                "buildToolDepends": [],
+                "cppOptions": [],
+                "asmOptions": [],
+                "cmmOptions": [],
+                "ccOptions": [],
+                "cxxOptions": [],
+                "ldOptions": [],
+                "pkgconfigDepends": [],
+                "frameworks": [],
+                "extraFrameworkDirs": [],
+                "asmSources": [],
+                "cmmSources": [],
+                "cSources": [],
+                "cxxSources": [],
+                "jsSources": [],
+                "hsSourceDirs": [],
+                "otherModules": [],
+                "virtualModules": [],
+                "autogenModules": [],
+                "defaultLanguage": null,
+                "otherLanguages": [],
+                "defaultExtensions": [],
+                "otherExtensions": [],
+                "oldExtensions": [],
+                "extraLibs": [
+                  "mpl"
+                ],
+                "extraGHCiLibs": [],
+                "extraBundledLibs": [],
+                "extraLibFlavours": [],
+                "extraDynLibFlavours": [],
+                "extraLibDirs": [],
+                "includeDirs": [],
+                "includes": [],
+                "autogenIncludes": [],
+                "installIncludes": [],
+                "options": [
+                  [],
+                  []
+                ],
+                "profOptions": [
+                  [],
+                  []
+                ],
+                "sharedOptions": [
+                  [],
+                  []
+                ],
+                "staticOptions": [
+                  [],
+                  []
+                ],
+                "customFieldsBI": [],
+                "targetBuildDepends": [],
+                "mixins": []
+              }
+            },
+            "condTreeConstraints": [],
+            "condTreeComponents": []
+          }
+        },
+        {
+          "condBranchCondition": {
+            "v": {
+              "flag": "test"
+            }
+          },
+          "condBranchIfTrue": {
+            "condTreeData": {
+              "name": "haskell-mpi-testsuite",
+              "module-path": "",
+              "scope": "public",
+              "build-info": {
+                "buildable": true,
+                "buildTools": [],
+                "buildToolDepends": [],
+                "cppOptions": [],
+                "asmOptions": [],
+                "cmmOptions": [],
+                "ccOptions": [],
+                "cxxOptions": [],
+                "ldOptions": [],
+                "pkgconfigDepends": [],
+                "frameworks": [],
+                "extraFrameworkDirs": [],
+                "asmSources": [],
+                "cmmSources": [],
+                "cSources": [],
+                "cxxSources": [],
+                "jsSources": [],
+                "hsSourceDirs": [],
+                "otherModules": [],
+                "virtualModules": [],
+                "autogenModules": [],
+                "defaultLanguage": null,
+                "otherLanguages": [],
+                "defaultExtensions": [],
+                "otherExtensions": [],
+                "oldExtensions": [],
+                "extraLibs": [],
+                "extraGHCiLibs": [],
+                "extraBundledLibs": [],
+                "extraLibFlavours": [],
+                "extraDynLibFlavours": [],
+                "extraLibDirs": [],
+                "includeDirs": [],
+                "includes": [],
+                "autogenIncludes": [],
+                "installIncludes": [],
+                "options": [
+                  [
+                    "-fhpc"
+                  ],
+                  []
+                ],
+                "profOptions": [
+                  [],
+                  []
+                ],
+                "sharedOptions": [
+                  [],
+                  []
+                ],
+                "staticOptions": [
+                  [],
+                  []
+                ],
+                "customFieldsBI": [],
+                "targetBuildDepends": [
+                  {
+                    "package-name": "base",
+                    "version-range": ">=3 && <=5",
+                    "library": [
+                      {}
+                    ]
+                  },
+                  {
+                    "package-name": "HUnit",
+                    "version-range": "-any",
+                    "library": [
+                      {}
+                    ]
+                  },
+                  {
+                    "package-name": "testrunner",
+                    "version-range": "-any",
+                    "library": [
+                      {}
+                    ]
+                  },
+                  {
+                    "package-name": "hpc",
+                    "version-range": "-any",
+                    "library": [
+                      {}
+                    ]
+                  },
+                  {
+                    "package-name": "unix",
+                    "version-range": "-any",
+                    "library": [
+                      {}
+                    ]
+                  }
+                ],
+                "mixins": []
+              }
+            },
+            "condTreeConstraints": [
+              {
+                "package-name": "base",
+                "version-range": ">=3 && <=5",
+                "library": [
+                  {}
+                ]
+              },
+              {
+                "package-name": "HUnit",
+                "version-range": "-any",
+                "library": [
+                  {}
+                ]
+              },
+              {
+                "package-name": "testrunner",
+                "version-range": "-any",
+                "library": [
+                  {}
+                ]
+              },
+              {
+                "package-name": "hpc",
+                "version-range": "-any",
+                "library": [
+                  {}
+                ]
+              },
+              {
+                "package-name": "unix",
+                "version-range": "-any",
+                "library": [
+                  {}
+                ]
+              }
+            ],
+            "condTreeComponents": []
+          },
+          "condBranchIfFalse": {
+            "condTreeData": {
+              "name": "haskell-mpi-testsuite",
+              "module-path": "",
+              "scope": "public",
+              "build-info": {
+                "buildable": false,
+                "buildTools": [],
+                "buildToolDepends": [],
+                "cppOptions": [],
+                "asmOptions": [],
+                "cmmOptions": [],
+                "ccOptions": [],
+                "cxxOptions": [],
+                "ldOptions": [],
+                "pkgconfigDepends": [],
+                "frameworks": [],
+                "extraFrameworkDirs": [],
+                "asmSources": [],
+                "cmmSources": [],
+                "cSources": [],
+                "cxxSources": [],
+                "jsSources": [],
+                "hsSourceDirs": [],
+                "otherModules": [],
+                "virtualModules": [],
+                "autogenModules": [],
+                "defaultLanguage": null,
+                "otherLanguages": [],
+                "defaultExtensions": [],
+                "otherExtensions": [],
+                "oldExtensions": [],
+                "extraLibs": [],
+                "extraGHCiLibs": [],
+                "extraBundledLibs": [],
+                "extraLibFlavours": [],
+                "extraDynLibFlavours": [],
+                "extraLibDirs": [],
+                "includeDirs": [],
+                "includes": [],
+                "autogenIncludes": [],
+                "installIncludes": [],
+                "options": [
+                  [],
+                  []
+                ],
+                "profOptions": [
+                  [],
+                  []
+                ],
+                "sharedOptions": [
+                  [],
+                  []
+                ],
+                "staticOptions": [
+                  [],
+                  []
+                ],
+                "customFieldsBI": [],
+                "targetBuildDepends": [],
+                "mixins": []
+              }
+            },
+            "condTreeConstraints": [],
+            "condTreeComponents": []
+          }
+        }
+      ]
+    }
+  }
+}

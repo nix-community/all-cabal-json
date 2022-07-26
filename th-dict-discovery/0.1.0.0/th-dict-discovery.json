@@ -1,0 +1,198 @@
+{
+  "description": {
+    "spec-version": {
+      "Right": ">=1.10"
+    },
+    "package": {
+      "name": "th-dict-discovery",
+      "version": [
+        0,
+        1,
+        0,
+        0
+      ]
+    },
+    "license": {
+      "Right": "BSD3"
+    },
+    "license-files": [
+      "LICENSE"
+    ],
+    "copyright": "",
+    "maintainer": "sandy@sandymaguire.me",
+    "author": "Sandy Maguire",
+    "stability": "",
+    "tested-with": [
+      {
+        "compiler": "GHC",
+        "versionRange": "==7.8.4"
+      },
+      {
+        "compiler": "GHC",
+        "versionRange": "==7.10.3"
+      },
+      {
+        "compiler": "GHC",
+        "versionRange": "==8.0.2"
+      },
+      {
+        "compiler": "GHC",
+        "versionRange": "==8.2.1"
+      }
+    ],
+    "homepage": "http://github.com/isovector/th-dict-discovery/",
+    "pkg-url": "",
+    "bug-reports": "http://github.com/isovector/th-dict-discovery/issues",
+    "source-repos": [
+      {
+        "kind": {},
+        "type": "Git",
+        "location": "https://github.com/isovector/th-dict-discovery.git",
+        "module": null,
+        "branch": null,
+        "tag": null,
+        "subdir": null
+      }
+    ],
+    "synopsis": "Automatically discover available dictionaries at compile time.",
+    "description": "th-dict-discovery is a library to get your hands on the in-scope, concrete\ninstances of a class. The motivating use-case is to generate property tests to\nautomatically prove new instances of a class follow the laws.\n\nThis library uses Template Haskell to provide a list of existentialized 'Dict's\nfor each concrete (entirely monomorphic) instance in scope.\n\n> defInstances :: [SomeDict1 Default]\n> defInstances = $(someDicts ''Default)\n\nThese lists can be consumed via\n@withSomeDict1 :: (forall a. c a => Proxy a -> r) -> SomeDict1 c -> r@, for\nexample, we can generate hspec tests:\n\n> spec :: Spec\n> spec = describe \"each default instance\" .\n>   forM_ defInstances $ withSomeDict1 $ \\(_ :: Proxy a) ->\n>     it \"shouldn't be undefined\" $\n>       seq (def @a) True `shouldBe` True\n\nThe library also defines up to 'SomeDict8', with eliminators up to\n'withSomeDict8'. These correspond to multi-parameter typeclasses with\nfirst-order, potentially polykinded parameters.\n\nThe TH function 'someDicts' is smart enough to generate the correct arity of\n'SomeDictN' for the class under inspection, but at this time, you're responsible\nfor using the correct 'withSomeDictN' to consume it.",
+    "category": "Language",
+    "custom-fields": [],
+    "build-type-raw": "Simple",
+    "custom-setup": null,
+    "library": null,
+    "sublibraries": [],
+    "executables": [],
+    "foreign-libs": [],
+    "test-suites": [],
+    "benchmarks": [],
+    "data-files": [],
+    "data-dir": ".",
+    "extra-source-files": [
+      "ChangeLog.md"
+    ],
+    "extra-tmp-files": [],
+    "extra-doc-files": []
+  },
+  "library": {
+    "condTreeData": {
+      "name": {},
+      "exposed-modules": [
+        [
+          "Language",
+          "Haskell",
+          "Discovery"
+        ]
+      ],
+      "re-exported-modules": [],
+      "signatures": [],
+      "exposed": true,
+      "visibility": "LibraryVisibilityPublic",
+      "build-info": {
+        "buildable": true,
+        "buildTools": [],
+        "buildToolDepends": [],
+        "cppOptions": [],
+        "asmOptions": [],
+        "cmmOptions": [],
+        "ccOptions": [],
+        "cxxOptions": [],
+        "ldOptions": [],
+        "pkgconfigDepends": [],
+        "frameworks": [],
+        "extraFrameworkDirs": [],
+        "asmSources": [],
+        "cmmSources": [],
+        "cSources": [],
+        "cxxSources": [],
+        "jsSources": [],
+        "hsSourceDirs": [
+          "src"
+        ],
+        "otherModules": [],
+        "virtualModules": [],
+        "autogenModules": [],
+        "defaultLanguage": "Haskell2010",
+        "otherLanguages": [],
+        "defaultExtensions": [],
+        "otherExtensions": [],
+        "oldExtensions": [],
+        "extraLibs": [],
+        "extraGHCiLibs": [],
+        "extraBundledLibs": [],
+        "extraLibFlavours": [],
+        "extraDynLibFlavours": [],
+        "extraLibDirs": [],
+        "includeDirs": [],
+        "includes": [],
+        "autogenIncludes": [],
+        "installIncludes": [],
+        "options": [
+          [],
+          []
+        ],
+        "profOptions": [
+          [],
+          []
+        ],
+        "sharedOptions": [
+          [],
+          []
+        ],
+        "staticOptions": [
+          [],
+          []
+        ],
+        "customFieldsBI": [],
+        "targetBuildDepends": [
+          {
+            "package-name": "base",
+            "version-range": ">=4.9 && <4.10",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "template-haskell",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "constraints",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          }
+        ],
+        "mixins": []
+      }
+    },
+    "condTreeConstraints": [
+      {
+        "package-name": "base",
+        "version-range": ">=4.9 && <4.10",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "template-haskell",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "constraints",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      }
+    ],
+    "condTreeComponents": []
+  }
+}

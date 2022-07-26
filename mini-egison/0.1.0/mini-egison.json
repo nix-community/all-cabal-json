@@ -1,0 +1,393 @@
+{
+  "description": {
+    "spec-version": {
+      "Left": [
+        1,
+        12
+      ]
+    },
+    "package": {
+      "name": "mini-egison",
+      "version": [
+        0,
+        1,
+        0
+      ]
+    },
+    "license": {
+      "Right": "MIT"
+    },
+    "license-files": [
+      "LICENSE"
+    ],
+    "copyright": "",
+    "maintainer": "Satoshi Egi <egi@egison.org>",
+    "author": "Mayuko Kori, Satoshi Egi",
+    "stability": "",
+    "tested-with": [],
+    "homepage": "https://github.com/egison/egison-haskell#readme",
+    "pkg-url": "",
+    "bug-reports": "https://github.com/egison/egison-haskell/issues",
+    "source-repos": [
+      {
+        "kind": {},
+        "type": "Git",
+        "location": "https://github.com/egison/egison-haskell",
+        "module": null,
+        "branch": null,
+        "tag": null,
+        "subdir": null
+      }
+    ],
+    "synopsis": "Template Haskell Implementation of Egison Pattern Matching",
+    "description": "This package provides the pattern-matching facility that fulfills the following three criteria for practical pattern matching for non-free data types\\: (i) non-linear pattern matching with backtracking; (ii) extensibility of pattern-matching algorithms; (iii) ad-hoc polymorphism of patterns.\nNon-free data types are data types whose data have no standard forms.\nFor example, multisets are non-free data types because the multiset '[a,b,b]' has two other equivalent but literally different forms '[b,a,b]' and '[b,b,a]'.\n\nThe design of the pattern-matching facility is originally proposed in <https://arxiv.org/abs/1808.10603 this paper> and implemented in <http://github.com/egison/egison/ the Egison programming language>.\n\n/Samples/\n\nWe can extract all twin primes from the list of prime numbers by pattern matching:\n\n> take 10 (matchAll primes (List Integer)\n>            [[mc| join _ (cons $p (cons #(p+2) _)) => (p, p+2) |]])\n> -- [(3,5),(5,7),(11,13),(17,19),(29,31),(41,43),(59,61),(71,73),(101,103),(107,109)]\n\nWe can describe patterns for each poker hand utilizing pattern matching for a multiset:\n\n> poker cs =\n>   match cs (Multiset CardM)\n>     [[mc| cons (card $s $n)\n>            (cons (card #s #(n-1))\n>             (cons (card #s #(n-2))\n>              (cons (card #s #(n-3))\n>               (cons (card #s #(n-4))\n>                _)))) => \"Straight flush\" |],\n>      [mc| cons (card _ $n)\n>            (cons (card _ #n)\n>             (cons (card _ #n)\n>              (cons (card _ #n)\n>               (cons _\n>                _)))) => \"Four of a kind\" |],\n>      [mc| cons (card _ $m)\n>            (cons (card _ #m)\n>             (cons (card _ #m)\n>              (cons (card _ $n)\n>               (cons (card _ #n)\n>                _)))) => \"Full house\" |],\n>      [mc| cons (card $s _)\n>            (cons (card #s _)\n>             (cons (card #s _)\n>              (cons (card #s _)\n>               (cons (card #s _)\n>                _)))) => \"Flush\" |],\n>      [mc| cons (card _ $n)\n>            (cons (card _ #(n-1))\n>             (cons (card _ #(n-2))\n>              (cons (card _ #(n-3))\n>               (cons (card _ #(n-4))\n>                _)))) => \"Straight\" |],\n>      [mc| cons (card _ $n)\n>            (cons (card _ #n)\n>             (cons (card _ #n)\n>              (cons _\n>               (cons _\n>                _)))) => \"Three of a kind\" |],\n>      [mc| cons (card _ $m)\n>            (cons (card _ #m)\n>             (cons (card _ $n)\n>              (cons (card _ #n)\n>               (cons _\n>                _)))) => \"Two pair\" |],\n>      [mc| cons (card _ $n)\n>            (cons (card _ #n)\n>             (cons _\n>              (cons _\n>               (cons _\n>                _)))) => \"One pair\" |],\n>      [mc| _ => \"Nothing\" |]]\n\nThe pattern-matching algorithms for 'List' and 'Multiset' can be defined by users.",
+    "category": "Data, Pattern",
+    "custom-fields": [],
+    "build-type-raw": "Simple",
+    "custom-setup": null,
+    "library": null,
+    "sublibraries": [],
+    "executables": [],
+    "foreign-libs": [],
+    "test-suites": [],
+    "benchmarks": [],
+    "data-files": [],
+    "data-dir": ".",
+    "extra-source-files": [
+      "README.md",
+      "ChangeLog.md"
+    ],
+    "extra-tmp-files": [],
+    "extra-doc-files": []
+  },
+  "library": {
+    "condTreeData": {
+      "name": {},
+      "exposed-modules": [
+        [
+          "Control",
+          "Egison"
+        ],
+        [
+          "Control",
+          "Egison",
+          "Core"
+        ],
+        [
+          "Control",
+          "Egison",
+          "Match"
+        ],
+        [
+          "Control",
+          "Egison",
+          "Matcher"
+        ],
+        [
+          "Control",
+          "Egison",
+          "QQ"
+        ]
+      ],
+      "re-exported-modules": [],
+      "signatures": [],
+      "exposed": true,
+      "visibility": "LibraryVisibilityPublic",
+      "build-info": {
+        "buildable": true,
+        "buildTools": [],
+        "buildToolDepends": [],
+        "cppOptions": [],
+        "asmOptions": [],
+        "cmmOptions": [],
+        "ccOptions": [],
+        "cxxOptions": [],
+        "ldOptions": [],
+        "pkgconfigDepends": [],
+        "frameworks": [],
+        "extraFrameworkDirs": [],
+        "asmSources": [],
+        "cmmSources": [],
+        "cSources": [],
+        "cxxSources": [],
+        "jsSources": [],
+        "hsSourceDirs": [
+          "src"
+        ],
+        "otherModules": [
+          [
+            "Paths_mini_egison"
+          ]
+        ],
+        "virtualModules": [],
+        "autogenModules": [],
+        "defaultLanguage": "Haskell2010",
+        "otherLanguages": [],
+        "defaultExtensions": [],
+        "otherExtensions": [],
+        "oldExtensions": [],
+        "extraLibs": [],
+        "extraGHCiLibs": [],
+        "extraBundledLibs": [],
+        "extraLibFlavours": [],
+        "extraDynLibFlavours": [],
+        "extraLibDirs": [],
+        "includeDirs": [],
+        "includes": [],
+        "autogenIncludes": [],
+        "installIncludes": [],
+        "options": [
+          [],
+          []
+        ],
+        "profOptions": [
+          [],
+          []
+        ],
+        "sharedOptions": [
+          [],
+          []
+        ],
+        "staticOptions": [
+          [],
+          []
+        ],
+        "customFieldsBI": [],
+        "targetBuildDepends": [
+          {
+            "package-name": "base",
+            "version-range": ">=4.7 && <5",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "containers",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "split",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "haskell-src-meta",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "regex-compat",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "template-haskell",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          }
+        ],
+        "mixins": []
+      }
+    },
+    "condTreeConstraints": [
+      {
+        "package-name": "base",
+        "version-range": ">=4.7 && <5",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "containers",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "split",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "haskell-src-meta",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "regex-compat",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "template-haskell",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      }
+    ],
+    "condTreeComponents": []
+  },
+  "test-suites": {
+    "mini-egison-test": {
+      "condTreeData": {
+        "name": "",
+        "interface": {
+          "version": [
+            1,
+            0
+          ],
+          "filepath": "Test.hs"
+        },
+        "build-info": {
+          "buildable": true,
+          "buildTools": [],
+          "buildToolDepends": [],
+          "cppOptions": [],
+          "asmOptions": [],
+          "cmmOptions": [],
+          "ccOptions": [],
+          "cxxOptions": [],
+          "ldOptions": [],
+          "pkgconfigDepends": [],
+          "frameworks": [],
+          "extraFrameworkDirs": [],
+          "asmSources": [],
+          "cmmSources": [],
+          "cSources": [],
+          "cxxSources": [],
+          "jsSources": [],
+          "hsSourceDirs": [
+            "test"
+          ],
+          "otherModules": [
+            [
+              "Spec"
+            ],
+            [
+              "Paths_mini_egison"
+            ]
+          ],
+          "virtualModules": [],
+          "autogenModules": [],
+          "defaultLanguage": "Haskell2010",
+          "otherLanguages": [],
+          "defaultExtensions": [],
+          "otherExtensions": [],
+          "oldExtensions": [],
+          "extraLibs": [],
+          "extraGHCiLibs": [],
+          "extraBundledLibs": [],
+          "extraLibFlavours": [],
+          "extraDynLibFlavours": [],
+          "extraLibDirs": [],
+          "includeDirs": [],
+          "includes": [],
+          "autogenIncludes": [],
+          "installIncludes": [],
+          "options": [
+            [
+              "-threaded",
+              "-rtsopts",
+              "-with-rtsopts=-N"
+            ],
+            []
+          ],
+          "profOptions": [
+            [],
+            []
+          ],
+          "sharedOptions": [
+            [],
+            []
+          ],
+          "staticOptions": [
+            [],
+            []
+          ],
+          "customFieldsBI": [],
+          "targetBuildDepends": [
+            {
+              "package-name": "base",
+              "version-range": ">=4.7 && <5",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "mini-egison",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "hspec",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "primes",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            }
+          ],
+          "mixins": []
+        }
+      },
+      "condTreeConstraints": [
+        {
+          "package-name": "base",
+          "version-range": ">=4.7 && <5",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "mini-egison",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "hspec",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "primes",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        }
+      ],
+      "condTreeComponents": []
+    }
+  }
+}

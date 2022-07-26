@@ -1,0 +1,2090 @@
+{
+  "description": {
+    "spec-version": {
+      "Right": ">=1.2"
+    },
+    "package": {
+      "name": "pandoc",
+      "version": [
+        1,
+        5,
+        1
+      ]
+    },
+    "license": {
+      "Right": "OtherLicense"
+    },
+    "license-files": [
+      "COPYING"
+    ],
+    "copyright": "(c) 2006-2010 John MacFarlane",
+    "maintainer": "John MacFarlane <jgm@berkeley.edu>",
+    "author": "John MacFarlane <jgm@berkeley.edu>",
+    "stability": "alpha",
+    "tested-with": [
+      {
+        "compiler": "GHC",
+        "versionRange": "==6.10.4"
+      },
+      {
+        "compiler": "GHC",
+        "versionRange": "==6.12.1"
+      }
+    ],
+    "homepage": "http://johnmacfarlane.net/pandoc",
+    "pkg-url": "",
+    "bug-reports": "http://code.google.com/p/pandoc/issues/list",
+    "source-repos": [],
+    "synopsis": "Conversion between markup formats",
+    "description": "Pandoc is a Haskell library for converting from one markup\nformat to another, and a command-line tool that uses\nthis library. It can read markdown and (subsets of)\nreStructuredText, HTML, and LaTeX, and it can write\nmarkdown, reStructuredText, HTML, LaTeX, ConTeXt, Docbook,\nOpenDocument, ODT, RTF, MediaWiki, groff man pages, and\nS5 HTML slide shows.\n\nPandoc extends standard markdown syntax with footnotes,\nembedded LaTeX, definition lists, tables, and other\nfeatures. A compatibility mode is provided for those\nwho need a drop-in replacement for Markdown.pl.\n\nIn contrast to existing tools for converting markdown\nto HTML, which use regex substitutions, pandoc has\na modular design: it consists of a set of readers,\nwhich parse text in a given format and produce a native\nrepresentation of the document, and a set of writers,\nwhich convert this native representation into a target\nformat. Thus, adding an input or output format requires\nonly adding a reader or writer.",
+    "category": "Text",
+    "custom-fields": [
+      [
+        "x-revision",
+        "1"
+      ]
+    ],
+    "build-type-raw": "Custom",
+    "custom-setup": null,
+    "library": null,
+    "sublibraries": [],
+    "executables": [],
+    "foreign-libs": [],
+    "test-suites": [],
+    "benchmarks": [],
+    "data-files": [
+      "templates/html.template",
+      "templates/docbook.template",
+      "templates/opendocument.template",
+      "templates/latex.template",
+      "templates/context.template",
+      "templates/texinfo.template",
+      "templates/man.template",
+      "templates/markdown.template",
+      "templates/rst.template",
+      "templates/plain.template",
+      "templates/mediawiki.template",
+      "templates/rtf.template",
+      "reference.odt",
+      "data/LaTeXMathML.js",
+      "data/MathMLinHTML.js",
+      "s5/default/slides.js.comment",
+      "s5/default/slides.js.packed",
+      "s5/default/s5-core.css",
+      "s5/default/framing.css",
+      "s5/default/pretty.css",
+      "s5/default/opera.css",
+      "s5/default/outline.css",
+      "s5/default/print.css",
+      "README",
+      "INSTALL",
+      "COPYRIGHT",
+      "BUGS",
+      "changelog",
+      "markdown2pdf"
+    ],
+    "data-dir": ".",
+    "extra-source-files": [
+      "man/man1/pandoc.1.md",
+      "man/man1/markdown2pdf.1.md",
+      "tests/bodybg.gif",
+      "tests/html-reader.html",
+      "tests/html-reader.native",
+      "tests/insert",
+      "tests/lalune.jpg",
+      "tests/movie.jpg",
+      "tests/latex-reader.latex",
+      "tests/latex-reader.native",
+      "tests/markdown-reader-more.txt",
+      "tests/markdown-reader-more.native",
+      "tests/rst-reader.native",
+      "tests/rst-reader.rst",
+      "tests/s5.basic.html",
+      "tests/s5.fancy.html",
+      "tests/s5.fragment.html",
+      "tests/s5.inserts.html",
+      "tests/s5.native",
+      "tests/tables.context",
+      "tests/tables.docbook",
+      "tests/tables.html",
+      "tests/tables.latex",
+      "tests/tables.man",
+      "tests/tables.plain",
+      "tests/tables.markdown",
+      "tests/tables.mediawiki",
+      "tests/tables.native",
+      "tests/tables.opendocument",
+      "tests/tables.texinfo",
+      "tests/tables.rst",
+      "tests/tables.rtf",
+      "tests/tables.txt",
+      "tests/tables-rstsubset.native",
+      "tests/testsuite.native",
+      "tests/testsuite.txt",
+      "tests/writer.latex",
+      "tests/writer.context",
+      "tests/writer.docbook",
+      "tests/writer.html",
+      "tests/writer.man",
+      "tests/writer.markdown",
+      "tests/writer.plain",
+      "tests/writer.mediawiki",
+      "tests/writer.native",
+      "tests/writer.opendocument",
+      "tests/writer.rst",
+      "tests/writer.rtf",
+      "tests/writer.texinfo",
+      "tests/lhs-test.native",
+      "tests/lhs-test.markdown",
+      "tests/lhs-test.markdown+lhs",
+      "tests/lhs-test.rst",
+      "tests/lhs-test.rst+lhs",
+      "tests/lhs-test.latex",
+      "tests/lhs-test.latex+lhs",
+      "tests/lhs-test.html",
+      "tests/lhs-test.html+lhs",
+      "tests/lhs-test.fragment.html+lhs",
+      "tests/RunTests.hs"
+    ],
+    "extra-tmp-files": [
+      "man/man1/pandoc.1",
+      "man/man1/markdown2pdf.1"
+    ],
+    "extra-doc-files": []
+  },
+  "package-flags": [
+    {
+      "name": "highlighting",
+      "description": "Compile in support for syntax highlighting of code blocks.",
+      "default": false,
+      "manual": false
+    },
+    {
+      "name": "executable",
+      "description": "Build the pandoc executable.",
+      "default": true,
+      "manual": false
+    },
+    {
+      "name": "wrappers",
+      "description": "Build the wrappers (markdown2pdf).",
+      "default": true,
+      "manual": false
+    },
+    {
+      "name": "library",
+      "description": "Build the pandoc library.",
+      "default": true,
+      "manual": false
+    },
+    {
+      "name": "citeproc",
+      "description": "Compile in support for citeproc-hs bibliographic formatting.",
+      "default": false,
+      "manual": false
+    }
+  ],
+  "library": {
+    "condTreeData": {
+      "name": {},
+      "exposed-modules": [
+        [
+          "Text",
+          "Pandoc"
+        ],
+        [
+          "Text",
+          "Pandoc",
+          "Blocks"
+        ],
+        [
+          "Text",
+          "Pandoc",
+          "Definition"
+        ],
+        [
+          "Text",
+          "Pandoc",
+          "CharacterReferences"
+        ],
+        [
+          "Text",
+          "Pandoc",
+          "Shared"
+        ],
+        [
+          "Text",
+          "Pandoc",
+          "ODT"
+        ],
+        [
+          "Text",
+          "Pandoc",
+          "Highlighting"
+        ],
+        [
+          "Text",
+          "Pandoc",
+          "Readers",
+          "HTML"
+        ],
+        [
+          "Text",
+          "Pandoc",
+          "Readers",
+          "LaTeX"
+        ],
+        [
+          "Text",
+          "Pandoc",
+          "Readers",
+          "Markdown"
+        ],
+        [
+          "Text",
+          "Pandoc",
+          "Readers",
+          "RST"
+        ],
+        [
+          "Text",
+          "Pandoc",
+          "Readers",
+          "TeXMath"
+        ],
+        [
+          "Text",
+          "Pandoc",
+          "Writers",
+          "Docbook"
+        ],
+        [
+          "Text",
+          "Pandoc",
+          "Writers",
+          "HTML"
+        ],
+        [
+          "Text",
+          "Pandoc",
+          "Writers",
+          "LaTeX"
+        ],
+        [
+          "Text",
+          "Pandoc",
+          "Writers",
+          "ConTeXt"
+        ],
+        [
+          "Text",
+          "Pandoc",
+          "Writers",
+          "OpenDocument"
+        ],
+        [
+          "Text",
+          "Pandoc",
+          "Writers",
+          "Texinfo"
+        ],
+        [
+          "Text",
+          "Pandoc",
+          "Writers",
+          "Man"
+        ],
+        [
+          "Text",
+          "Pandoc",
+          "Writers",
+          "Markdown"
+        ],
+        [
+          "Text",
+          "Pandoc",
+          "Writers",
+          "RST"
+        ],
+        [
+          "Text",
+          "Pandoc",
+          "Writers",
+          "MediaWiki"
+        ],
+        [
+          "Text",
+          "Pandoc",
+          "Writers",
+          "RTF"
+        ],
+        [
+          "Text",
+          "Pandoc",
+          "Writers",
+          "S5"
+        ],
+        [
+          "Text",
+          "Pandoc",
+          "Templates"
+        ]
+      ],
+      "re-exported-modules": [],
+      "signatures": [],
+      "exposed": true,
+      "visibility": "LibraryVisibilityPublic",
+      "build-info": {
+        "buildable": true,
+        "buildTools": [],
+        "buildToolDepends": [],
+        "cppOptions": [],
+        "asmOptions": [],
+        "cmmOptions": [],
+        "ccOptions": [],
+        "cxxOptions": [],
+        "ldOptions": [],
+        "pkgconfigDepends": [],
+        "frameworks": [],
+        "extraFrameworkDirs": [],
+        "asmSources": [],
+        "cmmSources": [],
+        "cSources": [],
+        "cxxSources": [],
+        "jsSources": [],
+        "hsSourceDirs": [
+          "src"
+        ],
+        "otherModules": [
+          [
+            "Text",
+            "Pandoc",
+            "XML"
+          ],
+          [
+            "Paths_pandoc"
+          ]
+        ],
+        "virtualModules": [],
+        "autogenModules": [],
+        "defaultLanguage": null,
+        "otherLanguages": [],
+        "defaultExtensions": [],
+        "otherExtensions": [],
+        "oldExtensions": [
+          {
+            "enable-extension": "CPP"
+          }
+        ],
+        "extraLibs": [],
+        "extraGHCiLibs": [],
+        "extraBundledLibs": [],
+        "extraLibFlavours": [],
+        "extraDynLibFlavours": [],
+        "extraLibDirs": [],
+        "includeDirs": [],
+        "includes": [],
+        "autogenIncludes": [],
+        "installIncludes": [],
+        "options": [
+          [],
+          []
+        ],
+        "profOptions": [
+          [
+            "-auto-all",
+            "-caf-all"
+          ],
+          []
+        ],
+        "sharedOptions": [
+          [],
+          []
+        ],
+        "staticOptions": [
+          [],
+          []
+        ],
+        "customFieldsBI": [],
+        "targetBuildDepends": [
+          {
+            "package-name": "pretty",
+            "version-range": ">=1",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "containers",
+            "version-range": ">=0.1",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "parsec",
+            "version-range": ">=2.1 && <3",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "xhtml",
+            "version-range": ">=3000.0",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "mtl",
+            "version-range": ">=1.1",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "network",
+            "version-range": ">=2 && <2.6",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "filepath",
+            "version-range": ">=1.1",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "process",
+            "version-range": ">=1",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "directory",
+            "version-range": ">=1",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "bytestring",
+            "version-range": ">=0.9",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "zip-archive",
+            "version-range": ">=0.1.1.4",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "utf8-string",
+            "version-range": ">=0.3",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "old-time",
+            "version-range": ">=1",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "HTTP",
+            "version-range": ">=4000.0.5",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "texmath",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "xml",
+            "version-range": ">=1.3.5 && <1.4",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "extensible-exceptions",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          }
+        ],
+        "mixins": []
+      }
+    },
+    "condTreeConstraints": [
+      {
+        "package-name": "pretty",
+        "version-range": ">=1",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "containers",
+        "version-range": ">=0.1",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "parsec",
+        "version-range": ">=2.1 && <3",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "xhtml",
+        "version-range": ">=3000.0",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "mtl",
+        "version-range": ">=1.1",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "network",
+        "version-range": ">=2 && <2.6",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "filepath",
+        "version-range": ">=1.1",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "process",
+        "version-range": ">=1",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "directory",
+        "version-range": ">=1",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "bytestring",
+        "version-range": ">=0.9",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "zip-archive",
+        "version-range": ">=0.1.1.4",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "utf8-string",
+        "version-range": ">=0.3",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "old-time",
+        "version-range": ">=1",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "HTTP",
+        "version-range": ">=4000.0.5",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "texmath",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "xml",
+        "version-range": ">=1.3.5 && <1.4",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "extensible-exceptions",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      }
+    ],
+    "condTreeComponents": [
+      {
+        "condBranchCondition": {
+          "v": {
+            "compiler": "GHC",
+            "version": ">=6.10"
+          }
+        },
+        "condBranchIfTrue": {
+          "condTreeData": {
+            "name": {},
+            "exposed-modules": [],
+            "re-exported-modules": [],
+            "signatures": [],
+            "exposed": true,
+            "visibility": "LibraryVisibilityPublic",
+            "build-info": {
+              "buildable": true,
+              "buildTools": [],
+              "buildToolDepends": [],
+              "cppOptions": [],
+              "asmOptions": [],
+              "cmmOptions": [],
+              "ccOptions": [],
+              "cxxOptions": [],
+              "ldOptions": [],
+              "pkgconfigDepends": [],
+              "frameworks": [],
+              "extraFrameworkDirs": [],
+              "asmSources": [],
+              "cmmSources": [],
+              "cSources": [],
+              "cxxSources": [],
+              "jsSources": [],
+              "hsSourceDirs": [],
+              "otherModules": [],
+              "virtualModules": [],
+              "autogenModules": [],
+              "defaultLanguage": null,
+              "otherLanguages": [],
+              "defaultExtensions": [],
+              "otherExtensions": [],
+              "oldExtensions": [],
+              "extraLibs": [],
+              "extraGHCiLibs": [],
+              "extraBundledLibs": [],
+              "extraLibFlavours": [],
+              "extraDynLibFlavours": [],
+              "extraLibDirs": [],
+              "includeDirs": [],
+              "includes": [],
+              "autogenIncludes": [],
+              "installIncludes": [],
+              "options": [
+                [],
+                []
+              ],
+              "profOptions": [
+                [],
+                []
+              ],
+              "sharedOptions": [
+                [],
+                []
+              ],
+              "staticOptions": [
+                [],
+                []
+              ],
+              "customFieldsBI": [],
+              "targetBuildDepends": [
+                {
+                  "package-name": "base",
+                  "version-range": ">=4 && <5",
+                  "library": [
+                    {}
+                  ]
+                },
+                {
+                  "package-name": "syb",
+                  "version-range": "-any",
+                  "library": [
+                    {}
+                  ]
+                }
+              ],
+              "mixins": []
+            }
+          },
+          "condTreeConstraints": [
+            {
+              "package-name": "base",
+              "version-range": ">=4 && <5",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "syb",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            }
+          ],
+          "condTreeComponents": []
+        },
+        "condBranchIfFalse": {
+          "condTreeData": {
+            "name": {},
+            "exposed-modules": [],
+            "re-exported-modules": [],
+            "signatures": [],
+            "exposed": true,
+            "visibility": "LibraryVisibilityPublic",
+            "build-info": {
+              "buildable": true,
+              "buildTools": [],
+              "buildToolDepends": [],
+              "cppOptions": [],
+              "asmOptions": [],
+              "cmmOptions": [],
+              "ccOptions": [],
+              "cxxOptions": [],
+              "ldOptions": [],
+              "pkgconfigDepends": [],
+              "frameworks": [],
+              "extraFrameworkDirs": [],
+              "asmSources": [],
+              "cmmSources": [],
+              "cSources": [],
+              "cxxSources": [],
+              "jsSources": [],
+              "hsSourceDirs": [],
+              "otherModules": [],
+              "virtualModules": [],
+              "autogenModules": [],
+              "defaultLanguage": null,
+              "otherLanguages": [],
+              "defaultExtensions": [],
+              "otherExtensions": [],
+              "oldExtensions": [],
+              "extraLibs": [],
+              "extraGHCiLibs": [],
+              "extraBundledLibs": [],
+              "extraLibFlavours": [],
+              "extraDynLibFlavours": [],
+              "extraLibDirs": [],
+              "includeDirs": [],
+              "includes": [],
+              "autogenIncludes": [],
+              "installIncludes": [],
+              "options": [
+                [],
+                []
+              ],
+              "profOptions": [
+                [],
+                []
+              ],
+              "sharedOptions": [
+                [],
+                []
+              ],
+              "staticOptions": [
+                [],
+                []
+              ],
+              "customFieldsBI": [],
+              "targetBuildDepends": [
+                {
+                  "package-name": "base",
+                  "version-range": ">=3 && <4",
+                  "library": [
+                    {}
+                  ]
+                }
+              ],
+              "mixins": []
+            }
+          },
+          "condTreeConstraints": [
+            {
+              "package-name": "base",
+              "version-range": ">=3 && <4",
+              "library": [
+                {}
+              ]
+            }
+          ],
+          "condTreeComponents": []
+        }
+      },
+      {
+        "condBranchCondition": {
+          "v": {
+            "flag": "highlighting"
+          }
+        },
+        "condBranchIfTrue": {
+          "condTreeData": {
+            "name": {},
+            "exposed-modules": [],
+            "re-exported-modules": [],
+            "signatures": [],
+            "exposed": true,
+            "visibility": "LibraryVisibilityPublic",
+            "build-info": {
+              "buildable": true,
+              "buildTools": [],
+              "buildToolDepends": [],
+              "cppOptions": [
+                "-D_HIGHLIGHTING"
+              ],
+              "asmOptions": [],
+              "cmmOptions": [],
+              "ccOptions": [],
+              "cxxOptions": [],
+              "ldOptions": [],
+              "pkgconfigDepends": [],
+              "frameworks": [],
+              "extraFrameworkDirs": [],
+              "asmSources": [],
+              "cmmSources": [],
+              "cSources": [],
+              "cxxSources": [],
+              "jsSources": [],
+              "hsSourceDirs": [],
+              "otherModules": [],
+              "virtualModules": [],
+              "autogenModules": [],
+              "defaultLanguage": null,
+              "otherLanguages": [],
+              "defaultExtensions": [],
+              "otherExtensions": [],
+              "oldExtensions": [],
+              "extraLibs": [],
+              "extraGHCiLibs": [],
+              "extraBundledLibs": [],
+              "extraLibFlavours": [],
+              "extraDynLibFlavours": [],
+              "extraLibDirs": [],
+              "includeDirs": [],
+              "includes": [],
+              "autogenIncludes": [],
+              "installIncludes": [],
+              "options": [
+                [],
+                []
+              ],
+              "profOptions": [
+                [],
+                []
+              ],
+              "sharedOptions": [
+                [],
+                []
+              ],
+              "staticOptions": [
+                [],
+                []
+              ],
+              "customFieldsBI": [],
+              "targetBuildDepends": [
+                {
+                  "package-name": "highlighting-kate",
+                  "version-range": ">=0.2.3",
+                  "library": [
+                    {}
+                  ]
+                }
+              ],
+              "mixins": []
+            }
+          },
+          "condTreeConstraints": [
+            {
+              "package-name": "highlighting-kate",
+              "version-range": ">=0.2.3",
+              "library": [
+                {}
+              ]
+            }
+          ],
+          "condTreeComponents": []
+        }
+      },
+      {
+        "condBranchCondition": {
+          "v": {
+            "flag": "citeproc"
+          }
+        },
+        "condBranchIfTrue": {
+          "condTreeData": {
+            "name": {},
+            "exposed-modules": [
+              [
+                "Text",
+                "Pandoc",
+                "Biblio"
+              ]
+            ],
+            "re-exported-modules": [],
+            "signatures": [],
+            "exposed": true,
+            "visibility": "LibraryVisibilityPublic",
+            "build-info": {
+              "buildable": true,
+              "buildTools": [],
+              "buildToolDepends": [],
+              "cppOptions": [
+                "-D_CITEPROC"
+              ],
+              "asmOptions": [],
+              "cmmOptions": [],
+              "ccOptions": [],
+              "cxxOptions": [],
+              "ldOptions": [],
+              "pkgconfigDepends": [],
+              "frameworks": [],
+              "extraFrameworkDirs": [],
+              "asmSources": [],
+              "cmmSources": [],
+              "cSources": [],
+              "cxxSources": [],
+              "jsSources": [],
+              "hsSourceDirs": [],
+              "otherModules": [],
+              "virtualModules": [],
+              "autogenModules": [],
+              "defaultLanguage": null,
+              "otherLanguages": [],
+              "defaultExtensions": [],
+              "otherExtensions": [],
+              "oldExtensions": [],
+              "extraLibs": [],
+              "extraGHCiLibs": [],
+              "extraBundledLibs": [],
+              "extraLibFlavours": [],
+              "extraDynLibFlavours": [],
+              "extraLibDirs": [],
+              "includeDirs": [],
+              "includes": [],
+              "autogenIncludes": [],
+              "installIncludes": [],
+              "options": [
+                [],
+                []
+              ],
+              "profOptions": [
+                [],
+                []
+              ],
+              "sharedOptions": [
+                [],
+                []
+              ],
+              "staticOptions": [
+                [],
+                []
+              ],
+              "customFieldsBI": [],
+              "targetBuildDepends": [
+                {
+                  "package-name": "citeproc-hs",
+                  "version-range": "-any",
+                  "library": [
+                    {}
+                  ]
+                }
+              ],
+              "mixins": []
+            }
+          },
+          "condTreeConstraints": [
+            {
+              "package-name": "citeproc-hs",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            }
+          ],
+          "condTreeComponents": []
+        }
+      },
+      {
+        "condBranchCondition": {
+          "v": {
+            "compiler": "GHC",
+            "version": ">=6.12"
+          }
+        },
+        "condBranchIfTrue": {
+          "condTreeData": {
+            "name": {},
+            "exposed-modules": [],
+            "re-exported-modules": [],
+            "signatures": [],
+            "exposed": true,
+            "visibility": "LibraryVisibilityPublic",
+            "build-info": {
+              "buildable": true,
+              "buildTools": [],
+              "buildToolDepends": [],
+              "cppOptions": [],
+              "asmOptions": [],
+              "cmmOptions": [],
+              "ccOptions": [],
+              "cxxOptions": [],
+              "ldOptions": [],
+              "pkgconfigDepends": [],
+              "frameworks": [],
+              "extraFrameworkDirs": [],
+              "asmSources": [],
+              "cmmSources": [],
+              "cSources": [],
+              "cxxSources": [],
+              "jsSources": [],
+              "hsSourceDirs": [],
+              "otherModules": [],
+              "virtualModules": [],
+              "autogenModules": [],
+              "defaultLanguage": null,
+              "otherLanguages": [],
+              "defaultExtensions": [],
+              "otherExtensions": [],
+              "oldExtensions": [],
+              "extraLibs": [],
+              "extraGHCiLibs": [],
+              "extraBundledLibs": [],
+              "extraLibFlavours": [],
+              "extraDynLibFlavours": [],
+              "extraLibDirs": [],
+              "includeDirs": [],
+              "includes": [],
+              "autogenIncludes": [],
+              "installIncludes": [],
+              "options": [
+                [
+                  "-O2",
+                  "-Wall",
+                  "-fno-warn-unused-do-bind"
+                ],
+                []
+              ],
+              "profOptions": [
+                [],
+                []
+              ],
+              "sharedOptions": [
+                [],
+                []
+              ],
+              "staticOptions": [
+                [],
+                []
+              ],
+              "customFieldsBI": [],
+              "targetBuildDepends": [],
+              "mixins": []
+            }
+          },
+          "condTreeConstraints": [],
+          "condTreeComponents": []
+        },
+        "condBranchIfFalse": {
+          "condTreeData": {
+            "name": {},
+            "exposed-modules": [],
+            "re-exported-modules": [],
+            "signatures": [],
+            "exposed": true,
+            "visibility": "LibraryVisibilityPublic",
+            "build-info": {
+              "buildable": true,
+              "buildTools": [],
+              "buildToolDepends": [],
+              "cppOptions": [],
+              "asmOptions": [],
+              "cmmOptions": [],
+              "ccOptions": [],
+              "cxxOptions": [],
+              "ldOptions": [],
+              "pkgconfigDepends": [],
+              "frameworks": [],
+              "extraFrameworkDirs": [],
+              "asmSources": [],
+              "cmmSources": [],
+              "cSources": [],
+              "cxxSources": [],
+              "jsSources": [],
+              "hsSourceDirs": [],
+              "otherModules": [],
+              "virtualModules": [],
+              "autogenModules": [],
+              "defaultLanguage": null,
+              "otherLanguages": [],
+              "defaultExtensions": [],
+              "otherExtensions": [],
+              "oldExtensions": [],
+              "extraLibs": [],
+              "extraGHCiLibs": [],
+              "extraBundledLibs": [],
+              "extraLibFlavours": [],
+              "extraDynLibFlavours": [],
+              "extraLibDirs": [],
+              "includeDirs": [],
+              "includes": [],
+              "autogenIncludes": [],
+              "installIncludes": [],
+              "options": [
+                [
+                  "-O2",
+                  "-Wall"
+                ],
+                []
+              ],
+              "profOptions": [
+                [],
+                []
+              ],
+              "sharedOptions": [
+                [],
+                []
+              ],
+              "staticOptions": [
+                [],
+                []
+              ],
+              "customFieldsBI": [],
+              "targetBuildDepends": [],
+              "mixins": []
+            }
+          },
+          "condTreeConstraints": [],
+          "condTreeComponents": []
+        }
+      },
+      {
+        "condBranchCondition": {
+          "v": {
+            "flag": "library"
+          }
+        },
+        "condBranchIfTrue": {
+          "condTreeData": {
+            "name": {},
+            "exposed-modules": [],
+            "re-exported-modules": [],
+            "signatures": [],
+            "exposed": true,
+            "visibility": "LibraryVisibilityPublic",
+            "build-info": {
+              "buildable": true,
+              "buildTools": [],
+              "buildToolDepends": [],
+              "cppOptions": [],
+              "asmOptions": [],
+              "cmmOptions": [],
+              "ccOptions": [],
+              "cxxOptions": [],
+              "ldOptions": [],
+              "pkgconfigDepends": [],
+              "frameworks": [],
+              "extraFrameworkDirs": [],
+              "asmSources": [],
+              "cmmSources": [],
+              "cSources": [],
+              "cxxSources": [],
+              "jsSources": [],
+              "hsSourceDirs": [],
+              "otherModules": [],
+              "virtualModules": [],
+              "autogenModules": [],
+              "defaultLanguage": null,
+              "otherLanguages": [],
+              "defaultExtensions": [],
+              "otherExtensions": [],
+              "oldExtensions": [],
+              "extraLibs": [],
+              "extraGHCiLibs": [],
+              "extraBundledLibs": [],
+              "extraLibFlavours": [],
+              "extraDynLibFlavours": [],
+              "extraLibDirs": [],
+              "includeDirs": [],
+              "includes": [],
+              "autogenIncludes": [],
+              "installIncludes": [],
+              "options": [
+                [],
+                []
+              ],
+              "profOptions": [
+                [],
+                []
+              ],
+              "sharedOptions": [
+                [],
+                []
+              ],
+              "staticOptions": [
+                [],
+                []
+              ],
+              "customFieldsBI": [],
+              "targetBuildDepends": [],
+              "mixins": []
+            }
+          },
+          "condTreeConstraints": [],
+          "condTreeComponents": []
+        },
+        "condBranchIfFalse": {
+          "condTreeData": {
+            "name": {},
+            "exposed-modules": [],
+            "re-exported-modules": [],
+            "signatures": [],
+            "exposed": true,
+            "visibility": "LibraryVisibilityPublic",
+            "build-info": {
+              "buildable": false,
+              "buildTools": [],
+              "buildToolDepends": [],
+              "cppOptions": [],
+              "asmOptions": [],
+              "cmmOptions": [],
+              "ccOptions": [],
+              "cxxOptions": [],
+              "ldOptions": [],
+              "pkgconfigDepends": [],
+              "frameworks": [],
+              "extraFrameworkDirs": [],
+              "asmSources": [],
+              "cmmSources": [],
+              "cSources": [],
+              "cxxSources": [],
+              "jsSources": [],
+              "hsSourceDirs": [],
+              "otherModules": [],
+              "virtualModules": [],
+              "autogenModules": [],
+              "defaultLanguage": null,
+              "otherLanguages": [],
+              "defaultExtensions": [],
+              "otherExtensions": [],
+              "oldExtensions": [],
+              "extraLibs": [],
+              "extraGHCiLibs": [],
+              "extraBundledLibs": [],
+              "extraLibFlavours": [],
+              "extraDynLibFlavours": [],
+              "extraLibDirs": [],
+              "includeDirs": [],
+              "includes": [],
+              "autogenIncludes": [],
+              "installIncludes": [],
+              "options": [
+                [],
+                []
+              ],
+              "profOptions": [
+                [],
+                []
+              ],
+              "sharedOptions": [
+                [],
+                []
+              ],
+              "staticOptions": [
+                [],
+                []
+              ],
+              "customFieldsBI": [],
+              "targetBuildDepends": [],
+              "mixins": []
+            }
+          },
+          "condTreeConstraints": [],
+          "condTreeComponents": []
+        }
+      }
+    ]
+  },
+  "executables": {
+    "pandoc": {
+      "condTreeData": {
+        "name": "pandoc",
+        "module-path": "pandoc.hs",
+        "scope": "public",
+        "build-info": {
+          "buildable": true,
+          "buildTools": [],
+          "buildToolDepends": [],
+          "cppOptions": [],
+          "asmOptions": [],
+          "cmmOptions": [],
+          "ccOptions": [],
+          "cxxOptions": [],
+          "ldOptions": [],
+          "pkgconfigDepends": [],
+          "frameworks": [],
+          "extraFrameworkDirs": [],
+          "asmSources": [],
+          "cmmSources": [],
+          "cSources": [],
+          "cxxSources": [],
+          "jsSources": [],
+          "hsSourceDirs": [
+            "src"
+          ],
+          "otherModules": [],
+          "virtualModules": [],
+          "autogenModules": [],
+          "defaultLanguage": null,
+          "otherLanguages": [],
+          "defaultExtensions": [],
+          "otherExtensions": [],
+          "oldExtensions": [
+            {
+              "enable-extension": "CPP"
+            }
+          ],
+          "extraLibs": [],
+          "extraGHCiLibs": [],
+          "extraBundledLibs": [],
+          "extraLibFlavours": [],
+          "extraDynLibFlavours": [],
+          "extraLibDirs": [],
+          "includeDirs": [],
+          "includes": [],
+          "autogenIncludes": [],
+          "installIncludes": [],
+          "options": [
+            [],
+            []
+          ],
+          "profOptions": [
+            [
+              "-auto-all",
+              "-caf-all"
+            ],
+            []
+          ],
+          "sharedOptions": [
+            [],
+            []
+          ],
+          "staticOptions": [
+            [],
+            []
+          ],
+          "customFieldsBI": [],
+          "targetBuildDepends": [],
+          "mixins": []
+        }
+      },
+      "condTreeConstraints": [],
+      "condTreeComponents": [
+        {
+          "condBranchCondition": {
+            "v": {
+              "compiler": "GHC",
+              "version": ">=6.12"
+            }
+          },
+          "condBranchIfTrue": {
+            "condTreeData": {
+              "name": "pandoc",
+              "module-path": "",
+              "scope": "public",
+              "build-info": {
+                "buildable": true,
+                "buildTools": [],
+                "buildToolDepends": [],
+                "cppOptions": [],
+                "asmOptions": [],
+                "cmmOptions": [],
+                "ccOptions": [],
+                "cxxOptions": [],
+                "ldOptions": [],
+                "pkgconfigDepends": [],
+                "frameworks": [],
+                "extraFrameworkDirs": [],
+                "asmSources": [],
+                "cmmSources": [],
+                "cSources": [],
+                "cxxSources": [],
+                "jsSources": [],
+                "hsSourceDirs": [],
+                "otherModules": [],
+                "virtualModules": [],
+                "autogenModules": [],
+                "defaultLanguage": null,
+                "otherLanguages": [],
+                "defaultExtensions": [],
+                "otherExtensions": [],
+                "oldExtensions": [],
+                "extraLibs": [],
+                "extraGHCiLibs": [],
+                "extraBundledLibs": [],
+                "extraLibFlavours": [],
+                "extraDynLibFlavours": [],
+                "extraLibDirs": [],
+                "includeDirs": [],
+                "includes": [],
+                "autogenIncludes": [],
+                "installIncludes": [],
+                "options": [
+                  [
+                    "-O2",
+                    "-Wall",
+                    "-threaded",
+                    "-fno-warn-unused-do-bind"
+                  ],
+                  []
+                ],
+                "profOptions": [
+                  [],
+                  []
+                ],
+                "sharedOptions": [
+                  [],
+                  []
+                ],
+                "staticOptions": [
+                  [],
+                  []
+                ],
+                "customFieldsBI": [],
+                "targetBuildDepends": [],
+                "mixins": []
+              }
+            },
+            "condTreeConstraints": [],
+            "condTreeComponents": []
+          },
+          "condBranchIfFalse": {
+            "condTreeData": {
+              "name": "pandoc",
+              "module-path": "",
+              "scope": "public",
+              "build-info": {
+                "buildable": true,
+                "buildTools": [],
+                "buildToolDepends": [],
+                "cppOptions": [],
+                "asmOptions": [],
+                "cmmOptions": [],
+                "ccOptions": [],
+                "cxxOptions": [],
+                "ldOptions": [],
+                "pkgconfigDepends": [],
+                "frameworks": [],
+                "extraFrameworkDirs": [],
+                "asmSources": [],
+                "cmmSources": [],
+                "cSources": [],
+                "cxxSources": [],
+                "jsSources": [],
+                "hsSourceDirs": [],
+                "otherModules": [],
+                "virtualModules": [],
+                "autogenModules": [],
+                "defaultLanguage": null,
+                "otherLanguages": [],
+                "defaultExtensions": [],
+                "otherExtensions": [],
+                "oldExtensions": [],
+                "extraLibs": [],
+                "extraGHCiLibs": [],
+                "extraBundledLibs": [],
+                "extraLibFlavours": [],
+                "extraDynLibFlavours": [],
+                "extraLibDirs": [],
+                "includeDirs": [],
+                "includes": [],
+                "autogenIncludes": [],
+                "installIncludes": [],
+                "options": [
+                  [
+                    "-O2",
+                    "-Wall",
+                    "-threaded"
+                  ],
+                  []
+                ],
+                "profOptions": [
+                  [],
+                  []
+                ],
+                "sharedOptions": [
+                  [],
+                  []
+                ],
+                "staticOptions": [
+                  [],
+                  []
+                ],
+                "customFieldsBI": [],
+                "targetBuildDepends": [],
+                "mixins": []
+              }
+            },
+            "condTreeConstraints": [],
+            "condTreeComponents": []
+          }
+        },
+        {
+          "condBranchCondition": {
+            "v": {
+              "flag": "highlighting"
+            }
+          },
+          "condBranchIfTrue": {
+            "condTreeData": {
+              "name": "pandoc",
+              "module-path": "",
+              "scope": "public",
+              "build-info": {
+                "buildable": true,
+                "buildTools": [],
+                "buildToolDepends": [],
+                "cppOptions": [
+                  "-D_HIGHLIGHTING"
+                ],
+                "asmOptions": [],
+                "cmmOptions": [],
+                "ccOptions": [],
+                "cxxOptions": [],
+                "ldOptions": [],
+                "pkgconfigDepends": [],
+                "frameworks": [],
+                "extraFrameworkDirs": [],
+                "asmSources": [],
+                "cmmSources": [],
+                "cSources": [],
+                "cxxSources": [],
+                "jsSources": [],
+                "hsSourceDirs": [],
+                "otherModules": [],
+                "virtualModules": [],
+                "autogenModules": [],
+                "defaultLanguage": null,
+                "otherLanguages": [],
+                "defaultExtensions": [],
+                "otherExtensions": [],
+                "oldExtensions": [],
+                "extraLibs": [],
+                "extraGHCiLibs": [],
+                "extraBundledLibs": [],
+                "extraLibFlavours": [],
+                "extraDynLibFlavours": [],
+                "extraLibDirs": [],
+                "includeDirs": [],
+                "includes": [],
+                "autogenIncludes": [],
+                "installIncludes": [],
+                "options": [
+                  [],
+                  []
+                ],
+                "profOptions": [
+                  [],
+                  []
+                ],
+                "sharedOptions": [
+                  [],
+                  []
+                ],
+                "staticOptions": [
+                  [],
+                  []
+                ],
+                "customFieldsBI": [],
+                "targetBuildDepends": [],
+                "mixins": []
+              }
+            },
+            "condTreeConstraints": [],
+            "condTreeComponents": []
+          }
+        },
+        {
+          "condBranchCondition": {
+            "v": {
+              "flag": "citeproc"
+            }
+          },
+          "condBranchIfTrue": {
+            "condTreeData": {
+              "name": "pandoc",
+              "module-path": "",
+              "scope": "public",
+              "build-info": {
+                "buildable": true,
+                "buildTools": [],
+                "buildToolDepends": [],
+                "cppOptions": [
+                  "-D_CITEPROC"
+                ],
+                "asmOptions": [],
+                "cmmOptions": [],
+                "ccOptions": [],
+                "cxxOptions": [],
+                "ldOptions": [],
+                "pkgconfigDepends": [],
+                "frameworks": [],
+                "extraFrameworkDirs": [],
+                "asmSources": [],
+                "cmmSources": [],
+                "cSources": [],
+                "cxxSources": [],
+                "jsSources": [],
+                "hsSourceDirs": [],
+                "otherModules": [],
+                "virtualModules": [],
+                "autogenModules": [],
+                "defaultLanguage": null,
+                "otherLanguages": [],
+                "defaultExtensions": [],
+                "otherExtensions": [],
+                "oldExtensions": [],
+                "extraLibs": [],
+                "extraGHCiLibs": [],
+                "extraBundledLibs": [],
+                "extraLibFlavours": [],
+                "extraDynLibFlavours": [],
+                "extraLibDirs": [],
+                "includeDirs": [],
+                "includes": [],
+                "autogenIncludes": [],
+                "installIncludes": [],
+                "options": [
+                  [],
+                  []
+                ],
+                "profOptions": [
+                  [],
+                  []
+                ],
+                "sharedOptions": [
+                  [],
+                  []
+                ],
+                "staticOptions": [
+                  [],
+                  []
+                ],
+                "customFieldsBI": [],
+                "targetBuildDepends": [
+                  {
+                    "package-name": "citeproc-hs",
+                    "version-range": ">=0.2",
+                    "library": [
+                      {}
+                    ]
+                  }
+                ],
+                "mixins": []
+              }
+            },
+            "condTreeConstraints": [
+              {
+                "package-name": "citeproc-hs",
+                "version-range": ">=0.2",
+                "library": [
+                  {}
+                ]
+              }
+            ],
+            "condTreeComponents": []
+          }
+        },
+        {
+          "condBranchCondition": {
+            "v": {
+              "flag": "executable"
+            }
+          },
+          "condBranchIfTrue": {
+            "condTreeData": {
+              "name": "pandoc",
+              "module-path": "",
+              "scope": "public",
+              "build-info": {
+                "buildable": true,
+                "buildTools": [],
+                "buildToolDepends": [],
+                "cppOptions": [],
+                "asmOptions": [],
+                "cmmOptions": [],
+                "ccOptions": [],
+                "cxxOptions": [],
+                "ldOptions": [],
+                "pkgconfigDepends": [],
+                "frameworks": [],
+                "extraFrameworkDirs": [],
+                "asmSources": [],
+                "cmmSources": [],
+                "cSources": [],
+                "cxxSources": [],
+                "jsSources": [],
+                "hsSourceDirs": [],
+                "otherModules": [],
+                "virtualModules": [],
+                "autogenModules": [],
+                "defaultLanguage": null,
+                "otherLanguages": [],
+                "defaultExtensions": [],
+                "otherExtensions": [],
+                "oldExtensions": [],
+                "extraLibs": [],
+                "extraGHCiLibs": [],
+                "extraBundledLibs": [],
+                "extraLibFlavours": [],
+                "extraDynLibFlavours": [],
+                "extraLibDirs": [],
+                "includeDirs": [],
+                "includes": [],
+                "autogenIncludes": [],
+                "installIncludes": [],
+                "options": [
+                  [],
+                  []
+                ],
+                "profOptions": [
+                  [],
+                  []
+                ],
+                "sharedOptions": [
+                  [],
+                  []
+                ],
+                "staticOptions": [
+                  [],
+                  []
+                ],
+                "customFieldsBI": [],
+                "targetBuildDepends": [],
+                "mixins": []
+              }
+            },
+            "condTreeConstraints": [],
+            "condTreeComponents": []
+          },
+          "condBranchIfFalse": {
+            "condTreeData": {
+              "name": "pandoc",
+              "module-path": "",
+              "scope": "public",
+              "build-info": {
+                "buildable": false,
+                "buildTools": [],
+                "buildToolDepends": [],
+                "cppOptions": [],
+                "asmOptions": [],
+                "cmmOptions": [],
+                "ccOptions": [],
+                "cxxOptions": [],
+                "ldOptions": [],
+                "pkgconfigDepends": [],
+                "frameworks": [],
+                "extraFrameworkDirs": [],
+                "asmSources": [],
+                "cmmSources": [],
+                "cSources": [],
+                "cxxSources": [],
+                "jsSources": [],
+                "hsSourceDirs": [],
+                "otherModules": [],
+                "virtualModules": [],
+                "autogenModules": [],
+                "defaultLanguage": null,
+                "otherLanguages": [],
+                "defaultExtensions": [],
+                "otherExtensions": [],
+                "oldExtensions": [],
+                "extraLibs": [],
+                "extraGHCiLibs": [],
+                "extraBundledLibs": [],
+                "extraLibFlavours": [],
+                "extraDynLibFlavours": [],
+                "extraLibDirs": [],
+                "includeDirs": [],
+                "includes": [],
+                "autogenIncludes": [],
+                "installIncludes": [],
+                "options": [
+                  [],
+                  []
+                ],
+                "profOptions": [
+                  [],
+                  []
+                ],
+                "sharedOptions": [
+                  [],
+                  []
+                ],
+                "staticOptions": [
+                  [],
+                  []
+                ],
+                "customFieldsBI": [],
+                "targetBuildDepends": [],
+                "mixins": []
+              }
+            },
+            "condTreeConstraints": [],
+            "condTreeComponents": []
+          }
+        }
+      ]
+    },
+    "markdown2pdf": {
+      "condTreeData": {
+        "name": "markdown2pdf",
+        "module-path": "markdown2pdf.hs",
+        "scope": "public",
+        "build-info": {
+          "buildable": true,
+          "buildTools": [],
+          "buildToolDepends": [],
+          "cppOptions": [],
+          "asmOptions": [],
+          "cmmOptions": [],
+          "ccOptions": [],
+          "cxxOptions": [],
+          "ldOptions": [],
+          "pkgconfigDepends": [],
+          "frameworks": [],
+          "extraFrameworkDirs": [],
+          "asmSources": [],
+          "cmmSources": [],
+          "cSources": [],
+          "cxxSources": [],
+          "jsSources": [],
+          "hsSourceDirs": [
+            "src"
+          ],
+          "otherModules": [],
+          "virtualModules": [],
+          "autogenModules": [],
+          "defaultLanguage": null,
+          "otherLanguages": [],
+          "defaultExtensions": [],
+          "otherExtensions": [],
+          "oldExtensions": [
+            {
+              "enable-extension": "CPP"
+            }
+          ],
+          "extraLibs": [],
+          "extraGHCiLibs": [],
+          "extraBundledLibs": [],
+          "extraLibFlavours": [],
+          "extraDynLibFlavours": [],
+          "extraLibDirs": [],
+          "includeDirs": [],
+          "includes": [],
+          "autogenIncludes": [],
+          "installIncludes": [],
+          "options": [
+            [
+              "-Wall",
+              "-threaded"
+            ],
+            []
+          ],
+          "profOptions": [
+            [
+              "-auto-all"
+            ],
+            []
+          ],
+          "sharedOptions": [
+            [],
+            []
+          ],
+          "staticOptions": [
+            [],
+            []
+          ],
+          "customFieldsBI": [],
+          "targetBuildDepends": [],
+          "mixins": []
+        }
+      },
+      "condTreeConstraints": [],
+      "condTreeComponents": [
+        {
+          "condBranchCondition": {
+            "v": {
+              "flag": "wrappers"
+            }
+          },
+          "condBranchIfTrue": {
+            "condTreeData": {
+              "name": "markdown2pdf",
+              "module-path": "",
+              "scope": "public",
+              "build-info": {
+                "buildable": true,
+                "buildTools": [],
+                "buildToolDepends": [],
+                "cppOptions": [],
+                "asmOptions": [],
+                "cmmOptions": [],
+                "ccOptions": [],
+                "cxxOptions": [],
+                "ldOptions": [],
+                "pkgconfigDepends": [],
+                "frameworks": [],
+                "extraFrameworkDirs": [],
+                "asmSources": [],
+                "cmmSources": [],
+                "cSources": [],
+                "cxxSources": [],
+                "jsSources": [],
+                "hsSourceDirs": [],
+                "otherModules": [],
+                "virtualModules": [],
+                "autogenModules": [],
+                "defaultLanguage": null,
+                "otherLanguages": [],
+                "defaultExtensions": [],
+                "otherExtensions": [],
+                "oldExtensions": [],
+                "extraLibs": [],
+                "extraGHCiLibs": [],
+                "extraBundledLibs": [],
+                "extraLibFlavours": [],
+                "extraDynLibFlavours": [],
+                "extraLibDirs": [],
+                "includeDirs": [],
+                "includes": [],
+                "autogenIncludes": [],
+                "installIncludes": [],
+                "options": [
+                  [],
+                  []
+                ],
+                "profOptions": [
+                  [],
+                  []
+                ],
+                "sharedOptions": [
+                  [],
+                  []
+                ],
+                "staticOptions": [
+                  [],
+                  []
+                ],
+                "customFieldsBI": [],
+                "targetBuildDepends": [],
+                "mixins": []
+              }
+            },
+            "condTreeConstraints": [],
+            "condTreeComponents": []
+          },
+          "condBranchIfFalse": {
+            "condTreeData": {
+              "name": "markdown2pdf",
+              "module-path": "",
+              "scope": "public",
+              "build-info": {
+                "buildable": false,
+                "buildTools": [],
+                "buildToolDepends": [],
+                "cppOptions": [],
+                "asmOptions": [],
+                "cmmOptions": [],
+                "ccOptions": [],
+                "cxxOptions": [],
+                "ldOptions": [],
+                "pkgconfigDepends": [],
+                "frameworks": [],
+                "extraFrameworkDirs": [],
+                "asmSources": [],
+                "cmmSources": [],
+                "cSources": [],
+                "cxxSources": [],
+                "jsSources": [],
+                "hsSourceDirs": [],
+                "otherModules": [],
+                "virtualModules": [],
+                "autogenModules": [],
+                "defaultLanguage": null,
+                "otherLanguages": [],
+                "defaultExtensions": [],
+                "otherExtensions": [],
+                "oldExtensions": [],
+                "extraLibs": [],
+                "extraGHCiLibs": [],
+                "extraBundledLibs": [],
+                "extraLibFlavours": [],
+                "extraDynLibFlavours": [],
+                "extraLibDirs": [],
+                "includeDirs": [],
+                "includes": [],
+                "autogenIncludes": [],
+                "installIncludes": [],
+                "options": [
+                  [],
+                  []
+                ],
+                "profOptions": [
+                  [],
+                  []
+                ],
+                "sharedOptions": [
+                  [],
+                  []
+                ],
+                "staticOptions": [
+                  [],
+                  []
+                ],
+                "customFieldsBI": [],
+                "targetBuildDepends": [],
+                "mixins": []
+              }
+            },
+            "condTreeConstraints": [],
+            "condTreeComponents": []
+          }
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,415 @@
+{
+  "description": {
+    "spec-version": {
+      "Right": ">=1.10"
+    },
+    "package": {
+      "name": "declarative",
+      "version": [
+        0,
+        5,
+        2
+      ]
+    },
+    "license": {
+      "Right": "MIT"
+    },
+    "license-files": [
+      "LICENSE"
+    ],
+    "copyright": "",
+    "maintainer": "jared@jtobin.ca",
+    "author": "Jared Tobin",
+    "stability": "",
+    "tested-with": [],
+    "homepage": "http://github.com/jtobin/declarative",
+    "pkg-url": "",
+    "bug-reports": "",
+    "source-repos": [
+      {
+        "kind": {},
+        "type": "Git",
+        "location": "http://github.com/jtobin/declarative.git",
+        "module": null,
+        "branch": null,
+        "tag": null,
+        "subdir": null
+      }
+    ],
+    "synopsis": "DIY Markov Chains.",
+    "description": "This package presents a simple combinator language for Markov transition\noperators that are useful in MCMC.\n\nAny transition operators sharing the same stationary distribution and obeying\nthe Markov and reversibility properties can be combined in a couple of ways,\nsuch that the resulting operator preserves the stationary distribution and\ndesirable properties amenable for MCMC.\n\nWe can deterministically concatenate operators end-to-end, or sample from\na collection of them according to some probability distribution.  See\n<http://www.stat.umn.edu/geyer/f05/8931/n1998.pdf Geyer, 2005> for details.\n\nA useful strategy is to hedge one's 'sampling risk' by occasionally\ninterleaving a computationally-expensive transition (such as a gradient-based\nalgorithm like Hamiltonian Monte Carlo or NUTS) with cheap Metropolis\ntransitions.\n\n> transition = frequency [\n>     (9, metropolis 1.0)\n>   , (1, hamiltonian 0.05 20)\n>   ]\n\nAlternatively: sample consecutively using the same algorithm, but over a\nrange of different proposal distributions.\n\n> transition = concatAllT [\n>     slice 0.5\n>   , slice 1.0\n>   , slice 2.0\n>   ]\n\nOr just mix and match and see what happens!\n\n> transition =\n>   sampleT\n>     (sampleT (metropolis 0.5) (slice 0.1))\n>     (sampleT (hamiltonian 0.01 20) (metropolis 2.0))\n\nCheck the test suite for example usage.",
+    "category": "Math",
+    "custom-fields": [],
+    "build-type-raw": "Simple",
+    "custom-setup": null,
+    "library": null,
+    "sublibraries": [],
+    "executables": [],
+    "foreign-libs": [],
+    "test-suites": [],
+    "benchmarks": [],
+    "data-files": [],
+    "data-dir": ".",
+    "extra-source-files": [],
+    "extra-tmp-files": [],
+    "extra-doc-files": []
+  },
+  "library": {
+    "condTreeData": {
+      "name": {},
+      "exposed-modules": [
+        [
+          "Numeric",
+          "MCMC"
+        ],
+        [
+          "Numeric",
+          "MCMC",
+          "Anneal"
+        ]
+      ],
+      "re-exported-modules": [],
+      "signatures": [],
+      "exposed": true,
+      "visibility": "LibraryVisibilityPublic",
+      "build-info": {
+        "buildable": true,
+        "buildTools": [],
+        "buildToolDepends": [],
+        "cppOptions": [],
+        "asmOptions": [],
+        "cmmOptions": [],
+        "ccOptions": [],
+        "cxxOptions": [],
+        "ldOptions": [],
+        "pkgconfigDepends": [],
+        "frameworks": [],
+        "extraFrameworkDirs": [],
+        "asmSources": [],
+        "cmmSources": [],
+        "cSources": [],
+        "cxxSources": [],
+        "jsSources": [],
+        "hsSourceDirs": [
+          "lib"
+        ],
+        "otherModules": [],
+        "virtualModules": [],
+        "autogenModules": [],
+        "defaultLanguage": "Haskell2010",
+        "otherLanguages": [],
+        "defaultExtensions": [],
+        "otherExtensions": [],
+        "oldExtensions": [],
+        "extraLibs": [],
+        "extraGHCiLibs": [],
+        "extraBundledLibs": [],
+        "extraLibFlavours": [],
+        "extraDynLibFlavours": [],
+        "extraLibDirs": [],
+        "includeDirs": [],
+        "includes": [],
+        "autogenIncludes": [],
+        "installIncludes": [],
+        "options": [
+          [],
+          []
+        ],
+        "profOptions": [
+          [],
+          []
+        ],
+        "sharedOptions": [
+          [],
+          []
+        ],
+        "staticOptions": [
+          [],
+          []
+        ],
+        "customFieldsBI": [],
+        "targetBuildDepends": [
+          {
+            "package-name": "base",
+            "version-range": ">=4 && <6",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "kan-extensions",
+            "version-range": ">=5 && <6",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "mcmc-types",
+            "version-range": ">=1.0.1 && <2",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "mwc-probability",
+            "version-range": ">=2.0 && <3",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "mighty-metropolis",
+            "version-range": ">=1.0.4 && <2",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "lens",
+            "version-range": ">=4 && <5",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "primitive",
+            "version-range": ">=0.6 && <1.0",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "pipes",
+            "version-range": ">=4 && <5",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "hasty-hamiltonian",
+            "version-range": ">=1.3 && <2",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "speedy-slice",
+            "version-range": ">=0.1.5 && <1",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "transformers",
+            "version-range": ">=0.5 && <1.0",
+            "library": [
+              {}
+            ]
+          }
+        ],
+        "mixins": []
+      }
+    },
+    "condTreeConstraints": [
+      {
+        "package-name": "base",
+        "version-range": ">=4 && <6",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "kan-extensions",
+        "version-range": ">=5 && <6",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "mcmc-types",
+        "version-range": ">=1.0.1 && <2",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "mwc-probability",
+        "version-range": ">=2.0 && <3",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "mighty-metropolis",
+        "version-range": ">=1.0.4 && <2",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "lens",
+        "version-range": ">=4 && <5",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "primitive",
+        "version-range": ">=0.6 && <1.0",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "pipes",
+        "version-range": ">=4 && <5",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "hasty-hamiltonian",
+        "version-range": ">=1.3 && <2",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "speedy-slice",
+        "version-range": ">=0.1.5 && <1",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "transformers",
+        "version-range": ">=0.5 && <1.0",
+        "library": [
+          {}
+        ]
+      }
+    ],
+    "condTreeComponents": []
+  },
+  "test-suites": {
+    "rosenbrock": {
+      "condTreeData": {
+        "name": "",
+        "interface": {
+          "version": [
+            1,
+            0
+          ],
+          "filepath": "Rosenbrock.hs"
+        },
+        "build-info": {
+          "buildable": true,
+          "buildTools": [],
+          "buildToolDepends": [],
+          "cppOptions": [],
+          "asmOptions": [],
+          "cmmOptions": [],
+          "ccOptions": [],
+          "cxxOptions": [],
+          "ldOptions": [],
+          "pkgconfigDepends": [],
+          "frameworks": [],
+          "extraFrameworkDirs": [],
+          "asmSources": [],
+          "cmmSources": [],
+          "cSources": [],
+          "cxxSources": [],
+          "jsSources": [],
+          "hsSourceDirs": [
+            "test"
+          ],
+          "otherModules": [],
+          "virtualModules": [],
+          "autogenModules": [],
+          "defaultLanguage": "Haskell2010",
+          "otherLanguages": [],
+          "defaultExtensions": [],
+          "otherExtensions": [],
+          "oldExtensions": [],
+          "extraLibs": [],
+          "extraGHCiLibs": [],
+          "extraBundledLibs": [],
+          "extraLibFlavours": [],
+          "extraDynLibFlavours": [],
+          "extraLibDirs": [],
+          "includeDirs": [],
+          "includes": [],
+          "autogenIncludes": [],
+          "installIncludes": [],
+          "options": [
+            [
+              "-rtsopts"
+            ],
+            []
+          ],
+          "profOptions": [
+            [],
+            []
+          ],
+          "sharedOptions": [
+            [],
+            []
+          ],
+          "staticOptions": [
+            [],
+            []
+          ],
+          "customFieldsBI": [],
+          "targetBuildDepends": [
+            {
+              "package-name": "base",
+              "version-range": ">=4 && <6",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "mwc-probability",
+              "version-range": ">=2.0 && <3",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "declarative",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            }
+          ],
+          "mixins": []
+        }
+      },
+      "condTreeConstraints": [
+        {
+          "package-name": "base",
+          "version-range": ">=4 && <6",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "mwc-probability",
+          "version-range": ">=2.0 && <3",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "declarative",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        }
+      ],
+      "condTreeComponents": []
+    }
+  }
+}

@@ -1,0 +1,178 @@
+{
+  "description": {
+    "spec-version": {
+      "Right": ">=1.8.0.2"
+    },
+    "package": {
+      "name": "funpat",
+      "version": [
+        0,
+        1
+      ]
+    },
+    "license": {
+      "Right": "BSD3"
+    },
+    "license-files": [
+      "LICENSE"
+    ],
+    "copyright": "",
+    "maintainer": "deva@inf.elte.hu",
+    "author": "Gergely Devai",
+    "stability": "experimental",
+    "tested-with": [],
+    "homepage": "",
+    "pkg-url": "",
+    "bug-reports": "",
+    "source-repos": [],
+    "synopsis": "A generalization of pattern matching",
+    "description": "This library provides pattern matching with /restricted function patterns/\n(RFPs). An expression is an RFP iff exists an equivalent valid Haskell\npattern. For example @(\\\"abc\\\" ++ xs)@ is an RFP, because @(\\'a\\' : \\'b\\' : \\'c\\' : xs)@\nis an equivalent valid Haskell pattern. On the other hand, @(xs ++ \\\"abc\\\")@\nis not an RFP. Details are discussed in the paper /Restricted Function Patterns/\npresented at /TFP 2011/.\n\n/Example 1./ Here is a function to chop off the prefix @\\\"prefix\\\" of strings@:\n\n@\nunprefix :: String -> String\nunprefix s = match s $ do\n\\   with $ \\\\z ->   \\\"prefix\\\" ++ z ~> z\n\\   with $ \\\\z ->   z             ~> z\n@\n\n/Example 2./ Let's have a small embedded language:\n\n@\ndata Expr = Symbol String | Expr :$ Expr\n\\    deriving (Eq,Show,Typeable)\n\ninstance Num Expr where\n\\    fromInteger n = Symbol $ show n\n\\    a + b = Symbol \\\"+\\\" :$ a :$ b\n\\    a * b = Symbol \\\"*\\\" :$ a :$ b\n\\    ...\n@\n\nIn order to allow pattern matching on expressions of type @Expr@, the\nfollowing @Matchable@ instance is needed:\n\n@\ninstance Matchable Expr where\n\\    Symbol s .=. Symbol z   = Just [s :=: z]\n\\    (e :$ f) .=. (g :$ h)   = Just [e :=: g, f :=: h]\n\\    _ .=. _                 = Nothing\n@\n\nNow we can pattern match on expressions even if the constructors of\nthe @Expr@ type were hidden:\n\n@\ntransform :: Expr -> Expr\ntransform e = match e $ do\n\\    with $ \\\\a ->        0 + a       ~> a\n\\    with $ \\\\a b c ->    a * (b + c) ~> a * b + a * c\n\\    with $ \\\\a ->        a           ~> a\n@",
+    "category": "Language",
+    "custom-fields": [],
+    "build-type-raw": "Simple",
+    "custom-setup": null,
+    "library": null,
+    "sublibraries": [],
+    "executables": [],
+    "foreign-libs": [],
+    "test-suites": [],
+    "benchmarks": [],
+    "data-files": [],
+    "data-dir": ".",
+    "extra-source-files": [],
+    "extra-tmp-files": [],
+    "extra-doc-files": []
+  },
+  "library": {
+    "condTreeData": {
+      "name": {},
+      "exposed-modules": [
+        [
+          "Language",
+          "FunPat"
+        ],
+        [
+          "Language",
+          "FunPat",
+          "Interface"
+        ],
+        [
+          "Language",
+          "FunPat",
+          "Instances"
+        ],
+        [
+          "Language",
+          "FunPat",
+          "Match"
+        ]
+      ],
+      "re-exported-modules": [],
+      "signatures": [],
+      "exposed": true,
+      "visibility": "LibraryVisibilityPublic",
+      "build-info": {
+        "buildable": true,
+        "buildTools": [],
+        "buildToolDepends": [],
+        "cppOptions": [],
+        "asmOptions": [],
+        "cmmOptions": [],
+        "ccOptions": [],
+        "cxxOptions": [],
+        "ldOptions": [],
+        "pkgconfigDepends": [],
+        "frameworks": [],
+        "extraFrameworkDirs": [],
+        "asmSources": [],
+        "cmmSources": [],
+        "cSources": [],
+        "cxxSources": [],
+        "jsSources": [],
+        "hsSourceDirs": [],
+        "otherModules": [],
+        "virtualModules": [],
+        "autogenModules": [],
+        "defaultLanguage": null,
+        "otherLanguages": [],
+        "defaultExtensions": [],
+        "otherExtensions": [],
+        "oldExtensions": [
+          {
+            "enable-extension": "GADTs"
+          },
+          {
+            "enable-extension": "TypeFamilies"
+          },
+          {
+            "enable-extension": "FlexibleContexts"
+          },
+          {
+            "enable-extension": "DeriveDataTypeable"
+          }
+        ],
+        "extraLibs": [],
+        "extraGHCiLibs": [],
+        "extraBundledLibs": [],
+        "extraLibFlavours": [],
+        "extraDynLibFlavours": [],
+        "extraLibDirs": [],
+        "includeDirs": [],
+        "includes": [],
+        "autogenIncludes": [],
+        "installIncludes": [],
+        "options": [
+          [],
+          []
+        ],
+        "profOptions": [
+          [],
+          []
+        ],
+        "sharedOptions": [
+          [],
+          []
+        ],
+        "staticOptions": [
+          [],
+          []
+        ],
+        "customFieldsBI": [],
+        "targetBuildDepends": [
+          {
+            "package-name": "base",
+            "version-range": ">=4.2.0.2 && <4.4",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "mtl",
+            "version-range": ">=2.0.1.0 && <3",
+            "library": [
+              {}
+            ]
+          }
+        ],
+        "mixins": []
+      }
+    },
+    "condTreeConstraints": [
+      {
+        "package-name": "base",
+        "version-range": ">=4.2.0.2 && <4.4",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "mtl",
+        "version-range": ">=2.0.1.0 && <3",
+        "library": [
+          {}
+        ]
+      }
+    ],
+    "condTreeComponents": []
+  }
+}

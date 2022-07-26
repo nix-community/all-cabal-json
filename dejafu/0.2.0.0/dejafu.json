@@ -1,0 +1,395 @@
+{
+  "description": {
+    "spec-version": {
+      "Right": ">=1.10"
+    },
+    "package": {
+      "name": "dejafu",
+      "version": [
+        0,
+        2,
+        0,
+        0
+      ]
+    },
+    "license": {
+      "Right": "MIT"
+    },
+    "license-files": [
+      "LICENSE"
+    ],
+    "copyright": "",
+    "maintainer": "mike@barrucadu.co.uk",
+    "author": "Michael Walker",
+    "stability": "",
+    "tested-with": [],
+    "homepage": "https://github.com/barrucadu/dejafu",
+    "pkg-url": "",
+    "bug-reports": "",
+    "source-repos": [
+      {
+        "kind": {},
+        "type": "Git",
+        "location": "https://github.com/barrucadu/dejafu.git",
+        "module": null,
+        "branch": null,
+        "tag": null,
+        "subdir": null
+      },
+      {
+        "kind": {},
+        "type": "Git",
+        "location": "https://github.com/barrucadu/dejafu.git",
+        "module": null,
+        "branch": null,
+        "tag": "0.1.0.0",
+        "subdir": null
+      }
+    ],
+    "synopsis": "Overloadable primitives for testable, potentially non-deterministic, concurrency.",
+    "description": "/[Déjà Fu is] A martial art in which the user's limbs move in time as well as space, […] It is best described as \"the feeling that you have been kicked in the head this way before\"/ -- Terry Pratchett, Thief of Time\n\nConcurrency is nice, deadlocks and race conditions not so much. The\n@Par@ monad family, as defined in\n<https://hackage.haskell.org/package/abstract-par/docs/Control-Monad-Par-Class.html abstract-par>\nprovides deterministic parallelism, but sometimes we can tolerate a\nbit of nondeterminism.\n\nThis package provides a class of monads for potentially\nnondeterministic concurrency, with an interface in the spirit of\nGHC's normal concurrency abstraction.\n\n== @MonadConc@ with 'IO':\n\nThe intention of the @MonadConc@ class is to provide concurrency\nwhere any apparent nondeterminism arises purely from the scheduling\nbehaviour. To put it another way, a given computation, parametrised\nwith a fixed set of scheduling decisions, is deterministic. This\nassumption is used by the testing functionality provided by\nTest.DejaFu.\n\nWhilst this assumption may not hold in general when 'IO' is\ninvolved, you should strive to produce test cases where it does.\n\n== Memory Model\n\nThe testing functionality supports a few different memory models,\nfor computations which use non-synchronised `CRef` operations. The\nsupported models are:\n\n* __Sequential Consistency:__ A program behaves as a simple\ninterleaving of the actions in different threads. When a CRef is\nwritten to, that write is immediately visible to all threads.\n\n* __Total Store Order (TSO):__ Each thread has a write buffer. A\nthread sees its writes immediately, but other threads will only\nsee writes when they are committed, which may happen later. Writes\nare committed in the same order that they are created.\n\n* __Partial Store Order (PSO):__ Each CRef has a write buffer. A\nthread sees its writes immediately, but other threads will only\nsee writes when they are committed, which may happen later. Writes\nto different CRefs are not necessarily committed in the same order\nthat they are created.\n\nIf a testing function does not take the memory model as a parameter,\nit uses TSO.\n\nSee the <https://github.com/barrucadu/dejafu README> for more\ndetails.",
+    "category": "Concurrency",
+    "custom-fields": [
+      [
+        "x-revision",
+        "1"
+      ]
+    ],
+    "build-type-raw": "Simple",
+    "custom-setup": null,
+    "library": null,
+    "sublibraries": [],
+    "executables": [],
+    "foreign-libs": [],
+    "test-suites": [],
+    "benchmarks": [],
+    "data-files": [],
+    "data-dir": ".",
+    "extra-source-files": [],
+    "extra-tmp-files": [],
+    "extra-doc-files": []
+  },
+  "library": {
+    "condTreeData": {
+      "name": {},
+      "exposed-modules": [
+        [
+          "Control",
+          "Monad",
+          "Conc",
+          "Class"
+        ],
+        [
+          "Control",
+          "Monad",
+          "STM",
+          "Class"
+        ],
+        [
+          "Control",
+          "Concurrent",
+          "CVar"
+        ],
+        [
+          "Control",
+          "Concurrent",
+          "CVar",
+          "Strict"
+        ],
+        [
+          "Control",
+          "Concurrent",
+          "STM",
+          "CTVar"
+        ],
+        [
+          "Control",
+          "Concurrent",
+          "STM",
+          "CTMVar"
+        ],
+        [
+          "Test",
+          "DejaFu"
+        ],
+        [
+          "Test",
+          "DejaFu",
+          "Deterministic"
+        ],
+        [
+          "Test",
+          "DejaFu",
+          "Deterministic",
+          "Schedule"
+        ],
+        [
+          "Test",
+          "DejaFu",
+          "SCT"
+        ],
+        [
+          "Test",
+          "DejaFu",
+          "STM"
+        ],
+        [
+          "Test",
+          "DejaFu",
+          "Deterministic",
+          "Internal"
+        ],
+        [
+          "Test",
+          "DejaFu",
+          "Deterministic",
+          "Internal",
+          "Common"
+        ],
+        [
+          "Test",
+          "DejaFu",
+          "Deterministic",
+          "Internal",
+          "Memory"
+        ],
+        [
+          "Test",
+          "DejaFu",
+          "Deterministic",
+          "Internal",
+          "Threading"
+        ],
+        [
+          "Test",
+          "DejaFu",
+          "Internal"
+        ],
+        [
+          "Test",
+          "DejaFu",
+          "SCT",
+          "Internal"
+        ],
+        [
+          "Test",
+          "DejaFu",
+          "STM",
+          "Internal"
+        ],
+        [
+          "Data",
+          "List",
+          "Extra"
+        ]
+      ],
+      "re-exported-modules": [],
+      "signatures": [],
+      "exposed": true,
+      "visibility": "LibraryVisibilityPublic",
+      "build-info": {
+        "buildable": true,
+        "buildTools": [],
+        "buildToolDepends": [],
+        "cppOptions": [],
+        "asmOptions": [],
+        "cmmOptions": [],
+        "ccOptions": [],
+        "cxxOptions": [],
+        "ldOptions": [],
+        "pkgconfigDepends": [],
+        "frameworks": [],
+        "extraFrameworkDirs": [],
+        "asmSources": [],
+        "cmmSources": [],
+        "cSources": [],
+        "cxxSources": [],
+        "jsSources": [],
+        "hsSourceDirs": [],
+        "otherModules": [],
+        "virtualModules": [],
+        "autogenModules": [],
+        "defaultLanguage": "Haskell2010",
+        "otherLanguages": [],
+        "defaultExtensions": [],
+        "otherExtensions": [],
+        "oldExtensions": [],
+        "extraLibs": [],
+        "extraGHCiLibs": [],
+        "extraBundledLibs": [],
+        "extraLibFlavours": [],
+        "extraDynLibFlavours": [],
+        "extraLibDirs": [],
+        "includeDirs": [],
+        "includes": [],
+        "autogenIncludes": [],
+        "installIncludes": [],
+        "options": [
+          [
+            "-Wall"
+          ],
+          []
+        ],
+        "profOptions": [
+          [],
+          []
+        ],
+        "sharedOptions": [
+          [],
+          []
+        ],
+        "staticOptions": [
+          [],
+          []
+        ],
+        "customFieldsBI": [],
+        "targetBuildDepends": [
+          {
+            "package-name": "base",
+            "version-range": ">=4.7 && <4.9",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "atomic-primops",
+            "version-range": "<0.9",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "containers",
+            "version-range": "==0.5.*",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "deepseq",
+            "version-range": ">=1.1 && <1.5",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "exceptions",
+            "version-range": ">=0.7 && <0.9",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "monad-loops",
+            "version-range": "<0.5",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "mtl",
+            "version-range": "<2.3",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "random",
+            "version-range": "<1.2",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "stm",
+            "version-range": "<2.5",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "transformers",
+            "version-range": "<0.6",
+            "library": [
+              {}
+            ]
+          }
+        ],
+        "mixins": []
+      }
+    },
+    "condTreeConstraints": [
+      {
+        "package-name": "base",
+        "version-range": ">=4.7 && <4.9",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "atomic-primops",
+        "version-range": "<0.9",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "containers",
+        "version-range": "==0.5.*",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "deepseq",
+        "version-range": ">=1.1 && <1.5",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "exceptions",
+        "version-range": ">=0.7 && <0.9",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "monad-loops",
+        "version-range": "<0.5",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "mtl",
+        "version-range": "<2.3",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "random",
+        "version-range": "<1.2",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "stm",
+        "version-range": "<2.5",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "transformers",
+        "version-range": "<0.6",
+        "library": [
+          {}
+        ]
+      }
+    ],
+    "condTreeComponents": []
+  }
+}

@@ -1,0 +1,915 @@
+{
+  "description": {
+    "spec-version": {
+      "Right": ">=1.10"
+    },
+    "package": {
+      "name": "ad",
+      "version": [
+        4,
+        2,
+        3
+      ]
+    },
+    "license": {
+      "Right": "BSD3"
+    },
+    "license-files": [
+      "LICENSE"
+    ],
+    "copyright": "(c) Edward Kmett 2010-2015,\n(c) Barak Pearlmutter and Jeffrey Mark Siskind 2008-2009",
+    "maintainer": "ekmett@gmail.com",
+    "author": "Edward Kmett",
+    "stability": "Experimental",
+    "tested-with": [
+      {
+        "compiler": "GHC",
+        "versionRange": "==7.0.1"
+      },
+      {
+        "compiler": "GHC",
+        "versionRange": "==7.0.4"
+      },
+      {
+        "compiler": "GHC",
+        "versionRange": "==7.2.2"
+      },
+      {
+        "compiler": "GHC",
+        "versionRange": "==7.4.2"
+      },
+      {
+        "compiler": "GHC",
+        "versionRange": "==7.6.3"
+      },
+      {
+        "compiler": "GHC",
+        "versionRange": "==7.8.4"
+      },
+      {
+        "compiler": "GHC",
+        "versionRange": "==7.10.1"
+      }
+    ],
+    "homepage": "http://github.com/ekmett/ad",
+    "pkg-url": "",
+    "bug-reports": "http://github.com/ekmett/ad/issues",
+    "source-repos": [
+      {
+        "kind": {},
+        "type": "Git",
+        "location": "git://github.com/ekmett/ad.git",
+        "module": null,
+        "branch": null,
+        "tag": null,
+        "subdir": null
+      }
+    ],
+    "synopsis": "Automatic Differentiation",
+    "description": "Forward-, reverse- and mixed- mode automatic differentiation combinators with a common API.\n\nType-level \\\"branding\\\" is used to both prevent the end user from confusing infinitesimals\nand to limit unsafe access to the implementation details of each Mode.\n\nEach mode has a separate module full of combinators.\n\n* @Numeric.AD.Mode.Forward@ provides basic forward-mode AD. It is good for computing simple derivatives.\n\n* @Numeric.AD.Mode.Reverse@ uses benign side-effects to compute reverse-mode AD. It is good for computing gradients in one pass. It generates a Wengert list (linear tape) using @Data.Reflection@.\n\n* @Numeric.AD.Mode.Kahn@ uses benign side-effects to compute reverse-mode AD. It is good for computing gradients in one pass. It generates a tree-like tape that needs to be topologically sorted in the end.\n\n* @Numeric.AD.Mode.Sparse@ computes a sparse forward-mode AD tower. It is good for higher derivatives or large numbers of outputs.\n\n* @Numeric.AD.Mode.Tower@ computes a dense forward-mode AD tower useful for higher derivatives of single input functions.\n\n* @Numeric.AD@ computes using whichever mode or combination thereof is suitable to each individual combinator.\n\nWhile not every mode can provide all operations, the following basic operations are supported, modified as\nappropriate by the suffixes below:\n\n* 'grad' computes the gradient (partial derivatives) of a function at a point.\n\n* 'jacobian' computes the Jacobian matrix of a function at a point.\n\n* 'diff' computes the derivative of a function at a point.\n\n* 'du' computes a directional derivative of a function at a point.\n\n* 'hessian' computes the Hessian matrix (matrix of second partial derivatives) of a function at a point.\n\nThe following suffixes alter the meanings of the functions above as follows:\n\n* @\\'@ -- also return the answer\n\n* @With@ lets the user supply a function to blend the input with the output\n\n* @F@ is a version of the base function lifted to return a 'Traversable' (or 'Functor') result\n\n* @s@ means the function returns all higher derivatives in a list or f-branching 'Stream'\n\n* @T@ means the result is transposed with respect to the traditional formulation.\n\n* @0@ means that the resulting derivative list is padded with 0s at the end.",
+    "category": "Math",
+    "custom-fields": [],
+    "build-type-raw": "Custom",
+    "custom-setup": null,
+    "library": null,
+    "sublibraries": [],
+    "executables": [],
+    "foreign-libs": [],
+    "test-suites": [],
+    "benchmarks": [],
+    "data-files": [],
+    "data-dir": ".",
+    "extra-source-files": [
+      ".ghci",
+      ".gitignore",
+      ".travis.yml",
+      ".vim.custom",
+      "TODO",
+      "CHANGELOG.markdown",
+      "README.markdown",
+      "travis/cabal-apt-install",
+      "travis/config",
+      "include/instances.h"
+    ],
+    "extra-tmp-files": [],
+    "extra-doc-files": []
+  },
+  "library": {
+    "condTreeData": {
+      "name": {},
+      "exposed-modules": [
+        [
+          "Numeric",
+          "AD"
+        ],
+        [
+          "Numeric",
+          "AD",
+          "Halley"
+        ],
+        [
+          "Numeric",
+          "AD",
+          "Internal",
+          "Dense"
+        ],
+        [
+          "Numeric",
+          "AD",
+          "Internal",
+          "Forward"
+        ],
+        [
+          "Numeric",
+          "AD",
+          "Internal",
+          "Forward",
+          "Double"
+        ],
+        [
+          "Numeric",
+          "AD",
+          "Internal",
+          "Identity"
+        ],
+        [
+          "Numeric",
+          "AD",
+          "Internal",
+          "Kahn"
+        ],
+        [
+          "Numeric",
+          "AD",
+          "Internal",
+          "On"
+        ],
+        [
+          "Numeric",
+          "AD",
+          "Internal",
+          "Or"
+        ],
+        [
+          "Numeric",
+          "AD",
+          "Internal",
+          "Reverse"
+        ],
+        [
+          "Numeric",
+          "AD",
+          "Internal",
+          "Sparse"
+        ],
+        [
+          "Numeric",
+          "AD",
+          "Internal",
+          "Tower"
+        ],
+        [
+          "Numeric",
+          "AD",
+          "Internal",
+          "Type"
+        ],
+        [
+          "Numeric",
+          "AD",
+          "Jacobian"
+        ],
+        [
+          "Numeric",
+          "AD",
+          "Jet"
+        ],
+        [
+          "Numeric",
+          "AD",
+          "Mode"
+        ],
+        [
+          "Numeric",
+          "AD",
+          "Mode",
+          "Forward"
+        ],
+        [
+          "Numeric",
+          "AD",
+          "Mode",
+          "Forward",
+          "Double"
+        ],
+        [
+          "Numeric",
+          "AD",
+          "Mode",
+          "Kahn"
+        ],
+        [
+          "Numeric",
+          "AD",
+          "Mode",
+          "Reverse"
+        ],
+        [
+          "Numeric",
+          "AD",
+          "Mode",
+          "Sparse"
+        ],
+        [
+          "Numeric",
+          "AD",
+          "Mode",
+          "Tower"
+        ],
+        [
+          "Numeric",
+          "AD",
+          "Newton"
+        ],
+        [
+          "Numeric",
+          "AD",
+          "Rank1",
+          "Forward"
+        ],
+        [
+          "Numeric",
+          "AD",
+          "Rank1",
+          "Forward",
+          "Double"
+        ],
+        [
+          "Numeric",
+          "AD",
+          "Rank1",
+          "Halley"
+        ],
+        [
+          "Numeric",
+          "AD",
+          "Rank1",
+          "Kahn"
+        ],
+        [
+          "Numeric",
+          "AD",
+          "Rank1",
+          "Newton"
+        ],
+        [
+          "Numeric",
+          "AD",
+          "Rank1",
+          "Sparse"
+        ],
+        [
+          "Numeric",
+          "AD",
+          "Rank1",
+          "Tower"
+        ]
+      ],
+      "re-exported-modules": [],
+      "signatures": [],
+      "exposed": true,
+      "visibility": "LibraryVisibilityPublic",
+      "build-info": {
+        "buildable": true,
+        "buildTools": [],
+        "buildToolDepends": [],
+        "cppOptions": [],
+        "asmOptions": [],
+        "cmmOptions": [],
+        "ccOptions": [],
+        "cxxOptions": [],
+        "ldOptions": [],
+        "pkgconfigDepends": [],
+        "frameworks": [],
+        "extraFrameworkDirs": [],
+        "asmSources": [],
+        "cmmSources": [],
+        "cSources": [],
+        "cxxSources": [],
+        "jsSources": [],
+        "hsSourceDirs": [
+          "src"
+        ],
+        "otherModules": [
+          [
+            "Numeric",
+            "AD",
+            "Internal",
+            "Combinators"
+          ]
+        ],
+        "virtualModules": [],
+        "autogenModules": [],
+        "defaultLanguage": "Haskell2010",
+        "otherLanguages": [],
+        "defaultExtensions": [
+          {
+            "enable-extension": "CPP"
+          }
+        ],
+        "otherExtensions": [
+          {
+            "enable-extension": "BangPatterns"
+          },
+          {
+            "enable-extension": "DeriveDataTypeable"
+          },
+          {
+            "enable-extension": "FlexibleContexts"
+          },
+          {
+            "enable-extension": "FlexibleInstances"
+          },
+          {
+            "enable-extension": "FunctionalDependencies"
+          },
+          {
+            "enable-extension": "GeneralizedNewtypeDeriving"
+          },
+          {
+            "enable-extension": "MultiParamTypeClasses"
+          },
+          {
+            "enable-extension": "PatternGuards"
+          },
+          {
+            "enable-extension": "Rank2Types"
+          },
+          {
+            "enable-extension": "ScopedTypeVariables"
+          },
+          {
+            "enable-extension": "TemplateHaskell"
+          },
+          {
+            "enable-extension": "TypeFamilies"
+          },
+          {
+            "enable-extension": "TypeOperators"
+          },
+          {
+            "enable-extension": "UndecidableInstances"
+          }
+        ],
+        "oldExtensions": [],
+        "extraLibs": [],
+        "extraGHCiLibs": [],
+        "extraBundledLibs": [],
+        "extraLibFlavours": [],
+        "extraDynLibFlavours": [],
+        "extraLibDirs": [],
+        "includeDirs": [
+          "include"
+        ],
+        "includes": [],
+        "autogenIncludes": [],
+        "installIncludes": [],
+        "options": [
+          [
+            "-Wall",
+            "-fspec-constr",
+            "-fdicts-cheap",
+            "-O2"
+          ],
+          []
+        ],
+        "profOptions": [
+          [],
+          []
+        ],
+        "sharedOptions": [
+          [],
+          []
+        ],
+        "staticOptions": [
+          [],
+          []
+        ],
+        "customFieldsBI": [],
+        "targetBuildDepends": [
+          {
+            "package-name": "array",
+            "version-range": ">=0.2 && <0.6",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "base",
+            "version-range": ">=4.3 && <5",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "comonad",
+            "version-range": ">=4 && <5",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "containers",
+            "version-range": ">=0.2 && <0.6",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "data-reify",
+            "version-range": ">=0.6 && <0.7",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "erf",
+            "version-range": ">=2.0 && <2.1",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "free",
+            "version-range": ">=4.6.1 && <5",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "nats",
+            "version-range": ">=0.1.2 && <2",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "reflection",
+            "version-range": ">=1.4 && <3",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "transformers",
+            "version-range": ">=0.3 && <0.5",
+            "library": [
+              {}
+            ]
+          }
+        ],
+        "mixins": []
+      }
+    },
+    "condTreeConstraints": [
+      {
+        "package-name": "array",
+        "version-range": ">=0.2 && <0.6",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "base",
+        "version-range": ">=4.3 && <5",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "comonad",
+        "version-range": ">=4 && <5",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "containers",
+        "version-range": ">=0.2 && <0.6",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "data-reify",
+        "version-range": ">=0.6 && <0.7",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "erf",
+        "version-range": ">=2.0 && <2.1",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "free",
+        "version-range": ">=4.6.1 && <5",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "nats",
+        "version-range": ">=0.1.2 && <2",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "reflection",
+        "version-range": ">=1.4 && <3",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "transformers",
+        "version-range": ">=0.3 && <0.5",
+        "library": [
+          {}
+        ]
+      }
+    ],
+    "condTreeComponents": [
+      {
+        "condBranchCondition": {
+          "v": {
+            "compiler": "GHC",
+            "version": "<7.8"
+          }
+        },
+        "condBranchIfTrue": {
+          "condTreeData": {
+            "name": {},
+            "exposed-modules": [],
+            "re-exported-modules": [],
+            "signatures": [],
+            "exposed": true,
+            "visibility": "LibraryVisibilityPublic",
+            "build-info": {
+              "buildable": true,
+              "buildTools": [],
+              "buildToolDepends": [],
+              "cppOptions": [],
+              "asmOptions": [],
+              "cmmOptions": [],
+              "ccOptions": [],
+              "cxxOptions": [],
+              "ldOptions": [],
+              "pkgconfigDepends": [],
+              "frameworks": [],
+              "extraFrameworkDirs": [],
+              "asmSources": [],
+              "cmmSources": [],
+              "cSources": [],
+              "cxxSources": [],
+              "jsSources": [],
+              "hsSourceDirs": [],
+              "otherModules": [],
+              "virtualModules": [],
+              "autogenModules": [],
+              "defaultLanguage": null,
+              "otherLanguages": [],
+              "defaultExtensions": [],
+              "otherExtensions": [],
+              "oldExtensions": [],
+              "extraLibs": [],
+              "extraGHCiLibs": [],
+              "extraBundledLibs": [],
+              "extraLibFlavours": [],
+              "extraDynLibFlavours": [],
+              "extraLibDirs": [],
+              "includeDirs": [],
+              "includes": [],
+              "autogenIncludes": [],
+              "installIncludes": [],
+              "options": [
+                [],
+                []
+              ],
+              "profOptions": [
+                [],
+                []
+              ],
+              "sharedOptions": [
+                [],
+                []
+              ],
+              "staticOptions": [
+                [],
+                []
+              ],
+              "customFieldsBI": [],
+              "targetBuildDepends": [
+                {
+                  "package-name": "tagged",
+                  "version-range": ">=0.7 && <1",
+                  "library": [
+                    {}
+                  ]
+                }
+              ],
+              "mixins": []
+            }
+          },
+          "condTreeConstraints": [
+            {
+              "package-name": "tagged",
+              "version-range": ">=0.7 && <1",
+              "library": [
+                {}
+              ]
+            }
+          ],
+          "condTreeComponents": []
+        }
+      }
+    ]
+  },
+  "test-suites": {
+    "doctests": {
+      "condTreeData": {
+        "name": "",
+        "interface": {
+          "version": [
+            1,
+            0
+          ],
+          "filepath": "doctests.hs"
+        },
+        "build-info": {
+          "buildable": true,
+          "buildTools": [],
+          "buildToolDepends": [],
+          "cppOptions": [],
+          "asmOptions": [],
+          "cmmOptions": [],
+          "ccOptions": [],
+          "cxxOptions": [],
+          "ldOptions": [],
+          "pkgconfigDepends": [],
+          "frameworks": [],
+          "extraFrameworkDirs": [],
+          "asmSources": [],
+          "cmmSources": [],
+          "cSources": [],
+          "cxxSources": [],
+          "jsSources": [],
+          "hsSourceDirs": [
+            "tests"
+          ],
+          "otherModules": [],
+          "virtualModules": [],
+          "autogenModules": [],
+          "defaultLanguage": "Haskell2010",
+          "otherLanguages": [],
+          "defaultExtensions": [],
+          "otherExtensions": [],
+          "oldExtensions": [],
+          "extraLibs": [],
+          "extraGHCiLibs": [],
+          "extraBundledLibs": [],
+          "extraLibFlavours": [],
+          "extraDynLibFlavours": [],
+          "extraLibDirs": [],
+          "includeDirs": [],
+          "includes": [],
+          "autogenIncludes": [],
+          "installIncludes": [],
+          "options": [
+            [
+              "-Wall",
+              "-threaded"
+            ],
+            []
+          ],
+          "profOptions": [
+            [],
+            []
+          ],
+          "sharedOptions": [
+            [],
+            []
+          ],
+          "staticOptions": [
+            [],
+            []
+          ],
+          "customFieldsBI": [],
+          "targetBuildDepends": [
+            {
+              "package-name": "base",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "directory",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "doctest",
+              "version-range": ">=0.9.0.1 && <=0.10",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "filepath",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            }
+          ],
+          "mixins": []
+        }
+      },
+      "condTreeConstraints": [
+        {
+          "package-name": "base",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "directory",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "doctest",
+          "version-range": ">=0.9.0.1 && <=0.10",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "filepath",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        }
+      ],
+      "condTreeComponents": []
+    }
+  },
+  "benchmarks": {
+    "blackscholes": {
+      "condTreeData": {
+        "name": "",
+        "interface": {
+          "version": [
+            1,
+            0
+          ],
+          "filepath": "BlackScholes.hs"
+        },
+        "build-info": {
+          "buildable": true,
+          "buildTools": [],
+          "buildToolDepends": [],
+          "cppOptions": [],
+          "asmOptions": [],
+          "cmmOptions": [],
+          "ccOptions": [],
+          "cxxOptions": [],
+          "ldOptions": [],
+          "pkgconfigDepends": [],
+          "frameworks": [],
+          "extraFrameworkDirs": [],
+          "asmSources": [],
+          "cmmSources": [],
+          "cSources": [],
+          "cxxSources": [],
+          "jsSources": [],
+          "hsSourceDirs": [
+            "bench"
+          ],
+          "otherModules": [],
+          "virtualModules": [],
+          "autogenModules": [],
+          "defaultLanguage": "Haskell2010",
+          "otherLanguages": [],
+          "defaultExtensions": [],
+          "otherExtensions": [],
+          "oldExtensions": [],
+          "extraLibs": [],
+          "extraGHCiLibs": [],
+          "extraBundledLibs": [],
+          "extraLibFlavours": [],
+          "extraDynLibFlavours": [],
+          "extraLibDirs": [],
+          "includeDirs": [],
+          "includes": [],
+          "autogenIncludes": [],
+          "installIncludes": [],
+          "options": [
+            [
+              "-fspec-constr",
+              "-fdicts-cheap",
+              "-O2"
+            ],
+            []
+          ],
+          "profOptions": [
+            [],
+            []
+          ],
+          "sharedOptions": [
+            [],
+            []
+          ],
+          "staticOptions": [
+            [],
+            []
+          ],
+          "customFieldsBI": [],
+          "targetBuildDepends": [
+            {
+              "package-name": "base",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "ad",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "erf",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "criterion",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            }
+          ],
+          "mixins": []
+        }
+      },
+      "condTreeConstraints": [
+        {
+          "package-name": "base",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "ad",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "erf",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "criterion",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        }
+      ],
+      "condTreeComponents": []
+    }
+  }
+}

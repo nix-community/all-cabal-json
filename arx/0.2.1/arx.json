@@ -1,0 +1,754 @@
+{
+  "description": {
+    "spec-version": {
+      "Right": ">=1.6"
+    },
+    "package": {
+      "name": "arx",
+      "version": [
+        0,
+        2,
+        1
+      ]
+    },
+    "license": {
+      "Right": "BSD3"
+    },
+    "license-files": [
+      "LICENSE"
+    ],
+    "copyright": "",
+    "maintainer": "oss@solidsnack.be",
+    "author": "Jason Dusek",
+    "stability": "",
+    "tested-with": [],
+    "homepage": "http://github.com/solidsnack/arx/",
+    "pkg-url": "",
+    "bug-reports": "",
+    "source-repos": [
+      {
+        "kind": {},
+        "type": "Git",
+        "location": "http://github.com/solidsnack/arx.git",
+        "module": null,
+        "branch": null,
+        "tag": null,
+        "subdir": null
+      }
+    ],
+    "synopsis": "Archive execution tool.",
+    "description": "The @ARX@ system provides services for packaging, deploying and running\nsource code. No particular format or framework is needed -- a directory of\ncode and a command to run are enough. The system has no in-built notion of\nremote connections, job servers or clusters; all automation is captured as\nBourne compatible scripts.\n\nAn archive of the source code, a command and optionally an environment are\nencoded together in a Bourne shell script that uses a small number of UNIX\nutilities in a broadly portable way. The generated scripts can be run\ndirectly or fed to @sh@ on STDIN. This latter feature is useful when one\nwould like to use @ssh@ and @sudo@ to set an appropriate executation\ncontext, for example running: @ssh user\\@example.com sudo sh@.\n\nThe shell tools used are @head@, @sed@, @date@, @tr@ and @tar@. The calls to\n@tar@ sometimes use @-j@ and @-z@; these calls to @tar@ may result in calls\nto @bzip2@ and @gzip@. Scripts have been tested with @dash@ and the GNU\ntools as well as the @sh@ and tools that are part of @busybox@.\n\nThe @arx@ command line tool provides the @tmpx@ subcommand for preparing\njobs to run and the @shdat@ subcommand for access to the low-level shell\nencoder. The @System.Posix.ARX@ module provides access to the routines used\nfor constructing commands and environments, describing archives and building\nBourne shell scripts.\n\nOne way I have used @arx@ is to test the Cabal source archive for this\npackage:\n\n@\narx tmpx .\\/dist\\/arx-* \\/\\/ 'cd arx-* && cabal configure && cabal build' | sh\n@\n\nThere are binary @arx@ command line tool releases available from:\n\n<https://github.com/solidsnack/arx/downloads>\n\nFor each supported platform, there is an archive containing @arx@ and\nsignature files (SHA 512 and GPG).",
+    "category": "Text",
+    "custom-fields": [],
+    "build-type-raw": "Simple",
+    "custom-setup": null,
+    "library": null,
+    "sublibraries": [],
+    "executables": [],
+    "foreign-libs": [],
+    "test-suites": [],
+    "benchmarks": [],
+    "data-files": [],
+    "data-dir": ".",
+    "extra-source-files": [
+      "README",
+      "LICENSE",
+      "docs/blessed/arx.man",
+      "docs/blessed/arx.txt",
+      "model-scripts/tmpx.sh"
+    ],
+    "extra-tmp-files": [],
+    "extra-doc-files": []
+  },
+  "package-flags": [
+    {
+      "name": "no-cli",
+      "description": "Disable command line tool.",
+      "default": false,
+      "manual": false
+    }
+  ],
+  "library": {
+    "condTreeData": {
+      "name": {},
+      "exposed-modules": [
+        [
+          "System",
+          "Posix",
+          "ARX"
+        ],
+        [
+          "System",
+          "Posix",
+          "ARX",
+          "CLI"
+        ],
+        [
+          "System",
+          "Posix",
+          "ARX",
+          "CLI",
+          "CLTokens"
+        ],
+        [
+          "System",
+          "Posix",
+          "ARX",
+          "CLI",
+          "Options"
+        ],
+        [
+          "System",
+          "Posix",
+          "ARX",
+          "HEREDat"
+        ],
+        [
+          "System",
+          "Posix",
+          "ARX",
+          "Programs"
+        ],
+        [
+          "System",
+          "Posix",
+          "ARX",
+          "Sh"
+        ],
+        [
+          "System",
+          "Posix",
+          "ARX",
+          "Tar"
+        ],
+        [
+          "System",
+          "Posix",
+          "ARX",
+          "TMPXTools"
+        ]
+      ],
+      "re-exported-modules": [],
+      "signatures": [],
+      "exposed": true,
+      "visibility": "LibraryVisibilityPublic",
+      "build-info": {
+        "buildable": true,
+        "buildTools": [],
+        "buildToolDepends": [],
+        "cppOptions": [],
+        "asmOptions": [],
+        "cmmOptions": [],
+        "ccOptions": [],
+        "cxxOptions": [],
+        "ldOptions": [],
+        "pkgconfigDepends": [],
+        "frameworks": [],
+        "extraFrameworkDirs": [],
+        "asmSources": [],
+        "cmmSources": [],
+        "cSources": [],
+        "cxxSources": [],
+        "jsSources": [],
+        "hsSourceDirs": [],
+        "otherModules": [],
+        "virtualModules": [],
+        "autogenModules": [],
+        "defaultLanguage": null,
+        "otherLanguages": [],
+        "defaultExtensions": [],
+        "otherExtensions": [],
+        "oldExtensions": [
+          {
+            "enable-extension": "FlexibleInstances"
+          },
+          {
+            "enable-extension": "FunctionalDependencies"
+          },
+          {
+            "enable-extension": "MultiParamTypeClasses"
+          },
+          {
+            "enable-extension": "OverloadedStrings"
+          },
+          {
+            "enable-extension": "StandaloneDeriving"
+          },
+          {
+            "enable-extension": "TupleSections"
+          }
+        ],
+        "extraLibs": [],
+        "extraGHCiLibs": [],
+        "extraBundledLibs": [],
+        "extraLibFlavours": [],
+        "extraDynLibFlavours": [],
+        "extraLibDirs": [],
+        "includeDirs": [],
+        "includes": [],
+        "autogenIncludes": [],
+        "installIncludes": [],
+        "options": [
+          [],
+          []
+        ],
+        "profOptions": [
+          [],
+          []
+        ],
+        "sharedOptions": [
+          [],
+          []
+        ],
+        "staticOptions": [
+          [],
+          []
+        ],
+        "customFieldsBI": [],
+        "targetBuildDepends": [
+          {
+            "package-name": "base",
+            "version-range": ">=2 && <=5",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "bytestring",
+            "version-range": ">=0.9",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "containers",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "attoparsec",
+            "version-range": ">=0.9.1.2",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "blaze-builder",
+            "version-range": ">=0.3",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "bytestring-nums",
+            "version-range": ">=0.3.3",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "file-embed",
+            "version-range": ">=0.0.4.1",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "parsec",
+            "version-range": ">=3.1.2",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "process",
+            "version-range": ">=1.0",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "shell-escape",
+            "version-range": ">=0.1.1",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "template-haskell",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          }
+        ],
+        "mixins": []
+      }
+    },
+    "condTreeConstraints": [
+      {
+        "package-name": "base",
+        "version-range": ">=2 && <=5",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "bytestring",
+        "version-range": ">=0.9",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "containers",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "attoparsec",
+        "version-range": ">=0.9.1.2",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "blaze-builder",
+        "version-range": ">=0.3",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "bytestring-nums",
+        "version-range": ">=0.3.3",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "file-embed",
+        "version-range": ">=0.0.4.1",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "parsec",
+        "version-range": ">=3.1.2",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "process",
+        "version-range": ">=1.0",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "shell-escape",
+        "version-range": ">=0.1.1",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "template-haskell",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      }
+    ],
+    "condTreeComponents": []
+  },
+  "executables": {
+    "arx": {
+      "condTreeData": {
+        "name": "arx",
+        "module-path": "arx.hs",
+        "scope": "public",
+        "build-info": {
+          "buildable": true,
+          "buildTools": [],
+          "buildToolDepends": [],
+          "cppOptions": [],
+          "asmOptions": [],
+          "cmmOptions": [],
+          "ccOptions": [],
+          "cxxOptions": [],
+          "ldOptions": [],
+          "pkgconfigDepends": [],
+          "frameworks": [],
+          "extraFrameworkDirs": [],
+          "asmSources": [],
+          "cmmSources": [],
+          "cSources": [],
+          "cxxSources": [],
+          "jsSources": [],
+          "hsSourceDirs": [],
+          "otherModules": [],
+          "virtualModules": [],
+          "autogenModules": [],
+          "defaultLanguage": null,
+          "otherLanguages": [],
+          "defaultExtensions": [],
+          "otherExtensions": [],
+          "oldExtensions": [
+            {
+              "enable-extension": "FlexibleInstances"
+            },
+            {
+              "enable-extension": "FunctionalDependencies"
+            },
+            {
+              "enable-extension": "MultiParamTypeClasses"
+            },
+            {
+              "enable-extension": "OverloadedStrings"
+            },
+            {
+              "enable-extension": "StandaloneDeriving"
+            },
+            {
+              "enable-extension": "TupleSections"
+            }
+          ],
+          "extraLibs": [],
+          "extraGHCiLibs": [],
+          "extraBundledLibs": [],
+          "extraLibFlavours": [],
+          "extraDynLibFlavours": [],
+          "extraLibDirs": [],
+          "includeDirs": [],
+          "includes": [],
+          "autogenIncludes": [],
+          "installIncludes": [],
+          "options": [
+            [],
+            []
+          ],
+          "profOptions": [
+            [],
+            []
+          ],
+          "sharedOptions": [
+            [],
+            []
+          ],
+          "staticOptions": [
+            [],
+            []
+          ],
+          "customFieldsBI": [],
+          "targetBuildDepends": [
+            {
+              "package-name": "base",
+              "version-range": ">=2 && <=5",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "bytestring",
+              "version-range": ">=0.9",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "containers",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "attoparsec",
+              "version-range": ">=0.9.1.2",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "blaze-builder",
+              "version-range": ">=0.3",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "bytestring-nums",
+              "version-range": ">=0.3.3",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "file-embed",
+              "version-range": ">=0.0.4.1",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "parsec",
+              "version-range": ">=3.1.2",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "process",
+              "version-range": ">=1.0",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "shell-escape",
+              "version-range": ">=0.1.1",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "template-haskell",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            }
+          ],
+          "mixins": []
+        }
+      },
+      "condTreeConstraints": [
+        {
+          "package-name": "base",
+          "version-range": ">=2 && <=5",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "bytestring",
+          "version-range": ">=0.9",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "containers",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "attoparsec",
+          "version-range": ">=0.9.1.2",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "blaze-builder",
+          "version-range": ">=0.3",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "bytestring-nums",
+          "version-range": ">=0.3.3",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "file-embed",
+          "version-range": ">=0.0.4.1",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "parsec",
+          "version-range": ">=3.1.2",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "process",
+          "version-range": ">=1.0",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "shell-escape",
+          "version-range": ">=0.1.1",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "template-haskell",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        }
+      ],
+      "condTreeComponents": [
+        {
+          "condBranchCondition": {
+            "v": {
+              "flag": "no-cli"
+            }
+          },
+          "condBranchIfTrue": {
+            "condTreeData": {
+              "name": "arx",
+              "module-path": "",
+              "scope": "public",
+              "build-info": {
+                "buildable": false,
+                "buildTools": [],
+                "buildToolDepends": [],
+                "cppOptions": [],
+                "asmOptions": [],
+                "cmmOptions": [],
+                "ccOptions": [],
+                "cxxOptions": [],
+                "ldOptions": [],
+                "pkgconfigDepends": [],
+                "frameworks": [],
+                "extraFrameworkDirs": [],
+                "asmSources": [],
+                "cmmSources": [],
+                "cSources": [],
+                "cxxSources": [],
+                "jsSources": [],
+                "hsSourceDirs": [],
+                "otherModules": [],
+                "virtualModules": [],
+                "autogenModules": [],
+                "defaultLanguage": null,
+                "otherLanguages": [],
+                "defaultExtensions": [],
+                "otherExtensions": [],
+                "oldExtensions": [],
+                "extraLibs": [],
+                "extraGHCiLibs": [],
+                "extraBundledLibs": [],
+                "extraLibFlavours": [],
+                "extraDynLibFlavours": [],
+                "extraLibDirs": [],
+                "includeDirs": [],
+                "includes": [],
+                "autogenIncludes": [],
+                "installIncludes": [],
+                "options": [
+                  [],
+                  []
+                ],
+                "profOptions": [
+                  [],
+                  []
+                ],
+                "sharedOptions": [
+                  [],
+                  []
+                ],
+                "staticOptions": [
+                  [],
+                  []
+                ],
+                "customFieldsBI": [],
+                "targetBuildDepends": [],
+                "mixins": []
+              }
+            },
+            "condTreeConstraints": [],
+            "condTreeComponents": []
+          },
+          "condBranchIfFalse": {
+            "condTreeData": {
+              "name": "arx",
+              "module-path": "",
+              "scope": "public",
+              "build-info": {
+                "buildable": true,
+                "buildTools": [],
+                "buildToolDepends": [],
+                "cppOptions": [],
+                "asmOptions": [],
+                "cmmOptions": [],
+                "ccOptions": [],
+                "cxxOptions": [],
+                "ldOptions": [],
+                "pkgconfigDepends": [],
+                "frameworks": [],
+                "extraFrameworkDirs": [],
+                "asmSources": [],
+                "cmmSources": [],
+                "cSources": [],
+                "cxxSources": [],
+                "jsSources": [],
+                "hsSourceDirs": [],
+                "otherModules": [],
+                "virtualModules": [],
+                "autogenModules": [],
+                "defaultLanguage": null,
+                "otherLanguages": [],
+                "defaultExtensions": [],
+                "otherExtensions": [],
+                "oldExtensions": [],
+                "extraLibs": [],
+                "extraGHCiLibs": [],
+                "extraBundledLibs": [],
+                "extraLibFlavours": [],
+                "extraDynLibFlavours": [],
+                "extraLibDirs": [],
+                "includeDirs": [],
+                "includes": [],
+                "autogenIncludes": [],
+                "installIncludes": [],
+                "options": [
+                  [],
+                  []
+                ],
+                "profOptions": [
+                  [],
+                  []
+                ],
+                "sharedOptions": [
+                  [],
+                  []
+                ],
+                "staticOptions": [
+                  [],
+                  []
+                ],
+                "customFieldsBI": [],
+                "targetBuildDepends": [],
+                "mixins": []
+              }
+            },
+            "condTreeConstraints": [],
+            "condTreeComponents": []
+          }
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,1349 @@
+{
+  "description": {
+    "spec-version": {
+      "Right": ">=1.6"
+    },
+    "package": {
+      "name": "live-sequencer",
+      "version": [
+        0,
+        0
+      ]
+    },
+    "license": {
+      "Right": "OtherLicense"
+    },
+    "license-files": [
+      "LICENSE"
+    ],
+    "copyright": "",
+    "maintainer": "Johannes Waldmann <waldmann@imn.htwk-leipzig.de>, Henning Thielemann <haskell@henning-thielemann.de>",
+    "author": "Henning Thielemann and Johannes Waldmann",
+    "stability": "",
+    "tested-with": [
+      {
+        "compiler": "GHC",
+        "versionRange": "==6.12.3"
+      },
+      {
+        "compiler": "GHC",
+        "versionRange": "==7.2.1"
+      }
+    ],
+    "homepage": "",
+    "pkg-url": "",
+    "bug-reports": "",
+    "source-repos": [
+      {
+        "kind": {},
+        "type": "Git",
+        "location": "git://dfa.imn.htwk-leipzig.de/srv/git/seq/",
+        "module": null,
+        "branch": null,
+        "tag": null,
+        "subdir": null
+      },
+      {
+        "kind": {},
+        "type": "Git",
+        "location": "http://code.haskell.org/~thielema/livesequencer/",
+        "module": null,
+        "branch": null,
+        "tag": "0.0",
+        "subdir": null
+      }
+    ],
+    "synopsis": "Live coding of MIDI music",
+    "description": "An editor shows a textual description of music (like Haskore),\nan interpreter computes and emits a stream of MIDI events,\nand (that's the main point) the user can change the program on the fly.\n\n1. example usage *****\n\n@\ntimidity -iA &\n./live-sequencer-gui --connect-to TiMidity Stream &\n@\n\nthis should give you an ongoing stream\nof notes\n\nthen change one of the numbers\nthat appear in the lines like\n@mid = note 300 (c 4)@\n\nand press CTRL-R for \\\"reloading\\\" that module into the interpreter\nthis should immediately have an effect\n(change pitch and duration of some of the notes)\n\n2. input language *****\n\nlanguage is Haskell with\nonly strict pattern matching and\npattern matching only at the definition level (no case),\nno local bindings (no lambda, let, where),\nno types (no type inference, type signatures and type declarations are skipped)\n\nsemantics is similar to lazy evaluation,\nbut we have no sharing,\nthe value of @main@ is a stream of midi events\n(@On/Off pitch velocity@)\nor (@Wait milliseconds@)\n\nin each step, the head of the stream gets reduced\nto head normal form (with @:@ at the top),\nand the first arg of the @:@ gets fully expanded\nand it must be a midi event.\n\nIn the library interface we provide the basic Live-Sequencer modules\nin order to allow offline rendering of Live-Sequencer music.",
+    "category": "Sound, Music, GUI",
+    "custom-fields": [],
+    "build-type-raw": "Simple",
+    "custom-setup": null,
+    "library": null,
+    "sublibraries": [],
+    "executables": [],
+    "foreign-libs": [],
+    "test-suites": [],
+    "benchmarks": [],
+    "data-files": [
+      "data/prelude/Prelude.hs",
+      "data/Band.hs",
+      "data/Finite.hs",
+      "data/Klingklong.hs",
+      "data/Simplesong.hs",
+      "data/Sweep.hs",
+      "data/UD.hs",
+      "data/CrossSum.hs",
+      "data/Fibonacci.hs",
+      "data/DeBruijn.hs",
+      "data/Bool.hs",
+      "data/Chords.hs",
+      "data/Drum.hs",
+      "data/Function.hs",
+      "data/Instrument.hs",
+      "data/Integer.hs",
+      "data/List.hs",
+      "data/ListLive.hs",
+      "data/Midi.hs",
+      "data/Music.hs",
+      "data/Pattern.hs",
+      "data/Pitch.hs",
+      "data/Render.hs",
+      "data/Tuple.hs"
+    ],
+    "data-dir": ".",
+    "extra-source-files": [
+      "http/enable/HTTPServer.hs",
+      "http/enable/HTTPServer/GUI.hs",
+      "http/enable/HTTPServer/Option.hs",
+      "http/disable/HTTPServer/GUI.hs",
+      "http/disable/HTTPServer/Option.hs"
+    ],
+    "extra-tmp-files": [],
+    "extra-doc-files": []
+  },
+  "package-flags": [
+    {
+      "name": "httpserver",
+      "description": "Enable access to modules via a web browser",
+      "default": true,
+      "manual": false
+    }
+  ],
+  "library": {
+    "condTreeData": {
+      "name": {},
+      "exposed-modules": [
+        [
+          "Render"
+        ],
+        [
+          "Bool"
+        ],
+        [
+          "Chords"
+        ],
+        [
+          "Drum"
+        ],
+        [
+          "Function"
+        ],
+        [
+          "Instrument"
+        ],
+        [
+          "Integer"
+        ],
+        [
+          "ListLive"
+        ],
+        [
+          "Midi"
+        ],
+        [
+          "Music"
+        ],
+        [
+          "Pitch"
+        ],
+        [
+          "Tuple"
+        ]
+      ],
+      "re-exported-modules": [],
+      "signatures": [],
+      "exposed": true,
+      "visibility": "LibraryVisibilityPublic",
+      "build-info": {
+        "buildable": true,
+        "buildTools": [],
+        "buildToolDepends": [],
+        "cppOptions": [],
+        "asmOptions": [],
+        "cmmOptions": [],
+        "ccOptions": [],
+        "cxxOptions": [],
+        "ldOptions": [],
+        "pkgconfigDepends": [],
+        "frameworks": [],
+        "extraFrameworkDirs": [],
+        "asmSources": [],
+        "cmmSources": [],
+        "cSources": [],
+        "cxxSources": [],
+        "jsSources": [],
+        "hsSourceDirs": [
+          "data"
+        ],
+        "otherModules": [
+          [
+            "List"
+          ],
+          [
+            "Pattern"
+          ],
+          [
+            "Finite"
+          ],
+          [
+            "CrossSum"
+          ],
+          [
+            "DeBruijn"
+          ],
+          [
+            "Fibonacci"
+          ]
+        ],
+        "virtualModules": [],
+        "autogenModules": [],
+        "defaultLanguage": null,
+        "otherLanguages": [],
+        "defaultExtensions": [],
+        "otherExtensions": [],
+        "oldExtensions": [],
+        "extraLibs": [],
+        "extraGHCiLibs": [],
+        "extraBundledLibs": [],
+        "extraLibFlavours": [],
+        "extraDynLibFlavours": [],
+        "extraLibDirs": [],
+        "includeDirs": [],
+        "includes": [],
+        "autogenIncludes": [],
+        "installIncludes": [],
+        "options": [
+          [
+            "-Wall"
+          ],
+          []
+        ],
+        "profOptions": [
+          [],
+          []
+        ],
+        "sharedOptions": [
+          [],
+          []
+        ],
+        "staticOptions": [
+          [],
+          []
+        ],
+        "customFieldsBI": [],
+        "targetBuildDepends": [
+          {
+            "package-name": "non-negative",
+            "version-range": ">=0.0.6 && <0.2",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "event-list",
+            "version-range": ">=0.0.11 && <0.2",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "base",
+            "version-range": ">=4.2 && <5",
+            "library": [
+              {}
+            ]
+          }
+        ],
+        "mixins": []
+      }
+    },
+    "condTreeConstraints": [
+      {
+        "package-name": "non-negative",
+        "version-range": ">=0.0.6 && <0.2",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "event-list",
+        "version-range": ">=0.0.11 && <0.2",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "base",
+        "version-range": ">=4.2 && <5",
+        "library": [
+          {}
+        ]
+      }
+    ],
+    "condTreeComponents": []
+  },
+  "executables": {
+    "live-sequencer-gui": {
+      "condTreeData": {
+        "name": "live-sequencer-gui",
+        "module-path": "GUI.hs",
+        "scope": "public",
+        "build-info": {
+          "buildable": true,
+          "buildTools": [],
+          "buildToolDepends": [],
+          "cppOptions": [],
+          "asmOptions": [],
+          "cmmOptions": [],
+          "ccOptions": [],
+          "cxxOptions": [],
+          "ldOptions": [],
+          "pkgconfigDepends": [],
+          "frameworks": [],
+          "extraFrameworkDirs": [],
+          "asmSources": [],
+          "cmmSources": [],
+          "cSources": [],
+          "cxxSources": [],
+          "jsSources": [],
+          "hsSourceDirs": [
+            "src"
+          ],
+          "otherModules": [
+            [
+              "ALSA"
+            ],
+            [
+              "Utility",
+              "Concurrent"
+            ],
+            [
+              "Utility",
+              "WX"
+            ],
+            [
+              "Event"
+            ],
+            [
+              "IO"
+            ],
+            [
+              "Exception"
+            ],
+            [
+              "Module"
+            ],
+            [
+              "Option"
+            ],
+            [
+              "Option",
+              "Utility"
+            ],
+            [
+              "Controls"
+            ],
+            [
+              "Program"
+            ],
+            [
+              "Rewrite"
+            ],
+            [
+              "Rule"
+            ],
+            [
+              "Step"
+            ],
+            [
+              "Term"
+            ],
+            [
+              "Type"
+            ],
+            [
+              "Log"
+            ],
+            [
+              "Paths_live_sequencer"
+            ],
+            [
+              "HTTPServer",
+              "Option"
+            ],
+            [
+              "HTTPServer",
+              "GUI"
+            ]
+          ],
+          "virtualModules": [],
+          "autogenModules": [],
+          "defaultLanguage": null,
+          "otherLanguages": [],
+          "defaultExtensions": [],
+          "otherExtensions": [],
+          "oldExtensions": [],
+          "extraLibs": [],
+          "extraGHCiLibs": [],
+          "extraBundledLibs": [],
+          "extraLibFlavours": [],
+          "extraDynLibFlavours": [],
+          "extraLibDirs": [],
+          "includeDirs": [],
+          "includes": [],
+          "autogenIncludes": [],
+          "installIncludes": [],
+          "options": [
+            [
+              "-threaded",
+              "-Wall"
+            ],
+            []
+          ],
+          "profOptions": [
+            [],
+            []
+          ],
+          "sharedOptions": [
+            [],
+            []
+          ],
+          "staticOptions": [
+            [],
+            []
+          ],
+          "customFieldsBI": [],
+          "targetBuildDepends": [
+            {
+              "package-name": "wx",
+              "version-range": ">=0.12.1 && <0.13",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "wxcore",
+              "version-range": ">=0.12.1 && <0.13",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "stm",
+              "version-range": ">=2.2 && <2.3",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "transformers",
+              "version-range": ">=0.2.2 && <0.3",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "explicit-exception",
+              "version-range": ">=0.1.5 && <0.2",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "parsec",
+              "version-range": ">=2.1 && <3.2",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "pretty",
+              "version-range": ">=1.0 && <1.2",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "midi-alsa",
+              "version-range": ">=0.1.1 && <0.2",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "midi",
+              "version-range": ">=0.1.5 && <0.2",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "alsa-seq",
+              "version-range": ">=0.5 && <0.6",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "alsa-core",
+              "version-range": ">=0.5 && <0.6",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "data-accessor-transformers",
+              "version-range": ">=0.2.1 && <0.3",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "data-accessor",
+              "version-range": ">=0.2.1 && <0.3",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "strict",
+              "version-range": ">=0.3.2 && <0.4",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "utility-ht",
+              "version-range": ">=0.0.8 && <0.1",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "containers",
+              "version-range": ">=0.3 && <0.5",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "process",
+              "version-range": ">=1.0 && <1.2",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "directory",
+              "version-range": ">=1.0 && <1.2",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "filepath",
+              "version-range": ">=1.1 && <1.4",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "base",
+              "version-range": ">=4.2 && <5",
+              "library": [
+                {}
+              ]
+            }
+          ],
+          "mixins": []
+        }
+      },
+      "condTreeConstraints": [
+        {
+          "package-name": "wx",
+          "version-range": ">=0.12.1 && <0.13",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "wxcore",
+          "version-range": ">=0.12.1 && <0.13",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "stm",
+          "version-range": ">=2.2 && <2.3",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "transformers",
+          "version-range": ">=0.2.2 && <0.3",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "explicit-exception",
+          "version-range": ">=0.1.5 && <0.2",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "parsec",
+          "version-range": ">=2.1 && <3.2",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "pretty",
+          "version-range": ">=1.0 && <1.2",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "midi-alsa",
+          "version-range": ">=0.1.1 && <0.2",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "midi",
+          "version-range": ">=0.1.5 && <0.2",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "alsa-seq",
+          "version-range": ">=0.5 && <0.6",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "alsa-core",
+          "version-range": ">=0.5 && <0.6",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "data-accessor-transformers",
+          "version-range": ">=0.2.1 && <0.3",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "data-accessor",
+          "version-range": ">=0.2.1 && <0.3",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "strict",
+          "version-range": ">=0.3.2 && <0.4",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "utility-ht",
+          "version-range": ">=0.0.8 && <0.1",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "containers",
+          "version-range": ">=0.3 && <0.5",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "process",
+          "version-range": ">=1.0 && <1.2",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "directory",
+          "version-range": ">=1.0 && <1.2",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "filepath",
+          "version-range": ">=1.1 && <1.4",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "base",
+          "version-range": ">=4.2 && <5",
+          "library": [
+            {}
+          ]
+        }
+      ],
+      "condTreeComponents": [
+        {
+          "condBranchCondition": {
+            "v": {
+              "compiler": "GHC",
+              "version": ">=7.0"
+            }
+          },
+          "condBranchIfTrue": {
+            "condTreeData": {
+              "name": "live-sequencer-gui",
+              "module-path": "",
+              "scope": "public",
+              "build-info": {
+                "buildable": true,
+                "buildTools": [],
+                "buildToolDepends": [],
+                "cppOptions": [],
+                "asmOptions": [],
+                "cmmOptions": [],
+                "ccOptions": [],
+                "cxxOptions": [],
+                "ldOptions": [],
+                "pkgconfigDepends": [],
+                "frameworks": [],
+                "extraFrameworkDirs": [],
+                "asmSources": [],
+                "cmmSources": [],
+                "cSources": [],
+                "cxxSources": [],
+                "jsSources": [],
+                "hsSourceDirs": [],
+                "otherModules": [],
+                "virtualModules": [],
+                "autogenModules": [],
+                "defaultLanguage": null,
+                "otherLanguages": [],
+                "defaultExtensions": [],
+                "otherExtensions": [],
+                "oldExtensions": [],
+                "extraLibs": [],
+                "extraGHCiLibs": [],
+                "extraBundledLibs": [],
+                "extraLibFlavours": [],
+                "extraDynLibFlavours": [],
+                "extraLibDirs": [],
+                "includeDirs": [],
+                "includes": [],
+                "autogenIncludes": [],
+                "installIncludes": [],
+                "options": [
+                  [
+                    "-fwarn-tabs",
+                    "-fwarn-incomplete-uni-patterns"
+                  ],
+                  []
+                ],
+                "profOptions": [
+                  [],
+                  []
+                ],
+                "sharedOptions": [
+                  [],
+                  []
+                ],
+                "staticOptions": [
+                  [],
+                  []
+                ],
+                "customFieldsBI": [],
+                "targetBuildDepends": [],
+                "mixins": []
+              }
+            },
+            "condTreeConstraints": [],
+            "condTreeComponents": []
+          }
+        },
+        {
+          "condBranchCondition": {
+            "v": {
+              "flag": "httpserver"
+            }
+          },
+          "condBranchIfTrue": {
+            "condTreeData": {
+              "name": "live-sequencer-gui",
+              "module-path": "",
+              "scope": "public",
+              "build-info": {
+                "buildable": true,
+                "buildTools": [],
+                "buildToolDepends": [],
+                "cppOptions": [],
+                "asmOptions": [],
+                "cmmOptions": [],
+                "ccOptions": [],
+                "cxxOptions": [],
+                "ldOptions": [],
+                "pkgconfigDepends": [],
+                "frameworks": [],
+                "extraFrameworkDirs": [],
+                "asmSources": [],
+                "cmmSources": [],
+                "cSources": [],
+                "cxxSources": [],
+                "jsSources": [],
+                "hsSourceDirs": [
+                  "http/enable"
+                ],
+                "otherModules": [
+                  [
+                    "HTTPServer"
+                  ]
+                ],
+                "virtualModules": [],
+                "autogenModules": [],
+                "defaultLanguage": null,
+                "otherLanguages": [],
+                "defaultExtensions": [],
+                "otherExtensions": [],
+                "oldExtensions": [],
+                "extraLibs": [],
+                "extraGHCiLibs": [],
+                "extraBundledLibs": [],
+                "extraLibFlavours": [],
+                "extraDynLibFlavours": [],
+                "extraLibDirs": [],
+                "includeDirs": [],
+                "includes": [],
+                "autogenIncludes": [],
+                "installIncludes": [],
+                "options": [
+                  [],
+                  []
+                ],
+                "profOptions": [
+                  [],
+                  []
+                ],
+                "sharedOptions": [
+                  [],
+                  []
+                ],
+                "staticOptions": [
+                  [],
+                  []
+                ],
+                "customFieldsBI": [],
+                "targetBuildDepends": [
+                  {
+                    "package-name": "httpd-shed",
+                    "version-range": ">=0.4 && <0.5",
+                    "library": [
+                      {}
+                    ]
+                  },
+                  {
+                    "package-name": "network",
+                    "version-range": ">=2.3 && <2.4",
+                    "library": [
+                      {}
+                    ]
+                  },
+                  {
+                    "package-name": "cgi",
+                    "version-range": ">=3001.1 && <3001.2",
+                    "library": [
+                      {}
+                    ]
+                  },
+                  {
+                    "package-name": "html",
+                    "version-range": ">=1.0 && <1.1",
+                    "library": [
+                      {}
+                    ]
+                  }
+                ],
+                "mixins": []
+              }
+            },
+            "condTreeConstraints": [
+              {
+                "package-name": "httpd-shed",
+                "version-range": ">=0.4 && <0.5",
+                "library": [
+                  {}
+                ]
+              },
+              {
+                "package-name": "network",
+                "version-range": ">=2.3 && <2.4",
+                "library": [
+                  {}
+                ]
+              },
+              {
+                "package-name": "cgi",
+                "version-range": ">=3001.1 && <3001.2",
+                "library": [
+                  {}
+                ]
+              },
+              {
+                "package-name": "html",
+                "version-range": ">=1.0 && <1.1",
+                "library": [
+                  {}
+                ]
+              }
+            ],
+            "condTreeComponents": []
+          },
+          "condBranchIfFalse": {
+            "condTreeData": {
+              "name": "live-sequencer-gui",
+              "module-path": "",
+              "scope": "public",
+              "build-info": {
+                "buildable": true,
+                "buildTools": [],
+                "buildToolDepends": [],
+                "cppOptions": [],
+                "asmOptions": [],
+                "cmmOptions": [],
+                "ccOptions": [],
+                "cxxOptions": [],
+                "ldOptions": [],
+                "pkgconfigDepends": [],
+                "frameworks": [],
+                "extraFrameworkDirs": [],
+                "asmSources": [],
+                "cmmSources": [],
+                "cSources": [],
+                "cxxSources": [],
+                "jsSources": [],
+                "hsSourceDirs": [
+                  "http/disable"
+                ],
+                "otherModules": [],
+                "virtualModules": [],
+                "autogenModules": [],
+                "defaultLanguage": null,
+                "otherLanguages": [],
+                "defaultExtensions": [],
+                "otherExtensions": [],
+                "oldExtensions": [],
+                "extraLibs": [],
+                "extraGHCiLibs": [],
+                "extraBundledLibs": [],
+                "extraLibFlavours": [],
+                "extraDynLibFlavours": [],
+                "extraLibDirs": [],
+                "includeDirs": [],
+                "includes": [],
+                "autogenIncludes": [],
+                "installIncludes": [],
+                "options": [
+                  [],
+                  []
+                ],
+                "profOptions": [
+                  [],
+                  []
+                ],
+                "sharedOptions": [
+                  [],
+                  []
+                ],
+                "staticOptions": [
+                  [],
+                  []
+                ],
+                "customFieldsBI": [],
+                "targetBuildDepends": [],
+                "mixins": []
+              }
+            },
+            "condTreeConstraints": [],
+            "condTreeComponents": []
+          }
+        }
+      ]
+    },
+    "live-sequencer": {
+      "condTreeData": {
+        "name": "live-sequencer",
+        "module-path": "Console.hs",
+        "scope": "public",
+        "build-info": {
+          "buildable": true,
+          "buildTools": [],
+          "buildToolDepends": [],
+          "cppOptions": [],
+          "asmOptions": [],
+          "cmmOptions": [],
+          "ccOptions": [],
+          "cxxOptions": [],
+          "ldOptions": [],
+          "pkgconfigDepends": [],
+          "frameworks": [],
+          "extraFrameworkDirs": [],
+          "asmSources": [],
+          "cmmSources": [],
+          "cSources": [],
+          "cxxSources": [],
+          "jsSources": [],
+          "hsSourceDirs": [
+            "src",
+            "http/disable"
+          ],
+          "otherModules": [
+            [
+              "ALSA"
+            ],
+            [
+              "Event"
+            ],
+            [
+              "IO"
+            ],
+            [
+              "Module"
+            ],
+            [
+              "Option"
+            ],
+            [
+              "Option",
+              "Utility"
+            ],
+            [
+              "Program"
+            ],
+            [
+              "Rewrite"
+            ],
+            [
+              "Rule"
+            ],
+            [
+              "Step"
+            ],
+            [
+              "Term"
+            ],
+            [
+              "Type"
+            ],
+            [
+              "Log"
+            ],
+            [
+              "Paths_live_sequencer"
+            ],
+            [
+              "Lilypond"
+            ]
+          ],
+          "virtualModules": [],
+          "autogenModules": [],
+          "defaultLanguage": null,
+          "otherLanguages": [],
+          "defaultExtensions": [],
+          "otherExtensions": [],
+          "oldExtensions": [],
+          "extraLibs": [],
+          "extraGHCiLibs": [],
+          "extraBundledLibs": [],
+          "extraLibFlavours": [],
+          "extraDynLibFlavours": [],
+          "extraLibDirs": [],
+          "includeDirs": [],
+          "includes": [],
+          "autogenIncludes": [],
+          "installIncludes": [],
+          "options": [
+            [
+              "-Wall",
+              "-threaded"
+            ],
+            []
+          ],
+          "profOptions": [
+            [],
+            []
+          ],
+          "sharedOptions": [
+            [],
+            []
+          ],
+          "staticOptions": [
+            [],
+            []
+          ],
+          "customFieldsBI": [],
+          "targetBuildDepends": [
+            {
+              "package-name": "transformers",
+              "version-range": ">=0.2.2 && <0.3",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "explicit-exception",
+              "version-range": ">=0.1.5 && <0.2",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "parsec",
+              "version-range": ">=2.1 && <3.2",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "pretty",
+              "version-range": ">=1.0 && <1.2",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "midi-alsa",
+              "version-range": ">=0.1.1 && <0.2",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "midi",
+              "version-range": ">=0.1.5 && <0.2",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "alsa-seq",
+              "version-range": ">=0.5 && <0.6",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "alsa-core",
+              "version-range": ">=0.5 && <0.6",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "data-accessor-transformers",
+              "version-range": ">=0.2.1 && <0.3",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "data-accessor",
+              "version-range": ">=0.2.1 && <0.3",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "strict",
+              "version-range": ">=0.3.2 && <0.4",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "utility-ht",
+              "version-range": ">=0.0.8 && <0.1",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "containers",
+              "version-range": ">=0.3 && <0.5",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "process",
+              "version-range": ">=1.0 && <1.2",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "directory",
+              "version-range": ">=1.0 && <1.2",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "filepath",
+              "version-range": ">=1.1 && <1.4",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "base",
+              "version-range": ">=4.2 && <5",
+              "library": [
+                {}
+              ]
+            }
+          ],
+          "mixins": []
+        }
+      },
+      "condTreeConstraints": [
+        {
+          "package-name": "transformers",
+          "version-range": ">=0.2.2 && <0.3",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "explicit-exception",
+          "version-range": ">=0.1.5 && <0.2",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "parsec",
+          "version-range": ">=2.1 && <3.2",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "pretty",
+          "version-range": ">=1.0 && <1.2",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "midi-alsa",
+          "version-range": ">=0.1.1 && <0.2",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "midi",
+          "version-range": ">=0.1.5 && <0.2",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "alsa-seq",
+          "version-range": ">=0.5 && <0.6",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "alsa-core",
+          "version-range": ">=0.5 && <0.6",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "data-accessor-transformers",
+          "version-range": ">=0.2.1 && <0.3",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "data-accessor",
+          "version-range": ">=0.2.1 && <0.3",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "strict",
+          "version-range": ">=0.3.2 && <0.4",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "utility-ht",
+          "version-range": ">=0.0.8 && <0.1",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "containers",
+          "version-range": ">=0.3 && <0.5",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "process",
+          "version-range": ">=1.0 && <1.2",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "directory",
+          "version-range": ">=1.0 && <1.2",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "filepath",
+          "version-range": ">=1.1 && <1.4",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "base",
+          "version-range": ">=4.2 && <5",
+          "library": [
+            {}
+          ]
+        }
+      ],
+      "condTreeComponents": []
+    }
+  }
+}

@@ -1,0 +1,1130 @@
+{
+  "description": {
+    "spec-version": {
+      "Right": ">=1.10"
+    },
+    "package": {
+      "name": "tpar",
+      "version": [
+        0,
+        1,
+        0,
+        0
+      ]
+    },
+    "license": {
+      "Right": "BSD3"
+    },
+    "license-files": [
+      "LICENSE"
+    ],
+    "copyright": "(c) 2014-2016 Ben Gamari <bgamari@gmail.com>",
+    "maintainer": "bgamari@gmail.com",
+    "author": "Ben Gamari",
+    "stability": "",
+    "tested-with": [],
+    "homepage": "http://github.com/bgamari/tpar/",
+    "pkg-url": "",
+    "bug-reports": "http://github.com/bgamari/tpar/issues",
+    "source-repos": [
+      {
+        "kind": {},
+        "type": "Git",
+        "location": "git://github.com/bgamari/tpar",
+        "module": null,
+        "branch": null,
+        "tag": null,
+        "subdir": null
+      }
+    ],
+    "synopsis": "simple, parallel job scheduling",
+    "description": "@tpar@ is a simple job scheduling and dispatch service for distributing and\nmonitoring tasks across machines. It was written to serve as a simple and\neasy-to-administer substitute for systems like Grid Engine.\n\nConfiguring a @tpar@ instance is simply a matter of running @tpar server@ on\na designated server machine,\n\n@\n$ # We'll need to know the hostname of the server\n$ hostname\nmy-server\n$ # Start a server also running 8 local workers\n$ tpar server -Hmy-server -N8\n@\n\nSubmitting a job is then similarly easy,\n\n@\n$ tpar enqueue -H`hostname` -- long-process arg1 arg2\n@\n\nOne can then enqueue jobs easily\n\n@\n$ tpar enqueue -Hmy-server -- bash -c \"primes 10000000000  | head -n1\"\n$ tpar status -v\n0     unnamed-job                                        finished\npriority:       0\nqueued:         1 seconds ago\ncommand:        bash\narguments:      -c primes 10000000000  | head -n1\nlogging:        stdout: none\nstderr: none\nstatus:         finished with 0 (at 1 seconds ago)\nstarted at 1 seconds ago\nran on nid://localhost:5757:0\n@\n\nOne can add more workers to help churn through the work queue using the\n@tpar worker@ command,\n\n@\n$ # Add 16 more workers running on another machine\n$ ssh my-workers -- tpar worker -Hmy-server -N16\n@\n\nFinally, the output of running jobs can be monitored using the @tpar watch@\ncommand,\n\n@\n$ tpar watch id=0\n@",
+    "category": "System",
+    "custom-fields": [],
+    "build-type-raw": "Simple",
+    "custom-setup": null,
+    "library": null,
+    "sublibraries": [],
+    "executables": [],
+    "foreign-libs": [],
+    "test-suites": [],
+    "benchmarks": [],
+    "data-files": [],
+    "data-dir": ".",
+    "extra-source-files": [
+      "README.mkd"
+    ],
+    "extra-tmp-files": [],
+    "extra-doc-files": []
+  },
+  "executables": {
+    "tpar": {
+      "condTreeData": {
+        "name": "tpar",
+        "module-path": "Main.hs",
+        "scope": "public",
+        "build-info": {
+          "buildable": true,
+          "buildTools": [],
+          "buildToolDepends": [],
+          "cppOptions": [],
+          "asmOptions": [],
+          "cmmOptions": [],
+          "ccOptions": [],
+          "cxxOptions": [],
+          "ldOptions": [],
+          "pkgconfigDepends": [],
+          "frameworks": [],
+          "extraFrameworkDirs": [],
+          "asmSources": [],
+          "cmmSources": [],
+          "cSources": [],
+          "cxxSources": [],
+          "jsSources": [],
+          "hsSourceDirs": [],
+          "otherModules": [
+            [
+              "TPar",
+              "Server"
+            ],
+            [
+              "TPar",
+              "Server",
+              "Types"
+            ],
+            [
+              "TPar",
+              "JobMatch"
+            ],
+            [
+              "TPar",
+              "ProcessPipe"
+            ],
+            [
+              "TPar",
+              "SubPubStream"
+            ],
+            [
+              "TPar",
+              "Rpc"
+            ],
+            [
+              "TPar",
+              "Types"
+            ],
+            [
+              "TPar",
+              "Utils"
+            ]
+          ],
+          "virtualModules": [],
+          "autogenModules": [],
+          "defaultLanguage": "Haskell2010",
+          "otherLanguages": [],
+          "defaultExtensions": [],
+          "otherExtensions": [
+            {
+              "enable-extension": "DeriveGeneric"
+            }
+          ],
+          "oldExtensions": [],
+          "extraLibs": [],
+          "extraGHCiLibs": [],
+          "extraBundledLibs": [],
+          "extraLibFlavours": [],
+          "extraDynLibFlavours": [],
+          "extraLibDirs": [],
+          "includeDirs": [],
+          "includes": [],
+          "autogenIncludes": [],
+          "installIncludes": [],
+          "options": [
+            [
+              "-threaded",
+              "-rtsopts",
+              "-Wall"
+            ],
+            []
+          ],
+          "profOptions": [
+            [],
+            []
+          ],
+          "sharedOptions": [
+            [],
+            []
+          ],
+          "staticOptions": [
+            [],
+            []
+          ],
+          "customFieldsBI": [],
+          "targetBuildDepends": [
+            {
+              "package-name": "base",
+              "version-range": ">=4.5 && <4.10",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "ghc-prim",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "binary",
+              "version-range": ">=0.7 && <0.9",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "bytestring",
+              "version-range": ">=0.10 && <0.11",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "containers",
+              "version-range": ">=0.5 && <0.6",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "errors",
+              "version-range": ">=2.0 && <2.2",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "transformers",
+              "version-range": ">=0.3 && <0.6",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "exceptions",
+              "version-range": ">=0.8 && <0.9",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "async",
+              "version-range": ">=2.0 && <2.2",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "stm",
+              "version-range": ">=2.4 && <2.5",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "time",
+              "version-range": ">=1.6 && <1.7",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "friendly-time",
+              "version-range": ">=0.4 && <0.5",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "process",
+              "version-range": ">=1.1 && <1.5",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "pipes",
+              "version-range": ">=4.0 && <4.3",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "pipes-bytestring",
+              "version-range": ">=2.0 && <2.2",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "pipes-safe",
+              "version-range": ">=2.2 && <2.3",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "pipes-concurrency",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "optparse-applicative",
+              "version-range": ">=0.10 && <0.13",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "distributed-process",
+              "version-range": ">=0.6 && <0.7",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "network-transport-tcp",
+              "version-range": ">=0.4",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "network",
+              "version-range": ">=2.4 && <2.7",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "heaps",
+              "version-range": ">=0.3 && <0.4",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "ansi-wl-pprint",
+              "version-range": ">=0.6 && <0.7",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "trifecta",
+              "version-range": ">=1.5 && <1.7",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "parsers",
+              "version-range": ">=0.12 && <0.13",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "aeson",
+              "version-range": ">=0.11 && <0.12",
+              "library": [
+                {}
+              ]
+            }
+          ],
+          "mixins": []
+        }
+      },
+      "condTreeConstraints": [
+        {
+          "package-name": "base",
+          "version-range": ">=4.5 && <4.10",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "ghc-prim",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "binary",
+          "version-range": ">=0.7 && <0.9",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "bytestring",
+          "version-range": ">=0.10 && <0.11",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "containers",
+          "version-range": ">=0.5 && <0.6",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "errors",
+          "version-range": ">=2.0 && <2.2",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "transformers",
+          "version-range": ">=0.3 && <0.6",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "exceptions",
+          "version-range": ">=0.8 && <0.9",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "async",
+          "version-range": ">=2.0 && <2.2",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "stm",
+          "version-range": ">=2.4 && <2.5",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "time",
+          "version-range": ">=1.6 && <1.7",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "friendly-time",
+          "version-range": ">=0.4 && <0.5",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "process",
+          "version-range": ">=1.1 && <1.5",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "pipes",
+          "version-range": ">=4.0 && <4.3",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "pipes-bytestring",
+          "version-range": ">=2.0 && <2.2",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "pipes-safe",
+          "version-range": ">=2.2 && <2.3",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "pipes-concurrency",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "optparse-applicative",
+          "version-range": ">=0.10 && <0.13",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "distributed-process",
+          "version-range": ">=0.6 && <0.7",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "network-transport-tcp",
+          "version-range": ">=0.4",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "network",
+          "version-range": ">=2.4 && <2.7",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "heaps",
+          "version-range": ">=0.3 && <0.4",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "ansi-wl-pprint",
+          "version-range": ">=0.6 && <0.7",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "trifecta",
+          "version-range": ">=1.5 && <1.7",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "parsers",
+          "version-range": ">=0.12 && <0.13",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "aeson",
+          "version-range": ">=0.11 && <0.12",
+          "library": [
+            {}
+          ]
+        }
+      ],
+      "condTreeComponents": []
+    }
+  },
+  "test-suites": {
+    "test": {
+      "condTreeData": {
+        "name": "",
+        "interface": {
+          "version": [
+            1,
+            0
+          ],
+          "filepath": "Test.hs"
+        },
+        "build-info": {
+          "buildable": true,
+          "buildTools": [],
+          "buildToolDepends": [],
+          "cppOptions": [],
+          "asmOptions": [],
+          "cmmOptions": [],
+          "ccOptions": [],
+          "cxxOptions": [],
+          "ldOptions": [],
+          "pkgconfigDepends": [],
+          "frameworks": [],
+          "extraFrameworkDirs": [],
+          "asmSources": [],
+          "cmmSources": [],
+          "cSources": [],
+          "cxxSources": [],
+          "jsSources": [],
+          "hsSourceDirs": [],
+          "otherModules": [
+            [
+              "TPar",
+              "SubPubStream",
+              "Test"
+            ]
+          ],
+          "virtualModules": [],
+          "autogenModules": [],
+          "defaultLanguage": "Haskell2010",
+          "otherLanguages": [],
+          "defaultExtensions": [],
+          "otherExtensions": [],
+          "oldExtensions": [],
+          "extraLibs": [],
+          "extraGHCiLibs": [],
+          "extraBundledLibs": [],
+          "extraLibFlavours": [],
+          "extraDynLibFlavours": [],
+          "extraLibDirs": [],
+          "includeDirs": [],
+          "includes": [],
+          "autogenIncludes": [],
+          "installIncludes": [],
+          "options": [
+            [],
+            []
+          ],
+          "profOptions": [
+            [],
+            []
+          ],
+          "sharedOptions": [
+            [],
+            []
+          ],
+          "staticOptions": [
+            [],
+            []
+          ],
+          "customFieldsBI": [],
+          "targetBuildDepends": [
+            {
+              "package-name": "base",
+              "version-range": ">=4.5 && <4.10",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "binary",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "stm",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "containers",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "transformers",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "distributed-process",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "network-transport-inmemory",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "exceptions",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "pipes",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "QuickCheck",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            }
+          ],
+          "mixins": []
+        }
+      },
+      "condTreeConstraints": [
+        {
+          "package-name": "base",
+          "version-range": ">=4.5 && <4.10",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "binary",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "stm",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "containers",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "transformers",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "distributed-process",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "network-transport-inmemory",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "exceptions",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "pipes",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "QuickCheck",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        }
+      ],
+      "condTreeComponents": []
+    }
+  },
+  "benchmarks": {
+    "bench": {
+      "condTreeData": {
+        "name": "",
+        "interface": {
+          "version": [
+            1,
+            0
+          ],
+          "filepath": "Benchmark.hs"
+        },
+        "build-info": {
+          "buildable": true,
+          "buildTools": [],
+          "buildToolDepends": [],
+          "cppOptions": [],
+          "asmOptions": [],
+          "cmmOptions": [],
+          "ccOptions": [],
+          "cxxOptions": [],
+          "ldOptions": [],
+          "pkgconfigDepends": [],
+          "frameworks": [],
+          "extraFrameworkDirs": [],
+          "asmSources": [],
+          "cmmSources": [],
+          "cSources": [],
+          "cxxSources": [],
+          "jsSources": [],
+          "hsSourceDirs": [],
+          "otherModules": [],
+          "virtualModules": [],
+          "autogenModules": [],
+          "defaultLanguage": "Haskell2010",
+          "otherLanguages": [],
+          "defaultExtensions": [],
+          "otherExtensions": [],
+          "oldExtensions": [],
+          "extraLibs": [],
+          "extraGHCiLibs": [],
+          "extraBundledLibs": [],
+          "extraLibFlavours": [],
+          "extraDynLibFlavours": [],
+          "extraLibDirs": [],
+          "includeDirs": [],
+          "includes": [],
+          "autogenIncludes": [],
+          "installIncludes": [],
+          "options": [
+            [
+              "-threaded",
+              "-eventlog",
+              "-rtsopts"
+            ],
+            []
+          ],
+          "profOptions": [
+            [],
+            []
+          ],
+          "sharedOptions": [
+            [],
+            []
+          ],
+          "staticOptions": [
+            [],
+            []
+          ],
+          "customFieldsBI": [],
+          "targetBuildDepends": [
+            {
+              "package-name": "base",
+              "version-range": ">=4.5 && <4.10",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "ghc-prim",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "binary",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "bytestring",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "containers",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "errors",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "transformers",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "exceptions",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "async",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "stm",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "process",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "pipes",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "pipes-bytestring",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "pipes-safe",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "pipes-concurrency",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "optparse-applicative",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "distributed-process",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "network-transport-tcp",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "network",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "heaps",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "trifecta",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            }
+          ],
+          "mixins": []
+        }
+      },
+      "condTreeConstraints": [
+        {
+          "package-name": "base",
+          "version-range": ">=4.5 && <4.10",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "ghc-prim",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "binary",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "bytestring",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "containers",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "errors",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "transformers",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "exceptions",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "async",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "stm",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "process",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "pipes",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "pipes-bytestring",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "pipes-safe",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "pipes-concurrency",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "optparse-applicative",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "distributed-process",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "network-transport-tcp",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "network",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "heaps",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "trifecta",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        }
+      ],
+      "condTreeComponents": []
+    }
+  }
+}

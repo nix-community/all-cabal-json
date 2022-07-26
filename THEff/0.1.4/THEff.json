@@ -1,0 +1,264 @@
+{
+  "description": {
+    "spec-version": {
+      "Right": ">=1.10"
+    },
+    "package": {
+      "name": "THEff",
+      "version": [
+        0,
+        1,
+        4
+      ]
+    },
+    "license": {
+      "Right": "BSD3"
+    },
+    "license-files": [
+      "LICENSE"
+    ],
+    "copyright": "",
+    "maintainer": "kolodeznydiver@gmail.com",
+    "author": "Kolodezny Diver",
+    "stability": "",
+    "tested-with": [],
+    "homepage": "",
+    "pkg-url": "",
+    "bug-reports": "",
+    "source-repos": [
+      {
+        "kind": {},
+        "type": "Git",
+        "location": "https://github.com/KolodeznyDiver/THEff.git",
+        "module": null,
+        "branch": null,
+        "tag": null,
+        "subdir": null
+      }
+    ],
+    "synopsis": "TH implementation of effects. ",
+    "description": "This package implements effects, as alternative to monad\ntransformers. Actually, the effects themselves are created without\nthe use of TH, but the binding of nested effects described by\nmkEff splice. For example.\n\n> mkEff \"MyReader\"    ''Reader    ''Int       ''Lift\n> mkEff \"SomeState\"   ''State     ''Bool      ''MyReader\n> mkEff \"OtherRdr\"    ''Reader    ''Float     ''SomeState\n>\n> main:: IO ()\n> main = do\n>     r <- runMyReader  100\n>        $ runSomeState False\n>        $ runOtherRdr  pi  $ do\n>             i :: Int   <- ask                    -- MyReader\n>             f :: Float <- ask                    -- OtherRdr\n>             b <- get                             -- SomeState\n>             put $ not b                          -- SomeState\n>             lift $ putStrLn \"print from effect!\" -- Lift\n>             return $ show $ fromIntegral i * f\n>     print r\n\nFor more information about extensible effects , see the original paper at\n<http://okmij.org/ftp/Haskell/extensible/exteff.pdf>.\nBut, this package is significantly different from the original.\nIt uses a chains of ordinary GADTs created by TH.\nNo Typeable, no unsafe... , no ExistentialQuantification ...",
+    "category": "Control, Effect, TH ",
+    "custom-fields": [],
+    "build-type-raw": "Simple",
+    "custom-setup": null,
+    "library": null,
+    "sublibraries": [],
+    "executables": [],
+    "foreign-libs": [],
+    "test-suites": [],
+    "benchmarks": [],
+    "data-files": [],
+    "data-dir": ".",
+    "extra-source-files": [
+      "README.md",
+      "changelog",
+      "samples/*.hs"
+    ],
+    "extra-tmp-files": [],
+    "extra-doc-files": []
+  },
+  "library": {
+    "condTreeData": {
+      "name": {},
+      "exposed-modules": [
+        [
+          "Control",
+          "THEff"
+        ],
+        [
+          "Control",
+          "THEff",
+          "Reader"
+        ],
+        [
+          "Control",
+          "THEff",
+          "State"
+        ],
+        [
+          "Control",
+          "THEff",
+          "Exception"
+        ],
+        [
+          "Control",
+          "THEff",
+          "Catch"
+        ],
+        [
+          "Control",
+          "THEff",
+          "Writer"
+        ],
+        [
+          "Control",
+          "THEff",
+          "Fresh"
+        ],
+        [
+          "Control",
+          "THEff",
+          "Validator"
+        ],
+        [
+          "Control",
+          "THEff",
+          "Writer",
+          "Strict"
+        ],
+        [
+          "Control",
+          "THEff",
+          "Reader",
+          "Strict"
+        ],
+        [
+          "Control",
+          "THEff",
+          "State",
+          "Strict"
+        ]
+      ],
+      "re-exported-modules": [],
+      "signatures": [],
+      "exposed": true,
+      "visibility": "LibraryVisibilityPublic",
+      "build-info": {
+        "buildable": true,
+        "buildTools": [],
+        "buildToolDepends": [],
+        "cppOptions": [],
+        "asmOptions": [],
+        "cmmOptions": [],
+        "ccOptions": [],
+        "cxxOptions": [],
+        "ldOptions": [],
+        "pkgconfigDepends": [],
+        "frameworks": [],
+        "extraFrameworkDirs": [],
+        "asmSources": [],
+        "cmmSources": [],
+        "cSources": [],
+        "cxxSources": [],
+        "jsSources": [],
+        "hsSourceDirs": [
+          "src"
+        ],
+        "otherModules": [
+          [
+            "Control",
+            "THEff",
+            "TH",
+            "Internal"
+          ]
+        ],
+        "virtualModules": [],
+        "autogenModules": [],
+        "defaultLanguage": "Haskell2010",
+        "otherLanguages": [],
+        "defaultExtensions": [],
+        "otherExtensions": [
+          {
+            "enable-extension": "KindSignatures"
+          },
+          {
+            "enable-extension": "FlexibleInstances"
+          },
+          {
+            "enable-extension": "FlexibleContexts"
+          },
+          {
+            "enable-extension": "MultiParamTypeClasses"
+          },
+          {
+            "enable-extension": "TemplateHaskell"
+          },
+          {
+            "enable-extension": "ViewPatterns"
+          },
+          {
+            "enable-extension": "RecordWildCards"
+          },
+          {
+            "enable-extension": "ScopedTypeVariables"
+          },
+          {
+            "enable-extension": "RankNTypes"
+          },
+          {
+            "enable-extension": "GADTs"
+          },
+          {
+            "enable-extension": "BangPatterns"
+          }
+        ],
+        "oldExtensions": [],
+        "extraLibs": [],
+        "extraGHCiLibs": [],
+        "extraBundledLibs": [],
+        "extraLibFlavours": [],
+        "extraDynLibFlavours": [],
+        "extraLibDirs": [],
+        "includeDirs": [],
+        "includes": [],
+        "autogenIncludes": [],
+        "installIncludes": [],
+        "options": [
+          [
+            "-Wall",
+            "-fwarn-tabs"
+          ],
+          []
+        ],
+        "profOptions": [
+          [],
+          []
+        ],
+        "sharedOptions": [
+          [],
+          []
+        ],
+        "staticOptions": [
+          [],
+          []
+        ],
+        "customFieldsBI": [],
+        "targetBuildDepends": [
+          {
+            "package-name": "base",
+            "version-range": ">=4.7 && <5",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "template-haskell",
+            "version-range": ">=2.11",
+            "library": [
+              {}
+            ]
+          }
+        ],
+        "mixins": []
+      }
+    },
+    "condTreeConstraints": [
+      {
+        "package-name": "base",
+        "version-range": ">=4.7 && <5",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "template-haskell",
+        "version-range": ">=2.11",
+        "library": [
+          {}
+        ]
+      }
+    ],
+    "condTreeComponents": []
+  }
+}

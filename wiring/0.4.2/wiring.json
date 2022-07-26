@@ -1,0 +1,495 @@
+{
+  "description": {
+    "spec-version": {
+      "Right": ">=1.10"
+    },
+    "package": {
+      "name": "wiring",
+      "version": [
+        0,
+        4,
+        2
+      ]
+    },
+    "license": {
+      "Right": "BSD3"
+    },
+    "license-files": [
+      "LICENSE"
+    ],
+    "copyright": "",
+    "maintainer": "git@futurenotfound.com",
+    "author": "Sean Parsons",
+    "stability": "provisional",
+    "tested-with": [],
+    "homepage": "http://github.com/seanparsons/wiring/",
+    "pkg-url": "",
+    "bug-reports": "http://github.com/seanparsons/wiring/issues",
+    "source-repos": [
+      {
+        "kind": {},
+        "type": "Git",
+        "location": "git://github.com/seanparsons/wiring.git",
+        "module": null,
+        "branch": null,
+        "tag": null,
+        "subdir": null
+      }
+    ],
+    "synopsis": "Wiring, promotion and demotion of types.",
+    "description": "This package provides the ability to join up or wire instances of types (such as ReaderT, WriterT and RWST) with some semi-automatic conversions.\n\n/ReaderT Example/\n\nWith ReaderT there might be two functions already written that we wish to compose:\n\n> userLookup :: Int -> ReaderT (Resource1, Database1) IO User\n> ordersLookup :: Int -> ReaderT (Database2, Resource1) IO [String]\n\nOrdinarily these could not be used together because their environment type differs,\nwhich reduces the utility of ReaderT as a method of <http://en.wikipedia.org/wiki/Dependency_injection dependency injection>.\n\nHowever with use of the @wire@ method from the @Wirable@ typeclass it becomes possible to use these two together with little pain.\n\n> composedLookup :: Int -> ReaderT (Resource1, Database1, Database2) IO String\n> composedLookup userId = do\n>   user    <- wire $ userLookup userId\n>   orders  <- wire $ ordersLookup userId\n>   return $ describeOrders user orders\n\n/Tuples/\n\nBuilt in are instances of @Wirable@ for transforming tuples to their individual fields, like taking @a@ from a tuple @(a, b, c)@.\n\nAs well as producing new tuples from existing tuples, starting with a tuple of @(a, b, c)@ and returning a tuple of @(c, a)@.\n\n/Other Types/\n\nWriterT and RWST are similarly well supported, including the ability to promote from ReaderT\\/WriterT up to RWST.\n\nSome existing functionality is extended like for instance with the @wiredAsk@ and @wiredTell@ functions.",
+    "category": "Data",
+    "custom-fields": [],
+    "build-type-raw": "Simple",
+    "custom-setup": null,
+    "library": null,
+    "sublibraries": [],
+    "executables": [],
+    "foreign-libs": [],
+    "test-suites": [],
+    "benchmarks": [],
+    "data-files": [],
+    "data-dir": ".",
+    "extra-source-files": [],
+    "extra-tmp-files": [],
+    "extra-doc-files": []
+  },
+  "library": {
+    "condTreeData": {
+      "name": {},
+      "exposed-modules": [
+        [
+          "Control",
+          "Monad",
+          "Wiring"
+        ],
+        [
+          "Control",
+          "Monad",
+          "Trans",
+          "Reader",
+          "Wiring"
+        ],
+        [
+          "Control",
+          "Monad",
+          "Trans",
+          "State",
+          "Lazy",
+          "Wiring"
+        ],
+        [
+          "Control",
+          "Monad",
+          "Trans",
+          "State",
+          "Strict",
+          "Wiring"
+        ],
+        [
+          "Control",
+          "Monad",
+          "Trans",
+          "Writer",
+          "Lazy",
+          "Wiring"
+        ],
+        [
+          "Control",
+          "Monad",
+          "Trans",
+          "Writer",
+          "Strict",
+          "Wiring"
+        ],
+        [
+          "Control",
+          "Monad",
+          "Trans",
+          "RWS",
+          "Lazy",
+          "Wiring"
+        ],
+        [
+          "Control",
+          "Monad",
+          "Trans",
+          "RWS",
+          "Strict",
+          "Wiring"
+        ],
+        [
+          "Control",
+          "Monad",
+          "Reader",
+          "Wiring"
+        ],
+        [
+          "Control",
+          "Monad",
+          "Reader",
+          "Class",
+          "Wiring"
+        ],
+        [
+          "Control",
+          "Monad",
+          "State",
+          "Lazy",
+          "Wiring"
+        ],
+        [
+          "Control",
+          "Monad",
+          "State",
+          "Strict",
+          "Wiring"
+        ],
+        [
+          "Control",
+          "Monad",
+          "Writer",
+          "Lazy",
+          "Wiring"
+        ],
+        [
+          "Control",
+          "Monad",
+          "Writer",
+          "Strict",
+          "Wiring"
+        ],
+        [
+          "Control",
+          "Monad",
+          "RWS",
+          "Lazy",
+          "Wiring"
+        ],
+        [
+          "Control",
+          "Monad",
+          "RWS",
+          "Strict",
+          "Wiring"
+        ]
+      ],
+      "re-exported-modules": [],
+      "signatures": [],
+      "exposed": true,
+      "visibility": "LibraryVisibilityPublic",
+      "build-info": {
+        "buildable": true,
+        "buildTools": [],
+        "buildToolDepends": [],
+        "cppOptions": [],
+        "asmOptions": [],
+        "cmmOptions": [],
+        "ccOptions": [],
+        "cxxOptions": [],
+        "ldOptions": [],
+        "pkgconfigDepends": [],
+        "frameworks": [],
+        "extraFrameworkDirs": [],
+        "asmSources": [],
+        "cmmSources": [],
+        "cSources": [],
+        "cxxSources": [],
+        "jsSources": [],
+        "hsSourceDirs": [
+          "src"
+        ],
+        "otherModules": [
+          [
+            "Control",
+            "Monad",
+            "Wiring",
+            "Types"
+          ],
+          [
+            "Control",
+            "Monad",
+            "Wiring",
+            "TH"
+          ]
+        ],
+        "virtualModules": [],
+        "autogenModules": [],
+        "defaultLanguage": "Haskell2010",
+        "otherLanguages": [],
+        "defaultExtensions": [
+          {
+            "enable-extension": "CPP"
+          }
+        ],
+        "otherExtensions": [],
+        "oldExtensions": [],
+        "extraLibs": [],
+        "extraGHCiLibs": [],
+        "extraBundledLibs": [],
+        "extraLibFlavours": [],
+        "extraDynLibFlavours": [],
+        "extraLibDirs": [],
+        "includeDirs": [],
+        "includes": [],
+        "autogenIncludes": [],
+        "installIncludes": [],
+        "options": [
+          [
+            "-rtsopts",
+            "-Wall",
+            "-fno-warn-orphans",
+            "-fno-warn-unused-imports"
+          ],
+          []
+        ],
+        "profOptions": [
+          [],
+          []
+        ],
+        "sharedOptions": [
+          [],
+          []
+        ],
+        "staticOptions": [
+          [],
+          []
+        ],
+        "customFieldsBI": [],
+        "targetBuildDepends": [
+          {
+            "package-name": "base",
+            "version-range": ">=4.6 && <4.10",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "template-haskell",
+            "version-range": ">=2.7 && <2.11",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "transformers",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "mtl",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          }
+        ],
+        "mixins": []
+      }
+    },
+    "condTreeConstraints": [
+      {
+        "package-name": "base",
+        "version-range": ">=4.6 && <4.10",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "template-haskell",
+        "version-range": ">=2.7 && <2.11",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "transformers",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "mtl",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      }
+    ],
+    "condTreeComponents": []
+  },
+  "test-suites": {
+    "tests": {
+      "condTreeData": {
+        "name": "",
+        "interface": {
+          "version": [
+            1,
+            0
+          ],
+          "filepath": "Spec.hs"
+        },
+        "build-info": {
+          "buildable": true,
+          "buildTools": [],
+          "buildToolDepends": [],
+          "cppOptions": [],
+          "asmOptions": [],
+          "cmmOptions": [],
+          "ccOptions": [],
+          "cxxOptions": [],
+          "ldOptions": [],
+          "pkgconfigDepends": [],
+          "frameworks": [],
+          "extraFrameworkDirs": [],
+          "asmSources": [],
+          "cmmSources": [],
+          "cSources": [],
+          "cxxSources": [],
+          "jsSources": [],
+          "hsSourceDirs": [
+            "test",
+            "src"
+          ],
+          "otherModules": [],
+          "virtualModules": [],
+          "autogenModules": [],
+          "defaultLanguage": "Haskell2010",
+          "otherLanguages": [],
+          "defaultExtensions": [
+            {
+              "enable-extension": "CPP"
+            }
+          ],
+          "otherExtensions": [],
+          "oldExtensions": [],
+          "extraLibs": [],
+          "extraGHCiLibs": [],
+          "extraBundledLibs": [],
+          "extraLibFlavours": [],
+          "extraDynLibFlavours": [],
+          "extraLibDirs": [],
+          "includeDirs": [],
+          "includes": [],
+          "autogenIncludes": [],
+          "installIncludes": [],
+          "options": [
+            [
+              "-rtsopts",
+              "-Wall",
+              "-fno-warn-orphans",
+              "-fno-warn-unused-imports"
+            ],
+            []
+          ],
+          "profOptions": [
+            [],
+            []
+          ],
+          "sharedOptions": [
+            [],
+            []
+          ],
+          "staticOptions": [
+            [],
+            []
+          ],
+          "customFieldsBI": [],
+          "targetBuildDepends": [
+            {
+              "package-name": "base",
+              "version-range": ">=4.6 && <4.10",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "template-haskell",
+              "version-range": ">=2.7 && <2.11",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "transformers",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "mtl",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "QuickCheck",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "hspec",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            }
+          ],
+          "mixins": []
+        }
+      },
+      "condTreeConstraints": [
+        {
+          "package-name": "base",
+          "version-range": ">=4.6 && <4.10",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "template-haskell",
+          "version-range": ">=2.7 && <2.11",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "transformers",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "mtl",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "QuickCheck",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "hspec",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        }
+      ],
+      "condTreeComponents": []
+    }
+  }
+}

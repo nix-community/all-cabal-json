@@ -1,0 +1,1420 @@
+{
+  "description": {
+    "spec-version": {
+      "Right": ">=1.24"
+    },
+    "package": {
+      "name": "lol-typing",
+      "version": [
+        1,
+        20160822
+      ]
+    },
+    "license": {
+      "Right": "OtherLicense"
+    },
+    "license-files": [
+      "COPYING"
+    ],
+    "copyright": "",
+    "maintainer": "Julien Moutinho <julm+lol@autogeree.net>",
+    "author": "Julien Moutinho <julm+lol@autogeree.net>",
+    "stability": "experimental",
+    "tested-with": [
+      {
+        "compiler": "GHC",
+        "versionRange": "==7.10.3"
+      }
+    ],
+    "homepage": "",
+    "pkg-url": "",
+    "bug-reports": "",
+    "source-repos": [
+      {
+        "kind": {},
+        "type": "Git",
+        "location": "git://git.autogeree.net/lol",
+        "module": null,
+        "branch": null,
+        "tag": null,
+        "subdir": null
+      }
+    ],
+    "synopsis": "Type inferencer for LOL (λω language)",
+    "description": "WARNING: this is a research program\nwritten as I learn and explore /type inferencing/:\nplease understand well by yourself whatever you may take from it;\nany question or contribution being welcome :-)\n\nThis package implements /type inferencing/\nby manipulating /type constraints/\nthrough 3 successive phases:\n1. the 'Collect' phase collects them from some expression,\n2. the 'Order' phase modifies the order in which they will be solved,\n3. the 'Solver' phase solves them according to the logic\nof some /type inference rules/.\n\nSo far, the principles within these phases\nare mainly a rewrite of Bastiaan Heeren's\n<https://hackage.haskell.org/package/Top Top>,\nusing my own code conventions and ideals of simplicity.\nThe most notable change being the use of Roman Cheplyaka's\n<https://hackage.haskell.org/package/monad-classes monad-classes>\n(a little bit augmented):\nto handle the 'Monad' stack building a 'Solver'\n(instead of a homegrown machinery I could not understand well).\nAt this point, only a /bottom-up/ 'Collect', a no-op 'Order'\nand a 'Greedy' 'Solver' are implemented, supporting:\n/monomorphic types/ ('Monotype'),\n/parametric polymorphism/ ('Polytype'),\n/type class polymorphism/ ('Class'),\nand /type synonyms/ ('Synotype').\nThe quite understandable thesis of Bastiaan Heeren\nexplains a lot of this in details:\n<http://www.open.ou.nl/bhr/TopQuality.pdf Top Quality Type Error Messages>.\n\nThe <https://hackage.haskell.org/package/uuagc Attribute Grammar System of Universiteit Utrecht>\nis used to demonstrate how to collect /type constraints/ from an expression ('Expr'),\nand then how to transform this /implicitely typed/ expression into an /explicitely typed/\n<https://hackage.haskell.org/package/lol-calculus lol-calculus> expression\n\nSee also: the <https://hackage.haskell.org/package/helium helium> compiler.",
+    "category": "Language",
+    "custom-fields": [
+      [
+        "x-revision",
+        "1"
+      ]
+    ],
+    "build-type-raw": "Custom",
+    "custom-setup": {
+      "setup-depends": [
+        {
+          "package-name": "base",
+          "version-range": ">=4.6 && <5",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "Cabal",
+          "version-range": ">=1.24",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "uuagc",
+          "version-range": ">=0.9",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "uuagc-cabal",
+          "version-range": ">=1.0.6.0",
+          "library": [
+            {}
+          ]
+        }
+      ],
+      "__defaultSetupDepends": false
+    },
+    "library": null,
+    "sublibraries": [],
+    "executables": [],
+    "foreign-libs": [],
+    "test-suites": [],
+    "benchmarks": [],
+    "data-files": [],
+    "data-dir": ".",
+    "extra-source-files": [
+      "stack.yaml",
+      "uuagc_options",
+      "Language/LOL/Typing/Collect/Grammar.ag",
+      "Language/LOL/Typing/Expr/Calculus.ag",
+      "Language/LOL/Typing/Expr/Grammar.ag"
+    ],
+    "extra-tmp-files": [],
+    "extra-doc-files": []
+  },
+  "package-flags": [
+    {
+      "name": "dev",
+      "description": "Turn on development settings.",
+      "default": false,
+      "manual": true
+    },
+    {
+      "name": "dump",
+      "description": "Dump some intermediate files.",
+      "default": false,
+      "manual": true
+    },
+    {
+      "name": "exe",
+      "description": "Turn on executables.",
+      "default": false,
+      "manual": true
+    },
+    {
+      "name": "prof",
+      "description": "Turn on profiling settings.",
+      "default": false,
+      "manual": true
+    },
+    {
+      "name": "threaded",
+      "description": "Enable threads.",
+      "default": true,
+      "manual": true
+    }
+  ],
+  "library": {
+    "condTreeData": {
+      "name": {},
+      "exposed-modules": [
+        [
+          "Language",
+          "LOL",
+          "Typing"
+        ],
+        [
+          "Language",
+          "LOL",
+          "Typing",
+          "Collect"
+        ],
+        [
+          "Language",
+          "LOL",
+          "Typing",
+          "Collect",
+          "Constraint"
+        ],
+        [
+          "Language",
+          "LOL",
+          "Typing",
+          "Collect",
+          "Grammar"
+        ],
+        [
+          "Language",
+          "LOL",
+          "Typing",
+          "Constraint"
+        ],
+        [
+          "Language",
+          "LOL",
+          "Typing",
+          "Constraint",
+          "Either"
+        ],
+        [
+          "Language",
+          "LOL",
+          "Typing",
+          "Constraint",
+          "Extra"
+        ],
+        [
+          "Language",
+          "LOL",
+          "Typing",
+          "Constraint",
+          "Monotype"
+        ],
+        [
+          "Language",
+          "LOL",
+          "Typing",
+          "Constraint",
+          "Polytype"
+        ],
+        [
+          "Language",
+          "LOL",
+          "Typing",
+          "Expr"
+        ],
+        [
+          "Language",
+          "LOL",
+          "Typing",
+          "Expr",
+          "Calculus"
+        ],
+        [
+          "Language",
+          "LOL",
+          "Typing",
+          "Expr",
+          "Common"
+        ],
+        [
+          "Language",
+          "LOL",
+          "Typing",
+          "Expr",
+          "Grammar"
+        ],
+        [
+          "Language",
+          "LOL",
+          "Typing",
+          "Expr",
+          "Utils"
+        ],
+        [
+          "Language",
+          "LOL",
+          "Typing",
+          "Expr",
+          "Write"
+        ],
+        [
+          "Language",
+          "LOL",
+          "Typing",
+          "Lib",
+          "Control",
+          "Monad",
+          "Classes",
+          "EffectsFix"
+        ],
+        [
+          "Language",
+          "LOL",
+          "Typing",
+          "Lib",
+          "Control",
+          "Monad",
+          "Classes",
+          "Instance"
+        ],
+        [
+          "Language",
+          "LOL",
+          "Typing",
+          "Lib",
+          "Control",
+          "Monad",
+          "Classes",
+          "StateFix"
+        ],
+        [
+          "Language",
+          "LOL",
+          "Typing",
+          "Lib",
+          "Control",
+          "Monad",
+          "Classes",
+          "StateInstance"
+        ],
+        [
+          "Language",
+          "LOL",
+          "Typing",
+          "Lib",
+          "Data",
+          "Default"
+        ],
+        [
+          "Language",
+          "LOL",
+          "Typing",
+          "Lib",
+          "Data",
+          "Empty"
+        ],
+        [
+          "Language",
+          "LOL",
+          "Typing",
+          "Lib",
+          "Data",
+          "Text",
+          "Buildable"
+        ],
+        [
+          "Language",
+          "LOL",
+          "Typing",
+          "Solver"
+        ],
+        [
+          "Language",
+          "LOL",
+          "Typing",
+          "Solver",
+          "Class"
+        ],
+        [
+          "Language",
+          "LOL",
+          "Typing",
+          "Solver",
+          "Common"
+        ],
+        [
+          "Language",
+          "LOL",
+          "Typing",
+          "Solver",
+          "Constraint"
+        ],
+        [
+          "Language",
+          "LOL",
+          "Typing",
+          "Solver",
+          "Greedy"
+        ],
+        [
+          "Language",
+          "LOL",
+          "Typing",
+          "Solver",
+          "Monad"
+        ],
+        [
+          "Language",
+          "LOL",
+          "Typing",
+          "Solver",
+          "Monotype"
+        ],
+        [
+          "Language",
+          "LOL",
+          "Typing",
+          "Solver",
+          "Polytype"
+        ],
+        [
+          "Language",
+          "LOL",
+          "Typing",
+          "Type"
+        ],
+        [
+          "Language",
+          "LOL",
+          "Typing",
+          "Type",
+          "Class"
+        ],
+        [
+          "Language",
+          "LOL",
+          "Typing",
+          "Type",
+          "Kind"
+        ],
+        [
+          "Language",
+          "LOL",
+          "Typing",
+          "Type",
+          "Monotype"
+        ],
+        [
+          "Language",
+          "LOL",
+          "Typing",
+          "Type",
+          "Polytype"
+        ],
+        [
+          "Language",
+          "LOL",
+          "Typing",
+          "Type",
+          "Qualification"
+        ],
+        [
+          "Language",
+          "LOL",
+          "Typing",
+          "Type",
+          "Quantification"
+        ],
+        [
+          "Language",
+          "LOL",
+          "Typing",
+          "Type",
+          "Substitution"
+        ],
+        [
+          "Language",
+          "LOL",
+          "Typing",
+          "Type",
+          "Synotype"
+        ],
+        [
+          "Language",
+          "LOL",
+          "Typing",
+          "Type",
+          "Unification"
+        ]
+      ],
+      "re-exported-modules": [],
+      "signatures": [],
+      "exposed": true,
+      "visibility": "LibraryVisibilityPublic",
+      "build-info": {
+        "buildable": true,
+        "buildTools": [],
+        "buildToolDepends": [],
+        "cppOptions": [],
+        "asmOptions": [],
+        "cmmOptions": [],
+        "ccOptions": [],
+        "cxxOptions": [],
+        "ldOptions": [],
+        "pkgconfigDepends": [],
+        "frameworks": [],
+        "extraFrameworkDirs": [],
+        "asmSources": [],
+        "cmmSources": [],
+        "cSources": [],
+        "cxxSources": [],
+        "jsSources": [],
+        "hsSourceDirs": [],
+        "otherModules": [],
+        "virtualModules": [],
+        "autogenModules": [],
+        "defaultLanguage": "Haskell2010",
+        "otherLanguages": [],
+        "defaultExtensions": [
+          {
+            "disable-extension": "ImplicitPrelude"
+          }
+        ],
+        "otherExtensions": [],
+        "oldExtensions": [],
+        "extraLibs": [],
+        "extraGHCiLibs": [],
+        "extraBundledLibs": [],
+        "extraLibFlavours": [],
+        "extraDynLibFlavours": [],
+        "extraLibDirs": [],
+        "includeDirs": [],
+        "includes": [],
+        "autogenIncludes": [],
+        "installIncludes": [],
+        "options": [
+          [
+            "-Wall",
+            "-fno-warn-tabs"
+          ],
+          []
+        ],
+        "profOptions": [
+          [],
+          []
+        ],
+        "sharedOptions": [
+          [],
+          []
+        ],
+        "staticOptions": [
+          [],
+          []
+        ],
+        "customFieldsBI": [],
+        "targetBuildDepends": [
+          {
+            "package-name": "base",
+            "version-range": ">=4.6 && <5",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "containers",
+            "version-range": ">=0.5 && <0.6",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "ghc-prim",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "lol-calculus",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "monad-classes",
+            "version-range": ">=0.3.1.1",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "parsec",
+            "version-range": ">=3.1.2 && <4",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "text",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "text-format",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "transformers",
+            "version-range": ">=0.4 && <0.5",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "uuagc",
+            "version-range": ">=0.9",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "uuagc-cabal",
+            "version-range": ">=1.0.6.0",
+            "library": [
+              {}
+            ]
+          }
+        ],
+        "mixins": []
+      }
+    },
+    "condTreeConstraints": [
+      {
+        "package-name": "base",
+        "version-range": ">=4.6 && <5",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "containers",
+        "version-range": ">=0.5 && <0.6",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "ghc-prim",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "lol-calculus",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "monad-classes",
+        "version-range": ">=0.3.1.1",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "parsec",
+        "version-range": ">=3.1.2 && <4",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "text",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "text-format",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "transformers",
+        "version-range": ">=0.4 && <0.5",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "uuagc",
+        "version-range": ">=0.9",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "uuagc-cabal",
+        "version-range": ">=1.0.6.0",
+        "library": [
+          {}
+        ]
+      }
+    ],
+    "condTreeComponents": [
+      {
+        "condBranchCondition": {
+          "v": {
+            "flag": "dev"
+          }
+        },
+        "condBranchIfTrue": {
+          "condTreeData": {
+            "name": {},
+            "exposed-modules": [],
+            "re-exported-modules": [],
+            "signatures": [],
+            "exposed": true,
+            "visibility": "LibraryVisibilityPublic",
+            "build-info": {
+              "buildable": true,
+              "buildTools": [],
+              "buildToolDepends": [],
+              "cppOptions": [
+                "-DDEVELOPMENT"
+              ],
+              "asmOptions": [],
+              "cmmOptions": [],
+              "ccOptions": [],
+              "cxxOptions": [],
+              "ldOptions": [],
+              "pkgconfigDepends": [],
+              "frameworks": [],
+              "extraFrameworkDirs": [],
+              "asmSources": [],
+              "cmmSources": [],
+              "cSources": [],
+              "cxxSources": [],
+              "jsSources": [],
+              "hsSourceDirs": [],
+              "otherModules": [],
+              "virtualModules": [],
+              "autogenModules": [],
+              "defaultLanguage": null,
+              "otherLanguages": [],
+              "defaultExtensions": [],
+              "otherExtensions": [],
+              "oldExtensions": [],
+              "extraLibs": [],
+              "extraGHCiLibs": [],
+              "extraBundledLibs": [],
+              "extraLibFlavours": [],
+              "extraDynLibFlavours": [],
+              "extraLibDirs": [],
+              "includeDirs": [],
+              "includes": [],
+              "autogenIncludes": [],
+              "installIncludes": [],
+              "options": [
+                [],
+                []
+              ],
+              "profOptions": [
+                [],
+                []
+              ],
+              "sharedOptions": [
+                [],
+                []
+              ],
+              "staticOptions": [
+                [],
+                []
+              ],
+              "customFieldsBI": [],
+              "targetBuildDepends": [],
+              "mixins": []
+            }
+          },
+          "condTreeConstraints": [],
+          "condTreeComponents": []
+        }
+      },
+      {
+        "condBranchCondition": {
+          "v": {
+            "flag": "dump"
+          }
+        },
+        "condBranchIfTrue": {
+          "condTreeData": {
+            "name": {},
+            "exposed-modules": [],
+            "re-exported-modules": [],
+            "signatures": [],
+            "exposed": true,
+            "visibility": "LibraryVisibilityPublic",
+            "build-info": {
+              "buildable": true,
+              "buildTools": [],
+              "buildToolDepends": [],
+              "cppOptions": [],
+              "asmOptions": [],
+              "cmmOptions": [],
+              "ccOptions": [],
+              "cxxOptions": [],
+              "ldOptions": [],
+              "pkgconfigDepends": [],
+              "frameworks": [],
+              "extraFrameworkDirs": [],
+              "asmSources": [],
+              "cmmSources": [],
+              "cSources": [],
+              "cxxSources": [],
+              "jsSources": [],
+              "hsSourceDirs": [],
+              "otherModules": [],
+              "virtualModules": [],
+              "autogenModules": [],
+              "defaultLanguage": null,
+              "otherLanguages": [],
+              "defaultExtensions": [],
+              "otherExtensions": [],
+              "oldExtensions": [],
+              "extraLibs": [],
+              "extraGHCiLibs": [],
+              "extraBundledLibs": [],
+              "extraLibFlavours": [],
+              "extraDynLibFlavours": [],
+              "extraLibDirs": [],
+              "includeDirs": [],
+              "includes": [],
+              "autogenIncludes": [],
+              "installIncludes": [],
+              "options": [
+                [
+                  "-ddump-simpl",
+                  "-ddump-stg",
+                  "-ddump-to-file"
+                ],
+                []
+              ],
+              "profOptions": [
+                [],
+                []
+              ],
+              "sharedOptions": [
+                [],
+                []
+              ],
+              "staticOptions": [
+                [],
+                []
+              ],
+              "customFieldsBI": [],
+              "targetBuildDepends": [],
+              "mixins": []
+            }
+          },
+          "condTreeConstraints": [],
+          "condTreeComponents": []
+        }
+      },
+      {
+        "condBranchCondition": {
+          "v": {
+            "flag": "prof"
+          }
+        },
+        "condBranchIfTrue": {
+          "condTreeData": {
+            "name": {},
+            "exposed-modules": [],
+            "re-exported-modules": [],
+            "signatures": [],
+            "exposed": true,
+            "visibility": "LibraryVisibilityPublic",
+            "build-info": {
+              "buildable": true,
+              "buildTools": [],
+              "buildToolDepends": [],
+              "cppOptions": [
+                "-DPROFILING"
+              ],
+              "asmOptions": [],
+              "cmmOptions": [],
+              "ccOptions": [],
+              "cxxOptions": [],
+              "ldOptions": [],
+              "pkgconfigDepends": [],
+              "frameworks": [],
+              "extraFrameworkDirs": [],
+              "asmSources": [],
+              "cmmSources": [],
+              "cSources": [],
+              "cxxSources": [],
+              "jsSources": [],
+              "hsSourceDirs": [],
+              "otherModules": [],
+              "virtualModules": [],
+              "autogenModules": [],
+              "defaultLanguage": null,
+              "otherLanguages": [],
+              "defaultExtensions": [],
+              "otherExtensions": [],
+              "oldExtensions": [],
+              "extraLibs": [],
+              "extraGHCiLibs": [],
+              "extraBundledLibs": [],
+              "extraLibFlavours": [],
+              "extraDynLibFlavours": [],
+              "extraLibDirs": [],
+              "includeDirs": [],
+              "includes": [],
+              "autogenIncludes": [],
+              "installIncludes": [],
+              "options": [
+                [
+                  "-fprof-auto"
+                ],
+                []
+              ],
+              "profOptions": [
+                [],
+                []
+              ],
+              "sharedOptions": [
+                [],
+                []
+              ],
+              "staticOptions": [
+                [],
+                []
+              ],
+              "customFieldsBI": [],
+              "targetBuildDepends": [],
+              "mixins": []
+            }
+          },
+          "condTreeConstraints": [],
+          "condTreeComponents": []
+        }
+      }
+    ]
+  },
+  "test-suites": {
+    "lol-typing-test": {
+      "condTreeData": {
+        "name": "",
+        "interface": {
+          "version": [
+            1,
+            0
+          ],
+          "filepath": "Test.hs"
+        },
+        "build-info": {
+          "buildable": true,
+          "buildTools": [],
+          "buildToolDepends": [],
+          "cppOptions": [],
+          "asmOptions": [],
+          "cmmOptions": [],
+          "ccOptions": [],
+          "cxxOptions": [],
+          "ldOptions": [],
+          "pkgconfigDepends": [],
+          "frameworks": [],
+          "extraFrameworkDirs": [],
+          "asmSources": [],
+          "cmmSources": [],
+          "cSources": [],
+          "cxxSources": [],
+          "jsSources": [],
+          "hsSourceDirs": [
+            "Language/LOL/Typing"
+          ],
+          "otherModules": [
+            [
+              "Expr",
+              "Test"
+            ],
+            [
+              "Solver",
+              "Test"
+            ],
+            [
+              "Type",
+              "Test"
+            ]
+          ],
+          "virtualModules": [],
+          "autogenModules": [],
+          "defaultLanguage": "Haskell2010",
+          "otherLanguages": [],
+          "defaultExtensions": [
+            {
+              "disable-extension": "ImplicitPrelude"
+            }
+          ],
+          "otherExtensions": [],
+          "oldExtensions": [],
+          "extraLibs": [],
+          "extraGHCiLibs": [],
+          "extraBundledLibs": [],
+          "extraLibFlavours": [],
+          "extraDynLibFlavours": [],
+          "extraLibDirs": [],
+          "includeDirs": [],
+          "includes": [],
+          "autogenIncludes": [],
+          "installIncludes": [],
+          "options": [
+            [
+              "-Wall",
+              "-fno-warn-tabs",
+              "-main-is",
+              "Test"
+            ],
+            []
+          ],
+          "profOptions": [
+            [],
+            []
+          ],
+          "sharedOptions": [
+            [],
+            []
+          ],
+          "staticOptions": [
+            [],
+            []
+          ],
+          "customFieldsBI": [],
+          "targetBuildDepends": [
+            {
+              "package-name": "base",
+              "version-range": ">=4.6 && <5",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "containers",
+              "version-range": ">=0.5 && <0.6",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "directory",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "filepath",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "ghc-prim",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "lol-calculus",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "lol-typing",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "monad-classes",
+              "version-range": ">=0.3.1.1",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "tasty",
+              "version-range": ">=0.11",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "tasty-hunit",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "text",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "text-format",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "transformers",
+              "version-range": ">=0.4 && <0.5",
+              "library": [
+                {}
+              ]
+            }
+          ],
+          "mixins": []
+        }
+      },
+      "condTreeConstraints": [
+        {
+          "package-name": "base",
+          "version-range": ">=4.6 && <5",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "containers",
+          "version-range": ">=0.5 && <0.6",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "directory",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "filepath",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "ghc-prim",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "lol-calculus",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "lol-typing",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "monad-classes",
+          "version-range": ">=0.3.1.1",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "tasty",
+          "version-range": ">=0.11",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "tasty-hunit",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "text",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "text-format",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "transformers",
+          "version-range": ">=0.4 && <0.5",
+          "library": [
+            {}
+          ]
+        }
+      ],
+      "condTreeComponents": [
+        {
+          "condBranchCondition": {
+            "v": {
+              "flag": "threaded"
+            }
+          },
+          "condBranchIfTrue": {
+            "condTreeData": {
+              "name": "",
+              "interface": {
+                "type": {
+                  "name": "",
+                  "version": []
+                }
+              },
+              "build-info": {
+                "buildable": true,
+                "buildTools": [],
+                "buildToolDepends": [],
+                "cppOptions": [],
+                "asmOptions": [],
+                "cmmOptions": [],
+                "ccOptions": [],
+                "cxxOptions": [],
+                "ldOptions": [],
+                "pkgconfigDepends": [],
+                "frameworks": [],
+                "extraFrameworkDirs": [],
+                "asmSources": [],
+                "cmmSources": [],
+                "cSources": [],
+                "cxxSources": [],
+                "jsSources": [],
+                "hsSourceDirs": [],
+                "otherModules": [],
+                "virtualModules": [],
+                "autogenModules": [],
+                "defaultLanguage": null,
+                "otherLanguages": [],
+                "defaultExtensions": [],
+                "otherExtensions": [],
+                "oldExtensions": [],
+                "extraLibs": [],
+                "extraGHCiLibs": [],
+                "extraBundledLibs": [],
+                "extraLibFlavours": [],
+                "extraDynLibFlavours": [],
+                "extraLibDirs": [],
+                "includeDirs": [],
+                "includes": [],
+                "autogenIncludes": [],
+                "installIncludes": [],
+                "options": [
+                  [
+                    "-threaded",
+                    "-rtsopts",
+                    "-with-rtsopts=-N"
+                  ],
+                  []
+                ],
+                "profOptions": [
+                  [],
+                  []
+                ],
+                "sharedOptions": [
+                  [],
+                  []
+                ],
+                "staticOptions": [
+                  [],
+                  []
+                ],
+                "customFieldsBI": [],
+                "targetBuildDepends": [],
+                "mixins": []
+              }
+            },
+            "condTreeConstraints": [],
+            "condTreeComponents": []
+          }
+        },
+        {
+          "condBranchCondition": {
+            "v": {
+              "flag": "dev"
+            }
+          },
+          "condBranchIfTrue": {
+            "condTreeData": {
+              "name": "",
+              "interface": {
+                "type": {
+                  "name": "",
+                  "version": []
+                }
+              },
+              "build-info": {
+                "buildable": true,
+                "buildTools": [],
+                "buildToolDepends": [],
+                "cppOptions": [
+                  "-DDEVELOPMENT"
+                ],
+                "asmOptions": [],
+                "cmmOptions": [],
+                "ccOptions": [],
+                "cxxOptions": [],
+                "ldOptions": [],
+                "pkgconfigDepends": [],
+                "frameworks": [],
+                "extraFrameworkDirs": [],
+                "asmSources": [],
+                "cmmSources": [],
+                "cSources": [],
+                "cxxSources": [],
+                "jsSources": [],
+                "hsSourceDirs": [],
+                "otherModules": [],
+                "virtualModules": [],
+                "autogenModules": [],
+                "defaultLanguage": null,
+                "otherLanguages": [],
+                "defaultExtensions": [],
+                "otherExtensions": [],
+                "oldExtensions": [],
+                "extraLibs": [],
+                "extraGHCiLibs": [],
+                "extraBundledLibs": [],
+                "extraLibFlavours": [],
+                "extraDynLibFlavours": [],
+                "extraLibDirs": [],
+                "includeDirs": [],
+                "includes": [],
+                "autogenIncludes": [],
+                "installIncludes": [],
+                "options": [
+                  [],
+                  []
+                ],
+                "profOptions": [
+                  [],
+                  []
+                ],
+                "sharedOptions": [
+                  [],
+                  []
+                ],
+                "staticOptions": [
+                  [],
+                  []
+                ],
+                "customFieldsBI": [],
+                "targetBuildDepends": [],
+                "mixins": []
+              }
+            },
+            "condTreeConstraints": [],
+            "condTreeComponents": []
+          }
+        },
+        {
+          "condBranchCondition": {
+            "v": {
+              "flag": "prof"
+            }
+          },
+          "condBranchIfTrue": {
+            "condTreeData": {
+              "name": "",
+              "interface": {
+                "type": {
+                  "name": "",
+                  "version": []
+                }
+              },
+              "build-info": {
+                "buildable": true,
+                "buildTools": [],
+                "buildToolDepends": [],
+                "cppOptions": [
+                  "-DPROFILING"
+                ],
+                "asmOptions": [],
+                "cmmOptions": [],
+                "ccOptions": [],
+                "cxxOptions": [],
+                "ldOptions": [],
+                "pkgconfigDepends": [],
+                "frameworks": [],
+                "extraFrameworkDirs": [],
+                "asmSources": [],
+                "cmmSources": [],
+                "cSources": [],
+                "cxxSources": [],
+                "jsSources": [],
+                "hsSourceDirs": [],
+                "otherModules": [],
+                "virtualModules": [],
+                "autogenModules": [],
+                "defaultLanguage": null,
+                "otherLanguages": [],
+                "defaultExtensions": [],
+                "otherExtensions": [],
+                "oldExtensions": [],
+                "extraLibs": [],
+                "extraGHCiLibs": [],
+                "extraBundledLibs": [],
+                "extraLibFlavours": [],
+                "extraDynLibFlavours": [],
+                "extraLibDirs": [],
+                "includeDirs": [],
+                "includes": [],
+                "autogenIncludes": [],
+                "installIncludes": [],
+                "options": [
+                  [
+                    "-fprof-auto"
+                  ],
+                  []
+                ],
+                "profOptions": [
+                  [],
+                  []
+                ],
+                "sharedOptions": [
+                  [],
+                  []
+                ],
+                "staticOptions": [
+                  [],
+                  []
+                ],
+                "customFieldsBI": [],
+                "targetBuildDepends": [],
+                "mixins": []
+              }
+            },
+            "condTreeConstraints": [],
+            "condTreeComponents": []
+          }
+        }
+      ]
+    }
+  }
+}

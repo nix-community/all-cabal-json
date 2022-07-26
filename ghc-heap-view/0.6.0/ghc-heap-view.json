@@ -1,0 +1,429 @@
+{
+  "description": {
+    "spec-version": {
+      "Left": [
+        1,
+        24
+      ]
+    },
+    "package": {
+      "name": "ghc-heap-view",
+      "version": [
+        0,
+        6,
+        0
+      ]
+    },
+    "license": {
+      "Right": "BSD3"
+    },
+    "license-files": [
+      "LICENSE"
+    ],
+    "copyright": "2012-2019 Joachim Breitner",
+    "maintainer": "Joachim Breitner <mail@joachim-breitner.de>",
+    "author": "Joachim Breitner, Dennis Felsing",
+    "stability": "",
+    "tested-with": [
+      {
+        "compiler": "GHC",
+        "versionRange": "==8.6.1"
+      },
+      {
+        "compiler": "GHC",
+        "versionRange": "==8.6.2"
+      },
+      {
+        "compiler": "GHC",
+        "versionRange": "==8.6.3"
+      },
+      {
+        "compiler": "GHC",
+        "versionRange": "==8.6.4"
+      },
+      {
+        "compiler": "GHC",
+        "versionRange": "==8.6.5"
+      }
+    ],
+    "homepage": "",
+    "pkg-url": "",
+    "bug-reports": "https://github.com/nomeata/ghc-heap-view",
+    "source-repos": [
+      {
+        "kind": {},
+        "type": "Git",
+        "location": "git://git.nomeata.de/ghc-heap-view.git",
+        "module": null,
+        "branch": null,
+        "tag": null,
+        "subdir": "Cabal"
+      }
+    ],
+    "synopsis": "Extract the heap representation of Haskell values and thunks",
+    "description": "This library provides functions to introspect the Haskell heap, for example\nto investigate sharing and lazy evaluation. As this is tied to the internals\nof the compiler, it only works with specific versions. This version supports,\nGHC 8.6. For older GHC versions see ghc-heap-view-0.5.10.\n\nIt has been inspired by (and taken code from) the vacuum package and the GHCi\ndebugger, but also allows to investigate thunks and other closures.\n\nThis package also provides a new GHCi-command, @:printHeap@, which allows you\nto inspect the current heap representation of a value, including sharing and\ncyclic references. To enable the command, you need to load the included ghci\nscript or add it to @~/.ghci@, as explained by @cabal install@. Once it is\nset up, you can do this:\n\n>> let value = \"A Value\"\n>> let x = (value, if head value == 'A' then value else \"\", cycle [True, False])\n>> :printHeap x\n>let x1 = _bco\n>    x21 = []\n>in (x1,_bco,_bco)\n>> length (take 100 (show x)) `seq` return () -- evaluate everything\n>> :printHeap x\n>let x1 = \"A Value\"\n>    x16 = True : False : x16\n>in (x1,x1,x16)\n\nYou can change the maximum recursion depth using @:setPrintHeapDepth@:\n\n>> :setPrintHeapDepth 3\n>> :printHeap x\n>let x1 = C# 'A' : ... : ...\n>in (x1,x1,True : ... : ...)\n\nIf the view is impaired by blackholes (written @_bh@), running\n@System.Mem.performGC@ usually helps.\n\nThe work on this package has been supported by the Deutsche Telekom Stiftung\n(<http://telekom-stiftung.de>).",
+    "category": "Debug, GHC",
+    "custom-fields": [],
+    "build-type-raw": "Custom",
+    "custom-setup": {
+      "setup-depends": [
+        {
+          "package-name": "base",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "filepath",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "Cabal",
+          "version-range": ">=1.24 && <2.6",
+          "library": [
+            {}
+          ]
+        }
+      ],
+      "__defaultSetupDepends": false
+    },
+    "library": null,
+    "sublibraries": [],
+    "executables": [],
+    "foreign-libs": [],
+    "test-suites": [],
+    "benchmarks": [],
+    "data-files": [
+      "ghci"
+    ],
+    "data-dir": ".",
+    "extra-source-files": [
+      "Demo.hs"
+    ],
+    "extra-tmp-files": [],
+    "extra-doc-files": []
+  },
+  "package-flags": [
+    {
+      "name": "prim-supports-any",
+      "description": "The used GHC supports Any as an argument to foreign prim functions (GHC ticket #5931)",
+      "default": false,
+      "manual": false
+    }
+  ],
+  "library": {
+    "condTreeData": {
+      "name": {},
+      "exposed-modules": [
+        [
+          "GHC",
+          "HeapView"
+        ],
+        [
+          "GHC",
+          "AssertNF"
+        ],
+        [
+          "GHC",
+          "Disassembler"
+        ],
+        [
+          "GHC",
+          "HeapView",
+          "Debug"
+        ]
+      ],
+      "re-exported-modules": [],
+      "signatures": [],
+      "exposed": true,
+      "visibility": "LibraryVisibilityPublic",
+      "build-info": {
+        "buildable": true,
+        "buildTools": [],
+        "buildToolDepends": [],
+        "cppOptions": [],
+        "asmOptions": [],
+        "cmmOptions": [],
+        "ccOptions": [],
+        "cxxOptions": [],
+        "ldOptions": [],
+        "pkgconfigDepends": [],
+        "frameworks": [],
+        "extraFrameworkDirs": [],
+        "asmSources": [],
+        "cmmSources": [],
+        "cSources": [],
+        "cxxSources": [],
+        "jsSources": [],
+        "hsSourceDirs": [
+          "src/"
+        ],
+        "otherModules": [],
+        "virtualModules": [],
+        "autogenModules": [],
+        "defaultLanguage": "Haskell2010",
+        "otherLanguages": [],
+        "defaultExtensions": [],
+        "otherExtensions": [],
+        "oldExtensions": [],
+        "extraLibs": [],
+        "extraGHCiLibs": [],
+        "extraBundledLibs": [],
+        "extraLibFlavours": [],
+        "extraDynLibFlavours": [],
+        "extraLibDirs": [],
+        "includeDirs": [],
+        "includes": [],
+        "autogenIncludes": [],
+        "installIncludes": [],
+        "options": [
+          [
+            "-Wall"
+          ],
+          []
+        ],
+        "profOptions": [
+          [],
+          []
+        ],
+        "sharedOptions": [
+          [],
+          []
+        ],
+        "staticOptions": [
+          [],
+          []
+        ],
+        "customFieldsBI": [],
+        "targetBuildDepends": [
+          {
+            "package-name": "base",
+            "version-range": ">=4.12 && <4.13",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "ghc-heap",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "containers",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "transformers",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "template-haskell",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "bytestring",
+            "version-range": ">=0.10",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "binary",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          }
+        ],
+        "mixins": []
+      }
+    },
+    "condTreeConstraints": [
+      {
+        "package-name": "base",
+        "version-range": ">=4.12 && <4.13",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "ghc-heap",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "containers",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "transformers",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "template-haskell",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "bytestring",
+        "version-range": ">=0.10",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "binary",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      }
+    ],
+    "condTreeComponents": []
+  },
+  "test-suites": {
+    "Test": {
+      "condTreeData": {
+        "name": "",
+        "interface": {
+          "version": [
+            1,
+            0
+          ],
+          "filepath": "Test.hs"
+        },
+        "build-info": {
+          "buildable": true,
+          "buildTools": [],
+          "buildToolDepends": [],
+          "cppOptions": [],
+          "asmOptions": [],
+          "cmmOptions": [],
+          "ccOptions": [],
+          "cxxOptions": [],
+          "ldOptions": [],
+          "pkgconfigDepends": [],
+          "frameworks": [],
+          "extraFrameworkDirs": [],
+          "asmSources": [],
+          "cmmSources": [],
+          "cSources": [],
+          "cxxSources": [],
+          "jsSources": [],
+          "hsSourceDirs": [],
+          "otherModules": [],
+          "virtualModules": [],
+          "autogenModules": [],
+          "defaultLanguage": "Haskell2010",
+          "otherLanguages": [],
+          "defaultExtensions": [],
+          "otherExtensions": [],
+          "oldExtensions": [],
+          "extraLibs": [],
+          "extraGHCiLibs": [],
+          "extraBundledLibs": [],
+          "extraLibFlavours": [],
+          "extraDynLibFlavours": [],
+          "extraLibDirs": [],
+          "includeDirs": [],
+          "includes": [],
+          "autogenIncludes": [],
+          "installIncludes": [],
+          "options": [
+            [
+              "-Wall",
+              "-O0"
+            ],
+            []
+          ],
+          "profOptions": [
+            [],
+            []
+          ],
+          "sharedOptions": [
+            [],
+            []
+          ],
+          "staticOptions": [
+            [],
+            []
+          ],
+          "customFieldsBI": [],
+          "targetBuildDepends": [
+            {
+              "package-name": "base",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "ghc-heap-view",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "deepseq",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            }
+          ],
+          "mixins": []
+        }
+      },
+      "condTreeConstraints": [
+        {
+          "package-name": "base",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "ghc-heap-view",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "deepseq",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        }
+      ],
+      "condTreeComponents": []
+    }
+  }
+}

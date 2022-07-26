@@ -1,0 +1,908 @@
+{
+  "description": {
+    "spec-version": {
+      "Right": ">=1.6"
+    },
+    "package": {
+      "name": "dbus",
+      "version": [
+        0,
+        10,
+        6
+      ]
+    },
+    "license": {
+      "Right": "OtherLicense"
+    },
+    "license-files": [
+      "license.txt"
+    ],
+    "copyright": "",
+    "maintainer": "John Millikin <jmillikin@gmail.com>",
+    "author": "John Millikin <jmillikin@gmail.com>",
+    "stability": "experimental",
+    "tested-with": [],
+    "homepage": "https://john-millikin.com/software/haskell-dbus/",
+    "pkg-url": "",
+    "bug-reports": "mailto:jmillikin@gmail.com",
+    "source-repos": [
+      {
+        "kind": {},
+        "type": "Git",
+        "location": "https://john-millikin.com/code/haskell-dbus/",
+        "module": null,
+        "branch": null,
+        "tag": null,
+        "subdir": null
+      },
+      {
+        "kind": {},
+        "type": "Git",
+        "location": "https://john-millikin.com/code/haskell-dbus/",
+        "module": null,
+        "branch": null,
+        "tag": "haskell-dbus_0.10.6",
+        "subdir": null
+      }
+    ],
+    "synopsis": "A client library for the D-Bus IPC system.",
+    "description": "D-Bus is a simple, message-based protocol for inter-process\ncommunication, which allows applications to interact with other parts of\nthe machine and the user's session using remote procedure calls.\n\nD-Bus is a essential part of the modern Linux desktop, where it replaces\nearlier protocols such as CORBA and DCOP.\n\nThis library is an implementation of the D-Bus protocol in Haskell. It\ncan be used to add D-Bus support to Haskell applications, without the\nawkward interfaces common to foreign bindings.\n\nExample: connect to the session bus, and get a list of active names.\n\n@\n&#x7b;-\\# LANGUAGE OverloadedStrings \\#-&#x7d;\n\nimport Data.List (sort)\nimport DBus\nimport DBus.Client\n\nmain = do\n&#x20;   client <- connectSession\n&#x20;   //\n&#x20;   \\-- Request a list of connected clients from the bus\n&#x20;   reply <- call_ client (methodCall \\\"\\/org\\/freedesktop\\/DBus\\\" \\\"org.freedesktop.DBus\\\" \\\"ListNames\\\")\n&#x20;       &#x7b; methodCallDestination = Just \\\"org.freedesktop.DBus\\\"\n&#x20;       &#x7d;\n&#x20;   //\n&#x20;   \\-- org.freedesktop.DBus.ListNames() returns a single value, which is\n&#x20;   \\-- a list of names (here represented as [String])\n&#x20;   let Just names = fromVariant (methodReturnBody reply !! 0)\n&#x20;   //\n&#x20;   \\-- Print each name on a line, sorted so reserved names are below\n&#x20;   \\-- temporary names.\n&#x20;   mapM_ putStrLn (sort names)\n@\n\n>$ ghc --make list-names.hs\n>$ ./list-names\n>:1.0\n>:1.1\n>:1.10\n>:1.106\n>:1.109\n>:1.110\n>ca.desrt.dconf\n>org.freedesktop.DBus\n>org.freedesktop.Notifications\n>org.freedesktop.secrets\n>org.gnome.ScreenSaver",
+    "category": "Network, Desktop",
+    "custom-fields": [
+      [
+        "x-revision",
+        "1"
+      ]
+    ],
+    "build-type-raw": "Simple",
+    "custom-setup": null,
+    "library": null,
+    "sublibraries": [],
+    "executables": [],
+    "foreign-libs": [],
+    "test-suites": [],
+    "benchmarks": [],
+    "data-files": [],
+    "data-dir": ".",
+    "extra-source-files": [
+      "benchmarks/Benchmarks.hs",
+      "benchmarks/haskell-dbus-benchmarks.cabal",
+      "examples/dbus-monitor.hs",
+      "examples/export.hs",
+      "examples/introspect.hs",
+      "examples/list-names.hs",
+      "tests/data/dbus-daemon.xml",
+      "tests/haskell-dbus-tests.cabal",
+      "tests/DBusTests.hs",
+      "tests/DBusTests/*.hs"
+    ],
+    "extra-tmp-files": [],
+    "extra-doc-files": []
+  },
+  "package-flags": [
+    {
+      "name": "network-bytestring-610",
+      "description": "",
+      "default": false,
+      "manual": false
+    },
+    {
+      "name": "network-bytestring",
+      "description": "",
+      "default": true,
+      "manual": false
+    }
+  ],
+  "library": {
+    "condTreeData": {
+      "name": {},
+      "exposed-modules": [
+        [
+          "DBus"
+        ],
+        [
+          "DBus",
+          "Client"
+        ],
+        [
+          "DBus",
+          "Introspection"
+        ],
+        [
+          "DBus",
+          "Socket"
+        ],
+        [
+          "DBus",
+          "Transport"
+        ]
+      ],
+      "re-exported-modules": [],
+      "signatures": [],
+      "exposed": true,
+      "visibility": "LibraryVisibilityPublic",
+      "build-info": {
+        "buildable": true,
+        "buildTools": [],
+        "buildToolDepends": [],
+        "cppOptions": [],
+        "asmOptions": [],
+        "cmmOptions": [],
+        "ccOptions": [],
+        "cxxOptions": [],
+        "ldOptions": [],
+        "pkgconfigDepends": [],
+        "frameworks": [],
+        "extraFrameworkDirs": [],
+        "asmSources": [],
+        "cmmSources": [],
+        "cSources": [],
+        "cxxSources": [],
+        "jsSources": [],
+        "hsSourceDirs": [
+          "lib"
+        ],
+        "otherModules": [
+          [
+            "DBus",
+            "Address"
+          ],
+          [
+            "DBus",
+            "Message"
+          ],
+          [
+            "DBus",
+            "Types"
+          ],
+          [
+            "DBus",
+            "Wire"
+          ]
+        ],
+        "virtualModules": [],
+        "autogenModules": [],
+        "defaultLanguage": null,
+        "otherLanguages": [],
+        "defaultExtensions": [],
+        "otherExtensions": [],
+        "oldExtensions": [],
+        "extraLibs": [],
+        "extraGHCiLibs": [],
+        "extraBundledLibs": [],
+        "extraLibFlavours": [],
+        "extraDynLibFlavours": [],
+        "extraLibDirs": [],
+        "includeDirs": [],
+        "includes": [],
+        "autogenIncludes": [],
+        "installIncludes": [],
+        "options": [
+          [
+            "-Wall",
+            "-O2"
+          ],
+          []
+        ],
+        "profOptions": [
+          [],
+          []
+        ],
+        "sharedOptions": [
+          [],
+          []
+        ],
+        "staticOptions": [
+          [],
+          []
+        ],
+        "customFieldsBI": [],
+        "targetBuildDepends": [
+          {
+            "package-name": "base",
+            "version-range": ">=4.0 && <5.0",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "bytestring",
+            "version-range": ">=0.9",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "cereal",
+            "version-range": ">=0.3.4 && <0.5",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "containers",
+            "version-range": ">=0.1 && <0.6",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "libxml-sax",
+            "version-range": ">=0.7 && <0.8",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "parsec",
+            "version-range": ">=2.0 && <3.2",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "random",
+            "version-range": ">=1.0 && <1.1",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "text",
+            "version-range": ">=0.11.1.5",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "transformers",
+            "version-range": ">=0.2 && <0.4",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "unix",
+            "version-range": ">=2.2",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "vector",
+            "version-range": ">=0.7 && <0.11",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "xml-types",
+            "version-range": ">=0.3 && <0.4",
+            "library": [
+              {}
+            ]
+          }
+        ],
+        "mixins": []
+      }
+    },
+    "condTreeConstraints": [
+      {
+        "package-name": "base",
+        "version-range": ">=4.0 && <5.0",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "bytestring",
+        "version-range": ">=0.9",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "cereal",
+        "version-range": ">=0.3.4 && <0.5",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "containers",
+        "version-range": ">=0.1 && <0.6",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "libxml-sax",
+        "version-range": ">=0.7 && <0.8",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "parsec",
+        "version-range": ">=2.0 && <3.2",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "random",
+        "version-range": ">=1.0 && <1.1",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "text",
+        "version-range": ">=0.11.1.5",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "transformers",
+        "version-range": ">=0.2 && <0.4",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "unix",
+        "version-range": ">=2.2",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "vector",
+        "version-range": ">=0.7 && <0.11",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "xml-types",
+        "version-range": ">=0.3 && <0.4",
+        "library": [
+          {}
+        ]
+      }
+    ],
+    "condTreeComponents": [
+      {
+        "condBranchCondition": {
+          "v": {
+            "compiler": "GHC",
+            "version": "<6.12"
+          }
+        },
+        "condBranchIfTrue": {
+          "condTreeData": {
+            "name": {},
+            "exposed-modules": [],
+            "re-exported-modules": [],
+            "signatures": [],
+            "exposed": true,
+            "visibility": "LibraryVisibilityPublic",
+            "build-info": {
+              "buildable": true,
+              "buildTools": [],
+              "buildToolDepends": [],
+              "cppOptions": [],
+              "asmOptions": [],
+              "cmmOptions": [],
+              "ccOptions": [],
+              "cxxOptions": [],
+              "ldOptions": [],
+              "pkgconfigDepends": [],
+              "frameworks": [],
+              "extraFrameworkDirs": [],
+              "asmSources": [],
+              "cmmSources": [],
+              "cSources": [],
+              "cxxSources": [],
+              "jsSources": [],
+              "hsSourceDirs": [],
+              "otherModules": [],
+              "virtualModules": [],
+              "autogenModules": [],
+              "defaultLanguage": null,
+              "otherLanguages": [],
+              "defaultExtensions": [],
+              "otherExtensions": [],
+              "oldExtensions": [],
+              "extraLibs": [],
+              "extraGHCiLibs": [],
+              "extraBundledLibs": [],
+              "extraLibFlavours": [],
+              "extraDynLibFlavours": [],
+              "extraLibDirs": [],
+              "includeDirs": [],
+              "includes": [],
+              "autogenIncludes": [],
+              "installIncludes": [],
+              "options": [
+                [],
+                []
+              ],
+              "profOptions": [
+                [],
+                []
+              ],
+              "sharedOptions": [
+                [],
+                []
+              ],
+              "staticOptions": [
+                [],
+                []
+              ],
+              "customFieldsBI": [],
+              "targetBuildDepends": [],
+              "mixins": []
+            }
+          },
+          "condTreeConstraints": [],
+          "condTreeComponents": [
+            {
+              "condBranchCondition": {
+                "v": {
+                  "flag": "network-bytestring-610"
+                }
+              },
+              "condBranchIfTrue": {
+                "condTreeData": {
+                  "name": {},
+                  "exposed-modules": [],
+                  "re-exported-modules": [],
+                  "signatures": [],
+                  "exposed": true,
+                  "visibility": "LibraryVisibilityPublic",
+                  "build-info": {
+                    "buildable": true,
+                    "buildTools": [],
+                    "buildToolDepends": [],
+                    "cppOptions": [],
+                    "asmOptions": [],
+                    "cmmOptions": [],
+                    "ccOptions": [],
+                    "cxxOptions": [],
+                    "ldOptions": [],
+                    "pkgconfigDepends": [],
+                    "frameworks": [],
+                    "extraFrameworkDirs": [],
+                    "asmSources": [],
+                    "cmmSources": [],
+                    "cSources": [],
+                    "cxxSources": [],
+                    "jsSources": [],
+                    "hsSourceDirs": [],
+                    "otherModules": [],
+                    "virtualModules": [],
+                    "autogenModules": [],
+                    "defaultLanguage": null,
+                    "otherLanguages": [],
+                    "defaultExtensions": [],
+                    "otherExtensions": [],
+                    "oldExtensions": [],
+                    "extraLibs": [],
+                    "extraGHCiLibs": [],
+                    "extraBundledLibs": [],
+                    "extraLibFlavours": [],
+                    "extraDynLibFlavours": [],
+                    "extraLibDirs": [],
+                    "includeDirs": [],
+                    "includes": [],
+                    "autogenIncludes": [],
+                    "installIncludes": [],
+                    "options": [
+                      [],
+                      []
+                    ],
+                    "profOptions": [
+                      [],
+                      []
+                    ],
+                    "sharedOptions": [
+                      [],
+                      []
+                    ],
+                    "staticOptions": [
+                      [],
+                      []
+                    ],
+                    "customFieldsBI": [],
+                    "targetBuildDepends": [
+                      {
+                        "package-name": "network",
+                        "version-range": ">=2.2.3 && <2.8",
+                        "library": [
+                          {}
+                        ]
+                      }
+                    ],
+                    "mixins": []
+                  }
+                },
+                "condTreeConstraints": [
+                  {
+                    "package-name": "network",
+                    "version-range": ">=2.2.3 && <2.8",
+                    "library": [
+                      {}
+                    ]
+                  }
+                ],
+                "condTreeComponents": []
+              },
+              "condBranchIfFalse": {
+                "condTreeData": {
+                  "name": {},
+                  "exposed-modules": [],
+                  "re-exported-modules": [],
+                  "signatures": [],
+                  "exposed": true,
+                  "visibility": "LibraryVisibilityPublic",
+                  "build-info": {
+                    "buildable": true,
+                    "buildTools": [],
+                    "buildToolDepends": [],
+                    "cppOptions": [],
+                    "asmOptions": [],
+                    "cmmOptions": [],
+                    "ccOptions": [],
+                    "cxxOptions": [],
+                    "ldOptions": [],
+                    "pkgconfigDepends": [],
+                    "frameworks": [],
+                    "extraFrameworkDirs": [],
+                    "asmSources": [],
+                    "cmmSources": [],
+                    "cSources": [],
+                    "cxxSources": [],
+                    "jsSources": [],
+                    "hsSourceDirs": [],
+                    "otherModules": [],
+                    "virtualModules": [],
+                    "autogenModules": [],
+                    "defaultLanguage": null,
+                    "otherLanguages": [],
+                    "defaultExtensions": [],
+                    "otherExtensions": [],
+                    "oldExtensions": [],
+                    "extraLibs": [],
+                    "extraGHCiLibs": [],
+                    "extraBundledLibs": [],
+                    "extraLibFlavours": [],
+                    "extraDynLibFlavours": [],
+                    "extraLibDirs": [],
+                    "includeDirs": [],
+                    "includes": [],
+                    "autogenIncludes": [],
+                    "installIncludes": [],
+                    "options": [
+                      [],
+                      []
+                    ],
+                    "profOptions": [
+                      [],
+                      []
+                    ],
+                    "sharedOptions": [
+                      [],
+                      []
+                    ],
+                    "staticOptions": [
+                      [],
+                      []
+                    ],
+                    "customFieldsBI": [],
+                    "targetBuildDepends": [
+                      {
+                        "package-name": "network",
+                        "version-range": ">=2.2 && <2.2.3",
+                        "library": [
+                          {}
+                        ]
+                      },
+                      {
+                        "package-name": "network-bytestring",
+                        "version-range": ">=0.1.2 && <0.2",
+                        "library": [
+                          {}
+                        ]
+                      }
+                    ],
+                    "mixins": []
+                  }
+                },
+                "condTreeConstraints": [
+                  {
+                    "package-name": "network",
+                    "version-range": ">=2.2 && <2.2.3",
+                    "library": [
+                      {}
+                    ]
+                  },
+                  {
+                    "package-name": "network-bytestring",
+                    "version-range": ">=0.1.2 && <0.2",
+                    "library": [
+                      {}
+                    ]
+                  }
+                ],
+                "condTreeComponents": []
+              }
+            }
+          ]
+        },
+        "condBranchIfFalse": {
+          "condTreeData": {
+            "name": {},
+            "exposed-modules": [],
+            "re-exported-modules": [],
+            "signatures": [],
+            "exposed": true,
+            "visibility": "LibraryVisibilityPublic",
+            "build-info": {
+              "buildable": true,
+              "buildTools": [],
+              "buildToolDepends": [],
+              "cppOptions": [],
+              "asmOptions": [],
+              "cmmOptions": [],
+              "ccOptions": [],
+              "cxxOptions": [],
+              "ldOptions": [],
+              "pkgconfigDepends": [],
+              "frameworks": [],
+              "extraFrameworkDirs": [],
+              "asmSources": [],
+              "cmmSources": [],
+              "cSources": [],
+              "cxxSources": [],
+              "jsSources": [],
+              "hsSourceDirs": [],
+              "otherModules": [],
+              "virtualModules": [],
+              "autogenModules": [],
+              "defaultLanguage": null,
+              "otherLanguages": [],
+              "defaultExtensions": [],
+              "otherExtensions": [],
+              "oldExtensions": [],
+              "extraLibs": [],
+              "extraGHCiLibs": [],
+              "extraBundledLibs": [],
+              "extraLibFlavours": [],
+              "extraDynLibFlavours": [],
+              "extraLibDirs": [],
+              "includeDirs": [],
+              "includes": [],
+              "autogenIncludes": [],
+              "installIncludes": [],
+              "options": [
+                [],
+                []
+              ],
+              "profOptions": [
+                [],
+                []
+              ],
+              "sharedOptions": [
+                [],
+                []
+              ],
+              "staticOptions": [
+                [],
+                []
+              ],
+              "customFieldsBI": [],
+              "targetBuildDepends": [],
+              "mixins": []
+            }
+          },
+          "condTreeConstraints": [],
+          "condTreeComponents": [
+            {
+              "condBranchCondition": {
+                "v": {
+                  "flag": "network-bytestring"
+                }
+              },
+              "condBranchIfTrue": {
+                "condTreeData": {
+                  "name": {},
+                  "exposed-modules": [],
+                  "re-exported-modules": [],
+                  "signatures": [],
+                  "exposed": true,
+                  "visibility": "LibraryVisibilityPublic",
+                  "build-info": {
+                    "buildable": true,
+                    "buildTools": [],
+                    "buildToolDepends": [],
+                    "cppOptions": [],
+                    "asmOptions": [],
+                    "cmmOptions": [],
+                    "ccOptions": [],
+                    "cxxOptions": [],
+                    "ldOptions": [],
+                    "pkgconfigDepends": [],
+                    "frameworks": [],
+                    "extraFrameworkDirs": [],
+                    "asmSources": [],
+                    "cmmSources": [],
+                    "cSources": [],
+                    "cxxSources": [],
+                    "jsSources": [],
+                    "hsSourceDirs": [],
+                    "otherModules": [],
+                    "virtualModules": [],
+                    "autogenModules": [],
+                    "defaultLanguage": null,
+                    "otherLanguages": [],
+                    "defaultExtensions": [],
+                    "otherExtensions": [],
+                    "oldExtensions": [],
+                    "extraLibs": [],
+                    "extraGHCiLibs": [],
+                    "extraBundledLibs": [],
+                    "extraLibFlavours": [],
+                    "extraDynLibFlavours": [],
+                    "extraLibDirs": [],
+                    "includeDirs": [],
+                    "includes": [],
+                    "autogenIncludes": [],
+                    "installIncludes": [],
+                    "options": [
+                      [],
+                      []
+                    ],
+                    "profOptions": [
+                      [],
+                      []
+                    ],
+                    "sharedOptions": [
+                      [],
+                      []
+                    ],
+                    "staticOptions": [
+                      [],
+                      []
+                    ],
+                    "customFieldsBI": [],
+                    "targetBuildDepends": [
+                      {
+                        "package-name": "network",
+                        "version-range": ">=2.2.3 && <2.8",
+                        "library": [
+                          {}
+                        ]
+                      }
+                    ],
+                    "mixins": []
+                  }
+                },
+                "condTreeConstraints": [
+                  {
+                    "package-name": "network",
+                    "version-range": ">=2.2.3 && <2.8",
+                    "library": [
+                      {}
+                    ]
+                  }
+                ],
+                "condTreeComponents": []
+              },
+              "condBranchIfFalse": {
+                "condTreeData": {
+                  "name": {},
+                  "exposed-modules": [],
+                  "re-exported-modules": [],
+                  "signatures": [],
+                  "exposed": true,
+                  "visibility": "LibraryVisibilityPublic",
+                  "build-info": {
+                    "buildable": true,
+                    "buildTools": [],
+                    "buildToolDepends": [],
+                    "cppOptions": [],
+                    "asmOptions": [],
+                    "cmmOptions": [],
+                    "ccOptions": [],
+                    "cxxOptions": [],
+                    "ldOptions": [],
+                    "pkgconfigDepends": [],
+                    "frameworks": [],
+                    "extraFrameworkDirs": [],
+                    "asmSources": [],
+                    "cmmSources": [],
+                    "cSources": [],
+                    "cxxSources": [],
+                    "jsSources": [],
+                    "hsSourceDirs": [],
+                    "otherModules": [],
+                    "virtualModules": [],
+                    "autogenModules": [],
+                    "defaultLanguage": null,
+                    "otherLanguages": [],
+                    "defaultExtensions": [],
+                    "otherExtensions": [],
+                    "oldExtensions": [],
+                    "extraLibs": [],
+                    "extraGHCiLibs": [],
+                    "extraBundledLibs": [],
+                    "extraLibFlavours": [],
+                    "extraDynLibFlavours": [],
+                    "extraLibDirs": [],
+                    "includeDirs": [],
+                    "includes": [],
+                    "autogenIncludes": [],
+                    "installIncludes": [],
+                    "options": [
+                      [],
+                      []
+                    ],
+                    "profOptions": [
+                      [],
+                      []
+                    ],
+                    "sharedOptions": [
+                      [],
+                      []
+                    ],
+                    "staticOptions": [
+                      [],
+                      []
+                    ],
+                    "customFieldsBI": [],
+                    "targetBuildDepends": [
+                      {
+                        "package-name": "network",
+                        "version-range": ">=2.2 && <2.2.3",
+                        "library": [
+                          {}
+                        ]
+                      },
+                      {
+                        "package-name": "network-bytestring",
+                        "version-range": ">=0.1.2 && <0.2",
+                        "library": [
+                          {}
+                        ]
+                      }
+                    ],
+                    "mixins": []
+                  }
+                },
+                "condTreeConstraints": [
+                  {
+                    "package-name": "network",
+                    "version-range": ">=2.2 && <2.2.3",
+                    "library": [
+                      {}
+                    ]
+                  },
+                  {
+                    "package-name": "network-bytestring",
+                    "version-range": ">=0.1.2 && <0.2",
+                    "library": [
+                      {}
+                    ]
+                  }
+                ],
+                "condTreeComponents": []
+              }
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

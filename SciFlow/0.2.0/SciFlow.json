@@ -1,0 +1,294 @@
+{
+  "description": {
+    "spec-version": {
+      "Right": ">=1.10"
+    },
+    "package": {
+      "name": "SciFlow",
+      "version": [
+        0,
+        2,
+        0
+      ]
+    },
+    "license": {
+      "Right": "MIT"
+    },
+    "license-files": [
+      "LICENSE"
+    ],
+    "copyright": "(c) 2015 Kai Zhang",
+    "maintainer": "kai@kzhang.org",
+    "author": "Kai Zhang",
+    "stability": "",
+    "tested-with": [],
+    "homepage": "",
+    "pkg-url": "",
+    "bug-reports": "",
+    "source-repos": [
+      {
+        "kind": {},
+        "type": "Git",
+        "location": "https://github.com/kaizhang/SciFlow.git",
+        "module": null,
+        "branch": null,
+        "tag": null,
+        "subdir": null
+      }
+    ],
+    "synopsis": "Scientific workflow management system",
+    "description": "SciFlow is to help programmers design complex workflows\nwith ease.\n\nFeature includes:\n\n1. Use \"labeled\" arrows to connect individual steps\nand cache computational results.\n\n2. Use monad and template haskell to automate the process\nof building DAGs.\n\nHere is a trivial example. Since we use template haskell,\nwe need to divide this small program into two files.\n\n> -- File 1: MyModule.hs\n>\n> module MyModule where\n>\n> import Control.Arrow\n> import Scientific.Workflow\n>\n> input :: Actor () Int\n> input = arr $ const 10\n>\n> plus1 :: Actor Int Int\n> plus1 = arr (+1)\n>\n> mul2 :: Actor Int Int\n> mul2 = arr (*2)\n>\n> combine :: Actor (Int, Int) Int\n> combine = arr $ \\(a,b) -> a + b\n>\n> -- builder monad\n> builder :: Builder ()\n> builder = do\n> node \"id000\" \"input\" \"this is input\"\n> node \"id001\" \"plus1\" \"add 1 to the input\"\n> node \"id002\" \"mul2\" \"double the input\"\n> node \"id003\" \"combine\" \"combine two input\"\n>\n> \"id000\" ~> \"id001\"\n> \"id000\" ~> \"id002\"\n> link2 (\"id001\", \"id002\") \"id003\"\n>\n> --------------------------------------------\n> -- File 2: main.hs\n>\n> import Scientific.Workflow\n> import MyModule\n> import Data.Default\n>\n> -- assemble workflow using template haskell\n> $(mkWorkflow \"myWorkflow\" builder)\n>\n> main = do result <- runWorkflow myWorkflow def\n>           print result\n",
+    "category": "Control",
+    "custom-fields": [],
+    "build-type-raw": "Simple",
+    "custom-setup": null,
+    "library": null,
+    "sublibraries": [],
+    "executables": [],
+    "foreign-libs": [],
+    "test-suites": [],
+    "benchmarks": [],
+    "data-files": [],
+    "data-dir": ".",
+    "extra-source-files": [],
+    "extra-tmp-files": [],
+    "extra-doc-files": []
+  },
+  "library": {
+    "condTreeData": {
+      "name": {},
+      "exposed-modules": [
+        [
+          "Scientific",
+          "Workflow"
+        ],
+        [
+          "Scientific",
+          "Workflow",
+          "Types"
+        ],
+        [
+          "Scientific",
+          "Workflow",
+          "Builder"
+        ],
+        [
+          "Scientific",
+          "Workflow",
+          "Builder",
+          "TH"
+        ],
+        [
+          "Scientific",
+          "Workflow",
+          "Serialization"
+        ],
+        [
+          "Scientific",
+          "Workflow",
+          "Serialization",
+          "Show"
+        ],
+        [
+          "Scientific",
+          "Workflow",
+          "Serialization",
+          "Yaml"
+        ]
+      ],
+      "re-exported-modules": [],
+      "signatures": [],
+      "exposed": true,
+      "visibility": "LibraryVisibilityPublic",
+      "build-info": {
+        "buildable": true,
+        "buildTools": [],
+        "buildToolDepends": [],
+        "cppOptions": [],
+        "asmOptions": [],
+        "cmmOptions": [],
+        "ccOptions": [],
+        "cxxOptions": [],
+        "ldOptions": [],
+        "pkgconfigDepends": [],
+        "frameworks": [],
+        "extraFrameworkDirs": [],
+        "asmSources": [],
+        "cmmSources": [],
+        "cSources": [],
+        "cxxSources": [],
+        "jsSources": [],
+        "hsSourceDirs": [
+          "src"
+        ],
+        "otherModules": [],
+        "virtualModules": [],
+        "autogenModules": [],
+        "defaultLanguage": "Haskell2010",
+        "otherLanguages": [],
+        "defaultExtensions": [],
+        "otherExtensions": [],
+        "oldExtensions": [],
+        "extraLibs": [],
+        "extraGHCiLibs": [],
+        "extraBundledLibs": [],
+        "extraLibFlavours": [],
+        "extraDynLibFlavours": [],
+        "extraLibDirs": [],
+        "includeDirs": [],
+        "includes": [],
+        "autogenIncludes": [],
+        "installIncludes": [],
+        "options": [
+          [],
+          []
+        ],
+        "profOptions": [
+          [],
+          []
+        ],
+        "sharedOptions": [
+          [],
+          []
+        ],
+        "staticOptions": [
+          [],
+          []
+        ],
+        "customFieldsBI": [],
+        "targetBuildDepends": [
+          {
+            "package-name": "base",
+            "version-range": ">=4.0 && <5.0",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "bytestring",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "data-default-class",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "mtl",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "shelly",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "text",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "template-haskell",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "unordered-containers",
+            "version-range": ">=0.2",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "yaml",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          }
+        ],
+        "mixins": []
+      }
+    },
+    "condTreeConstraints": [
+      {
+        "package-name": "base",
+        "version-range": ">=4.0 && <5.0",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "bytestring",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "data-default-class",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "mtl",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "shelly",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "text",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "template-haskell",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "unordered-containers",
+        "version-range": ">=0.2",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "yaml",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      }
+    ],
+    "condTreeComponents": []
+  }
+}

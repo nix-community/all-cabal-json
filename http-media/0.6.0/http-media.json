@@ -1,0 +1,542 @@
+{
+  "description": {
+    "spec-version": {
+      "Right": ">=1.10"
+    },
+    "package": {
+      "name": "http-media",
+      "version": [
+        0,
+        6,
+        0
+      ]
+    },
+    "license": {
+      "Right": "MIT"
+    },
+    "license-files": [
+      "LICENSE"
+    ],
+    "copyright": "(c) 2012-2015 Timothy Jones",
+    "maintainer": "Timothy Jones <git@zmthy.io>",
+    "author": "Timothy Jones",
+    "stability": "",
+    "tested-with": [],
+    "homepage": "https://github.com/zmthy/http-media",
+    "pkg-url": "",
+    "bug-reports": "https://github.com/zmthy/http-media/issues",
+    "source-repos": [
+      {
+        "kind": {},
+        "type": "Git",
+        "location": "git://github.com/zmthy/http-media.git",
+        "module": null,
+        "branch": null,
+        "tag": null,
+        "subdir": null
+      }
+    ],
+    "synopsis": "Processing HTTP Content-Type and Accept headers",
+    "description": "This library is intended to be a comprehensive solution to parsing and\nselecting quality-indexed values in HTTP headers. It is capable of parsing\nboth media types and language parameters from the Accept and Content header\nfamilies, and can be extended to match against other accept headers as well.\nSelecting the appropriate header value is achieved by comparing a list of\nserver options against the quality-indexed values supplied by the client.\n\nIn the following example, the Accept header is parsed and then matched against\na list of server options to serve the appropriate media using\n'mapAcceptMedia':\n\n> getHeader >>= maybe send406Error sendResourceWith . mapAcceptMedia\n>     [ (\"text/html\",        asHtml)\n>     , (\"application/json\", asJson)\n>     ]\n\nSimilarly, the Content-Type header can be used to produce a parser for request\nbodies based on the given content type with 'mapContentMedia':\n\n> getContentType >>= maybe send415Error readRequestBodyWith . mapContentMedia\n>     [ (\"application/json\", parseJson)\n>     , (\"text/plain\",       parseText)\n>     ]\n\nThe API is agnostic to your choice of server.",
+    "category": "Web",
+    "custom-fields": [
+      [
+        "x-revision",
+        "1"
+      ]
+    ],
+    "build-type-raw": "Simple",
+    "custom-setup": null,
+    "library": null,
+    "sublibraries": [],
+    "executables": [],
+    "foreign-libs": [],
+    "test-suites": [],
+    "benchmarks": [],
+    "data-files": [],
+    "data-dir": ".",
+    "extra-source-files": [],
+    "extra-tmp-files": [],
+    "extra-doc-files": []
+  },
+  "library": {
+    "condTreeData": {
+      "name": {},
+      "exposed-modules": [
+        [
+          "Network",
+          "HTTP",
+          "Media"
+        ],
+        [
+          "Network",
+          "HTTP",
+          "Media",
+          "Accept"
+        ],
+        [
+          "Network",
+          "HTTP",
+          "Media",
+          "Language"
+        ],
+        [
+          "Network",
+          "HTTP",
+          "Media",
+          "MediaType"
+        ],
+        [
+          "Network",
+          "HTTP",
+          "Media",
+          "RenderHeader"
+        ]
+      ],
+      "re-exported-modules": [],
+      "signatures": [],
+      "exposed": true,
+      "visibility": "LibraryVisibilityPublic",
+      "build-info": {
+        "buildable": true,
+        "buildTools": [],
+        "buildToolDepends": [],
+        "cppOptions": [],
+        "asmOptions": [],
+        "cmmOptions": [],
+        "ccOptions": [],
+        "cxxOptions": [],
+        "ldOptions": [],
+        "pkgconfigDepends": [],
+        "frameworks": [],
+        "extraFrameworkDirs": [],
+        "asmSources": [],
+        "cmmSources": [],
+        "cSources": [],
+        "cxxSources": [],
+        "jsSources": [],
+        "hsSourceDirs": [
+          "src"
+        ],
+        "otherModules": [
+          [
+            "Network",
+            "HTTP",
+            "Media",
+            "Language",
+            "Internal"
+          ],
+          [
+            "Network",
+            "HTTP",
+            "Media",
+            "MediaType",
+            "Internal"
+          ],
+          [
+            "Network",
+            "HTTP",
+            "Media",
+            "Quality"
+          ],
+          [
+            "Network",
+            "HTTP",
+            "Media",
+            "Utils"
+          ]
+        ],
+        "virtualModules": [],
+        "autogenModules": [],
+        "defaultLanguage": "Haskell2010",
+        "otherLanguages": [],
+        "defaultExtensions": [
+          {
+            "enable-extension": "OverloadedStrings"
+          }
+        ],
+        "otherExtensions": [],
+        "oldExtensions": [],
+        "extraLibs": [],
+        "extraGHCiLibs": [],
+        "extraBundledLibs": [],
+        "extraLibFlavours": [],
+        "extraDynLibFlavours": [],
+        "extraLibDirs": [],
+        "includeDirs": [],
+        "includes": [],
+        "autogenIncludes": [],
+        "installIncludes": [],
+        "options": [
+          [
+            "-Wall"
+          ],
+          []
+        ],
+        "profOptions": [
+          [],
+          []
+        ],
+        "sharedOptions": [
+          [],
+          []
+        ],
+        "staticOptions": [
+          [],
+          []
+        ],
+        "customFieldsBI": [],
+        "targetBuildDepends": [
+          {
+            "package-name": "base",
+            "version-range": ">=4.6 && <4.8",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "bytestring",
+            "version-range": ">=0.10 && <0.11",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "case-insensitive",
+            "version-range": ">=1.0 && <1.3",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "containers",
+            "version-range": ">=0.5 && <0.6",
+            "library": [
+              {}
+            ]
+          }
+        ],
+        "mixins": []
+      }
+    },
+    "condTreeConstraints": [
+      {
+        "package-name": "base",
+        "version-range": ">=4.6 && <4.8",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "bytestring",
+        "version-range": ">=0.10 && <0.11",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "case-insensitive",
+        "version-range": ">=1.0 && <1.3",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "containers",
+        "version-range": ">=0.5 && <0.6",
+        "library": [
+          {}
+        ]
+      }
+    ],
+    "condTreeComponents": []
+  },
+  "test-suites": {
+    "test-http-media": {
+      "condTreeData": {
+        "name": "",
+        "interface": {
+          "version": [
+            0,
+            9
+          ],
+          "module-name": [
+            "Tests"
+          ]
+        },
+        "build-info": {
+          "buildable": true,
+          "buildTools": [],
+          "buildToolDepends": [],
+          "cppOptions": [],
+          "asmOptions": [],
+          "cmmOptions": [],
+          "ccOptions": [],
+          "cxxOptions": [],
+          "ldOptions": [],
+          "pkgconfigDepends": [],
+          "frameworks": [],
+          "extraFrameworkDirs": [],
+          "asmSources": [],
+          "cmmSources": [],
+          "cSources": [],
+          "cxxSources": [],
+          "jsSources": [],
+          "hsSourceDirs": [
+            "src",
+            "test"
+          ],
+          "otherModules": [
+            [
+              "Network",
+              "HTTP",
+              "Media"
+            ],
+            [
+              "Network",
+              "HTTP",
+              "Media",
+              "Accept"
+            ],
+            [
+              "Network",
+              "HTTP",
+              "Media",
+              "Accept",
+              "Tests"
+            ],
+            [
+              "Network",
+              "HTTP",
+              "Media",
+              "Gen"
+            ],
+            [
+              "Network",
+              "HTTP",
+              "Media",
+              "Language"
+            ],
+            [
+              "Network",
+              "HTTP",
+              "Media",
+              "Language",
+              "Gen"
+            ],
+            [
+              "Network",
+              "HTTP",
+              "Media",
+              "Language",
+              "Internal"
+            ],
+            [
+              "Network",
+              "HTTP",
+              "Media",
+              "Language",
+              "Tests"
+            ],
+            [
+              "Network",
+              "HTTP",
+              "Media",
+              "MediaType"
+            ],
+            [
+              "Network",
+              "HTTP",
+              "Media",
+              "MediaType",
+              "Gen"
+            ],
+            [
+              "Network",
+              "HTTP",
+              "Media",
+              "MediaType",
+              "Internal"
+            ],
+            [
+              "Network",
+              "HTTP",
+              "Media",
+              "MediaType",
+              "Tests"
+            ],
+            [
+              "Network",
+              "HTTP",
+              "Media",
+              "Quality"
+            ],
+            [
+              "Network",
+              "HTTP",
+              "Media",
+              "RenderHeader"
+            ],
+            [
+              "Network",
+              "HTTP",
+              "Media",
+              "Tests"
+            ],
+            [
+              "Network",
+              "HTTP",
+              "Media",
+              "Utils"
+            ]
+          ],
+          "virtualModules": [],
+          "autogenModules": [],
+          "defaultLanguage": "Haskell2010",
+          "otherLanguages": [],
+          "defaultExtensions": [
+            {
+              "enable-extension": "OverloadedStrings"
+            }
+          ],
+          "otherExtensions": [],
+          "oldExtensions": [],
+          "extraLibs": [],
+          "extraGHCiLibs": [],
+          "extraBundledLibs": [],
+          "extraLibFlavours": [],
+          "extraDynLibFlavours": [],
+          "extraLibDirs": [],
+          "includeDirs": [],
+          "includes": [],
+          "autogenIncludes": [],
+          "installIncludes": [],
+          "options": [
+            [
+              "-Wall",
+              "-Werror"
+            ],
+            []
+          ],
+          "profOptions": [
+            [],
+            []
+          ],
+          "sharedOptions": [
+            [],
+            []
+          ],
+          "staticOptions": [
+            [],
+            []
+          ],
+          "customFieldsBI": [],
+          "targetBuildDepends": [
+            {
+              "package-name": "base",
+              "version-range": ">=4.6 && <5.0",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "bytestring",
+              "version-range": ">=0.10 && <0.11",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "Cabal",
+              "version-range": ">=1.16 && <1.23",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "cabal-test-quickcheck",
+              "version-range": ">=0.1 && <0.2",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "case-insensitive",
+              "version-range": ">=1.0 && <1.3",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "containers",
+              "version-range": ">=0.5 && <0.6",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "QuickCheck",
+              "version-range": ">=2.6 && <2.9",
+              "library": [
+                {}
+              ]
+            }
+          ],
+          "mixins": []
+        }
+      },
+      "condTreeConstraints": [
+        {
+          "package-name": "base",
+          "version-range": ">=4.6 && <5.0",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "bytestring",
+          "version-range": ">=0.10 && <0.11",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "Cabal",
+          "version-range": ">=1.16 && <1.23",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "cabal-test-quickcheck",
+          "version-range": ">=0.1 && <0.2",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "case-insensitive",
+          "version-range": ">=1.0 && <1.3",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "containers",
+          "version-range": ">=0.5 && <0.6",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "QuickCheck",
+          "version-range": ">=2.6 && <2.9",
+          "library": [
+            {}
+          ]
+        }
+      ],
+      "condTreeComponents": []
+    }
+  }
+}

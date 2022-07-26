@@ -1,0 +1,456 @@
+{
+  "description": {
+    "spec-version": {
+      "Left": [
+        3,
+        0
+      ]
+    },
+    "package": {
+      "name": "if-instance",
+      "version": [
+        0,
+        1,
+        0,
+        0
+      ]
+    },
+    "license": {
+      "Left": {
+        "license-expression": {
+          "expression": {
+            "id": "BSD_3_Clause"
+          },
+          "exception-id": null
+        }
+      }
+    },
+    "license-files": [],
+    "copyright": "2021 Sam Derbyshire",
+    "maintainer": "Sam Derbyshire",
+    "author": "Sam Derbyshire",
+    "stability": "",
+    "tested-with": [],
+    "homepage": "https://github.com/sheaf/if-instance",
+    "pkg-url": "",
+    "bug-reports": "",
+    "source-repos": [],
+    "synopsis": "Branch on whether a constraint is satisfied",
+    "description": "This library provides a mechanism that can be used to branch on\nwhether a constraint is satisfied (not limited to typeclass instances,\ndespite the name of the library).\n\nUsage example:\n\n@\n\n{-# OPTIONS_GHC -fplugin=IfCt.Plugin #-}\n\nmodule MyModule where\n\nimport Data.Constraint.If ( IfCt(ifCt) )\n\nhypot :: forall a. ( Floating a, IfCt (FMA a) ) => a -> a -> a\nhypot = ifCt @(FMA a) withFMA withoutFMA\n  where\n    withFMA :: FMA a => a -> a -> a\n    withFMA a b =\n      let\n        h = sqrt $ fma a a (b * b)\n        h² = h * h\n        a² = a * a\n        x = fma (-b) b (h² - a²) + fma h h (-h²) - fma a a (-a²)\n      in\n        h - x / ( 2 * h )\n    withoutFMA :: a -> a -> a\n    withoutFMA a b = sqrt ( a * a + b * b )\n@\n\nHere we select between two ways of computing the hypotenuse function\nbased on whether we have access to the fused multiply-add operation\n\n@ fma :: FMA a => a -> a -> a -> a @\n\nwhich computes @ \\\\ a b c -> ( a * b ) + c @ in a single instruction,\nproviding stronger guarantees about precision of the resul.\n\nA call of the form @hypot \\@MyNumberType@ will either use the robust @withFMA@\nfunction when an @FMA MyNumberType@ instance is available, or will fallback\nto the simple @withoutFMA@ implementation when no such instance can be found.",
+    "category": "Type System, Plugin",
+    "custom-fields": [],
+    "build-type-raw": "Simple",
+    "custom-setup": null,
+    "library": null,
+    "sublibraries": [],
+    "executables": [],
+    "foreign-libs": [],
+    "test-suites": [],
+    "benchmarks": [],
+    "data-files": [],
+    "data-dir": ".",
+    "extra-source-files": [
+      "changelog.md"
+    ],
+    "extra-tmp-files": [],
+    "extra-doc-files": []
+  },
+  "library": {
+    "condTreeData": {
+      "name": {},
+      "exposed-modules": [
+        [
+          "Data",
+          "Constraint",
+          "If"
+        ],
+        [
+          "IfCt",
+          "Plugin"
+        ]
+      ],
+      "re-exported-modules": [],
+      "signatures": [],
+      "exposed": true,
+      "visibility": "LibraryVisibilityPublic",
+      "build-info": {
+        "buildable": true,
+        "buildTools": [],
+        "buildToolDepends": [],
+        "cppOptions": [],
+        "asmOptions": [],
+        "cmmOptions": [],
+        "ccOptions": [],
+        "cxxOptions": [],
+        "ldOptions": [],
+        "pkgconfigDepends": [],
+        "frameworks": [],
+        "extraFrameworkDirs": [],
+        "asmSources": [],
+        "cmmSources": [],
+        "cSources": [],
+        "cxxSources": [],
+        "jsSources": [],
+        "hsSourceDirs": [
+          "src"
+        ],
+        "otherModules": [],
+        "virtualModules": [],
+        "autogenModules": [],
+        "defaultLanguage": "Haskell2010",
+        "otherLanguages": [],
+        "defaultExtensions": [],
+        "otherExtensions": [],
+        "oldExtensions": [],
+        "extraLibs": [],
+        "extraGHCiLibs": [],
+        "extraBundledLibs": [],
+        "extraLibFlavours": [],
+        "extraDynLibFlavours": [],
+        "extraLibDirs": [],
+        "includeDirs": [],
+        "includes": [],
+        "autogenIncludes": [],
+        "installIncludes": [],
+        "options": [
+          [
+            "-Wall",
+            "-Wcompat",
+            "-fwarn-missing-local-signatures",
+            "-fwarn-incomplete-uni-patterns",
+            "-fwarn-missing-deriving-strategies",
+            "-fno-warn-unticked-promoted-constructors",
+            "-Wall",
+            "-Wcompat",
+            "-fwarn-missing-local-signatures",
+            "-fwarn-incomplete-uni-patterns",
+            "-fwarn-missing-deriving-strategies",
+            "-fno-warn-unticked-promoted-constructors"
+          ],
+          []
+        ],
+        "profOptions": [
+          [],
+          []
+        ],
+        "sharedOptions": [
+          [],
+          []
+        ],
+        "staticOptions": [
+          [],
+          []
+        ],
+        "customFieldsBI": [],
+        "targetBuildDepends": [
+          {
+            "package-name": "base",
+            "version-range": ">=4.14.0 && <4.18",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "ghc",
+            "version-range": ">=8.10 && <9.6",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "ghc-tcplugin-api",
+            "version-range": ">=0.5.0.0 && <0.6",
+            "library": [
+              {}
+            ]
+          }
+        ],
+        "mixins": []
+      }
+    },
+    "condTreeConstraints": [
+      {
+        "package-name": "base",
+        "version-range": ">=4.14.0 && <4.18",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "ghc",
+        "version-range": ">=8.10 && <9.6",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "ghc-tcplugin-api",
+        "version-range": ">=0.5.0.0 && <0.6",
+        "library": [
+          {}
+        ]
+      }
+    ],
+    "condTreeComponents": []
+  },
+  "sublibraries": {
+    "if-instance-example": {
+      "condTreeData": {
+        "name": {
+          "sub-lib-name": "if-instance-example"
+        },
+        "exposed-modules": [
+          [
+            "M2"
+          ]
+        ],
+        "re-exported-modules": [],
+        "signatures": [],
+        "exposed": true,
+        "visibility": "LibraryVisibilityPrivate",
+        "build-info": {
+          "buildable": true,
+          "buildTools": [],
+          "buildToolDepends": [],
+          "cppOptions": [],
+          "asmOptions": [],
+          "cmmOptions": [],
+          "ccOptions": [],
+          "cxxOptions": [],
+          "ldOptions": [],
+          "pkgconfigDepends": [],
+          "frameworks": [],
+          "extraFrameworkDirs": [],
+          "asmSources": [],
+          "cmmSources": [],
+          "cSources": [],
+          "cxxSources": [],
+          "jsSources": [],
+          "hsSourceDirs": [
+            "example"
+          ],
+          "otherModules": [
+            [
+              "M1"
+            ]
+          ],
+          "virtualModules": [],
+          "autogenModules": [],
+          "defaultLanguage": "Haskell2010",
+          "otherLanguages": [],
+          "defaultExtensions": [],
+          "otherExtensions": [],
+          "oldExtensions": [],
+          "extraLibs": [],
+          "extraGHCiLibs": [],
+          "extraBundledLibs": [],
+          "extraLibFlavours": [],
+          "extraDynLibFlavours": [],
+          "extraLibDirs": [],
+          "includeDirs": [],
+          "includes": [],
+          "autogenIncludes": [],
+          "installIncludes": [],
+          "options": [
+            [
+              "-Wall",
+              "-Wcompat",
+              "-fwarn-missing-local-signatures",
+              "-fwarn-incomplete-uni-patterns",
+              "-fwarn-missing-deriving-strategies",
+              "-fno-warn-unticked-promoted-constructors"
+            ],
+            []
+          ],
+          "profOptions": [
+            [],
+            []
+          ],
+          "sharedOptions": [
+            [],
+            []
+          ],
+          "staticOptions": [
+            [],
+            []
+          ],
+          "customFieldsBI": [],
+          "targetBuildDepends": [
+            {
+              "package-name": "base",
+              "version-range": ">=4.14.0 && <4.18",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "ghc",
+              "version-range": ">=8.10 && <9.6",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "if-instance",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            }
+          ],
+          "mixins": []
+        }
+      },
+      "condTreeConstraints": [
+        {
+          "package-name": "base",
+          "version-range": ">=4.14.0 && <4.18",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "ghc",
+          "version-range": ">=8.10 && <9.6",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "if-instance",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        }
+      ],
+      "condTreeComponents": []
+    }
+  },
+  "test-suites": {
+    "if-instance-test": {
+      "condTreeData": {
+        "name": "",
+        "interface": {
+          "version": [
+            1,
+            0
+          ],
+          "filepath": "Main.hs"
+        },
+        "build-info": {
+          "buildable": true,
+          "buildTools": [],
+          "buildToolDepends": [],
+          "cppOptions": [],
+          "asmOptions": [],
+          "cmmOptions": [],
+          "ccOptions": [],
+          "cxxOptions": [],
+          "ldOptions": [],
+          "pkgconfigDepends": [],
+          "frameworks": [],
+          "extraFrameworkDirs": [],
+          "asmSources": [],
+          "cmmSources": [],
+          "cSources": [],
+          "cxxSources": [],
+          "jsSources": [],
+          "hsSourceDirs": [
+            "test"
+          ],
+          "otherModules": [],
+          "virtualModules": [],
+          "autogenModules": [],
+          "defaultLanguage": "Haskell2010",
+          "otherLanguages": [],
+          "defaultExtensions": [],
+          "otherExtensions": [],
+          "oldExtensions": [],
+          "extraLibs": [],
+          "extraGHCiLibs": [],
+          "extraBundledLibs": [],
+          "extraLibFlavours": [],
+          "extraDynLibFlavours": [],
+          "extraLibDirs": [],
+          "includeDirs": [],
+          "includes": [],
+          "autogenIncludes": [],
+          "installIncludes": [],
+          "options": [
+            [
+              "-Wall",
+              "-Wcompat",
+              "-fwarn-missing-local-signatures",
+              "-fwarn-incomplete-uni-patterns",
+              "-fwarn-missing-deriving-strategies",
+              "-fno-warn-unticked-promoted-constructors"
+            ],
+            []
+          ],
+          "profOptions": [
+            [],
+            []
+          ],
+          "sharedOptions": [
+            [],
+            []
+          ],
+          "staticOptions": [
+            [],
+            []
+          ],
+          "customFieldsBI": [],
+          "targetBuildDepends": [
+            {
+              "package-name": "base",
+              "version-range": ">=4.14.0 && <4.18",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "ghc",
+              "version-range": ">=8.10 && <9.6",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "if-instance",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            }
+          ],
+          "mixins": []
+        }
+      },
+      "condTreeConstraints": [
+        {
+          "package-name": "base",
+          "version-range": ">=4.14.0 && <4.18",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "ghc",
+          "version-range": ">=8.10 && <9.6",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "if-instance",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        }
+      ],
+      "condTreeComponents": []
+    }
+  }
+}

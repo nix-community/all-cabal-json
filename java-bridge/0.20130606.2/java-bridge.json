@@ -1,0 +1,3194 @@
+{
+  "description": {
+    "spec-version": {
+      "Right": ">=1.8"
+    },
+    "package": {
+      "name": "java-bridge",
+      "version": [
+        0,
+        20130606,
+        2
+      ]
+    },
+    "license": {
+      "Right": "MIT"
+    },
+    "license-files": [
+      "LICENSE"
+    ],
+    "copyright": "",
+    "maintainer": "Julian Fleischer <julian.fleischer@fu-berlin.de>",
+    "author": "Julian Fleischer <julian.fleischer@fu-berlin.de>",
+    "stability": "experimental",
+    "tested-with": [],
+    "homepage": "",
+    "pkg-url": "",
+    "bug-reports": "",
+    "source-repos": [],
+    "synopsis": "Bindings to the JNI and a high level interface generator.",
+    "description": "This package offers bindings to the\n/Java Native Interface/ and a high level interface\ngenerator.\n\n[@low level bindings to the JNI@]\nThe low level bindings are located in\n\"Foreign.Java.JNI.Safe\" and \"Foreign.Java.JNI.Unsafe\".\nWhen using these bindings you will have to deal with\npointers and manage global references manually.\n\n[@medium level interface@]\nThe medium level interface is located in\n\"Foreign.Java\". It offers an abstraction over the JNI,\ni.e. you will not have to deal with pointers\nexplicitly nor do you need to manually do conversions\nbetween native types and Haskell types.\nAlso references will automatically be released by\nthe Haskell runtime when no longer needed. You will\nstill need to manually lookup classes and methods in\norder to use them.\n\n[@high level bindings generator@]\nYou can also generate high level bindings using the\ntools @j2hs@ and @hs2j@ that come along with this\npackage. The tools works in both directions, i.e. you\ncan generate glue code to use existing Java libraries\nfrom within Haskell as well as to use Haskell from\nwithin Java. This is the most convenient way to deal\nwith a Java library.\n\n\n>>> INSTALLATION / USAGE\n\nIt should suffice to do @cabal install@ (or\n@cabal install java-bridge@ when installing from\nhackageDB). /You need to have a JDK installed prior to\ninstalling this library/.\n\nSetup will try to find the location of your java\ninstallation automatically. This is needed in order to\nload @libjvm@. Note that this library is loaded\ndynamically, which  means that linking errors might not\nshow up during installation.\n\nYou can specify the location of @libjvm@ manually using\nthe environment variable @FFIJNI_LIBJVM@. This\nenvironment variable is consulted by @Setup.hs@ as well\nas by the library each time @libjvm@ is loaded - which\nmeans that you can override the path to @libjvm@ at any\ntime. The function @getCompiledLibjvmPath@ in\n\"Foreign.Java.JNI.Safe\" will tell you what path to\n@libjvm@ has been set during compilation of the library.\n\n\n>>> FUN WITH (cabal-) FLAGS\n\nThe following cabal flags are available to you for\nconfiguring your installation:\n\n[@ONLY_CORE@]\nBuild only the Core Modules which offer a\ndirect binding to the Java Native Interface.\nThe core modules are \"Foreign.Java.JNI\",\n\"Foreign.Java.JNI.Safe\",\nand \"Foreign.Java.JNI.Unsafe\".\nThis implies @NO_TOOLS@.\nDefaults to @False@.\n\n[@NO_TOOLS@]\nDo not build the @j2hs@ and @hs2j@ executables.\nDefaults to @False@.\n\n[@DEBUG@]\nEnable a debug build. Defaults to @False@.\n\n[@OSX_GUI@]\nBuild the library with special support for\nCocoa on Mac OS X (you will not be able to\nuse AWT or Swing without). Defaults to @True@\non Darwin (OS X).\n\n[@OSX_FRAMEWORK@]\nUse the JavaVM framework on MacOS X instead\nof loading the dynamic library. Defaults to\n@False@. Enable this flag if building on your\nOS X machine fails. Defaults to @False@.\n\n[@EXAMPLES@]\nBuild a set of examples. They are prefixed\nwith @java-@ and located along your haskell\nexecutables. Defaults to @False@.\n\nUse for example\n@cabal install -f OSX_FRAMEWORK -f EXAMPLES@\nor @cabal configure -f DEBUG@.\n\n\n>>> HACKING\n\nSee @HACKING.txt@ and @ISSUES.txt@ in the tar.gz-package.",
+    "category": "Foreign, Java, JVM, FFI Tools",
+    "custom-fields": [],
+    "build-type-raw": "Custom",
+    "custom-setup": null,
+    "library": null,
+    "sublibraries": [],
+    "executables": [],
+    "foreign-libs": [],
+    "test-suites": [],
+    "benchmarks": [],
+    "data-files": [],
+    "data-dir": ".",
+    "extra-source-files": [
+      "include/jni.h",
+      "src/Foreign/Java/JNI/core.hs",
+      "src/ffijni.h",
+      "GetProperty.java",
+      "examples/calculator/calculator.cabal",
+      "examples/system-properties/Makefile",
+      "HACKING.txt",
+      "ISSUES.txt",
+      "README.md"
+    ],
+    "extra-tmp-files": [],
+    "extra-doc-files": []
+  },
+  "package-flags": [
+    {
+      "name": "only_core",
+      "description": "Build only the Core Modules which offer a\ndirect binding to the Java Native Interface.",
+      "default": false,
+      "manual": false
+    },
+    {
+      "name": "no_tools",
+      "description": "Do not build the `j2hs' and `hs2j' executables.",
+      "default": false,
+      "manual": false
+    },
+    {
+      "name": "debug",
+      "description": "Enable a debug build.",
+      "default": false,
+      "manual": false
+    },
+    {
+      "name": "osx_gui",
+      "description": "Build the library with special support for\nCocoa on Mac OS X.",
+      "default": true,
+      "manual": false
+    },
+    {
+      "name": "osx_framework",
+      "description": "Use the JavaVM framework on MacOS X instead\nof loading the dynamic library.",
+      "default": false,
+      "manual": false
+    },
+    {
+      "name": "examples",
+      "description": "Build a set of sample executables.",
+      "default": false,
+      "manual": false
+    }
+  ],
+  "library": {
+    "condTreeData": {
+      "name": {},
+      "exposed-modules": [
+        [
+          "Foreign",
+          "Java",
+          "JNI"
+        ],
+        [
+          "Foreign",
+          "Java",
+          "JNI",
+          "Safe"
+        ],
+        [
+          "Foreign",
+          "Java",
+          "JNI",
+          "Unsafe"
+        ]
+      ],
+      "re-exported-modules": [],
+      "signatures": [],
+      "exposed": true,
+      "visibility": "LibraryVisibilityPublic",
+      "build-info": {
+        "buildable": true,
+        "buildTools": [],
+        "buildToolDepends": [],
+        "cppOptions": [
+          "-DFFIJNI_BRIDGE_VERSION=\"0.20130606.2\""
+        ],
+        "asmOptions": [],
+        "cmmOptions": [],
+        "ccOptions": [
+          "-DFFIJNI_BRIDGE_VERSION=\"0.20130606.2\"",
+          "-Wall",
+          "--std=c99"
+        ],
+        "cxxOptions": [],
+        "ldOptions": [],
+        "pkgconfigDepends": [],
+        "frameworks": [],
+        "extraFrameworkDirs": [],
+        "asmSources": [],
+        "cmmSources": [],
+        "cSources": [
+          "src/ffijni.c"
+        ],
+        "cxxSources": [],
+        "jsSources": [],
+        "hsSourceDirs": [
+          "src"
+        ],
+        "otherModules": [
+          [
+            "Foreign",
+            "Java",
+            "JNI",
+            "Types"
+          ]
+        ],
+        "virtualModules": [],
+        "autogenModules": [],
+        "defaultLanguage": null,
+        "otherLanguages": [],
+        "defaultExtensions": [],
+        "otherExtensions": [],
+        "oldExtensions": [],
+        "extraLibs": [],
+        "extraGHCiLibs": [],
+        "extraBundledLibs": [],
+        "extraLibFlavours": [],
+        "extraDynLibFlavours": [],
+        "extraLibDirs": [],
+        "includeDirs": [],
+        "includes": [
+          "src/ffijni.h"
+        ],
+        "autogenIncludes": [],
+        "installIncludes": [],
+        "options": [
+          [],
+          []
+        ],
+        "profOptions": [
+          [],
+          []
+        ],
+        "sharedOptions": [
+          [],
+          []
+        ],
+        "staticOptions": [
+          [],
+          []
+        ],
+        "customFieldsBI": [],
+        "targetBuildDepends": [
+          {
+            "package-name": "base",
+            "version-range": ">=4.5 && <5",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "directory",
+            "version-range": ">=1.1.0.2",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "filepath",
+            "version-range": ">=1.3",
+            "library": [
+              {}
+            ]
+          }
+        ],
+        "mixins": []
+      }
+    },
+    "condTreeConstraints": [
+      {
+        "package-name": "base",
+        "version-range": ">=4.5 && <5",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "directory",
+        "version-range": ">=1.1.0.2",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "filepath",
+        "version-range": ">=1.3",
+        "library": [
+          {}
+        ]
+      }
+    ],
+    "condTreeComponents": [
+      {
+        "condBranchCondition": {
+          "v": {
+            "flag": "only_core"
+          }
+        },
+        "condBranchIfTrue": {
+          "condTreeData": {
+            "name": {},
+            "exposed-modules": [],
+            "re-exported-modules": [],
+            "signatures": [],
+            "exposed": true,
+            "visibility": "LibraryVisibilityPublic",
+            "build-info": {
+              "buildable": true,
+              "buildTools": [],
+              "buildToolDepends": [],
+              "cppOptions": [
+                "-DFFIJNI_ONLY_CORE"
+              ],
+              "asmOptions": [],
+              "cmmOptions": [],
+              "ccOptions": [
+                "-DFFIJNI_ONLY_CORE"
+              ],
+              "cxxOptions": [],
+              "ldOptions": [],
+              "pkgconfigDepends": [],
+              "frameworks": [],
+              "extraFrameworkDirs": [],
+              "asmSources": [],
+              "cmmSources": [],
+              "cSources": [],
+              "cxxSources": [],
+              "jsSources": [],
+              "hsSourceDirs": [],
+              "otherModules": [],
+              "virtualModules": [],
+              "autogenModules": [],
+              "defaultLanguage": null,
+              "otherLanguages": [],
+              "defaultExtensions": [],
+              "otherExtensions": [],
+              "oldExtensions": [],
+              "extraLibs": [],
+              "extraGHCiLibs": [],
+              "extraBundledLibs": [],
+              "extraLibFlavours": [],
+              "extraDynLibFlavours": [],
+              "extraLibDirs": [],
+              "includeDirs": [],
+              "includes": [],
+              "autogenIncludes": [],
+              "installIncludes": [],
+              "options": [
+                [],
+                []
+              ],
+              "profOptions": [
+                [],
+                []
+              ],
+              "sharedOptions": [
+                [],
+                []
+              ],
+              "staticOptions": [
+                [],
+                []
+              ],
+              "customFieldsBI": [],
+              "targetBuildDepends": [],
+              "mixins": []
+            }
+          },
+          "condTreeConstraints": [],
+          "condTreeComponents": []
+        },
+        "condBranchIfFalse": {
+          "condTreeData": {
+            "name": {},
+            "exposed-modules": [
+              [
+                "Foreign",
+                "Java"
+              ],
+              [
+                "Foreign",
+                "Java",
+                "Bindings"
+              ],
+              [
+                "Foreign",
+                "Java",
+                "Bindings",
+                "JavaTypes"
+              ],
+              [
+                "Foreign",
+                "Java",
+                "Bindings",
+                "HaskellTypes"
+              ],
+              [
+                "Foreign",
+                "Java",
+                "Bindings",
+                "Support"
+              ],
+              [
+                "Foreign",
+                "Java",
+                "Control"
+              ],
+              [
+                "Foreign",
+                "Java",
+                "IO"
+              ],
+              [
+                "Foreign",
+                "Java",
+                "Maybe"
+              ],
+              [
+                "Foreign",
+                "Java",
+                "Utils"
+              ],
+              [
+                "Foreign",
+                "Java",
+                "Value"
+              ],
+              [
+                "Foreign",
+                "Java",
+                "Tutorial"
+              ]
+            ],
+            "re-exported-modules": [],
+            "signatures": [],
+            "exposed": true,
+            "visibility": "LibraryVisibilityPublic",
+            "build-info": {
+              "buildable": true,
+              "buildTools": [],
+              "buildToolDepends": [],
+              "cppOptions": [],
+              "asmOptions": [],
+              "cmmOptions": [],
+              "ccOptions": [],
+              "cxxOptions": [],
+              "ldOptions": [],
+              "pkgconfigDepends": [],
+              "frameworks": [],
+              "extraFrameworkDirs": [],
+              "asmSources": [],
+              "cmmSources": [],
+              "cSources": [],
+              "cxxSources": [],
+              "jsSources": [],
+              "hsSourceDirs": [],
+              "otherModules": [
+                [
+                  "Foreign",
+                  "Java",
+                  "Types"
+                ],
+                [
+                  "Foreign",
+                  "Java",
+                  "JavaMonad"
+                ],
+                [
+                  "Foreign",
+                  "Java",
+                  "Util"
+                ],
+                [
+                  "Foreign",
+                  "Java",
+                  "Bindings",
+                  "ReflectJava"
+                ],
+                [
+                  "Foreign",
+                  "Java",
+                  "Bindings",
+                  "ReflectHaskell"
+                ],
+                [
+                  "Foreign",
+                  "Java",
+                  "Bindings",
+                  "Java2Haskell"
+                ],
+                [
+                  "Foreign",
+                  "Java",
+                  "Bindings",
+                  "Haskell2Java"
+                ],
+                [
+                  "Foreign",
+                  "Java",
+                  "Bindings",
+                  "JavaSE6"
+                ],
+                [
+                  "Foreign",
+                  "Java",
+                  "Bindings",
+                  "Typomatic"
+                ]
+              ],
+              "virtualModules": [],
+              "autogenModules": [],
+              "defaultLanguage": null,
+              "otherLanguages": [],
+              "defaultExtensions": [],
+              "otherExtensions": [],
+              "oldExtensions": [],
+              "extraLibs": [],
+              "extraGHCiLibs": [],
+              "extraBundledLibs": [],
+              "extraLibFlavours": [],
+              "extraDynLibFlavours": [],
+              "extraLibDirs": [],
+              "includeDirs": [],
+              "includes": [],
+              "autogenIncludes": [],
+              "installIncludes": [],
+              "options": [
+                [],
+                []
+              ],
+              "profOptions": [
+                [],
+                []
+              ],
+              "sharedOptions": [
+                [],
+                []
+              ],
+              "staticOptions": [
+                [],
+                []
+              ],
+              "customFieldsBI": [],
+              "targetBuildDepends": [
+                {
+                  "package-name": "hinduce-missingh",
+                  "version-range": "-any",
+                  "library": [
+                    {}
+                  ]
+                },
+                {
+                  "package-name": "cpphs",
+                  "version-range": ">=1.16",
+                  "library": [
+                    {}
+                  ]
+                },
+                {
+                  "package-name": "strings",
+                  "version-range": ">=1.1",
+                  "library": [
+                    {}
+                  ]
+                },
+                {
+                  "package-name": "multimap",
+                  "version-range": ">=1.2",
+                  "library": [
+                    {}
+                  ]
+                },
+                {
+                  "package-name": "mtl",
+                  "version-range": ">=2.1.1",
+                  "library": [
+                    {}
+                  ]
+                },
+                {
+                  "package-name": "syb",
+                  "version-range": ">=0.3.6.1",
+                  "library": [
+                    {}
+                  ]
+                },
+                {
+                  "package-name": "transformers",
+                  "version-range": ">=0.3",
+                  "library": [
+                    {}
+                  ]
+                },
+                {
+                  "package-name": "containers",
+                  "version-range": ">=0.4.2.1",
+                  "library": [
+                    {}
+                  ]
+                }
+              ],
+              "mixins": []
+            }
+          },
+          "condTreeConstraints": [
+            {
+              "package-name": "hinduce-missingh",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "cpphs",
+              "version-range": ">=1.16",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "strings",
+              "version-range": ">=1.1",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "multimap",
+              "version-range": ">=1.2",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "mtl",
+              "version-range": ">=2.1.1",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "syb",
+              "version-range": ">=0.3.6.1",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "transformers",
+              "version-range": ">=0.3",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "containers",
+              "version-range": ">=0.4.2.1",
+              "library": [
+                {}
+              ]
+            }
+          ],
+          "condTreeComponents": []
+        }
+      },
+      {
+        "condBranchCondition": {
+          "v": {
+            "flag": "debug"
+          }
+        },
+        "condBranchIfTrue": {
+          "condTreeData": {
+            "name": {},
+            "exposed-modules": [],
+            "re-exported-modules": [],
+            "signatures": [],
+            "exposed": true,
+            "visibility": "LibraryVisibilityPublic",
+            "build-info": {
+              "buildable": true,
+              "buildTools": [],
+              "buildToolDepends": [],
+              "cppOptions": [
+                "-DFFIJNI_DEBUG"
+              ],
+              "asmOptions": [],
+              "cmmOptions": [],
+              "ccOptions": [
+                "-DFFIJNI_DEBUG"
+              ],
+              "cxxOptions": [],
+              "ldOptions": [],
+              "pkgconfigDepends": [],
+              "frameworks": [],
+              "extraFrameworkDirs": [],
+              "asmSources": [],
+              "cmmSources": [],
+              "cSources": [],
+              "cxxSources": [],
+              "jsSources": [],
+              "hsSourceDirs": [],
+              "otherModules": [],
+              "virtualModules": [],
+              "autogenModules": [],
+              "defaultLanguage": null,
+              "otherLanguages": [],
+              "defaultExtensions": [],
+              "otherExtensions": [],
+              "oldExtensions": [],
+              "extraLibs": [],
+              "extraGHCiLibs": [],
+              "extraBundledLibs": [],
+              "extraLibFlavours": [],
+              "extraDynLibFlavours": [],
+              "extraLibDirs": [],
+              "includeDirs": [],
+              "includes": [],
+              "autogenIncludes": [],
+              "installIncludes": [],
+              "options": [
+                [],
+                []
+              ],
+              "profOptions": [
+                [],
+                []
+              ],
+              "sharedOptions": [
+                [],
+                []
+              ],
+              "staticOptions": [
+                [],
+                []
+              ],
+              "customFieldsBI": [],
+              "targetBuildDepends": [],
+              "mixins": []
+            }
+          },
+          "condTreeConstraints": [],
+          "condTreeComponents": []
+        }
+      },
+      {
+        "condBranchCondition": {
+          "v": {
+            "os": "OSX"
+          }
+        },
+        "condBranchIfTrue": {
+          "condTreeData": {
+            "name": {},
+            "exposed-modules": [],
+            "re-exported-modules": [],
+            "signatures": [],
+            "exposed": true,
+            "visibility": "LibraryVisibilityPublic",
+            "build-info": {
+              "buildable": true,
+              "buildTools": [],
+              "buildToolDepends": [],
+              "cppOptions": [
+                "-DFFIJNI_MACOSX"
+              ],
+              "asmOptions": [],
+              "cmmOptions": [],
+              "ccOptions": [
+                "-Wno-deprecated-declarations",
+                "-DFFIJNI_MACOSX"
+              ],
+              "cxxOptions": [],
+              "ldOptions": [],
+              "pkgconfigDepends": [],
+              "frameworks": [],
+              "extraFrameworkDirs": [],
+              "asmSources": [],
+              "cmmSources": [],
+              "cSources": [],
+              "cxxSources": [],
+              "jsSources": [],
+              "hsSourceDirs": [],
+              "otherModules": [],
+              "virtualModules": [],
+              "autogenModules": [],
+              "defaultLanguage": null,
+              "otherLanguages": [],
+              "defaultExtensions": [],
+              "otherExtensions": [],
+              "oldExtensions": [],
+              "extraLibs": [],
+              "extraGHCiLibs": [],
+              "extraBundledLibs": [],
+              "extraLibFlavours": [],
+              "extraDynLibFlavours": [],
+              "extraLibDirs": [],
+              "includeDirs": [],
+              "includes": [],
+              "autogenIncludes": [],
+              "installIncludes": [],
+              "options": [
+                [],
+                []
+              ],
+              "profOptions": [
+                [],
+                []
+              ],
+              "sharedOptions": [
+                [],
+                []
+              ],
+              "staticOptions": [
+                [],
+                []
+              ],
+              "customFieldsBI": [],
+              "targetBuildDepends": [
+                {
+                  "package-name": "unix",
+                  "version-range": "-any",
+                  "library": [
+                    {}
+                  ]
+                }
+              ],
+              "mixins": []
+            }
+          },
+          "condTreeConstraints": [
+            {
+              "package-name": "unix",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            }
+          ],
+          "condTreeComponents": [
+            {
+              "condBranchCondition": {
+                "v": {
+                  "flag": "osx_gui"
+                }
+              },
+              "condBranchIfTrue": {
+                "condTreeData": {
+                  "name": {},
+                  "exposed-modules": [],
+                  "re-exported-modules": [],
+                  "signatures": [],
+                  "exposed": true,
+                  "visibility": "LibraryVisibilityPublic",
+                  "build-info": {
+                    "buildable": true,
+                    "buildTools": [],
+                    "buildToolDepends": [],
+                    "cppOptions": [
+                      "-DFFIJNI_OSX_GUI"
+                    ],
+                    "asmOptions": [],
+                    "cmmOptions": [],
+                    "ccOptions": [
+                      "-DFFIJNI_OSX_GUI"
+                    ],
+                    "cxxOptions": [],
+                    "ldOptions": [],
+                    "pkgconfigDepends": [],
+                    "frameworks": [
+                      "Cocoa"
+                    ],
+                    "extraFrameworkDirs": [],
+                    "asmSources": [],
+                    "cmmSources": [],
+                    "cSources": [],
+                    "cxxSources": [],
+                    "jsSources": [],
+                    "hsSourceDirs": [],
+                    "otherModules": [],
+                    "virtualModules": [],
+                    "autogenModules": [],
+                    "defaultLanguage": null,
+                    "otherLanguages": [],
+                    "defaultExtensions": [],
+                    "otherExtensions": [],
+                    "oldExtensions": [],
+                    "extraLibs": [],
+                    "extraGHCiLibs": [],
+                    "extraBundledLibs": [],
+                    "extraLibFlavours": [],
+                    "extraDynLibFlavours": [],
+                    "extraLibDirs": [],
+                    "includeDirs": [],
+                    "includes": [],
+                    "autogenIncludes": [],
+                    "installIncludes": [],
+                    "options": [
+                      [],
+                      []
+                    ],
+                    "profOptions": [
+                      [],
+                      []
+                    ],
+                    "sharedOptions": [
+                      [],
+                      []
+                    ],
+                    "staticOptions": [
+                      [],
+                      []
+                    ],
+                    "customFieldsBI": [],
+                    "targetBuildDepends": [],
+                    "mixins": []
+                  }
+                },
+                "condTreeConstraints": [],
+                "condTreeComponents": []
+              }
+            },
+            {
+              "condBranchCondition": {
+                "v": {
+                  "flag": "osx_framework"
+                }
+              },
+              "condBranchIfTrue": {
+                "condTreeData": {
+                  "name": {},
+                  "exposed-modules": [],
+                  "re-exported-modules": [],
+                  "signatures": [],
+                  "exposed": true,
+                  "visibility": "LibraryVisibilityPublic",
+                  "build-info": {
+                    "buildable": true,
+                    "buildTools": [],
+                    "buildToolDepends": [],
+                    "cppOptions": [
+                      "-DFFIJNI_OSX_FRAMEWORK"
+                    ],
+                    "asmOptions": [],
+                    "cmmOptions": [],
+                    "ccOptions": [
+                      "-DFFIJNI_OSX_FRAMEWORK"
+                    ],
+                    "cxxOptions": [],
+                    "ldOptions": [],
+                    "pkgconfigDepends": [],
+                    "frameworks": [
+                      "JavaVM"
+                    ],
+                    "extraFrameworkDirs": [],
+                    "asmSources": [],
+                    "cmmSources": [],
+                    "cSources": [],
+                    "cxxSources": [],
+                    "jsSources": [],
+                    "hsSourceDirs": [],
+                    "otherModules": [],
+                    "virtualModules": [],
+                    "autogenModules": [],
+                    "defaultLanguage": null,
+                    "otherLanguages": [],
+                    "defaultExtensions": [],
+                    "otherExtensions": [],
+                    "oldExtensions": [],
+                    "extraLibs": [],
+                    "extraGHCiLibs": [],
+                    "extraBundledLibs": [],
+                    "extraLibFlavours": [],
+                    "extraDynLibFlavours": [],
+                    "extraLibDirs": [],
+                    "includeDirs": [],
+                    "includes": [],
+                    "autogenIncludes": [],
+                    "installIncludes": [],
+                    "options": [
+                      [],
+                      []
+                    ],
+                    "profOptions": [
+                      [],
+                      []
+                    ],
+                    "sharedOptions": [
+                      [],
+                      []
+                    ],
+                    "staticOptions": [
+                      [],
+                      []
+                    ],
+                    "customFieldsBI": [],
+                    "targetBuildDepends": [],
+                    "mixins": []
+                  }
+                },
+                "condTreeConstraints": [],
+                "condTreeComponents": []
+              }
+            }
+          ]
+        },
+        "condBranchIfFalse": {
+          "condTreeData": {
+            "name": {},
+            "exposed-modules": [],
+            "re-exported-modules": [],
+            "signatures": [],
+            "exposed": true,
+            "visibility": "LibraryVisibilityPublic",
+            "build-info": {
+              "buildable": true,
+              "buildTools": [],
+              "buildToolDepends": [],
+              "cppOptions": [],
+              "asmOptions": [],
+              "cmmOptions": [],
+              "ccOptions": [],
+              "cxxOptions": [],
+              "ldOptions": [],
+              "pkgconfigDepends": [],
+              "frameworks": [],
+              "extraFrameworkDirs": [],
+              "asmSources": [],
+              "cmmSources": [],
+              "cSources": [],
+              "cxxSources": [],
+              "jsSources": [],
+              "hsSourceDirs": [],
+              "otherModules": [],
+              "virtualModules": [],
+              "autogenModules": [],
+              "defaultLanguage": null,
+              "otherLanguages": [],
+              "defaultExtensions": [],
+              "otherExtensions": [],
+              "oldExtensions": [],
+              "extraLibs": [],
+              "extraGHCiLibs": [],
+              "extraBundledLibs": [],
+              "extraLibFlavours": [],
+              "extraDynLibFlavours": [],
+              "extraLibDirs": [],
+              "includeDirs": [],
+              "includes": [],
+              "autogenIncludes": [],
+              "installIncludes": [],
+              "options": [
+                [],
+                []
+              ],
+              "profOptions": [
+                [],
+                []
+              ],
+              "sharedOptions": [
+                [],
+                []
+              ],
+              "staticOptions": [
+                [],
+                []
+              ],
+              "customFieldsBI": [],
+              "targetBuildDepends": [],
+              "mixins": []
+            }
+          },
+          "condTreeConstraints": [],
+          "condTreeComponents": [
+            {
+              "condBranchCondition": {
+                "v": {
+                  "os": "Linux"
+                }
+              },
+              "condBranchIfTrue": {
+                "condTreeData": {
+                  "name": {},
+                  "exposed-modules": [],
+                  "re-exported-modules": [],
+                  "signatures": [],
+                  "exposed": true,
+                  "visibility": "LibraryVisibilityPublic",
+                  "build-info": {
+                    "buildable": true,
+                    "buildTools": [],
+                    "buildToolDepends": [],
+                    "cppOptions": [
+                      "-DFFIJNI_LINUX"
+                    ],
+                    "asmOptions": [],
+                    "cmmOptions": [],
+                    "ccOptions": [
+                      "-DFFIJNI_LINUX"
+                    ],
+                    "cxxOptions": [],
+                    "ldOptions": [],
+                    "pkgconfigDepends": [],
+                    "frameworks": [],
+                    "extraFrameworkDirs": [],
+                    "asmSources": [],
+                    "cmmSources": [],
+                    "cSources": [],
+                    "cxxSources": [],
+                    "jsSources": [],
+                    "hsSourceDirs": [],
+                    "otherModules": [],
+                    "virtualModules": [],
+                    "autogenModules": [],
+                    "defaultLanguage": null,
+                    "otherLanguages": [],
+                    "defaultExtensions": [],
+                    "otherExtensions": [],
+                    "oldExtensions": [],
+                    "extraLibs": [],
+                    "extraGHCiLibs": [],
+                    "extraBundledLibs": [],
+                    "extraLibFlavours": [],
+                    "extraDynLibFlavours": [],
+                    "extraLibDirs": [],
+                    "includeDirs": [],
+                    "includes": [],
+                    "autogenIncludes": [],
+                    "installIncludes": [],
+                    "options": [
+                      [],
+                      []
+                    ],
+                    "profOptions": [
+                      [],
+                      []
+                    ],
+                    "sharedOptions": [
+                      [],
+                      []
+                    ],
+                    "staticOptions": [
+                      [],
+                      []
+                    ],
+                    "customFieldsBI": [],
+                    "targetBuildDepends": [
+                      {
+                        "package-name": "unix",
+                        "version-range": "-any",
+                        "library": [
+                          {}
+                        ]
+                      }
+                    ],
+                    "mixins": []
+                  }
+                },
+                "condTreeConstraints": [
+                  {
+                    "package-name": "unix",
+                    "version-range": "-any",
+                    "library": [
+                      {}
+                    ]
+                  }
+                ],
+                "condTreeComponents": []
+              },
+              "condBranchIfFalse": {
+                "condTreeData": {
+                  "name": {},
+                  "exposed-modules": [],
+                  "re-exported-modules": [],
+                  "signatures": [],
+                  "exposed": true,
+                  "visibility": "LibraryVisibilityPublic",
+                  "build-info": {
+                    "buildable": true,
+                    "buildTools": [],
+                    "buildToolDepends": [],
+                    "cppOptions": [],
+                    "asmOptions": [],
+                    "cmmOptions": [],
+                    "ccOptions": [],
+                    "cxxOptions": [],
+                    "ldOptions": [],
+                    "pkgconfigDepends": [],
+                    "frameworks": [],
+                    "extraFrameworkDirs": [],
+                    "asmSources": [],
+                    "cmmSources": [],
+                    "cSources": [],
+                    "cxxSources": [],
+                    "jsSources": [],
+                    "hsSourceDirs": [],
+                    "otherModules": [],
+                    "virtualModules": [],
+                    "autogenModules": [],
+                    "defaultLanguage": null,
+                    "otherLanguages": [],
+                    "defaultExtensions": [],
+                    "otherExtensions": [],
+                    "oldExtensions": [],
+                    "extraLibs": [],
+                    "extraGHCiLibs": [],
+                    "extraBundledLibs": [],
+                    "extraLibFlavours": [],
+                    "extraDynLibFlavours": [],
+                    "extraLibDirs": [],
+                    "includeDirs": [],
+                    "includes": [],
+                    "autogenIncludes": [],
+                    "installIncludes": [],
+                    "options": [
+                      [],
+                      []
+                    ],
+                    "profOptions": [
+                      [],
+                      []
+                    ],
+                    "sharedOptions": [
+                      [],
+                      []
+                    ],
+                    "staticOptions": [
+                      [],
+                      []
+                    ],
+                    "customFieldsBI": [],
+                    "targetBuildDepends": [],
+                    "mixins": []
+                  }
+                },
+                "condTreeConstraints": [],
+                "condTreeComponents": [
+                  {
+                    "condBranchCondition": {
+                      "v": {
+                        "os": "Windows"
+                      }
+                    },
+                    "condBranchIfTrue": {
+                      "condTreeData": {
+                        "name": {},
+                        "exposed-modules": [],
+                        "re-exported-modules": [],
+                        "signatures": [],
+                        "exposed": true,
+                        "visibility": "LibraryVisibilityPublic",
+                        "build-info": {
+                          "buildable": true,
+                          "buildTools": [],
+                          "buildToolDepends": [],
+                          "cppOptions": [
+                            "-DFFIJNI_WINDOWS"
+                          ],
+                          "asmOptions": [],
+                          "cmmOptions": [],
+                          "ccOptions": [
+                            "-DFFIJNI_WINDOWS"
+                          ],
+                          "cxxOptions": [],
+                          "ldOptions": [],
+                          "pkgconfigDepends": [],
+                          "frameworks": [],
+                          "extraFrameworkDirs": [],
+                          "asmSources": [],
+                          "cmmSources": [],
+                          "cSources": [],
+                          "cxxSources": [],
+                          "jsSources": [],
+                          "hsSourceDirs": [],
+                          "otherModules": [],
+                          "virtualModules": [],
+                          "autogenModules": [],
+                          "defaultLanguage": null,
+                          "otherLanguages": [],
+                          "defaultExtensions": [],
+                          "otherExtensions": [],
+                          "oldExtensions": [],
+                          "extraLibs": [],
+                          "extraGHCiLibs": [],
+                          "extraBundledLibs": [],
+                          "extraLibFlavours": [],
+                          "extraDynLibFlavours": [],
+                          "extraLibDirs": [],
+                          "includeDirs": [],
+                          "includes": [],
+                          "autogenIncludes": [],
+                          "installIncludes": [],
+                          "options": [
+                            [],
+                            []
+                          ],
+                          "profOptions": [
+                            [],
+                            []
+                          ],
+                          "sharedOptions": [
+                            [],
+                            []
+                          ],
+                          "staticOptions": [
+                            [],
+                            []
+                          ],
+                          "customFieldsBI": [],
+                          "targetBuildDepends": [],
+                          "mixins": []
+                        }
+                      },
+                      "condTreeConstraints": [],
+                      "condTreeComponents": []
+                    },
+                    "condBranchIfFalse": {
+                      "condTreeData": {
+                        "name": {},
+                        "exposed-modules": [],
+                        "re-exported-modules": [],
+                        "signatures": [],
+                        "exposed": true,
+                        "visibility": "LibraryVisibilityPublic",
+                        "build-info": {
+                          "buildable": false,
+                          "buildTools": [],
+                          "buildToolDepends": [],
+                          "cppOptions": [],
+                          "asmOptions": [],
+                          "cmmOptions": [],
+                          "ccOptions": [],
+                          "cxxOptions": [],
+                          "ldOptions": [],
+                          "pkgconfigDepends": [],
+                          "frameworks": [],
+                          "extraFrameworkDirs": [],
+                          "asmSources": [],
+                          "cmmSources": [],
+                          "cSources": [],
+                          "cxxSources": [],
+                          "jsSources": [],
+                          "hsSourceDirs": [],
+                          "otherModules": [],
+                          "virtualModules": [],
+                          "autogenModules": [],
+                          "defaultLanguage": null,
+                          "otherLanguages": [],
+                          "defaultExtensions": [],
+                          "otherExtensions": [],
+                          "oldExtensions": [],
+                          "extraLibs": [],
+                          "extraGHCiLibs": [],
+                          "extraBundledLibs": [],
+                          "extraLibFlavours": [],
+                          "extraDynLibFlavours": [],
+                          "extraLibDirs": [],
+                          "includeDirs": [],
+                          "includes": [],
+                          "autogenIncludes": [],
+                          "installIncludes": [],
+                          "options": [
+                            [],
+                            []
+                          ],
+                          "profOptions": [
+                            [],
+                            []
+                          ],
+                          "sharedOptions": [
+                            [],
+                            []
+                          ],
+                          "staticOptions": [
+                            [],
+                            []
+                          ],
+                          "customFieldsBI": [],
+                          "targetBuildDepends": [],
+                          "mixins": []
+                        }
+                      },
+                      "condTreeConstraints": [],
+                      "condTreeComponents": []
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "executables": {
+    "h2js": {
+      "condTreeData": {
+        "name": "h2js",
+        "module-path": "Main.hs",
+        "scope": "public",
+        "build-info": {
+          "buildable": true,
+          "buildTools": [],
+          "buildToolDepends": [],
+          "cppOptions": [],
+          "asmOptions": [],
+          "cmmOptions": [],
+          "ccOptions": [],
+          "cxxOptions": [],
+          "ldOptions": [],
+          "pkgconfigDepends": [],
+          "frameworks": [],
+          "extraFrameworkDirs": [],
+          "asmSources": [],
+          "cmmSources": [],
+          "cSources": [],
+          "cxxSources": [],
+          "jsSources": [],
+          "hsSourceDirs": [
+            "hs2j"
+          ],
+          "otherModules": [
+            [
+              "Common"
+            ],
+            [
+              "Options"
+            ],
+            [
+              "Haskell2Java"
+            ]
+          ],
+          "virtualModules": [],
+          "autogenModules": [],
+          "defaultLanguage": null,
+          "otherLanguages": [],
+          "defaultExtensions": [],
+          "otherExtensions": [],
+          "oldExtensions": [],
+          "extraLibs": [],
+          "extraGHCiLibs": [],
+          "extraBundledLibs": [],
+          "extraLibFlavours": [],
+          "extraDynLibFlavours": [],
+          "extraLibDirs": [],
+          "includeDirs": [],
+          "includes": [],
+          "autogenIncludes": [],
+          "installIncludes": [],
+          "options": [
+            [],
+            []
+          ],
+          "profOptions": [
+            [],
+            []
+          ],
+          "sharedOptions": [
+            [],
+            []
+          ],
+          "staticOptions": [
+            [],
+            []
+          ],
+          "customFieldsBI": [],
+          "targetBuildDepends": [
+            {
+              "package-name": "base",
+              "version-range": ">=4.5 && <5",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "java-bridge",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            }
+          ],
+          "mixins": []
+        }
+      },
+      "condTreeConstraints": [
+        {
+          "package-name": "base",
+          "version-range": ">=4.5 && <5",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "java-bridge",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        }
+      ],
+      "condTreeComponents": [
+        {
+          "condBranchCondition": {
+            "v": {
+              "flag": "only_core"
+            }
+          },
+          "condBranchIfTrue": {
+            "condTreeData": {
+              "name": "h2js",
+              "module-path": "",
+              "scope": "public",
+              "build-info": {
+                "buildable": false,
+                "buildTools": [],
+                "buildToolDepends": [],
+                "cppOptions": [],
+                "asmOptions": [],
+                "cmmOptions": [],
+                "ccOptions": [],
+                "cxxOptions": [],
+                "ldOptions": [],
+                "pkgconfigDepends": [],
+                "frameworks": [],
+                "extraFrameworkDirs": [],
+                "asmSources": [],
+                "cmmSources": [],
+                "cSources": [],
+                "cxxSources": [],
+                "jsSources": [],
+                "hsSourceDirs": [],
+                "otherModules": [],
+                "virtualModules": [],
+                "autogenModules": [],
+                "defaultLanguage": null,
+                "otherLanguages": [],
+                "defaultExtensions": [],
+                "otherExtensions": [],
+                "oldExtensions": [],
+                "extraLibs": [],
+                "extraGHCiLibs": [],
+                "extraBundledLibs": [],
+                "extraLibFlavours": [],
+                "extraDynLibFlavours": [],
+                "extraLibDirs": [],
+                "includeDirs": [],
+                "includes": [],
+                "autogenIncludes": [],
+                "installIncludes": [],
+                "options": [
+                  [],
+                  []
+                ],
+                "profOptions": [
+                  [],
+                  []
+                ],
+                "sharedOptions": [
+                  [],
+                  []
+                ],
+                "staticOptions": [
+                  [],
+                  []
+                ],
+                "customFieldsBI": [],
+                "targetBuildDepends": [],
+                "mixins": []
+              }
+            },
+            "condTreeConstraints": [],
+            "condTreeComponents": []
+          },
+          "condBranchIfFalse": {
+            "condTreeData": {
+              "name": "h2js",
+              "module-path": "",
+              "scope": "public",
+              "build-info": {
+                "buildable": true,
+                "buildTools": [],
+                "buildToolDepends": [],
+                "cppOptions": [],
+                "asmOptions": [],
+                "cmmOptions": [],
+                "ccOptions": [],
+                "cxxOptions": [],
+                "ldOptions": [],
+                "pkgconfigDepends": [],
+                "frameworks": [],
+                "extraFrameworkDirs": [],
+                "asmSources": [],
+                "cmmSources": [],
+                "cSources": [],
+                "cxxSources": [],
+                "jsSources": [],
+                "hsSourceDirs": [],
+                "otherModules": [],
+                "virtualModules": [],
+                "autogenModules": [],
+                "defaultLanguage": null,
+                "otherLanguages": [],
+                "defaultExtensions": [],
+                "otherExtensions": [],
+                "oldExtensions": [],
+                "extraLibs": [],
+                "extraGHCiLibs": [],
+                "extraBundledLibs": [],
+                "extraLibFlavours": [],
+                "extraDynLibFlavours": [],
+                "extraLibDirs": [],
+                "includeDirs": [],
+                "includes": [],
+                "autogenIncludes": [],
+                "installIncludes": [],
+                "options": [
+                  [],
+                  []
+                ],
+                "profOptions": [
+                  [],
+                  []
+                ],
+                "sharedOptions": [
+                  [],
+                  []
+                ],
+                "staticOptions": [
+                  [],
+                  []
+                ],
+                "customFieldsBI": [],
+                "targetBuildDepends": [],
+                "mixins": []
+              }
+            },
+            "condTreeConstraints": [],
+            "condTreeComponents": [
+              {
+                "condBranchCondition": {
+                  "v": {
+                    "flag": "no_tools"
+                  }
+                },
+                "condBranchIfTrue": {
+                  "condTreeData": {
+                    "name": "h2js",
+                    "module-path": "",
+                    "scope": "public",
+                    "build-info": {
+                      "buildable": false,
+                      "buildTools": [],
+                      "buildToolDepends": [],
+                      "cppOptions": [],
+                      "asmOptions": [],
+                      "cmmOptions": [],
+                      "ccOptions": [],
+                      "cxxOptions": [],
+                      "ldOptions": [],
+                      "pkgconfigDepends": [],
+                      "frameworks": [],
+                      "extraFrameworkDirs": [],
+                      "asmSources": [],
+                      "cmmSources": [],
+                      "cSources": [],
+                      "cxxSources": [],
+                      "jsSources": [],
+                      "hsSourceDirs": [],
+                      "otherModules": [],
+                      "virtualModules": [],
+                      "autogenModules": [],
+                      "defaultLanguage": null,
+                      "otherLanguages": [],
+                      "defaultExtensions": [],
+                      "otherExtensions": [],
+                      "oldExtensions": [],
+                      "extraLibs": [],
+                      "extraGHCiLibs": [],
+                      "extraBundledLibs": [],
+                      "extraLibFlavours": [],
+                      "extraDynLibFlavours": [],
+                      "extraLibDirs": [],
+                      "includeDirs": [],
+                      "includes": [],
+                      "autogenIncludes": [],
+                      "installIncludes": [],
+                      "options": [
+                        [],
+                        []
+                      ],
+                      "profOptions": [
+                        [],
+                        []
+                      ],
+                      "sharedOptions": [
+                        [],
+                        []
+                      ],
+                      "staticOptions": [
+                        [],
+                        []
+                      ],
+                      "customFieldsBI": [],
+                      "targetBuildDepends": [],
+                      "mixins": []
+                    }
+                  },
+                  "condTreeConstraints": [],
+                  "condTreeComponents": []
+                },
+                "condBranchIfFalse": {
+                  "condTreeData": {
+                    "name": "h2js",
+                    "module-path": "",
+                    "scope": "public",
+                    "build-info": {
+                      "buildable": true,
+                      "buildTools": [],
+                      "buildToolDepends": [],
+                      "cppOptions": [],
+                      "asmOptions": [],
+                      "cmmOptions": [],
+                      "ccOptions": [],
+                      "cxxOptions": [],
+                      "ldOptions": [],
+                      "pkgconfigDepends": [],
+                      "frameworks": [],
+                      "extraFrameworkDirs": [],
+                      "asmSources": [],
+                      "cmmSources": [],
+                      "cSources": [],
+                      "cxxSources": [],
+                      "jsSources": [],
+                      "hsSourceDirs": [],
+                      "otherModules": [],
+                      "virtualModules": [],
+                      "autogenModules": [],
+                      "defaultLanguage": null,
+                      "otherLanguages": [],
+                      "defaultExtensions": [],
+                      "otherExtensions": [],
+                      "oldExtensions": [],
+                      "extraLibs": [],
+                      "extraGHCiLibs": [],
+                      "extraBundledLibs": [],
+                      "extraLibFlavours": [],
+                      "extraDynLibFlavours": [],
+                      "extraLibDirs": [],
+                      "includeDirs": [],
+                      "includes": [],
+                      "autogenIncludes": [],
+                      "installIncludes": [],
+                      "options": [
+                        [],
+                        []
+                      ],
+                      "profOptions": [
+                        [],
+                        []
+                      ],
+                      "sharedOptions": [
+                        [],
+                        []
+                      ],
+                      "staticOptions": [
+                        [],
+                        []
+                      ],
+                      "customFieldsBI": [],
+                      "targetBuildDepends": [
+                        {
+                          "package-name": "containers",
+                          "version-range": ">=0.4.2.1",
+                          "library": [
+                            {}
+                          ]
+                        },
+                        {
+                          "package-name": "directory",
+                          "version-range": ">=1.1.0.2",
+                          "library": [
+                            {}
+                          ]
+                        },
+                        {
+                          "package-name": "filepath",
+                          "version-range": ">=1.3",
+                          "library": [
+                            {}
+                          ]
+                        },
+                        {
+                          "package-name": "syb",
+                          "version-range": ">=0.3.6.1",
+                          "library": [
+                            {}
+                          ]
+                        },
+                        {
+                          "package-name": "split",
+                          "version-range": ">=0.2.1.1",
+                          "library": [
+                            {}
+                          ]
+                        },
+                        {
+                          "package-name": "strings",
+                          "version-range": ">=1.1",
+                          "library": [
+                            {}
+                          ]
+                        },
+                        {
+                          "package-name": "multimap",
+                          "version-range": ">=1.1",
+                          "library": [
+                            {}
+                          ]
+                        },
+                        {
+                          "package-name": "names",
+                          "version-range": ">=0.3.1 && <0.4",
+                          "library": [
+                            {}
+                          ]
+                        },
+                        {
+                          "package-name": "named-records",
+                          "version-range": ">=0.5",
+                          "library": [
+                            {}
+                          ]
+                        },
+                        {
+                          "package-name": "bimap",
+                          "version-range": ">=0.2.4",
+                          "library": [
+                            {}
+                          ]
+                        },
+                        {
+                          "package-name": "hint",
+                          "version-range": ">=0.3.3.4",
+                          "library": [
+                            {}
+                          ]
+                        }
+                      ],
+                      "mixins": []
+                    }
+                  },
+                  "condTreeConstraints": [
+                    {
+                      "package-name": "containers",
+                      "version-range": ">=0.4.2.1",
+                      "library": [
+                        {}
+                      ]
+                    },
+                    {
+                      "package-name": "directory",
+                      "version-range": ">=1.1.0.2",
+                      "library": [
+                        {}
+                      ]
+                    },
+                    {
+                      "package-name": "filepath",
+                      "version-range": ">=1.3",
+                      "library": [
+                        {}
+                      ]
+                    },
+                    {
+                      "package-name": "syb",
+                      "version-range": ">=0.3.6.1",
+                      "library": [
+                        {}
+                      ]
+                    },
+                    {
+                      "package-name": "split",
+                      "version-range": ">=0.2.1.1",
+                      "library": [
+                        {}
+                      ]
+                    },
+                    {
+                      "package-name": "strings",
+                      "version-range": ">=1.1",
+                      "library": [
+                        {}
+                      ]
+                    },
+                    {
+                      "package-name": "multimap",
+                      "version-range": ">=1.1",
+                      "library": [
+                        {}
+                      ]
+                    },
+                    {
+                      "package-name": "names",
+                      "version-range": ">=0.3.1 && <0.4",
+                      "library": [
+                        {}
+                      ]
+                    },
+                    {
+                      "package-name": "named-records",
+                      "version-range": ">=0.5",
+                      "library": [
+                        {}
+                      ]
+                    },
+                    {
+                      "package-name": "bimap",
+                      "version-range": ">=0.2.4",
+                      "library": [
+                        {}
+                      ]
+                    },
+                    {
+                      "package-name": "hint",
+                      "version-range": ">=0.3.3.4",
+                      "library": [
+                        {}
+                      ]
+                    }
+                  ],
+                  "condTreeComponents": []
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "j2hs": {
+      "condTreeData": {
+        "name": "j2hs",
+        "module-path": "Main.hs",
+        "scope": "public",
+        "build-info": {
+          "buildable": true,
+          "buildTools": [],
+          "buildToolDepends": [],
+          "cppOptions": [],
+          "asmOptions": [],
+          "cmmOptions": [],
+          "ccOptions": [],
+          "cxxOptions": [],
+          "ldOptions": [],
+          "pkgconfigDepends": [],
+          "frameworks": [],
+          "extraFrameworkDirs": [],
+          "asmSources": [],
+          "cmmSources": [],
+          "cSources": [],
+          "cxxSources": [],
+          "jsSources": [],
+          "hsSourceDirs": [
+            "j2hs"
+          ],
+          "otherModules": [
+            [
+              "Common"
+            ],
+            [
+              "Options"
+            ],
+            [
+              "Java2Haskell"
+            ]
+          ],
+          "virtualModules": [],
+          "autogenModules": [],
+          "defaultLanguage": null,
+          "otherLanguages": [],
+          "defaultExtensions": [],
+          "otherExtensions": [],
+          "oldExtensions": [],
+          "extraLibs": [],
+          "extraGHCiLibs": [],
+          "extraBundledLibs": [],
+          "extraLibFlavours": [],
+          "extraDynLibFlavours": [],
+          "extraLibDirs": [],
+          "includeDirs": [],
+          "includes": [],
+          "autogenIncludes": [],
+          "installIncludes": [],
+          "options": [
+            [],
+            []
+          ],
+          "profOptions": [
+            [],
+            []
+          ],
+          "sharedOptions": [
+            [],
+            []
+          ],
+          "staticOptions": [
+            [],
+            []
+          ],
+          "customFieldsBI": [],
+          "targetBuildDepends": [
+            {
+              "package-name": "base",
+              "version-range": ">=4.5 && <5",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "java-bridge",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            }
+          ],
+          "mixins": []
+        }
+      },
+      "condTreeConstraints": [
+        {
+          "package-name": "base",
+          "version-range": ">=4.5 && <5",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "java-bridge",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        }
+      ],
+      "condTreeComponents": [
+        {
+          "condBranchCondition": {
+            "v": {
+              "flag": "only_core"
+            }
+          },
+          "condBranchIfTrue": {
+            "condTreeData": {
+              "name": "j2hs",
+              "module-path": "",
+              "scope": "public",
+              "build-info": {
+                "buildable": false,
+                "buildTools": [],
+                "buildToolDepends": [],
+                "cppOptions": [],
+                "asmOptions": [],
+                "cmmOptions": [],
+                "ccOptions": [],
+                "cxxOptions": [],
+                "ldOptions": [],
+                "pkgconfigDepends": [],
+                "frameworks": [],
+                "extraFrameworkDirs": [],
+                "asmSources": [],
+                "cmmSources": [],
+                "cSources": [],
+                "cxxSources": [],
+                "jsSources": [],
+                "hsSourceDirs": [],
+                "otherModules": [],
+                "virtualModules": [],
+                "autogenModules": [],
+                "defaultLanguage": null,
+                "otherLanguages": [],
+                "defaultExtensions": [],
+                "otherExtensions": [],
+                "oldExtensions": [],
+                "extraLibs": [],
+                "extraGHCiLibs": [],
+                "extraBundledLibs": [],
+                "extraLibFlavours": [],
+                "extraDynLibFlavours": [],
+                "extraLibDirs": [],
+                "includeDirs": [],
+                "includes": [],
+                "autogenIncludes": [],
+                "installIncludes": [],
+                "options": [
+                  [],
+                  []
+                ],
+                "profOptions": [
+                  [],
+                  []
+                ],
+                "sharedOptions": [
+                  [],
+                  []
+                ],
+                "staticOptions": [
+                  [],
+                  []
+                ],
+                "customFieldsBI": [],
+                "targetBuildDepends": [],
+                "mixins": []
+              }
+            },
+            "condTreeConstraints": [],
+            "condTreeComponents": []
+          },
+          "condBranchIfFalse": {
+            "condTreeData": {
+              "name": "j2hs",
+              "module-path": "",
+              "scope": "public",
+              "build-info": {
+                "buildable": true,
+                "buildTools": [],
+                "buildToolDepends": [],
+                "cppOptions": [],
+                "asmOptions": [],
+                "cmmOptions": [],
+                "ccOptions": [],
+                "cxxOptions": [],
+                "ldOptions": [],
+                "pkgconfigDepends": [],
+                "frameworks": [],
+                "extraFrameworkDirs": [],
+                "asmSources": [],
+                "cmmSources": [],
+                "cSources": [],
+                "cxxSources": [],
+                "jsSources": [],
+                "hsSourceDirs": [],
+                "otherModules": [],
+                "virtualModules": [],
+                "autogenModules": [],
+                "defaultLanguage": null,
+                "otherLanguages": [],
+                "defaultExtensions": [],
+                "otherExtensions": [],
+                "oldExtensions": [],
+                "extraLibs": [],
+                "extraGHCiLibs": [],
+                "extraBundledLibs": [],
+                "extraLibFlavours": [],
+                "extraDynLibFlavours": [],
+                "extraLibDirs": [],
+                "includeDirs": [],
+                "includes": [],
+                "autogenIncludes": [],
+                "installIncludes": [],
+                "options": [
+                  [],
+                  []
+                ],
+                "profOptions": [
+                  [],
+                  []
+                ],
+                "sharedOptions": [
+                  [],
+                  []
+                ],
+                "staticOptions": [
+                  [],
+                  []
+                ],
+                "customFieldsBI": [],
+                "targetBuildDepends": [],
+                "mixins": []
+              }
+            },
+            "condTreeConstraints": [],
+            "condTreeComponents": [
+              {
+                "condBranchCondition": {
+                  "v": {
+                    "flag": "no_tools"
+                  }
+                },
+                "condBranchIfTrue": {
+                  "condTreeData": {
+                    "name": "j2hs",
+                    "module-path": "",
+                    "scope": "public",
+                    "build-info": {
+                      "buildable": false,
+                      "buildTools": [],
+                      "buildToolDepends": [],
+                      "cppOptions": [],
+                      "asmOptions": [],
+                      "cmmOptions": [],
+                      "ccOptions": [],
+                      "cxxOptions": [],
+                      "ldOptions": [],
+                      "pkgconfigDepends": [],
+                      "frameworks": [],
+                      "extraFrameworkDirs": [],
+                      "asmSources": [],
+                      "cmmSources": [],
+                      "cSources": [],
+                      "cxxSources": [],
+                      "jsSources": [],
+                      "hsSourceDirs": [],
+                      "otherModules": [],
+                      "virtualModules": [],
+                      "autogenModules": [],
+                      "defaultLanguage": null,
+                      "otherLanguages": [],
+                      "defaultExtensions": [],
+                      "otherExtensions": [],
+                      "oldExtensions": [],
+                      "extraLibs": [],
+                      "extraGHCiLibs": [],
+                      "extraBundledLibs": [],
+                      "extraLibFlavours": [],
+                      "extraDynLibFlavours": [],
+                      "extraLibDirs": [],
+                      "includeDirs": [],
+                      "includes": [],
+                      "autogenIncludes": [],
+                      "installIncludes": [],
+                      "options": [
+                        [],
+                        []
+                      ],
+                      "profOptions": [
+                        [],
+                        []
+                      ],
+                      "sharedOptions": [
+                        [],
+                        []
+                      ],
+                      "staticOptions": [
+                        [],
+                        []
+                      ],
+                      "customFieldsBI": [],
+                      "targetBuildDepends": [],
+                      "mixins": []
+                    }
+                  },
+                  "condTreeConstraints": [],
+                  "condTreeComponents": []
+                },
+                "condBranchIfFalse": {
+                  "condTreeData": {
+                    "name": "j2hs",
+                    "module-path": "",
+                    "scope": "public",
+                    "build-info": {
+                      "buildable": true,
+                      "buildTools": [],
+                      "buildToolDepends": [],
+                      "cppOptions": [],
+                      "asmOptions": [],
+                      "cmmOptions": [],
+                      "ccOptions": [],
+                      "cxxOptions": [],
+                      "ldOptions": [],
+                      "pkgconfigDepends": [],
+                      "frameworks": [],
+                      "extraFrameworkDirs": [],
+                      "asmSources": [],
+                      "cmmSources": [],
+                      "cSources": [],
+                      "cxxSources": [],
+                      "jsSources": [],
+                      "hsSourceDirs": [],
+                      "otherModules": [],
+                      "virtualModules": [],
+                      "autogenModules": [],
+                      "defaultLanguage": null,
+                      "otherLanguages": [],
+                      "defaultExtensions": [],
+                      "otherExtensions": [],
+                      "oldExtensions": [],
+                      "extraLibs": [],
+                      "extraGHCiLibs": [],
+                      "extraBundledLibs": [],
+                      "extraLibFlavours": [],
+                      "extraDynLibFlavours": [],
+                      "extraLibDirs": [],
+                      "includeDirs": [],
+                      "includes": [],
+                      "autogenIncludes": [],
+                      "installIncludes": [],
+                      "options": [
+                        [],
+                        []
+                      ],
+                      "profOptions": [
+                        [],
+                        []
+                      ],
+                      "sharedOptions": [
+                        [],
+                        []
+                      ],
+                      "staticOptions": [
+                        [],
+                        []
+                      ],
+                      "customFieldsBI": [],
+                      "targetBuildDepends": [
+                        {
+                          "package-name": "containers",
+                          "version-range": ">=0.4.2.1",
+                          "library": [
+                            {}
+                          ]
+                        },
+                        {
+                          "package-name": "directory",
+                          "version-range": ">=1.1.0.2",
+                          "library": [
+                            {}
+                          ]
+                        },
+                        {
+                          "package-name": "filepath",
+                          "version-range": ">=1.3",
+                          "library": [
+                            {}
+                          ]
+                        },
+                        {
+                          "package-name": "syb",
+                          "version-range": ">=0.3.6.1",
+                          "library": [
+                            {}
+                          ]
+                        },
+                        {
+                          "package-name": "split",
+                          "version-range": ">=0.2.1.1",
+                          "library": [
+                            {}
+                          ]
+                        },
+                        {
+                          "package-name": "strings",
+                          "version-range": ">=1.1",
+                          "library": [
+                            {}
+                          ]
+                        },
+                        {
+                          "package-name": "multimap",
+                          "version-range": ">=1.2",
+                          "library": [
+                            {}
+                          ]
+                        },
+                        {
+                          "package-name": "names",
+                          "version-range": ">=0.3.1 && <0.4",
+                          "library": [
+                            {}
+                          ]
+                        },
+                        {
+                          "package-name": "named-records",
+                          "version-range": ">=0.5",
+                          "library": [
+                            {}
+                          ]
+                        },
+                        {
+                          "package-name": "bimap",
+                          "version-range": ">=0.2.4",
+                          "library": [
+                            {}
+                          ]
+                        },
+                        {
+                          "package-name": "hint",
+                          "version-range": ">=0.3.3.4",
+                          "library": [
+                            {}
+                          ]
+                        }
+                      ],
+                      "mixins": []
+                    }
+                  },
+                  "condTreeConstraints": [
+                    {
+                      "package-name": "containers",
+                      "version-range": ">=0.4.2.1",
+                      "library": [
+                        {}
+                      ]
+                    },
+                    {
+                      "package-name": "directory",
+                      "version-range": ">=1.1.0.2",
+                      "library": [
+                        {}
+                      ]
+                    },
+                    {
+                      "package-name": "filepath",
+                      "version-range": ">=1.3",
+                      "library": [
+                        {}
+                      ]
+                    },
+                    {
+                      "package-name": "syb",
+                      "version-range": ">=0.3.6.1",
+                      "library": [
+                        {}
+                      ]
+                    },
+                    {
+                      "package-name": "split",
+                      "version-range": ">=0.2.1.1",
+                      "library": [
+                        {}
+                      ]
+                    },
+                    {
+                      "package-name": "strings",
+                      "version-range": ">=1.1",
+                      "library": [
+                        {}
+                      ]
+                    },
+                    {
+                      "package-name": "multimap",
+                      "version-range": ">=1.2",
+                      "library": [
+                        {}
+                      ]
+                    },
+                    {
+                      "package-name": "names",
+                      "version-range": ">=0.3.1 && <0.4",
+                      "library": [
+                        {}
+                      ]
+                    },
+                    {
+                      "package-name": "named-records",
+                      "version-range": ">=0.5",
+                      "library": [
+                        {}
+                      ]
+                    },
+                    {
+                      "package-name": "bimap",
+                      "version-range": ">=0.2.4",
+                      "library": [
+                        {}
+                      ]
+                    },
+                    {
+                      "package-name": "hint",
+                      "version-range": ">=0.3.3.4",
+                      "library": [
+                        {}
+                      ]
+                    }
+                  ],
+                  "condTreeComponents": []
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "java-calculator": {
+      "condTreeData": {
+        "name": "java-calculator",
+        "module-path": "calculator.hs",
+        "scope": "public",
+        "build-info": {
+          "buildable": true,
+          "buildTools": [],
+          "buildToolDepends": [],
+          "cppOptions": [],
+          "asmOptions": [],
+          "cmmOptions": [],
+          "ccOptions": [],
+          "cxxOptions": [],
+          "ldOptions": [],
+          "pkgconfigDepends": [],
+          "frameworks": [],
+          "extraFrameworkDirs": [],
+          "asmSources": [],
+          "cmmSources": [],
+          "cSources": [],
+          "cxxSources": [],
+          "jsSources": [],
+          "hsSourceDirs": [
+            "examples/calculator/src"
+          ],
+          "otherModules": [],
+          "virtualModules": [],
+          "autogenModules": [],
+          "defaultLanguage": null,
+          "otherLanguages": [],
+          "defaultExtensions": [],
+          "otherExtensions": [],
+          "oldExtensions": [],
+          "extraLibs": [],
+          "extraGHCiLibs": [],
+          "extraBundledLibs": [],
+          "extraLibFlavours": [],
+          "extraDynLibFlavours": [],
+          "extraLibDirs": [],
+          "includeDirs": [],
+          "includes": [],
+          "autogenIncludes": [],
+          "installIncludes": [],
+          "options": [
+            [
+              "-threaded"
+            ],
+            []
+          ],
+          "profOptions": [
+            [],
+            []
+          ],
+          "sharedOptions": [
+            [],
+            []
+          ],
+          "staticOptions": [
+            [],
+            []
+          ],
+          "customFieldsBI": [],
+          "targetBuildDepends": [
+            {
+              "package-name": "base",
+              "version-range": ">=4 && <5",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "java-bridge",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            }
+          ],
+          "mixins": []
+        }
+      },
+      "condTreeConstraints": [
+        {
+          "package-name": "base",
+          "version-range": ">=4 && <5",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "java-bridge",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        }
+      ],
+      "condTreeComponents": [
+        {
+          "condBranchCondition": {
+            "v": {
+              "flag": "examples"
+            }
+          },
+          "condBranchIfTrue": {
+            "condTreeData": {
+              "name": "java-calculator",
+              "module-path": "",
+              "scope": "public",
+              "build-info": {
+                "buildable": true,
+                "buildTools": [],
+                "buildToolDepends": [],
+                "cppOptions": [],
+                "asmOptions": [],
+                "cmmOptions": [],
+                "ccOptions": [],
+                "cxxOptions": [],
+                "ldOptions": [],
+                "pkgconfigDepends": [],
+                "frameworks": [],
+                "extraFrameworkDirs": [],
+                "asmSources": [],
+                "cmmSources": [],
+                "cSources": [],
+                "cxxSources": [],
+                "jsSources": [],
+                "hsSourceDirs": [],
+                "otherModules": [],
+                "virtualModules": [],
+                "autogenModules": [],
+                "defaultLanguage": null,
+                "otherLanguages": [],
+                "defaultExtensions": [],
+                "otherExtensions": [],
+                "oldExtensions": [],
+                "extraLibs": [],
+                "extraGHCiLibs": [],
+                "extraBundledLibs": [],
+                "extraLibFlavours": [],
+                "extraDynLibFlavours": [],
+                "extraLibDirs": [],
+                "includeDirs": [],
+                "includes": [],
+                "autogenIncludes": [],
+                "installIncludes": [],
+                "options": [
+                  [],
+                  []
+                ],
+                "profOptions": [
+                  [],
+                  []
+                ],
+                "sharedOptions": [
+                  [],
+                  []
+                ],
+                "staticOptions": [
+                  [],
+                  []
+                ],
+                "customFieldsBI": [],
+                "targetBuildDepends": [],
+                "mixins": []
+              }
+            },
+            "condTreeConstraints": [],
+            "condTreeComponents": [
+              {
+                "condBranchCondition": {
+                  "v": {
+                    "os": "OSX"
+                  }
+                },
+                "condBranchIfTrue": {
+                  "condTreeData": {
+                    "name": "java-calculator",
+                    "module-path": "",
+                    "scope": "public",
+                    "build-info": {
+                      "buildable": true,
+                      "buildTools": [],
+                      "buildToolDepends": [],
+                      "cppOptions": [],
+                      "asmOptions": [],
+                      "cmmOptions": [],
+                      "ccOptions": [],
+                      "cxxOptions": [],
+                      "ldOptions": [],
+                      "pkgconfigDepends": [],
+                      "frameworks": [],
+                      "extraFrameworkDirs": [],
+                      "asmSources": [],
+                      "cmmSources": [],
+                      "cSources": [],
+                      "cxxSources": [],
+                      "jsSources": [],
+                      "hsSourceDirs": [],
+                      "otherModules": [],
+                      "virtualModules": [],
+                      "autogenModules": [],
+                      "defaultLanguage": null,
+                      "otherLanguages": [],
+                      "defaultExtensions": [],
+                      "otherExtensions": [],
+                      "oldExtensions": [],
+                      "extraLibs": [],
+                      "extraGHCiLibs": [],
+                      "extraBundledLibs": [],
+                      "extraLibFlavours": [],
+                      "extraDynLibFlavours": [],
+                      "extraLibDirs": [],
+                      "includeDirs": [],
+                      "includes": [],
+                      "autogenIncludes": [],
+                      "installIncludes": [],
+                      "options": [
+                        [],
+                        []
+                      ],
+                      "profOptions": [
+                        [],
+                        []
+                      ],
+                      "sharedOptions": [
+                        [],
+                        []
+                      ],
+                      "staticOptions": [
+                        [],
+                        []
+                      ],
+                      "customFieldsBI": [],
+                      "targetBuildDepends": [],
+                      "mixins": []
+                    }
+                  },
+                  "condTreeConstraints": [],
+                  "condTreeComponents": [
+                    {
+                      "condBranchCondition": {
+                        "v": {
+                          "flag": "osx_gui"
+                        }
+                      },
+                      "condBranchIfTrue": {
+                        "condTreeData": {
+                          "name": "java-calculator",
+                          "module-path": "",
+                          "scope": "public",
+                          "build-info": {
+                            "buildable": true,
+                            "buildTools": [],
+                            "buildToolDepends": [],
+                            "cppOptions": [],
+                            "asmOptions": [],
+                            "cmmOptions": [],
+                            "ccOptions": [],
+                            "cxxOptions": [],
+                            "ldOptions": [],
+                            "pkgconfigDepends": [],
+                            "frameworks": [],
+                            "extraFrameworkDirs": [],
+                            "asmSources": [],
+                            "cmmSources": [],
+                            "cSources": [],
+                            "cxxSources": [],
+                            "jsSources": [],
+                            "hsSourceDirs": [],
+                            "otherModules": [],
+                            "virtualModules": [],
+                            "autogenModules": [],
+                            "defaultLanguage": null,
+                            "otherLanguages": [],
+                            "defaultExtensions": [],
+                            "otherExtensions": [],
+                            "oldExtensions": [],
+                            "extraLibs": [],
+                            "extraGHCiLibs": [],
+                            "extraBundledLibs": [],
+                            "extraLibFlavours": [],
+                            "extraDynLibFlavours": [],
+                            "extraLibDirs": [],
+                            "includeDirs": [],
+                            "includes": [],
+                            "autogenIncludes": [],
+                            "installIncludes": [],
+                            "options": [
+                              [],
+                              []
+                            ],
+                            "profOptions": [
+                              [],
+                              []
+                            ],
+                            "sharedOptions": [
+                              [],
+                              []
+                            ],
+                            "staticOptions": [
+                              [],
+                              []
+                            ],
+                            "customFieldsBI": [],
+                            "targetBuildDepends": [],
+                            "mixins": []
+                          }
+                        },
+                        "condTreeConstraints": [],
+                        "condTreeComponents": []
+                      },
+                      "condBranchIfFalse": {
+                        "condTreeData": {
+                          "name": "java-calculator",
+                          "module-path": "",
+                          "scope": "public",
+                          "build-info": {
+                            "buildable": false,
+                            "buildTools": [],
+                            "buildToolDepends": [],
+                            "cppOptions": [],
+                            "asmOptions": [],
+                            "cmmOptions": [],
+                            "ccOptions": [],
+                            "cxxOptions": [],
+                            "ldOptions": [],
+                            "pkgconfigDepends": [],
+                            "frameworks": [],
+                            "extraFrameworkDirs": [],
+                            "asmSources": [],
+                            "cmmSources": [],
+                            "cSources": [],
+                            "cxxSources": [],
+                            "jsSources": [],
+                            "hsSourceDirs": [],
+                            "otherModules": [],
+                            "virtualModules": [],
+                            "autogenModules": [],
+                            "defaultLanguage": null,
+                            "otherLanguages": [],
+                            "defaultExtensions": [],
+                            "otherExtensions": [],
+                            "oldExtensions": [],
+                            "extraLibs": [],
+                            "extraGHCiLibs": [],
+                            "extraBundledLibs": [],
+                            "extraLibFlavours": [],
+                            "extraDynLibFlavours": [],
+                            "extraLibDirs": [],
+                            "includeDirs": [],
+                            "includes": [],
+                            "autogenIncludes": [],
+                            "installIncludes": [],
+                            "options": [
+                              [],
+                              []
+                            ],
+                            "profOptions": [
+                              [],
+                              []
+                            ],
+                            "sharedOptions": [
+                              [],
+                              []
+                            ],
+                            "staticOptions": [
+                              [],
+                              []
+                            ],
+                            "customFieldsBI": [],
+                            "targetBuildDepends": [],
+                            "mixins": []
+                          }
+                        },
+                        "condTreeConstraints": [],
+                        "condTreeComponents": []
+                      }
+                    }
+                  ]
+                },
+                "condBranchIfFalse": {
+                  "condTreeData": {
+                    "name": "java-calculator",
+                    "module-path": "",
+                    "scope": "public",
+                    "build-info": {
+                      "buildable": true,
+                      "buildTools": [],
+                      "buildToolDepends": [],
+                      "cppOptions": [],
+                      "asmOptions": [],
+                      "cmmOptions": [],
+                      "ccOptions": [],
+                      "cxxOptions": [],
+                      "ldOptions": [],
+                      "pkgconfigDepends": [],
+                      "frameworks": [],
+                      "extraFrameworkDirs": [],
+                      "asmSources": [],
+                      "cmmSources": [],
+                      "cSources": [],
+                      "cxxSources": [],
+                      "jsSources": [],
+                      "hsSourceDirs": [],
+                      "otherModules": [],
+                      "virtualModules": [],
+                      "autogenModules": [],
+                      "defaultLanguage": null,
+                      "otherLanguages": [],
+                      "defaultExtensions": [],
+                      "otherExtensions": [],
+                      "oldExtensions": [],
+                      "extraLibs": [],
+                      "extraGHCiLibs": [],
+                      "extraBundledLibs": [],
+                      "extraLibFlavours": [],
+                      "extraDynLibFlavours": [],
+                      "extraLibDirs": [],
+                      "includeDirs": [],
+                      "includes": [],
+                      "autogenIncludes": [],
+                      "installIncludes": [],
+                      "options": [
+                        [],
+                        []
+                      ],
+                      "profOptions": [
+                        [],
+                        []
+                      ],
+                      "sharedOptions": [
+                        [],
+                        []
+                      ],
+                      "staticOptions": [
+                        [],
+                        []
+                      ],
+                      "customFieldsBI": [],
+                      "targetBuildDepends": [],
+                      "mixins": []
+                    }
+                  },
+                  "condTreeConstraints": [],
+                  "condTreeComponents": []
+                }
+              }
+            ]
+          },
+          "condBranchIfFalse": {
+            "condTreeData": {
+              "name": "java-calculator",
+              "module-path": "",
+              "scope": "public",
+              "build-info": {
+                "buildable": false,
+                "buildTools": [],
+                "buildToolDepends": [],
+                "cppOptions": [],
+                "asmOptions": [],
+                "cmmOptions": [],
+                "ccOptions": [],
+                "cxxOptions": [],
+                "ldOptions": [],
+                "pkgconfigDepends": [],
+                "frameworks": [],
+                "extraFrameworkDirs": [],
+                "asmSources": [],
+                "cmmSources": [],
+                "cSources": [],
+                "cxxSources": [],
+                "jsSources": [],
+                "hsSourceDirs": [],
+                "otherModules": [],
+                "virtualModules": [],
+                "autogenModules": [],
+                "defaultLanguage": null,
+                "otherLanguages": [],
+                "defaultExtensions": [],
+                "otherExtensions": [],
+                "oldExtensions": [],
+                "extraLibs": [],
+                "extraGHCiLibs": [],
+                "extraBundledLibs": [],
+                "extraLibFlavours": [],
+                "extraDynLibFlavours": [],
+                "extraLibDirs": [],
+                "includeDirs": [],
+                "includes": [],
+                "autogenIncludes": [],
+                "installIncludes": [],
+                "options": [
+                  [],
+                  []
+                ],
+                "profOptions": [
+                  [],
+                  []
+                ],
+                "sharedOptions": [
+                  [],
+                  []
+                ],
+                "staticOptions": [
+                  [],
+                  []
+                ],
+                "customFieldsBI": [],
+                "targetBuildDepends": [],
+                "mixins": []
+              }
+            },
+            "condTreeConstraints": [],
+            "condTreeComponents": []
+          }
+        }
+      ]
+    },
+    "java-system-properties": {
+      "condTreeData": {
+        "name": "java-system-properties",
+        "module-path": "system-properties.hs",
+        "scope": "public",
+        "build-info": {
+          "buildable": true,
+          "buildTools": [],
+          "buildToolDepends": [],
+          "cppOptions": [],
+          "asmOptions": [],
+          "cmmOptions": [],
+          "ccOptions": [],
+          "cxxOptions": [],
+          "ldOptions": [],
+          "pkgconfigDepends": [],
+          "frameworks": [],
+          "extraFrameworkDirs": [],
+          "asmSources": [],
+          "cmmSources": [],
+          "cSources": [],
+          "cxxSources": [],
+          "jsSources": [],
+          "hsSourceDirs": [
+            "examples/system-properties"
+          ],
+          "otherModules": [],
+          "virtualModules": [],
+          "autogenModules": [],
+          "defaultLanguage": null,
+          "otherLanguages": [],
+          "defaultExtensions": [],
+          "otherExtensions": [],
+          "oldExtensions": [],
+          "extraLibs": [],
+          "extraGHCiLibs": [],
+          "extraBundledLibs": [],
+          "extraLibFlavours": [],
+          "extraDynLibFlavours": [],
+          "extraLibDirs": [],
+          "includeDirs": [],
+          "includes": [],
+          "autogenIncludes": [],
+          "installIncludes": [],
+          "options": [
+            [],
+            []
+          ],
+          "profOptions": [
+            [],
+            []
+          ],
+          "sharedOptions": [
+            [],
+            []
+          ],
+          "staticOptions": [
+            [],
+            []
+          ],
+          "customFieldsBI": [],
+          "targetBuildDepends": [
+            {
+              "package-name": "base",
+              "version-range": ">=4 && <5",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "java-bridge",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            }
+          ],
+          "mixins": []
+        }
+      },
+      "condTreeConstraints": [
+        {
+          "package-name": "base",
+          "version-range": ">=4 && <5",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "java-bridge",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        }
+      ],
+      "condTreeComponents": [
+        {
+          "condBranchCondition": {
+            "v": {
+              "flag": "examples"
+            }
+          },
+          "condBranchIfTrue": {
+            "condTreeData": {
+              "name": "java-system-properties",
+              "module-path": "",
+              "scope": "public",
+              "build-info": {
+                "buildable": true,
+                "buildTools": [],
+                "buildToolDepends": [],
+                "cppOptions": [],
+                "asmOptions": [],
+                "cmmOptions": [],
+                "ccOptions": [],
+                "cxxOptions": [],
+                "ldOptions": [],
+                "pkgconfigDepends": [],
+                "frameworks": [],
+                "extraFrameworkDirs": [],
+                "asmSources": [],
+                "cmmSources": [],
+                "cSources": [],
+                "cxxSources": [],
+                "jsSources": [],
+                "hsSourceDirs": [],
+                "otherModules": [],
+                "virtualModules": [],
+                "autogenModules": [],
+                "defaultLanguage": null,
+                "otherLanguages": [],
+                "defaultExtensions": [],
+                "otherExtensions": [],
+                "oldExtensions": [],
+                "extraLibs": [],
+                "extraGHCiLibs": [],
+                "extraBundledLibs": [],
+                "extraLibFlavours": [],
+                "extraDynLibFlavours": [],
+                "extraLibDirs": [],
+                "includeDirs": [],
+                "includes": [],
+                "autogenIncludes": [],
+                "installIncludes": [],
+                "options": [
+                  [],
+                  []
+                ],
+                "profOptions": [
+                  [],
+                  []
+                ],
+                "sharedOptions": [
+                  [],
+                  []
+                ],
+                "staticOptions": [
+                  [],
+                  []
+                ],
+                "customFieldsBI": [],
+                "targetBuildDepends": [],
+                "mixins": []
+              }
+            },
+            "condTreeConstraints": [],
+            "condTreeComponents": []
+          },
+          "condBranchIfFalse": {
+            "condTreeData": {
+              "name": "java-system-properties",
+              "module-path": "",
+              "scope": "public",
+              "build-info": {
+                "buildable": false,
+                "buildTools": [],
+                "buildToolDepends": [],
+                "cppOptions": [],
+                "asmOptions": [],
+                "cmmOptions": [],
+                "ccOptions": [],
+                "cxxOptions": [],
+                "ldOptions": [],
+                "pkgconfigDepends": [],
+                "frameworks": [],
+                "extraFrameworkDirs": [],
+                "asmSources": [],
+                "cmmSources": [],
+                "cSources": [],
+                "cxxSources": [],
+                "jsSources": [],
+                "hsSourceDirs": [],
+                "otherModules": [],
+                "virtualModules": [],
+                "autogenModules": [],
+                "defaultLanguage": null,
+                "otherLanguages": [],
+                "defaultExtensions": [],
+                "otherExtensions": [],
+                "oldExtensions": [],
+                "extraLibs": [],
+                "extraGHCiLibs": [],
+                "extraBundledLibs": [],
+                "extraLibFlavours": [],
+                "extraDynLibFlavours": [],
+                "extraLibDirs": [],
+                "includeDirs": [],
+                "includes": [],
+                "autogenIncludes": [],
+                "installIncludes": [],
+                "options": [
+                  [],
+                  []
+                ],
+                "profOptions": [
+                  [],
+                  []
+                ],
+                "sharedOptions": [
+                  [],
+                  []
+                ],
+                "staticOptions": [
+                  [],
+                  []
+                ],
+                "customFieldsBI": [],
+                "targetBuildDepends": [],
+                "mixins": []
+              }
+            },
+            "condTreeConstraints": [],
+            "condTreeComponents": []
+          }
+        }
+      ]
+    }
+  }
+}

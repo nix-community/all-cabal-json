@@ -1,0 +1,861 @@
+{
+  "description": {
+    "spec-version": {
+      "Right": ">=1.10"
+    },
+    "package": {
+      "name": "kazura-queue",
+      "version": [
+        0,
+        1,
+        0,
+        3
+      ]
+    },
+    "license": {
+      "Right": "BSD3"
+    },
+    "license-files": [
+      "LICENSE"
+    ],
+    "copyright": "2016-2018 Asakamirai",
+    "maintainer": "asakamirai_hackage@towanowa.net",
+    "author": "Asakamirai",
+    "stability": "",
+    "tested-with": [],
+    "homepage": "https://github.com/asakamirai/kazura-queue#readme",
+    "pkg-url": "",
+    "bug-reports": "https://github.com/asakamirai/kazura-queue/issues",
+    "source-repos": [
+      {
+        "kind": {},
+        "type": "Git",
+        "location": "https://github.com/asakamirai/kazura-queue",
+        "module": null,
+        "branch": null,
+        "tag": null,
+        "subdir": null
+      }
+    ],
+    "synopsis": "Fast concurrent queues much inspired by unagi-chan",
+    "description": "\\\"kazura-queue\\\" provides an implementation of FIFO queue.\nIt is faster than Chan, TQueue or TChan by the benefit of fetch-and-add\ninstruction.\n\nMain motivation of this package is to solve some difficulty of\n\"unagi-chan\" package.\n\n- In \"unagi-chan\", the item in the queue/chan can be lost when async\nexception is throwed to the read thread while waiting for read.\n(Although it has handler to recover lost item,\nit is difficult to keep FIFO in such case)\n\n- In \"unagi-chan\", garbage items of the queue cannot be collected\nimmediately.\nSince the buffer in the queue has the reference to the items until the\nbuffer is garbage-collected.\n\n\\\"kazura-queue\\\" is slightly slower than \"unagi-chan\" instead of solving\nthese issues.\n\n\\\"kazura-queue\\\" lost broadcast function to improve the second issue.\nIt means that kazura-queue is not \\\"Chan\\\" but is just \\\"Queue\\\".",
+    "category": "Concurrency",
+    "custom-fields": [],
+    "build-type-raw": "Simple",
+    "custom-setup": null,
+    "library": null,
+    "sublibraries": [],
+    "executables": [],
+    "foreign-libs": [],
+    "test-suites": [],
+    "benchmarks": [],
+    "data-files": [],
+    "data-dir": ".",
+    "extra-source-files": [
+      "ChangeLog.md",
+      "README.md"
+    ],
+    "extra-tmp-files": [],
+    "extra-doc-files": []
+  },
+  "library": {
+    "condTreeData": {
+      "name": {},
+      "exposed-modules": [
+        [
+          "Control",
+          "Concurrent",
+          "KazuraQueue"
+        ],
+        [
+          "Control",
+          "Concurrent",
+          "WVar"
+        ]
+      ],
+      "re-exported-modules": [],
+      "signatures": [],
+      "exposed": true,
+      "visibility": "LibraryVisibilityPublic",
+      "build-info": {
+        "buildable": true,
+        "buildTools": [],
+        "buildToolDepends": [],
+        "cppOptions": [],
+        "asmOptions": [],
+        "cmmOptions": [],
+        "ccOptions": [],
+        "cxxOptions": [],
+        "ldOptions": [],
+        "pkgconfigDepends": [],
+        "frameworks": [],
+        "extraFrameworkDirs": [],
+        "asmSources": [],
+        "cmmSources": [],
+        "cSources": [],
+        "cxxSources": [],
+        "jsSources": [],
+        "hsSourceDirs": [
+          "src"
+        ],
+        "otherModules": [
+          [
+            "Paths_kazura_queue"
+          ]
+        ],
+        "virtualModules": [],
+        "autogenModules": [],
+        "defaultLanguage": "Haskell2010",
+        "otherLanguages": [],
+        "defaultExtensions": [],
+        "otherExtensions": [],
+        "oldExtensions": [],
+        "extraLibs": [],
+        "extraGHCiLibs": [],
+        "extraBundledLibs": [],
+        "extraLibFlavours": [],
+        "extraDynLibFlavours": [],
+        "extraLibDirs": [],
+        "includeDirs": [],
+        "includes": [],
+        "autogenIncludes": [],
+        "installIncludes": [],
+        "options": [
+          [
+            "-Wall",
+            "-O2"
+          ],
+          []
+        ],
+        "profOptions": [
+          [],
+          []
+        ],
+        "sharedOptions": [
+          [],
+          []
+        ],
+        "staticOptions": [
+          [],
+          []
+        ],
+        "customFieldsBI": [],
+        "targetBuildDepends": [
+          {
+            "package-name": "atomic-primops",
+            "version-range": ">=0.6",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "base",
+            "version-range": ">=4.7 && <5.0",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "primitive",
+            "version-range": ">=0.5.3",
+            "library": [
+              {}
+            ]
+          }
+        ],
+        "mixins": []
+      }
+    },
+    "condTreeConstraints": [
+      {
+        "package-name": "atomic-primops",
+        "version-range": ">=0.6",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "base",
+        "version-range": ">=4.7 && <5.0",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "primitive",
+        "version-range": ">=0.5.3",
+        "library": [
+          {}
+        ]
+      }
+    ],
+    "condTreeComponents": []
+  },
+  "test-suites": {
+    "kazura-queue-doctest": {
+      "condTreeData": {
+        "name": "",
+        "interface": {
+          "version": [
+            1,
+            0
+          ],
+          "filepath": "test/kazura-queue-doctest.hs"
+        },
+        "build-info": {
+          "buildable": true,
+          "buildTools": [],
+          "buildToolDepends": [],
+          "cppOptions": [],
+          "asmOptions": [],
+          "cmmOptions": [],
+          "ccOptions": [],
+          "cxxOptions": [],
+          "ldOptions": [],
+          "pkgconfigDepends": [],
+          "frameworks": [],
+          "extraFrameworkDirs": [],
+          "asmSources": [],
+          "cmmSources": [],
+          "cSources": [],
+          "cxxSources": [],
+          "jsSources": [],
+          "hsSourceDirs": [],
+          "otherModules": [
+            [
+              "Paths_kazura_queue"
+            ]
+          ],
+          "virtualModules": [],
+          "autogenModules": [],
+          "defaultLanguage": "Haskell2010",
+          "otherLanguages": [],
+          "defaultExtensions": [],
+          "otherExtensions": [],
+          "oldExtensions": [],
+          "extraLibs": [],
+          "extraGHCiLibs": [],
+          "extraBundledLibs": [],
+          "extraLibFlavours": [],
+          "extraDynLibFlavours": [],
+          "extraLibDirs": [],
+          "includeDirs": [],
+          "includes": [],
+          "autogenIncludes": [],
+          "installIncludes": [],
+          "options": [
+            [
+              "-Wall",
+              "-O2",
+              "-threaded",
+              "-rtsopts",
+              "-with-rtsopts=-N"
+            ],
+            []
+          ],
+          "profOptions": [
+            [],
+            []
+          ],
+          "sharedOptions": [
+            [],
+            []
+          ],
+          "staticOptions": [
+            [],
+            []
+          ],
+          "customFieldsBI": [],
+          "targetBuildDepends": [
+            {
+              "package-name": "QuickCheck",
+              "version-range": ">=2.8",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "atomic-primops",
+              "version-range": ">=0.6",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "base",
+              "version-range": ">=4.7 && <5.0",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "doctest",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "kazura-queue",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "primitive",
+              "version-range": ">=0.5.3",
+              "library": [
+                {}
+              ]
+            }
+          ],
+          "mixins": []
+        }
+      },
+      "condTreeConstraints": [
+        {
+          "package-name": "QuickCheck",
+          "version-range": ">=2.8",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "atomic-primops",
+          "version-range": ">=0.6",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "base",
+          "version-range": ">=4.7 && <5.0",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "doctest",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "kazura-queue",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "primitive",
+          "version-range": ">=0.5.3",
+          "library": [
+            {}
+          ]
+        }
+      ],
+      "condTreeComponents": []
+    },
+    "kazura-queue-test": {
+      "condTreeData": {
+        "name": "",
+        "interface": {
+          "version": [
+            1,
+            0
+          ],
+          "filepath": "Spec.hs"
+        },
+        "build-info": {
+          "buildable": true,
+          "buildTools": [],
+          "buildToolDepends": [],
+          "cppOptions": [],
+          "asmOptions": [],
+          "cmmOptions": [],
+          "ccOptions": [],
+          "cxxOptions": [],
+          "ldOptions": [],
+          "pkgconfigDepends": [],
+          "frameworks": [],
+          "extraFrameworkDirs": [],
+          "asmSources": [],
+          "cmmSources": [],
+          "cSources": [],
+          "cxxSources": [],
+          "jsSources": [],
+          "hsSourceDirs": [
+            "test"
+          ],
+          "otherModules": [
+            [
+              "KazuraQueueConcurrentSpec"
+            ],
+            [
+              "KazuraQueueSpec"
+            ],
+            [
+              "Test",
+              "Concurrent"
+            ],
+            [
+              "Test",
+              "Expectations"
+            ],
+            [
+              "Test",
+              "KazuraQueue"
+            ],
+            [
+              "Test",
+              "Util"
+            ],
+            [
+              "Test",
+              "WVar"
+            ],
+            [
+              "WVarConcurrentSpec"
+            ],
+            [
+              "WVarSpec"
+            ],
+            [
+              "Paths_kazura_queue"
+            ]
+          ],
+          "virtualModules": [],
+          "autogenModules": [],
+          "defaultLanguage": "Haskell2010",
+          "otherLanguages": [],
+          "defaultExtensions": [],
+          "otherExtensions": [],
+          "oldExtensions": [],
+          "extraLibs": [],
+          "extraGHCiLibs": [],
+          "extraBundledLibs": [],
+          "extraLibFlavours": [],
+          "extraDynLibFlavours": [],
+          "extraLibDirs": [],
+          "includeDirs": [],
+          "includes": [],
+          "autogenIncludes": [],
+          "installIncludes": [],
+          "options": [
+            [
+              "-Wall",
+              "-O2",
+              "-threaded",
+              "-rtsopts",
+              "-with-rtsopts=-N"
+            ],
+            []
+          ],
+          "profOptions": [
+            [],
+            []
+          ],
+          "sharedOptions": [
+            [],
+            []
+          ],
+          "staticOptions": [
+            [],
+            []
+          ],
+          "customFieldsBI": [],
+          "targetBuildDepends": [
+            {
+              "package-name": "HUnit",
+              "version-range": ">=1.2",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "QuickCheck",
+              "version-range": ">=2.8",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "async",
+              "version-range": ">=2.0",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "atomic-primops",
+              "version-range": ">=0.6",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "base",
+              "version-range": ">=4.7 && <5.0",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "containers",
+              "version-range": ">=0.5",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "deepseq",
+              "version-range": ">=1.4",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "exceptions",
+              "version-range": ">=0.8",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "free",
+              "version-range": ">=4.12",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "hspec",
+              "version-range": ">=2.1",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "hspec-expectations",
+              "version-range": ">=0.7",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "kazura-queue",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "mtl",
+              "version-range": ">=2.2",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "primitive",
+              "version-range": ">=0.5.3",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "transformers",
+              "version-range": ">=0.4",
+              "library": [
+                {}
+              ]
+            }
+          ],
+          "mixins": []
+        }
+      },
+      "condTreeConstraints": [
+        {
+          "package-name": "HUnit",
+          "version-range": ">=1.2",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "QuickCheck",
+          "version-range": ">=2.8",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "async",
+          "version-range": ">=2.0",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "atomic-primops",
+          "version-range": ">=0.6",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "base",
+          "version-range": ">=4.7 && <5.0",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "containers",
+          "version-range": ">=0.5",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "deepseq",
+          "version-range": ">=1.4",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "exceptions",
+          "version-range": ">=0.8",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "free",
+          "version-range": ">=4.12",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "hspec",
+          "version-range": ">=2.1",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "hspec-expectations",
+          "version-range": ">=0.7",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "kazura-queue",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "mtl",
+          "version-range": ">=2.2",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "primitive",
+          "version-range": ">=0.5.3",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "transformers",
+          "version-range": ">=0.4",
+          "library": [
+            {}
+          ]
+        }
+      ],
+      "condTreeComponents": []
+    }
+  },
+  "benchmarks": {
+    "kazura-queue-bench": {
+      "condTreeData": {
+        "name": "",
+        "interface": {
+          "version": [
+            1,
+            0
+          ],
+          "filepath": "Main.hs"
+        },
+        "build-info": {
+          "buildable": true,
+          "buildTools": [],
+          "buildToolDepends": [],
+          "cppOptions": [],
+          "asmOptions": [],
+          "cmmOptions": [],
+          "ccOptions": [],
+          "cxxOptions": [],
+          "ldOptions": [],
+          "pkgconfigDepends": [],
+          "frameworks": [],
+          "extraFrameworkDirs": [],
+          "asmSources": [],
+          "cmmSources": [],
+          "cSources": [],
+          "cxxSources": [],
+          "jsSources": [],
+          "hsSourceDirs": [
+            "bench"
+          ],
+          "otherModules": [
+            [
+              "Paths_kazura_queue"
+            ]
+          ],
+          "virtualModules": [],
+          "autogenModules": [],
+          "defaultLanguage": "Haskell2010",
+          "otherLanguages": [],
+          "defaultExtensions": [],
+          "otherExtensions": [],
+          "oldExtensions": [],
+          "extraLibs": [],
+          "extraGHCiLibs": [],
+          "extraBundledLibs": [],
+          "extraLibFlavours": [],
+          "extraDynLibFlavours": [],
+          "extraLibDirs": [],
+          "includeDirs": [],
+          "includes": [],
+          "autogenIncludes": [],
+          "installIncludes": [],
+          "options": [
+            [
+              "-Wall",
+              "-O2",
+              "-threaded",
+              "-rtsopts",
+              "-with-rtsopts=-N"
+            ],
+            []
+          ],
+          "profOptions": [
+            [],
+            []
+          ],
+          "sharedOptions": [
+            [],
+            []
+          ],
+          "staticOptions": [
+            [],
+            []
+          ],
+          "customFieldsBI": [],
+          "targetBuildDepends": [
+            {
+              "package-name": "atomic-primops",
+              "version-range": ">=0.6",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "base",
+              "version-range": ">=4.7 && <5.0",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "criterion",
+              "version-range": ">=1.1",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "kazura-queue",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "primitive",
+              "version-range": ">=0.5.3",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "stm",
+              "version-range": ">=2.4",
+              "library": [
+                {}
+              ]
+            }
+          ],
+          "mixins": []
+        }
+      },
+      "condTreeConstraints": [
+        {
+          "package-name": "atomic-primops",
+          "version-range": ">=0.6",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "base",
+          "version-range": ">=4.7 && <5.0",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "criterion",
+          "version-range": ">=1.1",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "kazura-queue",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "primitive",
+          "version-range": ">=0.5.3",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "stm",
+          "version-range": ">=2.4",
+          "library": [
+            {}
+          ]
+        }
+      ],
+      "condTreeComponents": []
+    }
+  }
+}

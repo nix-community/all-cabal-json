@@ -1,0 +1,674 @@
+{
+  "description": {
+    "spec-version": {
+      "Right": ">=1.10"
+    },
+    "package": {
+      "name": "laborantin-hs",
+      "version": [
+        0,
+        1,
+        5,
+        0
+      ]
+    },
+    "license": {
+      "Right": "OtherLicense"
+    },
+    "license-files": [
+      "LICENSE"
+    ],
+    "copyright": "",
+    "maintainer": "lucas@dicioccio.fr",
+    "author": "lucas dicioccio",
+    "stability": "",
+    "tested-with": [],
+    "homepage": "https://github.com/lucasdicioccio/laborantin-hs",
+    "pkg-url": "",
+    "bug-reports": "",
+    "source-repos": [],
+    "synopsis": "an experiment management framework",
+    "description": "Laborantin is a framework and DSL to run and manage results from scientific\nexperiments. Good targets for Laborantin are experiments that you can\nrun /offline/ such as benchmark and batch analytics.\n\nWriting experiments with Laborantin has at least two advantages over\nrolling your own scripts.  First, Laborantin standardizes the workflow of your\nexperimentations.  There is one way to describe what a project can do, what\nexperiments were already run, how to delete files corresponding to a specific\nexperiment, etc.  Second, Laborantin builds on years of experience running\nexperiments. Using Laborantin    should alleviate common pain points such as\nquerying for experiments, managing dependencies between results, etc.\n\nLaborantin's DSL lets you express experiment parameters,\nsetup, teardown, and recovery hooks in a systematic way.\nIn addition, the DSL lets you express dependencies on your\nexperiments so that you can run prior experiments or data analyses.\n\nLaborantin comes with a default backend that stores\nexperiment results in a filesystem-hierarchy. Laborantin\nalso comes with a default command-line that let you\nspecify which experiments to run, analyze, or delete.\n\n> ping :: ScenarioDescription EnvIO\n> ping = scenario \"ping\" $ do\n>   describe \"ping to a remote server\"\n>   parameter \"destination\" $ do\n>     describe \"a destination server (host or ip)\"\n>     values [str \"example.com\", str \"probecraft.net\"]\n>   parameter \"packet-size\" $ do\n>     describe \"packet size in bytes\"\n>     values [num 50, num 1500]\n>   run $ do\n>     (StringParam srv) <- param \"destination\"\n>     (StringParam ps) <- param \"packet-size\"\n>     liftIO (executePingCommand srv ps) >>= writeResult \"raw-result\"\n>     where executePingCommand :: Text -> Rational -> IO (Text)\n>           executePingCommand host packetSize = ...\n>\n> main :: IO ()\n> main = defaultMain [ping]",
+    "category": "Experiment",
+    "custom-fields": [],
+    "build-type-raw": "Simple",
+    "custom-setup": null,
+    "library": null,
+    "sublibraries": [],
+    "executables": [],
+    "foreign-libs": [],
+    "test-suites": [],
+    "benchmarks": [],
+    "data-files": [],
+    "data-dir": ".",
+    "extra-source-files": [
+      "README.md"
+    ],
+    "extra-tmp-files": [],
+    "extra-doc-files": []
+  },
+  "library": {
+    "condTreeData": {
+      "name": {},
+      "exposed-modules": [
+        [
+          "Laborantin"
+        ],
+        [
+          "Laborantin",
+          "DSL"
+        ],
+        [
+          "Laborantin",
+          "Implementation"
+        ],
+        [
+          "Laborantin",
+          "Types"
+        ],
+        [
+          "Laborantin",
+          "CLI"
+        ],
+        [
+          "Laborantin",
+          "Query"
+        ]
+      ],
+      "re-exported-modules": [],
+      "signatures": [],
+      "exposed": true,
+      "visibility": "LibraryVisibilityPublic",
+      "build-info": {
+        "buildable": true,
+        "buildTools": [],
+        "buildToolDepends": [],
+        "cppOptions": [],
+        "asmOptions": [],
+        "cmmOptions": [],
+        "ccOptions": [],
+        "cxxOptions": [],
+        "ldOptions": [],
+        "pkgconfigDepends": [],
+        "frameworks": [],
+        "extraFrameworkDirs": [],
+        "asmSources": [],
+        "cmmSources": [],
+        "cSources": [],
+        "cxxSources": [],
+        "jsSources": [],
+        "hsSourceDirs": [],
+        "otherModules": [
+          [
+            "Laborantin",
+            "Query",
+            "Parse"
+          ],
+          [
+            "Laborantin",
+            "Query",
+            "Interpret"
+          ]
+        ],
+        "virtualModules": [],
+        "autogenModules": [],
+        "defaultLanguage": "Haskell2010",
+        "otherLanguages": [],
+        "defaultExtensions": [],
+        "otherExtensions": [
+          {
+            "enable-extension": "FlexibleContexts"
+          },
+          {
+            "enable-extension": "OverloadedStrings"
+          },
+          {
+            "enable-extension": "TupleSections"
+          }
+        ],
+        "oldExtensions": [],
+        "extraLibs": [],
+        "extraGHCiLibs": [],
+        "extraBundledLibs": [],
+        "extraLibFlavours": [],
+        "extraDynLibFlavours": [],
+        "extraLibDirs": [],
+        "includeDirs": [],
+        "includes": [],
+        "autogenIncludes": [],
+        "installIncludes": [],
+        "options": [
+          [],
+          []
+        ],
+        "profOptions": [
+          [],
+          []
+        ],
+        "sharedOptions": [
+          [],
+          []
+        ],
+        "staticOptions": [
+          [],
+          []
+        ],
+        "customFieldsBI": [],
+        "targetBuildDepends": [
+          {
+            "package-name": "base",
+            "version-range": ">=4.6 && <4.8",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "transformers",
+            "version-range": ">=0.3 && <0.4",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "mtl",
+            "version-range": ">=2.1 && <2.2",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "containers",
+            "version-range": ">=0.5 && <0.6",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "text",
+            "version-range": ">=0.11 && <0.12",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "bytestring",
+            "version-range": ">=0.10 && <0.11",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "aeson",
+            "version-range": ">=0.6 && <0.7",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "uuid",
+            "version-range": ">=1.2 && <1.3",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "directory",
+            "version-range": ">=1.2 && <1.3",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "random",
+            "version-range": ">=1.0 && <1.1",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "hslogger",
+            "version-range": ">=1.2 && <1.3",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "cmdlib",
+            "version-range": ">=0.3.5",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "split",
+            "version-range": ">=0.2.2",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "time",
+            "version-range": ">=1.4.0.1",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "parsec",
+            "version-range": ">=3.1.0",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "old-locale",
+            "version-range": ">=1.0.0.5",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "async",
+            "version-range": ">=2.0.1.0",
+            "library": [
+              {}
+            ]
+          }
+        ],
+        "mixins": []
+      }
+    },
+    "condTreeConstraints": [
+      {
+        "package-name": "base",
+        "version-range": ">=4.6 && <4.8",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "transformers",
+        "version-range": ">=0.3 && <0.4",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "mtl",
+        "version-range": ">=2.1 && <2.2",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "containers",
+        "version-range": ">=0.5 && <0.6",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "text",
+        "version-range": ">=0.11 && <0.12",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "bytestring",
+        "version-range": ">=0.10 && <0.11",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "aeson",
+        "version-range": ">=0.6 && <0.7",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "uuid",
+        "version-range": ">=1.2 && <1.3",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "directory",
+        "version-range": ">=1.2 && <1.3",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "random",
+        "version-range": ">=1.0 && <1.1",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "hslogger",
+        "version-range": ">=1.2 && <1.3",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "cmdlib",
+        "version-range": ">=0.3.5",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "split",
+        "version-range": ">=0.2.2",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "time",
+        "version-range": ">=1.4.0.1",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "parsec",
+        "version-range": ">=3.1.0",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "old-locale",
+        "version-range": ">=1.0.0.5",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "async",
+        "version-range": ">=2.0.1.0",
+        "library": [
+          {}
+        ]
+      }
+    ],
+    "condTreeComponents": []
+  },
+  "executables": {
+    "labor-example": {
+      "condTreeData": {
+        "name": "labor-example",
+        "module-path": "main.hs",
+        "scope": "public",
+        "build-info": {
+          "buildable": true,
+          "buildTools": [],
+          "buildToolDepends": [],
+          "cppOptions": [],
+          "asmOptions": [],
+          "cmmOptions": [],
+          "ccOptions": [],
+          "cxxOptions": [],
+          "ldOptions": [],
+          "pkgconfigDepends": [],
+          "frameworks": [],
+          "extraFrameworkDirs": [],
+          "asmSources": [],
+          "cmmSources": [],
+          "cSources": [],
+          "cxxSources": [],
+          "jsSources": [],
+          "hsSourceDirs": [
+            "examples"
+          ],
+          "otherModules": [],
+          "virtualModules": [],
+          "autogenModules": [],
+          "defaultLanguage": "Haskell2010",
+          "otherLanguages": [],
+          "defaultExtensions": [],
+          "otherExtensions": [],
+          "oldExtensions": [],
+          "extraLibs": [],
+          "extraGHCiLibs": [],
+          "extraBundledLibs": [],
+          "extraLibFlavours": [],
+          "extraDynLibFlavours": [],
+          "extraLibDirs": [],
+          "includeDirs": [],
+          "includes": [],
+          "autogenIncludes": [],
+          "installIncludes": [],
+          "options": [
+            [
+              "-Wall"
+            ],
+            []
+          ],
+          "profOptions": [
+            [],
+            []
+          ],
+          "sharedOptions": [
+            [],
+            []
+          ],
+          "staticOptions": [
+            [],
+            []
+          ],
+          "customFieldsBI": [],
+          "targetBuildDepends": [
+            {
+              "package-name": "base",
+              "version-range": ">=4.6 && <4.8",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "transformers",
+              "version-range": ">=0.3 && <0.4",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "mtl",
+              "version-range": ">=2.1 && <2.2",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "containers",
+              "version-range": ">=0.5 && <0.6",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "text",
+              "version-range": ">=0.11 && <0.12",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "bytestring",
+              "version-range": ">=0.10 && <0.11",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "aeson",
+              "version-range": ">=0.6 && <0.7",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "uuid",
+              "version-range": ">=1.2 && <1.3",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "directory",
+              "version-range": ">=1.2 && <1.3",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "random",
+              "version-range": ">=1.0 && <1.1",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "hslogger",
+              "version-range": ">=1.2 && <1.3",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "cmdlib",
+              "version-range": ">=0.3.5",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "split",
+              "version-range": ">=0.2.2",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "laborantin-hs",
+              "version-range": ">=0.1.1.2",
+              "library": [
+                {}
+              ]
+            }
+          ],
+          "mixins": []
+        }
+      },
+      "condTreeConstraints": [
+        {
+          "package-name": "base",
+          "version-range": ">=4.6 && <4.8",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "transformers",
+          "version-range": ">=0.3 && <0.4",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "mtl",
+          "version-range": ">=2.1 && <2.2",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "containers",
+          "version-range": ">=0.5 && <0.6",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "text",
+          "version-range": ">=0.11 && <0.12",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "bytestring",
+          "version-range": ">=0.10 && <0.11",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "aeson",
+          "version-range": ">=0.6 && <0.7",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "uuid",
+          "version-range": ">=1.2 && <1.3",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "directory",
+          "version-range": ">=1.2 && <1.3",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "random",
+          "version-range": ">=1.0 && <1.1",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "hslogger",
+          "version-range": ">=1.2 && <1.3",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "cmdlib",
+          "version-range": ">=0.3.5",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "split",
+          "version-range": ">=0.2.2",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "laborantin-hs",
+          "version-range": ">=0.1.1.2",
+          "library": [
+            {}
+          ]
+        }
+      ],
+      "condTreeComponents": []
+    }
+  }
+}

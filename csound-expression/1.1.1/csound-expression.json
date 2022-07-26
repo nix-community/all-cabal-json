@@ -1,0 +1,477 @@
+{
+  "description": {
+    "spec-version": {
+      "Right": ">=1.6"
+    },
+    "package": {
+      "name": "csound-expression",
+      "version": [
+        1,
+        1,
+        1
+      ]
+    },
+    "license": {
+      "Right": "BSD3"
+    },
+    "license-files": [
+      "LICENSE"
+    ],
+    "copyright": "",
+    "maintainer": "<anton.kholomiov@gmail.com>",
+    "author": "Anton Kholomiov",
+    "stability": "Experimental",
+    "tested-with": [
+      {
+        "compiler": "GHC",
+        "versionRange": "==7.6"
+      }
+    ],
+    "homepage": "https://github.com/anton-k/csound-expression",
+    "pkg-url": "",
+    "bug-reports": "https://github.com/anton-k/csound-expression/issues",
+    "source-repos": [
+      {
+        "kind": {},
+        "type": "Git",
+        "location": "https://github.com/anton-k/csound-expression",
+        "module": null,
+        "branch": null,
+        "tag": null,
+        "subdir": null
+      }
+    ],
+    "synopsis": "library to make electronic music",
+    "description": "Let's make music with text! We can use Csound to describe our music. Csound has so many fantastic sound generators.\nIt's very efficient. But sometimes Csound is too low level. So many details: integer identifiers for instruments\nand arrays, should I use control rate or audio rate signals, lack of abstractions, no nested expressions and it has limited set of types.\nThis library embeds Csound in Haskell. It's Csound code generator. We can use powerful Csound's primitives and glue them\ntogether with Haskell abstractions. Start with the module \"Csound.Base\". It contains basic types and functions.\n\nKey principles\n\n* Keep it simple and compact.\n\n* Try to hide low level csound's wiring as much as we can (no ids for ftables, instruments, global variables).\n\n* Don't describe the whole csound in all it's generality but give the user some handy tools\nto play with sound.\n\n* No distinction between audio and control rates on the type level. Derive all rates from the context.\nIf the user plugs signal to an opcode that expects an audio rate signal the argument is converted to the right rate.\n\n* Watch out for side-effects. There is a special type called 'SE'. It functions as 'IO' in Haskell.\n\n* Less typing, more music. Use short names for all types. Make library so that all expressions can be\nbuilt without type annotations. Make it simple for the compiler to derive all types. Don't use complex type classes.\n\n* Make low level opcode definitions simple. Let user define his own opcodes (if they are missing).\n\n* Ensure that output signal is limited by amplitude. Csound can produce signals with HUGE amplitudes. Little typo can damage your ears\nand your speakers. In generated code all signals are clipped by 0dbfs value. 0dbfs is set to 1. Just as in Pure Data. So 1 is absolute maximum value\nfor amplitude.\n\n* No dependency on Score-generation libraries. Score (or list of events) is represented with type class. You can use your favorite Score-generation library if you provide an instance for the CsdSco type class. Currently there is support for temporal-music-notation library (see temporal-csound package).\n\nFor the future\n\n* Make composable guis. Just plug the slider in the opcode and see it on the screen. Interactive instruments should be easy to make.\n\n* Remove score/instrument barrier. Let instrument play a score within a note and trigger\nother instruments.\n\n* Timing of events. User can set the beat rate and align events by beat events.\n\n* Set Csound flags with meaningful (well-typed) values. Derive as much as you can from the context.\n\n* Optimization of the memory allocation (liveness analysis).",
+    "category": "Music, Sound",
+    "custom-fields": [],
+    "build-type-raw": "Simple",
+    "custom-setup": null,
+    "library": null,
+    "sublibraries": [],
+    "executables": [],
+    "foreign-libs": [],
+    "test-suites": [],
+    "benchmarks": [],
+    "data-files": [],
+    "data-dir": ".",
+    "extra-source-files": [
+      "examples/Test.hs",
+      "examples/Heartbeat.hs"
+    ],
+    "extra-tmp-files": [],
+    "extra-doc-files": []
+  },
+  "library": {
+    "condTreeData": {
+      "name": {},
+      "exposed-modules": [
+        [
+          "Csound",
+          "Base"
+        ],
+        [
+          "Csound",
+          "Air"
+        ],
+        [
+          "Csound",
+          "Tab"
+        ],
+        [
+          "Csound",
+          "LowLevel"
+        ],
+        [
+          "Csound",
+          "Opcode"
+        ],
+        [
+          "Csound",
+          "Opcode",
+          "Basic"
+        ],
+        [
+          "Csound",
+          "Opcode",
+          "Advanced"
+        ],
+        [
+          "Csound",
+          "Opcode",
+          "Data"
+        ],
+        [
+          "Csound",
+          "Opcode",
+          "Interaction"
+        ]
+      ],
+      "re-exported-modules": [],
+      "signatures": [],
+      "exposed": true,
+      "visibility": "LibraryVisibilityPublic",
+      "build-info": {
+        "buildable": true,
+        "buildTools": [],
+        "buildToolDepends": [],
+        "cppOptions": [],
+        "asmOptions": [],
+        "cmmOptions": [],
+        "ccOptions": [],
+        "cxxOptions": [],
+        "ldOptions": [],
+        "pkgconfigDepends": [],
+        "frameworks": [],
+        "extraFrameworkDirs": [],
+        "asmSources": [],
+        "cmmSources": [],
+        "cSources": [],
+        "cxxSources": [],
+        "jsSources": [],
+        "hsSourceDirs": [
+          "src/"
+        ],
+        "otherModules": [
+          [
+            "Csound",
+            "Exp"
+          ],
+          [
+            "Csound",
+            "Exp",
+            "Wrapper"
+          ],
+          [
+            "Csound",
+            "Exp",
+            "GE"
+          ],
+          [
+            "Csound",
+            "Exp",
+            "SE"
+          ],
+          [
+            "Csound",
+            "Exp",
+            "Ref"
+          ],
+          [
+            "Csound",
+            "Exp",
+            "Cons"
+          ],
+          [
+            "Csound",
+            "Exp",
+            "Logic"
+          ],
+          [
+            "Csound",
+            "Exp",
+            "Numeric"
+          ],
+          [
+            "Csound",
+            "Exp",
+            "Arg"
+          ],
+          [
+            "Csound",
+            "Exp",
+            "Tuple"
+          ],
+          [
+            "Csound",
+            "Exp",
+            "Mix"
+          ],
+          [
+            "Csound",
+            "Exp",
+            "Event"
+          ],
+          [
+            "Csound",
+            "Exp",
+            "Instr"
+          ],
+          [
+            "Csound",
+            "Exp",
+            "Gui"
+          ],
+          [
+            "Csound",
+            "Exp",
+            "Widget"
+          ],
+          [
+            "Csound",
+            "Exp",
+            "Options"
+          ],
+          [
+            "Csound",
+            "Exp",
+            "EventList"
+          ],
+          [
+            "Csound",
+            "IO"
+          ],
+          [
+            "Csound",
+            "Tfm",
+            "DeduceTypes"
+          ],
+          [
+            "Csound",
+            "Tfm",
+            "UnfoldMultiOuts"
+          ],
+          [
+            "Csound",
+            "Tfm",
+            "Tab"
+          ],
+          [
+            "Csound",
+            "Render"
+          ],
+          [
+            "Csound",
+            "Render",
+            "Pretty"
+          ],
+          [
+            "Csound",
+            "Render",
+            "Options"
+          ],
+          [
+            "Csound",
+            "Render",
+            "Instr"
+          ],
+          [
+            "Csound",
+            "Render",
+            "Channel"
+          ]
+        ],
+        "virtualModules": [],
+        "autogenModules": [],
+        "defaultLanguage": null,
+        "otherLanguages": [],
+        "defaultExtensions": [],
+        "otherExtensions": [],
+        "oldExtensions": [],
+        "extraLibs": [],
+        "extraGHCiLibs": [],
+        "extraBundledLibs": [],
+        "extraLibFlavours": [],
+        "extraDynLibFlavours": [],
+        "extraLibDirs": [],
+        "includeDirs": [],
+        "includes": [],
+        "autogenIncludes": [],
+        "installIncludes": [],
+        "options": [
+          [
+            "-Wall"
+          ],
+          []
+        ],
+        "profOptions": [
+          [],
+          []
+        ],
+        "sharedOptions": [
+          [],
+          []
+        ],
+        "staticOptions": [
+          [],
+          []
+        ],
+        "customFieldsBI": [],
+        "targetBuildDepends": [
+          {
+            "package-name": "base",
+            "version-range": ">=4",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "base",
+            "version-range": "<5",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "containers",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "array",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "transformers",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "wl-pprint",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "stable-maps",
+            "version-range": ">=0.0.3.3",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "process",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "data-default",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "Boolean",
+            "version-range": ">=0.1.0",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "data-fix",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "data-fix-cse",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          }
+        ],
+        "mixins": []
+      }
+    },
+    "condTreeConstraints": [
+      {
+        "package-name": "base",
+        "version-range": ">=4",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "base",
+        "version-range": "<5",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "containers",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "array",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "transformers",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "wl-pprint",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "stable-maps",
+        "version-range": ">=0.0.3.3",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "process",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "data-default",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "Boolean",
+        "version-range": ">=0.1.0",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "data-fix",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "data-fix-cse",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      }
+    ],
+    "condTreeComponents": []
+  }
+}

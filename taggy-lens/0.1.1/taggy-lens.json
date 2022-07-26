@@ -1,0 +1,471 @@
+{
+  "description": {
+    "spec-version": {
+      "Right": ">=1.10"
+    },
+    "package": {
+      "name": "taggy-lens",
+      "version": [
+        0,
+        1,
+        1
+      ]
+    },
+    "license": {
+      "Right": "BSD3"
+    },
+    "license-files": [
+      "LICENSE"
+    ],
+    "copyright": "2014 Alp Mestanogullari, Vikram Verma",
+    "maintainer": "alpmestan@gmail.com",
+    "author": "Alp Mestanogullari, Vikram Verma",
+    "stability": "",
+    "tested-with": [],
+    "homepage": "http://github.com/alpmestan/taggy-lens",
+    "pkg-url": "",
+    "bug-reports": "",
+    "source-repos": [],
+    "synopsis": "Lenses for the taggy html/xml parser",
+    "description": "Lenses, folds, traversals and prisms for\n<http://hackage.haskell.org/package/taggy taggy>.\n\nThis greatly simplifies your life when dealing with\nthe ugly world of Real Life HTML. Here's an\n<https://github.com/alpmestan/taggy-lens/blob/master/example/HackageNew.hs example>.\nIt lists the date, author and package name of\nall the /recent package uploads/ entries from the hackage page of the same name.\nNote that it uses <http://hackage.haskell.org/package/wreq wreq> to /fetch/ the\nHackage page.\n\n> module Main (main) where\n>\n> import Control.Lens (to, only,(^?),ix, toListOf)\n> import Data.ByteString.Lazy (ByteString)\n> import Data.Text (Text)\n> import Data.Text.Encoding.Error (lenientDecode)\n> import Data.Text.Lazy.Encoding (decodeUtf8With)\n> import Network.HTTP.Client (Response)\n> import Network.Wreq (responseBody, get)\n> import Text.Taggy (Node)\n> import Text.Taggy.Lens (html, elements, children, contents,allNamed)\n>\n> data Upload =\n>   Upload Text -- ^ date\n>          Text -- ^ author\n>          Text -- ^ package name\n>   deriving (Show)\n>\n> table :: [Node] -> Maybe Upload\n> table row = do\n>   date    <- row ^? ix 0 . contents\n>   author  <- row ^? ix 1 . contents\n>   package <- row ^? ix 2 . elements . contents\n>   return $ Upload date author package\n>\n> recentPackages :: Response ByteString -> [Maybe Upload]\n> recentPackages = toListOf\n>                $ responseBody . to (decodeUtf8With lenientDecode)\n>                . html . allNamed (only \"tr\") . children . to table\n>\n> main :: IO ()\n> main = get \"https://hackage.haskell.org/packages/recent\" >>= print `fmap` recentPackages\n\nReport any problem on our <http://github.com/alpmestan/taggy-lens/issues issues> page on github.",
+    "category": "Text, Web",
+    "custom-fields": [],
+    "build-type-raw": "Simple",
+    "custom-setup": null,
+    "library": null,
+    "sublibraries": [],
+    "executables": [],
+    "foreign-libs": [],
+    "test-suites": [],
+    "benchmarks": [],
+    "data-files": [],
+    "data-dir": ".",
+    "extra-source-files": [],
+    "extra-tmp-files": [],
+    "extra-doc-files": []
+  },
+  "library": {
+    "condTreeData": {
+      "name": {},
+      "exposed-modules": [
+        [
+          "Text",
+          "Taggy",
+          "Lens"
+        ]
+      ],
+      "re-exported-modules": [],
+      "signatures": [],
+      "exposed": true,
+      "visibility": "LibraryVisibilityPublic",
+      "build-info": {
+        "buildable": true,
+        "buildTools": [],
+        "buildToolDepends": [],
+        "cppOptions": [],
+        "asmOptions": [],
+        "cmmOptions": [],
+        "ccOptions": [],
+        "cxxOptions": [],
+        "ldOptions": [],
+        "pkgconfigDepends": [],
+        "frameworks": [],
+        "extraFrameworkDirs": [],
+        "asmSources": [],
+        "cmmSources": [],
+        "cSources": [],
+        "cxxSources": [],
+        "jsSources": [],
+        "hsSourceDirs": [
+          "src"
+        ],
+        "otherModules": [],
+        "virtualModules": [],
+        "autogenModules": [],
+        "defaultLanguage": "Haskell2010",
+        "otherLanguages": [],
+        "defaultExtensions": [],
+        "otherExtensions": [],
+        "oldExtensions": [],
+        "extraLibs": [],
+        "extraGHCiLibs": [],
+        "extraBundledLibs": [],
+        "extraLibFlavours": [],
+        "extraDynLibFlavours": [],
+        "extraLibDirs": [],
+        "includeDirs": [],
+        "includes": [],
+        "autogenIncludes": [],
+        "installIncludes": [],
+        "options": [
+          [
+            "-O2",
+            "-Wall",
+            "-fno-warn-orphans"
+          ],
+          []
+        ],
+        "profOptions": [
+          [],
+          []
+        ],
+        "sharedOptions": [
+          [],
+          []
+        ],
+        "staticOptions": [
+          [],
+          []
+        ],
+        "customFieldsBI": [],
+        "targetBuildDepends": [
+          {
+            "package-name": "base",
+            "version-range": ">=4.5 && <5",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "lens",
+            "version-range": ">=4",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "taggy",
+            "version-range": ">=0.1",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "text",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "unordered-containers",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          }
+        ],
+        "mixins": []
+      }
+    },
+    "condTreeConstraints": [
+      {
+        "package-name": "base",
+        "version-range": ">=4.5 && <5",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "lens",
+        "version-range": ">=4",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "taggy",
+        "version-range": ">=0.1",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "text",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "unordered-containers",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      }
+    ],
+    "condTreeComponents": []
+  },
+  "test-suites": {
+    "doctests": {
+      "condTreeData": {
+        "name": "",
+        "interface": {
+          "version": [
+            1,
+            0
+          ],
+          "filepath": "DocTest.hs"
+        },
+        "build-info": {
+          "buildable": true,
+          "buildTools": [],
+          "buildToolDepends": [],
+          "cppOptions": [],
+          "asmOptions": [],
+          "cmmOptions": [],
+          "ccOptions": [],
+          "cxxOptions": [],
+          "ldOptions": [],
+          "pkgconfigDepends": [],
+          "frameworks": [],
+          "extraFrameworkDirs": [],
+          "asmSources": [],
+          "cmmSources": [],
+          "cSources": [],
+          "cxxSources": [],
+          "jsSources": [],
+          "hsSourceDirs": [
+            "test"
+          ],
+          "otherModules": [],
+          "virtualModules": [],
+          "autogenModules": [],
+          "defaultLanguage": "Haskell2010",
+          "otherLanguages": [],
+          "defaultExtensions": [],
+          "otherExtensions": [],
+          "oldExtensions": [],
+          "extraLibs": [],
+          "extraGHCiLibs": [],
+          "extraBundledLibs": [],
+          "extraLibFlavours": [],
+          "extraDynLibFlavours": [],
+          "extraLibDirs": [],
+          "includeDirs": [],
+          "includes": [],
+          "autogenIncludes": [],
+          "installIncludes": [],
+          "options": [
+            [
+              "-threaded"
+            ],
+            []
+          ],
+          "profOptions": [
+            [],
+            []
+          ],
+          "sharedOptions": [
+            [],
+            []
+          ],
+          "staticOptions": [
+            [],
+            []
+          ],
+          "customFieldsBI": [],
+          "targetBuildDepends": [
+            {
+              "package-name": "base",
+              "version-range": ">=4.5 && <5",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "doctest",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            }
+          ],
+          "mixins": []
+        }
+      },
+      "condTreeConstraints": [
+        {
+          "package-name": "base",
+          "version-range": ">=4.5 && <5",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "doctest",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        }
+      ],
+      "condTreeComponents": []
+    },
+    "spec": {
+      "condTreeData": {
+        "name": "",
+        "interface": {
+          "version": [
+            1,
+            0
+          ],
+          "filepath": "Spec.hs"
+        },
+        "build-info": {
+          "buildable": true,
+          "buildTools": [],
+          "buildToolDepends": [],
+          "cppOptions": [],
+          "asmOptions": [],
+          "cmmOptions": [],
+          "ccOptions": [],
+          "cxxOptions": [],
+          "ldOptions": [],
+          "pkgconfigDepends": [],
+          "frameworks": [],
+          "extraFrameworkDirs": [],
+          "asmSources": [],
+          "cmmSources": [],
+          "cSources": [],
+          "cxxSources": [],
+          "jsSources": [],
+          "hsSourceDirs": [
+            "src",
+            "test"
+          ],
+          "otherModules": [],
+          "virtualModules": [],
+          "autogenModules": [],
+          "defaultLanguage": "Haskell2010",
+          "otherLanguages": [],
+          "defaultExtensions": [],
+          "otherExtensions": [],
+          "oldExtensions": [],
+          "extraLibs": [],
+          "extraGHCiLibs": [],
+          "extraBundledLibs": [],
+          "extraLibFlavours": [],
+          "extraDynLibFlavours": [],
+          "extraLibDirs": [],
+          "includeDirs": [],
+          "includes": [],
+          "autogenIncludes": [],
+          "installIncludes": [],
+          "options": [
+            [
+              "-O2",
+              "-Wall",
+              "-fno-warn-orphans"
+            ],
+            []
+          ],
+          "profOptions": [
+            [],
+            []
+          ],
+          "sharedOptions": [
+            [],
+            []
+          ],
+          "staticOptions": [
+            [],
+            []
+          ],
+          "customFieldsBI": [],
+          "targetBuildDepends": [
+            {
+              "package-name": "base",
+              "version-range": ">=4.5 && <5",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "taggy",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "text",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "lens",
+              "version-range": ">=4",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "unordered-containers",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "hspec",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            }
+          ],
+          "mixins": []
+        }
+      },
+      "condTreeConstraints": [
+        {
+          "package-name": "base",
+          "version-range": ">=4.5 && <5",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "taggy",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "text",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "lens",
+          "version-range": ">=4",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "unordered-containers",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "hspec",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        }
+      ],
+      "condTreeComponents": []
+    }
+  }
+}

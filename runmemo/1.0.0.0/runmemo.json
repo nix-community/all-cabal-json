@@ -1,0 +1,269 @@
+{
+  "description": {
+    "spec-version": {
+      "Right": ">=1.8"
+    },
+    "package": {
+      "name": "runmemo",
+      "version": [
+        1,
+        0,
+        0,
+        0
+      ]
+    },
+    "license": {
+      "Right": "BSD3"
+    },
+    "license-files": [
+      "LICENSE"
+    ],
+    "copyright": "(c) Dan Burton 2012",
+    "maintainer": "danburton.email@gmail.com",
+    "author": "Dan Burton",
+    "stability": "",
+    "tested-with": [],
+    "homepage": "https://github.com/DanBurton/runmemo",
+    "pkg-url": "",
+    "bug-reports": "",
+    "source-repos": [
+      {
+        "kind": {},
+        "type": "Git",
+        "location": "git@github.com:DanBurton/runmemo.git",
+        "module": null,
+        "branch": null,
+        "tag": null,
+        "subdir": null
+      },
+      {
+        "kind": {},
+        "type": "Git",
+        "location": "git@github.com:DanBurton/runmemo.git",
+        "module": null,
+        "branch": null,
+        "tag": "runmemo-1.0.0.0",
+        "subdir": null
+      }
+    ],
+    "synopsis": "A simple memoization helper library",
+    "description": "This library encourages you to do memoization\nin three separate steps:\n\n(1) Create a memoizable function\n\n(2) Create or select an appropriate memoizer\n\n(3) Run the memoizer on the memoizable function\n\nLet's start with the first.\nWhen you create a memoizable function,\nyou should use the @self@ convention,\nwhich is that the first input to the function is @self@,\nand all recursive calls are replaced with @self@.\nOne common convention that goes well with the @self@ convention\nis using a helper function @go@, like so:\n\n@\nfib :: Memoizable (Integer -> Integer)\nfib self = go\n\\  where go 0 = 1\n\\        go 1 = 1\n\\        go n = self (n-1) + self (n-2)\n@\n\nNow for the second. For this example,\nwe need a Memoizer that can handle an @Integer@ input,\nand an @Integer@ output. @Data.MemoCombinators@ provides\n@integral@, which handles any @Integral@ input, and\nany output. @Data.MemoUgly@ provides @memo@,\nwhich can memoize any function @a -> b@, given an @Ord@ instance\nfor @a@.\n\nThird, let's run our memoizers!\nSince we have decoupled the definition of the memoized function\nfrom its actual memoization, we can create multiple\nmemoized versions of the same function if we so desire.\n\n@\nimport qualified Data.MemoUgly as Ugly\nimport qualified Data.MemoCombinators as MC\n\nfibUgly :: Integer -> Integer\nfibUgly = runMemo Ugly.memo fib\n\nfibMC :: Integer -> Integer\nfibMC = runMemo MC.integral fib\n@\n\nYou could easily do the same with @Data.MemoTrie.memo@,\n@Data.Function.Memoize.memoize@, etc.\n\nUsing this technique, you can create local memoized functions\nwhose memo tables are garbage collected as soon as\nthey are no longer needed.",
+    "category": "Data",
+    "custom-fields": [],
+    "build-type-raw": "Simple",
+    "custom-setup": null,
+    "library": null,
+    "sublibraries": [],
+    "executables": [],
+    "foreign-libs": [],
+    "test-suites": [],
+    "benchmarks": [],
+    "data-files": [],
+    "data-dir": ".",
+    "extra-source-files": [],
+    "extra-tmp-files": [],
+    "extra-doc-files": []
+  },
+  "library": {
+    "condTreeData": {
+      "name": {},
+      "exposed-modules": [
+        [
+          "Data",
+          "RunMemo"
+        ]
+      ],
+      "re-exported-modules": [],
+      "signatures": [],
+      "exposed": true,
+      "visibility": "LibraryVisibilityPublic",
+      "build-info": {
+        "buildable": true,
+        "buildTools": [],
+        "buildToolDepends": [],
+        "cppOptions": [],
+        "asmOptions": [],
+        "cmmOptions": [],
+        "ccOptions": [],
+        "cxxOptions": [],
+        "ldOptions": [],
+        "pkgconfigDepends": [],
+        "frameworks": [],
+        "extraFrameworkDirs": [],
+        "asmSources": [],
+        "cmmSources": [],
+        "cSources": [],
+        "cxxSources": [],
+        "jsSources": [],
+        "hsSourceDirs": [
+          "src"
+        ],
+        "otherModules": [],
+        "virtualModules": [],
+        "autogenModules": [],
+        "defaultLanguage": null,
+        "otherLanguages": [],
+        "defaultExtensions": [],
+        "otherExtensions": [],
+        "oldExtensions": [
+          {
+            "disable-extension": "ImplicitPrelude"
+          }
+        ],
+        "extraLibs": [],
+        "extraGHCiLibs": [],
+        "extraBundledLibs": [],
+        "extraLibFlavours": [],
+        "extraDynLibFlavours": [],
+        "extraLibDirs": [],
+        "includeDirs": [],
+        "includes": [],
+        "autogenIncludes": [],
+        "installIncludes": [],
+        "options": [
+          [
+            "-Wall"
+          ],
+          []
+        ],
+        "profOptions": [
+          [],
+          []
+        ],
+        "sharedOptions": [
+          [],
+          []
+        ],
+        "staticOptions": [
+          [],
+          []
+        ],
+        "customFieldsBI": [],
+        "targetBuildDepends": [],
+        "mixins": []
+      }
+    },
+    "condTreeConstraints": [],
+    "condTreeComponents": []
+  },
+  "test-suites": {
+    "test-race": {
+      "condTreeData": {
+        "name": "",
+        "interface": {
+          "version": [
+            1,
+            0
+          ],
+          "filepath": "test-race.hs"
+        },
+        "build-info": {
+          "buildable": true,
+          "buildTools": [],
+          "buildToolDepends": [],
+          "cppOptions": [],
+          "asmOptions": [],
+          "cmmOptions": [],
+          "ccOptions": [],
+          "cxxOptions": [],
+          "ldOptions": [],
+          "pkgconfigDepends": [],
+          "frameworks": [],
+          "extraFrameworkDirs": [],
+          "asmSources": [],
+          "cmmSources": [],
+          "cSources": [],
+          "cxxSources": [],
+          "jsSources": [],
+          "hsSourceDirs": [
+            "test",
+            "src"
+          ],
+          "otherModules": [],
+          "virtualModules": [],
+          "autogenModules": [],
+          "defaultLanguage": null,
+          "otherLanguages": [],
+          "defaultExtensions": [],
+          "otherExtensions": [],
+          "oldExtensions": [],
+          "extraLibs": [],
+          "extraGHCiLibs": [],
+          "extraBundledLibs": [],
+          "extraLibFlavours": [],
+          "extraDynLibFlavours": [],
+          "extraLibDirs": [],
+          "includeDirs": [],
+          "includes": [],
+          "autogenIncludes": [],
+          "installIncludes": [],
+          "options": [
+            [],
+            []
+          ],
+          "profOptions": [
+            [],
+            []
+          ],
+          "sharedOptions": [
+            [],
+            []
+          ],
+          "staticOptions": [
+            [],
+            []
+          ],
+          "customFieldsBI": [],
+          "targetBuildDepends": [
+            {
+              "package-name": "data-memocombinators",
+              "version-range": "==0.4.*",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "base",
+              "version-range": "==4.*",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "time",
+              "version-range": "==1.4.*",
+              "library": [
+                {}
+              ]
+            }
+          ],
+          "mixins": []
+        }
+      },
+      "condTreeConstraints": [
+        {
+          "package-name": "data-memocombinators",
+          "version-range": "==0.4.*",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "base",
+          "version-range": "==4.*",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "time",
+          "version-range": "==1.4.*",
+          "library": [
+            {}
+          ]
+        }
+      ],
+      "condTreeComponents": []
+    }
+  }
+}

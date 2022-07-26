@@ -1,0 +1,694 @@
+{
+  "description": {
+    "spec-version": {
+      "Left": [
+        3,
+        0
+      ]
+    },
+    "package": {
+      "name": "lazy-async",
+      "version": [
+        1,
+        0,
+        0,
+        1
+      ]
+    },
+    "license": {
+      "Left": {
+        "license-expression": {
+          "expression": {
+            "id": "MIT"
+          },
+          "exception-id": null
+        }
+      }
+    },
+    "license-files": [
+      "license.txt"
+    ],
+    "copyright": "2021 Mission Valley Software LLC",
+    "maintainer": "Chris Martin, Julie Moronuki",
+    "author": "Chris Martin",
+    "stability": "",
+    "tested-with": [],
+    "homepage": "https://github.com/typeclasses/lazy-async",
+    "pkg-url": "",
+    "bug-reports": "https://github.com/typeclasses/lazy-async/issues",
+    "source-repos": [
+      {
+        "kind": {},
+        "type": "Git",
+        "location": "https://github.com/typeclasses/lazy-async",
+        "module": null,
+        "branch": null,
+        "tag": null,
+        "subdir": null
+      }
+    ],
+    "synopsis": "Asynchronous actions that don't start right away",
+    "description": "Sometimes we have a bunch of 'IO' actions that do things like\nread files, make HTTP requests, or query a database. Some of the\ninformation that these actions produce might not end up being\nneeded, depending on the breaks. In the interest of avoiding\nunnecessary effort, we don't want to simply run all the actions\nand collect their results upfront. We also don't want to simply\nrun an action right before its result is needed, because it might\nbe needed in more than one place, which opens the possibility of\nunnecessarily running the same action more than once. In\nsituations like these, we use \"LazyAsync\".\n\nUnder the hood, an 'IO' action is turned into a @LazyAsync@ by\nconstructing two things: An @Async@ (from the @async@ package),\nand a @TVar Bool@ (from the @stm@ package). The TVar, initialized\nto @False@, indicates whether the action is wanted yet. The async\nthread waits until the TVar turns @True@ and then runs the action.",
+    "category": "Concurrency",
+    "custom-fields": [
+      [
+        "x-revision",
+        "1"
+      ]
+    ],
+    "build-type-raw": "Simple",
+    "custom-setup": null,
+    "library": null,
+    "sublibraries": [],
+    "executables": [],
+    "foreign-libs": [],
+    "test-suites": [],
+    "benchmarks": [],
+    "data-files": [],
+    "data-dir": ".",
+    "extra-source-files": [
+      "changelog.txt"
+    ],
+    "extra-tmp-files": [],
+    "extra-doc-files": []
+  },
+  "library": {
+    "condTreeData": {
+      "name": {},
+      "exposed-modules": [
+        [
+          "LazyAsync"
+        ]
+      ],
+      "re-exported-modules": [],
+      "signatures": [],
+      "exposed": true,
+      "visibility": "LibraryVisibilityPublic",
+      "build-info": {
+        "buildable": true,
+        "buildTools": [],
+        "buildToolDepends": [],
+        "cppOptions": [],
+        "asmOptions": [],
+        "cmmOptions": [],
+        "ccOptions": [],
+        "cxxOptions": [],
+        "ldOptions": [],
+        "pkgconfigDepends": [],
+        "frameworks": [],
+        "extraFrameworkDirs": [],
+        "asmSources": [],
+        "cmmSources": [],
+        "cSources": [],
+        "cxxSources": [],
+        "jsSources": [],
+        "hsSourceDirs": [
+          "src"
+        ],
+        "otherModules": [
+          [
+            "LazyAsync",
+            "Actions"
+          ],
+          [
+            "LazyAsync",
+            "Actions",
+            "Empty"
+          ],
+          [
+            "LazyAsync",
+            "Actions",
+            "Memoize"
+          ],
+          [
+            "LazyAsync",
+            "Actions",
+            "Merge"
+          ],
+          [
+            "LazyAsync",
+            "Actions",
+            "Poll"
+          ],
+          [
+            "LazyAsync",
+            "Actions",
+            "Pure"
+          ],
+          [
+            "LazyAsync",
+            "Actions",
+            "Spawn"
+          ],
+          [
+            "LazyAsync",
+            "Actions",
+            "Start"
+          ],
+          [
+            "LazyAsync",
+            "Actions",
+            "StartWait"
+          ],
+          [
+            "LazyAsync",
+            "Actions",
+            "Wait"
+          ],
+          [
+            "LazyAsync",
+            "Libraries",
+            "Async"
+          ],
+          [
+            "LazyAsync",
+            "Libraries",
+            "Rank2"
+          ],
+          [
+            "LazyAsync",
+            "Orphans"
+          ],
+          [
+            "LazyAsync",
+            "Prelude"
+          ],
+          [
+            "LazyAsync",
+            "Types"
+          ],
+          [
+            "LazyAsync",
+            "Types",
+            "Complex"
+          ],
+          [
+            "LazyAsync",
+            "Types",
+            "LazyAsync"
+          ],
+          [
+            "LazyAsync",
+            "Types",
+            "NoAlternative"
+          ],
+          [
+            "LazyAsync",
+            "Types",
+            "Outcome"
+          ],
+          [
+            "LazyAsync",
+            "Types",
+            "Resource"
+          ],
+          [
+            "LazyAsync",
+            "Types",
+            "StartPoll"
+          ],
+          [
+            "LazyAsync",
+            "Types",
+            "Status"
+          ]
+        ],
+        "virtualModules": [],
+        "autogenModules": [],
+        "defaultLanguage": "Haskell2010",
+        "otherLanguages": [],
+        "defaultExtensions": [
+          {
+            "enable-extension": "DeriveFoldable"
+          },
+          {
+            "enable-extension": "DeriveFunctor"
+          },
+          {
+            "enable-extension": "DeriveTraversable"
+          },
+          {
+            "enable-extension": "ExistentialQuantification"
+          },
+          {
+            "enable-extension": "FlexibleContexts"
+          },
+          {
+            "disable-extension": "ImplicitPrelude"
+          },
+          {
+            "enable-extension": "StandaloneDeriving"
+          }
+        ],
+        "otherExtensions": [],
+        "oldExtensions": [],
+        "extraLibs": [],
+        "extraGHCiLibs": [],
+        "extraBundledLibs": [],
+        "extraLibFlavours": [],
+        "extraDynLibFlavours": [],
+        "extraLibDirs": [],
+        "includeDirs": [],
+        "includes": [],
+        "autogenIncludes": [],
+        "installIncludes": [],
+        "options": [
+          [
+            "-Wall"
+          ],
+          []
+        ],
+        "profOptions": [
+          [],
+          []
+        ],
+        "sharedOptions": [
+          [],
+          []
+        ],
+        "staticOptions": [
+          [],
+          []
+        ],
+        "customFieldsBI": [],
+        "targetBuildDepends": [
+          {
+            "package-name": "base",
+            "version-range": "^>=4.14 || ^>=4.15 || ^>=4.16",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "exceptions",
+            "version-range": "^>=0.10.4",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "lifted-async",
+            "version-range": "^>=0.10.0.6",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "monad-control",
+            "version-range": "^>=1.0.2.3",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "rank2classes",
+            "version-range": "^>=1.4.0.1",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "stm",
+            "version-range": "^>=2.5",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "transformers",
+            "version-range": "^>=0.5.6.2",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "transformers-base",
+            "version-range": "^>=0.4.5.1",
+            "library": [
+              {}
+            ]
+          }
+        ],
+        "mixins": []
+      }
+    },
+    "condTreeConstraints": [
+      {
+        "package-name": "base",
+        "version-range": "^>=4.14 || ^>=4.15 || ^>=4.16",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "exceptions",
+        "version-range": "^>=0.10.4",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "lifted-async",
+        "version-range": "^>=0.10.0.6",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "monad-control",
+        "version-range": "^>=1.0.2.3",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "rank2classes",
+        "version-range": "^>=1.4.0.1",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "stm",
+        "version-range": "^>=2.5",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "transformers",
+        "version-range": "^>=0.5.6.2",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "transformers-base",
+        "version-range": "^>=0.4.5.1",
+        "library": [
+          {}
+        ]
+      }
+    ],
+    "condTreeComponents": []
+  },
+  "test-suites": {
+    "test": {
+      "condTreeData": {
+        "name": "",
+        "interface": {
+          "version": [
+            1,
+            0
+          ],
+          "filepath": "test.hs"
+        },
+        "build-info": {
+          "buildable": true,
+          "buildTools": [],
+          "buildToolDepends": [],
+          "cppOptions": [],
+          "asmOptions": [],
+          "cmmOptions": [],
+          "ccOptions": [],
+          "cxxOptions": [],
+          "ldOptions": [],
+          "pkgconfigDepends": [],
+          "frameworks": [],
+          "extraFrameworkDirs": [],
+          "asmSources": [],
+          "cmmSources": [],
+          "cSources": [],
+          "cxxSources": [],
+          "jsSources": [],
+          "hsSourceDirs": [
+            "test"
+          ],
+          "otherModules": [
+            [
+              "Test",
+              "Counter"
+            ],
+            [
+              "Test",
+              "Exceptions"
+            ],
+            [
+              "Test",
+              "General"
+            ],
+            [
+              "Test",
+              "Optics"
+            ],
+            [
+              "Test",
+              "Person"
+            ]
+          ],
+          "virtualModules": [],
+          "autogenModules": [],
+          "defaultLanguage": "Haskell2010",
+          "otherLanguages": [],
+          "defaultExtensions": [
+            {
+              "enable-extension": "DeriveFoldable"
+            },
+            {
+              "enable-extension": "DeriveFunctor"
+            },
+            {
+              "enable-extension": "DeriveTraversable"
+            },
+            {
+              "enable-extension": "ExistentialQuantification"
+            },
+            {
+              "enable-extension": "FlexibleContexts"
+            },
+            {
+              "disable-extension": "ImplicitPrelude"
+            },
+            {
+              "enable-extension": "StandaloneDeriving"
+            },
+            {
+              "enable-extension": "BlockArguments"
+            },
+            {
+              "enable-extension": "OverloadedStrings"
+            },
+            {
+              "enable-extension": "TemplateHaskell"
+            }
+          ],
+          "otherExtensions": [],
+          "oldExtensions": [],
+          "extraLibs": [],
+          "extraGHCiLibs": [],
+          "extraBundledLibs": [],
+          "extraLibFlavours": [],
+          "extraDynLibFlavours": [],
+          "extraLibDirs": [],
+          "includeDirs": [],
+          "includes": [],
+          "autogenIncludes": [],
+          "installIncludes": [],
+          "options": [
+            [
+              "-Wall"
+            ],
+            []
+          ],
+          "profOptions": [
+            [],
+            []
+          ],
+          "sharedOptions": [
+            [],
+            []
+          ],
+          "staticOptions": [
+            [],
+            []
+          ],
+          "customFieldsBI": [],
+          "targetBuildDepends": [
+            {
+              "package-name": "base",
+              "version-range": "^>=4.14 || ^>=4.15 || ^>=4.16",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "exceptions",
+              "version-range": "^>=0.10.4",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "lifted-async",
+              "version-range": "^>=0.10.0.6",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "monad-control",
+              "version-range": "^>=1.0.2.3",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "rank2classes",
+              "version-range": "^>=1.4.0.1",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "stm",
+              "version-range": "^>=2.5",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "transformers",
+              "version-range": "^>=0.5.6.2",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "transformers-base",
+              "version-range": "^>=0.4.5.1",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "hedgehog",
+              "version-range": "^>=1.0.4 || ^>=1.1",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "lazy-async",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "optics-core",
+              "version-range": "^>=0.3 || ^>=0.4",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "optics-th",
+              "version-range": "^>=0.3 || ^>=0.4",
+              "library": [
+                {}
+              ]
+            }
+          ],
+          "mixins": []
+        }
+      },
+      "condTreeConstraints": [
+        {
+          "package-name": "base",
+          "version-range": "^>=4.14 || ^>=4.15 || ^>=4.16",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "exceptions",
+          "version-range": "^>=0.10.4",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "lifted-async",
+          "version-range": "^>=0.10.0.6",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "monad-control",
+          "version-range": "^>=1.0.2.3",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "rank2classes",
+          "version-range": "^>=1.4.0.1",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "stm",
+          "version-range": "^>=2.5",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "transformers",
+          "version-range": "^>=0.5.6.2",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "transformers-base",
+          "version-range": "^>=0.4.5.1",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "hedgehog",
+          "version-range": "^>=1.0.4 || ^>=1.1",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "lazy-async",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "optics-core",
+          "version-range": "^>=0.3 || ^>=0.4",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "optics-th",
+          "version-range": "^>=0.3 || ^>=0.4",
+          "library": [
+            {}
+          ]
+        }
+      ],
+      "condTreeComponents": []
+    }
+  }
+}

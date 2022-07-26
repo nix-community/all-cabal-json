@@ -1,0 +1,1284 @@
+{
+  "description": {
+    "spec-version": {
+      "Right": ">=1.8"
+    },
+    "package": {
+      "name": "zoom-cache",
+      "version": [
+        1,
+        2,
+        1,
+        3
+      ]
+    },
+    "license": {
+      "Right": "BSD3"
+    },
+    "license-files": [
+      "LICENSE"
+    ],
+    "copyright": "",
+    "maintainer": "conrad@metadecks.org",
+    "author": "Conrad Parker",
+    "stability": "Experimental",
+    "tested-with": [],
+    "homepage": "",
+    "pkg-url": "",
+    "bug-reports": "",
+    "source-repos": [
+      {
+        "kind": {},
+        "type": "Git",
+        "location": "git://github.com/kfish/zoom-cache.git",
+        "module": null,
+        "branch": null,
+        "tag": null,
+        "subdir": null
+      }
+    ],
+    "synopsis": "A streamable, seekable, zoomable cache file format",
+    "description": "zoom-cache is a fairly simple data file format for storing and summarizing\nstreams of time-series data. The purpose of this format is to make it easy\nto quickly generate plots; /zooming/ refers to being able to render a\nwindow of data, and being able to quickly change the bounds of the window:\nto move around and to zoom in and out.\n\nThis library provides a monadic writing and an iteratee reading interface\nfor zoom-cache files. To build GUI applications, see the scope package:\n\n<http://hackage.haskell.org/package/scope>\n\nWhat's neat about the zoom-cache format and library? Glad you asked!\n\n* Data can be stored at variable or constant rates. For variable rate\ndata, a timestamp is explicitly written into the file for every value,\nwhich is useful for recording events that occur at unpredictable times.\nConstant rate is useful for regularly sampled data, like most digital\naudio and video recordings.\n\n* While writing a file, summary blocks (such as minimum, maximum,\nmean and RMS values) are written out every n samples. The summary blocks\nare hierarchical, such that after two have been written, a new one\ncontaining a merged summary of those is written. After two of those Level\n1 summary blocks have been written, a new Level 2 summary block combining\nthose is written, and so on.\n\n* You can write your own zoom-cache codecs for custom data types, or\nto implement custom summary functions. In order to do so you provide a\n'Summary' data type, functions for encoding and decoding raw data values\nand summaries, and a function for merging 'Summary' blocks. For details,\nsee \"Data.ZoomCache.Codec\".\n\n* Writing of raw data blocks is optional, under control of the\napplication. If you already have the raw data stored in an easily\naccessible format, your zoom-cache files may just contain the summary\ndata. On the other hand, if your input data is the result of expensive\ncalculations you may want to store it along with the summary data so that\nplots of any level of detail can be rendered from a single file.\n\nWhen developing applications that read or write zoom-cache files, it should\nbe sufficient to import only the module \"Data.ZoomCache\".\n",
+    "category": "Development",
+    "custom-fields": [],
+    "build-type-raw": "Simple",
+    "custom-setup": null,
+    "library": null,
+    "sublibraries": [],
+    "executables": [],
+    "foreign-libs": [],
+    "test-suites": [],
+    "benchmarks": [],
+    "data-files": [],
+    "data-dir": ".",
+    "extra-source-files": [
+      "tests/Properties.hs"
+    ],
+    "extra-tmp-files": [],
+    "extra-doc-files": []
+  },
+  "package-flags": [
+    {
+      "name": "splitbase",
+      "description": "Use the split-up base package.",
+      "default": true,
+      "manual": false
+    }
+  ],
+  "library": {
+    "condTreeData": {
+      "name": {},
+      "exposed-modules": [
+        [
+          "Blaze",
+          "ByteString",
+          "Builder",
+          "ZoomCache"
+        ],
+        [
+          "Data",
+          "Offset"
+        ],
+        [
+          "Data",
+          "Iteratee",
+          "IO",
+          "OffsetFd"
+        ],
+        [
+          "Data",
+          "Iteratee",
+          "Offset"
+        ],
+        [
+          "Data",
+          "Iteratee",
+          "ZoomCache"
+        ],
+        [
+          "Data",
+          "Iteratee",
+          "ZoomCache",
+          "Seek"
+        ],
+        [
+          "Data",
+          "Iteratee",
+          "ZoomCache",
+          "Utils"
+        ],
+        [
+          "Data",
+          "ZoomCache"
+        ],
+        [
+          "Data",
+          "ZoomCache",
+          "Bool"
+        ],
+        [
+          "Data",
+          "ZoomCache",
+          "Codec"
+        ],
+        [
+          "Data",
+          "ZoomCache",
+          "Common"
+        ],
+        [
+          "Data",
+          "ZoomCache",
+          "Dump"
+        ],
+        [
+          "Data",
+          "ZoomCache",
+          "Format"
+        ],
+        [
+          "Data",
+          "ZoomCache",
+          "Identify"
+        ],
+        [
+          "Data",
+          "ZoomCache",
+          "Multichannel"
+        ],
+        [
+          "Data",
+          "ZoomCache",
+          "Multichannel",
+          "Common"
+        ],
+        [
+          "Data",
+          "ZoomCache",
+          "Multichannel",
+          "Internal"
+        ],
+        [
+          "Data",
+          "ZoomCache",
+          "Multichannel",
+          "List"
+        ],
+        [
+          "Data",
+          "ZoomCache",
+          "Multichannel",
+          "NList"
+        ],
+        [
+          "Data",
+          "ZoomCache",
+          "NList"
+        ],
+        [
+          "Data",
+          "ZoomCache",
+          "Numeric"
+        ],
+        [
+          "Data",
+          "ZoomCache",
+          "Numeric",
+          "Delta"
+        ],
+        [
+          "Data",
+          "ZoomCache",
+          "Numeric",
+          "FloatMinMax"
+        ],
+        [
+          "Data",
+          "ZoomCache",
+          "Numeric",
+          "IEEE754"
+        ],
+        [
+          "Data",
+          "ZoomCache",
+          "Numeric",
+          "Int"
+        ],
+        [
+          "Data",
+          "ZoomCache",
+          "Numeric",
+          "Internal"
+        ],
+        [
+          "Data",
+          "ZoomCache",
+          "Numeric",
+          "Types"
+        ],
+        [
+          "Data",
+          "ZoomCache",
+          "Numeric",
+          "Word"
+        ],
+        [
+          "Data",
+          "ZoomCache",
+          "Pretty"
+        ],
+        [
+          "Data",
+          "ZoomCache",
+          "TrackSpec"
+        ],
+        [
+          "Data",
+          "ZoomCache",
+          "Types"
+        ],
+        [
+          "Data",
+          "ZoomCache",
+          "Unit"
+        ],
+        [
+          "Data",
+          "ZoomCache",
+          "Write"
+        ]
+      ],
+      "re-exported-modules": [],
+      "signatures": [],
+      "exposed": true,
+      "visibility": "LibraryVisibilityPublic",
+      "build-info": {
+        "buildable": true,
+        "buildTools": [],
+        "buildToolDepends": [],
+        "cppOptions": [],
+        "asmOptions": [],
+        "cmmOptions": [],
+        "ccOptions": [],
+        "cxxOptions": [],
+        "ldOptions": [],
+        "pkgconfigDepends": [],
+        "frameworks": [],
+        "extraFrameworkDirs": [],
+        "asmSources": [],
+        "cmmSources": [],
+        "cSources": [],
+        "cxxSources": [],
+        "jsSources": [],
+        "hsSourceDirs": [],
+        "otherModules": [
+          [
+            "Blaze",
+            "ByteString",
+            "Builder",
+            "ZoomCache",
+            "Internal"
+          ]
+        ],
+        "virtualModules": [],
+        "autogenModules": [],
+        "defaultLanguage": null,
+        "otherLanguages": [],
+        "defaultExtensions": [],
+        "otherExtensions": [],
+        "oldExtensions": [],
+        "extraLibs": [],
+        "extraGHCiLibs": [],
+        "extraBundledLibs": [],
+        "extraLibFlavours": [],
+        "extraDynLibFlavours": [],
+        "extraLibDirs": [],
+        "includeDirs": [],
+        "includes": [],
+        "autogenIncludes": [],
+        "installIncludes": [],
+        "options": [
+          [],
+          []
+        ],
+        "profOptions": [
+          [],
+          []
+        ],
+        "sharedOptions": [
+          [],
+          []
+        ],
+        "staticOptions": [
+          [],
+          []
+        ],
+        "customFieldsBI": [],
+        "targetBuildDepends": [
+          {
+            "package-name": "blaze-builder",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "bytestring",
+            "version-range": ">=0.9 && <0.10",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "containers",
+            "version-range": ">=0.2 && <0.5",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "data-default",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "iteratee",
+            "version-range": ">=0.8.7.6 && <0.9",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "iteratee-compress",
+            "version-range": ">=0.3.0.0 && <0.4",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "ListLike",
+            "version-range": ">=1.0 && <4",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "MonadCatchIO-transformers",
+            "version-range": ">0.2 && <0.3",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "mtl",
+            "version-range": ">=2.0.0.0 && <3",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "old-locale",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "QuickCheck",
+            "version-range": ">=2.4.0.1",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "time",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "transformers",
+            "version-range": ">=0.2 && <0.3",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "type-level",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "unix",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "zlib",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          }
+        ],
+        "mixins": []
+      }
+    },
+    "condTreeConstraints": [
+      {
+        "package-name": "blaze-builder",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "bytestring",
+        "version-range": ">=0.9 && <0.10",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "containers",
+        "version-range": ">=0.2 && <0.5",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "data-default",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "iteratee",
+        "version-range": ">=0.8.7.6 && <0.9",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "iteratee-compress",
+        "version-range": ">=0.3.0.0 && <0.4",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "ListLike",
+        "version-range": ">=1.0 && <4",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "MonadCatchIO-transformers",
+        "version-range": ">0.2 && <0.3",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "mtl",
+        "version-range": ">=2.0.0.0 && <3",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "old-locale",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "QuickCheck",
+        "version-range": ">=2.4.0.1",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "time",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "transformers",
+        "version-range": ">=0.2 && <0.3",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "type-level",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "unix",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "zlib",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      }
+    ],
+    "condTreeComponents": [
+      {
+        "condBranchCondition": {
+          "v": {
+            "flag": "splitbase"
+          }
+        },
+        "condBranchIfTrue": {
+          "condTreeData": {
+            "name": {},
+            "exposed-modules": [],
+            "re-exported-modules": [],
+            "signatures": [],
+            "exposed": true,
+            "visibility": "LibraryVisibilityPublic",
+            "build-info": {
+              "buildable": true,
+              "buildTools": [],
+              "buildToolDepends": [],
+              "cppOptions": [],
+              "asmOptions": [],
+              "cmmOptions": [],
+              "ccOptions": [],
+              "cxxOptions": [],
+              "ldOptions": [],
+              "pkgconfigDepends": [],
+              "frameworks": [],
+              "extraFrameworkDirs": [],
+              "asmSources": [],
+              "cmmSources": [],
+              "cSources": [],
+              "cxxSources": [],
+              "jsSources": [],
+              "hsSourceDirs": [],
+              "otherModules": [],
+              "virtualModules": [],
+              "autogenModules": [],
+              "defaultLanguage": null,
+              "otherLanguages": [],
+              "defaultExtensions": [],
+              "otherExtensions": [],
+              "oldExtensions": [],
+              "extraLibs": [],
+              "extraGHCiLibs": [],
+              "extraBundledLibs": [],
+              "extraLibFlavours": [],
+              "extraDynLibFlavours": [],
+              "extraLibDirs": [],
+              "includeDirs": [],
+              "includes": [],
+              "autogenIncludes": [],
+              "installIncludes": [],
+              "options": [
+                [],
+                []
+              ],
+              "profOptions": [
+                [],
+                []
+              ],
+              "sharedOptions": [
+                [],
+                []
+              ],
+              "staticOptions": [
+                [],
+                []
+              ],
+              "customFieldsBI": [],
+              "targetBuildDepends": [
+                {
+                  "package-name": "base",
+                  "version-range": ">=3 && <6",
+                  "library": [
+                    {}
+                  ]
+                }
+              ],
+              "mixins": []
+            }
+          },
+          "condTreeConstraints": [
+            {
+              "package-name": "base",
+              "version-range": ">=3 && <6",
+              "library": [
+                {}
+              ]
+            }
+          ],
+          "condTreeComponents": []
+        },
+        "condBranchIfFalse": {
+          "condTreeData": {
+            "name": {},
+            "exposed-modules": [],
+            "re-exported-modules": [],
+            "signatures": [],
+            "exposed": true,
+            "visibility": "LibraryVisibilityPublic",
+            "build-info": {
+              "buildable": true,
+              "buildTools": [],
+              "buildToolDepends": [],
+              "cppOptions": [],
+              "asmOptions": [],
+              "cmmOptions": [],
+              "ccOptions": [],
+              "cxxOptions": [],
+              "ldOptions": [],
+              "pkgconfigDepends": [],
+              "frameworks": [],
+              "extraFrameworkDirs": [],
+              "asmSources": [],
+              "cmmSources": [],
+              "cSources": [],
+              "cxxSources": [],
+              "jsSources": [],
+              "hsSourceDirs": [],
+              "otherModules": [],
+              "virtualModules": [],
+              "autogenModules": [],
+              "defaultLanguage": null,
+              "otherLanguages": [],
+              "defaultExtensions": [],
+              "otherExtensions": [],
+              "oldExtensions": [],
+              "extraLibs": [],
+              "extraGHCiLibs": [],
+              "extraBundledLibs": [],
+              "extraLibFlavours": [],
+              "extraDynLibFlavours": [],
+              "extraLibDirs": [],
+              "includeDirs": [],
+              "includes": [],
+              "autogenIncludes": [],
+              "installIncludes": [],
+              "options": [
+                [],
+                []
+              ],
+              "profOptions": [
+                [],
+                []
+              ],
+              "sharedOptions": [
+                [],
+                []
+              ],
+              "staticOptions": [
+                [],
+                []
+              ],
+              "customFieldsBI": [],
+              "targetBuildDepends": [
+                {
+                  "package-name": "base",
+                  "version-range": "<3",
+                  "library": [
+                    {}
+                  ]
+                }
+              ],
+              "mixins": []
+            }
+          },
+          "condTreeConstraints": [
+            {
+              "package-name": "base",
+              "version-range": "<3",
+              "library": [
+                {}
+              ]
+            }
+          ],
+          "condTreeComponents": []
+        }
+      }
+    ]
+  },
+  "executables": {
+    "zoom-cache": {
+      "condTreeData": {
+        "name": "zoom-cache",
+        "module-path": "zoom-cache.hs",
+        "scope": "public",
+        "build-info": {
+          "buildable": true,
+          "buildTools": [],
+          "buildToolDepends": [],
+          "cppOptions": [],
+          "asmOptions": [],
+          "cmmOptions": [],
+          "ccOptions": [],
+          "cxxOptions": [],
+          "ldOptions": [],
+          "pkgconfigDepends": [],
+          "frameworks": [],
+          "extraFrameworkDirs": [],
+          "asmSources": [],
+          "cmmSources": [],
+          "cSources": [],
+          "cxxSources": [],
+          "jsSources": [],
+          "hsSourceDirs": [
+            ".",
+            "tools"
+          ],
+          "otherModules": [],
+          "virtualModules": [],
+          "autogenModules": [],
+          "defaultLanguage": null,
+          "otherLanguages": [],
+          "defaultExtensions": [],
+          "otherExtensions": [],
+          "oldExtensions": [],
+          "extraLibs": [],
+          "extraGHCiLibs": [],
+          "extraBundledLibs": [],
+          "extraLibFlavours": [],
+          "extraDynLibFlavours": [],
+          "extraLibDirs": [],
+          "includeDirs": [],
+          "includes": [],
+          "autogenIncludes": [],
+          "installIncludes": [],
+          "options": [
+            [],
+            []
+          ],
+          "profOptions": [
+            [],
+            []
+          ],
+          "sharedOptions": [
+            [],
+            []
+          ],
+          "staticOptions": [
+            [],
+            []
+          ],
+          "customFieldsBI": [],
+          "targetBuildDepends": [
+            {
+              "package-name": "base",
+              "version-range": ">=3 && <6",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "blaze-builder",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "bytestring",
+              "version-range": ">=0.9 && <0.10",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "containers",
+              "version-range": ">=0.2 && <0.5",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "data-default",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "iteratee",
+              "version-range": ">=0.8.7.6 && <0.9",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "iteratee-compress",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "ListLike",
+              "version-range": ">=1.0 && <4",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "MonadCatchIO-transformers",
+              "version-range": ">0.2 && <0.3",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "mtl",
+              "version-range": ">=2.0.0.0 && <3",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "old-locale",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "QuickCheck",
+              "version-range": ">=2.4.0.1",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "time",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "transformers",
+              "version-range": ">=0.2 && <0.3",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "type-level",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "ui-command",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "unix",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "zlib",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            }
+          ],
+          "mixins": []
+        }
+      },
+      "condTreeConstraints": [
+        {
+          "package-name": "base",
+          "version-range": ">=3 && <6",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "blaze-builder",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "bytestring",
+          "version-range": ">=0.9 && <0.10",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "containers",
+          "version-range": ">=0.2 && <0.5",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "data-default",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "iteratee",
+          "version-range": ">=0.8.7.6 && <0.9",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "iteratee-compress",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "ListLike",
+          "version-range": ">=1.0 && <4",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "MonadCatchIO-transformers",
+          "version-range": ">0.2 && <0.3",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "mtl",
+          "version-range": ">=2.0.0.0 && <3",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "old-locale",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "QuickCheck",
+          "version-range": ">=2.4.0.1",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "time",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "transformers",
+          "version-range": ">=0.2 && <0.3",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "type-level",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "ui-command",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "unix",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "zlib",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        }
+      ],
+      "condTreeComponents": []
+    }
+  },
+  "test-suites": {
+    "tests": {
+      "condTreeData": {
+        "name": "",
+        "interface": {
+          "version": [
+            1,
+            0
+          ],
+          "filepath": "Properties.hs"
+        },
+        "build-info": {
+          "buildable": true,
+          "buildTools": [],
+          "buildToolDepends": [],
+          "cppOptions": [],
+          "asmOptions": [],
+          "cmmOptions": [],
+          "ccOptions": [],
+          "cxxOptions": [],
+          "ldOptions": [],
+          "pkgconfigDepends": [],
+          "frameworks": [],
+          "extraFrameworkDirs": [],
+          "asmSources": [],
+          "cmmSources": [],
+          "cSources": [],
+          "cxxSources": [],
+          "jsSources": [],
+          "hsSourceDirs": [
+            "tests"
+          ],
+          "otherModules": [],
+          "virtualModules": [],
+          "autogenModules": [],
+          "defaultLanguage": null,
+          "otherLanguages": [],
+          "defaultExtensions": [],
+          "otherExtensions": [],
+          "oldExtensions": [],
+          "extraLibs": [],
+          "extraGHCiLibs": [],
+          "extraBundledLibs": [],
+          "extraLibFlavours": [],
+          "extraDynLibFlavours": [],
+          "extraLibDirs": [],
+          "includeDirs": [],
+          "includes": [],
+          "autogenIncludes": [],
+          "installIncludes": [],
+          "options": [
+            [],
+            []
+          ],
+          "profOptions": [
+            [],
+            []
+          ],
+          "sharedOptions": [
+            [],
+            []
+          ],
+          "staticOptions": [
+            [],
+            []
+          ],
+          "customFieldsBI": [],
+          "targetBuildDepends": [
+            {
+              "package-name": "base",
+              "version-range": ">=3 && <6",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "blaze-builder",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "iteratee",
+              "version-range": ">=0.8.7.6 && <0.9",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "test-framework",
+              "version-range": ">=0.3.3 && <0.5.0",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "test-framework-quickcheck2",
+              "version-range": ">=0.2.9 && <0.3",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "QuickCheck",
+              "version-range": ">=2.4.0.1",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "random",
+              "version-range": "==1.0.*",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "transformers",
+              "version-range": ">=0.2 && <0.3",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "type-level",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "unix",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "zoom-cache",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            }
+          ],
+          "mixins": []
+        }
+      },
+      "condTreeConstraints": [
+        {
+          "package-name": "base",
+          "version-range": ">=3 && <6",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "blaze-builder",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "iteratee",
+          "version-range": ">=0.8.7.6 && <0.9",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "test-framework",
+          "version-range": ">=0.3.3 && <0.5.0",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "test-framework-quickcheck2",
+          "version-range": ">=0.2.9 && <0.3",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "QuickCheck",
+          "version-range": ">=2.4.0.1",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "random",
+          "version-range": "==1.0.*",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "transformers",
+          "version-range": ">=0.2 && <0.3",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "type-level",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "unix",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "zoom-cache",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        }
+      ],
+      "condTreeComponents": []
+    }
+  }
+}

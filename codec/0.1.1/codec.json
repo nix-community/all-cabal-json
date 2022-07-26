@@ -1,0 +1,632 @@
+{
+  "description": {
+    "spec-version": {
+      "Right": ">=1.10"
+    },
+    "package": {
+      "name": "codec",
+      "version": [
+        0,
+        1,
+        1
+      ]
+    },
+    "license": {
+      "Right": "BSD3"
+    },
+    "license-files": [
+      "LICENSE"
+    ],
+    "copyright": "",
+    "maintainer": "chpatrick@gmail.com",
+    "author": "Patrick Chilton",
+    "stability": "",
+    "tested-with": [],
+    "homepage": "https://github.com/chpatrick/codec",
+    "pkg-url": "",
+    "bug-reports": "",
+    "source-repos": [
+      {
+        "kind": {},
+        "type": "Git",
+        "location": "https://github.com/chpatrick/codec.git",
+        "module": null,
+        "branch": null,
+        "tag": null,
+        "subdir": null
+      }
+    ],
+    "synopsis": "First-class record construction and bidirectional serialization",
+    "description": "Tired of writing complementary @parseJSON@\\/@toJSON@, @peek@\\/@poke@ or\nBinary @get@\\/@put@ functions?\n\n@codec@ provides easy bidirectional serialization of plain Haskell\nrecords in any Applicative context. All you need to do is provide a\nde\\/serializer for every record field in any order you like, and you get\na de\\/serializer for the whole structure. The type system ensures that\nyou provide every record exactly once. It also includes a library for\ngeneral record construction in an Applicative context, of which creating\ncodecs is just one application.\n\nJSON!\n\n> userCodec :: JSONCodec User\n> userCodec = obj \"user object\" $\n> User\n>   $>> f_username      >-< \"user\"\n>   >>> f_userEmail     >-< \"email\"\n>   >>> f_userLanguages >-< \"languages\"\n>   >>> f_userReferrer  >-< opt \"referrer\"\n>\n> instance FromJSON User where\n>   parseJSON = parseVal userCodec\n>\n> instance ToJSON User where\n>   toJSON = produceVal userCodec\n\nBit fields!\n\n> ipv4Codec :: BinaryCodec IPv4\n> ipv4Codec = toBytes $\n>   IPv4\n>     $>> f_version         >-< word8 4\n>     >>> f_ihl             >-< word8 4\n>     >>> f_dscp            >-< word8 6\n>     >>> f_ecn             >-< word8 2\n>     >>> f_totalLength     >-< word16be 16\n>     >>> f_identification  >-< word16be 16\n>     >>> f_flags           >-< word8 3\n>     >>> f_fragmentOffset  >-< word16be 13\n>     >>> f_timeToLive      >-< word8 8\n>     >>> f_protocol        >-< word8 8\n>     >>> f_headerChecksum  >-< word16be 16\n>     >>> f_sourceIP        >-< word32be 32\n>     >>> f_destIP          >-< word32be 32\n>\n> instance Binary IPv4 where\n>   get = parse ipv4Codec\n>   put = produce ipv4Codec\n\nStorable!\n\n> timeSpecCodec :: ForeignCodec TimeSpec\n> timeSpecCodec =\n>   TimeSpec\n>     $>> f_seconds     >-< field (#offset struct timespec, tv_sec)  cInt\n>     >>> f_nanoseconds >-< field (#offset struct timespec, tv_nsec) cInt\n>\n> instance Storable TimeSpec where\n>   peek = peekWith timeSpecCodec\n>   poke = pokeWith timeSpecCodec\n>   ...\n\nAll of these examples use the same types and logic for constructing\nCodecs, and it\\'s very easy to create Codecs for any\nparsing\\/serialization library.\n\nSee \"Data.Codec\" for an introduction.",
+    "category": "Data",
+    "custom-fields": [],
+    "build-type-raw": "Simple",
+    "custom-setup": null,
+    "library": null,
+    "sublibraries": [],
+    "executables": [],
+    "foreign-libs": [],
+    "test-suites": [],
+    "benchmarks": [],
+    "data-files": [],
+    "data-dir": ".",
+    "extra-source-files": [],
+    "extra-tmp-files": [],
+    "extra-doc-files": []
+  },
+  "library": {
+    "condTreeData": {
+      "name": {},
+      "exposed-modules": [
+        [
+          "Data",
+          "Codec"
+        ],
+        [
+          "Data",
+          "Codec",
+          "Field"
+        ],
+        [
+          "Data",
+          "Codec",
+          "Codec"
+        ],
+        [
+          "Data",
+          "Codec",
+          "TH"
+        ],
+        [
+          "Data",
+          "Codec",
+          "Tuple"
+        ],
+        [
+          "Data",
+          "Codec",
+          "Testing"
+        ],
+        [
+          "Data",
+          "Aeson",
+          "Codec"
+        ],
+        [
+          "Data",
+          "Binary",
+          "Codec"
+        ],
+        [
+          "Data",
+          "Binary",
+          "Bits",
+          "Codec"
+        ],
+        [
+          "Foreign",
+          "Codec"
+        ]
+      ],
+      "re-exported-modules": [],
+      "signatures": [],
+      "exposed": true,
+      "visibility": "LibraryVisibilityPublic",
+      "build-info": {
+        "buildable": true,
+        "buildTools": [],
+        "buildToolDepends": [],
+        "cppOptions": [],
+        "asmOptions": [],
+        "cmmOptions": [],
+        "ccOptions": [],
+        "cxxOptions": [],
+        "ldOptions": [],
+        "pkgconfigDepends": [],
+        "frameworks": [],
+        "extraFrameworkDirs": [],
+        "asmSources": [],
+        "cmmSources": [],
+        "cSources": [],
+        "cxxSources": [],
+        "jsSources": [],
+        "hsSourceDirs": [],
+        "otherModules": [],
+        "virtualModules": [],
+        "autogenModules": [],
+        "defaultLanguage": "Haskell2010",
+        "otherLanguages": [],
+        "defaultExtensions": [
+          {
+            "enable-extension": "TemplateHaskell"
+          },
+          {
+            "enable-extension": "MultiParamTypeClasses"
+          },
+          {
+            "enable-extension": "FlexibleContexts"
+          },
+          {
+            "enable-extension": "FlexibleInstances"
+          },
+          {
+            "enable-extension": "LambdaCase"
+          },
+          {
+            "enable-extension": "FunctionalDependencies"
+          },
+          {
+            "enable-extension": "DeriveFunctor"
+          },
+          {
+            "enable-extension": "ScopedTypeVariables"
+          }
+        ],
+        "otherExtensions": [],
+        "oldExtensions": [],
+        "extraLibs": [],
+        "extraGHCiLibs": [],
+        "extraBundledLibs": [],
+        "extraLibFlavours": [],
+        "extraDynLibFlavours": [],
+        "extraLibDirs": [],
+        "includeDirs": [],
+        "includes": [],
+        "autogenIncludes": [],
+        "installIncludes": [],
+        "options": [
+          [
+            "-Wall",
+            "-fno-warn-orphans"
+          ],
+          []
+        ],
+        "profOptions": [
+          [],
+          []
+        ],
+        "sharedOptions": [
+          [],
+          []
+        ],
+        "staticOptions": [
+          [],
+          []
+        ],
+        "customFieldsBI": [],
+        "targetBuildDepends": [
+          {
+            "package-name": "base",
+            "version-range": ">=4.6 && <4.9",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "bytestring",
+            "version-range": ">=0.10",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "binary",
+            "version-range": ">=0.7",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "binary-bits",
+            "version-range": ">=0.5",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "template-haskell",
+            "version-range": ">=2.8",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "mtl",
+            "version-range": ">=2.2.1",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "aeson",
+            "version-range": ">=0.8.0.2",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "text",
+            "version-range": ">=1.2.0.4",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "unordered-containers",
+            "version-range": ">=0.2.5.1",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "data-default-class",
+            "version-range": ">=0.0.1",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "transformers",
+            "version-range": ">=0.4.2.0",
+            "library": [
+              {}
+            ]
+          }
+        ],
+        "mixins": []
+      }
+    },
+    "condTreeConstraints": [
+      {
+        "package-name": "base",
+        "version-range": ">=4.6 && <4.9",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "bytestring",
+        "version-range": ">=0.10",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "binary",
+        "version-range": ">=0.7",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "binary-bits",
+        "version-range": ">=0.5",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "template-haskell",
+        "version-range": ">=2.8",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "mtl",
+        "version-range": ">=2.2.1",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "aeson",
+        "version-range": ">=0.8.0.2",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "text",
+        "version-range": ">=1.2.0.4",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "unordered-containers",
+        "version-range": ">=0.2.5.1",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "data-default-class",
+        "version-range": ">=0.0.1",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "transformers",
+        "version-range": ">=0.4.2.0",
+        "library": [
+          {}
+        ]
+      }
+    ],
+    "condTreeComponents": []
+  },
+  "test-suites": {
+    "Examples": {
+      "condTreeData": {
+        "name": "",
+        "interface": {
+          "version": [
+            1,
+            0
+          ],
+          "filepath": "TestExamples.hs"
+        },
+        "build-info": {
+          "buildable": true,
+          "buildTools": [],
+          "buildToolDepends": [],
+          "cppOptions": [],
+          "asmOptions": [],
+          "cmmOptions": [],
+          "ccOptions": [],
+          "cxxOptions": [],
+          "ldOptions": [],
+          "pkgconfigDepends": [],
+          "frameworks": [],
+          "extraFrameworkDirs": [],
+          "asmSources": [],
+          "cmmSources": [],
+          "cSources": [],
+          "cxxSources": [],
+          "jsSources": [],
+          "hsSourceDirs": [],
+          "otherModules": [
+            [
+              "Examples",
+              "Foreign"
+            ],
+            [
+              "Examples",
+              "IP"
+            ],
+            [
+              "Examples",
+              "JSON"
+            ],
+            [
+              "Examples",
+              "Multi"
+            ],
+            [
+              "Examples",
+              "Tar"
+            ]
+          ],
+          "virtualModules": [],
+          "autogenModules": [],
+          "defaultLanguage": "Haskell2010",
+          "otherLanguages": [],
+          "defaultExtensions": [
+            {
+              "enable-extension": "TemplateHaskell"
+            },
+            {
+              "enable-extension": "MultiParamTypeClasses"
+            },
+            {
+              "enable-extension": "FlexibleInstances"
+            },
+            {
+              "enable-extension": "DeriveFunctor"
+            },
+            {
+              "enable-extension": "FunctionalDependencies"
+            },
+            {
+              "enable-extension": "LambdaCase"
+            },
+            {
+              "enable-extension": "ScopedTypeVariables"
+            }
+          ],
+          "otherExtensions": [],
+          "oldExtensions": [],
+          "extraLibs": [],
+          "extraGHCiLibs": [],
+          "extraBundledLibs": [],
+          "extraLibFlavours": [],
+          "extraDynLibFlavours": [],
+          "extraLibDirs": [],
+          "includeDirs": [],
+          "includes": [],
+          "autogenIncludes": [],
+          "installIncludes": [],
+          "options": [
+            [],
+            []
+          ],
+          "profOptions": [
+            [],
+            []
+          ],
+          "sharedOptions": [
+            [],
+            []
+          ],
+          "staticOptions": [
+            [],
+            []
+          ],
+          "customFieldsBI": [],
+          "targetBuildDepends": [
+            {
+              "package-name": "base",
+              "version-range": ">=4.6",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "bytestring",
+              "version-range": ">=0.10",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "binary",
+              "version-range": ">=0.7",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "binary-bits",
+              "version-range": ">=0.5",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "template-haskell",
+              "version-range": ">=2.8",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "mtl",
+              "version-range": ">=2.2.1",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "aeson",
+              "version-range": ">=0.8.0.2",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "text",
+              "version-range": ">=1.2.0.4",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "unordered-containers",
+              "version-range": ">=0.2.5.1",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "data-default-class",
+              "version-range": ">=0.0.1",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "transformers",
+              "version-range": ">=0.4.2.0",
+              "library": [
+                {}
+              ]
+            }
+          ],
+          "mixins": []
+        }
+      },
+      "condTreeConstraints": [
+        {
+          "package-name": "base",
+          "version-range": ">=4.6",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "bytestring",
+          "version-range": ">=0.10",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "binary",
+          "version-range": ">=0.7",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "binary-bits",
+          "version-range": ">=0.5",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "template-haskell",
+          "version-range": ">=2.8",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "mtl",
+          "version-range": ">=2.2.1",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "aeson",
+          "version-range": ">=0.8.0.2",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "text",
+          "version-range": ">=1.2.0.4",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "unordered-containers",
+          "version-range": ">=0.2.5.1",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "data-default-class",
+          "version-range": ">=0.0.1",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "transformers",
+          "version-range": ">=0.4.2.0",
+          "library": [
+            {}
+          ]
+        }
+      ],
+      "condTreeComponents": []
+    }
+  }
+}

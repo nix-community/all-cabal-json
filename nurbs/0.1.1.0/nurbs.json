@@ -1,0 +1,391 @@
+{
+  "description": {
+    "spec-version": {
+      "Right": ">=1.10"
+    },
+    "package": {
+      "name": "nurbs",
+      "version": [
+        0,
+        1,
+        1,
+        0
+      ]
+    },
+    "license": {
+      "Right": "BSD3"
+    },
+    "license-files": [
+      "LICENSE"
+    ],
+    "copyright": "",
+    "maintainer": "voidex@live.com",
+    "author": "Alexanrd `voidex` Ruchkin",
+    "stability": "",
+    "tested-with": [],
+    "homepage": "https://github.com/mvoidex/nurbs",
+    "pkg-url": "",
+    "bug-reports": "",
+    "source-repos": [
+      {
+        "kind": {},
+        "type": "Git",
+        "location": "git://github.com/mvoidex/nurbs",
+        "module": null,
+        "branch": null,
+        "tag": null,
+        "subdir": null
+      }
+    ],
+    "synopsis": "NURBS",
+    "description": "Simple NURBS library with support of NURBS, periodic NURBS, knot insertion-removal, NURBS split-joint\n\n> import Control.Lens\n> import Linear.NURBS\n> import Linear.V2\n> import Test.Hspec\n>\n> -- | Simple NURBS of degree 3\n> test₁ ∷ NURBS V2 Double\n> test₁ = nurbs 3 [\n>   V2 0.0 0.0,\n>   V2 10.0 0.0,\n>   V2 10.0 10.0,\n>   V2 20.0 20.0,\n>   V2 0.0 20.0,\n>   V2 (-20.0) 0.0]\n>\n> -- | Another NURBS of degree 3\n> test₂ ∷ NURBS V2 Double\n> test₂ = nurbs 3 [\n>   V2 (-20.0) 0.0,\n>   V2 (-20.0) (-20.0),\n>   V2 0.0 (-40.0),\n>   V2 20.0 20.0]\n>\n> -- | Make test₁ periodic\n> testₒ ∷ NURBS V2 Double\n> testₒ = set periodic True test₁\n>\n> main ∷ IO ()\n> main = hspec $ do\n>   describe \"evaluate point\" $ do\n>     it \"should start from first control point\" $\n>       (test₁ `eval` 0.0) ≃ (test₁ ^?! wpoints . _head . wpoint)\n>     it \"should end at last control point\" $\n>       (test₁ `eval` 1.0) ≃ (test₁ ^?! wpoints . _last . wpoint)\n>   describe \"insert knot\" $ do\n>     it \"should not change nurbs curve\" $\n>       insertKnots [(1, 0.1), (2, 0.3)] test₁ ≃ test₁\n>   describe \"remove knots\" $ do\n>     it \"should not change nurbs curve\" $\n>       removeKnots [(1, 0.1), (2, 0.3)] (insertKnots [(1, 0.1), (2, 0.3)] test₁) ≃ test₁\n>   describe \"purge knots\" $ do\n>     it \"should not change nurbs curve\" $\n>       purgeKnots (insertKnots [(1, 0.1), (2, 0.6)] test₁) ≃ test₁\n>   describe \"split\" $ do\n>     it \"should work as cut\" $\n>       snd (split 0.4 test₁) ≃ cut (Span 0.4 1.0) test₁\n>   describe \"normalize\" $ do\n>     it \"should not affect curve\" $\n>       cut (Span 0.2 0.8) test₁ ≃ normalizeKnot (cut (Span 0.2 0.8) test₁)\n>   describe \"joint\" $ do\n>     it \"should joint cutted nurbs\" $\n>       uncurry joint (split 0.3 test₁) ≃ Just test₁\n>     it \"should cut jointed nurbs\" $\n>       (cut (Span 0.0 1.0) <$> (test₁ ⊕ test₂)) ≃ Just test₁\n>     it \"should cut jointed nurbs\" $\n>       (cut (Span 1.0 2.0) <$> (test₁ ⊕ test₂)) ≃ Just test₂\n>   describe \"periodic\" $ do\n>     it \"can be broken into simple nurbs\" $\n>       breakLoop 0.0 testₒ ≃ testₒ\n>     it \"can be broken in any place\" $\n>       uncurry (flip (⊕)) (split 0.5 (breakLoop 0.0 testₒ)) ≃ Just (breakLoop 0.5 testₒ)",
+    "category": "Math, Geometry, Linear Algebra",
+    "custom-fields": [
+      [
+        "x-revision",
+        "1"
+      ]
+    ],
+    "build-type-raw": "Simple",
+    "custom-setup": null,
+    "library": null,
+    "sublibraries": [],
+    "executables": [],
+    "foreign-libs": [],
+    "test-suites": [],
+    "benchmarks": [],
+    "data-files": [],
+    "data-dir": ".",
+    "extra-source-files": [],
+    "extra-tmp-files": [],
+    "extra-doc-files": []
+  },
+  "library": {
+    "condTreeData": {
+      "name": {},
+      "exposed-modules": [
+        [
+          "Linear",
+          "NURBS"
+        ],
+        [
+          "Linear",
+          "NURBS",
+          "Types"
+        ]
+      ],
+      "re-exported-modules": [],
+      "signatures": [],
+      "exposed": true,
+      "visibility": "LibraryVisibilityPublic",
+      "build-info": {
+        "buildable": true,
+        "buildTools": [],
+        "buildToolDepends": [],
+        "cppOptions": [],
+        "asmOptions": [],
+        "cmmOptions": [],
+        "ccOptions": [],
+        "cxxOptions": [],
+        "ldOptions": [],
+        "pkgconfigDepends": [],
+        "frameworks": [],
+        "extraFrameworkDirs": [],
+        "asmSources": [],
+        "cmmSources": [],
+        "cSources": [],
+        "cxxSources": [],
+        "jsSources": [],
+        "hsSourceDirs": [
+          "src"
+        ],
+        "otherModules": [],
+        "virtualModules": [],
+        "autogenModules": [],
+        "defaultLanguage": "Haskell2010",
+        "otherLanguages": [],
+        "defaultExtensions": [
+          {
+            "enable-extension": "UnicodeSyntax"
+          }
+        ],
+        "otherExtensions": [],
+        "oldExtensions": [],
+        "extraLibs": [],
+        "extraGHCiLibs": [],
+        "extraBundledLibs": [],
+        "extraLibFlavours": [],
+        "extraDynLibFlavours": [],
+        "extraLibDirs": [],
+        "includeDirs": [],
+        "includes": [],
+        "autogenIncludes": [],
+        "installIncludes": [],
+        "options": [
+          [
+            "-threaded",
+            "-Wall",
+            "-fno-warn-tabs"
+          ],
+          []
+        ],
+        "profOptions": [
+          [],
+          []
+        ],
+        "sharedOptions": [
+          [],
+          []
+        ],
+        "staticOptions": [
+          [],
+          []
+        ],
+        "customFieldsBI": [],
+        "targetBuildDepends": [
+          {
+            "package-name": "base",
+            "version-range": ">=4.8 && <5",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "base-unicode-symbols",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "lens",
+            "version-range": ">=4.12",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "linear",
+            "version-range": ">=1.19",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "mtl",
+            "version-range": ">=2.2",
+            "library": [
+              {}
+            ]
+          }
+        ],
+        "mixins": []
+      }
+    },
+    "condTreeConstraints": [
+      {
+        "package-name": "base",
+        "version-range": ">=4.8 && <5",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "base-unicode-symbols",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "lens",
+        "version-range": ">=4.12",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "linear",
+        "version-range": ">=1.19",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "mtl",
+        "version-range": ">=2.2",
+        "library": [
+          {}
+        ]
+      }
+    ],
+    "condTreeComponents": []
+  },
+  "test-suites": {
+    "test": {
+      "condTreeData": {
+        "name": "",
+        "interface": {
+          "version": [
+            1,
+            0
+          ],
+          "filepath": "Test.hs"
+        },
+        "build-info": {
+          "buildable": true,
+          "buildTools": [],
+          "buildToolDepends": [],
+          "cppOptions": [],
+          "asmOptions": [],
+          "cmmOptions": [],
+          "ccOptions": [],
+          "cxxOptions": [],
+          "ldOptions": [],
+          "pkgconfigDepends": [],
+          "frameworks": [],
+          "extraFrameworkDirs": [],
+          "asmSources": [],
+          "cmmSources": [],
+          "cSources": [],
+          "cxxSources": [],
+          "jsSources": [],
+          "hsSourceDirs": [
+            "tests"
+          ],
+          "otherModules": [],
+          "virtualModules": [],
+          "autogenModules": [],
+          "defaultLanguage": "Haskell2010",
+          "otherLanguages": [],
+          "defaultExtensions": [
+            {
+              "enable-extension": "UnicodeSyntax"
+            }
+          ],
+          "otherExtensions": [],
+          "oldExtensions": [],
+          "extraLibs": [],
+          "extraGHCiLibs": [],
+          "extraBundledLibs": [],
+          "extraLibFlavours": [],
+          "extraDynLibFlavours": [],
+          "extraLibDirs": [],
+          "includeDirs": [],
+          "includes": [],
+          "autogenIncludes": [],
+          "installIncludes": [],
+          "options": [
+            [
+              "-fno-warn-tabs"
+            ],
+            []
+          ],
+          "profOptions": [
+            [],
+            []
+          ],
+          "sharedOptions": [
+            [],
+            []
+          ],
+          "staticOptions": [
+            [],
+            []
+          ],
+          "customFieldsBI": [],
+          "targetBuildDepends": [
+            {
+              "package-name": "base",
+              "version-range": ">=4.8 && <5",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "base-unicode-symbols",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "lens",
+              "version-range": ">=4.12",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "linear",
+              "version-range": ">=1.19",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "hspec",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "nurbs",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            }
+          ],
+          "mixins": []
+        }
+      },
+      "condTreeConstraints": [
+        {
+          "package-name": "base",
+          "version-range": ">=4.8 && <5",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "base-unicode-symbols",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "lens",
+          "version-range": ">=4.12",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "linear",
+          "version-range": ">=1.19",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "hspec",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "nurbs",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        }
+      ],
+      "condTreeComponents": []
+    }
+  }
+}

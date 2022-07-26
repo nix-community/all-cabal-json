@@ -1,0 +1,757 @@
+{
+  "description": {
+    "spec-version": {
+      "Left": [
+        2,
+        2
+      ]
+    },
+    "package": {
+      "name": "json-tokens",
+      "version": [
+        0,
+        1,
+        0,
+        0
+      ]
+    },
+    "license": {
+      "Left": {
+        "license-expression": {
+          "expression": {
+            "id": "BSD_3_Clause"
+          },
+          "exception-id": null
+        }
+      }
+    },
+    "license-files": [
+      "LICENSE"
+    ],
+    "copyright": "2019 Andrew Martin",
+    "maintainer": "andrew.thaddeus@gmail.com",
+    "author": "Andrew Martin",
+    "stability": "",
+    "tested-with": [],
+    "homepage": "https://github.com/andrewthad/json-tokens",
+    "pkg-url": "",
+    "bug-reports": "https://github.com/andrewthad/json-tokens/issues",
+    "source-repos": [],
+    "synopsis": "Tokenize JSON",
+    "description": "Convert JSON to a token stream. This libary focuses on\nhigh performance and minimal allocations. This library\nis distinguished from `aeson` in the following ways:\n\n* In `aeson`, `decode` parses JSON by building an AST\nthat resembles the ABNF given in RFC 7159. Notably,\nthis converts every JSON `object` to a `HashMap`.\n(This choice of intermediate data structure may not\nbe appropritae depending on how the user wants to\ninterpret the `object`). By constrast, `json-tokens`\nconverts a document to a token sequence.\n\n* For numbers, `aeson` uses `scientific`, but `json-tokens`\nuses `scientific-notation`. Although `scientific` and\n`scientific-notation` have similar APIs, `scientific-notation`\nincludes a parser that is about 4x faster and conversion\nfunctions that are 10x faster than those found in\n`scientific` and `aeson`.\n\n* For text, `aeson` uses the UTF-16-backed `text` library,\nbut `json-tokens` uses the UTF-8-backed `text-short`\nlibrary.\n\n* Parsing is resumable in `aeson`, which uses `attoparsec`,\nbut not in `json-tokens`, which uses `bytesmith`.\n\n* In `aeson`, all batteries are included. In particular,\nthe combination of typeclasses and GHC Generics\n(or Template Haskell) make it possible to elide lots of\nboilerplate. None of these are included in `json-tokens`.\n\nThe difference in design decisions means that solutions using\n`json-tokens` are able to decode JSON twice as fast as\nsolutions with `aeson. In the `zeek-json` benchmark suite,\na `json-tokens`-based decoding outperforms `aeson`'s `decode`\nby a factor of two. This speed comes at a cost. Users must\nwrite more code to use `json-tokens` than they do for `aeson`.\nIf high-throughput parsing of small JSON documents is paramount,\nthis cost may be worth bearing. It is always possible to go a\nstep further and forego tokenization entirely, parsing the\ndesired Haskell data type directly from a byte sequence. Doing this\nin a low-allocation way while retaining both the ability the\nhandle JSON `object` keys in any order and the ability to handle\nescape sequences in `object` keys is fiendishly difficult. Kudos\nto the brave soul that goes down that path. For the rest of us,\n`json-tokens` is a compromise worth considering.",
+    "category": "Data",
+    "custom-fields": [],
+    "build-type-raw": null,
+    "custom-setup": null,
+    "library": null,
+    "sublibraries": [],
+    "executables": [],
+    "foreign-libs": [],
+    "test-suites": [],
+    "benchmarks": [],
+    "data-files": [],
+    "data-dir": ".",
+    "extra-source-files": [
+      "CHANGELOG.md"
+    ],
+    "extra-tmp-files": [],
+    "extra-doc-files": []
+  },
+  "library": {
+    "condTreeData": {
+      "name": {},
+      "exposed-modules": [
+        [
+          "Json",
+          "Token"
+        ]
+      ],
+      "re-exported-modules": [],
+      "signatures": [],
+      "exposed": true,
+      "visibility": "LibraryVisibilityPublic",
+      "build-info": {
+        "buildable": true,
+        "buildTools": [],
+        "buildToolDepends": [],
+        "cppOptions": [],
+        "asmOptions": [],
+        "cmmOptions": [],
+        "ccOptions": [],
+        "cxxOptions": [],
+        "ldOptions": [],
+        "pkgconfigDepends": [],
+        "frameworks": [],
+        "extraFrameworkDirs": [],
+        "asmSources": [],
+        "cmmSources": [],
+        "cSources": [],
+        "cxxSources": [],
+        "jsSources": [],
+        "hsSourceDirs": [
+          "src"
+        ],
+        "otherModules": [],
+        "virtualModules": [],
+        "autogenModules": [],
+        "defaultLanguage": "Haskell2010",
+        "otherLanguages": [],
+        "defaultExtensions": [],
+        "otherExtensions": [],
+        "oldExtensions": [],
+        "extraLibs": [],
+        "extraGHCiLibs": [],
+        "extraBundledLibs": [],
+        "extraLibFlavours": [],
+        "extraDynLibFlavours": [],
+        "extraLibDirs": [],
+        "includeDirs": [],
+        "includes": [],
+        "autogenIncludes": [],
+        "installIncludes": [],
+        "options": [
+          [
+            "-Wall",
+            "-O2"
+          ],
+          []
+        ],
+        "profOptions": [
+          [],
+          []
+        ],
+        "sharedOptions": [
+          [],
+          []
+        ],
+        "staticOptions": [
+          [],
+          []
+        ],
+        "customFieldsBI": [],
+        "targetBuildDepends": [
+          {
+            "package-name": "base",
+            "version-range": ">=4.12 && <5",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "bytestring",
+            "version-range": ">=0.10.8 && <0.11",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "array-builder",
+            "version-range": ">=0.1 && <0.2",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "text-short",
+            "version-range": ">=0.1.3 && <0.2",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "bytesmith",
+            "version-range": ">=0.2 && <0.3",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "primitive",
+            "version-range": ">=0.7 && <0.8",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "byteslice",
+            "version-range": ">=0.1.3 && <0.2",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "array-chunks",
+            "version-range": ">=0.1.1 && <0.2",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "scientific-notation",
+            "version-range": ">=0.1 && <0.2",
+            "library": [
+              {}
+            ]
+          }
+        ],
+        "mixins": []
+      }
+    },
+    "condTreeConstraints": [
+      {
+        "package-name": "base",
+        "version-range": ">=4.12 && <5",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "bytestring",
+        "version-range": ">=0.10.8 && <0.11",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "array-builder",
+        "version-range": ">=0.1 && <0.2",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "text-short",
+        "version-range": ">=0.1.3 && <0.2",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "bytesmith",
+        "version-range": ">=0.2 && <0.3",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "primitive",
+        "version-range": ">=0.7 && <0.8",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "byteslice",
+        "version-range": ">=0.1.3 && <0.2",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "array-chunks",
+        "version-range": ">=0.1.1 && <0.2",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "scientific-notation",
+        "version-range": ">=0.1 && <0.2",
+        "library": [
+          {}
+        ]
+      }
+    ],
+    "condTreeComponents": []
+  },
+  "test-suites": {
+    "test": {
+      "condTreeData": {
+        "name": "",
+        "interface": {
+          "version": [
+            1,
+            0
+          ],
+          "filepath": "Main.hs"
+        },
+        "build-info": {
+          "buildable": true,
+          "buildTools": [],
+          "buildToolDepends": [],
+          "cppOptions": [],
+          "asmOptions": [],
+          "cmmOptions": [],
+          "ccOptions": [],
+          "cxxOptions": [],
+          "ldOptions": [],
+          "pkgconfigDepends": [],
+          "frameworks": [],
+          "extraFrameworkDirs": [],
+          "asmSources": [],
+          "cmmSources": [],
+          "cSources": [],
+          "cxxSources": [],
+          "jsSources": [],
+          "hsSourceDirs": [
+            "test",
+            "common"
+          ],
+          "otherModules": [
+            [
+              "Twitter1"
+            ],
+            [
+              "Twitter10"
+            ],
+            [
+              "Twitter100"
+            ]
+          ],
+          "virtualModules": [],
+          "autogenModules": [],
+          "defaultLanguage": "Haskell2010",
+          "otherLanguages": [],
+          "defaultExtensions": [],
+          "otherExtensions": [],
+          "oldExtensions": [],
+          "extraLibs": [],
+          "extraGHCiLibs": [],
+          "extraBundledLibs": [],
+          "extraLibFlavours": [],
+          "extraDynLibFlavours": [],
+          "extraLibDirs": [],
+          "includeDirs": [],
+          "includes": [],
+          "autogenIncludes": [],
+          "installIncludes": [],
+          "options": [
+            [
+              "-Wall",
+              "-O2"
+            ],
+            []
+          ],
+          "profOptions": [
+            [],
+            []
+          ],
+          "sharedOptions": [
+            [],
+            []
+          ],
+          "staticOptions": [
+            [],
+            []
+          ],
+          "customFieldsBI": [],
+          "targetBuildDepends": [
+            {
+              "package-name": "QuickCheck",
+              "version-range": ">=2.13.1 && <2.14",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "base",
+              "version-range": ">=4.12.0.0 && <5",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "byteslice",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "bytestring",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "json-tokens",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "neat-interpolation",
+              "version-range": ">=0.3.2",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "primitive",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "scientific-notation",
+              "version-range": ">=0.1",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "small-bytearray-builder",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "tasty",
+              "version-range": ">=1.2.3 && <1.3",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "tasty-hunit",
+              "version-range": ">=0.10.0.2 && <0.11",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "text",
+              "version-range": ">=1.2",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "vector",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            }
+          ],
+          "mixins": []
+        }
+      },
+      "condTreeConstraints": [
+        {
+          "package-name": "QuickCheck",
+          "version-range": ">=2.13.1 && <2.14",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "base",
+          "version-range": ">=4.12.0.0 && <5",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "byteslice",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "bytestring",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "json-tokens",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "neat-interpolation",
+          "version-range": ">=0.3.2",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "primitive",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "scientific-notation",
+          "version-range": ">=0.1",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "small-bytearray-builder",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "tasty",
+          "version-range": ">=1.2.3 && <1.3",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "tasty-hunit",
+          "version-range": ">=0.10.0.2 && <0.11",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "text",
+          "version-range": ">=1.2",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "vector",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        }
+      ],
+      "condTreeComponents": []
+    }
+  },
+  "benchmarks": {
+    "bench": {
+      "condTreeData": {
+        "name": "",
+        "interface": {
+          "version": [
+            1,
+            0
+          ],
+          "filepath": "Main.hs"
+        },
+        "build-info": {
+          "buildable": true,
+          "buildTools": [],
+          "buildToolDepends": [],
+          "cppOptions": [],
+          "asmOptions": [],
+          "cmmOptions": [],
+          "ccOptions": [],
+          "cxxOptions": [],
+          "ldOptions": [],
+          "pkgconfigDepends": [],
+          "frameworks": [],
+          "extraFrameworkDirs": [],
+          "asmSources": [],
+          "cmmSources": [],
+          "cSources": [],
+          "cxxSources": [],
+          "jsSources": [],
+          "hsSourceDirs": [
+            "bench",
+            "common"
+          ],
+          "otherModules": [
+            [
+              "Twitter1"
+            ],
+            [
+              "Twitter10"
+            ],
+            [
+              "Twitter100"
+            ]
+          ],
+          "virtualModules": [],
+          "autogenModules": [],
+          "defaultLanguage": "Haskell2010",
+          "otherLanguages": [],
+          "defaultExtensions": [],
+          "otherExtensions": [],
+          "oldExtensions": [],
+          "extraLibs": [],
+          "extraGHCiLibs": [],
+          "extraBundledLibs": [],
+          "extraLibFlavours": [],
+          "extraDynLibFlavours": [],
+          "extraLibDirs": [],
+          "includeDirs": [],
+          "includes": [],
+          "autogenIncludes": [],
+          "installIncludes": [],
+          "options": [
+            [
+              "-Wall",
+              "-O2"
+            ],
+            []
+          ],
+          "profOptions": [
+            [],
+            []
+          ],
+          "sharedOptions": [
+            [],
+            []
+          ],
+          "staticOptions": [
+            [],
+            []
+          ],
+          "customFieldsBI": [],
+          "targetBuildDepends": [
+            {
+              "package-name": "base",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "byteslice",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "bytestring",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "gauge",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "json-tokens",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "neat-interpolation",
+              "version-range": ">=0.3.2",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "primitive",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "text",
+              "version-range": ">=1.2",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "scientific-notation",
+              "version-range": ">=0.1",
+              "library": [
+                {}
+              ]
+            }
+          ],
+          "mixins": []
+        }
+      },
+      "condTreeConstraints": [
+        {
+          "package-name": "base",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "byteslice",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "bytestring",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "gauge",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "json-tokens",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "neat-interpolation",
+          "version-range": ">=0.3.2",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "primitive",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "text",
+          "version-range": ">=1.2",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "scientific-notation",
+          "version-range": ">=0.1",
+          "library": [
+            {}
+          ]
+        }
+      ],
+      "condTreeComponents": []
+    }
+  }
+}

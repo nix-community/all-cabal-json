@@ -1,0 +1,160 @@
+{
+  "description": {
+    "spec-version": {
+      "Right": ">=1.10"
+    },
+    "package": {
+      "name": "ungadtagger",
+      "version": [
+        1,
+        0,
+        0
+      ]
+    },
+    "license": {
+      "Right": "BSD3"
+    },
+    "license-files": [
+      "LICENSE"
+    ],
+    "copyright": "(c) 2012 Andriy Polishchuk",
+    "maintainer": "Andriy Polishchuk <andriy.s.polishchuk@gmail.com>",
+    "author": "Andriy Polishchuk",
+    "stability": "",
+    "tested-with": [],
+    "homepage": "http://github.com/andriyp/ungadtagger",
+    "pkg-url": "",
+    "bug-reports": "http://github.com/andriyp/ungadtagger/issues",
+    "source-repos": [
+      {
+        "kind": {},
+        "type": "Git",
+        "location": "git://github.com/andriyp/ungadtagger.git",
+        "module": null,
+        "branch": null,
+        "tag": null,
+        "subdir": null
+      }
+    ],
+    "synopsis": "Abstract GADTs from typelevel tags",
+    "description": "UnGADTagger encapsulates abstraction-from-GADT-tag workflow by utilizing existentials, rank2-types and kind polymorphism.\n\nAn example:\n\n> # LANGUAGE GADTs, DataKinds, KindSignatures, LambdaCase #\n>\n> import Data.GADT.Untagged\n>\n> data Tag = A | B\n>\n> data Gadt :: Tag -> * where\n>   ConA :: String   -> Gadt A\n>   ConB :: [Gadt A] -> Gadt B\n>   ConC :: Integer  -> Gadt B\n>\n> foo :: something -> [Untagged Gadt] -> String\n> foo _ = quux\n>   where\n>     quux  = concat . map baz\n>     baz x = match x $ \\case\n>       ConA s  -> s\n>       ConB xs -> quux (map untag xs)\n>       ConC i  -> show i\n>\n> test = foo \"some cfg for e.g.\" (xs ++ ys)\n>   where\n>     xs = map untag [ConA \"A1..\", ConA \"A2..\"]\n>     ys = map untag [ConB [ConA \"A3..\"], ConC 456]\n>\n> -- > \"A1..A2..A3..456\"\n",
+    "category": "Data",
+    "custom-fields": [],
+    "build-type-raw": "Simple",
+    "custom-setup": null,
+    "library": null,
+    "sublibraries": [],
+    "executables": [],
+    "foreign-libs": [],
+    "test-suites": [],
+    "benchmarks": [],
+    "data-files": [],
+    "data-dir": ".",
+    "extra-source-files": [],
+    "extra-tmp-files": [],
+    "extra-doc-files": []
+  },
+  "library": {
+    "condTreeData": {
+      "name": {},
+      "exposed-modules": [
+        [
+          "Data",
+          "GADT",
+          "Untagged"
+        ]
+      ],
+      "re-exported-modules": [],
+      "signatures": [],
+      "exposed": true,
+      "visibility": "LibraryVisibilityPublic",
+      "build-info": {
+        "buildable": true,
+        "buildTools": [],
+        "buildToolDepends": [],
+        "cppOptions": [],
+        "asmOptions": [],
+        "cmmOptions": [],
+        "ccOptions": [],
+        "cxxOptions": [],
+        "ldOptions": [],
+        "pkgconfigDepends": [],
+        "frameworks": [],
+        "extraFrameworkDirs": [],
+        "asmSources": [],
+        "cmmSources": [],
+        "cSources": [],
+        "cxxSources": [],
+        "jsSources": [],
+        "hsSourceDirs": [
+          "src"
+        ],
+        "otherModules": [],
+        "virtualModules": [],
+        "autogenModules": [],
+        "defaultLanguage": "Haskell2010",
+        "otherLanguages": [],
+        "defaultExtensions": [],
+        "otherExtensions": [
+          {
+            "enable-extension": "ExistentialQuantification"
+          },
+          {
+            "enable-extension": "Rank2Types"
+          }
+        ],
+        "oldExtensions": [],
+        "extraLibs": [],
+        "extraGHCiLibs": [],
+        "extraBundledLibs": [],
+        "extraLibFlavours": [],
+        "extraDynLibFlavours": [],
+        "extraLibDirs": [],
+        "includeDirs": [],
+        "includes": [],
+        "autogenIncludes": [],
+        "installIncludes": [],
+        "options": [
+          [
+            "-Wall",
+            "-fwarn-tabs"
+          ],
+          []
+        ],
+        "profOptions": [
+          [],
+          []
+        ],
+        "sharedOptions": [
+          [],
+          []
+        ],
+        "staticOptions": [
+          [],
+          []
+        ],
+        "customFieldsBI": [],
+        "targetBuildDepends": [
+          {
+            "package-name": "base",
+            "version-range": ">=4 && <5",
+            "library": [
+              {}
+            ]
+          }
+        ],
+        "mixins": []
+      }
+    },
+    "condTreeConstraints": [
+      {
+        "package-name": "base",
+        "version-range": ">=4 && <5",
+        "library": [
+          {}
+        ]
+      }
+    ],
+    "condTreeComponents": []
+  }
+}

@@ -1,0 +1,331 @@
+{
+  "description": {
+    "spec-version": {
+      "Right": ">=1.10"
+    },
+    "package": {
+      "name": "ghcjs-websockets",
+      "version": [
+        0,
+        3,
+        0,
+        3
+      ]
+    },
+    "license": {
+      "Right": "MIT"
+    },
+    "license-files": [
+      "LICENSE"
+    ],
+    "copyright": "Copyright (c) Justin Le 2015",
+    "maintainer": "Justin Le <justin@jle.im>",
+    "author": "Justin Le <justin@jle.im>",
+    "stability": "",
+    "tested-with": [],
+    "homepage": "http://github.com/mstksg/ghcjs-websockets",
+    "pkg-url": "",
+    "bug-reports": "",
+    "source-repos": [
+      {
+        "kind": {},
+        "type": "Git",
+        "location": "https://github.com/mstksg/ghcjs-websockets",
+        "module": null,
+        "branch": null,
+        "tag": null,
+        "subdir": null
+      }
+    ],
+    "synopsis": "GHCJS interface for the Javascript Websocket API",
+    "description": "Documentation online at\n<http://mstksg.github.io/ghcjs-websockets/JavaScript-WebSockets.html>\n\n'ghcjs-websockets' aims to provide a clean, idiomatic,\nefficient, low-level, out-of-your-way, bare bones,\nconcurrency-aware interface with minimal abstractions\nover the Javascript Websockets API\n<http://www.w3.org/TR/websockets/>,\ninspired by common Haskell idioms found in libraries like\n'io-stream'\n<http://hackage.haskell.org/package/io-streams> and the\nserver-side 'websockets'\n<http://hackage.haskell.org/package/websockets> library,\ntargeting compilation to Javascript with 'ghcjs'.\n\nThe interface asbtracts websockets as simple IO/file\nhandles, with additional access to the natively \"typed\"\n(text vs binary) nature of the Javascript Websockets API.\nThere are also convenience functions to directly decode\nserialized data (serialized with 'binary'\n<http://hackage.haskell.org/package/binary>) sent through\nchannels.\n\nThe library is mostly intended to be a low-level FFI\nlibrary, with the hopes that other, more advanced\nlibraries maybe build on the low-level FFI bindings in\norder to provide more advanced and powerful abstractions.\nMost design decisions were made with the intent of\nkeeping things as simple as possible in order for future\nlibraries to abstract over it.\n\nMost of the necessary functionality is in hopefully in\n'JavaScript.WebSockets'; more of the low-level API is\nexposed in 'JavaScript.WebSockets.Internal' if you need\nit for library construction.\n\nSee the 'JavaScript.WebSockets' module for detailed usage\ninstructions and examples.\n\nSome examples:\n\n> import Data.Text (unpack)\n>\n> -- A simple echo client, echoing all incoming text data\n> main :: IO ()\n> main = withUrl \"ws://my-server.com\" $ \\conn ->\n>     forever $ do\n>         t <- receiveText conn\n>         putStrLn (unpack t)\n>         sendText conn t\n\n> -- A simple client waiting for connections and outputting the running sum\n> main :: IO ()\n> main = withUrl \"ws://my-server.com\" (runningSum 0)\n>\n> runningSum :: Int -> Connection -> IO ()\n> runningSum n conn = do\n>     i <- receiveData conn\n>     print (n + i)\n>     runningSum (n + i) conn\n\n> -- Act as a relay between two servers\n> main :: IO ()\n> main = do\n>     conn1 <- openConnection \"ws://server-1.com\"\n>     conn2 <- openConnection \"ws://server-2.com\"\n>     forever $ do\n>         msg <- receiveMessage conn1\n>         sendMessage conn2 msg\n>     closeConnection conn2\n>     closeConnection conn1",
+    "category": "Web",
+    "custom-fields": [],
+    "build-type-raw": "Simple",
+    "custom-setup": null,
+    "library": null,
+    "sublibraries": [],
+    "executables": [],
+    "foreign-libs": [],
+    "test-suites": [],
+    "benchmarks": [],
+    "data-files": [],
+    "data-dir": ".",
+    "extra-source-files": [
+      "CHANGELOG.md",
+      "README.md"
+    ],
+    "extra-tmp-files": [],
+    "extra-doc-files": []
+  },
+  "package-flags": [
+    {
+      "name": "ghcjs",
+      "description": "Tell cabal we are using ghcjs (work around until hackage supports impl(ghcjs))",
+      "default": true,
+      "manual": false
+    }
+  ],
+  "library": {
+    "condTreeData": {
+      "name": {},
+      "exposed-modules": [
+        [
+          "JavaScript",
+          "WebSockets"
+        ],
+        [
+          "JavaScript",
+          "WebSockets",
+          "Internal"
+        ]
+      ],
+      "re-exported-modules": [],
+      "signatures": [],
+      "exposed": true,
+      "visibility": "LibraryVisibilityPublic",
+      "build-info": {
+        "buildable": true,
+        "buildTools": [],
+        "buildToolDepends": [],
+        "cppOptions": [],
+        "asmOptions": [],
+        "cmmOptions": [],
+        "ccOptions": [],
+        "cxxOptions": [],
+        "ldOptions": [],
+        "pkgconfigDepends": [],
+        "frameworks": [],
+        "extraFrameworkDirs": [],
+        "asmSources": [],
+        "cmmSources": [],
+        "cSources": [],
+        "cxxSources": [],
+        "jsSources": [],
+        "hsSourceDirs": [
+          "src"
+        ],
+        "otherModules": [
+          [
+            "JavaScript",
+            "Blob"
+          ],
+          [
+            "JavaScript",
+            "WebSockets",
+            "FFI"
+          ],
+          [
+            "JavaScript",
+            "NoGHCJS"
+          ]
+        ],
+        "virtualModules": [],
+        "autogenModules": [],
+        "defaultLanguage": "Haskell2010",
+        "otherLanguages": [],
+        "defaultExtensions": [],
+        "otherExtensions": [],
+        "oldExtensions": [],
+        "extraLibs": [],
+        "extraGHCiLibs": [],
+        "extraBundledLibs": [],
+        "extraLibFlavours": [],
+        "extraDynLibFlavours": [],
+        "extraLibDirs": [],
+        "includeDirs": [],
+        "includes": [],
+        "autogenIncludes": [],
+        "installIncludes": [],
+        "options": [
+          [
+            "-Wall"
+          ],
+          []
+        ],
+        "profOptions": [
+          [],
+          []
+        ],
+        "sharedOptions": [
+          [],
+          []
+        ],
+        "staticOptions": [
+          [],
+          []
+        ],
+        "customFieldsBI": [],
+        "targetBuildDepends": [
+          {
+            "package-name": "base",
+            "version-range": ">=4.7 && <5",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "base64-bytestring",
+            "version-range": ">=1",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "binary",
+            "version-range": ">=0.7",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "bytestring",
+            "version-range": ">=0.10",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "text",
+            "version-range": ">=1",
+            "library": [
+              {}
+            ]
+          }
+        ],
+        "mixins": []
+      }
+    },
+    "condTreeConstraints": [
+      {
+        "package-name": "base",
+        "version-range": ">=4.7 && <5",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "base64-bytestring",
+        "version-range": ">=1",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "binary",
+        "version-range": ">=0.7",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "bytestring",
+        "version-range": ">=0.10",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "text",
+        "version-range": ">=1",
+        "library": [
+          {}
+        ]
+      }
+    ],
+    "condTreeComponents": [
+      {
+        "condBranchCondition": {
+          "v": {
+            "flag": "ghcjs"
+          }
+        },
+        "condBranchIfTrue": {
+          "condTreeData": {
+            "name": {},
+            "exposed-modules": [],
+            "re-exported-modules": [],
+            "signatures": [],
+            "exposed": true,
+            "visibility": "LibraryVisibilityPublic",
+            "build-info": {
+              "buildable": true,
+              "buildTools": [],
+              "buildToolDepends": [],
+              "cppOptions": [],
+              "asmOptions": [],
+              "cmmOptions": [],
+              "ccOptions": [],
+              "cxxOptions": [],
+              "ldOptions": [],
+              "pkgconfigDepends": [],
+              "frameworks": [],
+              "extraFrameworkDirs": [],
+              "asmSources": [],
+              "cmmSources": [],
+              "cSources": [],
+              "cxxSources": [],
+              "jsSources": [],
+              "hsSourceDirs": [],
+              "otherModules": [],
+              "virtualModules": [],
+              "autogenModules": [],
+              "defaultLanguage": null,
+              "otherLanguages": [],
+              "defaultExtensions": [],
+              "otherExtensions": [],
+              "oldExtensions": [],
+              "extraLibs": [],
+              "extraGHCiLibs": [],
+              "extraBundledLibs": [],
+              "extraLibFlavours": [],
+              "extraDynLibFlavours": [],
+              "extraLibDirs": [],
+              "includeDirs": [],
+              "includes": [],
+              "autogenIncludes": [],
+              "installIncludes": [],
+              "options": [
+                [],
+                []
+              ],
+              "profOptions": [
+                [],
+                []
+              ],
+              "sharedOptions": [
+                [],
+                []
+              ],
+              "staticOptions": [
+                [],
+                []
+              ],
+              "customFieldsBI": [],
+              "targetBuildDepends": [
+                {
+                  "package-name": "ghcjs-base",
+                  "version-range": ">=0.1",
+                  "library": [
+                    {}
+                  ]
+                }
+              ],
+              "mixins": []
+            }
+          },
+          "condTreeConstraints": [
+            {
+              "package-name": "ghcjs-base",
+              "version-range": ">=0.1",
+              "library": [
+                {}
+              ]
+            }
+          ],
+          "condTreeComponents": []
+        }
+      }
+    ]
+  }
+}

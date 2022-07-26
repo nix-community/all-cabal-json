@@ -1,0 +1,576 @@
+{
+  "description": {
+    "spec-version": {
+      "Right": ">=1.8"
+    },
+    "package": {
+      "name": "cctools-workqueue",
+      "version": [
+        3,
+        6,
+        1,
+        0,
+        1,
+        0,
+        0,
+        1
+      ]
+    },
+    "license": {
+      "Right": "OtherLicense"
+    },
+    "license-files": [
+      "LICENSE"
+    ],
+    "copyright": "",
+    "maintainer": "abdulwahidc@gmail.com",
+    "author": "Badi' Abdul-Wahid",
+    "stability": "",
+    "tested-with": [],
+    "homepage": "http://bitbucket.org/badi/hs-cctools-workqueue",
+    "pkg-url": "",
+    "bug-reports": "",
+    "source-repos": [
+      {
+        "kind": {},
+        "type": "Git",
+        "location": "git@bitbucket.org:badi/hs-cctools-workqueue.git",
+        "module": null,
+        "branch": null,
+        "tag": null,
+        "subdir": null
+      }
+    ],
+    "synopsis": "High-level interface to CCTools' WorkQueue library",
+    "description": "This package provides a high-level Haskell interface to the WorkQueue library:\n<http://www.nd.edu/~ccl/software/workqueue/>\n\n\nWork Queue is a framework for building large\nmaster-worker applications that span many\ncomputers including clusters, clouds, and\ngrids. Work Queue applications are written in C,\nPerl, or Python using a simple API that allows\nusers to define tasks, submit them to the queue,\nand wait for completion. Tasks are executed by a\nstandard worker process that can run on any\navailable machine. Each worker calls home to the\nmaster process, arranges for data transfer, and\nexecutes the tasks. Together, the master and\nworker handle a wide variety of failures,\nallowing for dynamically scalable and robust\napplications.\n\n<<http://www.nd.edu/~ccl/software/workqueue/wq-small.gif>>\n\n\nExample usage:\n\nBy default the master listens on 9123 on the localhost host.\nStart a worker:\n\n> $ work_queue_worker -d all localhost 9123\n\nNow we can execute the following master program:\n\n> module Main where\n>\n> import Control.Distributed.CCTools.WorkQueue\n>\n> import Control.Applicative ((<$>))\n> import qualified Data.ByteString.Char8 as BS (pack, putStrLn)\n> import Foreign.C.String (newCStringLen)\n> import Control.Monad (forM_)\n>\n>\n>\n> mktask :: Show a => a -> IO Task\n> mktask v = do\n>   let script = BS.pack . unlines $ [\n>               \"t=$(echo $RANDOM % 10 | bc)\"\n>             , \"sleep $t\"\n>             , \"echo \" ++ show v\n>             ]\n>   t <- task $ cmd \"bash script.sh\"\n>   specifyBuffer t script (remote \"script.sh\") False\n>   specifyTag    t $ show v\n>   return t\n>\n> printStats :: WorkQueue -> IO ()\n> printStats q = do\n>   s <- getStats q\n>   print $ map ($ s) [tasksRunning, tasksWaiting, tasksComplete]\n>\n> processResult :: WorkQueue -> Task -> IO ()\n> processResult q r = do\n>   putStrLn $ \"Got: \" ++ show (tag r)\n>   BS.putStrLn . output $ r\n>   delete r\n>\n> main = do\n>   setDebugFlags [All]\n>   q  <- workqueue defaultQParams\n>   ts <- mapM mktask [1..10]\n>   forM_ ts (submit q)\n>\n>   eventLoop q (seconds 1) printStats processResult\n>\n>   putStrLn \"Done!\"",
+    "category": "Distributed Computing",
+    "custom-fields": [],
+    "build-type-raw": "Simple",
+    "custom-setup": null,
+    "library": null,
+    "sublibraries": [],
+    "executables": [],
+    "foreign-libs": [],
+    "test-suites": [],
+    "benchmarks": [],
+    "data-files": [],
+    "data-dir": ".",
+    "extra-source-files": [],
+    "extra-tmp-files": [],
+    "extra-doc-files": []
+  },
+  "package-flags": [
+    {
+      "name": "warn",
+      "description": "Turn on warnings",
+      "default": false,
+      "manual": false
+    }
+  ],
+  "library": {
+    "condTreeData": {
+      "name": {},
+      "exposed-modules": [
+        [
+          "Control",
+          "Distributed",
+          "CCTools",
+          "WorkQueue",
+          "Task"
+        ],
+        [
+          "Control",
+          "Distributed",
+          "CCTools",
+          "WorkQueue",
+          "Types"
+        ],
+        [
+          "Control",
+          "Distributed",
+          "CCTools",
+          "WorkQueue",
+          "WorkQueue"
+        ],
+        [
+          "Control",
+          "Distributed",
+          "CCTools",
+          "WorkQueue",
+          "Debug"
+        ],
+        [
+          "Control",
+          "Distributed",
+          "CCTools",
+          "WorkQueue"
+        ]
+      ],
+      "re-exported-modules": [],
+      "signatures": [],
+      "exposed": true,
+      "visibility": "LibraryVisibilityPublic",
+      "build-info": {
+        "buildable": true,
+        "buildTools": [],
+        "buildToolDepends": [],
+        "cppOptions": [],
+        "asmOptions": [],
+        "cmmOptions": [],
+        "ccOptions": [],
+        "cxxOptions": [],
+        "ldOptions": [],
+        "pkgconfigDepends": [],
+        "frameworks": [],
+        "extraFrameworkDirs": [],
+        "asmSources": [],
+        "cmmSources": [],
+        "cSources": [],
+        "cxxSources": [],
+        "jsSources": [],
+        "hsSourceDirs": [],
+        "otherModules": [
+          [
+            "Control",
+            "Distributed",
+            "CCTools",
+            "WorkQueue",
+            "Internal",
+            "Cast"
+          ],
+          [
+            "Control",
+            "Distributed",
+            "CCTools",
+            "WorkQueue",
+            "Internal",
+            "Types"
+          ],
+          [
+            "Control",
+            "Distributed",
+            "CCTools",
+            "WorkQueue",
+            "Internal",
+            "CastInstances"
+          ],
+          [
+            "Control",
+            "Distributed",
+            "CCTools",
+            "WorkQueue",
+            "Internal",
+            "Task"
+          ],
+          [
+            "Control",
+            "Distributed",
+            "CCTools",
+            "WorkQueue",
+            "Internal",
+            "WorkQueue"
+          ],
+          [
+            "Control",
+            "Distributed",
+            "CCTools",
+            "WorkQueue",
+            "Internal",
+            "Debug"
+          ]
+        ],
+        "virtualModules": [],
+        "autogenModules": [],
+        "defaultLanguage": null,
+        "otherLanguages": [],
+        "defaultExtensions": [],
+        "otherExtensions": [],
+        "oldExtensions": [],
+        "extraLibs": [
+          "dttools"
+        ],
+        "extraGHCiLibs": [],
+        "extraBundledLibs": [],
+        "extraLibFlavours": [],
+        "extraDynLibFlavours": [],
+        "extraLibDirs": [],
+        "includeDirs": [],
+        "includes": [],
+        "autogenIncludes": [],
+        "installIncludes": [],
+        "options": [
+          [
+            "-O3",
+            "-funbox-strict-fields"
+          ],
+          []
+        ],
+        "profOptions": [
+          [],
+          []
+        ],
+        "sharedOptions": [
+          [],
+          []
+        ],
+        "staticOptions": [
+          [],
+          []
+        ],
+        "customFieldsBI": [],
+        "targetBuildDepends": [
+          {
+            "package-name": "bindings-cctools",
+            "version-range": "==3.6.1.0.1.*",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "lens",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "unix",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "bytestring",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "monad-loops",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          }
+        ],
+        "mixins": []
+      }
+    },
+    "condTreeConstraints": [
+      {
+        "package-name": "bindings-cctools",
+        "version-range": "==3.6.1.0.1.*",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "lens",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "unix",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "bytestring",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "monad-loops",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      }
+    ],
+    "condTreeComponents": [
+      {
+        "condBranchCondition": {
+          "v": {
+            "compiler": "GHC",
+            "version": "==7.4.*"
+          }
+        },
+        "condBranchIfTrue": {
+          "condTreeData": {
+            "name": {},
+            "exposed-modules": [],
+            "re-exported-modules": [],
+            "signatures": [],
+            "exposed": true,
+            "visibility": "LibraryVisibilityPublic",
+            "build-info": {
+              "buildable": true,
+              "buildTools": [],
+              "buildToolDepends": [],
+              "cppOptions": [],
+              "asmOptions": [],
+              "cmmOptions": [],
+              "ccOptions": [],
+              "cxxOptions": [],
+              "ldOptions": [],
+              "pkgconfigDepends": [],
+              "frameworks": [],
+              "extraFrameworkDirs": [],
+              "asmSources": [],
+              "cmmSources": [],
+              "cSources": [],
+              "cxxSources": [],
+              "jsSources": [],
+              "hsSourceDirs": [],
+              "otherModules": [],
+              "virtualModules": [],
+              "autogenModules": [],
+              "defaultLanguage": null,
+              "otherLanguages": [],
+              "defaultExtensions": [],
+              "otherExtensions": [],
+              "oldExtensions": [],
+              "extraLibs": [],
+              "extraGHCiLibs": [],
+              "extraBundledLibs": [],
+              "extraLibFlavours": [],
+              "extraDynLibFlavours": [],
+              "extraLibDirs": [],
+              "includeDirs": [],
+              "includes": [],
+              "autogenIncludes": [],
+              "installIncludes": [],
+              "options": [
+                [],
+                []
+              ],
+              "profOptions": [
+                [],
+                []
+              ],
+              "sharedOptions": [
+                [],
+                []
+              ],
+              "staticOptions": [
+                [],
+                []
+              ],
+              "customFieldsBI": [],
+              "targetBuildDepends": [
+                {
+                  "package-name": "base",
+                  "version-range": "==4.5.*",
+                  "library": [
+                    {}
+                  ]
+                }
+              ],
+              "mixins": []
+            }
+          },
+          "condTreeConstraints": [
+            {
+              "package-name": "base",
+              "version-range": "==4.5.*",
+              "library": [
+                {}
+              ]
+            }
+          ],
+          "condTreeComponents": []
+        }
+      },
+      {
+        "condBranchCondition": {
+          "v": {
+            "compiler": "GHC",
+            "version": "==7.6.*"
+          }
+        },
+        "condBranchIfTrue": {
+          "condTreeData": {
+            "name": {},
+            "exposed-modules": [],
+            "re-exported-modules": [],
+            "signatures": [],
+            "exposed": true,
+            "visibility": "LibraryVisibilityPublic",
+            "build-info": {
+              "buildable": true,
+              "buildTools": [],
+              "buildToolDepends": [],
+              "cppOptions": [],
+              "asmOptions": [],
+              "cmmOptions": [],
+              "ccOptions": [],
+              "cxxOptions": [],
+              "ldOptions": [],
+              "pkgconfigDepends": [],
+              "frameworks": [],
+              "extraFrameworkDirs": [],
+              "asmSources": [],
+              "cmmSources": [],
+              "cSources": [],
+              "cxxSources": [],
+              "jsSources": [],
+              "hsSourceDirs": [],
+              "otherModules": [],
+              "virtualModules": [],
+              "autogenModules": [],
+              "defaultLanguage": null,
+              "otherLanguages": [],
+              "defaultExtensions": [],
+              "otherExtensions": [],
+              "oldExtensions": [],
+              "extraLibs": [],
+              "extraGHCiLibs": [],
+              "extraBundledLibs": [],
+              "extraLibFlavours": [],
+              "extraDynLibFlavours": [],
+              "extraLibDirs": [],
+              "includeDirs": [],
+              "includes": [],
+              "autogenIncludes": [],
+              "installIncludes": [],
+              "options": [
+                [],
+                []
+              ],
+              "profOptions": [
+                [],
+                []
+              ],
+              "sharedOptions": [
+                [],
+                []
+              ],
+              "staticOptions": [
+                [],
+                []
+              ],
+              "customFieldsBI": [],
+              "targetBuildDepends": [
+                {
+                  "package-name": "base",
+                  "version-range": "==4.6.*",
+                  "library": [
+                    {}
+                  ]
+                }
+              ],
+              "mixins": []
+            }
+          },
+          "condTreeConstraints": [
+            {
+              "package-name": "base",
+              "version-range": "==4.6.*",
+              "library": [
+                {}
+              ]
+            }
+          ],
+          "condTreeComponents": []
+        }
+      },
+      {
+        "condBranchCondition": {
+          "v": {
+            "flag": "warn"
+          }
+        },
+        "condBranchIfTrue": {
+          "condTreeData": {
+            "name": {},
+            "exposed-modules": [],
+            "re-exported-modules": [],
+            "signatures": [],
+            "exposed": true,
+            "visibility": "LibraryVisibilityPublic",
+            "build-info": {
+              "buildable": true,
+              "buildTools": [],
+              "buildToolDepends": [],
+              "cppOptions": [],
+              "asmOptions": [],
+              "cmmOptions": [],
+              "ccOptions": [],
+              "cxxOptions": [],
+              "ldOptions": [],
+              "pkgconfigDepends": [],
+              "frameworks": [],
+              "extraFrameworkDirs": [],
+              "asmSources": [],
+              "cmmSources": [],
+              "cSources": [],
+              "cxxSources": [],
+              "jsSources": [],
+              "hsSourceDirs": [],
+              "otherModules": [],
+              "virtualModules": [],
+              "autogenModules": [],
+              "defaultLanguage": null,
+              "otherLanguages": [],
+              "defaultExtensions": [],
+              "otherExtensions": [],
+              "oldExtensions": [],
+              "extraLibs": [],
+              "extraGHCiLibs": [],
+              "extraBundledLibs": [],
+              "extraLibFlavours": [],
+              "extraDynLibFlavours": [],
+              "extraLibDirs": [],
+              "includeDirs": [],
+              "includes": [],
+              "autogenIncludes": [],
+              "installIncludes": [],
+              "options": [
+                [
+                  "-W",
+                  "-fwarn-duplicate-exports",
+                  "-fwarn-incomplete-patterns",
+                  "-fwarn-incomplete-uni-patterns",
+                  "-fwarn-incomplete-record-updates",
+                  "-fwarn-missing-fields",
+                  "-fwarn-missing-signatures",
+                  "-fwarn-name-shadowing",
+                  "-fwarn-tabs",
+                  "-fwarn-unused-imports",
+                  "-fwarn-unused-matches",
+                  "-fwarn-warnings-deprecations"
+                ],
+                []
+              ],
+              "profOptions": [
+                [],
+                []
+              ],
+              "sharedOptions": [
+                [],
+                []
+              ],
+              "staticOptions": [
+                [],
+                []
+              ],
+              "customFieldsBI": [],
+              "targetBuildDepends": [],
+              "mixins": []
+            }
+          },
+          "condTreeConstraints": [],
+          "condTreeComponents": []
+        }
+      }
+    ]
+  }
+}

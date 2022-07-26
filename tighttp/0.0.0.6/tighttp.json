@@ -1,0 +1,299 @@
+{
+  "description": {
+    "spec-version": {
+      "Right": ">=1.8"
+    },
+    "package": {
+      "name": "tighttp",
+      "version": [
+        0,
+        0,
+        0,
+        6
+      ]
+    },
+    "license": {
+      "Right": "BSD3"
+    },
+    "license-files": [
+      "LICENSE"
+    ],
+    "copyright": "",
+    "maintainer": "Yoshikuni Jujo <PAF01143@nifty.ne.jp>",
+    "author": "Yoshikuni Jujo <PAF01143@nifty.ne.jp>",
+    "stability": "Experimental",
+    "tested-with": [],
+    "homepage": "https://github.com/YoshikuniJujo/tighttp/wiki",
+    "pkg-url": "",
+    "bug-reports": "",
+    "source-repos": [
+      {
+        "kind": {},
+        "type": "Git",
+        "location": "git://github.com/YoshikuniJujo/tighttp.git",
+        "module": null,
+        "branch": null,
+        "tag": null,
+        "subdir": null
+      },
+      {
+        "kind": {},
+        "type": "Git",
+        "location": "git://github.com/YoshikuniJujo/tighttp.git",
+        "module": null,
+        "branch": null,
+        "tag": "tighttp-0.0.0.6",
+        "subdir": null
+      }
+    ],
+    "synopsis": "Tiny and Incrementally-Growing HTTP library",
+    "description": "Example programs\n\nexamples/get.hs\n\nThis is simple client.\nThis send GET request and show page source.\nRun as following.\n\n> runhaskell get.hs hackage.haskell.org /packages/\n\nextensions\n\n* PackageImports\n\n> import \"monads-tf\" Control.Monad.Trans\n> import Data.Pipe\n> import System.Environment\n> import Network\n> import Network.TigHTTP.Client\n> import Network.TigHTTP.Types\n>\n> import qualified Data.ByteString as BS\n>\n> main :: IO ()\n> main = do\n> \taddr : pth : _ <- getArgs\n> \th <- connectTo addr $ PortNumber 80\n> \tr <- request h $ get addr 80 pth\n> \t_ <- runPipe $ responseBody r =$= finally printP (putStrLn \"\")\n> \treturn ()\n>\n> printP :: MonadIO m => Pipe BS.ByteString () m ()\n> printP = await >>= maybe (return ()) (\\s -> liftIO (BS.putStr s) >> printP)\n\nexamples/server.hs\n\nThis is simple server.\nThis recieve client's request.\nAnd send command line arguments as response.\nRun as following.\n\n> runhaskell server.hs Hello World I Am TigHTTP\n\n> import Control.Monad\n> import Control.Concurrent\n> import Data.Pipe\n> import System.IO\n> import System.Environment\n> import Network\n> import Network.TigHTTP.Server\n> import Network.TigHTTP.Types\n>\n> import qualified Data.ByteString.Char8 as BSC\n> import qualified Data.ByteString.Lazy as LBS\n>\n> main :: IO ()\n> main = do\n> \tas <- getArgs\n> \tsoc <- listenOn $ PortNumber 80\n> \tforever $ do\n> \t\t(h, _, _) <- accept soc\n> \t\tvoid . forkIO $ do\n> \t\t\treq <- getRequest h\n> \t\t\tprint $ requestPath req\n> \t\t\tputResponse h\n>\t\t\t\t. (response :: LBS.ByteString -> Response Pipe Handle)\n>\t\t\t\t. LBS.fromChunks $ map BSC.pack as\n\nIf you want more examples. Please see examples directory.",
+    "category": "Network",
+    "custom-fields": [],
+    "build-type-raw": "Simple",
+    "custom-setup": null,
+    "library": null,
+    "sublibraries": [],
+    "executables": [],
+    "foreign-libs": [],
+    "test-suites": [],
+    "benchmarks": [],
+    "data-files": [],
+    "data-dir": ".",
+    "extra-source-files": [
+      "examples/get.hs",
+      "examples/server.hs",
+      "examples/post.hs",
+      "examples/serverp.hs",
+      "examples/gets.hs",
+      "examples/servers.hs",
+      "examples/posts.hs",
+      "examples/serverps.hs"
+    ],
+    "extra-tmp-files": [],
+    "extra-doc-files": []
+  },
+  "library": {
+    "condTreeData": {
+      "name": {},
+      "exposed-modules": [
+        [
+          "Network",
+          "TigHTTP",
+          "Client"
+        ],
+        [
+          "Network",
+          "TigHTTP",
+          "Server"
+        ],
+        [
+          "Network",
+          "TigHTTP",
+          "Types"
+        ]
+      ],
+      "re-exported-modules": [],
+      "signatures": [],
+      "exposed": true,
+      "visibility": "LibraryVisibilityPublic",
+      "build-info": {
+        "buildable": true,
+        "buildTools": [],
+        "buildToolDepends": [],
+        "cppOptions": [],
+        "asmOptions": [],
+        "cmmOptions": [],
+        "ccOptions": [],
+        "cxxOptions": [],
+        "ldOptions": [],
+        "pkgconfigDepends": [],
+        "frameworks": [],
+        "extraFrameworkDirs": [],
+        "asmSources": [],
+        "cmmSources": [],
+        "cSources": [],
+        "cxxSources": [],
+        "jsSources": [],
+        "hsSourceDirs": [
+          "src"
+        ],
+        "otherModules": [
+          [
+            "Network",
+            "TigHTTP",
+            "HttpTypes"
+          ],
+          [
+            "Network",
+            "TigHTTP",
+            "Papillon"
+          ],
+          [
+            "Network",
+            "TigHTTP",
+            "Token"
+          ]
+        ],
+        "virtualModules": [],
+        "autogenModules": [],
+        "defaultLanguage": null,
+        "otherLanguages": [],
+        "defaultExtensions": [],
+        "otherExtensions": [],
+        "oldExtensions": [
+          {
+            "enable-extension": "PatternGuards"
+          }
+        ],
+        "extraLibs": [],
+        "extraGHCiLibs": [],
+        "extraBundledLibs": [],
+        "extraLibFlavours": [],
+        "extraDynLibFlavours": [],
+        "extraLibDirs": [],
+        "includeDirs": [],
+        "includes": [],
+        "autogenIncludes": [],
+        "installIncludes": [],
+        "options": [
+          [
+            "-Wall"
+          ],
+          []
+        ],
+        "profOptions": [
+          [],
+          []
+        ],
+        "sharedOptions": [
+          [],
+          []
+        ],
+        "staticOptions": [
+          [],
+          []
+        ],
+        "customFieldsBI": [],
+        "targetBuildDepends": [
+          {
+            "package-name": "base",
+            "version-range": "==4.*",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "bytestring",
+            "version-range": "==0.10.*",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "handle-like",
+            "version-range": "==0.1.*",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "old-locale",
+            "version-range": "==1.0.*",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "time",
+            "version-range": "==1.4.*",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "monads-tf",
+            "version-range": "==0.1.*",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "papillon",
+            "version-range": "==0.1.*",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "simple-pipe",
+            "version-range": "==0.0.0.*",
+            "library": [
+              {}
+            ]
+          }
+        ],
+        "mixins": []
+      }
+    },
+    "condTreeConstraints": [
+      {
+        "package-name": "base",
+        "version-range": "==4.*",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "bytestring",
+        "version-range": "==0.10.*",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "handle-like",
+        "version-range": "==0.1.*",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "old-locale",
+        "version-range": "==1.0.*",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "time",
+        "version-range": "==1.4.*",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "monads-tf",
+        "version-range": "==0.1.*",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "papillon",
+        "version-range": "==0.1.*",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "simple-pipe",
+        "version-range": "==0.0.0.*",
+        "library": [
+          {}
+        ]
+      }
+    ],
+    "condTreeComponents": []
+  }
+}

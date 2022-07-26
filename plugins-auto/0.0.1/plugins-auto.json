@@ -1,0 +1,260 @@
+{
+  "description": {
+    "spec-version": {
+      "Right": ">=1.6"
+    },
+    "package": {
+      "name": "plugins-auto",
+      "version": [
+        0,
+        0,
+        1
+      ]
+    },
+    "license": {
+      "Right": "BSD3"
+    },
+    "license-files": [
+      "COPYING"
+    ],
+    "copyright": "",
+    "maintainer": "Happstack team <happs@googlegroups.com>",
+    "author": "Happstack team, HAppS LLC",
+    "stability": "",
+    "tested-with": [],
+    "homepage": "",
+    "pkg-url": "",
+    "bug-reports": "",
+    "source-repos": [
+      {
+        "kind": {},
+        "type": "Darcs",
+        "location": "http://patch-tag.com/r/facundo/plugins-auto",
+        "module": null,
+        "branch": null,
+        "tag": null,
+        "subdir": null
+      }
+    ],
+    "synopsis": "Automatic recompilation and reloading of haskell modules.",
+    "description": "This library provides support for automatically recompiling and reloading\nmodules into your programs when the source code is modified.\n\nAny program called ghc in your PATH will be used for recompiling.\n\n> module Main where\n> import System.IO           (hSetBuffering,stdout,BufferMode(..))\n> import System.Plugins.Auto (withMonadIO,initPlugins)\n> import Answer\n>\n> main :: IO ()\n> main = do ph<-initPlugins\n>         hSetBuffering stdout NoBuffering\n>         putStrLn \"This program interacts with you in a loop.\"\n>         putStrLn \"Type something, and the program will respond when you hit the Enter Key.\"\n>         putStrLn \"Modify Answer.hs while interacting and you should see the answers\"\n>         putStrLn \"change accordingly.\"\n>         let interactiveLoop = prompt ph >> interactiveLoop\n>         interactiveLoop\n> where\n>   prompt ph = do\n>      putStr \"> \"\n>      input <- getLine\n>      $(withMonadIO 'getAnswer) ph id notLoaded$ \\errs getAnswer ->\n>          mapM_ putStrLn errs  >> getAnswer input\n>\n>   notLoaded errs =\n>      if null errs then putStrLn \"Plugin not loaded yet.\"\n>        else putStrLn \"Errors found:\" >> mapM_ (putStrLn . (\"  \"++)) errs\n>               >> putStrLn \"Try fixing the errors and come back here.\"\n\n> module Answer where\n>\n> getAnswer :: String -> IO ()\n> getAnswer input = putStrLn (\"What you typed: \"++input)",
+    "category": "System",
+    "custom-fields": [],
+    "build-type-raw": "Simple",
+    "custom-setup": null,
+    "library": null,
+    "sublibraries": [],
+    "executables": [],
+    "foreign-libs": [],
+    "test-suites": [],
+    "benchmarks": [],
+    "data-files": [],
+    "data-dir": ".",
+    "extra-source-files": [],
+    "extra-tmp-files": [],
+    "extra-doc-files": []
+  },
+  "package-flags": [
+    {
+      "name": "tests",
+      "description": "Build the testsuite, and include the tests in the library",
+      "default": false,
+      "manual": false
+    }
+  ],
+  "library": {
+    "condTreeData": {
+      "name": {},
+      "exposed-modules": [
+        [
+          "System",
+          "Plugins",
+          "Auto"
+        ],
+        [
+          "System",
+          "Plugins",
+          "Auto",
+          "Reloader"
+        ],
+        [
+          "System",
+          "Plugins",
+          "Auto",
+          "FileSystemWatcher"
+        ],
+        [
+          "System",
+          "Plugins",
+          "Auto",
+          "LiftName"
+        ]
+      ],
+      "re-exported-modules": [],
+      "signatures": [],
+      "exposed": true,
+      "visibility": "LibraryVisibilityPublic",
+      "build-info": {
+        "buildable": true,
+        "buildTools": [],
+        "buildToolDepends": [],
+        "cppOptions": [],
+        "asmOptions": [],
+        "cmmOptions": [],
+        "ccOptions": [],
+        "cxxOptions": [],
+        "ldOptions": [],
+        "pkgconfigDepends": [],
+        "frameworks": [],
+        "extraFrameworkDirs": [],
+        "asmSources": [],
+        "cmmSources": [],
+        "cSources": [],
+        "cxxSources": [],
+        "jsSources": [],
+        "hsSourceDirs": [],
+        "otherModules": [],
+        "virtualModules": [],
+        "autogenModules": [],
+        "defaultLanguage": null,
+        "otherLanguages": [],
+        "defaultExtensions": [],
+        "otherExtensions": [],
+        "oldExtensions": [],
+        "extraLibs": [],
+        "extraGHCiLibs": [],
+        "extraBundledLibs": [],
+        "extraLibFlavours": [],
+        "extraDynLibFlavours": [],
+        "extraLibDirs": [],
+        "includeDirs": [],
+        "includes": [],
+        "autogenIncludes": [],
+        "installIncludes": [],
+        "options": [
+          [
+            "-Wall"
+          ],
+          []
+        ],
+        "profOptions": [
+          [],
+          []
+        ],
+        "sharedOptions": [
+          [],
+          []
+        ],
+        "staticOptions": [
+          [],
+          []
+        ],
+        "customFieldsBI": [],
+        "targetBuildDepends": [
+          {
+            "package-name": "base",
+            "version-range": ">=3 && <5",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "containers",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "filepath",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "hinotify",
+            "version-range": ">=0.3.2",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "mtl",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "plugins",
+            "version-range": ">=1.5.1.4",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "template-haskell",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          }
+        ],
+        "mixins": []
+      }
+    },
+    "condTreeConstraints": [
+      {
+        "package-name": "base",
+        "version-range": ">=3 && <5",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "containers",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "filepath",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "hinotify",
+        "version-range": ">=0.3.2",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "mtl",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "plugins",
+        "version-range": ">=1.5.1.4",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "template-haskell",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      }
+    ],
+    "condTreeComponents": []
+  }
+}

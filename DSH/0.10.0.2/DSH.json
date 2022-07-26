@@ -1,0 +1,1682 @@
+{
+  "description": {
+    "spec-version": {
+      "Right": ">=1.8"
+    },
+    "package": {
+      "name": "DSH",
+      "version": [
+        0,
+        10,
+        0,
+        2
+      ]
+    },
+    "license": {
+      "Right": "BSD3"
+    },
+    "license-files": [
+      "LICENSE"
+    ],
+    "copyright": "",
+    "maintainer": "alex@etc-network.de",
+    "author": "George Giorgidze, Alexander Ulrich, Nils Schweinsberg and Jeroen Weijers",
+    "stability": "Experimental",
+    "tested-with": [],
+    "homepage": "",
+    "pkg-url": "",
+    "bug-reports": "",
+    "source-repos": [],
+    "synopsis": "Database Supported Haskell",
+    "description": "This is a Haskell library for database-supported program execution. Using\nthis library a relational database management system (RDBMS) can be used as\na coprocessor for the Haskell programming language, especially for those\nprogram fragments that carry out data-intensive and data-parallel\ncomputations.\n\nDatabase executable program fragments can be written using the monad\ncomprehension notation [2] and list processing combinators from the Haskell\nlist prelude. Note that rather than embedding a relational language into\nHaskell, we turn idiomatic Haskell programs into SQL queries.\n\nDSH faithfully represents list order and nesting, and compiles the list\nprocessing combinators into relational queries. The implementation avoids\nunnecessary data transfer and context switching between the database\ncoprocessor and the Haskell runtime by ensuring that the number of generated\nrelational queries is only determined by the program fragment's type and not\nby the database size.\n\nDSH can be used to allow existing Haskell programs to operate on large scale\ndata (e.g., larger than the available heap) or query existing database\nresident data with Haskell.\n\nNote that this package is flagged experimental and therefore is not suited\nfor production use (we mean it!). This is a proof of concept implementation\nonly. To learn more about DSH, our paper entitled as \"Haskell Boards the Ferry:\nDatabase-Supported Program Execution for Haskell\" [1] is a recommended reading.\nThe package includes a couple of examples that demonstrate how to use DSH.\n\nIn contrast to the DSH version described in [1], the current release does\nnot rely anymore on the loop-lifting compilation technique together with\nthe Pathfinder optimizer. Instead, it brings a completely rewritten query\ncompiler based on Guy Blelloch's flattening transformation. This approach\nleads to a more robust compilation and produces more efficient query code.\n\nPlease read the release notes in 'README.md'.\n\n1. <http://db.inf.uni-tuebingen.de/staticfiles/publications/ferryhaskell.pdf>\n\n2. <http://db.inf.uni-tuebingen.de/staticfiles/publications/haskell2011.pdf>",
+    "category": "Database",
+    "custom-fields": [],
+    "build-type-raw": "Simple",
+    "custom-setup": null,
+    "library": null,
+    "sublibraries": [],
+    "executables": [],
+    "foreign-libs": [],
+    "test-suites": [],
+    "benchmarks": [],
+    "data-files": [],
+    "data-dir": ".",
+    "extra-source-files": [
+      "examples/Example01.hs",
+      "examples/Example02.hs",
+      "examples/Example03.hs",
+      "examples/dshify-tpch.sql",
+      "tests/Main.hs",
+      "tests/ComprehensionTests.hs",
+      "tests/DSHComprehensions.hs",
+      "tests/CombinatorTests.hs",
+      "README.md"
+    ],
+    "extra-tmp-files": [],
+    "extra-doc-files": []
+  },
+  "package-flags": [
+    {
+      "name": "debugcomp",
+      "description": "Print debugging information for comprehension rewrites",
+      "default": false,
+      "manual": false
+    },
+    {
+      "name": "debuggraph",
+      "description": "Print debugging information for graph rewrites (VL, TA)",
+      "default": false,
+      "manual": false
+    }
+  ],
+  "library": {
+    "condTreeData": {
+      "name": {},
+      "exposed-modules": [
+        [
+          "Database",
+          "DSH"
+        ],
+        [
+          "Database",
+          "DSH",
+          "Compiler"
+        ]
+      ],
+      "re-exported-modules": [],
+      "signatures": [],
+      "exposed": true,
+      "visibility": "LibraryVisibilityPublic",
+      "build-info": {
+        "buildable": true,
+        "buildTools": [],
+        "buildToolDepends": [],
+        "cppOptions": [],
+        "asmOptions": [],
+        "cmmOptions": [],
+        "ccOptions": [],
+        "cxxOptions": [],
+        "ldOptions": [],
+        "pkgconfigDepends": [],
+        "frameworks": [],
+        "extraFrameworkDirs": [],
+        "asmSources": [],
+        "cmmSources": [],
+        "cSources": [],
+        "cxxSources": [],
+        "jsSources": [],
+        "hsSourceDirs": [
+          "src"
+        ],
+        "otherModules": [
+          [
+            "Database",
+            "DSH",
+            "Frontend",
+            "Internals"
+          ],
+          [
+            "Database",
+            "DSH",
+            "Frontend",
+            "Schema"
+          ],
+          [
+            "Database",
+            "DSH",
+            "Frontend",
+            "Externals"
+          ],
+          [
+            "Database",
+            "DSH",
+            "Frontend",
+            "TH"
+          ],
+          [
+            "Database",
+            "DSH",
+            "Frontend",
+            "TupleTypes"
+          ],
+          [
+            "Database",
+            "DSH",
+            "Frontend",
+            "Funs"
+          ],
+          [
+            "Database",
+            "DSH",
+            "Translate",
+            "Frontend2CL"
+          ],
+          [
+            "Database",
+            "DSH",
+            "Execute",
+            "TH"
+          ],
+          [
+            "Database",
+            "DSH",
+            "Execute",
+            "Sql"
+          ],
+          [
+            "Database",
+            "DSH",
+            "Execute",
+            "Backend"
+          ],
+          [
+            "Database",
+            "DSH",
+            "Common",
+            "Nat"
+          ],
+          [
+            "Database",
+            "DSH",
+            "Common",
+            "Pretty"
+          ],
+          [
+            "Database",
+            "DSH",
+            "Common",
+            "Type"
+          ],
+          [
+            "Database",
+            "DSH",
+            "Common",
+            "Lang"
+          ],
+          [
+            "Database",
+            "DSH",
+            "Common",
+            "QueryPlan"
+          ],
+          [
+            "Database",
+            "DSH",
+            "Common",
+            "RewriteM"
+          ],
+          [
+            "Database",
+            "DSH",
+            "Common",
+            "Kure"
+          ],
+          [
+            "Database",
+            "DSH",
+            "Export"
+          ],
+          [
+            "Database",
+            "DSH",
+            "CL",
+            "Lang"
+          ],
+          [
+            "Database",
+            "DSH",
+            "CL",
+            "Kure"
+          ],
+          [
+            "Database",
+            "DSH",
+            "CL",
+            "Primitives"
+          ],
+          [
+            "Database",
+            "DSH",
+            "CL",
+            "Opt"
+          ],
+          [
+            "Database",
+            "DSH",
+            "CL",
+            "Opt",
+            "Auxiliary"
+          ],
+          [
+            "Database",
+            "DSH",
+            "CL",
+            "Opt",
+            "PostProcess"
+          ],
+          [
+            "Database",
+            "DSH",
+            "CL",
+            "Opt",
+            "LoopInvariant"
+          ],
+          [
+            "Database",
+            "DSH",
+            "CL",
+            "Opt",
+            "PredPushdown"
+          ],
+          [
+            "Database",
+            "DSH",
+            "CL",
+            "Opt",
+            "Normalize"
+          ],
+          [
+            "Database",
+            "DSH",
+            "CL",
+            "Opt",
+            "CompNormalization"
+          ],
+          [
+            "Database",
+            "DSH",
+            "CL",
+            "Opt",
+            "PartialEval"
+          ],
+          [
+            "Database",
+            "DSH",
+            "CL",
+            "Opt",
+            "FlatJoin"
+          ],
+          [
+            "Database",
+            "DSH",
+            "CL",
+            "Opt",
+            "ThetaJoin"
+          ],
+          [
+            "Database",
+            "DSH",
+            "CL",
+            "Opt",
+            "SemiJoin"
+          ],
+          [
+            "Database",
+            "DSH",
+            "CL",
+            "Opt",
+            "AntiJoin"
+          ],
+          [
+            "Database",
+            "DSH",
+            "CL",
+            "Opt",
+            "NestJoin"
+          ],
+          [
+            "Database",
+            "DSH",
+            "CL",
+            "Opt",
+            "Resugar"
+          ],
+          [
+            "Database",
+            "DSH",
+            "FKL",
+            "Lang"
+          ],
+          [
+            "Database",
+            "DSH",
+            "FKL",
+            "Primitives"
+          ],
+          [
+            "Database",
+            "DSH",
+            "FKL",
+            "Rewrite"
+          ],
+          [
+            "Database",
+            "DSH",
+            "FKL",
+            "Kure"
+          ],
+          [
+            "Database",
+            "DSH",
+            "NKL",
+            "Lang"
+          ],
+          [
+            "Database",
+            "DSH",
+            "NKL",
+            "Kure"
+          ],
+          [
+            "Database",
+            "DSH",
+            "NKL",
+            "Rewrite"
+          ],
+          [
+            "Database",
+            "DSH",
+            "NKL",
+            "Primitives"
+          ],
+          [
+            "Database",
+            "DSH",
+            "Translate",
+            "Algebra2Query"
+          ],
+          [
+            "Database",
+            "DSH",
+            "Translate",
+            "CL2NKL"
+          ],
+          [
+            "Database",
+            "DSH",
+            "Translate",
+            "FKL2VL"
+          ],
+          [
+            "Database",
+            "DSH",
+            "Translate",
+            "NKL2FKL"
+          ],
+          [
+            "Database",
+            "DSH",
+            "Translate",
+            "VL2Algebra"
+          ],
+          [
+            "Database",
+            "DSH",
+            "VL",
+            "Lang"
+          ],
+          [
+            "Database",
+            "DSH",
+            "VL",
+            "Render",
+            "Dot"
+          ],
+          [
+            "Database",
+            "DSH",
+            "VL",
+            "Render",
+            "JSON"
+          ],
+          [
+            "Database",
+            "DSH",
+            "VL",
+            "Vector"
+          ],
+          [
+            "Database",
+            "DSH",
+            "VL",
+            "VectorAlgebra"
+          ],
+          [
+            "Database",
+            "DSH",
+            "VL",
+            "VectorAlgebra",
+            "TA"
+          ],
+          [
+            "Database",
+            "DSH",
+            "VL",
+            "Vectorize"
+          ],
+          [
+            "Database",
+            "DSH",
+            "VL",
+            "Primitives"
+          ],
+          [
+            "Database",
+            "DSH",
+            "Impossible"
+          ],
+          [
+            "Database",
+            "DSH",
+            "Optimizer",
+            "Common",
+            "Auxiliary"
+          ],
+          [
+            "Database",
+            "DSH",
+            "Optimizer",
+            "Common",
+            "Rewrite"
+          ],
+          [
+            "Database",
+            "DSH",
+            "Optimizer",
+            "VL",
+            "Properties",
+            "BottomUp"
+          ],
+          [
+            "Database",
+            "DSH",
+            "Optimizer",
+            "VL",
+            "Properties",
+            "Card"
+          ],
+          [
+            "Database",
+            "DSH",
+            "Optimizer",
+            "VL",
+            "Properties",
+            "Common"
+          ],
+          [
+            "Database",
+            "DSH",
+            "Optimizer",
+            "VL",
+            "Properties",
+            "Const"
+          ],
+          [
+            "Database",
+            "DSH",
+            "Optimizer",
+            "VL",
+            "Properties",
+            "Empty"
+          ],
+          [
+            "Database",
+            "DSH",
+            "Optimizer",
+            "VL",
+            "Properties",
+            "NonEmpty"
+          ],
+          [
+            "Database",
+            "DSH",
+            "Optimizer",
+            "VL",
+            "Properties",
+            "ReqColumns"
+          ],
+          [
+            "Database",
+            "DSH",
+            "Optimizer",
+            "VL",
+            "Properties",
+            "TopDown"
+          ],
+          [
+            "Database",
+            "DSH",
+            "Optimizer",
+            "VL",
+            "Properties",
+            "Types"
+          ],
+          [
+            "Database",
+            "DSH",
+            "Optimizer",
+            "VL",
+            "Properties",
+            "VectorType"
+          ],
+          [
+            "Database",
+            "DSH",
+            "Optimizer",
+            "TA",
+            "Properties",
+            "BottomUp"
+          ],
+          [
+            "Database",
+            "DSH",
+            "Optimizer",
+            "TA",
+            "Properties",
+            "TopDown"
+          ],
+          [
+            "Database",
+            "DSH",
+            "Optimizer",
+            "TA",
+            "Properties",
+            "Types"
+          ],
+          [
+            "Database",
+            "DSH",
+            "Optimizer",
+            "TA",
+            "Properties",
+            "Cols"
+          ],
+          [
+            "Database",
+            "DSH",
+            "Optimizer",
+            "TA",
+            "Properties",
+            "ICols"
+          ],
+          [
+            "Database",
+            "DSH",
+            "Optimizer",
+            "TA",
+            "Properties",
+            "Use"
+          ],
+          [
+            "Database",
+            "DSH",
+            "Optimizer",
+            "TA",
+            "Properties",
+            "Auxiliary"
+          ],
+          [
+            "Database",
+            "DSH",
+            "Optimizer",
+            "TA",
+            "Properties",
+            "Empty"
+          ],
+          [
+            "Database",
+            "DSH",
+            "Optimizer",
+            "TA",
+            "Properties",
+            "Card1"
+          ],
+          [
+            "Database",
+            "DSH",
+            "Optimizer",
+            "TA",
+            "Properties",
+            "Keys"
+          ],
+          [
+            "Database",
+            "DSH",
+            "Optimizer",
+            "TA",
+            "Properties",
+            "Order"
+          ],
+          [
+            "Database",
+            "DSH",
+            "Optimizer",
+            "TA",
+            "Properties",
+            "Const"
+          ],
+          [
+            "Database",
+            "DSH",
+            "Optimizer",
+            "TA",
+            "Rewrite",
+            "Basic"
+          ],
+          [
+            "Database",
+            "DSH",
+            "Optimizer",
+            "TA",
+            "Rewrite",
+            "Common"
+          ],
+          [
+            "Database",
+            "DSH",
+            "Optimizer",
+            "TA",
+            "OptimizeTA"
+          ],
+          [
+            "Database",
+            "DSH",
+            "Optimizer",
+            "Common",
+            "Rewrite"
+          ],
+          [
+            "Database",
+            "DSH",
+            "Optimizer",
+            "VL",
+            "OptimizeVL"
+          ],
+          [
+            "Database",
+            "DSH",
+            "Optimizer",
+            "VL",
+            "Rewrite",
+            "Common"
+          ],
+          [
+            "Database",
+            "DSH",
+            "Optimizer",
+            "VL",
+            "Rewrite",
+            "Expressions"
+          ],
+          [
+            "Database",
+            "DSH",
+            "Optimizer",
+            "VL",
+            "Rewrite",
+            "PruneEmpty"
+          ],
+          [
+            "Database",
+            "DSH",
+            "Optimizer",
+            "VL",
+            "Rewrite",
+            "Redundant"
+          ],
+          [
+            "Database",
+            "DSH",
+            "Optimizer",
+            "VL",
+            "Rewrite",
+            "Aggregation"
+          ],
+          [
+            "Database",
+            "DSH",
+            "Optimizer",
+            "VL",
+            "Rewrite",
+            "Window"
+          ],
+          [
+            "Database",
+            "DSH",
+            "Optimizer",
+            "VL",
+            "Rewrite",
+            "Unused"
+          ]
+        ],
+        "virtualModules": [],
+        "autogenModules": [],
+        "defaultLanguage": null,
+        "otherLanguages": [],
+        "defaultExtensions": [],
+        "otherExtensions": [],
+        "oldExtensions": [
+          {
+            "enable-extension": "CPP"
+          }
+        ],
+        "extraLibs": [],
+        "extraGHCiLibs": [],
+        "extraBundledLibs": [],
+        "extraLibFlavours": [],
+        "extraDynLibFlavours": [],
+        "extraLibDirs": [],
+        "includeDirs": [],
+        "includes": [],
+        "autogenIncludes": [],
+        "installIncludes": [],
+        "options": [
+          [
+            "-Wall",
+            "-fno-warn-orphans"
+          ],
+          []
+        ],
+        "profOptions": [
+          [],
+          []
+        ],
+        "sharedOptions": [
+          [],
+          []
+        ],
+        "staticOptions": [
+          [],
+          []
+        ],
+        "customFieldsBI": [],
+        "targetBuildDepends": [
+          {
+            "package-name": "base",
+            "version-range": ">=4.7 && <5",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "template-haskell",
+            "version-range": ">=2.9",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "containers",
+            "version-range": ">=0.5",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "mtl",
+            "version-range": ">=2.1",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "bytestring",
+            "version-range": ">=0.10",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "text",
+            "version-range": ">=1.1",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "HDBC",
+            "version-range": ">=2.3",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "HDBC-postgresql",
+            "version-range": ">=2.3",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "pretty",
+            "version-range": ">=1.1",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "aeson",
+            "version-range": ">=0.8",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "kure",
+            "version-range": ">=2.16",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "either",
+            "version-range": ">=4.0",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "semigroups",
+            "version-range": ">=0.16",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "ansi-wl-pprint",
+            "version-range": ">=0.6",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "set-monad",
+            "version-range": ">=0.1",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "dlist",
+            "version-range": ">=0.7",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "algebra-dag",
+            "version-range": ">=0.1",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "algebra-sql",
+            "version-range": ">=0.1",
+            "library": [
+              {}
+            ]
+          }
+        ],
+        "mixins": []
+      }
+    },
+    "condTreeConstraints": [
+      {
+        "package-name": "base",
+        "version-range": ">=4.7 && <5",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "template-haskell",
+        "version-range": ">=2.9",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "containers",
+        "version-range": ">=0.5",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "mtl",
+        "version-range": ">=2.1",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "bytestring",
+        "version-range": ">=0.10",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "text",
+        "version-range": ">=1.1",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "HDBC",
+        "version-range": ">=2.3",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "HDBC-postgresql",
+        "version-range": ">=2.3",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "pretty",
+        "version-range": ">=1.1",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "aeson",
+        "version-range": ">=0.8",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "kure",
+        "version-range": ">=2.16",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "either",
+        "version-range": ">=4.0",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "semigroups",
+        "version-range": ">=0.16",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "ansi-wl-pprint",
+        "version-range": ">=0.6",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "set-monad",
+        "version-range": ">=0.1",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "dlist",
+        "version-range": ">=0.7",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "algebra-dag",
+        "version-range": ">=0.1",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "algebra-sql",
+        "version-range": ">=0.1",
+        "library": [
+          {}
+        ]
+      }
+    ],
+    "condTreeComponents": [
+      {
+        "condBranchCondition": {
+          "v": {
+            "flag": "debugcomp"
+          }
+        },
+        "condBranchIfTrue": {
+          "condTreeData": {
+            "name": {},
+            "exposed-modules": [],
+            "re-exported-modules": [],
+            "signatures": [],
+            "exposed": true,
+            "visibility": "LibraryVisibilityPublic",
+            "build-info": {
+              "buildable": true,
+              "buildTools": [],
+              "buildToolDepends": [],
+              "cppOptions": [
+                "-DDEBUGCOMP"
+              ],
+              "asmOptions": [],
+              "cmmOptions": [],
+              "ccOptions": [],
+              "cxxOptions": [],
+              "ldOptions": [],
+              "pkgconfigDepends": [],
+              "frameworks": [],
+              "extraFrameworkDirs": [],
+              "asmSources": [],
+              "cmmSources": [],
+              "cSources": [],
+              "cxxSources": [],
+              "jsSources": [],
+              "hsSourceDirs": [],
+              "otherModules": [],
+              "virtualModules": [],
+              "autogenModules": [],
+              "defaultLanguage": null,
+              "otherLanguages": [],
+              "defaultExtensions": [],
+              "otherExtensions": [],
+              "oldExtensions": [],
+              "extraLibs": [],
+              "extraGHCiLibs": [],
+              "extraBundledLibs": [],
+              "extraLibFlavours": [],
+              "extraDynLibFlavours": [],
+              "extraLibDirs": [],
+              "includeDirs": [],
+              "includes": [],
+              "autogenIncludes": [],
+              "installIncludes": [],
+              "options": [
+                [],
+                []
+              ],
+              "profOptions": [
+                [],
+                []
+              ],
+              "sharedOptions": [
+                [],
+                []
+              ],
+              "staticOptions": [
+                [],
+                []
+              ],
+              "customFieldsBI": [],
+              "targetBuildDepends": [],
+              "mixins": []
+            }
+          },
+          "condTreeConstraints": [],
+          "condTreeComponents": []
+        }
+      },
+      {
+        "condBranchCondition": {
+          "v": {
+            "flag": "debuggraph"
+          }
+        },
+        "condBranchIfTrue": {
+          "condTreeData": {
+            "name": {},
+            "exposed-modules": [],
+            "re-exported-modules": [],
+            "signatures": [],
+            "exposed": true,
+            "visibility": "LibraryVisibilityPublic",
+            "build-info": {
+              "buildable": true,
+              "buildTools": [],
+              "buildToolDepends": [],
+              "cppOptions": [
+                "-DDEBUGGRAPH"
+              ],
+              "asmOptions": [],
+              "cmmOptions": [],
+              "ccOptions": [],
+              "cxxOptions": [],
+              "ldOptions": [],
+              "pkgconfigDepends": [],
+              "frameworks": [],
+              "extraFrameworkDirs": [],
+              "asmSources": [],
+              "cmmSources": [],
+              "cSources": [],
+              "cxxSources": [],
+              "jsSources": [],
+              "hsSourceDirs": [],
+              "otherModules": [],
+              "virtualModules": [],
+              "autogenModules": [],
+              "defaultLanguage": null,
+              "otherLanguages": [],
+              "defaultExtensions": [],
+              "otherExtensions": [],
+              "oldExtensions": [],
+              "extraLibs": [],
+              "extraGHCiLibs": [],
+              "extraBundledLibs": [],
+              "extraLibFlavours": [],
+              "extraDynLibFlavours": [],
+              "extraLibDirs": [],
+              "includeDirs": [],
+              "includes": [],
+              "autogenIncludes": [],
+              "installIncludes": [],
+              "options": [
+                [],
+                []
+              ],
+              "profOptions": [
+                [],
+                []
+              ],
+              "sharedOptions": [
+                [],
+                []
+              ],
+              "staticOptions": [
+                [],
+                []
+              ],
+              "customFieldsBI": [],
+              "targetBuildDepends": [],
+              "mixins": []
+            }
+          },
+          "condTreeConstraints": [],
+          "condTreeComponents": []
+        }
+      }
+    ]
+  },
+  "executables": {
+    "vldot": {
+      "condTreeData": {
+        "name": "vldot",
+        "module-path": "Database/DSH/Tools/VLDotGen.hs",
+        "scope": "public",
+        "build-info": {
+          "buildable": true,
+          "buildTools": [],
+          "buildToolDepends": [],
+          "cppOptions": [],
+          "asmOptions": [],
+          "cmmOptions": [],
+          "ccOptions": [],
+          "cxxOptions": [],
+          "ldOptions": [],
+          "pkgconfigDepends": [],
+          "frameworks": [],
+          "extraFrameworkDirs": [],
+          "asmSources": [],
+          "cmmSources": [],
+          "cSources": [],
+          "cxxSources": [],
+          "jsSources": [],
+          "hsSourceDirs": [
+            "src"
+          ],
+          "otherModules": [],
+          "virtualModules": [],
+          "autogenModules": [],
+          "defaultLanguage": null,
+          "otherLanguages": [],
+          "defaultExtensions": [],
+          "otherExtensions": [],
+          "oldExtensions": [],
+          "extraLibs": [],
+          "extraGHCiLibs": [],
+          "extraBundledLibs": [],
+          "extraLibFlavours": [],
+          "extraDynLibFlavours": [],
+          "extraLibDirs": [],
+          "includeDirs": [],
+          "includes": [],
+          "autogenIncludes": [],
+          "installIncludes": [],
+          "options": [
+            [
+              "-Wall",
+              "-fno-warn-orphans",
+              "-Wall",
+              "-fno-warn-orphans"
+            ],
+            []
+          ],
+          "profOptions": [
+            [],
+            []
+          ],
+          "sharedOptions": [
+            [],
+            []
+          ],
+          "staticOptions": [
+            [],
+            []
+          ],
+          "customFieldsBI": [],
+          "targetBuildDepends": [
+            {
+              "package-name": "base",
+              "version-range": ">=4.7 && <5",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "mtl",
+              "version-range": ">=2.1",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "pretty",
+              "version-range": ">=1.1",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "aeson",
+              "version-range": ">=0.8",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "containers",
+              "version-range": ">=0.5",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "template-haskell",
+              "version-range": ">=2.9",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "bytestring",
+              "version-range": ">=0.10",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "ansi-wl-pprint",
+              "version-range": ">=0.6",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "semigroups",
+              "version-range": ">=0.16",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "algebra-dag",
+              "version-range": ">=0.1",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "algebra-sql",
+              "version-range": ">=0.1",
+              "library": [
+                {}
+              ]
+            }
+          ],
+          "mixins": []
+        }
+      },
+      "condTreeConstraints": [
+        {
+          "package-name": "base",
+          "version-range": ">=4.7 && <5",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "mtl",
+          "version-range": ">=2.1",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "pretty",
+          "version-range": ">=1.1",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "aeson",
+          "version-range": ">=0.8",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "containers",
+          "version-range": ">=0.5",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "template-haskell",
+          "version-range": ">=2.9",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "bytestring",
+          "version-range": ">=0.10",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "ansi-wl-pprint",
+          "version-range": ">=0.6",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "semigroups",
+          "version-range": ">=0.16",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "algebra-dag",
+          "version-range": ">=0.1",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "algebra-sql",
+          "version-range": ">=0.1",
+          "library": [
+            {}
+          ]
+        }
+      ],
+      "condTreeComponents": []
+    }
+  },
+  "test-suites": {
+    "Flattening_TA": {
+      "condTreeData": {
+        "name": "",
+        "interface": {
+          "version": [
+            1,
+            0
+          ],
+          "filepath": "Main.hs"
+        },
+        "build-info": {
+          "buildable": true,
+          "buildTools": [],
+          "buildToolDepends": [],
+          "cppOptions": [
+            "-DTESTSQL"
+          ],
+          "asmOptions": [],
+          "cmmOptions": [],
+          "ccOptions": [],
+          "cxxOptions": [],
+          "ldOptions": [],
+          "pkgconfigDepends": [],
+          "frameworks": [],
+          "extraFrameworkDirs": [],
+          "asmSources": [],
+          "cmmSources": [],
+          "cSources": [],
+          "cxxSources": [],
+          "jsSources": [],
+          "hsSourceDirs": [
+            "tests"
+          ],
+          "otherModules": [],
+          "virtualModules": [],
+          "autogenModules": [],
+          "defaultLanguage": null,
+          "otherLanguages": [],
+          "defaultExtensions": [],
+          "otherExtensions": [],
+          "oldExtensions": [
+            {
+              "enable-extension": "CPP"
+            }
+          ],
+          "extraLibs": [],
+          "extraGHCiLibs": [],
+          "extraBundledLibs": [],
+          "extraLibFlavours": [],
+          "extraDynLibFlavours": [],
+          "extraLibDirs": [],
+          "includeDirs": [],
+          "includes": [],
+          "autogenIncludes": [],
+          "installIncludes": [],
+          "options": [
+            [
+              "-Wall",
+              "-fno-warn-orphans"
+            ],
+            []
+          ],
+          "profOptions": [
+            [],
+            []
+          ],
+          "sharedOptions": [
+            [],
+            []
+          ],
+          "staticOptions": [
+            [],
+            []
+          ],
+          "customFieldsBI": [],
+          "targetBuildDepends": [
+            {
+              "package-name": "base",
+              "version-range": ">=4.7 && <5",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "QuickCheck",
+              "version-range": ">=2.4",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "containers",
+              "version-range": ">=0.5",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "text",
+              "version-range": ">=1.1",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "HDBC-postgresql",
+              "version-range": ">=2.3",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "HDBC",
+              "version-range": ">=2.3",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "test-framework-quickcheck2",
+              "version-range": ">=0.2",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "test-framework-hunit",
+              "version-range": ">=0.3",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "test-framework",
+              "version-range": ">=0.6",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "HUnit",
+              "version-range": ">=1.2",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "DSH",
+              "version-range": ">=0.10",
+              "library": [
+                {}
+              ]
+            }
+          ],
+          "mixins": []
+        }
+      },
+      "condTreeConstraints": [
+        {
+          "package-name": "base",
+          "version-range": ">=4.7 && <5",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "QuickCheck",
+          "version-range": ">=2.4",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "containers",
+          "version-range": ">=0.5",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "text",
+          "version-range": ">=1.1",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "HDBC-postgresql",
+          "version-range": ">=2.3",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "HDBC",
+          "version-range": ">=2.3",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "test-framework-quickcheck2",
+          "version-range": ">=0.2",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "test-framework-hunit",
+          "version-range": ">=0.3",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "test-framework",
+          "version-range": ">=0.6",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "HUnit",
+          "version-range": ">=1.2",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "DSH",
+          "version-range": ">=0.10",
+          "library": [
+            {}
+          ]
+        }
+      ],
+      "condTreeComponents": []
+    }
+  }
+}

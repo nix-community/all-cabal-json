@@ -1,0 +1,434 @@
+{
+  "description": {
+    "spec-version": {
+      "Right": ">=1.10"
+    },
+    "package": {
+      "name": "snaplet-rest",
+      "version": [
+        0,
+        1,
+        0
+      ]
+    },
+    "license": {
+      "Right": "MIT"
+    },
+    "license-files": [
+      "LICENSE"
+    ],
+    "copyright": "(c) 2013 Timothy Jones",
+    "maintainer": "Timothy Jones <git@zimothy.com>",
+    "author": "Timothy Jones",
+    "stability": "",
+    "tested-with": [],
+    "homepage": "http://github.com/zimothy/snaplet-rest",
+    "pkg-url": "",
+    "bug-reports": "",
+    "source-repos": [
+      {
+        "kind": {},
+        "type": "Git",
+        "location": "git://github.com/zimothy/snaplet-rest.git",
+        "module": null,
+        "branch": null,
+        "tag": null,
+        "subdir": null
+      }
+    ],
+    "synopsis": "REST resources for the Snap web framework",
+    "description": "REST resources for the Snap framework.\n\nAs an example, let's translate the following datatype into a resource.\n\n> data User = User Username String Int\n>\n> type Username = CI String\n\nWe need a type to represent changes to the resource.  This 'partial' type\nindicates what properties to change: either the name, the age, or both.\n\n> data UserPart = UserPart (Maybe String) (Maybe Int)\n\nThis type also acts as a search mechanism: we can search by names, ages, or\nboth.  We can use either a username or a @UserPart@ search to find users, and\ndefine a function to convert URL query string parameters to this search.\n\n> type UserId = Either Username UserPart\n>\n> userIdFromParams :: Params -> Maybe UserId\n\nNow we have the pieces required to define our CRUD behaviour.\n\n> createUser :: User -> AppHandler ()\n>\n> readUser :: UserId -> AppHandler [User]\n>\n> updateUser :: UserId -> UserPart -> AppHandler Bool\n>\n> deleteUser :: UserId -> AppHandler Bool\n\nIf we've implemented Aeson instances, we can add JSON as a media format\nwithout having to define these manually.  Once the behaviour is attached to\nthe resource, it can be served in the handler.\n\n> serveUser :: AppHandler ()\n> serveUser = serveResource $ resource\n>     & addMedia jsonInstances\n>     & setCreate createUser\n>     & setRead readUser\n>     & setUpdate updateUser\n>     & setDelete deleteUser\n>     & setFromParams userIdFromParams",
+    "category": "Web",
+    "custom-fields": [],
+    "build-type-raw": "Simple",
+    "custom-setup": null,
+    "library": null,
+    "sublibraries": [],
+    "executables": [],
+    "foreign-libs": [],
+    "test-suites": [],
+    "benchmarks": [],
+    "data-files": [],
+    "data-dir": ".",
+    "extra-source-files": [],
+    "extra-tmp-files": [],
+    "extra-doc-files": []
+  },
+  "library": {
+    "condTreeData": {
+      "name": {},
+      "exposed-modules": [
+        [
+          "Snap",
+          "Snaplet",
+          "Rest"
+        ],
+        [
+          "Snap",
+          "Snaplet",
+          "Rest",
+          "Config"
+        ],
+        [
+          "Snap",
+          "Snaplet",
+          "Rest",
+          "FromRequest"
+        ],
+        [
+          "Snap",
+          "Snaplet",
+          "Rest",
+          "Resource"
+        ]
+      ],
+      "re-exported-modules": [],
+      "signatures": [],
+      "exposed": true,
+      "visibility": "LibraryVisibilityPublic",
+      "build-info": {
+        "buildable": true,
+        "buildTools": [],
+        "buildToolDepends": [],
+        "cppOptions": [],
+        "asmOptions": [],
+        "cmmOptions": [],
+        "ccOptions": [],
+        "cxxOptions": [],
+        "ldOptions": [],
+        "pkgconfigDepends": [],
+        "frameworks": [],
+        "extraFrameworkDirs": [],
+        "asmSources": [],
+        "cmmSources": [],
+        "cSources": [],
+        "cxxSources": [],
+        "jsSources": [],
+        "hsSourceDirs": [
+          "src"
+        ],
+        "otherModules": [
+          [
+            "Snap",
+            "Snaplet",
+            "Rest",
+            "Failure"
+          ],
+          [
+            "Snap",
+            "Snaplet",
+            "Rest",
+            "FromRequest",
+            "Internal"
+          ],
+          [
+            "Snap",
+            "Snaplet",
+            "Rest",
+            "Media"
+          ],
+          [
+            "Snap",
+            "Snaplet",
+            "Rest",
+            "Options"
+          ],
+          [
+            "Snap",
+            "Snaplet",
+            "Rest",
+            "Proxy"
+          ],
+          [
+            "Snap",
+            "Snaplet",
+            "Rest",
+            "Resource",
+            "Builder"
+          ],
+          [
+            "Snap",
+            "Snaplet",
+            "Rest",
+            "Resource",
+            "Internal"
+          ],
+          [
+            "Snap",
+            "Snaplet",
+            "Rest",
+            "Resource",
+            "Media"
+          ],
+          [
+            "Snap",
+            "Snaplet",
+            "Rest",
+            "Serve"
+          ]
+        ],
+        "virtualModules": [],
+        "autogenModules": [],
+        "defaultLanguage": "Haskell2010",
+        "otherLanguages": [],
+        "defaultExtensions": [
+          {
+            "enable-extension": "MultiParamTypeClasses"
+          },
+          {
+            "enable-extension": "OverloadedStrings"
+          }
+        ],
+        "otherExtensions": [
+          {
+            "enable-extension": "FlexibleInstances"
+          },
+          {
+            "enable-extension": "IncoherentInstances"
+          },
+          {
+            "enable-extension": "OverlappingInstances"
+          },
+          {
+            "enable-extension": "Rank2Types"
+          },
+          {
+            "enable-extension": "TupleSections"
+          }
+        ],
+        "oldExtensions": [],
+        "extraLibs": [],
+        "extraGHCiLibs": [],
+        "extraBundledLibs": [],
+        "extraLibFlavours": [],
+        "extraDynLibFlavours": [],
+        "extraLibDirs": [],
+        "includeDirs": [],
+        "includes": [],
+        "autogenIncludes": [],
+        "installIncludes": [],
+        "options": [
+          [
+            "-Wall"
+          ],
+          []
+        ],
+        "profOptions": [
+          [],
+          []
+        ],
+        "sharedOptions": [
+          [],
+          []
+        ],
+        "staticOptions": [
+          [],
+          []
+        ],
+        "customFieldsBI": [],
+        "targetBuildDepends": [
+          {
+            "package-name": "aeson",
+            "version-range": ">=0.6.2 && <0.7",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "base",
+            "version-range": ">=4.6.0 && <4.7",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "blaze-builder",
+            "version-range": ">=0.3.1 && <0.4",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "bytestring",
+            "version-range": ">=0.10.0 && <0.11",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "case-insensitive",
+            "version-range": ">=1.0.0 && <1.1",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "http-media",
+            "version-range": ">=0.1.0 && <0.2",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "lens",
+            "version-range": ">=3.9.0 && <3.10",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "mtl",
+            "version-range": ">=2.1.2 && <2.2",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "snap",
+            "version-range": ">=0.13.0 && <0.14",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "snap-accept",
+            "version-range": ">=0.1.0 && <0.2",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "snap-core",
+            "version-range": ">=0.9.4 && <0.10",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "text",
+            "version-range": ">=0.11.3 && <0.12",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "utf8-string",
+            "version-range": ">=0.3.7 && <0.4",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "xmlhtml",
+            "version-range": ">=0.2.3 && <0.3",
+            "library": [
+              {}
+            ]
+          }
+        ],
+        "mixins": []
+      }
+    },
+    "condTreeConstraints": [
+      {
+        "package-name": "aeson",
+        "version-range": ">=0.6.2 && <0.7",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "base",
+        "version-range": ">=4.6.0 && <4.7",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "blaze-builder",
+        "version-range": ">=0.3.1 && <0.4",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "bytestring",
+        "version-range": ">=0.10.0 && <0.11",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "case-insensitive",
+        "version-range": ">=1.0.0 && <1.1",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "http-media",
+        "version-range": ">=0.1.0 && <0.2",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "lens",
+        "version-range": ">=3.9.0 && <3.10",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "mtl",
+        "version-range": ">=2.1.2 && <2.2",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "snap",
+        "version-range": ">=0.13.0 && <0.14",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "snap-accept",
+        "version-range": ">=0.1.0 && <0.2",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "snap-core",
+        "version-range": ">=0.9.4 && <0.10",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "text",
+        "version-range": ">=0.11.3 && <0.12",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "utf8-string",
+        "version-range": ">=0.3.7 && <0.4",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "xmlhtml",
+        "version-range": ">=0.2.3 && <0.3",
+        "library": [
+          {}
+        ]
+      }
+    ],
+    "condTreeComponents": []
+  }
+}

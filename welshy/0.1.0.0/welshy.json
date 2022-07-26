@@ -1,0 +1,354 @@
+{
+  "description": {
+    "spec-version": {
+      "Right": ">=1.8"
+    },
+    "package": {
+      "name": "welshy",
+      "version": [
+        0,
+        1,
+        0,
+        0
+      ]
+    },
+    "license": {
+      "Right": "MIT"
+    },
+    "license-files": [
+      "LICENSE"
+    ],
+    "copyright": "(c) 2013 Michael Schröder",
+    "maintainer": "mcschroeder@gmail.com",
+    "author": "Michael Schröder",
+    "stability": "",
+    "tested-with": [],
+    "homepage": "https://github.com/mcschroeder/welshy",
+    "pkg-url": "",
+    "bug-reports": "https://github.com/mcschroeder/welshy/issues",
+    "source-repos": [
+      {
+        "kind": {},
+        "type": "Git",
+        "location": "https://github.com/mcschroeder/welshy.git",
+        "module": null,
+        "branch": null,
+        "tag": null,
+        "subdir": null
+      }
+    ],
+    "synopsis": "Haskell web framework (because Scotty had trouble yodeling)",
+    "description": "A Haskell web framework heavily influenced by the excellent Scotty,\nwhich was in turn influenced by Ruby's Sinatra.\n\nWelshy strives to make it easier to do error handling without overly\ncomplicating the control flow. An example:\n\n@&#123;-&#35; LANGUAGE OverloadedStrings &#35;-&#125;@\n\n> import Control.Applicative\n> import Control.Monad\n> import qualified Data.Text.Lazy as T\n> import Network.HTTP.Types\n> import Web.Welshy\n>\n> fibs :: [Int]\n> fibs = 0 : 1 : zipWith (+) fibs (tail fibs)\n>\n> main :: IO ()\n> main = welshy 3000 $ do\n>     get \"/fibs\" $ do\n>         offset <- queryParam \"offset\" <|> return 0\n>         length <- queryParam \"length\"\n>\n>         when (offset < 0 || length < 0)\n>              (halt $ status badRequest400)\n>\n>         when (offset + length > 1000)\n>              (halt $ status requestedRangeNotSatisfiable416)\n>\n>         let result = take length $ drop offset fibs\n>         text $ T.pack $ show result\n\nSome of the features demonstrated here:\n\n* You can 'halt' the current action at any point and continue\nwith a different one.\n\n* Functions like 'queryParam' and 'jsonParam' have built-in error handling.\n\n* Welshy's 'Action' monad is an instance of 'Alternative'.",
+    "category": "Web",
+    "custom-fields": [
+      [
+        "x-revision",
+        "1"
+      ]
+    ],
+    "build-type-raw": "Simple",
+    "custom-setup": null,
+    "library": null,
+    "sublibraries": [],
+    "executables": [],
+    "foreign-libs": [],
+    "test-suites": [],
+    "benchmarks": [],
+    "data-files": [],
+    "data-dir": ".",
+    "extra-source-files": [
+      "example.hs"
+    ],
+    "extra-tmp-files": [],
+    "extra-doc-files": []
+  },
+  "library": {
+    "condTreeData": {
+      "name": {},
+      "exposed-modules": [
+        [
+          "Web",
+          "Welshy"
+        ]
+      ],
+      "re-exported-modules": [],
+      "signatures": [],
+      "exposed": true,
+      "visibility": "LibraryVisibilityPublic",
+      "build-info": {
+        "buildable": true,
+        "buildTools": [],
+        "buildToolDepends": [],
+        "cppOptions": [],
+        "asmOptions": [],
+        "cmmOptions": [],
+        "ccOptions": [],
+        "cxxOptions": [],
+        "ldOptions": [],
+        "pkgconfigDepends": [],
+        "frameworks": [],
+        "extraFrameworkDirs": [],
+        "asmSources": [],
+        "cmmSources": [],
+        "cSources": [],
+        "cxxSources": [],
+        "jsSources": [],
+        "hsSourceDirs": [],
+        "otherModules": [
+          [
+            "Web",
+            "Welshy",
+            "Action"
+          ],
+          [
+            "Web",
+            "Welshy",
+            "FromText"
+          ],
+          [
+            "Web",
+            "Welshy",
+            "Request"
+          ],
+          [
+            "Web",
+            "Welshy",
+            "Response"
+          ]
+        ],
+        "virtualModules": [],
+        "autogenModules": [],
+        "defaultLanguage": null,
+        "otherLanguages": [],
+        "defaultExtensions": [],
+        "otherExtensions": [],
+        "oldExtensions": [
+          {
+            "enable-extension": "GeneralizedNewtypeDeriving"
+          },
+          {
+            "enable-extension": "OverloadedStrings"
+          },
+          {
+            "enable-extension": "RecordWildCards"
+          }
+        ],
+        "extraLibs": [],
+        "extraGHCiLibs": [],
+        "extraBundledLibs": [],
+        "extraLibFlavours": [],
+        "extraDynLibFlavours": [],
+        "extraLibDirs": [],
+        "includeDirs": [],
+        "includes": [],
+        "autogenIncludes": [],
+        "installIncludes": [],
+        "options": [
+          [],
+          []
+        ],
+        "profOptions": [
+          [],
+          []
+        ],
+        "sharedOptions": [
+          [],
+          []
+        ],
+        "staticOptions": [
+          [],
+          []
+        ],
+        "customFieldsBI": [],
+        "targetBuildDepends": [
+          {
+            "package-name": "base",
+            "version-range": ">=4.6 && <4.8",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "aeson",
+            "version-range": "==0.6.*",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "blaze-builder",
+            "version-range": "==0.3.*",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "bytestring",
+            "version-range": "==0.10.*",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "conduit",
+            "version-range": "==1.0.*",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "http-types",
+            "version-range": "==0.8.*",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "lifted-base",
+            "version-range": "==0.2.*",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "resourcet",
+            "version-range": "==0.4.*",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "text",
+            "version-range": "==0.11.*",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "transformers",
+            "version-range": "==0.3.*",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "unordered-containers",
+            "version-range": "==0.2.*",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "wai",
+            "version-range": "==1.4.*",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "warp",
+            "version-range": "==1.3.*",
+            "library": [
+              {}
+            ]
+          }
+        ],
+        "mixins": []
+      }
+    },
+    "condTreeConstraints": [
+      {
+        "package-name": "base",
+        "version-range": ">=4.6 && <4.8",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "aeson",
+        "version-range": "==0.6.*",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "blaze-builder",
+        "version-range": "==0.3.*",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "bytestring",
+        "version-range": "==0.10.*",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "conduit",
+        "version-range": "==1.0.*",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "http-types",
+        "version-range": "==0.8.*",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "lifted-base",
+        "version-range": "==0.2.*",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "resourcet",
+        "version-range": "==0.4.*",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "text",
+        "version-range": "==0.11.*",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "transformers",
+        "version-range": "==0.3.*",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "unordered-containers",
+        "version-range": "==0.2.*",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "wai",
+        "version-range": "==1.4.*",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "warp",
+        "version-range": "==1.3.*",
+        "library": [
+          {}
+        ]
+      }
+    ],
+    "condTreeComponents": []
+  }
+}

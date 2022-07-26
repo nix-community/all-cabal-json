@@ -1,0 +1,347 @@
+{
+  "description": {
+    "spec-version": {
+      "Right": ">=1.2"
+    },
+    "package": {
+      "name": "httpspec",
+      "version": [
+        0,
+        1
+      ]
+    },
+    "license": {
+      "Right": "OtherLicense"
+    },
+    "license-files": [
+      "LICENSE"
+    ],
+    "copyright": "",
+    "maintainer": "David Leuschner <leuschner@openfactis.org>",
+    "author": "David Leuschner",
+    "stability": "",
+    "tested-with": [],
+    "homepage": "",
+    "pkg-url": "",
+    "bug-reports": "",
+    "source-repos": [],
+    "synopsis": "Specification of HTTP request/response generators and parsers",
+    "description": "Using httpspec you can write a specification for a HTTP request/response\ndefining the method, headers, url parameters and the body.  This\nspecification bidirectionally maps an abstract request/response data\ntype to a concrete realisation as a HTTP request/response.  The\nspecification can be used to generate HTTP requests/responses from an\nabstract description and it can be used to parse a HTTP request/response\ninto such an abstract description.  The idea is very similar to the way\npickling of XML data is described in HXT.\nFor example, the abstract representation of an authentication request\nand response could be described as\ndata AuthUserReq\n= AuthUserReq\n{ authUser_user :: String\n, authUser_pass :: String\n}\ndata AuthUserRes\n= AuthUserOk { authUserOk_sid :: String }\n| AuthUserFailed\nUsing httpspec you can define a mapping between HTTP and these types:\ninstance HasReqSpec AuthUserReq where\nreqSpec =\nrsMeth Http.POST $\nrsPath \"/authenticate-user\" $\nrsWrap (uncurry AuthUserReq, \\(AuthUserReq a b) -> (a,b)) $\nrsPair (rsParam \"uid\") (rsParam \"pass\")\ninstance HasResSpec AuthUserRes where\nresSpec =\nrsSwitch\n[ rsCase (AuthUserOk,authUserOk_sid) $\nrsStatus 200 $\nrsContentType \"text/plain\" $\nrsEncodingFixed UTF8 $\nrsBody\n, rsCaseConst AuthUserFailed $\nrsStatus 403\n]",
+    "category": "Data, Web",
+    "custom-fields": [],
+    "build-type-raw": "Simple",
+    "custom-setup": null,
+    "library": null,
+    "sublibraries": [],
+    "executables": [],
+    "foreign-libs": [],
+    "test-suites": [],
+    "benchmarks": [],
+    "data-files": [],
+    "data-dir": ".",
+    "extra-source-files": [],
+    "extra-tmp-files": [],
+    "extra-doc-files": []
+  },
+  "library": {
+    "condTreeData": {
+      "name": {},
+      "exposed-modules": [
+        [
+          "Data",
+          "HttpSpec"
+        ],
+        [
+          "Data",
+          "HttpSpec",
+          "HttpTypes"
+        ],
+        [
+          "Data",
+          "HttpSpec",
+          "Pretty"
+        ],
+        [
+          "Data",
+          "HttpSpec",
+          "MiscHelper"
+        ],
+        [
+          "Data",
+          "HttpSpec",
+          "XmlHelper"
+        ],
+        [
+          "Data",
+          "HttpSpec",
+          "EncodingHelper"
+        ]
+      ],
+      "re-exported-modules": [],
+      "signatures": [],
+      "exposed": true,
+      "visibility": "LibraryVisibilityPublic",
+      "build-info": {
+        "buildable": true,
+        "buildTools": [],
+        "buildToolDepends": [],
+        "cppOptions": [],
+        "asmOptions": [],
+        "cmmOptions": [],
+        "ccOptions": [],
+        "cxxOptions": [],
+        "ldOptions": [],
+        "pkgconfigDepends": [],
+        "frameworks": [],
+        "extraFrameworkDirs": [],
+        "asmSources": [],
+        "cmmSources": [],
+        "cSources": [],
+        "cxxSources": [],
+        "jsSources": [],
+        "hsSourceDirs": [
+          "src"
+        ],
+        "otherModules": [],
+        "virtualModules": [],
+        "autogenModules": [],
+        "defaultLanguage": null,
+        "otherLanguages": [],
+        "defaultExtensions": [],
+        "otherExtensions": [],
+        "oldExtensions": [],
+        "extraLibs": [],
+        "extraGHCiLibs": [],
+        "extraBundledLibs": [],
+        "extraLibFlavours": [],
+        "extraDynLibFlavours": [],
+        "extraLibDirs": [],
+        "includeDirs": [],
+        "includes": [],
+        "autogenIncludes": [],
+        "installIncludes": [],
+        "options": [
+          [
+            "-Wall"
+          ],
+          []
+        ],
+        "profOptions": [
+          [],
+          []
+        ],
+        "sharedOptions": [
+          [],
+          []
+        ],
+        "staticOptions": [
+          [],
+          []
+        ],
+        "customFieldsBI": [],
+        "targetBuildDepends": [
+          {
+            "package-name": "base",
+            "version-range": ">=4 && <5",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "bytestring",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "bidispec",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "mtl",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "tagsoup",
+            "version-range": "==0.6",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "hxt",
+            "version-range": ">8.3 && <8.4",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "pretty",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "Safe",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "cgi",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "network",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "HTTP",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "filepath",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "containers",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "encoding",
+            "version-range": ">=0.6",
+            "library": [
+              {}
+            ]
+          }
+        ],
+        "mixins": []
+      }
+    },
+    "condTreeConstraints": [
+      {
+        "package-name": "base",
+        "version-range": ">=4 && <5",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "bytestring",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "bidispec",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "mtl",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "tagsoup",
+        "version-range": "==0.6",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "hxt",
+        "version-range": ">8.3 && <8.4",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "pretty",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "Safe",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "cgi",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "network",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "HTTP",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "filepath",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "containers",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "encoding",
+        "version-range": ">=0.6",
+        "library": [
+          {}
+        ]
+      }
+    ],
+    "condTreeComponents": []
+  }
+}

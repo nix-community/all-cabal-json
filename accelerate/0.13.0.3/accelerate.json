@@ -1,0 +1,1171 @@
+{
+  "description": {
+    "spec-version": {
+      "Right": ">=1.6"
+    },
+    "package": {
+      "name": "accelerate",
+      "version": [
+        0,
+        13,
+        0,
+        3
+      ]
+    },
+    "license": {
+      "Right": "BSD3"
+    },
+    "license-files": [
+      "LICENSE"
+    ],
+    "copyright": "",
+    "maintainer": "Manuel M T Chakravarty <chak@cse.unsw.edu.au>",
+    "author": "Manuel M T Chakravarty,\nRobert Clifton-Everest,\nGabriele Keller,\nSean Lee,\nBen Lever,\nTrevor L. McDonell,\nRyan Newtown,\nSean Seefried",
+    "stability": "Experimental",
+    "tested-with": [
+      {
+        "compiler": "GHC",
+        "versionRange": ">=7.4.2"
+      }
+    ],
+    "homepage": "https://github.com/AccelerateHS/accelerate/",
+    "pkg-url": "",
+    "bug-reports": "https://github.com/AccelerateHS/accelerate/issues",
+    "source-repos": [
+      {
+        "kind": {},
+        "type": "Git",
+        "location": "git://github.com/AccelerateHS/accelerate.git",
+        "module": null,
+        "branch": null,
+        "tag": null,
+        "subdir": null
+      }
+    ],
+    "synopsis": "An embedded language for accelerated array processing",
+    "description": "@Data.Array.Accelerate@ defines an embedded array language for computations\nfor high-performance computing in Haskell. Computations on multi-dimensional,\nregular arrays are expressed in the form of parameterised collective\noperations, such as maps, reductions, and permutations. These computations may\nthen be online compiled and executed on a range of architectures.\n\n[/A simple example/]\n\nAs a simple example, consider the computation of a dot product of two vectors\nof floating point numbers:\n\n> dotp :: Acc (Vector Float) -> Acc (Vector Float) -> Acc (Scalar Float)\n> dotp xs ys = fold (+) 0 (zipWith (*) xs ys)\n\nExcept for the type, this code is almost the same as the corresponding Haskell\ncode on lists of floats. The types indicate that the computation may be\nonline-compiled for performance – for example, using\n@Data.Array.Accelerate.CUDA@ it may be on-the-fly off-loaded to the GPU.\n\n[/Available backends/]\n\nCurrently, there are two backends:\n\n1. An interpreter that serves as a reference implementation of the intended\nsemantics of the language, which is included in this package.\n\n2. A CUDA backend generating code for CUDA-capable NVIDIA GPUs:\n<http://hackage.haskell.org/package/accelerate-cuda>\n\nSeveral experimental and/or incomplete backends also exist. If you are\ninterested in helping finish these, please contact us.\n\n1. Cilk\\/ICC and OpenCL: <https://github.com/AccelerateHS/accelerate-backend-kit>\n\n2. Another OpenCL backend: <https://github.com/HIPERFIT/accelerate-opencl>\n\n3. A backend to the Repa array library: <https://github.com/blambo/accelerate-repa>\n\n[/Additional components/]\n\nThe following support packages are available:\n\n1. @accelerate-cuda@: A high-performance parallel backend targeting\nCUDA-enabled NVIDIA GPUs. Requires the NVIDIA CUDA SDK and, for full\nfunctionality, hardware with compute capability 1.2 or greater. See the\ntable on Wikipedia for supported GPUs:\n<http://en.wikipedia.org/wiki/CUDA#Supported_GPUs>\n\n2. @accelerate-examples@: Computational kernels and applications showcasing\n/Accelerate/, as well as performance and regression tests.\n\n3. @accelerate-io@: Fast conversion between /Accelerate/ arrays and other\nformats, including Repa arrays.\n\n4. @accelerate-fft@: Computation of Discrete Fourier Transforms.\n\nInstall them from Hackage with @cabal install PACKAGE@\n\n[/Examples and documentation/]\n\nHaddock documentation is included in the package, and a tutorial is available\non the GitHub wiki: <https://github.com/AccelerateHS/accelerate/wiki>\n\nThe @accelerate-examples@ package demonstrates a range of computational\nkernels and several complete applications, including:\n\n* An implementation of the Canny edge detection algorithm\n\n* An interactive Mandelbrot set generator\n\n* A particle-based simulation of stable fluid flows\n\n* An /n/-body simulation of gravitational attraction between solid particles\n\n* A cellular automata simulation\n\n* A \\\"password recovery\\\" tool, for dictionary lookup of MD5 hashes\n\n[/Mailing list and contacts/]\n\n* Mailing list: <accelerate-haskell@googlegroups.com> (discussion of both\nuse and development welcome).\n\n* Sign up for the mailing list here:\n<http://groups.google.com/group/accelerate-haskell>\n\n* Bug reports and issue tracking:\n<https://github.com/AccelerateHS/accelerate/issues>\n\n[/Release notes/]\n\n* /0.13.0.0:/ New array fusion optimisation. New foreign function\ninterface for array and scalar expressions. Additional Prelude-like\nfunctions. New example programs. Bug fixes and performance improvements.\n\n* /0.12.0.0:/ Full sharing recovery in scalar expressions and array\ncomputations. Two new example applications in package\n@accelerate-examples@: Real-time Canny edge detection and fluid flow\nsimulator (both including a graphical frontend). Bug fixes.\n\n* /0.11.0.0:/ New Prelude-like functions @zip*@, @unzip*@,\n@fill@, @enumFrom*@, @tail@, @init@, @drop@, @take@, @slit@, @gather*@,\n@scatter*@, and @shapeSize@. New simplified AST (in package\n@accelerate-backend-kit@) for backend writers who want to avoid the\ncomplexities of the type-safe AST.\n\n* /0.10.0.0:/ Complete sharing recovery for scalar expressions (but\ncurrently disabled by default). Also bug fixes in array sharing recovery\nand a few new convenience functions.\n\n* /0.9.0.0:/ Streaming, precompilation, Repa-style indices,\n@stencil@s, more @scan@s, rank-polymorphic @fold@, @generate@, block I/O &\nmany bug fixes.\n\n* /0.8.1.0:/ Bug fixes and some performance tweaks.\n\n* /0.8.0.0:/ @replicate@, @slice@ and @foldSeg@ supported in the\nCUDA backend; frontend and interpreter support for @stencil@. Bug fixes.\n\n* /0.7.1.0:/ The CUDA backend and a number of scalar functions.\n",
+    "category": "Compilers/Interpreters, Concurrency, Data, Parallelism",
+    "custom-fields": [],
+    "build-type-raw": "Custom",
+    "custom-setup": null,
+    "library": null,
+    "sublibraries": [],
+    "executables": [],
+    "foreign-libs": [],
+    "test-suites": [],
+    "benchmarks": [],
+    "data-files": [],
+    "data-dir": ".",
+    "extra-source-files": [
+      "INSTALL",
+      "configure",
+      "accelerate.buildinfo.in",
+      "include/accelerate.h"
+    ],
+    "extra-tmp-files": [
+      "config.status",
+      "config.log",
+      "autom4te.cache",
+      "accelerate.buildinfo"
+    ],
+    "extra-doc-files": []
+  },
+  "package-flags": [
+    {
+      "name": "debug",
+      "description": "Enable tracing message flags. These are read from the command-line\narguments, which is convenient but may cause problems interacting with the\nuser program, so are disabled by default. The available options are:\n\n* -ddump-sharing: print sharing recovery information\n\n* -ddump-simpl-stats: dump statistics counts from the simplifier phase\n\n* -ddump-simpl-iterations: dump the program after each iteration of the simplifier\n\n* -dverbose: other, uncategorised messages\n",
+      "default": true,
+      "manual": false
+    },
+    {
+      "name": "more-pp",
+      "description": "Enable HTML and Graphviz pretty printing.",
+      "default": false,
+      "manual": false
+    },
+    {
+      "name": "bounds-checks",
+      "description": "Enable bounds checking",
+      "default": true,
+      "manual": false
+    },
+    {
+      "name": "unsafe-checks",
+      "description": "Enable bounds checking in unsafe operations",
+      "default": false,
+      "manual": false
+    },
+    {
+      "name": "internal-checks",
+      "description": "Enable internal consistency checks",
+      "default": false,
+      "manual": false
+    }
+  ],
+  "library": {
+    "condTreeData": {
+      "name": {},
+      "exposed-modules": [
+        [
+          "Data",
+          "Array",
+          "Accelerate"
+        ],
+        [
+          "Data",
+          "Array",
+          "Accelerate",
+          "AST"
+        ],
+        [
+          "Data",
+          "Array",
+          "Accelerate",
+          "Analysis",
+          "Match"
+        ],
+        [
+          "Data",
+          "Array",
+          "Accelerate",
+          "Analysis",
+          "Shape"
+        ],
+        [
+          "Data",
+          "Array",
+          "Accelerate",
+          "Analysis",
+          "Stencil"
+        ],
+        [
+          "Data",
+          "Array",
+          "Accelerate",
+          "Analysis",
+          "Type"
+        ],
+        [
+          "Data",
+          "Array",
+          "Accelerate",
+          "Array",
+          "Data"
+        ],
+        [
+          "Data",
+          "Array",
+          "Accelerate",
+          "Array",
+          "Representation"
+        ],
+        [
+          "Data",
+          "Array",
+          "Accelerate",
+          "Array",
+          "Sugar"
+        ],
+        [
+          "Data",
+          "Array",
+          "Accelerate",
+          "Debug"
+        ],
+        [
+          "Data",
+          "Array",
+          "Accelerate",
+          "Interpreter"
+        ],
+        [
+          "Data",
+          "Array",
+          "Accelerate",
+          "Pretty"
+        ],
+        [
+          "Data",
+          "Array",
+          "Accelerate",
+          "Smart"
+        ],
+        [
+          "Data",
+          "Array",
+          "Accelerate",
+          "Trafo"
+        ],
+        [
+          "Data",
+          "Array",
+          "Accelerate",
+          "Trafo",
+          "Sharing"
+        ],
+        [
+          "Data",
+          "Array",
+          "Accelerate",
+          "Tuple"
+        ],
+        [
+          "Data",
+          "Array",
+          "Accelerate",
+          "Type"
+        ]
+      ],
+      "re-exported-modules": [],
+      "signatures": [],
+      "exposed": true,
+      "visibility": "LibraryVisibilityPublic",
+      "build-info": {
+        "buildable": true,
+        "buildTools": [],
+        "buildToolDepends": [],
+        "cppOptions": [],
+        "asmOptions": [],
+        "cmmOptions": [],
+        "ccOptions": [],
+        "cxxOptions": [],
+        "ldOptions": [],
+        "pkgconfigDepends": [],
+        "frameworks": [],
+        "extraFrameworkDirs": [],
+        "asmSources": [],
+        "cmmSources": [],
+        "cSources": [],
+        "cxxSources": [],
+        "jsSources": [],
+        "hsSourceDirs": [],
+        "otherModules": [
+          [
+            "Data",
+            "Array",
+            "Accelerate",
+            "Array",
+            "Delayed"
+          ],
+          [
+            "Data",
+            "Array",
+            "Accelerate",
+            "Internal",
+            "Check"
+          ],
+          [
+            "Data",
+            "Array",
+            "Accelerate",
+            "Language"
+          ],
+          [
+            "Data",
+            "Array",
+            "Accelerate",
+            "Prelude"
+          ],
+          [
+            "Data",
+            "Array",
+            "Accelerate",
+            "Pretty",
+            "Print"
+          ],
+          [
+            "Data",
+            "Array",
+            "Accelerate",
+            "Pretty",
+            "Traverse"
+          ],
+          [
+            "Data",
+            "Array",
+            "Accelerate",
+            "Trafo",
+            "Algebra"
+          ],
+          [
+            "Data",
+            "Array",
+            "Accelerate",
+            "Trafo",
+            "Base"
+          ],
+          [
+            "Data",
+            "Array",
+            "Accelerate",
+            "Trafo",
+            "Fusion"
+          ],
+          [
+            "Data",
+            "Array",
+            "Accelerate",
+            "Trafo",
+            "Rewrite"
+          ],
+          [
+            "Data",
+            "Array",
+            "Accelerate",
+            "Trafo",
+            "Shrink"
+          ],
+          [
+            "Data",
+            "Array",
+            "Accelerate",
+            "Trafo",
+            "Simplify"
+          ],
+          [
+            "Data",
+            "Array",
+            "Accelerate",
+            "Trafo",
+            "Substitution"
+          ]
+        ],
+        "virtualModules": [],
+        "autogenModules": [],
+        "defaultLanguage": null,
+        "otherLanguages": [],
+        "defaultExtensions": [],
+        "otherExtensions": [],
+        "oldExtensions": [],
+        "extraLibs": [],
+        "extraGHCiLibs": [],
+        "extraBundledLibs": [],
+        "extraLibFlavours": [],
+        "extraDynLibFlavours": [],
+        "extraLibDirs": [],
+        "includeDirs": [
+          "include"
+        ],
+        "includes": [],
+        "autogenIncludes": [],
+        "installIncludes": [],
+        "options": [
+          [
+            "-O2",
+            "-Wall",
+            "-funbox-strict-fields",
+            "-fno-warn-name-shadowing"
+          ],
+          []
+        ],
+        "profOptions": [
+          [
+            "-caf-all",
+            "-auto-all"
+          ],
+          []
+        ],
+        "sharedOptions": [
+          [],
+          []
+        ],
+        "staticOptions": [
+          [],
+          []
+        ],
+        "customFieldsBI": [],
+        "targetBuildDepends": [
+          {
+            "package-name": "base",
+            "version-range": "==4.*",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "ghc-prim",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "array",
+            "version-range": ">=0.3 && <0.5",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "containers",
+            "version-range": ">=0.3 && <0.6",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "fclabels",
+            "version-range": ">=1.0 && <1.2",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "hashable",
+            "version-range": ">=1.1 && <1.3",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "hashtables",
+            "version-range": ">=1.0 && <1.2",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "pretty",
+            "version-range": ">=1.0 && <1.2",
+            "library": [
+              {}
+            ]
+          }
+        ],
+        "mixins": []
+      }
+    },
+    "condTreeConstraints": [
+      {
+        "package-name": "base",
+        "version-range": "==4.*",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "ghc-prim",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "array",
+        "version-range": ">=0.3 && <0.5",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "containers",
+        "version-range": ">=0.3 && <0.6",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "fclabels",
+        "version-range": ">=1.0 && <1.2",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "hashable",
+        "version-range": ">=1.1 && <1.3",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "hashtables",
+        "version-range": ">=1.0 && <1.2",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "pretty",
+        "version-range": ">=1.0 && <1.2",
+        "library": [
+          {}
+        ]
+      }
+    ],
+    "condTreeComponents": [
+      {
+        "condBranchCondition": {
+          "v": {
+            "flag": "more-pp"
+          }
+        },
+        "condBranchIfTrue": {
+          "condTreeData": {
+            "name": {},
+            "exposed-modules": [],
+            "re-exported-modules": [],
+            "signatures": [],
+            "exposed": true,
+            "visibility": "LibraryVisibilityPublic",
+            "build-info": {
+              "buildable": true,
+              "buildTools": [],
+              "buildToolDepends": [],
+              "cppOptions": [],
+              "asmOptions": [],
+              "cmmOptions": [],
+              "ccOptions": [],
+              "cxxOptions": [],
+              "ldOptions": [],
+              "pkgconfigDepends": [],
+              "frameworks": [],
+              "extraFrameworkDirs": [],
+              "asmSources": [],
+              "cmmSources": [],
+              "cSources": [],
+              "cxxSources": [],
+              "jsSources": [],
+              "hsSourceDirs": [],
+              "otherModules": [],
+              "virtualModules": [],
+              "autogenModules": [],
+              "defaultLanguage": null,
+              "otherLanguages": [],
+              "defaultExtensions": [],
+              "otherExtensions": [],
+              "oldExtensions": [],
+              "extraLibs": [],
+              "extraGHCiLibs": [],
+              "extraBundledLibs": [],
+              "extraLibFlavours": [],
+              "extraDynLibFlavours": [],
+              "extraLibDirs": [],
+              "includeDirs": [],
+              "includes": [],
+              "autogenIncludes": [],
+              "installIncludes": [],
+              "options": [
+                [],
+                []
+              ],
+              "profOptions": [
+                [],
+                []
+              ],
+              "sharedOptions": [
+                [],
+                []
+              ],
+              "staticOptions": [
+                [],
+                []
+              ],
+              "customFieldsBI": [],
+              "targetBuildDepends": [
+                {
+                  "package-name": "bytestring",
+                  "version-range": ">=0.9 && <0.11",
+                  "library": [
+                    {}
+                  ]
+                },
+                {
+                  "package-name": "blaze-html",
+                  "version-range": ">=0.5 && <0.7",
+                  "library": [
+                    {}
+                  ]
+                },
+                {
+                  "package-name": "blaze-markup",
+                  "version-range": ">=0.5 && <0.6",
+                  "library": [
+                    {}
+                  ]
+                },
+                {
+                  "package-name": "directory",
+                  "version-range": ">=1.0 && <1.3",
+                  "library": [
+                    {}
+                  ]
+                },
+                {
+                  "package-name": "filepath",
+                  "version-range": ">=1.0 && <1.4",
+                  "library": [
+                    {}
+                  ]
+                },
+                {
+                  "package-name": "mtl",
+                  "version-range": ">=2.0 && <2.2",
+                  "library": [
+                    {}
+                  ]
+                },
+                {
+                  "package-name": "text",
+                  "version-range": ">=0.10 && <0.12",
+                  "library": [
+                    {}
+                  ]
+                },
+                {
+                  "package-name": "unix",
+                  "version-range": ">=2.4 && <2.7",
+                  "library": [
+                    {}
+                  ]
+                }
+              ],
+              "mixins": []
+            }
+          },
+          "condTreeConstraints": [
+            {
+              "package-name": "bytestring",
+              "version-range": ">=0.9 && <0.11",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "blaze-html",
+              "version-range": ">=0.5 && <0.7",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "blaze-markup",
+              "version-range": ">=0.5 && <0.6",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "directory",
+              "version-range": ">=1.0 && <1.3",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "filepath",
+              "version-range": ">=1.0 && <1.4",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "mtl",
+              "version-range": ">=2.0 && <2.2",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "text",
+              "version-range": ">=0.10 && <0.12",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "unix",
+              "version-range": ">=2.4 && <2.7",
+              "library": [
+                {}
+              ]
+            }
+          ],
+          "condTreeComponents": []
+        }
+      },
+      {
+        "condBranchCondition": {
+          "v": {
+            "flag": "more-pp"
+          }
+        },
+        "condBranchIfTrue": {
+          "condTreeData": {
+            "name": {},
+            "exposed-modules": [],
+            "re-exported-modules": [],
+            "signatures": [],
+            "exposed": true,
+            "visibility": "LibraryVisibilityPublic",
+            "build-info": {
+              "buildable": true,
+              "buildTools": [],
+              "buildToolDepends": [],
+              "cppOptions": [],
+              "asmOptions": [],
+              "cmmOptions": [],
+              "ccOptions": [],
+              "cxxOptions": [],
+              "ldOptions": [],
+              "pkgconfigDepends": [],
+              "frameworks": [],
+              "extraFrameworkDirs": [],
+              "asmSources": [],
+              "cmmSources": [],
+              "cSources": [],
+              "cxxSources": [],
+              "jsSources": [],
+              "hsSourceDirs": [],
+              "otherModules": [
+                [
+                  "Data",
+                  "Array",
+                  "Accelerate",
+                  "Pretty",
+                  "HTML"
+                ],
+                [
+                  "Data",
+                  "Array",
+                  "Accelerate",
+                  "Pretty",
+                  "Graphviz"
+                ]
+              ],
+              "virtualModules": [],
+              "autogenModules": [],
+              "defaultLanguage": null,
+              "otherLanguages": [],
+              "defaultExtensions": [],
+              "otherExtensions": [],
+              "oldExtensions": [],
+              "extraLibs": [],
+              "extraGHCiLibs": [],
+              "extraBundledLibs": [],
+              "extraLibFlavours": [],
+              "extraDynLibFlavours": [],
+              "extraLibDirs": [],
+              "includeDirs": [],
+              "includes": [],
+              "autogenIncludes": [],
+              "installIncludes": [],
+              "options": [
+                [],
+                []
+              ],
+              "profOptions": [
+                [],
+                []
+              ],
+              "sharedOptions": [
+                [],
+                []
+              ],
+              "staticOptions": [
+                [],
+                []
+              ],
+              "customFieldsBI": [],
+              "targetBuildDepends": [],
+              "mixins": []
+            }
+          },
+          "condTreeConstraints": [],
+          "condTreeComponents": []
+        }
+      },
+      {
+        "condBranchCondition": {
+          "v": {
+            "flag": "debug"
+          }
+        },
+        "condBranchIfTrue": {
+          "condTreeData": {
+            "name": {},
+            "exposed-modules": [],
+            "re-exported-modules": [],
+            "signatures": [],
+            "exposed": true,
+            "visibility": "LibraryVisibilityPublic",
+            "build-info": {
+              "buildable": true,
+              "buildTools": [],
+              "buildToolDepends": [],
+              "cppOptions": [
+                "-DACCELERATE_DEBUG"
+              ],
+              "asmOptions": [],
+              "cmmOptions": [],
+              "ccOptions": [],
+              "cxxOptions": [],
+              "ldOptions": [],
+              "pkgconfigDepends": [],
+              "frameworks": [],
+              "extraFrameworkDirs": [],
+              "asmSources": [],
+              "cmmSources": [],
+              "cSources": [],
+              "cxxSources": [],
+              "jsSources": [],
+              "hsSourceDirs": [],
+              "otherModules": [],
+              "virtualModules": [],
+              "autogenModules": [],
+              "defaultLanguage": null,
+              "otherLanguages": [],
+              "defaultExtensions": [],
+              "otherExtensions": [],
+              "oldExtensions": [],
+              "extraLibs": [],
+              "extraGHCiLibs": [],
+              "extraBundledLibs": [],
+              "extraLibFlavours": [],
+              "extraDynLibFlavours": [],
+              "extraLibDirs": [],
+              "includeDirs": [],
+              "includes": [],
+              "autogenIncludes": [],
+              "installIncludes": [],
+              "options": [
+                [],
+                []
+              ],
+              "profOptions": [
+                [],
+                []
+              ],
+              "sharedOptions": [
+                [],
+                []
+              ],
+              "staticOptions": [
+                [],
+                []
+              ],
+              "customFieldsBI": [],
+              "targetBuildDepends": [],
+              "mixins": []
+            }
+          },
+          "condTreeConstraints": [],
+          "condTreeComponents": []
+        }
+      },
+      {
+        "condBranchCondition": {
+          "v": {
+            "flag": "bounds-checks"
+          }
+        },
+        "condBranchIfTrue": {
+          "condTreeData": {
+            "name": {},
+            "exposed-modules": [],
+            "re-exported-modules": [],
+            "signatures": [],
+            "exposed": true,
+            "visibility": "LibraryVisibilityPublic",
+            "build-info": {
+              "buildable": true,
+              "buildTools": [],
+              "buildToolDepends": [],
+              "cppOptions": [
+                "-DACCELERATE_BOUNDS_CHECKS"
+              ],
+              "asmOptions": [],
+              "cmmOptions": [],
+              "ccOptions": [],
+              "cxxOptions": [],
+              "ldOptions": [],
+              "pkgconfigDepends": [],
+              "frameworks": [],
+              "extraFrameworkDirs": [],
+              "asmSources": [],
+              "cmmSources": [],
+              "cSources": [],
+              "cxxSources": [],
+              "jsSources": [],
+              "hsSourceDirs": [],
+              "otherModules": [],
+              "virtualModules": [],
+              "autogenModules": [],
+              "defaultLanguage": null,
+              "otherLanguages": [],
+              "defaultExtensions": [],
+              "otherExtensions": [],
+              "oldExtensions": [],
+              "extraLibs": [],
+              "extraGHCiLibs": [],
+              "extraBundledLibs": [],
+              "extraLibFlavours": [],
+              "extraDynLibFlavours": [],
+              "extraLibDirs": [],
+              "includeDirs": [],
+              "includes": [],
+              "autogenIncludes": [],
+              "installIncludes": [],
+              "options": [
+                [],
+                []
+              ],
+              "profOptions": [
+                [],
+                []
+              ],
+              "sharedOptions": [
+                [],
+                []
+              ],
+              "staticOptions": [
+                [],
+                []
+              ],
+              "customFieldsBI": [],
+              "targetBuildDepends": [],
+              "mixins": []
+            }
+          },
+          "condTreeConstraints": [],
+          "condTreeComponents": []
+        }
+      },
+      {
+        "condBranchCondition": {
+          "v": {
+            "flag": "unsafe-checks"
+          }
+        },
+        "condBranchIfTrue": {
+          "condTreeData": {
+            "name": {},
+            "exposed-modules": [],
+            "re-exported-modules": [],
+            "signatures": [],
+            "exposed": true,
+            "visibility": "LibraryVisibilityPublic",
+            "build-info": {
+              "buildable": true,
+              "buildTools": [],
+              "buildToolDepends": [],
+              "cppOptions": [
+                "-DACCELERATE_UNSAFE_CHECKS"
+              ],
+              "asmOptions": [],
+              "cmmOptions": [],
+              "ccOptions": [],
+              "cxxOptions": [],
+              "ldOptions": [],
+              "pkgconfigDepends": [],
+              "frameworks": [],
+              "extraFrameworkDirs": [],
+              "asmSources": [],
+              "cmmSources": [],
+              "cSources": [],
+              "cxxSources": [],
+              "jsSources": [],
+              "hsSourceDirs": [],
+              "otherModules": [],
+              "virtualModules": [],
+              "autogenModules": [],
+              "defaultLanguage": null,
+              "otherLanguages": [],
+              "defaultExtensions": [],
+              "otherExtensions": [],
+              "oldExtensions": [],
+              "extraLibs": [],
+              "extraGHCiLibs": [],
+              "extraBundledLibs": [],
+              "extraLibFlavours": [],
+              "extraDynLibFlavours": [],
+              "extraLibDirs": [],
+              "includeDirs": [],
+              "includes": [],
+              "autogenIncludes": [],
+              "installIncludes": [],
+              "options": [
+                [],
+                []
+              ],
+              "profOptions": [
+                [],
+                []
+              ],
+              "sharedOptions": [
+                [],
+                []
+              ],
+              "staticOptions": [
+                [],
+                []
+              ],
+              "customFieldsBI": [],
+              "targetBuildDepends": [],
+              "mixins": []
+            }
+          },
+          "condTreeConstraints": [],
+          "condTreeComponents": []
+        }
+      },
+      {
+        "condBranchCondition": {
+          "v": {
+            "flag": "internal-checks"
+          }
+        },
+        "condBranchIfTrue": {
+          "condTreeData": {
+            "name": {},
+            "exposed-modules": [],
+            "re-exported-modules": [],
+            "signatures": [],
+            "exposed": true,
+            "visibility": "LibraryVisibilityPublic",
+            "build-info": {
+              "buildable": true,
+              "buildTools": [],
+              "buildToolDepends": [],
+              "cppOptions": [
+                "-DACCELERATE_INTERNAL_CHECKS"
+              ],
+              "asmOptions": [],
+              "cmmOptions": [],
+              "ccOptions": [],
+              "cxxOptions": [],
+              "ldOptions": [],
+              "pkgconfigDepends": [],
+              "frameworks": [],
+              "extraFrameworkDirs": [],
+              "asmSources": [],
+              "cmmSources": [],
+              "cSources": [],
+              "cxxSources": [],
+              "jsSources": [],
+              "hsSourceDirs": [],
+              "otherModules": [],
+              "virtualModules": [],
+              "autogenModules": [],
+              "defaultLanguage": null,
+              "otherLanguages": [],
+              "defaultExtensions": [],
+              "otherExtensions": [],
+              "oldExtensions": [],
+              "extraLibs": [],
+              "extraGHCiLibs": [],
+              "extraBundledLibs": [],
+              "extraLibFlavours": [],
+              "extraDynLibFlavours": [],
+              "extraLibDirs": [],
+              "includeDirs": [],
+              "includes": [],
+              "autogenIncludes": [],
+              "installIncludes": [],
+              "options": [
+                [],
+                []
+              ],
+              "profOptions": [
+                [],
+                []
+              ],
+              "sharedOptions": [
+                [],
+                []
+              ],
+              "staticOptions": [
+                [],
+                []
+              ],
+              "customFieldsBI": [],
+              "targetBuildDepends": [],
+              "mixins": []
+            }
+          },
+          "condTreeConstraints": [],
+          "condTreeComponents": []
+        }
+      },
+      {
+        "condBranchCondition": {
+          "v": {
+            "compiler": "GHC",
+            "version": ">=7.0"
+          }
+        },
+        "condBranchIfTrue": {
+          "condTreeData": {
+            "name": {},
+            "exposed-modules": [],
+            "re-exported-modules": [],
+            "signatures": [],
+            "exposed": true,
+            "visibility": "LibraryVisibilityPublic",
+            "build-info": {
+              "buildable": true,
+              "buildTools": [],
+              "buildToolDepends": [],
+              "cppOptions": [],
+              "asmOptions": [],
+              "cmmOptions": [],
+              "ccOptions": [],
+              "cxxOptions": [],
+              "ldOptions": [],
+              "pkgconfigDepends": [],
+              "frameworks": [],
+              "extraFrameworkDirs": [],
+              "asmSources": [],
+              "cmmSources": [],
+              "cSources": [],
+              "cxxSources": [],
+              "jsSources": [],
+              "hsSourceDirs": [],
+              "otherModules": [],
+              "virtualModules": [],
+              "autogenModules": [],
+              "defaultLanguage": null,
+              "otherLanguages": [],
+              "defaultExtensions": [],
+              "otherExtensions": [],
+              "oldExtensions": [],
+              "extraLibs": [],
+              "extraGHCiLibs": [],
+              "extraBundledLibs": [],
+              "extraLibFlavours": [],
+              "extraDynLibFlavours": [],
+              "extraLibDirs": [],
+              "includeDirs": [],
+              "includes": [],
+              "autogenIncludes": [],
+              "installIncludes": [],
+              "options": [
+                [
+                  "-fspec-constr-count=25"
+                ],
+                []
+              ],
+              "profOptions": [
+                [],
+                []
+              ],
+              "sharedOptions": [
+                [],
+                []
+              ],
+              "staticOptions": [
+                [],
+                []
+              ],
+              "customFieldsBI": [],
+              "targetBuildDepends": [],
+              "mixins": []
+            }
+          },
+          "condTreeConstraints": [],
+          "condTreeComponents": []
+        }
+      }
+    ]
+  }
+}

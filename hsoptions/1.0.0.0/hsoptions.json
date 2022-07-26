@@ -1,0 +1,806 @@
+{
+  "description": {
+    "spec-version": {
+      "Right": ">=1.8"
+    },
+    "package": {
+      "name": "hsoptions",
+      "version": [
+        1,
+        0,
+        0,
+        0
+      ]
+    },
+    "license": {
+      "Right": "OtherLicense"
+    },
+    "license-files": [
+      "LICENSE"
+    ],
+    "copyright": "(c) Jose Raymundo Cruz (jose.r.cruz01@gmail.com)",
+    "maintainer": "jose.r.cruz01@gmail.com",
+    "author": "Jose Raymundo Cruz",
+    "stability": "",
+    "tested-with": [],
+    "homepage": "https://github.com/josercruz01/hsoptions",
+    "pkg-url": "",
+    "bug-reports": "",
+    "source-repos": [
+      {
+        "kind": {},
+        "type": "Git",
+        "location": "https://github.com/josercruz01/hsoptions",
+        "module": null,
+        "branch": null,
+        "tag": null,
+        "subdir": null
+      }
+    ],
+    "synopsis": "Haskell library that supports command-line flag processing",
+    "description": "Haskell library that supports command-line flag processing.\n\nToo see an user guide and list of features go to\n<https://github.com/josercruz01/hsoptions#table-of-contents>.\n\nFlags are declared in the code by using the 'make' function, which takes the\nflag's name, help text and type as arguments.\n\nThe flags are parsed from the command line stream of from a file\nif the @--usingFile \\<filename\\>@ flag is sent to the program.\n\nFlags can be customized by calling configuration function, such as\n'defaultIs' or 'aliasIs', that change how the flag behaves, how it\nis parsed and validated.\n\nThe 'processMain' function needs to be called at the beginning of the 'main'\nfunction. This function takes as arguments:\n\n* The @program description@\n\n* A list of @all declared flags@\n\n* Three callbacks:\n\n* * @success@\n\n* * @failure@\n\n* * @display help@\n\nIf there is any kind of validation error @failure@ is\ncalled with the list of errors. If the @--help@ flag was sent by the user\n@display help@ is called. Otherwise if there are no problems the @success@\nfunction is called.\n\nA default implementation of @failure@ and @display help@ is provided in the\nlibrary ('defaultDisplayHelp', 'defaultDisplayErrors') with a basic bahavior.\n\nBasically @success@ becomes the \\'real\\' main function. It takes as argument\na tuple ('FlagResults', 'ArgsResults'). 'FlagResults' is a data structure\nthat can be used to query flags by using the 'get' function. 'ArgsResults' is\njust an array of 'String' containing the remaining not-flag arguments.\n\nA simple example (more in\n<https://github.com/josercruz01/hsoptions/tree/master/examples>)\n\n> import System.Console.HsOptions\n>\n> userName = make ( \"user_name\",\n>                 , \"the user name of the app\",\n>                 , [ parser stringParser,\n>                   , aliasIs [\"u\"]\n>                   ]\n>                 )\n> userAge = make (\"age\", \"the age of the user\", [parser intParser])\n>\n> flagData = combine [flagToData userName, flagToData userAge]\n>\n> main :: IO ()\n> main = processMain \"Simple example for HsOptions.\"\n>                    flagData\n>                    success\n>                    failure\n>                    defaultDisplayHelp\n>\n> success :: ProcessResults -> IO ()\n> success (flags, args) = do let nextAge = (flags `get` userAge) + 5\n>                            putStrLn (\"Hello \" ++ flags `get` userName)\n>                            putStrLn (\"In 5 years you will be \" ++\n>                                      show nextAge ++\n>                                      \" years old!\")\n>\n> failure :: [FlagError] -> IO ()\n> failure errs = do putStrLn \"Some errors occurred:\"\n>                   mapM_ print errs\n\nAt the 'processMain' function each of the input flags is validated against the\ndeclared flags. Within the @success@ function you can be sure that all required\nflags exist, all flag types are correct and all validation was successful.",
+    "category": "System",
+    "custom-fields": [],
+    "build-type-raw": "Simple",
+    "custom-setup": null,
+    "library": null,
+    "sublibraries": [],
+    "executables": [],
+    "foreign-libs": [],
+    "test-suites": [],
+    "benchmarks": [],
+    "data-files": [],
+    "data-dir": ".",
+    "extra-source-files": [
+      "README.md"
+    ],
+    "extra-tmp-files": [],
+    "extra-doc-files": []
+  },
+  "library": {
+    "condTreeData": {
+      "name": {},
+      "exposed-modules": [
+        [
+          "System",
+          "Console",
+          "HsOptions"
+        ],
+        [
+          "System",
+          "Console",
+          "HsOptions",
+          "Parser"
+        ],
+        [
+          "System",
+          "Console",
+          "HsOptions",
+          "ParserCore"
+        ],
+        [
+          "System",
+          "Console",
+          "HsOptions",
+          "Types"
+        ],
+        [
+          "System",
+          "Console",
+          "HsOptions",
+          "Core"
+        ]
+      ],
+      "re-exported-modules": [],
+      "signatures": [],
+      "exposed": true,
+      "visibility": "LibraryVisibilityPublic",
+      "build-info": {
+        "buildable": true,
+        "buildTools": [],
+        "buildToolDepends": [],
+        "cppOptions": [],
+        "asmOptions": [],
+        "cmmOptions": [],
+        "ccOptions": [],
+        "cxxOptions": [],
+        "ldOptions": [],
+        "pkgconfigDepends": [],
+        "frameworks": [],
+        "extraFrameworkDirs": [],
+        "asmSources": [],
+        "cmmSources": [],
+        "cSources": [],
+        "cxxSources": [],
+        "jsSources": [],
+        "hsSourceDirs": [
+          "src"
+        ],
+        "otherModules": [],
+        "virtualModules": [],
+        "autogenModules": [],
+        "defaultLanguage": null,
+        "otherLanguages": [],
+        "defaultExtensions": [],
+        "otherExtensions": [],
+        "oldExtensions": [],
+        "extraLibs": [],
+        "extraGHCiLibs": [],
+        "extraBundledLibs": [],
+        "extraLibFlavours": [],
+        "extraDynLibFlavours": [],
+        "extraLibDirs": [],
+        "includeDirs": [],
+        "includes": [],
+        "autogenIncludes": [],
+        "installIncludes": [],
+        "options": [
+          [
+            "-Wall"
+          ],
+          []
+        ],
+        "profOptions": [
+          [],
+          []
+        ],
+        "sharedOptions": [
+          [],
+          []
+        ],
+        "staticOptions": [
+          [],
+          []
+        ],
+        "customFieldsBI": [],
+        "targetBuildDepends": [
+          {
+            "package-name": "base",
+            "version-range": "==4.6.*",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "containers",
+            "version-range": "==0.5.*",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "parsec",
+            "version-range": "==3.1.*",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "regex-posix",
+            "version-range": "==0.95.*",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "regex-compat",
+            "version-range": "==0.95.*",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "directory",
+            "version-range": "==1.2.*",
+            "library": [
+              {}
+            ]
+          }
+        ],
+        "mixins": []
+      }
+    },
+    "condTreeConstraints": [
+      {
+        "package-name": "base",
+        "version-range": "==4.6.*",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "containers",
+        "version-range": "==0.5.*",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "parsec",
+        "version-range": "==3.1.*",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "regex-posix",
+        "version-range": "==0.95.*",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "regex-compat",
+        "version-range": "==0.95.*",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "directory",
+        "version-range": "==1.2.*",
+        "library": [
+          {}
+        ]
+      }
+    ],
+    "condTreeComponents": []
+  },
+  "executables": {
+    "DependentDefaultsDemo": {
+      "condTreeData": {
+        "name": "DependentDefaultsDemo",
+        "module-path": "DependentDefaultsDemo.hs",
+        "scope": "public",
+        "build-info": {
+          "buildable": true,
+          "buildTools": [],
+          "buildToolDepends": [],
+          "cppOptions": [],
+          "asmOptions": [],
+          "cmmOptions": [],
+          "ccOptions": [],
+          "cxxOptions": [],
+          "ldOptions": [],
+          "pkgconfigDepends": [],
+          "frameworks": [],
+          "extraFrameworkDirs": [],
+          "asmSources": [],
+          "cmmSources": [],
+          "cSources": [],
+          "cxxSources": [],
+          "jsSources": [],
+          "hsSourceDirs": [
+            "examples"
+          ],
+          "otherModules": [],
+          "virtualModules": [],
+          "autogenModules": [],
+          "defaultLanguage": null,
+          "otherLanguages": [],
+          "defaultExtensions": [],
+          "otherExtensions": [],
+          "oldExtensions": [],
+          "extraLibs": [],
+          "extraGHCiLibs": [],
+          "extraBundledLibs": [],
+          "extraLibFlavours": [],
+          "extraDynLibFlavours": [],
+          "extraLibDirs": [],
+          "includeDirs": [],
+          "includes": [],
+          "autogenIncludes": [],
+          "installIncludes": [],
+          "options": [
+            [
+              "-Wall"
+            ],
+            []
+          ],
+          "profOptions": [
+            [],
+            []
+          ],
+          "sharedOptions": [
+            [],
+            []
+          ],
+          "staticOptions": [
+            [],
+            []
+          ],
+          "customFieldsBI": [],
+          "targetBuildDepends": [
+            {
+              "package-name": "base",
+              "version-range": "==4.6.*",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "hsoptions",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            }
+          ],
+          "mixins": []
+        }
+      },
+      "condTreeConstraints": [
+        {
+          "package-name": "base",
+          "version-range": "==4.6.*",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "hsoptions",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        }
+      ],
+      "condTreeComponents": []
+    },
+    "ComplexFlag": {
+      "condTreeData": {
+        "name": "ComplexFlag",
+        "module-path": "ComplexFlag.hs",
+        "scope": "public",
+        "build-info": {
+          "buildable": true,
+          "buildTools": [],
+          "buildToolDepends": [],
+          "cppOptions": [],
+          "asmOptions": [],
+          "cmmOptions": [],
+          "ccOptions": [],
+          "cxxOptions": [],
+          "ldOptions": [],
+          "pkgconfigDepends": [],
+          "frameworks": [],
+          "extraFrameworkDirs": [],
+          "asmSources": [],
+          "cmmSources": [],
+          "cSources": [],
+          "cxxSources": [],
+          "jsSources": [],
+          "hsSourceDirs": [
+            "examples"
+          ],
+          "otherModules": [],
+          "virtualModules": [],
+          "autogenModules": [],
+          "defaultLanguage": null,
+          "otherLanguages": [],
+          "defaultExtensions": [],
+          "otherExtensions": [],
+          "oldExtensions": [],
+          "extraLibs": [],
+          "extraGHCiLibs": [],
+          "extraBundledLibs": [],
+          "extraLibFlavours": [],
+          "extraDynLibFlavours": [],
+          "extraLibDirs": [],
+          "includeDirs": [],
+          "includes": [],
+          "autogenIncludes": [],
+          "installIncludes": [],
+          "options": [
+            [
+              "-Wall"
+            ],
+            []
+          ],
+          "profOptions": [
+            [],
+            []
+          ],
+          "sharedOptions": [
+            [],
+            []
+          ],
+          "staticOptions": [
+            [],
+            []
+          ],
+          "customFieldsBI": [],
+          "targetBuildDepends": [
+            {
+              "package-name": "base",
+              "version-range": "==4.6.*",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "hsoptions",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            }
+          ],
+          "mixins": []
+        }
+      },
+      "condTreeConstraints": [
+        {
+          "package-name": "base",
+          "version-range": "==4.6.*",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "hsoptions",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        }
+      ],
+      "condTreeComponents": []
+    },
+    "SimpleFlag": {
+      "condTreeData": {
+        "name": "SimpleFlag",
+        "module-path": "SimpleFlag.hs",
+        "scope": "public",
+        "build-info": {
+          "buildable": true,
+          "buildTools": [],
+          "buildToolDepends": [],
+          "cppOptions": [],
+          "asmOptions": [],
+          "cmmOptions": [],
+          "ccOptions": [],
+          "cxxOptions": [],
+          "ldOptions": [],
+          "pkgconfigDepends": [],
+          "frameworks": [],
+          "extraFrameworkDirs": [],
+          "asmSources": [],
+          "cmmSources": [],
+          "cSources": [],
+          "cxxSources": [],
+          "jsSources": [],
+          "hsSourceDirs": [
+            "examples"
+          ],
+          "otherModules": [],
+          "virtualModules": [],
+          "autogenModules": [],
+          "defaultLanguage": null,
+          "otherLanguages": [],
+          "defaultExtensions": [],
+          "otherExtensions": [],
+          "oldExtensions": [],
+          "extraLibs": [],
+          "extraGHCiLibs": [],
+          "extraBundledLibs": [],
+          "extraLibFlavours": [],
+          "extraDynLibFlavours": [],
+          "extraLibDirs": [],
+          "includeDirs": [],
+          "includes": [],
+          "autogenIncludes": [],
+          "installIncludes": [],
+          "options": [
+            [],
+            []
+          ],
+          "profOptions": [
+            [],
+            []
+          ],
+          "sharedOptions": [
+            [],
+            []
+          ],
+          "staticOptions": [
+            [],
+            []
+          ],
+          "customFieldsBI": [],
+          "targetBuildDepends": [
+            {
+              "package-name": "base",
+              "version-range": "==4.6.*",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "hsoptions",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            }
+          ],
+          "mixins": []
+        }
+      },
+      "condTreeConstraints": [
+        {
+          "package-name": "base",
+          "version-range": "==4.6.*",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "hsoptions",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        }
+      ],
+      "condTreeComponents": []
+    }
+  },
+  "test-suites": {
+    "unit-tests": {
+      "condTreeData": {
+        "name": "",
+        "interface": {
+          "version": [
+            1,
+            0
+          ],
+          "filepath": "MainTestSuite.hs"
+        },
+        "build-info": {
+          "buildable": true,
+          "buildTools": [],
+          "buildToolDepends": [],
+          "cppOptions": [],
+          "asmOptions": [],
+          "cmmOptions": [],
+          "ccOptions": [],
+          "cxxOptions": [],
+          "ldOptions": [],
+          "pkgconfigDepends": [],
+          "frameworks": [],
+          "extraFrameworkDirs": [],
+          "asmSources": [],
+          "cmmSources": [],
+          "cSources": [],
+          "cxxSources": [],
+          "jsSources": [],
+          "hsSourceDirs": [
+            "tests/unit",
+            "src"
+          ],
+          "otherModules": [
+            [
+              "UnitTestHelper"
+            ],
+            [
+              "System",
+              "Console",
+              "HsOptionsTestHelpers"
+            ]
+          ],
+          "virtualModules": [],
+          "autogenModules": [],
+          "defaultLanguage": null,
+          "otherLanguages": [],
+          "defaultExtensions": [],
+          "otherExtensions": [],
+          "oldExtensions": [],
+          "extraLibs": [],
+          "extraGHCiLibs": [],
+          "extraBundledLibs": [],
+          "extraLibFlavours": [],
+          "extraDynLibFlavours": [],
+          "extraLibDirs": [],
+          "includeDirs": [],
+          "includes": [],
+          "autogenIncludes": [],
+          "installIncludes": [],
+          "options": [
+            [
+              "-Wall"
+            ],
+            []
+          ],
+          "profOptions": [
+            [],
+            []
+          ],
+          "sharedOptions": [
+            [],
+            []
+          ],
+          "staticOptions": [
+            [],
+            []
+          ],
+          "customFieldsBI": [],
+          "targetBuildDepends": [
+            {
+              "package-name": "base",
+              "version-range": "==4.6.*",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "hsoptions",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "containers",
+              "version-range": "==0.5.*",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "parsec",
+              "version-range": "==3.1.*",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "directory",
+              "version-range": "==1.2.*",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "regex-posix",
+              "version-range": "==0.95.*",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "regex-compat",
+              "version-range": "==0.95.*",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "HUnit",
+              "version-range": ">=1.2 && <2",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "QuickCheck",
+              "version-range": ">=2.4 && <=2.7",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "test-framework",
+              "version-range": "==0.8.*",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "test-framework-hunit",
+              "version-range": "==0.3.*",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "test-framework-quickcheck2",
+              "version-range": "==0.3.*",
+              "library": [
+                {}
+              ]
+            }
+          ],
+          "mixins": []
+        }
+      },
+      "condTreeConstraints": [
+        {
+          "package-name": "base",
+          "version-range": "==4.6.*",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "hsoptions",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "containers",
+          "version-range": "==0.5.*",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "parsec",
+          "version-range": "==3.1.*",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "directory",
+          "version-range": "==1.2.*",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "regex-posix",
+          "version-range": "==0.95.*",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "regex-compat",
+          "version-range": "==0.95.*",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "HUnit",
+          "version-range": ">=1.2 && <2",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "QuickCheck",
+          "version-range": ">=2.4 && <=2.7",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "test-framework",
+          "version-range": "==0.8.*",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "test-framework-hunit",
+          "version-range": "==0.3.*",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "test-framework-quickcheck2",
+          "version-range": "==0.3.*",
+          "library": [
+            {}
+          ]
+        }
+      ],
+      "condTreeComponents": []
+    }
+  }
+}

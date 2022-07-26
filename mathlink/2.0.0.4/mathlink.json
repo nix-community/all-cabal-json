@@ -1,0 +1,252 @@
+{
+  "description": {
+    "spec-version": {
+      "Right": ">=1.6"
+    },
+    "package": {
+      "name": "mathlink",
+      "version": [
+        2,
+        0,
+        0,
+        4
+      ]
+    },
+    "license": {
+      "Right": "BSD3"
+    },
+    "license-files": [
+      "LICENSE"
+    ],
+    "copyright": "Copyright (c) Tracy Wadleigh 2009",
+    "maintainer": "<tracy.wadleigh@gmail.com>",
+    "author": "Tracy Wadleigh",
+    "stability": "experimental",
+    "tested-with": [
+      {
+        "compiler": "GHC",
+        "versionRange": ">=6.10.1"
+      }
+    ],
+    "homepage": "http://community.haskell.org/~TracyWadleigh/mathlink",
+    "pkg-url": "",
+    "bug-reports": "mailto:tracy.wadleigh@gmail.com?subject=dev-mathlink",
+    "source-repos": [
+      {
+        "kind": {},
+        "type": "Darcs",
+        "location": "http://community.haskell.org/~TracyWadleigh/darcs/mathlink/",
+        "module": null,
+        "branch": null,
+        "tag": null,
+        "subdir": null
+      }
+    ],
+    "synopsis": "Write Mathematica packages in Haskell",
+    "description": "Makes it easy to write /Mathematica/ packages in Haskell. Just write some\nfunctions and provide a package specification in a simple DSL that\nmimics that of /Mathematica/'s @mprep@ utility.\n\nData marshaling is accomplished via the 'MLGet' and 'MLPut' classes, which\nspecify types that that can be read from or written to the /MathLink/\nconnection. Instances of these classes are provided for the obvious\nstandard data types, including tuples, lists, 'Array's and 'UArray's.\n\nA Haskell function that is to be exposed to /Mathematica/ has the type\nsignature @('MLGet' a, 'MLPut' b) => a -> IO b@.\n\nA simple example of a /Mathematica/ package:\n\n@\nimport Foreign.MathLink\n\n\\-- define a function\naddTwo :: (Int,Int) -> IO Int\naddTwo (x,y) = return $ x+y\n\n\\-- specify a package\nspec :: MLSpec\nspec =\n\\    -- start a package definition\n\\  [ Eval $ \\\"BeginPackage\\\":\\@[St \\\"Test\\`\\\"]\n\n\\    -- define a usage message for the public symbol\n\\  , DeclMsg \\\"AddTwo\\\" \\\"usage\\\" \\\"AddTwo[..] adds a pair of numbers\\\"\n\n\\    -- open a new (private) namespace\n\\  , Eval $ \\\"Begin\\\":\\@[St \\\"\\`Private\\`\\\"]\n\n\\    -- declare the function\n\\  , DeclFn &#123;\n\\      callPattern = \\\"AddTwo[x_Integer,y_Integer]\\\"\n\\    , argPattern = \\\"&#123;x,y&#125;\\\"\n\\    , func = addTwo\n\\    &#125;\n\n\\    -- close the namespaces\n\\  , Eval $ \\\"End\\\":\\@[]\n\\  , Eval $ \\\"EndPackage\\\":\\@[]\n\\  ]\n\n\\-- runs the /MathLink/ connection\nmain :: IO ()\nmain = runMathLink spec\n@",
+    "category": "Foreign",
+    "custom-fields": [],
+    "build-type-raw": "Custom",
+    "custom-setup": null,
+    "library": null,
+    "sublibraries": [],
+    "executables": [],
+    "foreign-libs": [],
+    "test-suites": [],
+    "benchmarks": [],
+    "data-files": [],
+    "data-dir": ".",
+    "extra-source-files": [
+      "INSTALL",
+      "example/Test.hs"
+    ],
+    "extra-tmp-files": [],
+    "extra-doc-files": []
+  },
+  "library": {
+    "condTreeData": {
+      "name": {},
+      "exposed-modules": [
+        [
+          "Foreign",
+          "MathLink"
+        ],
+        [
+          "Foreign",
+          "MathLink",
+          "Expression"
+        ],
+        [
+          "Foreign",
+          "MathLink",
+          "Internal"
+        ]
+      ],
+      "re-exported-modules": [],
+      "signatures": [],
+      "exposed": true,
+      "visibility": "LibraryVisibilityPublic",
+      "build-info": {
+        "buildable": true,
+        "buildTools": [
+          {
+            "package-name": "c2hs",
+            "include-renaming": "-any"
+          }
+        ],
+        "buildToolDepends": [],
+        "cppOptions": [],
+        "asmOptions": [],
+        "cmmOptions": [],
+        "ccOptions": [],
+        "cxxOptions": [],
+        "ldOptions": [],
+        "pkgconfigDepends": [],
+        "frameworks": [],
+        "extraFrameworkDirs": [],
+        "asmSources": [],
+        "cmmSources": [],
+        "cSources": [
+          "cbits/ml.c"
+        ],
+        "cxxSources": [],
+        "jsSources": [],
+        "hsSourceDirs": [],
+        "otherModules": [],
+        "virtualModules": [],
+        "autogenModules": [],
+        "defaultLanguage": null,
+        "otherLanguages": [],
+        "defaultExtensions": [],
+        "otherExtensions": [],
+        "oldExtensions": [],
+        "extraLibs": [],
+        "extraGHCiLibs": [],
+        "extraBundledLibs": [],
+        "extraLibFlavours": [],
+        "extraDynLibFlavours": [],
+        "extraLibDirs": [],
+        "includeDirs": [
+          "cbits"
+        ],
+        "includes": [
+          "ml.h",
+          "mathlink.h"
+        ],
+        "autogenIncludes": [],
+        "installIncludes": [],
+        "options": [
+          [
+            "-fexcess-precision",
+            "-funbox-strict-fields",
+            "-Wall"
+          ],
+          []
+        ],
+        "profOptions": [
+          [],
+          []
+        ],
+        "sharedOptions": [
+          [],
+          []
+        ],
+        "staticOptions": [
+          [],
+          []
+        ],
+        "customFieldsBI": [],
+        "targetBuildDepends": [
+          {
+            "package-name": "base",
+            "version-range": ">=4.0 && <4.2",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "mtl",
+            "version-range": ">=1.1 && <1.2",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "haskell98",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "array",
+            "version-range": ">=0.2 && <0.3",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "containers",
+            "version-range": ">=0.2 && <0.3",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "ix-shapable",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          }
+        ],
+        "mixins": []
+      }
+    },
+    "condTreeConstraints": [
+      {
+        "package-name": "base",
+        "version-range": ">=4.0 && <4.2",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "mtl",
+        "version-range": ">=1.1 && <1.2",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "haskell98",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "array",
+        "version-range": ">=0.2 && <0.3",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "containers",
+        "version-range": ">=0.2 && <0.3",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "ix-shapable",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      }
+    ],
+    "condTreeComponents": []
+  }
+}

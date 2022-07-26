@@ -1,0 +1,248 @@
+{
+  "description": {
+    "spec-version": {
+      "Right": ">=1.10"
+    },
+    "package": {
+      "name": "modulespection",
+      "version": [
+        0,
+        1,
+        0,
+        5
+      ]
+    },
+    "license": {
+      "Right": "BSD3"
+    },
+    "license-files": [
+      "LICENSE"
+    ],
+    "copyright": "",
+    "maintainer": "jonathangfischoff@gmail.com",
+    "author": "Jonathan Fischoff",
+    "stability": "",
+    "tested-with": [],
+    "homepage": "https://github.com/jfischoff/modulespection",
+    "pkg-url": "",
+    "bug-reports": "",
+    "source-repos": [],
+    "synopsis": "Template Haskell for introspecting a module's declarations",
+    "description": "Collect all of the declarations in a module using Template Haskell (via the GHC API).\n\nOne can either get all the names, or just the declarations (only type declarations\nare supported right now).\n\nHere is a quick example:\n\n> import Language.Haskell.TH.Module.Magic (names)\n>\n> data Test = Test Int\n> newtype OtherTest = OtherTest Test\n>\n> someFunction :: String -> String\n> someFunction = id\n>\n> -- 'names' is Template Haskell function that will collect all of the\n> -- toplevel declaration names of the current file.\n> names >>= runIO . print >> return []\n\nWhich will spew the following when compiling:\n\n> [Test,OtherTest,someFunction]\n\nThere is also 'declarations' which can be used, for example, to make sure that all\ntypes have @ToJSON@/@FromJSON@ instances.\n\n> import Data.Aeson.TH (deriveJSON, defaultOptions)\n> import MonadUtils (concatMapM)\n> import Language.Haskell.TH.Module.Magic (names)\n>\n> data Test = Test Int\n> newtype OtherTest = OtherTest Test\n>\n> concatMapM (deriveJSON defaultOptions) =<< declarations\n\nWhich will make JSON instances for Test, OtherTest and any other types\nadded to the file.\n\nYou can also do the same thing for an existing module.\n\n> import Data.Aeson.TH (deriveJSON, defaultOptions)\n> import MonadUtils (concatMapM)\n> import Language.Haskell.TH.Module.Magic (names)\n> import Data.Monoid\n>\n> concatMapM (deriveJSON defaultOptions) =<< moduleDeclarations \"Data.Monoid\"\n\nWhich will build instances for all the types in \"Data.Monoid\".",
+    "category": "Language",
+    "custom-fields": [],
+    "build-type-raw": "Simple",
+    "custom-setup": null,
+    "library": null,
+    "sublibraries": [],
+    "executables": [],
+    "foreign-libs": [],
+    "test-suites": [],
+    "benchmarks": [],
+    "data-files": [],
+    "data-dir": ".",
+    "extra-source-files": [],
+    "extra-tmp-files": [],
+    "extra-doc-files": []
+  },
+  "library": {
+    "condTreeData": {
+      "name": {},
+      "exposed-modules": [
+        [
+          "Language",
+          "Haskell",
+          "TH",
+          "Module",
+          "Magic"
+        ]
+      ],
+      "re-exported-modules": [],
+      "signatures": [],
+      "exposed": true,
+      "visibility": "LibraryVisibilityPublic",
+      "build-info": {
+        "buildable": true,
+        "buildTools": [],
+        "buildToolDepends": [],
+        "cppOptions": [],
+        "asmOptions": [],
+        "cmmOptions": [],
+        "ccOptions": [],
+        "cxxOptions": [],
+        "ldOptions": [],
+        "pkgconfigDepends": [],
+        "frameworks": [],
+        "extraFrameworkDirs": [],
+        "asmSources": [],
+        "cmmSources": [],
+        "cSources": [],
+        "cxxSources": [],
+        "jsSources": [],
+        "hsSourceDirs": [
+          "src"
+        ],
+        "otherModules": [],
+        "virtualModules": [],
+        "autogenModules": [],
+        "defaultLanguage": "Haskell2010",
+        "otherLanguages": [],
+        "defaultExtensions": [],
+        "otherExtensions": [
+          {
+            "enable-extension": "LambdaCase"
+          },
+          {
+            "enable-extension": "FlexibleInstances"
+          }
+        ],
+        "oldExtensions": [],
+        "extraLibs": [],
+        "extraGHCiLibs": [],
+        "extraBundledLibs": [],
+        "extraLibFlavours": [],
+        "extraDynLibFlavours": [],
+        "extraLibDirs": [],
+        "includeDirs": [],
+        "includes": [],
+        "autogenIncludes": [],
+        "installIncludes": [],
+        "options": [
+          [],
+          []
+        ],
+        "profOptions": [
+          [],
+          []
+        ],
+        "sharedOptions": [
+          [],
+          []
+        ],
+        "staticOptions": [
+          [],
+          []
+        ],
+        "customFieldsBI": [],
+        "targetBuildDepends": [
+          {
+            "package-name": "base",
+            "version-range": ">=4.6 && <4.7",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "template-haskell",
+            "version-range": ">=2.7 && <2.9",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "ghc-paths",
+            "version-range": ">=0.1 && <0.2",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "ghc",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "temporary",
+            "version-range": "==1.2.*",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "exceptions",
+            "version-range": "==0.3.*",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "transformers",
+            "version-range": "==0.3.*",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "filepath",
+            "version-range": "==1.3.*",
+            "library": [
+              {}
+            ]
+          }
+        ],
+        "mixins": []
+      }
+    },
+    "condTreeConstraints": [
+      {
+        "package-name": "base",
+        "version-range": ">=4.6 && <4.7",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "template-haskell",
+        "version-range": ">=2.7 && <2.9",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "ghc-paths",
+        "version-range": ">=0.1 && <0.2",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "ghc",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "temporary",
+        "version-range": "==1.2.*",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "exceptions",
+        "version-range": "==0.3.*",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "transformers",
+        "version-range": "==0.3.*",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "filepath",
+        "version-range": "==1.3.*",
+        "library": [
+          {}
+        ]
+      }
+    ],
+    "condTreeComponents": []
+  }
+}

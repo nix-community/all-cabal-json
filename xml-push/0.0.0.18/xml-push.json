@@ -1,0 +1,593 @@
+{
+  "description": {
+    "spec-version": {
+      "Right": ">=1.8"
+    },
+    "package": {
+      "name": "xml-push",
+      "version": [
+        0,
+        0,
+        0,
+        18
+      ]
+    },
+    "license": {
+      "Right": "BSD3"
+    },
+    "license-files": [
+      "LICENSE"
+    ],
+    "copyright": "",
+    "maintainer": "Yoshikuni Jujo <PAF01143@nifty.ne.jp>",
+    "author": "Yoshikuni Jujo <PAF01143@nifty.ne.jp>",
+    "stability": "Experimenmtal",
+    "tested-with": [],
+    "homepage": "https://github.com/YoshikuniJujo/xml-push/wiki",
+    "pkg-url": "",
+    "bug-reports": "",
+    "source-repos": [
+      {
+        "kind": {},
+        "type": "Git",
+        "location": "git://github.com/YoshikuniJujo/xml-push.git",
+        "module": null,
+        "branch": null,
+        "tag": null,
+        "subdir": null
+      },
+      {
+        "kind": {},
+        "type": "Git",
+        "location": "git://github.com/YoshikuniJujo/xml-push.git",
+        "module": null,
+        "branch": null,
+        "tag": "xml-push-0.0.0.18",
+        "subdir": null
+      }
+    ],
+    "synopsis": "Push XML from/to client to/from server over XMPP or HTTP",
+    "description": "examples/TestSimple.hs\n\nextensions\n\n* ScopedTypeVariables\n\n> module TestSimple (testSimple) where\n>\n> import Control.Monad\n> import Control.Concurrent\n> import Data.Maybe\n> import Data.Pipe\n> import Data.Pipe.ByteString\n> import System.IO\n> import Text.XML.Pipe\n> import Network.XmlPush\n> import Network.XmlPush.Simple\n>\n> testSimple :: Handle -> IO ()\n> testSimple h = do\n> \t(sp :: SimplePusher Handle) <- generate (One h) ()\n> \tvoid . forkIO . runPipe_ $ readFrom sp\n> \t\t=$= convert (xmlString . (: []))\n> \t\t=$= toHandle stdout\n> \trunPipe_ $ fromHandle stdin\n> \t\t=$= xmlEvent\n> \t\t=$= convert fromJust\n> \t\t=$= xmlNode []\n> \t\t=$= writeTo sp\n\nexamples/simpleClient\n\n> import Network\n> import TestSimple\n>\n> main :: IO ()\n> main = testSimple =<< connectTo \"localhost\" (PortNumber 54492)\n\nexamples/simpleServer\n\n> import Control.Monad\n> import Control.Concurrent\n> import Network\n>\n> import TestSimple\n>\n> main :: IO ()\n> main = forever . (void . forkIO . testSimple . fst3 =<<) . accept\n> \t=<< listenOn (PortNumber 54492)\n>\n> fst3 :: (a, b, c) -> a\n> fst3 (x, _, _) = x\n",
+    "category": "Network",
+    "custom-fields": [],
+    "build-type-raw": "Simple",
+    "custom-setup": null,
+    "library": null,
+    "sublibraries": [],
+    "executables": [],
+    "foreign-libs": [],
+    "test-suites": [],
+    "benchmarks": [],
+    "data-files": [
+      "certs/cacert.sample_pem",
+      "certs/localhost.sample_key",
+      "certs/localhost.sample_crt",
+      "certs/yoshikuni.sample_key",
+      "certs/yoshikuni.sample_crt"
+    ],
+    "data-dir": ".",
+    "extra-source-files": [
+      "examples/simpleClient.hs",
+      "examples/simpleServer.hs",
+      "examples/TestSimple.hs",
+      "examples/TestPusher.hs",
+      "examples/FilePusher.hs",
+      "examples/simple.hs",
+      "examples/xmpp.hs",
+      "examples/xmppTls.hs",
+      "examples/httpPullCl.hs",
+      "examples/httpPullSv.hs",
+      "examples/httpPullTlsCl.hs",
+      "examples/httpPullTlsSv.hs",
+      "examples/httpPushT.hs",
+      "examples/httpPushE.hs",
+      "examples/httpPushTlsT.hs",
+      "examples/httpPushTlsE.hs"
+    ],
+    "extra-tmp-files": [],
+    "extra-doc-files": []
+  },
+  "library": {
+    "condTreeData": {
+      "name": {},
+      "exposed-modules": [
+        [
+          "Network",
+          "XmlPush"
+        ],
+        [
+          "Network",
+          "XmlPush",
+          "Simple"
+        ],
+        [
+          "Network",
+          "XmlPush",
+          "Xmpp"
+        ],
+        [
+          "Network",
+          "XmlPush",
+          "Xmpp",
+          "Tls"
+        ],
+        [
+          "Network",
+          "XmlPush",
+          "Xmpp",
+          "Server"
+        ],
+        [
+          "Network",
+          "XmlPush",
+          "Xmpp",
+          "Tls",
+          "Server"
+        ],
+        [
+          "Network",
+          "XmlPush",
+          "HttpPull",
+          "Client"
+        ],
+        [
+          "Network",
+          "XmlPush",
+          "HttpPull",
+          "Server"
+        ],
+        [
+          "Network",
+          "XmlPush",
+          "HttpPull",
+          "Tls",
+          "Client"
+        ],
+        [
+          "Network",
+          "XmlPush",
+          "HttpPull",
+          "Tls",
+          "Server"
+        ],
+        [
+          "Network",
+          "XmlPush",
+          "HttpPush"
+        ],
+        [
+          "Network",
+          "XmlPush",
+          "HttpPush",
+          "Tls"
+        ],
+        [
+          "Network",
+          "XmlPush",
+          "Http",
+          "Server"
+        ],
+        [
+          "Network",
+          "XmlPush",
+          "Http",
+          "Tls",
+          "Server"
+        ]
+      ],
+      "re-exported-modules": [],
+      "signatures": [],
+      "exposed": true,
+      "visibility": "LibraryVisibilityPublic",
+      "build-info": {
+        "buildable": true,
+        "buildTools": [],
+        "buildToolDepends": [],
+        "cppOptions": [],
+        "asmOptions": [],
+        "cmmOptions": [],
+        "ccOptions": [],
+        "cxxOptions": [],
+        "ldOptions": [],
+        "pkgconfigDepends": [],
+        "frameworks": [],
+        "extraFrameworkDirs": [],
+        "asmSources": [],
+        "cmmSources": [],
+        "cSources": [],
+        "cxxSources": [],
+        "jsSources": [],
+        "hsSourceDirs": [
+          "src"
+        ],
+        "otherModules": [
+          [
+            "Network",
+            "XmlPush",
+            "Tls",
+            "Client"
+          ],
+          [
+            "Network",
+            "XmlPush",
+            "Tls",
+            "Server"
+          ],
+          [
+            "Network",
+            "XmlPush",
+            "Xmpp",
+            "Common"
+          ],
+          [
+            "Network",
+            "XmlPush",
+            "Xmpp",
+            "Server",
+            "Common"
+          ],
+          [
+            "Network",
+            "XmlPush",
+            "HttpPull",
+            "Client",
+            "Common"
+          ],
+          [
+            "Network",
+            "XmlPush",
+            "HttpPull",
+            "Server",
+            "Common"
+          ],
+          [
+            "Network",
+            "XmlPush",
+            "HttpPull",
+            "Server",
+            "Body"
+          ],
+          [
+            "Network",
+            "XmlPush",
+            "HttpPull",
+            "Tls",
+            "Server",
+            "Body"
+          ],
+          [
+            "Network",
+            "XmlPush",
+            "HttpPush",
+            "Common"
+          ],
+          [
+            "Network",
+            "XmlPush",
+            "HttpPush",
+            "Body"
+          ],
+          [
+            "Network",
+            "XmlPush",
+            "HttpPush",
+            "Tls",
+            "Body"
+          ]
+        ],
+        "virtualModules": [],
+        "autogenModules": [],
+        "defaultLanguage": null,
+        "otherLanguages": [],
+        "defaultExtensions": [],
+        "otherExtensions": [],
+        "oldExtensions": [
+          {
+            "enable-extension": "DoAndIfThenElse"
+          }
+        ],
+        "extraLibs": [],
+        "extraGHCiLibs": [],
+        "extraBundledLibs": [],
+        "extraLibFlavours": [],
+        "extraDynLibFlavours": [],
+        "extraLibDirs": [],
+        "includeDirs": [],
+        "includes": [],
+        "autogenIncludes": [],
+        "installIncludes": [],
+        "options": [
+          [
+            "-Wall"
+          ],
+          []
+        ],
+        "profOptions": [
+          [],
+          []
+        ],
+        "sharedOptions": [
+          [],
+          []
+        ],
+        "staticOptions": [
+          [],
+          []
+        ],
+        "customFieldsBI": [],
+        "targetBuildDepends": [
+          {
+            "package-name": "base",
+            "version-range": "==4.*",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "peyotls",
+            "version-range": "==0.1.*",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "simple-pipe",
+            "version-range": "==0.0.*",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "xml-pipe",
+            "version-range": "==0.0.*",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "handle-like",
+            "version-range": "==0.1.*",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "monad-control",
+            "version-range": "==0.3.*",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "transformers-base",
+            "version-range": "==0.4.*",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "monads-tf",
+            "version-range": "==0.1.*",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "bytestring",
+            "version-range": "==0.10.*",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "xmpipe",
+            "version-range": "==0.0.*",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "sasl",
+            "version-range": "==0.0.*",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "random",
+            "version-range": "==1.0.*",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "uuid",
+            "version-range": "==1.3.*",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "stm",
+            "version-range": "==2.4.*",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "crypto-random",
+            "version-range": "==0.0.*",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "x509",
+            "version-range": "==1.4.*",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "x509-store",
+            "version-range": "==1.4.*",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "x509-validation",
+            "version-range": "==1.5.*",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "tighttp",
+            "version-range": "==0.0.*",
+            "library": [
+              {}
+            ]
+          }
+        ],
+        "mixins": []
+      }
+    },
+    "condTreeConstraints": [
+      {
+        "package-name": "base",
+        "version-range": "==4.*",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "peyotls",
+        "version-range": "==0.1.*",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "simple-pipe",
+        "version-range": "==0.0.*",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "xml-pipe",
+        "version-range": "==0.0.*",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "handle-like",
+        "version-range": "==0.1.*",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "monad-control",
+        "version-range": "==0.3.*",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "transformers-base",
+        "version-range": "==0.4.*",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "monads-tf",
+        "version-range": "==0.1.*",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "bytestring",
+        "version-range": "==0.10.*",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "xmpipe",
+        "version-range": "==0.0.*",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "sasl",
+        "version-range": "==0.0.*",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "random",
+        "version-range": "==1.0.*",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "uuid",
+        "version-range": "==1.3.*",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "stm",
+        "version-range": "==2.4.*",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "crypto-random",
+        "version-range": "==0.0.*",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "x509",
+        "version-range": "==1.4.*",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "x509-store",
+        "version-range": "==1.4.*",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "x509-validation",
+        "version-range": "==1.5.*",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "tighttp",
+        "version-range": "==0.0.*",
+        "library": [
+          {}
+        ]
+      }
+    ],
+    "condTreeComponents": []
+  }
+}

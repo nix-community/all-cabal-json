@@ -1,0 +1,2384 @@
+{
+  "description": {
+    "spec-version": {
+      "Right": ">=1.6"
+    },
+    "package": {
+      "name": "numeric-prelude",
+      "version": [
+        0,
+        2,
+        2
+      ]
+    },
+    "license": {
+      "Right": "OtherLicense"
+    },
+    "license-files": [
+      "LICENSE"
+    ],
+    "copyright": "",
+    "maintainer": "Henning Thielemann <numericprelude@henning-thielemann.de>",
+    "author": "Dylan Thurston <dpt@math.harvard.edu>, Henning Thielemann <numericprelude@henning-thielemann.de>, Mikael Johansson",
+    "stability": "Experimental",
+    "tested-with": [
+      {
+        "compiler": "GHC",
+        "versionRange": "==6.4.1"
+      },
+      {
+        "compiler": "GHC",
+        "versionRange": "==6.8.2"
+      },
+      {
+        "compiler": "GHC",
+        "versionRange": "==6.10.4"
+      },
+      {
+        "compiler": "GHC",
+        "versionRange": "==6.12.3"
+      },
+      {
+        "compiler": "GHC",
+        "versionRange": "==7.0.2"
+      }
+    ],
+    "homepage": "http://www.haskell.org/haskellwiki/Numeric_Prelude",
+    "pkg-url": "",
+    "bug-reports": "",
+    "source-repos": [
+      {
+        "kind": {},
+        "type": "Darcs",
+        "location": "http://code.haskell.org/numeric-prelude/",
+        "module": null,
+        "branch": null,
+        "tag": "0.2.2",
+        "subdir": null
+      },
+      {
+        "kind": {},
+        "type": "Darcs",
+        "location": "http://code.haskell.org/numeric-prelude/",
+        "module": null,
+        "branch": null,
+        "tag": null,
+        "subdir": null
+      }
+    ],
+    "synopsis": "An experimental alternative hierarchy of numeric type classes",
+    "description": "Revisiting the Numeric Classes\n\nThe Prelude for Haskell 98 offers a well-considered set of numeric classes\nwhich covers the standard numeric types\n('Integer', 'Int', 'Rational', 'Float', 'Double', 'Complex') quite well.\nBut they offer limited extensibility and have a few other flaws.\nIn this proposal we will revisit these classes, addressing the following concerns:\n\n[1] The current Prelude defines no semantics for the fundamental operations.\nFor instance, presumably addition should be associative\n(or come as close as feasible),\nbut this is not mentioned anywhere.\n\n[2] There are some superfluous superclasses.\nFor instance, 'Eq' and 'Show' are superclasses of 'Num'.\nConsider the data type\n@   data IntegerFunction a = IF (a -> Integer) @\nOne can reasonably define all the methods of 'Algebra.Ring.C' for\n@IntegerFunction a@ (satisfying good semantics),\nbut it is impossible to define non-bottom instances of 'Eq' and 'Show'.\nIn general, superclass relationship should indicate\nsome semantic connection between the two classes.\n\n[3] In a few cases, there is a mix of semantic operations and\nrepresentation-specific operations.\n'toInteger', 'toRational',\nand the various operations in 'RealFloating' ('decodeFloat', ...)\nare the main examples.\n\n[4] In some cases, the hierarchy is not finely-grained enough:\nOperations that are often defined independently are lumped together.\nFor instance, in a financial application one might want a type \\\"Dollar\\\",\nor in a graphics application one might want a type \\\"Vector\\\".\nIt is reasonable to add two Vectors or Dollars,\nbut not, in general, reasonable to multiply them.\nBut the programmer is currently forced to define a method for '(*)'\nwhen she defines a method for '(+)'.\n\nIn specifying the semantics of type classes,\nI will state laws as follows:\n\n>    (a + b) + c === a + (b + c)\n\nThe intended meaning is extensional equality:\nThe rest of the program should behave in the same way\nif one side is replaced with the other.\nUnfortunately, the laws are frequently violated by standard instances;\nthe law above, for instance, fails for 'Float':\n\n>    (1e20 + (-1e20)) + 1.0  = 1.0\n>     1e20 + ((-1e20) + 1.0) = 0.0\n\nFor inexact number types like floating point types,\nthus these laws should be interpreted as guidelines rather than absolute rules.\nIn particular, the compiler is not allowed to use them for optimization.\nUnless stated otherwise, default definitions should also be taken as laws.\n\nThanks to Brian Boutel, Joe English, William Lee Irwin II, Marcin\nKowalczyk, Ketil Malde, Tom Schrijvers, Ken Shan, and Henning\nThielemann for helpful comments.\n\n\nUsage:\n\nWrite modules in the following style:\n\n> [-# NoImplicitPrelude #-]\n> module MyModule where\n>\n> ... various specific imports ...\n>\n> import NumericPrelude\n\nImporting @NumericPrelude@ is almost the same as\n\n> import NumericPrelude.Numeric\n> import NumericPrelude.Base   .\n\nInstead of the @NoImplicitPrelude@ pragma\nyou could also write @import Prelude ()@\nbut this will yield problems with numeric literals.\n\n\nScope & Limitations\\/TODO:\n\n* It might be desireable to split Ord up into Poset and Ord\n(a total ordering).\nThis is not addressed here.\n\n* In some cases, this hierarchy may not yet be fine-grained enough.\nFor instance, time spans (\\\"5 minutes\\\") can be added to times (\\\"12:34\\\"),\nbut two times are not addable. (\\\"12:34 + 8:23\\\")\nAs it stands,\nusers have to use a different operator for adding time spans to times\nthan for adding two time spans.\nSimilar issues arise for vector space et al.\nThis is a consciously-made tradeoff, but might be changed.\nThis becomes most serious when dealing with quantities with units\nlike @length\\/distance^2@, for which @(*)@ as defined here is useless.\n(One way to see the issue: should\n@  f x y = iterate (x *) y  @\nhave principal type\n@  (Ring.C a) => a -> a -> [a]  @\nor something like\n@  (Ring.C a, Module a b) => a -> b -> [b]  @\n?)\n\n* I stuck with the Haskell 98 names.\nIn some cases I find them lacking.\nNeglecting backwards compatibility, we have renamed classes as follows:\nNum           --> Additive, Ring, Absolute\nIntegral      --> ToInteger, IntegralDomain, RealIntegral\nFractional    --> Field\nFloating      --> Algebraic, Transcendental\nReal          --> ToRational\nRealFrac      --> RealRing, RealField\nRealFloat     --> RealTranscendental\n\n\nAdditional standard libraries might include Enum, IEEEFloat (including\nthe bulk of the functions in Haskell 98's RealFloat class),\nVectorSpace, Ratio, and Lattice.",
+    "category": "Math",
+    "custom-fields": [],
+    "build-type-raw": "Simple",
+    "custom-setup": null,
+    "library": null,
+    "sublibraries": [],
+    "executables": [],
+    "foreign-libs": [],
+    "test-suites": [],
+    "benchmarks": [],
+    "data-files": [],
+    "data-dir": ".",
+    "extra-source-files": [
+      "Makefile",
+      "docs/NOTES",
+      "docs/README",
+      "src/Algebra/Absolute.hs",
+      "src/Algebra/Additive.hs",
+      "src/Algebra/AffineSpace.hs",
+      "src/Algebra/Algebraic.hs",
+      "src/Algebra/Differential.hs",
+      "src/Algebra/DimensionTerm.hs",
+      "src/Algebra/DivisibleSpace.hs",
+      "src/Algebra/EqualityDecision.hs",
+      "src/Algebra/Field.hs",
+      "src/Algebra/GenerateRules.hs",
+      "src/Algebra/Indexable.hs",
+      "src/Algebra/IntegralDomain.hs",
+      "src/Algebra/Lattice.hs",
+      "src/Algebra/Laws.hs",
+      "src/Algebra/Module.hs",
+      "src/Algebra/ModuleBasis.hs",
+      "src/Algebra/Monoid.hs",
+      "src/Algebra/NonNegative.hs",
+      "src/Algebra/NormedSpace/Euclidean.hs",
+      "src/Algebra/NormedSpace/Maximum.hs",
+      "src/Algebra/NormedSpace/Sum.hs",
+      "src/Algebra/OccasionallyScalar.hs",
+      "src/Algebra/OrderDecision.hs",
+      "src/Algebra/PrincipalIdealDomain.hs",
+      "src/Algebra/RealField.hs",
+      "src/Algebra/RealIntegral.hs",
+      "src/Algebra/RealRing.hs",
+      "src/Algebra/RealTranscendental.hs",
+      "src/Algebra/RightModule.hs",
+      "src/Algebra/Ring.hs",
+      "src/Algebra/ToInteger.hs",
+      "src/Algebra/ToRational.hs",
+      "src/Algebra/Transcendental.hs",
+      "src/Algebra/Units.hs",
+      "src/Algebra/Vector.hs",
+      "src/Algebra/VectorSpace.hs",
+      "src/Algebra/ZeroTestable.hs",
+      "src/MathObj/Algebra.hs",
+      "src/MathObj/DiscreteMap.hs",
+      "src/MathObj/Gaussian/Bell.hs",
+      "src/MathObj/Gaussian/Example.hs",
+      "src/MathObj/Gaussian/Polynomial.hs",
+      "src/MathObj/Gaussian/Variance.hs",
+      "src/MathObj/LaurentPolynomial.hs",
+      "src/MathObj/Matrix.hs",
+      "src/MathObj/Monoid.hs",
+      "src/MathObj/PartialFraction.hs",
+      "src/MathObj/Permutation.hs",
+      "src/MathObj/Permutation/CycleList.hs",
+      "src/MathObj/Permutation/CycleList/Check.hs",
+      "src/MathObj/Permutation/Table.hs",
+      "src/MathObj/Polynomial.hs",
+      "src/MathObj/Polynomial/Core.hs",
+      "src/MathObj/PowerSeries.hs",
+      "src/MathObj/PowerSeries/Core.hs",
+      "src/MathObj/PowerSeries/DifferentialEquation.hs",
+      "src/MathObj/PowerSeries/Example.hs",
+      "src/MathObj/PowerSeries/Mean.hs",
+      "src/MathObj/PowerSeries2.hs",
+      "src/MathObj/PowerSeries2/Core.hs",
+      "src/MathObj/PowerSum.hs",
+      "src/MathObj/RefinementMask2.hs",
+      "src/MathObj/RootSet.hs",
+      "src/Number/Complex.hs",
+      "src/Number/ComplexSquareRoot.hs",
+      "src/Number/DimensionTerm.hs",
+      "src/Number/DimensionTerm/SI.hs",
+      "src/Number/FixedPoint.hs",
+      "src/Number/FixedPoint/Check.hs",
+      "src/Number/GaloisField2p32m5.hs",
+      "src/Number/NonNegative.hs",
+      "src/Number/NonNegativeChunky.hs",
+      "src/Number/OccasionallyScalarExpression.hs",
+      "src/Number/PartiallyTranscendental.hs",
+      "src/Number/Peano.hs",
+      "src/Number/Physical.hs",
+      "src/Number/Physical/Read.hs",
+      "src/Number/Physical/Show.hs",
+      "src/Number/Physical/Unit.hs",
+      "src/Number/Physical/UnitDatabase.hs",
+      "src/Number/Positional.hs",
+      "src/Number/Positional/Check.hs",
+      "src/Number/Quaternion.hs",
+      "src/Number/Ratio.hs",
+      "src/Number/ResidueClass.hs",
+      "src/Number/ResidueClass/Check.hs",
+      "src/Number/ResidueClass/Func.hs",
+      "src/Number/ResidueClass/Maybe.hs",
+      "src/Number/ResidueClass/Reader.hs",
+      "src/Number/Root.hs",
+      "src/Number/SI.hs",
+      "src/Number/SI/Unit.hs",
+      "src/NumericPrelude.hs",
+      "src/NumericPrelude/Base.hs",
+      "src/NumericPrelude/Elementwise.hs",
+      "src/NumericPrelude/List.hs",
+      "src/NumericPrelude/List/Checked.hs",
+      "src/NumericPrelude/List/Generic.hs",
+      "src/NumericPrelude/Numeric.hs",
+      "test/Gaussian.hs",
+      "test/Test.hs",
+      "test/Test/Algebra/IntegralDomain.hs",
+      "test/Test/Algebra/RealRing.hs",
+      "test/Test/MathObj/Gaussian/Bell.hs",
+      "test/Test/MathObj/Gaussian/Polynomial.hs",
+      "test/Test/MathObj/Gaussian/Variance.hs",
+      "test/Test/MathObj/Matrix.hs",
+      "test/Test/MathObj/PartialFraction.hs",
+      "test/Test/MathObj/Polynomial.hs",
+      "test/Test/MathObj/PowerSeries.hs",
+      "test/Test/MathObj/RefinementMask2.hs",
+      "test/Test/Number/ComplexSquareRoot.hs",
+      "test/Test/Number/GaloisField2p32m5.hs",
+      "test/Test/NumericPrelude/Utility.hs",
+      "test/Test/Run.hs",
+      "src-ghc-6.12/Algebra/Absolute.hs",
+      "src-ghc-6.12/Algebra/Additive.hs",
+      "src-ghc-6.12/Algebra/AffineSpace.hs",
+      "src-ghc-6.12/Algebra/Algebraic.hs",
+      "src-ghc-6.12/Algebra/Differential.hs",
+      "src-ghc-6.12/Algebra/DimensionTerm.hs",
+      "src-ghc-6.12/Algebra/DivisibleSpace.hs",
+      "src-ghc-6.12/Algebra/EqualityDecision.hs",
+      "src-ghc-6.12/Algebra/Field.hs",
+      "src-ghc-6.12/Algebra/GenerateRules.hs",
+      "src-ghc-6.12/Algebra/Indexable.hs",
+      "src-ghc-6.12/Algebra/IntegralDomain.hs",
+      "src-ghc-6.12/Algebra/Lattice.hs",
+      "src-ghc-6.12/Algebra/Laws.hs",
+      "src-ghc-6.12/Algebra/Module.hs",
+      "src-ghc-6.12/Algebra/ModuleBasis.hs",
+      "src-ghc-6.12/Algebra/Monoid.hs",
+      "src-ghc-6.12/Algebra/NonNegative.hs",
+      "src-ghc-6.12/Algebra/NormedSpace/Euclidean.hs",
+      "src-ghc-6.12/Algebra/NormedSpace/Maximum.hs",
+      "src-ghc-6.12/Algebra/NormedSpace/Sum.hs",
+      "src-ghc-6.12/Algebra/OccasionallyScalar.hs",
+      "src-ghc-6.12/Algebra/OrderDecision.hs",
+      "src-ghc-6.12/Algebra/PrincipalIdealDomain.hs",
+      "src-ghc-6.12/Algebra/RealField.hs",
+      "src-ghc-6.12/Algebra/RealIntegral.hs",
+      "src-ghc-6.12/Algebra/RealRing.hs",
+      "src-ghc-6.12/Algebra/RealTranscendental.hs",
+      "src-ghc-6.12/Algebra/RightModule.hs",
+      "src-ghc-6.12/Algebra/Ring.hs",
+      "src-ghc-6.12/Algebra/ToInteger.hs",
+      "src-ghc-6.12/Algebra/ToRational.hs",
+      "src-ghc-6.12/Algebra/Transcendental.hs",
+      "src-ghc-6.12/Algebra/Units.hs",
+      "src-ghc-6.12/Algebra/Vector.hs",
+      "src-ghc-6.12/Algebra/VectorSpace.hs",
+      "src-ghc-6.12/Algebra/ZeroTestable.hs",
+      "src-ghc-6.12/MathObj/Algebra.hs",
+      "src-ghc-6.12/MathObj/DiscreteMap.hs",
+      "src-ghc-6.12/MathObj/Gaussian/Bell.hs",
+      "src-ghc-6.12/MathObj/Gaussian/Example.hs",
+      "src-ghc-6.12/MathObj/Gaussian/Polynomial.hs",
+      "src-ghc-6.12/MathObj/Gaussian/Variance.hs",
+      "src-ghc-6.12/MathObj/LaurentPolynomial.hs",
+      "src-ghc-6.12/MathObj/Matrix.hs",
+      "src-ghc-6.12/MathObj/Monoid.hs",
+      "src-ghc-6.12/MathObj/PartialFraction.hs",
+      "src-ghc-6.12/MathObj/Permutation.hs",
+      "src-ghc-6.12/MathObj/Permutation/CycleList.hs",
+      "src-ghc-6.12/MathObj/Permutation/CycleList/Check.hs",
+      "src-ghc-6.12/MathObj/Permutation/Table.hs",
+      "src-ghc-6.12/MathObj/Polynomial.hs",
+      "src-ghc-6.12/MathObj/Polynomial/Core.hs",
+      "src-ghc-6.12/MathObj/PowerSeries.hs",
+      "src-ghc-6.12/MathObj/PowerSeries/Core.hs",
+      "src-ghc-6.12/MathObj/PowerSeries/DifferentialEquation.hs",
+      "src-ghc-6.12/MathObj/PowerSeries/Example.hs",
+      "src-ghc-6.12/MathObj/PowerSeries/Mean.hs",
+      "src-ghc-6.12/MathObj/PowerSeries2.hs",
+      "src-ghc-6.12/MathObj/PowerSeries2/Core.hs",
+      "src-ghc-6.12/MathObj/PowerSum.hs",
+      "src-ghc-6.12/MathObj/RefinementMask2.hs",
+      "src-ghc-6.12/MathObj/RootSet.hs",
+      "src-ghc-6.12/Number/Complex.hs",
+      "src-ghc-6.12/Number/ComplexSquareRoot.hs",
+      "src-ghc-6.12/Number/DimensionTerm.hs",
+      "src-ghc-6.12/Number/DimensionTerm/SI.hs",
+      "src-ghc-6.12/Number/FixedPoint.hs",
+      "src-ghc-6.12/Number/FixedPoint/Check.hs",
+      "src-ghc-6.12/Number/GaloisField2p32m5.hs",
+      "src-ghc-6.12/Number/NonNegative.hs",
+      "src-ghc-6.12/Number/NonNegativeChunky.hs",
+      "src-ghc-6.12/Number/OccasionallyScalarExpression.hs",
+      "src-ghc-6.12/Number/PartiallyTranscendental.hs",
+      "src-ghc-6.12/Number/Peano.hs",
+      "src-ghc-6.12/Number/Physical.hs",
+      "src-ghc-6.12/Number/Physical/Read.hs",
+      "src-ghc-6.12/Number/Physical/Show.hs",
+      "src-ghc-6.12/Number/Physical/Unit.hs",
+      "src-ghc-6.12/Number/Physical/UnitDatabase.hs",
+      "src-ghc-6.12/Number/Positional.hs",
+      "src-ghc-6.12/Number/Positional/Check.hs",
+      "src-ghc-6.12/Number/Quaternion.hs",
+      "src-ghc-6.12/Number/Ratio.hs",
+      "src-ghc-6.12/Number/ResidueClass.hs",
+      "src-ghc-6.12/Number/ResidueClass/Check.hs",
+      "src-ghc-6.12/Number/ResidueClass/Func.hs",
+      "src-ghc-6.12/Number/ResidueClass/Maybe.hs",
+      "src-ghc-6.12/Number/ResidueClass/Reader.hs",
+      "src-ghc-6.12/Number/Root.hs",
+      "src-ghc-6.12/Number/SI.hs",
+      "src-ghc-6.12/Number/SI/Unit.hs",
+      "src-ghc-6.12/NumericPrelude.hs",
+      "src-ghc-6.12/NumericPrelude/Base.hs",
+      "src-ghc-6.12/NumericPrelude/Elementwise.hs",
+      "src-ghc-6.12/NumericPrelude/List.hs",
+      "src-ghc-6.12/NumericPrelude/List/Checked.hs",
+      "src-ghc-6.12/NumericPrelude/List/Generic.hs",
+      "src-ghc-6.12/NumericPrelude/Numeric.hs",
+      "test-ghc-6.12/Gaussian.hs",
+      "test-ghc-6.12/Test.hs",
+      "test-ghc-6.12/Test/Algebra/IntegralDomain.hs",
+      "test-ghc-6.12/Test/Algebra/RealRing.hs",
+      "test-ghc-6.12/Test/MathObj/Gaussian/Bell.hs",
+      "test-ghc-6.12/Test/MathObj/Gaussian/Polynomial.hs",
+      "test-ghc-6.12/Test/MathObj/Gaussian/Variance.hs",
+      "test-ghc-6.12/Test/MathObj/Matrix.hs",
+      "test-ghc-6.12/Test/MathObj/PartialFraction.hs",
+      "test-ghc-6.12/Test/MathObj/Polynomial.hs",
+      "test-ghc-6.12/Test/MathObj/PowerSeries.hs",
+      "test-ghc-6.12/Test/MathObj/RefinementMask2.hs",
+      "test-ghc-6.12/Test/Number/ComplexSquareRoot.hs",
+      "test-ghc-6.12/Test/Number/GaloisField2p32m5.hs",
+      "test-ghc-6.12/Test/NumericPrelude/Utility.hs",
+      "test-ghc-6.12/Test/Run.hs"
+    ],
+    "extra-tmp-files": [],
+    "extra-doc-files": []
+  },
+  "package-flags": [
+    {
+      "name": "splitbase",
+      "description": "Choose the new smaller, split-up base package.",
+      "default": true,
+      "manual": false
+    },
+    {
+      "name": "buildtests",
+      "description": "Build test executables",
+      "default": false,
+      "manual": false
+    }
+  ],
+  "library": {
+    "condTreeData": {
+      "name": {},
+      "exposed-modules": [
+        [
+          "Algebra",
+          "Absolute"
+        ],
+        [
+          "Algebra",
+          "Additive"
+        ],
+        [
+          "Algebra",
+          "Algebraic"
+        ],
+        [
+          "Algebra",
+          "Differential"
+        ],
+        [
+          "Algebra",
+          "DimensionTerm"
+        ],
+        [
+          "Algebra",
+          "DivisibleSpace"
+        ],
+        [
+          "Algebra",
+          "Field"
+        ],
+        [
+          "Algebra",
+          "Indexable"
+        ],
+        [
+          "Algebra",
+          "IntegralDomain"
+        ],
+        [
+          "Algebra",
+          "NonNegative"
+        ],
+        [
+          "Algebra",
+          "Lattice"
+        ],
+        [
+          "Algebra",
+          "Laws"
+        ],
+        [
+          "Algebra",
+          "Module"
+        ],
+        [
+          "Algebra",
+          "ModuleBasis"
+        ],
+        [
+          "Algebra",
+          "Monoid"
+        ],
+        [
+          "Algebra",
+          "NormedSpace",
+          "Euclidean"
+        ],
+        [
+          "Algebra",
+          "NormedSpace",
+          "Maximum"
+        ],
+        [
+          "Algebra",
+          "NormedSpace",
+          "Sum"
+        ],
+        [
+          "Algebra",
+          "OccasionallyScalar"
+        ],
+        [
+          "Algebra",
+          "PrincipalIdealDomain"
+        ],
+        [
+          "Algebra",
+          "RealField"
+        ],
+        [
+          "Algebra",
+          "RealIntegral"
+        ],
+        [
+          "Algebra",
+          "RealRing"
+        ],
+        [
+          "Algebra",
+          "RealTranscendental"
+        ],
+        [
+          "Algebra",
+          "RightModule"
+        ],
+        [
+          "Algebra",
+          "Ring"
+        ],
+        [
+          "Algebra",
+          "ToInteger"
+        ],
+        [
+          "Algebra",
+          "ToRational"
+        ],
+        [
+          "Algebra",
+          "Transcendental"
+        ],
+        [
+          "Algebra",
+          "Units"
+        ],
+        [
+          "Algebra",
+          "Vector"
+        ],
+        [
+          "Algebra",
+          "VectorSpace"
+        ],
+        [
+          "Algebra",
+          "ZeroTestable"
+        ],
+        [
+          "MathObj",
+          "Algebra"
+        ],
+        [
+          "MathObj",
+          "DiscreteMap"
+        ],
+        [
+          "MathObj",
+          "LaurentPolynomial"
+        ],
+        [
+          "MathObj",
+          "Matrix"
+        ],
+        [
+          "MathObj",
+          "Monoid"
+        ],
+        [
+          "MathObj",
+          "PartialFraction"
+        ],
+        [
+          "MathObj",
+          "Permutation"
+        ],
+        [
+          "MathObj",
+          "Permutation",
+          "CycleList"
+        ],
+        [
+          "MathObj",
+          "Permutation",
+          "CycleList",
+          "Check"
+        ],
+        [
+          "MathObj",
+          "Permutation",
+          "Table"
+        ],
+        [
+          "MathObj",
+          "Polynomial"
+        ],
+        [
+          "MathObj",
+          "Polynomial",
+          "Core"
+        ],
+        [
+          "MathObj",
+          "PowerSeries"
+        ],
+        [
+          "MathObj",
+          "PowerSeries",
+          "Core"
+        ],
+        [
+          "MathObj",
+          "PowerSeries",
+          "DifferentialEquation"
+        ],
+        [
+          "MathObj",
+          "PowerSeries",
+          "Example"
+        ],
+        [
+          "MathObj",
+          "PowerSeries",
+          "Mean"
+        ],
+        [
+          "MathObj",
+          "PowerSeries2"
+        ],
+        [
+          "MathObj",
+          "PowerSeries2",
+          "Core"
+        ],
+        [
+          "MathObj",
+          "PowerSum"
+        ],
+        [
+          "MathObj",
+          "RefinementMask2"
+        ],
+        [
+          "MathObj",
+          "RootSet"
+        ],
+        [
+          "Number",
+          "Complex"
+        ],
+        [
+          "Number",
+          "DimensionTerm"
+        ],
+        [
+          "Number",
+          "DimensionTerm",
+          "SI"
+        ],
+        [
+          "Number",
+          "FixedPoint"
+        ],
+        [
+          "Number",
+          "FixedPoint",
+          "Check"
+        ],
+        [
+          "Number",
+          "GaloisField2p32m5"
+        ],
+        [
+          "Number",
+          "NonNegative"
+        ],
+        [
+          "Number",
+          "NonNegativeChunky"
+        ],
+        [
+          "Number",
+          "PartiallyTranscendental"
+        ],
+        [
+          "Number",
+          "Peano"
+        ],
+        [
+          "Number",
+          "Positional"
+        ],
+        [
+          "Number",
+          "Positional",
+          "Check"
+        ],
+        [
+          "Number",
+          "Quaternion"
+        ],
+        [
+          "Number",
+          "Ratio"
+        ],
+        [
+          "Number",
+          "ResidueClass"
+        ],
+        [
+          "Number",
+          "ResidueClass",
+          "Check"
+        ],
+        [
+          "Number",
+          "ResidueClass",
+          "Maybe"
+        ],
+        [
+          "Number",
+          "ResidueClass",
+          "Func"
+        ],
+        [
+          "Number",
+          "ResidueClass",
+          "Reader"
+        ],
+        [
+          "Number",
+          "Root"
+        ],
+        [
+          "Number",
+          "OccasionallyScalarExpression"
+        ],
+        [
+          "Number",
+          "SI",
+          "Unit"
+        ],
+        [
+          "Number",
+          "SI"
+        ],
+        [
+          "Number",
+          "Physical",
+          "Unit"
+        ],
+        [
+          "Number",
+          "Physical",
+          "UnitDatabase"
+        ],
+        [
+          "Number",
+          "Physical"
+        ],
+        [
+          "Number",
+          "Physical",
+          "Read"
+        ],
+        [
+          "Number",
+          "Physical",
+          "Show"
+        ],
+        [
+          "NumericPrelude",
+          "List",
+          "Checked"
+        ],
+        [
+          "NumericPrelude",
+          "List",
+          "Generic"
+        ],
+        [
+          "NumericPrelude",
+          "Elementwise"
+        ],
+        [
+          "NumericPrelude",
+          "Numeric"
+        ],
+        [
+          "NumericPrelude",
+          "Base"
+        ],
+        [
+          "NumericPrelude"
+        ]
+      ],
+      "re-exported-modules": [],
+      "signatures": [],
+      "exposed": true,
+      "visibility": "LibraryVisibilityPublic",
+      "build-info": {
+        "buildable": true,
+        "buildTools": [],
+        "buildToolDepends": [],
+        "cppOptions": [],
+        "asmOptions": [],
+        "cmmOptions": [],
+        "ccOptions": [],
+        "cxxOptions": [],
+        "ldOptions": [],
+        "pkgconfigDepends": [],
+        "frameworks": [],
+        "extraFrameworkDirs": [],
+        "asmSources": [],
+        "cmmSources": [],
+        "cSources": [],
+        "cxxSources": [],
+        "jsSources": [],
+        "hsSourceDirs": [],
+        "otherModules": [
+          [
+            "NumericPrelude",
+            "List"
+          ],
+          [
+            "Algebra",
+            "AffineSpace"
+          ],
+          [
+            "MathObj",
+            "Gaussian",
+            "Variance"
+          ],
+          [
+            "MathObj",
+            "Gaussian",
+            "Bell"
+          ],
+          [
+            "MathObj",
+            "Gaussian",
+            "Polynomial"
+          ],
+          [
+            "Number",
+            "ComplexSquareRoot"
+          ],
+          [
+            "Algebra",
+            "EqualityDecision"
+          ],
+          [
+            "Algebra",
+            "OrderDecision"
+          ]
+        ],
+        "virtualModules": [],
+        "autogenModules": [],
+        "defaultLanguage": null,
+        "otherLanguages": [],
+        "defaultExtensions": [],
+        "otherExtensions": [],
+        "oldExtensions": [],
+        "extraLibs": [],
+        "extraGHCiLibs": [],
+        "extraBundledLibs": [],
+        "extraLibFlavours": [],
+        "extraDynLibFlavours": [],
+        "extraLibDirs": [],
+        "includeDirs": [],
+        "includes": [],
+        "autogenIncludes": [],
+        "installIncludes": [],
+        "options": [
+          [
+            "-Wall"
+          ],
+          []
+        ],
+        "profOptions": [
+          [],
+          []
+        ],
+        "sharedOptions": [
+          [],
+          []
+        ],
+        "staticOptions": [
+          [],
+          []
+        ],
+        "customFieldsBI": [],
+        "targetBuildDepends": [
+          {
+            "package-name": "parsec",
+            "version-range": ">=1 && <4",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "QuickCheck",
+            "version-range": ">=1 && <3",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "storable-record",
+            "version-range": ">=0.0.1 && <0.1",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "non-negative",
+            "version-range": ">=0.0.5 && <0.2",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "utility-ht",
+            "version-range": ">=0.0.6 && <0.1",
+            "library": [
+              {}
+            ]
+          }
+        ],
+        "mixins": []
+      }
+    },
+    "condTreeConstraints": [
+      {
+        "package-name": "parsec",
+        "version-range": ">=1 && <4",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "QuickCheck",
+        "version-range": ">=1 && <3",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "storable-record",
+        "version-range": ">=0.0.1 && <0.1",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "non-negative",
+        "version-range": ">=0.0.5 && <0.2",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "utility-ht",
+        "version-range": ">=0.0.6 && <0.1",
+        "library": [
+          {}
+        ]
+      }
+    ],
+    "condTreeComponents": [
+      {
+        "condBranchCondition": {
+          "v": {
+            "flag": "splitbase"
+          }
+        },
+        "condBranchIfTrue": {
+          "condTreeData": {
+            "name": {},
+            "exposed-modules": [],
+            "re-exported-modules": [],
+            "signatures": [],
+            "exposed": true,
+            "visibility": "LibraryVisibilityPublic",
+            "build-info": {
+              "buildable": true,
+              "buildTools": [],
+              "buildToolDepends": [],
+              "cppOptions": [],
+              "asmOptions": [],
+              "cmmOptions": [],
+              "ccOptions": [],
+              "cxxOptions": [],
+              "ldOptions": [],
+              "pkgconfigDepends": [],
+              "frameworks": [],
+              "extraFrameworkDirs": [],
+              "asmSources": [],
+              "cmmSources": [],
+              "cSources": [],
+              "cxxSources": [],
+              "jsSources": [],
+              "hsSourceDirs": [],
+              "otherModules": [],
+              "virtualModules": [],
+              "autogenModules": [],
+              "defaultLanguage": null,
+              "otherLanguages": [],
+              "defaultExtensions": [],
+              "otherExtensions": [],
+              "oldExtensions": [],
+              "extraLibs": [],
+              "extraGHCiLibs": [],
+              "extraBundledLibs": [],
+              "extraLibFlavours": [],
+              "extraDynLibFlavours": [],
+              "extraLibDirs": [],
+              "includeDirs": [],
+              "includes": [],
+              "autogenIncludes": [],
+              "installIncludes": [],
+              "options": [
+                [],
+                []
+              ],
+              "profOptions": [
+                [],
+                []
+              ],
+              "sharedOptions": [
+                [],
+                []
+              ],
+              "staticOptions": [
+                [],
+                []
+              ],
+              "customFieldsBI": [],
+              "targetBuildDepends": [
+                {
+                  "package-name": "base",
+                  "version-range": ">=2 && <6",
+                  "library": [
+                    {}
+                  ]
+                },
+                {
+                  "package-name": "array",
+                  "version-range": ">=0.1 && <0.4",
+                  "library": [
+                    {}
+                  ]
+                },
+                {
+                  "package-name": "containers",
+                  "version-range": ">=0.1 && <0.5",
+                  "library": [
+                    {}
+                  ]
+                },
+                {
+                  "package-name": "random",
+                  "version-range": ">=1.0 && <1.1",
+                  "library": [
+                    {}
+                  ]
+                }
+              ],
+              "mixins": []
+            }
+          },
+          "condTreeConstraints": [
+            {
+              "package-name": "base",
+              "version-range": ">=2 && <6",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "array",
+              "version-range": ">=0.1 && <0.4",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "containers",
+              "version-range": ">=0.1 && <0.5",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "random",
+              "version-range": ">=1.0 && <1.1",
+              "library": [
+                {}
+              ]
+            }
+          ],
+          "condTreeComponents": []
+        },
+        "condBranchIfFalse": {
+          "condTreeData": {
+            "name": {},
+            "exposed-modules": [],
+            "re-exported-modules": [],
+            "signatures": [],
+            "exposed": true,
+            "visibility": "LibraryVisibilityPublic",
+            "build-info": {
+              "buildable": true,
+              "buildTools": [],
+              "buildToolDepends": [],
+              "cppOptions": [],
+              "asmOptions": [],
+              "cmmOptions": [],
+              "ccOptions": [],
+              "cxxOptions": [],
+              "ldOptions": [],
+              "pkgconfigDepends": [],
+              "frameworks": [],
+              "extraFrameworkDirs": [],
+              "asmSources": [],
+              "cmmSources": [],
+              "cSources": [],
+              "cxxSources": [],
+              "jsSources": [],
+              "hsSourceDirs": [],
+              "otherModules": [],
+              "virtualModules": [],
+              "autogenModules": [],
+              "defaultLanguage": null,
+              "otherLanguages": [],
+              "defaultExtensions": [],
+              "otherExtensions": [],
+              "oldExtensions": [],
+              "extraLibs": [],
+              "extraGHCiLibs": [],
+              "extraBundledLibs": [],
+              "extraLibFlavours": [],
+              "extraDynLibFlavours": [],
+              "extraLibDirs": [],
+              "includeDirs": [],
+              "includes": [],
+              "autogenIncludes": [],
+              "installIncludes": [],
+              "options": [
+                [],
+                []
+              ],
+              "profOptions": [
+                [],
+                []
+              ],
+              "sharedOptions": [
+                [],
+                []
+              ],
+              "staticOptions": [
+                [],
+                []
+              ],
+              "customFieldsBI": [],
+              "targetBuildDepends": [
+                {
+                  "package-name": "base",
+                  "version-range": ">=1.0 && <2",
+                  "library": [
+                    {}
+                  ]
+                }
+              ],
+              "mixins": []
+            }
+          },
+          "condTreeConstraints": [
+            {
+              "package-name": "base",
+              "version-range": ">=1.0 && <2",
+              "library": [
+                {}
+              ]
+            }
+          ],
+          "condTreeComponents": []
+        }
+      },
+      {
+        "condBranchCondition": {
+          "v": {
+            "compiler": "GHC",
+            "version": ">=7.0"
+          }
+        },
+        "condBranchIfTrue": {
+          "condTreeData": {
+            "name": {},
+            "exposed-modules": [],
+            "re-exported-modules": [],
+            "signatures": [],
+            "exposed": true,
+            "visibility": "LibraryVisibilityPublic",
+            "build-info": {
+              "buildable": true,
+              "buildTools": [],
+              "buildToolDepends": [],
+              "cppOptions": [],
+              "asmOptions": [],
+              "cmmOptions": [],
+              "ccOptions": [],
+              "cxxOptions": [],
+              "ldOptions": [],
+              "pkgconfigDepends": [],
+              "frameworks": [],
+              "extraFrameworkDirs": [],
+              "asmSources": [],
+              "cmmSources": [],
+              "cSources": [],
+              "cxxSources": [],
+              "jsSources": [],
+              "hsSourceDirs": [
+                "src"
+              ],
+              "otherModules": [],
+              "virtualModules": [],
+              "autogenModules": [],
+              "defaultLanguage": null,
+              "otherLanguages": [],
+              "defaultExtensions": [],
+              "otherExtensions": [],
+              "oldExtensions": [],
+              "extraLibs": [],
+              "extraGHCiLibs": [],
+              "extraBundledLibs": [],
+              "extraLibFlavours": [],
+              "extraDynLibFlavours": [],
+              "extraLibDirs": [],
+              "includeDirs": [],
+              "includes": [],
+              "autogenIncludes": [],
+              "installIncludes": [],
+              "options": [
+                [],
+                []
+              ],
+              "profOptions": [
+                [],
+                []
+              ],
+              "sharedOptions": [
+                [],
+                []
+              ],
+              "staticOptions": [
+                [],
+                []
+              ],
+              "customFieldsBI": [],
+              "targetBuildDepends": [],
+              "mixins": []
+            }
+          },
+          "condTreeConstraints": [],
+          "condTreeComponents": []
+        },
+        "condBranchIfFalse": {
+          "condTreeData": {
+            "name": {},
+            "exposed-modules": [],
+            "re-exported-modules": [],
+            "signatures": [],
+            "exposed": true,
+            "visibility": "LibraryVisibilityPublic",
+            "build-info": {
+              "buildable": true,
+              "buildTools": [],
+              "buildToolDepends": [],
+              "cppOptions": [],
+              "asmOptions": [],
+              "cmmOptions": [],
+              "ccOptions": [],
+              "cxxOptions": [],
+              "ldOptions": [],
+              "pkgconfigDepends": [],
+              "frameworks": [],
+              "extraFrameworkDirs": [],
+              "asmSources": [],
+              "cmmSources": [],
+              "cSources": [],
+              "cxxSources": [],
+              "jsSources": [],
+              "hsSourceDirs": [
+                "src-ghc-6.12"
+              ],
+              "otherModules": [],
+              "virtualModules": [],
+              "autogenModules": [],
+              "defaultLanguage": null,
+              "otherLanguages": [],
+              "defaultExtensions": [],
+              "otherExtensions": [],
+              "oldExtensions": [],
+              "extraLibs": [],
+              "extraGHCiLibs": [],
+              "extraBundledLibs": [],
+              "extraLibFlavours": [],
+              "extraDynLibFlavours": [],
+              "extraLibDirs": [],
+              "includeDirs": [],
+              "includes": [],
+              "autogenIncludes": [],
+              "installIncludes": [],
+              "options": [
+                [],
+                []
+              ],
+              "profOptions": [
+                [],
+                []
+              ],
+              "sharedOptions": [
+                [],
+                []
+              ],
+              "staticOptions": [
+                [],
+                []
+              ],
+              "customFieldsBI": [],
+              "targetBuildDepends": [],
+              "mixins": []
+            }
+          },
+          "condTreeConstraints": [],
+          "condTreeComponents": []
+        }
+      }
+    ]
+  },
+  "executables": {
+    "testsuite": {
+      "condTreeData": {
+        "name": "testsuite",
+        "module-path": "Test/Run.hs",
+        "scope": "public",
+        "build-info": {
+          "buildable": true,
+          "buildTools": [],
+          "buildToolDepends": [],
+          "cppOptions": [],
+          "asmOptions": [],
+          "cmmOptions": [],
+          "ccOptions": [],
+          "cxxOptions": [],
+          "ldOptions": [],
+          "pkgconfigDepends": [],
+          "frameworks": [],
+          "extraFrameworkDirs": [],
+          "asmSources": [],
+          "cmmSources": [],
+          "cSources": [],
+          "cxxSources": [],
+          "jsSources": [],
+          "hsSourceDirs": [],
+          "otherModules": [
+            [
+              "Test",
+              "NumericPrelude",
+              "Utility"
+            ],
+            [
+              "Test",
+              "Number",
+              "GaloisField2p32m5"
+            ],
+            [
+              "Test",
+              "Number",
+              "ComplexSquareRoot"
+            ],
+            [
+              "Test",
+              "Algebra",
+              "IntegralDomain"
+            ],
+            [
+              "Test",
+              "Algebra",
+              "RealRing"
+            ],
+            [
+              "Test",
+              "MathObj",
+              "RefinementMask2"
+            ],
+            [
+              "Test",
+              "MathObj",
+              "PartialFraction"
+            ],
+            [
+              "Test",
+              "MathObj",
+              "Matrix"
+            ],
+            [
+              "Test",
+              "MathObj",
+              "Polynomial"
+            ],
+            [
+              "Test",
+              "MathObj",
+              "PowerSeries"
+            ],
+            [
+              "Test",
+              "MathObj",
+              "Gaussian",
+              "Variance"
+            ],
+            [
+              "Test",
+              "MathObj",
+              "Gaussian",
+              "Bell"
+            ],
+            [
+              "Test",
+              "MathObj",
+              "Gaussian",
+              "Polynomial"
+            ]
+          ],
+          "virtualModules": [],
+          "autogenModules": [],
+          "defaultLanguage": null,
+          "otherLanguages": [],
+          "defaultExtensions": [],
+          "otherExtensions": [],
+          "oldExtensions": [],
+          "extraLibs": [],
+          "extraGHCiLibs": [],
+          "extraBundledLibs": [],
+          "extraLibFlavours": [],
+          "extraDynLibFlavours": [],
+          "extraLibDirs": [],
+          "includeDirs": [],
+          "includes": [],
+          "autogenIncludes": [],
+          "installIncludes": [],
+          "options": [
+            [
+              "-Wall"
+            ],
+            []
+          ],
+          "profOptions": [
+            [],
+            []
+          ],
+          "sharedOptions": [
+            [],
+            []
+          ],
+          "staticOptions": [
+            [],
+            []
+          ],
+          "customFieldsBI": [],
+          "targetBuildDepends": [],
+          "mixins": []
+        }
+      },
+      "condTreeConstraints": [],
+      "condTreeComponents": [
+        {
+          "condBranchCondition": {
+            "v": {
+              "compiler": "GHC",
+              "version": ">=7.0"
+            }
+          },
+          "condBranchIfTrue": {
+            "condTreeData": {
+              "name": "testsuite",
+              "module-path": "",
+              "scope": "public",
+              "build-info": {
+                "buildable": true,
+                "buildTools": [],
+                "buildToolDepends": [],
+                "cppOptions": [],
+                "asmOptions": [],
+                "cmmOptions": [],
+                "ccOptions": [],
+                "cxxOptions": [],
+                "ldOptions": [],
+                "pkgconfigDepends": [],
+                "frameworks": [],
+                "extraFrameworkDirs": [],
+                "asmSources": [],
+                "cmmSources": [],
+                "cSources": [],
+                "cxxSources": [],
+                "jsSources": [],
+                "hsSourceDirs": [
+                  "src",
+                  "test"
+                ],
+                "otherModules": [],
+                "virtualModules": [],
+                "autogenModules": [],
+                "defaultLanguage": null,
+                "otherLanguages": [],
+                "defaultExtensions": [],
+                "otherExtensions": [],
+                "oldExtensions": [],
+                "extraLibs": [],
+                "extraGHCiLibs": [],
+                "extraBundledLibs": [],
+                "extraLibFlavours": [],
+                "extraDynLibFlavours": [],
+                "extraLibDirs": [],
+                "includeDirs": [],
+                "includes": [],
+                "autogenIncludes": [],
+                "installIncludes": [],
+                "options": [
+                  [],
+                  []
+                ],
+                "profOptions": [
+                  [],
+                  []
+                ],
+                "sharedOptions": [
+                  [],
+                  []
+                ],
+                "staticOptions": [
+                  [],
+                  []
+                ],
+                "customFieldsBI": [],
+                "targetBuildDepends": [],
+                "mixins": []
+              }
+            },
+            "condTreeConstraints": [],
+            "condTreeComponents": []
+          },
+          "condBranchIfFalse": {
+            "condTreeData": {
+              "name": "testsuite",
+              "module-path": "",
+              "scope": "public",
+              "build-info": {
+                "buildable": true,
+                "buildTools": [],
+                "buildToolDepends": [],
+                "cppOptions": [],
+                "asmOptions": [],
+                "cmmOptions": [],
+                "ccOptions": [],
+                "cxxOptions": [],
+                "ldOptions": [],
+                "pkgconfigDepends": [],
+                "frameworks": [],
+                "extraFrameworkDirs": [],
+                "asmSources": [],
+                "cmmSources": [],
+                "cSources": [],
+                "cxxSources": [],
+                "jsSources": [],
+                "hsSourceDirs": [
+                  "src-ghc-6.12",
+                  "test-ghc-6.12"
+                ],
+                "otherModules": [],
+                "virtualModules": [],
+                "autogenModules": [],
+                "defaultLanguage": null,
+                "otherLanguages": [],
+                "defaultExtensions": [],
+                "otherExtensions": [],
+                "oldExtensions": [],
+                "extraLibs": [],
+                "extraGHCiLibs": [],
+                "extraBundledLibs": [],
+                "extraLibFlavours": [],
+                "extraDynLibFlavours": [],
+                "extraLibDirs": [],
+                "includeDirs": [],
+                "includes": [],
+                "autogenIncludes": [],
+                "installIncludes": [],
+                "options": [
+                  [],
+                  []
+                ],
+                "profOptions": [
+                  [],
+                  []
+                ],
+                "sharedOptions": [
+                  [],
+                  []
+                ],
+                "staticOptions": [
+                  [],
+                  []
+                ],
+                "customFieldsBI": [],
+                "targetBuildDepends": [],
+                "mixins": []
+              }
+            },
+            "condTreeConstraints": [],
+            "condTreeComponents": []
+          }
+        },
+        {
+          "condBranchCondition": {
+            "v": {
+              "flag": "buildtests"
+            }
+          },
+          "condBranchIfTrue": {
+            "condTreeData": {
+              "name": "testsuite",
+              "module-path": "",
+              "scope": "public",
+              "build-info": {
+                "buildable": true,
+                "buildTools": [],
+                "buildToolDepends": [],
+                "cppOptions": [],
+                "asmOptions": [],
+                "cmmOptions": [],
+                "ccOptions": [],
+                "cxxOptions": [],
+                "ldOptions": [],
+                "pkgconfigDepends": [],
+                "frameworks": [],
+                "extraFrameworkDirs": [],
+                "asmSources": [],
+                "cmmSources": [],
+                "cSources": [],
+                "cxxSources": [],
+                "jsSources": [],
+                "hsSourceDirs": [],
+                "otherModules": [],
+                "virtualModules": [],
+                "autogenModules": [],
+                "defaultLanguage": null,
+                "otherLanguages": [],
+                "defaultExtensions": [],
+                "otherExtensions": [],
+                "oldExtensions": [],
+                "extraLibs": [],
+                "extraGHCiLibs": [],
+                "extraBundledLibs": [],
+                "extraLibFlavours": [],
+                "extraDynLibFlavours": [],
+                "extraLibDirs": [],
+                "includeDirs": [],
+                "includes": [],
+                "autogenIncludes": [],
+                "installIncludes": [],
+                "options": [
+                  [],
+                  []
+                ],
+                "profOptions": [
+                  [],
+                  []
+                ],
+                "sharedOptions": [
+                  [],
+                  []
+                ],
+                "staticOptions": [
+                  [],
+                  []
+                ],
+                "customFieldsBI": [],
+                "targetBuildDepends": [
+                  {
+                    "package-name": "HUnit",
+                    "version-range": ">=1 && <2",
+                    "library": [
+                      {}
+                    ]
+                  }
+                ],
+                "mixins": []
+              }
+            },
+            "condTreeConstraints": [
+              {
+                "package-name": "HUnit",
+                "version-range": ">=1 && <2",
+                "library": [
+                  {}
+                ]
+              }
+            ],
+            "condTreeComponents": []
+          },
+          "condBranchIfFalse": {
+            "condTreeData": {
+              "name": "testsuite",
+              "module-path": "",
+              "scope": "public",
+              "build-info": {
+                "buildable": false,
+                "buildTools": [],
+                "buildToolDepends": [],
+                "cppOptions": [],
+                "asmOptions": [],
+                "cmmOptions": [],
+                "ccOptions": [],
+                "cxxOptions": [],
+                "ldOptions": [],
+                "pkgconfigDepends": [],
+                "frameworks": [],
+                "extraFrameworkDirs": [],
+                "asmSources": [],
+                "cmmSources": [],
+                "cSources": [],
+                "cxxSources": [],
+                "jsSources": [],
+                "hsSourceDirs": [],
+                "otherModules": [],
+                "virtualModules": [],
+                "autogenModules": [],
+                "defaultLanguage": null,
+                "otherLanguages": [],
+                "defaultExtensions": [],
+                "otherExtensions": [],
+                "oldExtensions": [],
+                "extraLibs": [],
+                "extraGHCiLibs": [],
+                "extraBundledLibs": [],
+                "extraLibFlavours": [],
+                "extraDynLibFlavours": [],
+                "extraLibDirs": [],
+                "includeDirs": [],
+                "includes": [],
+                "autogenIncludes": [],
+                "installIncludes": [],
+                "options": [
+                  [],
+                  []
+                ],
+                "profOptions": [
+                  [],
+                  []
+                ],
+                "sharedOptions": [
+                  [],
+                  []
+                ],
+                "staticOptions": [
+                  [],
+                  []
+                ],
+                "customFieldsBI": [],
+                "targetBuildDepends": [],
+                "mixins": []
+              }
+            },
+            "condTreeConstraints": [],
+            "condTreeComponents": []
+          }
+        }
+      ]
+    },
+    "test": {
+      "condTreeData": {
+        "name": "test",
+        "module-path": "Test.hs",
+        "scope": "public",
+        "build-info": {
+          "buildable": true,
+          "buildTools": [],
+          "buildToolDepends": [],
+          "cppOptions": [],
+          "asmOptions": [],
+          "cmmOptions": [],
+          "ccOptions": [],
+          "cxxOptions": [],
+          "ldOptions": [],
+          "pkgconfigDepends": [],
+          "frameworks": [],
+          "extraFrameworkDirs": [],
+          "asmSources": [],
+          "cmmSources": [],
+          "cSources": [],
+          "cxxSources": [],
+          "jsSources": [],
+          "hsSourceDirs": [],
+          "otherModules": [],
+          "virtualModules": [],
+          "autogenModules": [],
+          "defaultLanguage": null,
+          "otherLanguages": [],
+          "defaultExtensions": [],
+          "otherExtensions": [],
+          "oldExtensions": [],
+          "extraLibs": [],
+          "extraGHCiLibs": [],
+          "extraBundledLibs": [],
+          "extraLibFlavours": [],
+          "extraDynLibFlavours": [],
+          "extraLibDirs": [],
+          "includeDirs": [],
+          "includes": [],
+          "autogenIncludes": [],
+          "installIncludes": [],
+          "options": [
+            [],
+            []
+          ],
+          "profOptions": [
+            [],
+            []
+          ],
+          "sharedOptions": [
+            [],
+            []
+          ],
+          "staticOptions": [
+            [],
+            []
+          ],
+          "customFieldsBI": [],
+          "targetBuildDepends": [],
+          "mixins": []
+        }
+      },
+      "condTreeConstraints": [],
+      "condTreeComponents": [
+        {
+          "condBranchCondition": {
+            "v": {
+              "compiler": "GHC",
+              "version": ">=7.0"
+            }
+          },
+          "condBranchIfTrue": {
+            "condTreeData": {
+              "name": "test",
+              "module-path": "",
+              "scope": "public",
+              "build-info": {
+                "buildable": true,
+                "buildTools": [],
+                "buildToolDepends": [],
+                "cppOptions": [],
+                "asmOptions": [],
+                "cmmOptions": [],
+                "ccOptions": [],
+                "cxxOptions": [],
+                "ldOptions": [],
+                "pkgconfigDepends": [],
+                "frameworks": [],
+                "extraFrameworkDirs": [],
+                "asmSources": [],
+                "cmmSources": [],
+                "cSources": [],
+                "cxxSources": [],
+                "jsSources": [],
+                "hsSourceDirs": [
+                  "src",
+                  "test"
+                ],
+                "otherModules": [],
+                "virtualModules": [],
+                "autogenModules": [],
+                "defaultLanguage": null,
+                "otherLanguages": [],
+                "defaultExtensions": [],
+                "otherExtensions": [],
+                "oldExtensions": [],
+                "extraLibs": [],
+                "extraGHCiLibs": [],
+                "extraBundledLibs": [],
+                "extraLibFlavours": [],
+                "extraDynLibFlavours": [],
+                "extraLibDirs": [],
+                "includeDirs": [],
+                "includes": [],
+                "autogenIncludes": [],
+                "installIncludes": [],
+                "options": [
+                  [],
+                  []
+                ],
+                "profOptions": [
+                  [],
+                  []
+                ],
+                "sharedOptions": [
+                  [],
+                  []
+                ],
+                "staticOptions": [
+                  [],
+                  []
+                ],
+                "customFieldsBI": [],
+                "targetBuildDepends": [],
+                "mixins": []
+              }
+            },
+            "condTreeConstraints": [],
+            "condTreeComponents": []
+          },
+          "condBranchIfFalse": {
+            "condTreeData": {
+              "name": "test",
+              "module-path": "",
+              "scope": "public",
+              "build-info": {
+                "buildable": true,
+                "buildTools": [],
+                "buildToolDepends": [],
+                "cppOptions": [],
+                "asmOptions": [],
+                "cmmOptions": [],
+                "ccOptions": [],
+                "cxxOptions": [],
+                "ldOptions": [],
+                "pkgconfigDepends": [],
+                "frameworks": [],
+                "extraFrameworkDirs": [],
+                "asmSources": [],
+                "cmmSources": [],
+                "cSources": [],
+                "cxxSources": [],
+                "jsSources": [],
+                "hsSourceDirs": [
+                  "src-ghc-6.12",
+                  "test-ghc-6.12"
+                ],
+                "otherModules": [],
+                "virtualModules": [],
+                "autogenModules": [],
+                "defaultLanguage": null,
+                "otherLanguages": [],
+                "defaultExtensions": [],
+                "otherExtensions": [],
+                "oldExtensions": [],
+                "extraLibs": [],
+                "extraGHCiLibs": [],
+                "extraBundledLibs": [],
+                "extraLibFlavours": [],
+                "extraDynLibFlavours": [],
+                "extraLibDirs": [],
+                "includeDirs": [],
+                "includes": [],
+                "autogenIncludes": [],
+                "installIncludes": [],
+                "options": [
+                  [],
+                  []
+                ],
+                "profOptions": [
+                  [],
+                  []
+                ],
+                "sharedOptions": [
+                  [],
+                  []
+                ],
+                "staticOptions": [
+                  [],
+                  []
+                ],
+                "customFieldsBI": [],
+                "targetBuildDepends": [],
+                "mixins": []
+              }
+            },
+            "condTreeConstraints": [],
+            "condTreeComponents": []
+          }
+        },
+        {
+          "condBranchCondition": {
+            "cond": {
+              "v": {
+                "flag": "buildtests"
+              }
+            }
+          },
+          "condBranchIfTrue": {
+            "condTreeData": {
+              "name": "test",
+              "module-path": "",
+              "scope": "public",
+              "build-info": {
+                "buildable": false,
+                "buildTools": [],
+                "buildToolDepends": [],
+                "cppOptions": [],
+                "asmOptions": [],
+                "cmmOptions": [],
+                "ccOptions": [],
+                "cxxOptions": [],
+                "ldOptions": [],
+                "pkgconfigDepends": [],
+                "frameworks": [],
+                "extraFrameworkDirs": [],
+                "asmSources": [],
+                "cmmSources": [],
+                "cSources": [],
+                "cxxSources": [],
+                "jsSources": [],
+                "hsSourceDirs": [],
+                "otherModules": [],
+                "virtualModules": [],
+                "autogenModules": [],
+                "defaultLanguage": null,
+                "otherLanguages": [],
+                "defaultExtensions": [],
+                "otherExtensions": [],
+                "oldExtensions": [],
+                "extraLibs": [],
+                "extraGHCiLibs": [],
+                "extraBundledLibs": [],
+                "extraLibFlavours": [],
+                "extraDynLibFlavours": [],
+                "extraLibDirs": [],
+                "includeDirs": [],
+                "includes": [],
+                "autogenIncludes": [],
+                "installIncludes": [],
+                "options": [
+                  [],
+                  []
+                ],
+                "profOptions": [
+                  [],
+                  []
+                ],
+                "sharedOptions": [
+                  [],
+                  []
+                ],
+                "staticOptions": [
+                  [],
+                  []
+                ],
+                "customFieldsBI": [],
+                "targetBuildDepends": [],
+                "mixins": []
+              }
+            },
+            "condTreeConstraints": [],
+            "condTreeComponents": []
+          }
+        }
+      ]
+    },
+    "test-gaussian": {
+      "condTreeData": {
+        "name": "test-gaussian",
+        "module-path": "Gaussian.hs",
+        "scope": "public",
+        "build-info": {
+          "buildable": true,
+          "buildTools": [],
+          "buildToolDepends": [],
+          "cppOptions": [],
+          "asmOptions": [],
+          "cmmOptions": [],
+          "ccOptions": [],
+          "cxxOptions": [],
+          "ldOptions": [],
+          "pkgconfigDepends": [],
+          "frameworks": [],
+          "extraFrameworkDirs": [],
+          "asmSources": [],
+          "cmmSources": [],
+          "cSources": [],
+          "cxxSources": [],
+          "jsSources": [],
+          "hsSourceDirs": [],
+          "otherModules": [
+            [
+              "MathObj",
+              "Gaussian",
+              "Example"
+            ]
+          ],
+          "virtualModules": [],
+          "autogenModules": [],
+          "defaultLanguage": null,
+          "otherLanguages": [],
+          "defaultExtensions": [],
+          "otherExtensions": [],
+          "oldExtensions": [],
+          "extraLibs": [],
+          "extraGHCiLibs": [],
+          "extraBundledLibs": [],
+          "extraLibFlavours": [],
+          "extraDynLibFlavours": [],
+          "extraLibDirs": [],
+          "includeDirs": [],
+          "includes": [],
+          "autogenIncludes": [],
+          "installIncludes": [],
+          "options": [
+            [],
+            []
+          ],
+          "profOptions": [
+            [],
+            []
+          ],
+          "sharedOptions": [
+            [],
+            []
+          ],
+          "staticOptions": [
+            [],
+            []
+          ],
+          "customFieldsBI": [],
+          "targetBuildDepends": [],
+          "mixins": []
+        }
+      },
+      "condTreeConstraints": [],
+      "condTreeComponents": [
+        {
+          "condBranchCondition": {
+            "v": {
+              "compiler": "GHC",
+              "version": ">=7.0"
+            }
+          },
+          "condBranchIfTrue": {
+            "condTreeData": {
+              "name": "test-gaussian",
+              "module-path": "",
+              "scope": "public",
+              "build-info": {
+                "buildable": true,
+                "buildTools": [],
+                "buildToolDepends": [],
+                "cppOptions": [],
+                "asmOptions": [],
+                "cmmOptions": [],
+                "ccOptions": [],
+                "cxxOptions": [],
+                "ldOptions": [],
+                "pkgconfigDepends": [],
+                "frameworks": [],
+                "extraFrameworkDirs": [],
+                "asmSources": [],
+                "cmmSources": [],
+                "cSources": [],
+                "cxxSources": [],
+                "jsSources": [],
+                "hsSourceDirs": [
+                  "src",
+                  "test"
+                ],
+                "otherModules": [],
+                "virtualModules": [],
+                "autogenModules": [],
+                "defaultLanguage": null,
+                "otherLanguages": [],
+                "defaultExtensions": [],
+                "otherExtensions": [],
+                "oldExtensions": [],
+                "extraLibs": [],
+                "extraGHCiLibs": [],
+                "extraBundledLibs": [],
+                "extraLibFlavours": [],
+                "extraDynLibFlavours": [],
+                "extraLibDirs": [],
+                "includeDirs": [],
+                "includes": [],
+                "autogenIncludes": [],
+                "installIncludes": [],
+                "options": [
+                  [],
+                  []
+                ],
+                "profOptions": [
+                  [],
+                  []
+                ],
+                "sharedOptions": [
+                  [],
+                  []
+                ],
+                "staticOptions": [
+                  [],
+                  []
+                ],
+                "customFieldsBI": [],
+                "targetBuildDepends": [],
+                "mixins": []
+              }
+            },
+            "condTreeConstraints": [],
+            "condTreeComponents": []
+          },
+          "condBranchIfFalse": {
+            "condTreeData": {
+              "name": "test-gaussian",
+              "module-path": "",
+              "scope": "public",
+              "build-info": {
+                "buildable": true,
+                "buildTools": [],
+                "buildToolDepends": [],
+                "cppOptions": [],
+                "asmOptions": [],
+                "cmmOptions": [],
+                "ccOptions": [],
+                "cxxOptions": [],
+                "ldOptions": [],
+                "pkgconfigDepends": [],
+                "frameworks": [],
+                "extraFrameworkDirs": [],
+                "asmSources": [],
+                "cmmSources": [],
+                "cSources": [],
+                "cxxSources": [],
+                "jsSources": [],
+                "hsSourceDirs": [
+                  "src-ghc-6.12",
+                  "test-ghc-6.12"
+                ],
+                "otherModules": [],
+                "virtualModules": [],
+                "autogenModules": [],
+                "defaultLanguage": null,
+                "otherLanguages": [],
+                "defaultExtensions": [],
+                "otherExtensions": [],
+                "oldExtensions": [],
+                "extraLibs": [],
+                "extraGHCiLibs": [],
+                "extraBundledLibs": [],
+                "extraLibFlavours": [],
+                "extraDynLibFlavours": [],
+                "extraLibDirs": [],
+                "includeDirs": [],
+                "includes": [],
+                "autogenIncludes": [],
+                "installIncludes": [],
+                "options": [
+                  [],
+                  []
+                ],
+                "profOptions": [
+                  [],
+                  []
+                ],
+                "sharedOptions": [
+                  [],
+                  []
+                ],
+                "staticOptions": [
+                  [],
+                  []
+                ],
+                "customFieldsBI": [],
+                "targetBuildDepends": [],
+                "mixins": []
+              }
+            },
+            "condTreeConstraints": [],
+            "condTreeComponents": []
+          }
+        },
+        {
+          "condBranchCondition": {
+            "v": {
+              "flag": "buildtests"
+            }
+          },
+          "condBranchIfTrue": {
+            "condTreeData": {
+              "name": "test-gaussian",
+              "module-path": "",
+              "scope": "public",
+              "build-info": {
+                "buildable": true,
+                "buildTools": [],
+                "buildToolDepends": [],
+                "cppOptions": [],
+                "asmOptions": [],
+                "cmmOptions": [],
+                "ccOptions": [],
+                "cxxOptions": [],
+                "ldOptions": [],
+                "pkgconfigDepends": [],
+                "frameworks": [],
+                "extraFrameworkDirs": [],
+                "asmSources": [],
+                "cmmSources": [],
+                "cSources": [],
+                "cxxSources": [],
+                "jsSources": [],
+                "hsSourceDirs": [],
+                "otherModules": [],
+                "virtualModules": [],
+                "autogenModules": [],
+                "defaultLanguage": null,
+                "otherLanguages": [],
+                "defaultExtensions": [],
+                "otherExtensions": [],
+                "oldExtensions": [],
+                "extraLibs": [],
+                "extraGHCiLibs": [],
+                "extraBundledLibs": [],
+                "extraLibFlavours": [],
+                "extraDynLibFlavours": [],
+                "extraLibDirs": [],
+                "includeDirs": [],
+                "includes": [],
+                "autogenIncludes": [],
+                "installIncludes": [],
+                "options": [
+                  [],
+                  []
+                ],
+                "profOptions": [
+                  [],
+                  []
+                ],
+                "sharedOptions": [
+                  [],
+                  []
+                ],
+                "staticOptions": [
+                  [],
+                  []
+                ],
+                "customFieldsBI": [],
+                "targetBuildDepends": [
+                  {
+                    "package-name": "gnuplot",
+                    "version-range": ">=0.3 && <0.5",
+                    "library": [
+                      {}
+                    ]
+                  },
+                  {
+                    "package-name": "HTam",
+                    "version-range": ">=0.0.2 && <0.1",
+                    "library": [
+                      {}
+                    ]
+                  }
+                ],
+                "mixins": []
+              }
+            },
+            "condTreeConstraints": [
+              {
+                "package-name": "gnuplot",
+                "version-range": ">=0.3 && <0.5",
+                "library": [
+                  {}
+                ]
+              },
+              {
+                "package-name": "HTam",
+                "version-range": ">=0.0.2 && <0.1",
+                "library": [
+                  {}
+                ]
+              }
+            ],
+            "condTreeComponents": []
+          },
+          "condBranchIfFalse": {
+            "condTreeData": {
+              "name": "test-gaussian",
+              "module-path": "",
+              "scope": "public",
+              "build-info": {
+                "buildable": false,
+                "buildTools": [],
+                "buildToolDepends": [],
+                "cppOptions": [],
+                "asmOptions": [],
+                "cmmOptions": [],
+                "ccOptions": [],
+                "cxxOptions": [],
+                "ldOptions": [],
+                "pkgconfigDepends": [],
+                "frameworks": [],
+                "extraFrameworkDirs": [],
+                "asmSources": [],
+                "cmmSources": [],
+                "cSources": [],
+                "cxxSources": [],
+                "jsSources": [],
+                "hsSourceDirs": [],
+                "otherModules": [],
+                "virtualModules": [],
+                "autogenModules": [],
+                "defaultLanguage": null,
+                "otherLanguages": [],
+                "defaultExtensions": [],
+                "otherExtensions": [],
+                "oldExtensions": [],
+                "extraLibs": [],
+                "extraGHCiLibs": [],
+                "extraBundledLibs": [],
+                "extraLibFlavours": [],
+                "extraDynLibFlavours": [],
+                "extraLibDirs": [],
+                "includeDirs": [],
+                "includes": [],
+                "autogenIncludes": [],
+                "installIncludes": [],
+                "options": [
+                  [],
+                  []
+                ],
+                "profOptions": [
+                  [],
+                  []
+                ],
+                "sharedOptions": [
+                  [],
+                  []
+                ],
+                "staticOptions": [
+                  [],
+                  []
+                ],
+                "customFieldsBI": [],
+                "targetBuildDepends": [],
+                "mixins": []
+              }
+            },
+            "condTreeConstraints": [],
+            "condTreeComponents": []
+          }
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,310 @@
+{
+  "description": {
+    "spec-version": {
+      "Right": ">=1.8"
+    },
+    "package": {
+      "name": "references",
+      "version": [
+        0,
+        2,
+        1,
+        1
+      ]
+    },
+    "license": {
+      "Right": "BSD3"
+    },
+    "license-files": [
+      "LICENSE"
+    ],
+    "copyright": "",
+    "maintainer": "nboldi@elte.hu",
+    "author": "Boldizsar Nemeth",
+    "stability": "",
+    "tested-with": [],
+    "homepage": "https://github.com/lazac/references",
+    "pkg-url": "",
+    "bug-reports": "",
+    "source-repos": [],
+    "synopsis": "Generalization of lenses, folds and traversals to handle monads and addition.",
+    "description": "References can read, write or update parts of the data.\nThey are first-class values, can be passed in functions, transformed, combined.\nReferences generalize lenses, folds and traversals for haskell (see: <https://hackage.haskell.org/package/lens>).\n\nThere are two things that references can do but the previously mentioned access methods don't.\n\n* References can cooperate with monads, for example IO.\n\n* References can be added using the @&+&@ operator, to create new lenses more easily.\n\nBasic idea taken from the currently not maintained package <https://hackage.haskell.org/package/yall>.\n\nAn example use of the references (a logger application that spawns new threads to update a global log):\n\n> logger =\n>   (forever $ do\n>      log <- logChan ^! chan&logRecord    -- Extract the log record from the received log message\n>      thrId <- forkIO (do time <- getTime\n>                          ioref&lastLogTime != time $ logDB     -- Update the last logging time mutable log database\n>                          let logMsg = senderThread .- show     -- Transform the thread id to a string and\n>                                         $ loggingTime .= time  -- update the time\n>                                         $ log                  -- inside the log message\n>                          ioref&debugInfos !~ addLogEntry log $ logDB  -- update the table of log entries\n>                          mvar !- (+1) $ count )\n>      mvar !- (thrId:) $ updaters                               -- Record the spawned thread\n>     ) `catch` stopUpdaters updaters\n>   where stopUpdaters updaters ThreadKilled =\n>           mvar&traverse *!| killThread $ updaters              -- Kill all spawned threads before stopping\n\nThere are a bunch of predefined references for datatypes included in standard libraries.\n\nNew references can be created in several ways:\n\n* From getter, setter and updater, using the @reference@ function.\n\n* From getter and setter, using one of the simplified functions (@lens@, @simplePartial@, @partial@, ...).\n\n* Using the `Data.Traversal` instance on a datatype to generate a traversal of each element.\n\n* Using lenses from `Control.Lens` package. There are a lot of packages defining lenses, folds and traversals\nfor various data structures, so it is very useful that all of them can simply be converted into a reference.\n\n* Generating references for newly defined records using the `makeReferences` Template Haskell function.\n",
+    "category": "Control",
+    "custom-fields": [
+      [
+        "x-revision",
+        "1"
+      ]
+    ],
+    "build-type-raw": "Simple",
+    "custom-setup": null,
+    "library": null,
+    "sublibraries": [],
+    "executables": [],
+    "foreign-libs": [],
+    "test-suites": [],
+    "benchmarks": [],
+    "data-files": [],
+    "data-dir": ".",
+    "extra-source-files": [],
+    "extra-tmp-files": [],
+    "extra-doc-files": []
+  },
+  "library": {
+    "condTreeData": {
+      "name": {},
+      "exposed-modules": [
+        [
+          "Control",
+          "Reference"
+        ],
+        [
+          "Control",
+          "Reference",
+          "TH",
+          "MonadInstances"
+        ],
+        [
+          "Control",
+          "Reference",
+          "TH",
+          "Monad"
+        ],
+        [
+          "Control",
+          "Reference",
+          "TH",
+          "Records"
+        ],
+        [
+          "Control",
+          "Reference",
+          "TH",
+          "Tuple"
+        ],
+        [
+          "Control",
+          "Reference",
+          "Examples",
+          "TH"
+        ],
+        [
+          "Control",
+          "Reference",
+          "Representation"
+        ],
+        [
+          "Control",
+          "Reference",
+          "Operators"
+        ],
+        [
+          "Control",
+          "Reference",
+          "Predefined"
+        ],
+        [
+          "Control",
+          "Reference",
+          "TupleInstances"
+        ],
+        [
+          "Control",
+          "Reference",
+          "InternalInterface"
+        ]
+      ],
+      "re-exported-modules": [],
+      "signatures": [],
+      "exposed": true,
+      "visibility": "LibraryVisibilityPublic",
+      "build-info": {
+        "buildable": true,
+        "buildTools": [],
+        "buildToolDepends": [],
+        "cppOptions": [],
+        "asmOptions": [],
+        "cmmOptions": [],
+        "ccOptions": [],
+        "cxxOptions": [],
+        "ldOptions": [],
+        "pkgconfigDepends": [],
+        "frameworks": [],
+        "extraFrameworkDirs": [],
+        "asmSources": [],
+        "cmmSources": [],
+        "cSources": [],
+        "cxxSources": [],
+        "jsSources": [],
+        "hsSourceDirs": [],
+        "otherModules": [],
+        "virtualModules": [],
+        "autogenModules": [],
+        "defaultLanguage": null,
+        "otherLanguages": [],
+        "defaultExtensions": [],
+        "otherExtensions": [],
+        "oldExtensions": [],
+        "extraLibs": [],
+        "extraGHCiLibs": [],
+        "extraBundledLibs": [],
+        "extraLibFlavours": [],
+        "extraDynLibFlavours": [],
+        "extraLibDirs": [],
+        "includeDirs": [],
+        "includes": [],
+        "autogenIncludes": [],
+        "installIncludes": [],
+        "options": [
+          [],
+          []
+        ],
+        "profOptions": [
+          [],
+          []
+        ],
+        "sharedOptions": [
+          [],
+          []
+        ],
+        "staticOptions": [
+          [],
+          []
+        ],
+        "customFieldsBI": [],
+        "targetBuildDepends": [
+          {
+            "package-name": "base",
+            "version-range": ">=4.6 && <5",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "mtl",
+            "version-range": "==2.2.*",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "transformers",
+            "version-range": "==0.4.*",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "containers",
+            "version-range": "==0.5.*",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "either",
+            "version-range": "==4.3.*",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "template-haskell",
+            "version-range": ">=2.8 && <3",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "transformers-base",
+            "version-range": ">=0.4 && <0.5",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "monad-control",
+            "version-range": ">=0.3 && <0.4",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "lifted-base",
+            "version-range": ">=0.2 && <0.3",
+            "library": [
+              {}
+            ]
+          }
+        ],
+        "mixins": []
+      }
+    },
+    "condTreeConstraints": [
+      {
+        "package-name": "base",
+        "version-range": ">=4.6 && <5",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "mtl",
+        "version-range": "==2.2.*",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "transformers",
+        "version-range": "==0.4.*",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "containers",
+        "version-range": "==0.5.*",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "either",
+        "version-range": "==4.3.*",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "template-haskell",
+        "version-range": ">=2.8 && <3",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "transformers-base",
+        "version-range": ">=0.4 && <0.5",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "monad-control",
+        "version-range": ">=0.3 && <0.4",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "lifted-base",
+        "version-range": ">=0.2 && <0.3",
+        "library": [
+          {}
+        ]
+      }
+    ],
+    "condTreeComponents": []
+  }
+}

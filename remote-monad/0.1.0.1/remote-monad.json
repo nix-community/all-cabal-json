@@ -1,0 +1,416 @@
+{
+  "description": {
+    "spec-version": {
+      "Right": ">=1.10"
+    },
+    "package": {
+      "name": "remote-monad",
+      "version": [
+        0,
+        1,
+        0,
+        1
+      ]
+    },
+    "license": {
+      "Right": "BSD3"
+    },
+    "license-files": [
+      "LICENSE"
+    ],
+    "copyright": "(c) 2016 The University of Kansas",
+    "maintainer": "andygill@ku.edu",
+    "author": "Andy Gill, Justin Dawson",
+    "stability": "",
+    "tested-with": [
+      {
+        "compiler": "GHC",
+        "versionRange": "==7.10.3"
+      }
+    ],
+    "homepage": "",
+    "pkg-url": "",
+    "bug-reports": "",
+    "source-repos": [
+      {
+        "kind": {},
+        "type": "Git",
+        "location": "git://github.com/ku-fpg/remote-monad",
+        "module": null,
+        "branch": null,
+        "tag": null,
+        "subdir": null
+      }
+    ],
+    "synopsis": "An parametrizable Remote Monad, and parametrizable Applicative Functor",
+    "description": "An implementation of the concepts behind Remote Monads. There is support for various bundling strategies.\n\n@\n&#123;-&#35; LANGUAGE GADTs &#35;-&#125;\n&#123;-&#35; LANGUAGE KindSignatures &#35;-&#125;\n\nmodule Main where\n\nimport Control.Remote.Monad\nimport Control.Remote.Monad.Packet.Weak\n\ndata Command :: * where\n&#32;&#32;Say :: String -> Command\n\ndata Procedure :: * -> * where\n&#32;&#32;Temperature :: Procedure Int\n\nsay :: String -> RemoteMonad Command Procedure ()\nsay s = command (Say s)\n\ntemperature :: RemoteMonad Command Procedure Int\ntemperature = procedure Temperature\n\nrunWP :: WeakPacket Command Procedure a -> IO a\nrunWP (Command (Say s))  = print s\nrunWP (Procedure Temperature) = return 42\n\nsend :: RemoteMonad Command Procedure a -> IO a\nsend m = runMonad runWP m\n\nmain = send $ do\n&#32;&#32;say &#34;Howdy doodly do&#34;\n&#32;&#32;say &#34;How about a muffin?&#34;\n&#32;&#32;t <- temperature\n&#32;&#32;say (show t ++ &#34;F&#34;)\n@",
+    "category": "Control",
+    "custom-fields": [
+      [
+        "x-revision",
+        "2"
+      ]
+    ],
+    "build-type-raw": "Simple",
+    "custom-setup": null,
+    "library": null,
+    "sublibraries": [],
+    "executables": [],
+    "foreign-libs": [],
+    "test-suites": [],
+    "benchmarks": [],
+    "data-files": [],
+    "data-dir": ".",
+    "extra-source-files": [],
+    "extra-tmp-files": [],
+    "extra-doc-files": []
+  },
+  "library": {
+    "condTreeData": {
+      "name": {},
+      "exposed-modules": [
+        [
+          "Control",
+          "Remote",
+          "Monad",
+          "Packet",
+          "Applicative"
+        ],
+        [
+          "Control",
+          "Remote",
+          "Monad",
+          "Packet",
+          "Strong"
+        ],
+        [
+          "Control",
+          "Remote",
+          "Monad",
+          "Packet",
+          "Weak"
+        ],
+        [
+          "Control",
+          "Remote",
+          "Monad",
+          "Packet",
+          "Transport"
+        ],
+        [
+          "Control",
+          "Remote",
+          "Applicative"
+        ],
+        [
+          "Control",
+          "Remote",
+          "Monad"
+        ]
+      ],
+      "re-exported-modules": [],
+      "signatures": [],
+      "exposed": true,
+      "visibility": "LibraryVisibilityPublic",
+      "build-info": {
+        "buildable": true,
+        "buildTools": [],
+        "buildToolDepends": [],
+        "cppOptions": [],
+        "asmOptions": [],
+        "cmmOptions": [],
+        "ccOptions": [],
+        "cxxOptions": [],
+        "ldOptions": [],
+        "pkgconfigDepends": [],
+        "frameworks": [],
+        "extraFrameworkDirs": [],
+        "asmSources": [],
+        "cmmSources": [],
+        "cSources": [],
+        "cxxSources": [],
+        "jsSources": [],
+        "hsSourceDirs": [
+          "src"
+        ],
+        "otherModules": [
+          [
+            "Control",
+            "Remote",
+            "Monad",
+            "Types"
+          ]
+        ],
+        "virtualModules": [],
+        "autogenModules": [],
+        "defaultLanguage": "Haskell2010",
+        "otherLanguages": [],
+        "defaultExtensions": [],
+        "otherExtensions": [
+          {
+            "enable-extension": "GADTs"
+          },
+          {
+            "enable-extension": "RankNTypes"
+          },
+          {
+            "enable-extension": "ScopedTypeVariables"
+          }
+        ],
+        "oldExtensions": [],
+        "extraLibs": [],
+        "extraGHCiLibs": [],
+        "extraBundledLibs": [],
+        "extraLibFlavours": [],
+        "extraDynLibFlavours": [],
+        "extraLibDirs": [],
+        "includeDirs": [],
+        "includes": [],
+        "autogenIncludes": [],
+        "installIncludes": [],
+        "options": [
+          [],
+          []
+        ],
+        "profOptions": [
+          [],
+          []
+        ],
+        "sharedOptions": [
+          [],
+          []
+        ],
+        "staticOptions": [
+          [],
+          []
+        ],
+        "customFieldsBI": [],
+        "targetBuildDepends": [
+          {
+            "package-name": "base",
+            "version-range": ">=4.8 && <5",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "natural-transformation",
+            "version-range": ">=0.3 && <0.4",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "transformers",
+            "version-range": ">=0.4 && <0.6",
+            "library": [
+              {}
+            ]
+          }
+        ],
+        "mixins": []
+      }
+    },
+    "condTreeConstraints": [
+      {
+        "package-name": "base",
+        "version-range": ">=4.8 && <5",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "natural-transformation",
+        "version-range": ">=0.3 && <0.4",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "transformers",
+        "version-range": ">=0.4 && <0.6",
+        "library": [
+          {}
+        ]
+      }
+    ],
+    "condTreeComponents": []
+  },
+  "test-suites": {
+    "remote-monad-properties": {
+      "condTreeData": {
+        "name": "",
+        "interface": {
+          "version": [
+            1,
+            0
+          ],
+          "filepath": "Test.hs"
+        },
+        "build-info": {
+          "buildable": true,
+          "buildTools": [],
+          "buildToolDepends": [],
+          "cppOptions": [],
+          "asmOptions": [],
+          "cmmOptions": [],
+          "ccOptions": [],
+          "cxxOptions": [],
+          "ldOptions": [],
+          "pkgconfigDepends": [],
+          "frameworks": [],
+          "extraFrameworkDirs": [],
+          "asmSources": [],
+          "cmmSources": [],
+          "cSources": [],
+          "cxxSources": [],
+          "jsSources": [],
+          "hsSourceDirs": [
+            "tests"
+          ],
+          "otherModules": [],
+          "virtualModules": [],
+          "autogenModules": [],
+          "defaultLanguage": "Haskell2010",
+          "otherLanguages": [],
+          "defaultExtensions": [],
+          "otherExtensions": [],
+          "oldExtensions": [],
+          "extraLibs": [],
+          "extraGHCiLibs": [],
+          "extraBundledLibs": [],
+          "extraLibFlavours": [],
+          "extraDynLibFlavours": [],
+          "extraLibDirs": [],
+          "includeDirs": [],
+          "includes": [],
+          "autogenIncludes": [],
+          "installIncludes": [],
+          "options": [
+            [
+              "-Wall"
+            ],
+            []
+          ],
+          "profOptions": [
+            [],
+            []
+          ],
+          "sharedOptions": [
+            [],
+            []
+          ],
+          "staticOptions": [
+            [],
+            []
+          ],
+          "customFieldsBI": [],
+          "targetBuildDepends": [
+            {
+              "package-name": "base",
+              "version-range": ">=4.8 && <5",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "containers",
+              "version-range": ">=0.1 && <0.6",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "remote-monad",
+              "version-range": "==0.1.0.1",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "QuickCheck",
+              "version-range": "==2.8.*",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "quickcheck-instances",
+              "version-range": ">=0.1 && <0.4",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "tasty",
+              "version-range": ">=0.8 && <0.12",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "tasty-quickcheck",
+              "version-range": ">=0.8 && <0.9",
+              "library": [
+                {}
+              ]
+            }
+          ],
+          "mixins": []
+        }
+      },
+      "condTreeConstraints": [
+        {
+          "package-name": "base",
+          "version-range": ">=4.8 && <5",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "containers",
+          "version-range": ">=0.1 && <0.6",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "remote-monad",
+          "version-range": "==0.1.0.1",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "QuickCheck",
+          "version-range": "==2.8.*",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "quickcheck-instances",
+          "version-range": ">=0.1 && <0.4",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "tasty",
+          "version-range": ">=0.8 && <0.12",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "tasty-quickcheck",
+          "version-range": ">=0.8 && <0.9",
+          "library": [
+            {}
+          ]
+        }
+      ],
+      "condTreeComponents": []
+    }
+  }
+}

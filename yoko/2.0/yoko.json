@@ -1,0 +1,470 @@
+{
+  "description": {
+    "spec-version": {
+      "Right": ">=1.6"
+    },
+    "package": {
+      "name": "yoko",
+      "version": [
+        2,
+        0
+      ]
+    },
+    "license": {
+      "Right": "BSD3"
+    },
+    "license-files": [
+      "LICENSE"
+    ],
+    "copyright": "",
+    "maintainer": "Nicolas Frisby <nicolas.frisby@gmail.com>",
+    "author": "Nicolas Frisby <nicolas.frisby@gmail.com>",
+    "stability": "experimental",
+    "tested-with": [],
+    "homepage": "",
+    "pkg-url": "",
+    "bug-reports": "",
+    "source-repos": [
+      {
+        "kind": {},
+        "type": "Git",
+        "location": "git://github.com/nfrisby/yoko.git",
+        "module": null,
+        "branch": null,
+        "tag": null,
+        "subdir": null
+      }
+    ],
+    "synopsis": "Generic Programming with Disbanded Data Types",
+    "description": "Based off of the paper \\\"A Pattern for Almost Homomorphic Functions\\\"\nat <http://www.ittc.ku.edu/~nfrisby/frisby-wgp-2012.pdf>, presented at the\nWorkshop on Generic Programming 2012. Also, my\ndissertation <http://www.ittc.ku.edu/~nfrisby/frisby-dissertation.pdf>\n\n@yoko@ views a nominal datatype as a /band/ of constructors, each\na nominal type in its own right. Such datatypes can be disbanded via the\n@disband@ function into an anonymous sum of nominal constructors, and vice\nversa via the @band@ function. This library uses extensive type-level\nprogramming to enrich its @instant-generics@ foundation with capabilities\nderived from the constructor-centric perspective.\n\nFor example, consider the following /nominal datatype/.\n\n@\ndata Beatles = John ... | Paul ... | George ... | Ringo ...\n@\n\nThis type can of course be understood as a sum of the individual\n/fields types/.\n\n@\ndata John   = John   ...\ndata Paul   = Paul   ...\ndata George = George ...\ndata Ringo  = Ringo  ...\n@\n\n@yoko@'s conceptual foundations start there. In particular, this allows a\nconstructor, say @John@, to be used independently of its original range type\nand sibling constructors.\n\nAs a generic programming library, @yoko@ extends @instant-generics@ with\nsupport for constructor-centric generic programming. The\n@Examples\\/LambdaLift\\/LambdaLift.hs@ file distributed with the @yoko@ source\ndemonstrates defining a lambda-lifting conversion between the two types\n@ULC@, which has lambdas, and @Prog@, which has top-level function\ndeclarations instead.\n\n@\ndata ULC = Lam Type ULC | Var Int | Let [Decl] ULC | App ULC ULC\n\ndata Decl = Decl Type ULC\n\n\n\ndata Prog = Prog [FunDec] TLF\ntype FunDec = ([Type], [Type], Type, TLF)\n\ndata TLF = Top Int [Occ] | Occ Occ | App TLF TLF\ndata Occ = Par Int | Env Int\n@\n\nThese types are defined in separate modules, since they have constructors\nwith the same name. Indeed, the fact that they having matching constructors\nnamed @App@ is crucial for @yoko@'s automatic conversion from @ULC@'s @App@\nto @TLF@'s @App@. As written, the generic lambda-lifter would continue to\nwork for any new @ULC@ constructors (e.g. syntax for tuples or mutable\nreferences) as long as constructors with the same names and analogous fields\nwere added to @TLF@ and the semantics of those constructors doesn't involve\nbinding. This default /generic/ behavior of the lambda-lifter is specified in\nabout ten lines of user code.\n\nThe non-generic code is much more complicated. This is intentional: I wanted\nto show that sometimes shoehorning an algorithm into the requisite type (/ie/\n@a -> m a'@) can be difficult and require subtleties like backwards state.\n\nExisting generic libraries don't use constructor names to the degree that\n@yoko@ does, and so cannot accomodate generic /conversions/ as well.",
+    "category": "Generics, Reflection",
+    "custom-fields": [],
+    "build-type-raw": "Simple",
+    "custom-setup": null,
+    "library": null,
+    "sublibraries": [],
+    "executables": [],
+    "foreign-libs": [],
+    "test-suites": [],
+    "benchmarks": [],
+    "data-files": [],
+    "data-dir": ".",
+    "extra-source-files": [
+      "README",
+      "CHANGES",
+      "Examples/*.hs",
+      "Examples/LambdaLift/*.hs"
+    ],
+    "extra-tmp-files": [],
+    "extra-doc-files": []
+  },
+  "library": {
+    "condTreeData": {
+      "name": {},
+      "exposed-modules": [
+        [
+          "Data",
+          "Yoko"
+        ],
+        [
+          "Data",
+          "Yoko",
+          "SmartPreciseCase"
+        ],
+        [
+          "Data",
+          "YokoRaw"
+        ],
+        [
+          "Data",
+          "Yoko",
+          "HCompos"
+        ],
+        [
+          "Data",
+          "Yoko",
+          "TH"
+        ],
+        [
+          "Data",
+          "Yoko",
+          "Invariant"
+        ],
+        [
+          "Data",
+          "Yoko",
+          "TypeBasics"
+        ],
+        [
+          "Data",
+          "Yoko",
+          "W"
+        ],
+        [
+          "Data",
+          "Yoko",
+          "Prelude"
+        ],
+        [
+          "Data",
+          "Yoko",
+          "MinCtors"
+        ],
+        [
+          "Data",
+          "Yoko",
+          "MinCtors",
+          "Prims0"
+        ],
+        [
+          "Data",
+          "Yoko",
+          "MinCtors",
+          "Prims1"
+        ],
+        [
+          "Data",
+          "Yoko",
+          "MinCtors",
+          "Minima"
+        ],
+        [
+          "Data",
+          "Yoko",
+          "MinCtors",
+          "MMap"
+        ]
+      ],
+      "re-exported-modules": [],
+      "signatures": [],
+      "exposed": true,
+      "visibility": "LibraryVisibilityPublic",
+      "build-info": {
+        "buildable": true,
+        "buildTools": [],
+        "buildToolDepends": [],
+        "cppOptions": [],
+        "asmOptions": [],
+        "cmmOptions": [],
+        "ccOptions": [],
+        "cxxOptions": [],
+        "ldOptions": [],
+        "pkgconfigDepends": [],
+        "frameworks": [],
+        "extraFrameworkDirs": [],
+        "asmSources": [],
+        "cmmSources": [],
+        "cSources": [],
+        "cxxSources": [],
+        "jsSources": [],
+        "hsSourceDirs": [],
+        "otherModules": [
+          [
+            "Data",
+            "Yoko",
+            "View"
+          ],
+          [
+            "Data",
+            "Yoko",
+            "MaybeKind"
+          ],
+          [
+            "Data",
+            "Yoko",
+            "Representation"
+          ],
+          [
+            "Data",
+            "Yoko",
+            "TypeSums"
+          ],
+          [
+            "Data",
+            "Yoko",
+            "TH",
+            "Internal"
+          ]
+        ],
+        "virtualModules": [],
+        "autogenModules": [],
+        "defaultLanguage": null,
+        "otherLanguages": [],
+        "defaultExtensions": [],
+        "otherExtensions": [],
+        "oldExtensions": [],
+        "extraLibs": [],
+        "extraGHCiLibs": [],
+        "extraBundledLibs": [],
+        "extraLibFlavours": [],
+        "extraDynLibFlavours": [],
+        "extraLibDirs": [],
+        "includeDirs": [],
+        "includes": [],
+        "autogenIncludes": [],
+        "installIncludes": [],
+        "options": [
+          [],
+          []
+        ],
+        "profOptions": [
+          [],
+          []
+        ],
+        "sharedOptions": [
+          [],
+          []
+        ],
+        "staticOptions": [
+          [],
+          []
+        ],
+        "customFieldsBI": [],
+        "targetBuildDepends": [
+          {
+            "package-name": "base",
+            "version-range": ">=4 && <5",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "template-haskell",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "containers",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "mtl",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "th-sccs",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "invariant",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "type-equality",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "bifunctors",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "semigroups",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "kinds",
+            "version-range": ">=0.0.1.5",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "type-functions",
+            "version-range": ">=0.2.0.3",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "records",
+            "version-range": ">=0.1.1.6",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "type-spine",
+            "version-range": ">=0.2.0.20120924",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "type-digits",
+            "version-range": ">=0.2",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "type-cereal",
+            "version-range": ">=0.2",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "type-ord",
+            "version-range": ">=0.2",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "type-ord-spine-cereal",
+            "version-range": ">=0.2",
+            "library": [
+              {}
+            ]
+          }
+        ],
+        "mixins": []
+      }
+    },
+    "condTreeConstraints": [
+      {
+        "package-name": "base",
+        "version-range": ">=4 && <5",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "template-haskell",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "containers",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "mtl",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "th-sccs",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "invariant",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "type-equality",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "bifunctors",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "semigroups",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "kinds",
+        "version-range": ">=0.0.1.5",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "type-functions",
+        "version-range": ">=0.2.0.3",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "records",
+        "version-range": ">=0.1.1.6",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "type-spine",
+        "version-range": ">=0.2.0.20120924",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "type-digits",
+        "version-range": ">=0.2",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "type-cereal",
+        "version-range": ">=0.2",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "type-ord",
+        "version-range": ">=0.2",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "type-ord-spine-cereal",
+        "version-range": ">=0.2",
+        "library": [
+          {}
+        ]
+      }
+    ],
+    "condTreeComponents": []
+  }
+}

@@ -1,0 +1,637 @@
+{
+  "description": {
+    "spec-version": {
+      "Left": [
+        2,
+        4
+      ]
+    },
+    "package": {
+      "name": "gitlab-haskell",
+      "version": [
+        0,
+        3,
+        1
+      ]
+    },
+    "license": {
+      "Left": {
+        "license-expression": {
+          "expression": {
+            "id": "BSD_3_Clause"
+          },
+          "exception-id": null
+        }
+      }
+    },
+    "license-files": [
+      "LICENSE"
+    ],
+    "copyright": "2020 Rob Stewart, Heriot-Watt University",
+    "maintainer": "robstewart57@gmail.com",
+    "author": "Rob Stewart",
+    "stability": "",
+    "tested-with": [],
+    "homepage": "https://gitlab.com/robstewart57/gitlab-haskell",
+    "pkg-url": "",
+    "bug-reports": "https://gitlab.com/robstewart57/gitlab-haskell/issues",
+    "source-repos": [
+      {
+        "kind": {},
+        "type": "Git",
+        "location": "https://gitlab.com/robstewart57/gitlab-haskell",
+        "module": null,
+        "branch": null,
+        "tag": null,
+        "subdir": null
+      }
+    ],
+    "synopsis": "A Haskell library for the GitLab web API",
+    "description": "This Haskell library queries and updates the database of a GitLab instance using the GitLab web API: <https://docs.gitlab.com/ee/api/>\n\nIt also features an API for writing Gitlab file hook applications\n\nRun all GitLab actions with `runGitLab`:\n\n> runGitLab ::\n>  => GitLabServerConfig -- ^ the GitLab server details\n>  -> GitLab a           -- ^ the GitLab action\n>  -> IO a\n\nFor example:\n\n> myProjects <- runGitLab\n>      (defaultGitLabServer\n>          { url = \"https://gitlab.example.com\"\n>          , token=\"my_token\"} )\n>      (searchUser \"joe\" >>= userProjects . fromJust)\n\nWhich uses the functions:\n\n> searchUser   :: Text -> GitLab (Maybe User)\n> userProjects :: User -> GitLab (Maybe [Project])\n> projectCommits :: Project -> GitLab [Commit]\n\nThis library can also be used to develop rule based GitLab file hooks that react in real time to GitLab events with:\n\n> receive :: [Rule] -> GitLab ()\n\n> class (FromJSON a) => SystemHook a where\n>   match   :: String -> (a -> GitLab ()) -> Rule\n>   matchIf :: String -> (a -> GitLab Bool) -> (a -> GitLab ()) -> Rule\n\nFor more details about the file hooks support: <https://www.macs.hw.ac.uk/~rs46/posts/2020-06-06-gitlab-system-hooks.html>\n\nUnsurprisingly, this library is maintained on GitLab: <https://gitlab.com/robstewart57/gitlab-haskell>",
+    "category": "Git",
+    "custom-fields": [],
+    "build-type-raw": "Simple",
+    "custom-setup": null,
+    "library": null,
+    "sublibraries": [],
+    "executables": [],
+    "foreign-libs": [],
+    "test-suites": [],
+    "benchmarks": [],
+    "data-files": [
+      "data/system-hooks/*.json"
+    ],
+    "data-dir": ".",
+    "extra-source-files": [
+      "README.md",
+      "data/api/boards/list-project.json",
+      "data/api/boards/create-board.json",
+      "data/api/boards/update-board.json"
+    ],
+    "extra-tmp-files": [],
+    "extra-doc-files": []
+  },
+  "library": {
+    "condTreeData": {
+      "name": {},
+      "exposed-modules": [
+        [
+          "GitLab"
+        ],
+        [
+          "GitLab",
+          "Types"
+        ],
+        [
+          "GitLab",
+          "API",
+          "Groups"
+        ],
+        [
+          "GitLab",
+          "API",
+          "Members"
+        ],
+        [
+          "GitLab",
+          "API",
+          "Commits"
+        ],
+        [
+          "GitLab",
+          "API",
+          "Projects"
+        ],
+        [
+          "GitLab",
+          "API",
+          "Users"
+        ],
+        [
+          "GitLab",
+          "API",
+          "Issues"
+        ],
+        [
+          "GitLab",
+          "API",
+          "Pipelines"
+        ],
+        [
+          "GitLab",
+          "API",
+          "Branches"
+        ],
+        [
+          "GitLab",
+          "API",
+          "Jobs"
+        ],
+        [
+          "GitLab",
+          "API",
+          "Repositories"
+        ],
+        [
+          "GitLab",
+          "API",
+          "MergeRequests"
+        ],
+        [
+          "GitLab",
+          "API",
+          "RepositoryFiles"
+        ],
+        [
+          "GitLab",
+          "API",
+          "Tags"
+        ],
+        [
+          "GitLab",
+          "API",
+          "Todos"
+        ],
+        [
+          "GitLab",
+          "API",
+          "Version"
+        ],
+        [
+          "GitLab",
+          "API",
+          "Notes"
+        ],
+        [
+          "GitLab",
+          "API",
+          "Discussions"
+        ],
+        [
+          "GitLab",
+          "API",
+          "Boards"
+        ],
+        [
+          "GitLab",
+          "SystemHooks",
+          "Types"
+        ],
+        [
+          "GitLab",
+          "SystemHooks",
+          "GitLabSystemHooks"
+        ],
+        [
+          "GitLab",
+          "SystemHooks",
+          "Rules"
+        ]
+      ],
+      "re-exported-modules": [],
+      "signatures": [],
+      "exposed": true,
+      "visibility": "LibraryVisibilityPublic",
+      "build-info": {
+        "buildable": true,
+        "buildTools": [],
+        "buildToolDepends": [],
+        "cppOptions": [],
+        "asmOptions": [],
+        "cmmOptions": [],
+        "ccOptions": [],
+        "cxxOptions": [],
+        "ldOptions": [],
+        "pkgconfigDepends": [],
+        "frameworks": [],
+        "extraFrameworkDirs": [],
+        "asmSources": [],
+        "cmmSources": [],
+        "cSources": [],
+        "cxxSources": [],
+        "jsSources": [],
+        "hsSourceDirs": [
+          "src"
+        ],
+        "otherModules": [
+          [
+            "GitLab",
+            "WebRequests",
+            "GitLabWebCalls"
+          ]
+        ],
+        "virtualModules": [],
+        "autogenModules": [],
+        "defaultLanguage": "Haskell2010",
+        "otherLanguages": [],
+        "defaultExtensions": [],
+        "otherExtensions": [],
+        "oldExtensions": [],
+        "extraLibs": [],
+        "extraGHCiLibs": [],
+        "extraBundledLibs": [],
+        "extraLibFlavours": [],
+        "extraDynLibFlavours": [],
+        "extraLibDirs": [],
+        "includeDirs": [],
+        "includes": [],
+        "autogenIncludes": [],
+        "installIncludes": [],
+        "options": [
+          [
+            "-Wall"
+          ],
+          []
+        ],
+        "profOptions": [
+          [],
+          []
+        ],
+        "sharedOptions": [
+          [],
+          []
+        ],
+        "staticOptions": [
+          [],
+          []
+        ],
+        "customFieldsBI": [],
+        "targetBuildDepends": [
+          {
+            "package-name": "base",
+            "version-range": ">=4.7 && <5",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "http-conduit",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "connection",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "aeson",
+            "version-range": ">=1.4.4.0",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "bytestring",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "text",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "http-client",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "http-types",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "transformers",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "unliftio",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "unliftio-core",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "time",
+            "version-range": ">=1.9",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "temporary",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "unix",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          }
+        ],
+        "mixins": []
+      }
+    },
+    "condTreeConstraints": [
+      {
+        "package-name": "base",
+        "version-range": ">=4.7 && <5",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "http-conduit",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "connection",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "aeson",
+        "version-range": ">=1.4.4.0",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "bytestring",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "text",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "http-client",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "http-types",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "transformers",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "unliftio",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "unliftio-core",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "time",
+        "version-range": ">=1.9",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "temporary",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "unix",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      }
+    ],
+    "condTreeComponents": []
+  },
+  "test-suites": {
+    "test-gitlab-haskell": {
+      "condTreeData": {
+        "name": "",
+        "interface": {
+          "version": [
+            1,
+            0
+          ],
+          "filepath": "Tests.hs"
+        },
+        "build-info": {
+          "buildable": true,
+          "buildTools": [],
+          "buildToolDepends": [],
+          "cppOptions": [],
+          "asmOptions": [],
+          "cmmOptions": [],
+          "ccOptions": [],
+          "cxxOptions": [],
+          "ldOptions": [],
+          "pkgconfigDepends": [],
+          "frameworks": [],
+          "extraFrameworkDirs": [],
+          "asmSources": [],
+          "cmmSources": [],
+          "cSources": [],
+          "cxxSources": [],
+          "jsSources": [],
+          "hsSourceDirs": [
+            "tests/"
+          ],
+          "otherModules": [
+            [
+              "SystemHookTests"
+            ],
+            [
+              "API",
+              "BoardsTests"
+            ],
+            [
+              "API",
+              "Common"
+            ]
+          ],
+          "virtualModules": [],
+          "autogenModules": [],
+          "defaultLanguage": "Haskell2010",
+          "otherLanguages": [],
+          "defaultExtensions": [],
+          "otherExtensions": [],
+          "oldExtensions": [],
+          "extraLibs": [],
+          "extraGHCiLibs": [],
+          "extraBundledLibs": [],
+          "extraLibFlavours": [],
+          "extraDynLibFlavours": [],
+          "extraLibDirs": [],
+          "includeDirs": [],
+          "includes": [],
+          "autogenIncludes": [],
+          "installIncludes": [],
+          "options": [
+            [],
+            []
+          ],
+          "profOptions": [
+            [],
+            []
+          ],
+          "sharedOptions": [
+            [],
+            []
+          ],
+          "staticOptions": [
+            [],
+            []
+          ],
+          "customFieldsBI": [],
+          "targetBuildDepends": [
+            {
+              "package-name": "base",
+              "version-range": ">=4.8.0.0 && <6",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "tasty",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "tasty-hunit",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "gitlab-haskell",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "bytestring",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "aeson",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            }
+          ],
+          "mixins": []
+        }
+      },
+      "condTreeConstraints": [
+        {
+          "package-name": "base",
+          "version-range": ">=4.8.0.0 && <6",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "tasty",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "tasty-hunit",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "gitlab-haskell",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "bytestring",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "aeson",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        }
+      ],
+      "condTreeComponents": []
+    }
+  }
+}

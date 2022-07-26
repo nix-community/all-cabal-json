@@ -1,0 +1,282 @@
+{
+  "description": {
+    "spec-version": {
+      "Right": ">=1.10"
+    },
+    "package": {
+      "name": "packunused",
+      "version": [
+        0,
+        1,
+        2
+      ]
+    },
+    "license": {
+      "Right": "BSD3"
+    },
+    "license-files": [
+      "LICENSE"
+    ],
+    "copyright": "© 2014 Herbert Valerio Riedel",
+    "maintainer": "Herbert Valerio Riedel <hvr@gnu.org>",
+    "author": "Herbert Valerio Riedel",
+    "stability": "",
+    "tested-with": [
+      {
+        "compiler": "GHC",
+        "versionRange": "==8.0.2"
+      },
+      {
+        "compiler": "GHC",
+        "versionRange": "==7.10.3"
+      },
+      {
+        "compiler": "GHC",
+        "versionRange": "==7.8.4"
+      },
+      {
+        "compiler": "GHC",
+        "versionRange": "==7.6.3"
+      },
+      {
+        "compiler": "GHC",
+        "versionRange": "==7.4.2"
+      }
+    ],
+    "homepage": "https://github.com/hvr/packunused",
+    "pkg-url": "",
+    "bug-reports": "https://github.com/hvr/packunused/issues",
+    "source-repos": [
+      {
+        "kind": {},
+        "type": "Git",
+        "location": "https://github.com/hvr/packunused.git",
+        "module": null,
+        "branch": null,
+        "tag": null,
+        "subdir": null
+      }
+    ],
+    "synopsis": "Tool for detecting redundant Cabal package dependencies",
+    "description": "This simple CLI tool allows to find out which of the packages listed as\n@build-depends@ in a Cabal package description file are redundant.\n\n@packunused@ works by taking advantage of GHC's\n@-ddump-minimal-imports@ feature which creates @.import@ files for\neach compiled module containing a /minimal/ set of explicit import\ndeclarations. These @.import@ files together with Cabal's generated\npackage configuration meta-data is analyzed by @packunused@ to\ndetect potentially redundant package dependencies.\n\nIn order to use @packunused@ you have to configure the package as\nusual. See the example session below:\n\n> cabal clean\n> rm *.imports\n> cabal configure -O0 --disable-library-profiling\n> cabal build --ghc-option=-ddump-minimal-imports\n> packunused\n\nExperimental support for @stack@:\n\n> stack setup --upgrade-cabal  # necessary only when stack's global Cabal installation is out of date\n> stack clean\n> stack build --ghc-options '-ddump-minimal-imports -O0'\n> packunused\n\nThe @-O0 --disable-library-profiling@ options are just to speed up\ncompilation. In some cases you might want to pass additional options\nto the @configure@ step, such as @--enable-benchmark@ or\n@--enable-tests@.\n\nWhen run, @packunused@ prints a report to standard output listing\nits findings for each component built. The following is an example\nfor the @packunused@ package itself, with a redundant dependency\nadded for demonstration on purpose:\n\n> detected package components\n> ~~~~~~~~~~~~~~~~~~~~~~~~~~~\n>\n>  - executable(s): packunused\n>\n> (component names suffixed with '*' are not configured to be built)\n>\n> executable(packunused)\n> ~~~~~~~~~~~~~~~~~~~~~~\n>\n> The following package dependencies seem redundant:\n>\n>  - criterion-0.6.2.0-9dd4d764629a47662168743b2dfda9bc\n>",
+    "category": "Distribution",
+    "custom-fields": [
+      [
+        "x-revision",
+        "1"
+      ]
+    ],
+    "build-type-raw": "Simple",
+    "custom-setup": null,
+    "library": null,
+    "sublibraries": [],
+    "executables": [],
+    "foreign-libs": [],
+    "test-suites": [],
+    "benchmarks": [],
+    "data-files": [],
+    "data-dir": ".",
+    "extra-source-files": [
+      "changelog.md"
+    ],
+    "extra-tmp-files": [],
+    "extra-doc-files": []
+  },
+  "executables": {
+    "packunused": {
+      "condTreeData": {
+        "name": "packunused",
+        "module-path": "packunused.hs",
+        "scope": "public",
+        "build-info": {
+          "buildable": true,
+          "buildTools": [],
+          "buildToolDepends": [],
+          "cppOptions": [],
+          "asmOptions": [],
+          "cmmOptions": [],
+          "ccOptions": [],
+          "cxxOptions": [],
+          "ldOptions": [],
+          "pkgconfigDepends": [],
+          "frameworks": [],
+          "extraFrameworkDirs": [],
+          "asmSources": [],
+          "cmmSources": [],
+          "cSources": [],
+          "cxxSources": [],
+          "jsSources": [],
+          "hsSourceDirs": [],
+          "otherModules": [
+            [
+              "Paths_packunused"
+            ]
+          ],
+          "virtualModules": [],
+          "autogenModules": [],
+          "defaultLanguage": "Haskell2010",
+          "otherLanguages": [],
+          "defaultExtensions": [],
+          "otherExtensions": [
+            {
+              "enable-extension": "CPP"
+            },
+            {
+              "enable-extension": "RecordWildCards"
+            }
+          ],
+          "oldExtensions": [],
+          "extraLibs": [],
+          "extraGHCiLibs": [],
+          "extraBundledLibs": [],
+          "extraLibFlavours": [],
+          "extraDynLibFlavours": [],
+          "extraLibDirs": [],
+          "includeDirs": [],
+          "includes": [],
+          "autogenIncludes": [],
+          "installIncludes": [],
+          "options": [
+            [
+              "-Wall",
+              "-fwarn-tabs",
+              "-fno-warn-unused-do-bind"
+            ],
+            []
+          ],
+          "profOptions": [
+            [],
+            []
+          ],
+          "sharedOptions": [
+            [],
+            []
+          ],
+          "staticOptions": [
+            [],
+            []
+          ],
+          "customFieldsBI": [],
+          "targetBuildDepends": [
+            {
+              "package-name": "base",
+              "version-range": ">=4.5 && <4.10",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "Cabal",
+              "version-range": ">=1.24 && <1.25",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "optparse-applicative",
+              "version-range": ">=0.8 && <0.14",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "directory",
+              "version-range": ">=1.1 && <1.4",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "filepath",
+              "version-range": ">=1.3 && <1.5",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "haskell-src-exts",
+              "version-range": ">=1.18.2 && <1.20",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "process",
+              "version-range": ">=1.1 && <1.7",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "split",
+              "version-range": ">=0.2 && <0.3",
+              "library": [
+                {}
+              ]
+            }
+          ],
+          "mixins": []
+        }
+      },
+      "condTreeConstraints": [
+        {
+          "package-name": "base",
+          "version-range": ">=4.5 && <4.10",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "Cabal",
+          "version-range": ">=1.24 && <1.25",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "optparse-applicative",
+          "version-range": ">=0.8 && <0.14",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "directory",
+          "version-range": ">=1.1 && <1.4",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "filepath",
+          "version-range": ">=1.3 && <1.5",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "haskell-src-exts",
+          "version-range": ">=1.18.2 && <1.20",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "process",
+          "version-range": ">=1.1 && <1.7",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "split",
+          "version-range": ">=0.2 && <0.3",
+          "library": [
+            {}
+          ]
+        }
+      ],
+      "condTreeComponents": []
+    }
+  }
+}

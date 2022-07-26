@@ -1,0 +1,2931 @@
+{
+  "description": {
+    "spec-version": {
+      "Left": [
+        2,
+        2
+      ]
+    },
+    "package": {
+      "name": "llvm-ffi",
+      "version": [
+        3,
+        8,
+        1,
+        1
+      ]
+    },
+    "license": {
+      "Left": {
+        "license-expression": {
+          "expression": {
+            "id": "BSD_3_Clause"
+          },
+          "exception-id": null
+        }
+      }
+    },
+    "license-files": [
+      "LICENSE"
+    ],
+    "copyright": "",
+    "maintainer": "Henning Thielemann <llvm@henning-thielemann.de>",
+    "author": "Henning Thielemann, Bryan O'Sullivan, Lennart Augustsson",
+    "stability": "experimental",
+    "tested-with": [
+      {
+        "compiler": "GHC",
+        "versionRange": "==7.4.2"
+      },
+      {
+        "compiler": "GHC",
+        "versionRange": "==7.6.3"
+      },
+      {
+        "compiler": "GHC",
+        "versionRange": "==7.8.4"
+      },
+      {
+        "compiler": "GHC",
+        "versionRange": "==8.0.2"
+      },
+      {
+        "compiler": "GHC",
+        "versionRange": "==8.2.2"
+      }
+    ],
+    "homepage": "http://haskell.org/haskellwiki/LLVM",
+    "pkg-url": "",
+    "bug-reports": "",
+    "source-repos": [
+      {
+        "kind": {},
+        "type": "Darcs",
+        "location": "http://hub.darcs.net/thielema/llvm-ffi/",
+        "module": null,
+        "branch": null,
+        "tag": null,
+        "subdir": null
+      },
+      {
+        "kind": {},
+        "type": "Darcs",
+        "location": "http://hub.darcs.net/thielema/llvm-ffi/",
+        "module": null,
+        "branch": null,
+        "tag": "3.8.1.1",
+        "subdir": null
+      }
+    ],
+    "synopsis": "FFI bindings to the LLVM compiler toolkit.",
+    "description": "FFI bindings to the LLVM compiler toolkit.\n\nInstallation cannot be done fully automatically.\nIt would require Cabal code that is bound to certain Cabal versions\nand is prone to fail.\nWe give several non-automatic ways\nthat also allow you to choose a particular LLVM version.\n\nFirst possibility is to point Cabal\nto the LLVM installation directories manually.\nOn Ubuntu this would look like this:\n\n> cabal install --extra-include-dirs=/usr/lib/llvm-3.8/include --extra-lib-dirs=/usr/lib/llvm-3.8/lib llvm-ffi\n\nYou can store such paths permanently in a @pkg-config@ file like @llvm.pc@.\nThe optimal way would be if LLVM installations or GNU/Linux distributions\nwould contain such a file, but they don't.\nInstead, you may generate it using the @llvm-pkg-config@ package\nor write one manually.\nThen you run\n\n> cabal install -fpkgConfig\n\nWe try to stay up to date with LLVM releases.\nThe current version of this package is compatible with LLVM 3.4-3.8.\nPlease understand that the package may or may not work\nagainst older LLVM releases.\n\nWarning for inplace builds:\nRe-configuring the package using, say -fllvm307,\nand re-buildung it might result in corrupt code.\nYou must make sure that the stuff in @cbits@ is re-compiled.\nCabal or GHC may forget about that.\nYou are safe if you run @cabal clean@.",
+    "category": "Compilers/Interpreters, Code Generation",
+    "custom-fields": [],
+    "build-type-raw": "Simple",
+    "custom-setup": null,
+    "library": null,
+    "sublibraries": [],
+    "executables": [],
+    "foreign-libs": [],
+    "test-suites": [],
+    "benchmarks": [],
+    "data-files": [],
+    "data-dir": ".",
+    "extra-source-files": [
+      "include/support.h",
+      "tool/ltrace.config",
+      "tool/ltrace.readme"
+    ],
+    "extra-tmp-files": [],
+    "extra-doc-files": []
+  },
+  "package-flags": [
+    {
+      "name": "developer",
+      "description": "developer mode - warnings let compilation fail",
+      "default": false,
+      "manual": true
+    },
+    {
+      "name": "buildexamples",
+      "description": "Build example executables",
+      "default": false,
+      "manual": true
+    },
+    {
+      "name": "pkgconfig",
+      "description": "use pkgconfig (llvm.pc) instead of extra-libraries",
+      "default": false,
+      "manual": false
+    },
+    {
+      "name": "specificpkgconfig",
+      "description": "use llvm-3.x.pc instead of llvm.pc",
+      "default": true,
+      "manual": false
+    },
+    {
+      "name": "llvm304",
+      "description": "use LLVM-3.4 instead of latest supported LLVM",
+      "default": false,
+      "manual": false
+    },
+    {
+      "name": "llvm305",
+      "description": "use LLVM-3.5 instead of latest supported LLVM",
+      "default": false,
+      "manual": false
+    },
+    {
+      "name": "llvm306",
+      "description": "use LLVM-3.6 instead of latest supported LLVM",
+      "default": false,
+      "manual": false
+    },
+    {
+      "name": "llvm307",
+      "description": "use LLVM-3.7 instead of latest supported LLVM",
+      "default": false,
+      "manual": false
+    }
+  ],
+  "library": {
+    "condTreeData": {
+      "name": {},
+      "exposed-modules": [
+        [
+          "LLVM",
+          "FFI",
+          "Analysis"
+        ],
+        [
+          "LLVM",
+          "FFI",
+          "BitReader"
+        ],
+        [
+          "LLVM",
+          "FFI",
+          "BitWriter"
+        ],
+        [
+          "LLVM",
+          "FFI",
+          "Core"
+        ],
+        [
+          "LLVM",
+          "FFI",
+          "ExecutionEngine"
+        ],
+        [
+          "LLVM",
+          "FFI",
+          "Support",
+          "Host"
+        ],
+        [
+          "LLVM",
+          "FFI",
+          "Target"
+        ],
+        [
+          "LLVM",
+          "FFI",
+          "Transforms",
+          "IPO"
+        ],
+        [
+          "LLVM",
+          "FFI",
+          "Transforms",
+          "PassManagerBuilder"
+        ],
+        [
+          "LLVM",
+          "FFI",
+          "Transforms",
+          "Scalar"
+        ],
+        [
+          "LLVM",
+          "FFI",
+          "Transforms",
+          "Vectorize"
+        ],
+        [
+          "LLVM",
+          "Target",
+          "Native"
+        ]
+      ],
+      "re-exported-modules": [],
+      "signatures": [],
+      "exposed": true,
+      "visibility": "LibraryVisibilityPublic",
+      "build-info": {
+        "buildable": true,
+        "buildTools": [],
+        "buildToolDepends": [],
+        "cppOptions": [
+          "-D__STDC_CONSTANT_MACROS",
+          "-D__STDC_FORMAT_MACROS",
+          "-D__STDC_LIMIT_MACROS"
+        ],
+        "asmOptions": [],
+        "cmmOptions": [],
+        "ccOptions": [
+          "-DHAVE_LLVM_SUPPORT_DYNAMICLIBRARY_H=1"
+        ],
+        "cxxOptions": [
+          "-std=c++0x",
+          "-std=c++11"
+        ],
+        "ldOptions": [],
+        "pkgconfigDepends": [],
+        "frameworks": [],
+        "extraFrameworkDirs": [],
+        "asmSources": [],
+        "cmmSources": [],
+        "cSources": [],
+        "cxxSources": [
+          "cbits/support.cpp"
+        ],
+        "jsSources": [],
+        "hsSourceDirs": [
+          "src"
+        ],
+        "otherModules": [
+          [
+            "LLVM",
+            "Target",
+            "ARM"
+          ],
+          [
+            "LLVM",
+            "Target",
+            "CppBackend"
+          ],
+          [
+            "LLVM",
+            "Target",
+            "Hexagon"
+          ],
+          [
+            "LLVM",
+            "Target",
+            "MSP430"
+          ],
+          [
+            "LLVM",
+            "Target",
+            "Mips"
+          ],
+          [
+            "LLVM",
+            "Target",
+            "NVPTX"
+          ],
+          [
+            "LLVM",
+            "Target",
+            "PowerPC"
+          ],
+          [
+            "LLVM",
+            "Target",
+            "Sparc"
+          ],
+          [
+            "LLVM",
+            "Target",
+            "X86"
+          ],
+          [
+            "LLVM",
+            "Target",
+            "XCore"
+          ]
+        ],
+        "virtualModules": [],
+        "autogenModules": [],
+        "defaultLanguage": "Haskell2010",
+        "otherLanguages": [],
+        "defaultExtensions": [],
+        "otherExtensions": [],
+        "oldExtensions": [],
+        "extraLibs": [
+          "stdc++"
+        ],
+        "extraGHCiLibs": [],
+        "extraBundledLibs": [],
+        "extraLibFlavours": [],
+        "extraDynLibFlavours": [],
+        "extraLibDirs": [],
+        "includeDirs": [
+          "include"
+        ],
+        "includes": [],
+        "autogenIncludes": [],
+        "installIncludes": [],
+        "options": [
+          [
+            "-Wall",
+            "-fwarn-missing-import-lists"
+          ],
+          []
+        ],
+        "profOptions": [
+          [],
+          []
+        ],
+        "sharedOptions": [
+          [],
+          []
+        ],
+        "staticOptions": [
+          [],
+          []
+        ],
+        "customFieldsBI": [],
+        "targetBuildDepends": [
+          {
+            "package-name": "enumset",
+            "version-range": ">=0.0.4 && <0.1",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "base",
+            "version-range": ">=3 && <5",
+            "library": [
+              {}
+            ]
+          }
+        ],
+        "mixins": []
+      }
+    },
+    "condTreeConstraints": [
+      {
+        "package-name": "enumset",
+        "version-range": ">=0.0.4 && <0.1",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "base",
+        "version-range": ">=3 && <5",
+        "library": [
+          {}
+        ]
+      }
+    ],
+    "condTreeComponents": [
+      {
+        "condBranchCondition": {
+          "v": {
+            "flag": "developer"
+          }
+        },
+        "condBranchIfTrue": {
+          "condTreeData": {
+            "name": {},
+            "exposed-modules": [],
+            "re-exported-modules": [],
+            "signatures": [],
+            "exposed": true,
+            "visibility": "LibraryVisibilityPublic",
+            "build-info": {
+              "buildable": true,
+              "buildTools": [],
+              "buildToolDepends": [],
+              "cppOptions": [],
+              "asmOptions": [],
+              "cmmOptions": [],
+              "ccOptions": [],
+              "cxxOptions": [],
+              "ldOptions": [],
+              "pkgconfigDepends": [],
+              "frameworks": [],
+              "extraFrameworkDirs": [],
+              "asmSources": [],
+              "cmmSources": [],
+              "cSources": [],
+              "cxxSources": [],
+              "jsSources": [],
+              "hsSourceDirs": [],
+              "otherModules": [],
+              "virtualModules": [],
+              "autogenModules": [],
+              "defaultLanguage": null,
+              "otherLanguages": [],
+              "defaultExtensions": [],
+              "otherExtensions": [],
+              "oldExtensions": [],
+              "extraLibs": [],
+              "extraGHCiLibs": [],
+              "extraBundledLibs": [],
+              "extraLibFlavours": [],
+              "extraDynLibFlavours": [],
+              "extraLibDirs": [],
+              "includeDirs": [],
+              "includes": [],
+              "autogenIncludes": [],
+              "installIncludes": [],
+              "options": [
+                [
+                  "-Werror"
+                ],
+                []
+              ],
+              "profOptions": [
+                [],
+                []
+              ],
+              "sharedOptions": [
+                [],
+                []
+              ],
+              "staticOptions": [
+                [],
+                []
+              ],
+              "customFieldsBI": [],
+              "targetBuildDepends": [],
+              "mixins": []
+            }
+          },
+          "condTreeConstraints": [],
+          "condTreeComponents": []
+        }
+      },
+      {
+        "condBranchCondition": {
+          "v": {
+            "flag": "llvm304"
+          }
+        },
+        "condBranchIfTrue": {
+          "condTreeData": {
+            "name": {},
+            "exposed-modules": [],
+            "re-exported-modules": [],
+            "signatures": [],
+            "exposed": true,
+            "visibility": "LibraryVisibilityPublic",
+            "build-info": {
+              "buildable": true,
+              "buildTools": [],
+              "buildToolDepends": [],
+              "cppOptions": [
+                "-DHS_LLVM_VERSION=304"
+              ],
+              "asmOptions": [],
+              "cmmOptions": [],
+              "ccOptions": [
+                "-DHS_LLVM_VERSION=304"
+              ],
+              "cxxOptions": [
+                "-DHS_LLVM_VERSION=304"
+              ],
+              "ldOptions": [],
+              "pkgconfigDepends": [],
+              "frameworks": [],
+              "extraFrameworkDirs": [],
+              "asmSources": [],
+              "cmmSources": [],
+              "cSources": [],
+              "cxxSources": [],
+              "jsSources": [],
+              "hsSourceDirs": [],
+              "otherModules": [],
+              "virtualModules": [],
+              "autogenModules": [],
+              "defaultLanguage": null,
+              "otherLanguages": [],
+              "defaultExtensions": [],
+              "otherExtensions": [],
+              "oldExtensions": [],
+              "extraLibs": [],
+              "extraGHCiLibs": [],
+              "extraBundledLibs": [],
+              "extraLibFlavours": [],
+              "extraDynLibFlavours": [],
+              "extraLibDirs": [],
+              "includeDirs": [],
+              "includes": [],
+              "autogenIncludes": [],
+              "installIncludes": [],
+              "options": [
+                [],
+                []
+              ],
+              "profOptions": [
+                [],
+                []
+              ],
+              "sharedOptions": [
+                [],
+                []
+              ],
+              "staticOptions": [
+                [],
+                []
+              ],
+              "customFieldsBI": [],
+              "targetBuildDepends": [],
+              "mixins": []
+            }
+          },
+          "condTreeConstraints": [],
+          "condTreeComponents": [
+            {
+              "condBranchCondition": {
+                "v": {
+                  "flag": "pkgconfig"
+                }
+              },
+              "condBranchIfTrue": {
+                "condTreeData": {
+                  "name": {},
+                  "exposed-modules": [],
+                  "re-exported-modules": [],
+                  "signatures": [],
+                  "exposed": true,
+                  "visibility": "LibraryVisibilityPublic",
+                  "build-info": {
+                    "buildable": true,
+                    "buildTools": [],
+                    "buildToolDepends": [],
+                    "cppOptions": [],
+                    "asmOptions": [],
+                    "cmmOptions": [],
+                    "ccOptions": [],
+                    "cxxOptions": [],
+                    "ldOptions": [],
+                    "pkgconfigDepends": [],
+                    "frameworks": [],
+                    "extraFrameworkDirs": [],
+                    "asmSources": [],
+                    "cmmSources": [],
+                    "cSources": [],
+                    "cxxSources": [],
+                    "jsSources": [],
+                    "hsSourceDirs": [],
+                    "otherModules": [],
+                    "virtualModules": [],
+                    "autogenModules": [],
+                    "defaultLanguage": null,
+                    "otherLanguages": [],
+                    "defaultExtensions": [],
+                    "otherExtensions": [],
+                    "oldExtensions": [],
+                    "extraLibs": [],
+                    "extraGHCiLibs": [],
+                    "extraBundledLibs": [],
+                    "extraLibFlavours": [],
+                    "extraDynLibFlavours": [],
+                    "extraLibDirs": [],
+                    "includeDirs": [],
+                    "includes": [],
+                    "autogenIncludes": [],
+                    "installIncludes": [],
+                    "options": [
+                      [],
+                      []
+                    ],
+                    "profOptions": [
+                      [],
+                      []
+                    ],
+                    "sharedOptions": [
+                      [],
+                      []
+                    ],
+                    "staticOptions": [
+                      [],
+                      []
+                    ],
+                    "customFieldsBI": [],
+                    "targetBuildDepends": [],
+                    "mixins": []
+                  }
+                },
+                "condTreeConstraints": [],
+                "condTreeComponents": [
+                  {
+                    "condBranchCondition": {
+                      "v": {
+                        "flag": "specificpkgconfig"
+                      }
+                    },
+                    "condBranchIfTrue": {
+                      "condTreeData": {
+                        "name": {},
+                        "exposed-modules": [],
+                        "re-exported-modules": [],
+                        "signatures": [],
+                        "exposed": true,
+                        "visibility": "LibraryVisibilityPublic",
+                        "build-info": {
+                          "buildable": true,
+                          "buildTools": [],
+                          "buildToolDepends": [],
+                          "cppOptions": [],
+                          "asmOptions": [],
+                          "cmmOptions": [],
+                          "ccOptions": [],
+                          "cxxOptions": [],
+                          "ldOptions": [],
+                          "pkgconfigDepends": [
+                            {
+                              "pkgconfigName": "llvm-3.4",
+                              "pkgconfigVersionRange": "-any"
+                            }
+                          ],
+                          "frameworks": [],
+                          "extraFrameworkDirs": [],
+                          "asmSources": [],
+                          "cmmSources": [],
+                          "cSources": [],
+                          "cxxSources": [],
+                          "jsSources": [],
+                          "hsSourceDirs": [],
+                          "otherModules": [],
+                          "virtualModules": [],
+                          "autogenModules": [],
+                          "defaultLanguage": null,
+                          "otherLanguages": [],
+                          "defaultExtensions": [],
+                          "otherExtensions": [],
+                          "oldExtensions": [],
+                          "extraLibs": [],
+                          "extraGHCiLibs": [],
+                          "extraBundledLibs": [],
+                          "extraLibFlavours": [],
+                          "extraDynLibFlavours": [],
+                          "extraLibDirs": [],
+                          "includeDirs": [],
+                          "includes": [],
+                          "autogenIncludes": [],
+                          "installIncludes": [],
+                          "options": [
+                            [],
+                            []
+                          ],
+                          "profOptions": [
+                            [],
+                            []
+                          ],
+                          "sharedOptions": [
+                            [],
+                            []
+                          ],
+                          "staticOptions": [
+                            [],
+                            []
+                          ],
+                          "customFieldsBI": [],
+                          "targetBuildDepends": [],
+                          "mixins": []
+                        }
+                      },
+                      "condTreeConstraints": [],
+                      "condTreeComponents": []
+                    },
+                    "condBranchIfFalse": {
+                      "condTreeData": {
+                        "name": {},
+                        "exposed-modules": [],
+                        "re-exported-modules": [],
+                        "signatures": [],
+                        "exposed": true,
+                        "visibility": "LibraryVisibilityPublic",
+                        "build-info": {
+                          "buildable": true,
+                          "buildTools": [],
+                          "buildToolDepends": [],
+                          "cppOptions": [],
+                          "asmOptions": [],
+                          "cmmOptions": [],
+                          "ccOptions": [],
+                          "cxxOptions": [],
+                          "ldOptions": [],
+                          "pkgconfigDepends": [
+                            {
+                              "pkgconfigName": "llvm",
+                              "pkgconfigVersionRange": "==3.4"
+                            }
+                          ],
+                          "frameworks": [],
+                          "extraFrameworkDirs": [],
+                          "asmSources": [],
+                          "cmmSources": [],
+                          "cSources": [],
+                          "cxxSources": [],
+                          "jsSources": [],
+                          "hsSourceDirs": [],
+                          "otherModules": [],
+                          "virtualModules": [],
+                          "autogenModules": [],
+                          "defaultLanguage": null,
+                          "otherLanguages": [],
+                          "defaultExtensions": [],
+                          "otherExtensions": [],
+                          "oldExtensions": [],
+                          "extraLibs": [],
+                          "extraGHCiLibs": [],
+                          "extraBundledLibs": [],
+                          "extraLibFlavours": [],
+                          "extraDynLibFlavours": [],
+                          "extraLibDirs": [],
+                          "includeDirs": [],
+                          "includes": [],
+                          "autogenIncludes": [],
+                          "installIncludes": [],
+                          "options": [
+                            [],
+                            []
+                          ],
+                          "profOptions": [
+                            [],
+                            []
+                          ],
+                          "sharedOptions": [
+                            [],
+                            []
+                          ],
+                          "staticOptions": [
+                            [],
+                            []
+                          ],
+                          "customFieldsBI": [],
+                          "targetBuildDepends": [],
+                          "mixins": []
+                        }
+                      },
+                      "condTreeConstraints": [],
+                      "condTreeComponents": []
+                    }
+                  }
+                ]
+              },
+              "condBranchIfFalse": {
+                "condTreeData": {
+                  "name": {},
+                  "exposed-modules": [],
+                  "re-exported-modules": [],
+                  "signatures": [],
+                  "exposed": true,
+                  "visibility": "LibraryVisibilityPublic",
+                  "build-info": {
+                    "buildable": true,
+                    "buildTools": [],
+                    "buildToolDepends": [],
+                    "cppOptions": [],
+                    "asmOptions": [],
+                    "cmmOptions": [],
+                    "ccOptions": [],
+                    "cxxOptions": [],
+                    "ldOptions": [],
+                    "pkgconfigDepends": [],
+                    "frameworks": [],
+                    "extraFrameworkDirs": [],
+                    "asmSources": [],
+                    "cmmSources": [],
+                    "cSources": [],
+                    "cxxSources": [],
+                    "jsSources": [],
+                    "hsSourceDirs": [],
+                    "otherModules": [],
+                    "virtualModules": [],
+                    "autogenModules": [],
+                    "defaultLanguage": null,
+                    "otherLanguages": [],
+                    "defaultExtensions": [],
+                    "otherExtensions": [],
+                    "oldExtensions": [],
+                    "extraLibs": [
+                      "LLVM-3.4"
+                    ],
+                    "extraGHCiLibs": [],
+                    "extraBundledLibs": [],
+                    "extraLibFlavours": [],
+                    "extraDynLibFlavours": [],
+                    "extraLibDirs": [],
+                    "includeDirs": [],
+                    "includes": [],
+                    "autogenIncludes": [],
+                    "installIncludes": [],
+                    "options": [
+                      [],
+                      []
+                    ],
+                    "profOptions": [
+                      [],
+                      []
+                    ],
+                    "sharedOptions": [
+                      [],
+                      []
+                    ],
+                    "staticOptions": [
+                      [],
+                      []
+                    ],
+                    "customFieldsBI": [],
+                    "targetBuildDepends": [],
+                    "mixins": []
+                  }
+                },
+                "condTreeConstraints": [],
+                "condTreeComponents": []
+              }
+            }
+          ]
+        },
+        "condBranchIfFalse": {
+          "condTreeData": {
+            "name": {},
+            "exposed-modules": [],
+            "re-exported-modules": [],
+            "signatures": [],
+            "exposed": true,
+            "visibility": "LibraryVisibilityPublic",
+            "build-info": {
+              "buildable": true,
+              "buildTools": [],
+              "buildToolDepends": [],
+              "cppOptions": [],
+              "asmOptions": [],
+              "cmmOptions": [],
+              "ccOptions": [],
+              "cxxOptions": [],
+              "ldOptions": [],
+              "pkgconfigDepends": [],
+              "frameworks": [],
+              "extraFrameworkDirs": [],
+              "asmSources": [],
+              "cmmSources": [],
+              "cSources": [],
+              "cxxSources": [],
+              "jsSources": [],
+              "hsSourceDirs": [],
+              "otherModules": [],
+              "virtualModules": [],
+              "autogenModules": [],
+              "defaultLanguage": null,
+              "otherLanguages": [],
+              "defaultExtensions": [],
+              "otherExtensions": [],
+              "oldExtensions": [],
+              "extraLibs": [],
+              "extraGHCiLibs": [],
+              "extraBundledLibs": [],
+              "extraLibFlavours": [],
+              "extraDynLibFlavours": [],
+              "extraLibDirs": [],
+              "includeDirs": [],
+              "includes": [],
+              "autogenIncludes": [],
+              "installIncludes": [],
+              "options": [
+                [],
+                []
+              ],
+              "profOptions": [
+                [],
+                []
+              ],
+              "sharedOptions": [
+                [],
+                []
+              ],
+              "staticOptions": [
+                [],
+                []
+              ],
+              "customFieldsBI": [],
+              "targetBuildDepends": [],
+              "mixins": []
+            }
+          },
+          "condTreeConstraints": [],
+          "condTreeComponents": [
+            {
+              "condBranchCondition": {
+                "v": {
+                  "flag": "llvm305"
+                }
+              },
+              "condBranchIfTrue": {
+                "condTreeData": {
+                  "name": {},
+                  "exposed-modules": [],
+                  "re-exported-modules": [],
+                  "signatures": [],
+                  "exposed": true,
+                  "visibility": "LibraryVisibilityPublic",
+                  "build-info": {
+                    "buildable": true,
+                    "buildTools": [],
+                    "buildToolDepends": [],
+                    "cppOptions": [
+                      "-DHS_LLVM_VERSION=305"
+                    ],
+                    "asmOptions": [],
+                    "cmmOptions": [],
+                    "ccOptions": [
+                      "-DHS_LLVM_VERSION=305"
+                    ],
+                    "cxxOptions": [
+                      "-DHS_LLVM_VERSION=305"
+                    ],
+                    "ldOptions": [],
+                    "pkgconfigDepends": [],
+                    "frameworks": [],
+                    "extraFrameworkDirs": [],
+                    "asmSources": [],
+                    "cmmSources": [],
+                    "cSources": [],
+                    "cxxSources": [],
+                    "jsSources": [],
+                    "hsSourceDirs": [],
+                    "otherModules": [],
+                    "virtualModules": [],
+                    "autogenModules": [],
+                    "defaultLanguage": null,
+                    "otherLanguages": [],
+                    "defaultExtensions": [],
+                    "otherExtensions": [],
+                    "oldExtensions": [],
+                    "extraLibs": [],
+                    "extraGHCiLibs": [],
+                    "extraBundledLibs": [],
+                    "extraLibFlavours": [],
+                    "extraDynLibFlavours": [],
+                    "extraLibDirs": [],
+                    "includeDirs": [],
+                    "includes": [],
+                    "autogenIncludes": [],
+                    "installIncludes": [],
+                    "options": [
+                      [],
+                      []
+                    ],
+                    "profOptions": [
+                      [],
+                      []
+                    ],
+                    "sharedOptions": [
+                      [],
+                      []
+                    ],
+                    "staticOptions": [
+                      [],
+                      []
+                    ],
+                    "customFieldsBI": [],
+                    "targetBuildDepends": [],
+                    "mixins": []
+                  }
+                },
+                "condTreeConstraints": [],
+                "condTreeComponents": [
+                  {
+                    "condBranchCondition": {
+                      "v": {
+                        "flag": "pkgconfig"
+                      }
+                    },
+                    "condBranchIfTrue": {
+                      "condTreeData": {
+                        "name": {},
+                        "exposed-modules": [],
+                        "re-exported-modules": [],
+                        "signatures": [],
+                        "exposed": true,
+                        "visibility": "LibraryVisibilityPublic",
+                        "build-info": {
+                          "buildable": true,
+                          "buildTools": [],
+                          "buildToolDepends": [],
+                          "cppOptions": [],
+                          "asmOptions": [],
+                          "cmmOptions": [],
+                          "ccOptions": [],
+                          "cxxOptions": [],
+                          "ldOptions": [],
+                          "pkgconfigDepends": [],
+                          "frameworks": [],
+                          "extraFrameworkDirs": [],
+                          "asmSources": [],
+                          "cmmSources": [],
+                          "cSources": [],
+                          "cxxSources": [],
+                          "jsSources": [],
+                          "hsSourceDirs": [],
+                          "otherModules": [],
+                          "virtualModules": [],
+                          "autogenModules": [],
+                          "defaultLanguage": null,
+                          "otherLanguages": [],
+                          "defaultExtensions": [],
+                          "otherExtensions": [],
+                          "oldExtensions": [],
+                          "extraLibs": [],
+                          "extraGHCiLibs": [],
+                          "extraBundledLibs": [],
+                          "extraLibFlavours": [],
+                          "extraDynLibFlavours": [],
+                          "extraLibDirs": [],
+                          "includeDirs": [],
+                          "includes": [],
+                          "autogenIncludes": [],
+                          "installIncludes": [],
+                          "options": [
+                            [],
+                            []
+                          ],
+                          "profOptions": [
+                            [],
+                            []
+                          ],
+                          "sharedOptions": [
+                            [],
+                            []
+                          ],
+                          "staticOptions": [
+                            [],
+                            []
+                          ],
+                          "customFieldsBI": [],
+                          "targetBuildDepends": [],
+                          "mixins": []
+                        }
+                      },
+                      "condTreeConstraints": [],
+                      "condTreeComponents": [
+                        {
+                          "condBranchCondition": {
+                            "v": {
+                              "flag": "specificpkgconfig"
+                            }
+                          },
+                          "condBranchIfTrue": {
+                            "condTreeData": {
+                              "name": {},
+                              "exposed-modules": [],
+                              "re-exported-modules": [],
+                              "signatures": [],
+                              "exposed": true,
+                              "visibility": "LibraryVisibilityPublic",
+                              "build-info": {
+                                "buildable": true,
+                                "buildTools": [],
+                                "buildToolDepends": [],
+                                "cppOptions": [],
+                                "asmOptions": [],
+                                "cmmOptions": [],
+                                "ccOptions": [],
+                                "cxxOptions": [],
+                                "ldOptions": [],
+                                "pkgconfigDepends": [
+                                  {
+                                    "pkgconfigName": "llvm-3.5",
+                                    "pkgconfigVersionRange": "-any"
+                                  }
+                                ],
+                                "frameworks": [],
+                                "extraFrameworkDirs": [],
+                                "asmSources": [],
+                                "cmmSources": [],
+                                "cSources": [],
+                                "cxxSources": [],
+                                "jsSources": [],
+                                "hsSourceDirs": [],
+                                "otherModules": [],
+                                "virtualModules": [],
+                                "autogenModules": [],
+                                "defaultLanguage": null,
+                                "otherLanguages": [],
+                                "defaultExtensions": [],
+                                "otherExtensions": [],
+                                "oldExtensions": [],
+                                "extraLibs": [],
+                                "extraGHCiLibs": [],
+                                "extraBundledLibs": [],
+                                "extraLibFlavours": [],
+                                "extraDynLibFlavours": [],
+                                "extraLibDirs": [],
+                                "includeDirs": [],
+                                "includes": [],
+                                "autogenIncludes": [],
+                                "installIncludes": [],
+                                "options": [
+                                  [],
+                                  []
+                                ],
+                                "profOptions": [
+                                  [],
+                                  []
+                                ],
+                                "sharedOptions": [
+                                  [],
+                                  []
+                                ],
+                                "staticOptions": [
+                                  [],
+                                  []
+                                ],
+                                "customFieldsBI": [],
+                                "targetBuildDepends": [],
+                                "mixins": []
+                              }
+                            },
+                            "condTreeConstraints": [],
+                            "condTreeComponents": []
+                          },
+                          "condBranchIfFalse": {
+                            "condTreeData": {
+                              "name": {},
+                              "exposed-modules": [],
+                              "re-exported-modules": [],
+                              "signatures": [],
+                              "exposed": true,
+                              "visibility": "LibraryVisibilityPublic",
+                              "build-info": {
+                                "buildable": true,
+                                "buildTools": [],
+                                "buildToolDepends": [],
+                                "cppOptions": [],
+                                "asmOptions": [],
+                                "cmmOptions": [],
+                                "ccOptions": [],
+                                "cxxOptions": [],
+                                "ldOptions": [],
+                                "pkgconfigDepends": [
+                                  {
+                                    "pkgconfigName": "llvm",
+                                    "pkgconfigVersionRange": "==3.5"
+                                  }
+                                ],
+                                "frameworks": [],
+                                "extraFrameworkDirs": [],
+                                "asmSources": [],
+                                "cmmSources": [],
+                                "cSources": [],
+                                "cxxSources": [],
+                                "jsSources": [],
+                                "hsSourceDirs": [],
+                                "otherModules": [],
+                                "virtualModules": [],
+                                "autogenModules": [],
+                                "defaultLanguage": null,
+                                "otherLanguages": [],
+                                "defaultExtensions": [],
+                                "otherExtensions": [],
+                                "oldExtensions": [],
+                                "extraLibs": [],
+                                "extraGHCiLibs": [],
+                                "extraBundledLibs": [],
+                                "extraLibFlavours": [],
+                                "extraDynLibFlavours": [],
+                                "extraLibDirs": [],
+                                "includeDirs": [],
+                                "includes": [],
+                                "autogenIncludes": [],
+                                "installIncludes": [],
+                                "options": [
+                                  [],
+                                  []
+                                ],
+                                "profOptions": [
+                                  [],
+                                  []
+                                ],
+                                "sharedOptions": [
+                                  [],
+                                  []
+                                ],
+                                "staticOptions": [
+                                  [],
+                                  []
+                                ],
+                                "customFieldsBI": [],
+                                "targetBuildDepends": [],
+                                "mixins": []
+                              }
+                            },
+                            "condTreeConstraints": [],
+                            "condTreeComponents": []
+                          }
+                        }
+                      ]
+                    },
+                    "condBranchIfFalse": {
+                      "condTreeData": {
+                        "name": {},
+                        "exposed-modules": [],
+                        "re-exported-modules": [],
+                        "signatures": [],
+                        "exposed": true,
+                        "visibility": "LibraryVisibilityPublic",
+                        "build-info": {
+                          "buildable": true,
+                          "buildTools": [],
+                          "buildToolDepends": [],
+                          "cppOptions": [],
+                          "asmOptions": [],
+                          "cmmOptions": [],
+                          "ccOptions": [],
+                          "cxxOptions": [],
+                          "ldOptions": [],
+                          "pkgconfigDepends": [],
+                          "frameworks": [],
+                          "extraFrameworkDirs": [],
+                          "asmSources": [],
+                          "cmmSources": [],
+                          "cSources": [],
+                          "cxxSources": [],
+                          "jsSources": [],
+                          "hsSourceDirs": [],
+                          "otherModules": [],
+                          "virtualModules": [],
+                          "autogenModules": [],
+                          "defaultLanguage": null,
+                          "otherLanguages": [],
+                          "defaultExtensions": [],
+                          "otherExtensions": [],
+                          "oldExtensions": [],
+                          "extraLibs": [
+                            "LLVM-3.5"
+                          ],
+                          "extraGHCiLibs": [],
+                          "extraBundledLibs": [],
+                          "extraLibFlavours": [],
+                          "extraDynLibFlavours": [],
+                          "extraLibDirs": [],
+                          "includeDirs": [],
+                          "includes": [],
+                          "autogenIncludes": [],
+                          "installIncludes": [],
+                          "options": [
+                            [],
+                            []
+                          ],
+                          "profOptions": [
+                            [],
+                            []
+                          ],
+                          "sharedOptions": [
+                            [],
+                            []
+                          ],
+                          "staticOptions": [
+                            [],
+                            []
+                          ],
+                          "customFieldsBI": [],
+                          "targetBuildDepends": [],
+                          "mixins": []
+                        }
+                      },
+                      "condTreeConstraints": [],
+                      "condTreeComponents": []
+                    }
+                  }
+                ]
+              },
+              "condBranchIfFalse": {
+                "condTreeData": {
+                  "name": {},
+                  "exposed-modules": [],
+                  "re-exported-modules": [],
+                  "signatures": [],
+                  "exposed": true,
+                  "visibility": "LibraryVisibilityPublic",
+                  "build-info": {
+                    "buildable": true,
+                    "buildTools": [],
+                    "buildToolDepends": [],
+                    "cppOptions": [],
+                    "asmOptions": [],
+                    "cmmOptions": [],
+                    "ccOptions": [],
+                    "cxxOptions": [],
+                    "ldOptions": [],
+                    "pkgconfigDepends": [],
+                    "frameworks": [],
+                    "extraFrameworkDirs": [],
+                    "asmSources": [],
+                    "cmmSources": [],
+                    "cSources": [],
+                    "cxxSources": [],
+                    "jsSources": [],
+                    "hsSourceDirs": [],
+                    "otherModules": [],
+                    "virtualModules": [],
+                    "autogenModules": [],
+                    "defaultLanguage": null,
+                    "otherLanguages": [],
+                    "defaultExtensions": [],
+                    "otherExtensions": [],
+                    "oldExtensions": [],
+                    "extraLibs": [],
+                    "extraGHCiLibs": [],
+                    "extraBundledLibs": [],
+                    "extraLibFlavours": [],
+                    "extraDynLibFlavours": [],
+                    "extraLibDirs": [],
+                    "includeDirs": [],
+                    "includes": [],
+                    "autogenIncludes": [],
+                    "installIncludes": [],
+                    "options": [
+                      [],
+                      []
+                    ],
+                    "profOptions": [
+                      [],
+                      []
+                    ],
+                    "sharedOptions": [
+                      [],
+                      []
+                    ],
+                    "staticOptions": [
+                      [],
+                      []
+                    ],
+                    "customFieldsBI": [],
+                    "targetBuildDepends": [],
+                    "mixins": []
+                  }
+                },
+                "condTreeConstraints": [],
+                "condTreeComponents": [
+                  {
+                    "condBranchCondition": {
+                      "v": {
+                        "flag": "llvm306"
+                      }
+                    },
+                    "condBranchIfTrue": {
+                      "condTreeData": {
+                        "name": {},
+                        "exposed-modules": [],
+                        "re-exported-modules": [],
+                        "signatures": [],
+                        "exposed": true,
+                        "visibility": "LibraryVisibilityPublic",
+                        "build-info": {
+                          "buildable": true,
+                          "buildTools": [],
+                          "buildToolDepends": [],
+                          "cppOptions": [
+                            "-DHS_LLVM_VERSION=306"
+                          ],
+                          "asmOptions": [],
+                          "cmmOptions": [],
+                          "ccOptions": [
+                            "-DHS_LLVM_VERSION=306"
+                          ],
+                          "cxxOptions": [
+                            "-DHS_LLVM_VERSION=306"
+                          ],
+                          "ldOptions": [],
+                          "pkgconfigDepends": [],
+                          "frameworks": [],
+                          "extraFrameworkDirs": [],
+                          "asmSources": [],
+                          "cmmSources": [],
+                          "cSources": [],
+                          "cxxSources": [],
+                          "jsSources": [],
+                          "hsSourceDirs": [],
+                          "otherModules": [],
+                          "virtualModules": [],
+                          "autogenModules": [],
+                          "defaultLanguage": null,
+                          "otherLanguages": [],
+                          "defaultExtensions": [],
+                          "otherExtensions": [],
+                          "oldExtensions": [],
+                          "extraLibs": [],
+                          "extraGHCiLibs": [],
+                          "extraBundledLibs": [],
+                          "extraLibFlavours": [],
+                          "extraDynLibFlavours": [],
+                          "extraLibDirs": [],
+                          "includeDirs": [],
+                          "includes": [],
+                          "autogenIncludes": [],
+                          "installIncludes": [],
+                          "options": [
+                            [],
+                            []
+                          ],
+                          "profOptions": [
+                            [],
+                            []
+                          ],
+                          "sharedOptions": [
+                            [],
+                            []
+                          ],
+                          "staticOptions": [
+                            [],
+                            []
+                          ],
+                          "customFieldsBI": [],
+                          "targetBuildDepends": [],
+                          "mixins": []
+                        }
+                      },
+                      "condTreeConstraints": [],
+                      "condTreeComponents": [
+                        {
+                          "condBranchCondition": {
+                            "v": {
+                              "flag": "pkgconfig"
+                            }
+                          },
+                          "condBranchIfTrue": {
+                            "condTreeData": {
+                              "name": {},
+                              "exposed-modules": [],
+                              "re-exported-modules": [],
+                              "signatures": [],
+                              "exposed": true,
+                              "visibility": "LibraryVisibilityPublic",
+                              "build-info": {
+                                "buildable": true,
+                                "buildTools": [],
+                                "buildToolDepends": [],
+                                "cppOptions": [],
+                                "asmOptions": [],
+                                "cmmOptions": [],
+                                "ccOptions": [],
+                                "cxxOptions": [],
+                                "ldOptions": [],
+                                "pkgconfigDepends": [],
+                                "frameworks": [],
+                                "extraFrameworkDirs": [],
+                                "asmSources": [],
+                                "cmmSources": [],
+                                "cSources": [],
+                                "cxxSources": [],
+                                "jsSources": [],
+                                "hsSourceDirs": [],
+                                "otherModules": [],
+                                "virtualModules": [],
+                                "autogenModules": [],
+                                "defaultLanguage": null,
+                                "otherLanguages": [],
+                                "defaultExtensions": [],
+                                "otherExtensions": [],
+                                "oldExtensions": [],
+                                "extraLibs": [],
+                                "extraGHCiLibs": [],
+                                "extraBundledLibs": [],
+                                "extraLibFlavours": [],
+                                "extraDynLibFlavours": [],
+                                "extraLibDirs": [],
+                                "includeDirs": [],
+                                "includes": [],
+                                "autogenIncludes": [],
+                                "installIncludes": [],
+                                "options": [
+                                  [],
+                                  []
+                                ],
+                                "profOptions": [
+                                  [],
+                                  []
+                                ],
+                                "sharedOptions": [
+                                  [],
+                                  []
+                                ],
+                                "staticOptions": [
+                                  [],
+                                  []
+                                ],
+                                "customFieldsBI": [],
+                                "targetBuildDepends": [],
+                                "mixins": []
+                              }
+                            },
+                            "condTreeConstraints": [],
+                            "condTreeComponents": [
+                              {
+                                "condBranchCondition": {
+                                  "v": {
+                                    "flag": "specificpkgconfig"
+                                  }
+                                },
+                                "condBranchIfTrue": {
+                                  "condTreeData": {
+                                    "name": {},
+                                    "exposed-modules": [],
+                                    "re-exported-modules": [],
+                                    "signatures": [],
+                                    "exposed": true,
+                                    "visibility": "LibraryVisibilityPublic",
+                                    "build-info": {
+                                      "buildable": true,
+                                      "buildTools": [],
+                                      "buildToolDepends": [],
+                                      "cppOptions": [],
+                                      "asmOptions": [],
+                                      "cmmOptions": [],
+                                      "ccOptions": [],
+                                      "cxxOptions": [],
+                                      "ldOptions": [],
+                                      "pkgconfigDepends": [
+                                        {
+                                          "pkgconfigName": "llvm-3.6",
+                                          "pkgconfigVersionRange": "-any"
+                                        }
+                                      ],
+                                      "frameworks": [],
+                                      "extraFrameworkDirs": [],
+                                      "asmSources": [],
+                                      "cmmSources": [],
+                                      "cSources": [],
+                                      "cxxSources": [],
+                                      "jsSources": [],
+                                      "hsSourceDirs": [],
+                                      "otherModules": [],
+                                      "virtualModules": [],
+                                      "autogenModules": [],
+                                      "defaultLanguage": null,
+                                      "otherLanguages": [],
+                                      "defaultExtensions": [],
+                                      "otherExtensions": [],
+                                      "oldExtensions": [],
+                                      "extraLibs": [],
+                                      "extraGHCiLibs": [],
+                                      "extraBundledLibs": [],
+                                      "extraLibFlavours": [],
+                                      "extraDynLibFlavours": [],
+                                      "extraLibDirs": [],
+                                      "includeDirs": [],
+                                      "includes": [],
+                                      "autogenIncludes": [],
+                                      "installIncludes": [],
+                                      "options": [
+                                        [],
+                                        []
+                                      ],
+                                      "profOptions": [
+                                        [],
+                                        []
+                                      ],
+                                      "sharedOptions": [
+                                        [],
+                                        []
+                                      ],
+                                      "staticOptions": [
+                                        [],
+                                        []
+                                      ],
+                                      "customFieldsBI": [],
+                                      "targetBuildDepends": [],
+                                      "mixins": []
+                                    }
+                                  },
+                                  "condTreeConstraints": [],
+                                  "condTreeComponents": []
+                                },
+                                "condBranchIfFalse": {
+                                  "condTreeData": {
+                                    "name": {},
+                                    "exposed-modules": [],
+                                    "re-exported-modules": [],
+                                    "signatures": [],
+                                    "exposed": true,
+                                    "visibility": "LibraryVisibilityPublic",
+                                    "build-info": {
+                                      "buildable": true,
+                                      "buildTools": [],
+                                      "buildToolDepends": [],
+                                      "cppOptions": [],
+                                      "asmOptions": [],
+                                      "cmmOptions": [],
+                                      "ccOptions": [],
+                                      "cxxOptions": [],
+                                      "ldOptions": [],
+                                      "pkgconfigDepends": [
+                                        {
+                                          "pkgconfigName": "llvm",
+                                          "pkgconfigVersionRange": "==3.6"
+                                        }
+                                      ],
+                                      "frameworks": [],
+                                      "extraFrameworkDirs": [],
+                                      "asmSources": [],
+                                      "cmmSources": [],
+                                      "cSources": [],
+                                      "cxxSources": [],
+                                      "jsSources": [],
+                                      "hsSourceDirs": [],
+                                      "otherModules": [],
+                                      "virtualModules": [],
+                                      "autogenModules": [],
+                                      "defaultLanguage": null,
+                                      "otherLanguages": [],
+                                      "defaultExtensions": [],
+                                      "otherExtensions": [],
+                                      "oldExtensions": [],
+                                      "extraLibs": [],
+                                      "extraGHCiLibs": [],
+                                      "extraBundledLibs": [],
+                                      "extraLibFlavours": [],
+                                      "extraDynLibFlavours": [],
+                                      "extraLibDirs": [],
+                                      "includeDirs": [],
+                                      "includes": [],
+                                      "autogenIncludes": [],
+                                      "installIncludes": [],
+                                      "options": [
+                                        [],
+                                        []
+                                      ],
+                                      "profOptions": [
+                                        [],
+                                        []
+                                      ],
+                                      "sharedOptions": [
+                                        [],
+                                        []
+                                      ],
+                                      "staticOptions": [
+                                        [],
+                                        []
+                                      ],
+                                      "customFieldsBI": [],
+                                      "targetBuildDepends": [],
+                                      "mixins": []
+                                    }
+                                  },
+                                  "condTreeConstraints": [],
+                                  "condTreeComponents": []
+                                }
+                              }
+                            ]
+                          },
+                          "condBranchIfFalse": {
+                            "condTreeData": {
+                              "name": {},
+                              "exposed-modules": [],
+                              "re-exported-modules": [],
+                              "signatures": [],
+                              "exposed": true,
+                              "visibility": "LibraryVisibilityPublic",
+                              "build-info": {
+                                "buildable": true,
+                                "buildTools": [],
+                                "buildToolDepends": [],
+                                "cppOptions": [],
+                                "asmOptions": [],
+                                "cmmOptions": [],
+                                "ccOptions": [],
+                                "cxxOptions": [],
+                                "ldOptions": [],
+                                "pkgconfigDepends": [],
+                                "frameworks": [],
+                                "extraFrameworkDirs": [],
+                                "asmSources": [],
+                                "cmmSources": [],
+                                "cSources": [],
+                                "cxxSources": [],
+                                "jsSources": [],
+                                "hsSourceDirs": [],
+                                "otherModules": [],
+                                "virtualModules": [],
+                                "autogenModules": [],
+                                "defaultLanguage": null,
+                                "otherLanguages": [],
+                                "defaultExtensions": [],
+                                "otherExtensions": [],
+                                "oldExtensions": [],
+                                "extraLibs": [
+                                  "LLVM-3.6"
+                                ],
+                                "extraGHCiLibs": [],
+                                "extraBundledLibs": [],
+                                "extraLibFlavours": [],
+                                "extraDynLibFlavours": [],
+                                "extraLibDirs": [],
+                                "includeDirs": [],
+                                "includes": [],
+                                "autogenIncludes": [],
+                                "installIncludes": [],
+                                "options": [
+                                  [],
+                                  []
+                                ],
+                                "profOptions": [
+                                  [],
+                                  []
+                                ],
+                                "sharedOptions": [
+                                  [],
+                                  []
+                                ],
+                                "staticOptions": [
+                                  [],
+                                  []
+                                ],
+                                "customFieldsBI": [],
+                                "targetBuildDepends": [],
+                                "mixins": []
+                              }
+                            },
+                            "condTreeConstraints": [],
+                            "condTreeComponents": []
+                          }
+                        }
+                      ]
+                    },
+                    "condBranchIfFalse": {
+                      "condTreeData": {
+                        "name": {},
+                        "exposed-modules": [],
+                        "re-exported-modules": [],
+                        "signatures": [],
+                        "exposed": true,
+                        "visibility": "LibraryVisibilityPublic",
+                        "build-info": {
+                          "buildable": true,
+                          "buildTools": [],
+                          "buildToolDepends": [],
+                          "cppOptions": [],
+                          "asmOptions": [],
+                          "cmmOptions": [],
+                          "ccOptions": [],
+                          "cxxOptions": [],
+                          "ldOptions": [],
+                          "pkgconfigDepends": [],
+                          "frameworks": [],
+                          "extraFrameworkDirs": [],
+                          "asmSources": [],
+                          "cmmSources": [],
+                          "cSources": [],
+                          "cxxSources": [],
+                          "jsSources": [],
+                          "hsSourceDirs": [],
+                          "otherModules": [],
+                          "virtualModules": [],
+                          "autogenModules": [],
+                          "defaultLanguage": null,
+                          "otherLanguages": [],
+                          "defaultExtensions": [],
+                          "otherExtensions": [],
+                          "oldExtensions": [],
+                          "extraLibs": [],
+                          "extraGHCiLibs": [],
+                          "extraBundledLibs": [],
+                          "extraLibFlavours": [],
+                          "extraDynLibFlavours": [],
+                          "extraLibDirs": [],
+                          "includeDirs": [],
+                          "includes": [],
+                          "autogenIncludes": [],
+                          "installIncludes": [],
+                          "options": [
+                            [],
+                            []
+                          ],
+                          "profOptions": [
+                            [],
+                            []
+                          ],
+                          "sharedOptions": [
+                            [],
+                            []
+                          ],
+                          "staticOptions": [
+                            [],
+                            []
+                          ],
+                          "customFieldsBI": [],
+                          "targetBuildDepends": [],
+                          "mixins": []
+                        }
+                      },
+                      "condTreeConstraints": [],
+                      "condTreeComponents": [
+                        {
+                          "condBranchCondition": {
+                            "v": {
+                              "flag": "llvm307"
+                            }
+                          },
+                          "condBranchIfTrue": {
+                            "condTreeData": {
+                              "name": {},
+                              "exposed-modules": [],
+                              "re-exported-modules": [],
+                              "signatures": [],
+                              "exposed": true,
+                              "visibility": "LibraryVisibilityPublic",
+                              "build-info": {
+                                "buildable": true,
+                                "buildTools": [],
+                                "buildToolDepends": [],
+                                "cppOptions": [
+                                  "-DHS_LLVM_VERSION=307"
+                                ],
+                                "asmOptions": [],
+                                "cmmOptions": [],
+                                "ccOptions": [
+                                  "-DHS_LLVM_VERSION=307"
+                                ],
+                                "cxxOptions": [
+                                  "-DHS_LLVM_VERSION=307"
+                                ],
+                                "ldOptions": [],
+                                "pkgconfigDepends": [],
+                                "frameworks": [],
+                                "extraFrameworkDirs": [],
+                                "asmSources": [],
+                                "cmmSources": [],
+                                "cSources": [],
+                                "cxxSources": [],
+                                "jsSources": [],
+                                "hsSourceDirs": [],
+                                "otherModules": [],
+                                "virtualModules": [],
+                                "autogenModules": [],
+                                "defaultLanguage": null,
+                                "otherLanguages": [],
+                                "defaultExtensions": [],
+                                "otherExtensions": [],
+                                "oldExtensions": [],
+                                "extraLibs": [],
+                                "extraGHCiLibs": [],
+                                "extraBundledLibs": [],
+                                "extraLibFlavours": [],
+                                "extraDynLibFlavours": [],
+                                "extraLibDirs": [],
+                                "includeDirs": [],
+                                "includes": [],
+                                "autogenIncludes": [],
+                                "installIncludes": [],
+                                "options": [
+                                  [],
+                                  []
+                                ],
+                                "profOptions": [
+                                  [],
+                                  []
+                                ],
+                                "sharedOptions": [
+                                  [],
+                                  []
+                                ],
+                                "staticOptions": [
+                                  [],
+                                  []
+                                ],
+                                "customFieldsBI": [],
+                                "targetBuildDepends": [],
+                                "mixins": []
+                              }
+                            },
+                            "condTreeConstraints": [],
+                            "condTreeComponents": [
+                              {
+                                "condBranchCondition": {
+                                  "v": {
+                                    "flag": "pkgconfig"
+                                  }
+                                },
+                                "condBranchIfTrue": {
+                                  "condTreeData": {
+                                    "name": {},
+                                    "exposed-modules": [],
+                                    "re-exported-modules": [],
+                                    "signatures": [],
+                                    "exposed": true,
+                                    "visibility": "LibraryVisibilityPublic",
+                                    "build-info": {
+                                      "buildable": true,
+                                      "buildTools": [],
+                                      "buildToolDepends": [],
+                                      "cppOptions": [],
+                                      "asmOptions": [],
+                                      "cmmOptions": [],
+                                      "ccOptions": [],
+                                      "cxxOptions": [],
+                                      "ldOptions": [],
+                                      "pkgconfigDepends": [],
+                                      "frameworks": [],
+                                      "extraFrameworkDirs": [],
+                                      "asmSources": [],
+                                      "cmmSources": [],
+                                      "cSources": [],
+                                      "cxxSources": [],
+                                      "jsSources": [],
+                                      "hsSourceDirs": [],
+                                      "otherModules": [],
+                                      "virtualModules": [],
+                                      "autogenModules": [],
+                                      "defaultLanguage": null,
+                                      "otherLanguages": [],
+                                      "defaultExtensions": [],
+                                      "otherExtensions": [],
+                                      "oldExtensions": [],
+                                      "extraLibs": [],
+                                      "extraGHCiLibs": [],
+                                      "extraBundledLibs": [],
+                                      "extraLibFlavours": [],
+                                      "extraDynLibFlavours": [],
+                                      "extraLibDirs": [],
+                                      "includeDirs": [],
+                                      "includes": [],
+                                      "autogenIncludes": [],
+                                      "installIncludes": [],
+                                      "options": [
+                                        [],
+                                        []
+                                      ],
+                                      "profOptions": [
+                                        [],
+                                        []
+                                      ],
+                                      "sharedOptions": [
+                                        [],
+                                        []
+                                      ],
+                                      "staticOptions": [
+                                        [],
+                                        []
+                                      ],
+                                      "customFieldsBI": [],
+                                      "targetBuildDepends": [],
+                                      "mixins": []
+                                    }
+                                  },
+                                  "condTreeConstraints": [],
+                                  "condTreeComponents": [
+                                    {
+                                      "condBranchCondition": {
+                                        "v": {
+                                          "flag": "specificpkgconfig"
+                                        }
+                                      },
+                                      "condBranchIfTrue": {
+                                        "condTreeData": {
+                                          "name": {},
+                                          "exposed-modules": [],
+                                          "re-exported-modules": [],
+                                          "signatures": [],
+                                          "exposed": true,
+                                          "visibility": "LibraryVisibilityPublic",
+                                          "build-info": {
+                                            "buildable": true,
+                                            "buildTools": [],
+                                            "buildToolDepends": [],
+                                            "cppOptions": [],
+                                            "asmOptions": [],
+                                            "cmmOptions": [],
+                                            "ccOptions": [],
+                                            "cxxOptions": [],
+                                            "ldOptions": [],
+                                            "pkgconfigDepends": [
+                                              {
+                                                "pkgconfigName": "llvm-3.7",
+                                                "pkgconfigVersionRange": "-any"
+                                              }
+                                            ],
+                                            "frameworks": [],
+                                            "extraFrameworkDirs": [],
+                                            "asmSources": [],
+                                            "cmmSources": [],
+                                            "cSources": [],
+                                            "cxxSources": [],
+                                            "jsSources": [],
+                                            "hsSourceDirs": [],
+                                            "otherModules": [],
+                                            "virtualModules": [],
+                                            "autogenModules": [],
+                                            "defaultLanguage": null,
+                                            "otherLanguages": [],
+                                            "defaultExtensions": [],
+                                            "otherExtensions": [],
+                                            "oldExtensions": [],
+                                            "extraLibs": [],
+                                            "extraGHCiLibs": [],
+                                            "extraBundledLibs": [],
+                                            "extraLibFlavours": [],
+                                            "extraDynLibFlavours": [],
+                                            "extraLibDirs": [],
+                                            "includeDirs": [],
+                                            "includes": [],
+                                            "autogenIncludes": [],
+                                            "installIncludes": [],
+                                            "options": [
+                                              [],
+                                              []
+                                            ],
+                                            "profOptions": [
+                                              [],
+                                              []
+                                            ],
+                                            "sharedOptions": [
+                                              [],
+                                              []
+                                            ],
+                                            "staticOptions": [
+                                              [],
+                                              []
+                                            ],
+                                            "customFieldsBI": [],
+                                            "targetBuildDepends": [],
+                                            "mixins": []
+                                          }
+                                        },
+                                        "condTreeConstraints": [],
+                                        "condTreeComponents": []
+                                      },
+                                      "condBranchIfFalse": {
+                                        "condTreeData": {
+                                          "name": {},
+                                          "exposed-modules": [],
+                                          "re-exported-modules": [],
+                                          "signatures": [],
+                                          "exposed": true,
+                                          "visibility": "LibraryVisibilityPublic",
+                                          "build-info": {
+                                            "buildable": true,
+                                            "buildTools": [],
+                                            "buildToolDepends": [],
+                                            "cppOptions": [],
+                                            "asmOptions": [],
+                                            "cmmOptions": [],
+                                            "ccOptions": [],
+                                            "cxxOptions": [],
+                                            "ldOptions": [],
+                                            "pkgconfigDepends": [
+                                              {
+                                                "pkgconfigName": "llvm",
+                                                "pkgconfigVersionRange": "==3.7"
+                                              }
+                                            ],
+                                            "frameworks": [],
+                                            "extraFrameworkDirs": [],
+                                            "asmSources": [],
+                                            "cmmSources": [],
+                                            "cSources": [],
+                                            "cxxSources": [],
+                                            "jsSources": [],
+                                            "hsSourceDirs": [],
+                                            "otherModules": [],
+                                            "virtualModules": [],
+                                            "autogenModules": [],
+                                            "defaultLanguage": null,
+                                            "otherLanguages": [],
+                                            "defaultExtensions": [],
+                                            "otherExtensions": [],
+                                            "oldExtensions": [],
+                                            "extraLibs": [],
+                                            "extraGHCiLibs": [],
+                                            "extraBundledLibs": [],
+                                            "extraLibFlavours": [],
+                                            "extraDynLibFlavours": [],
+                                            "extraLibDirs": [],
+                                            "includeDirs": [],
+                                            "includes": [],
+                                            "autogenIncludes": [],
+                                            "installIncludes": [],
+                                            "options": [
+                                              [],
+                                              []
+                                            ],
+                                            "profOptions": [
+                                              [],
+                                              []
+                                            ],
+                                            "sharedOptions": [
+                                              [],
+                                              []
+                                            ],
+                                            "staticOptions": [
+                                              [],
+                                              []
+                                            ],
+                                            "customFieldsBI": [],
+                                            "targetBuildDepends": [],
+                                            "mixins": []
+                                          }
+                                        },
+                                        "condTreeConstraints": [],
+                                        "condTreeComponents": []
+                                      }
+                                    }
+                                  ]
+                                },
+                                "condBranchIfFalse": {
+                                  "condTreeData": {
+                                    "name": {},
+                                    "exposed-modules": [],
+                                    "re-exported-modules": [],
+                                    "signatures": [],
+                                    "exposed": true,
+                                    "visibility": "LibraryVisibilityPublic",
+                                    "build-info": {
+                                      "buildable": true,
+                                      "buildTools": [],
+                                      "buildToolDepends": [],
+                                      "cppOptions": [],
+                                      "asmOptions": [],
+                                      "cmmOptions": [],
+                                      "ccOptions": [],
+                                      "cxxOptions": [],
+                                      "ldOptions": [],
+                                      "pkgconfigDepends": [],
+                                      "frameworks": [],
+                                      "extraFrameworkDirs": [],
+                                      "asmSources": [],
+                                      "cmmSources": [],
+                                      "cSources": [],
+                                      "cxxSources": [],
+                                      "jsSources": [],
+                                      "hsSourceDirs": [],
+                                      "otherModules": [],
+                                      "virtualModules": [],
+                                      "autogenModules": [],
+                                      "defaultLanguage": null,
+                                      "otherLanguages": [],
+                                      "defaultExtensions": [],
+                                      "otherExtensions": [],
+                                      "oldExtensions": [],
+                                      "extraLibs": [
+                                        "LLVM-3.7"
+                                      ],
+                                      "extraGHCiLibs": [],
+                                      "extraBundledLibs": [],
+                                      "extraLibFlavours": [],
+                                      "extraDynLibFlavours": [],
+                                      "extraLibDirs": [],
+                                      "includeDirs": [],
+                                      "includes": [],
+                                      "autogenIncludes": [],
+                                      "installIncludes": [],
+                                      "options": [
+                                        [],
+                                        []
+                                      ],
+                                      "profOptions": [
+                                        [],
+                                        []
+                                      ],
+                                      "sharedOptions": [
+                                        [],
+                                        []
+                                      ],
+                                      "staticOptions": [
+                                        [],
+                                        []
+                                      ],
+                                      "customFieldsBI": [],
+                                      "targetBuildDepends": [],
+                                      "mixins": []
+                                    }
+                                  },
+                                  "condTreeConstraints": [],
+                                  "condTreeComponents": []
+                                }
+                              }
+                            ]
+                          },
+                          "condBranchIfFalse": {
+                            "condTreeData": {
+                              "name": {},
+                              "exposed-modules": [],
+                              "re-exported-modules": [],
+                              "signatures": [],
+                              "exposed": true,
+                              "visibility": "LibraryVisibilityPublic",
+                              "build-info": {
+                                "buildable": true,
+                                "buildTools": [],
+                                "buildToolDepends": [],
+                                "cppOptions": [
+                                  "-DHS_LLVM_VERSION=308"
+                                ],
+                                "asmOptions": [],
+                                "cmmOptions": [],
+                                "ccOptions": [
+                                  "-DHS_LLVM_VERSION=308"
+                                ],
+                                "cxxOptions": [
+                                  "-DHS_LLVM_VERSION=308"
+                                ],
+                                "ldOptions": [],
+                                "pkgconfigDepends": [],
+                                "frameworks": [],
+                                "extraFrameworkDirs": [],
+                                "asmSources": [],
+                                "cmmSources": [],
+                                "cSources": [],
+                                "cxxSources": [],
+                                "jsSources": [],
+                                "hsSourceDirs": [],
+                                "otherModules": [],
+                                "virtualModules": [],
+                                "autogenModules": [],
+                                "defaultLanguage": null,
+                                "otherLanguages": [],
+                                "defaultExtensions": [],
+                                "otherExtensions": [],
+                                "oldExtensions": [],
+                                "extraLibs": [],
+                                "extraGHCiLibs": [],
+                                "extraBundledLibs": [],
+                                "extraLibFlavours": [],
+                                "extraDynLibFlavours": [],
+                                "extraLibDirs": [],
+                                "includeDirs": [],
+                                "includes": [],
+                                "autogenIncludes": [],
+                                "installIncludes": [],
+                                "options": [
+                                  [],
+                                  []
+                                ],
+                                "profOptions": [
+                                  [],
+                                  []
+                                ],
+                                "sharedOptions": [
+                                  [],
+                                  []
+                                ],
+                                "staticOptions": [
+                                  [],
+                                  []
+                                ],
+                                "customFieldsBI": [],
+                                "targetBuildDepends": [],
+                                "mixins": []
+                              }
+                            },
+                            "condTreeConstraints": [],
+                            "condTreeComponents": [
+                              {
+                                "condBranchCondition": {
+                                  "v": {
+                                    "flag": "pkgconfig"
+                                  }
+                                },
+                                "condBranchIfTrue": {
+                                  "condTreeData": {
+                                    "name": {},
+                                    "exposed-modules": [],
+                                    "re-exported-modules": [],
+                                    "signatures": [],
+                                    "exposed": true,
+                                    "visibility": "LibraryVisibilityPublic",
+                                    "build-info": {
+                                      "buildable": true,
+                                      "buildTools": [],
+                                      "buildToolDepends": [],
+                                      "cppOptions": [],
+                                      "asmOptions": [],
+                                      "cmmOptions": [],
+                                      "ccOptions": [],
+                                      "cxxOptions": [],
+                                      "ldOptions": [],
+                                      "pkgconfigDepends": [],
+                                      "frameworks": [],
+                                      "extraFrameworkDirs": [],
+                                      "asmSources": [],
+                                      "cmmSources": [],
+                                      "cSources": [],
+                                      "cxxSources": [],
+                                      "jsSources": [],
+                                      "hsSourceDirs": [],
+                                      "otherModules": [],
+                                      "virtualModules": [],
+                                      "autogenModules": [],
+                                      "defaultLanguage": null,
+                                      "otherLanguages": [],
+                                      "defaultExtensions": [],
+                                      "otherExtensions": [],
+                                      "oldExtensions": [],
+                                      "extraLibs": [],
+                                      "extraGHCiLibs": [],
+                                      "extraBundledLibs": [],
+                                      "extraLibFlavours": [],
+                                      "extraDynLibFlavours": [],
+                                      "extraLibDirs": [],
+                                      "includeDirs": [],
+                                      "includes": [],
+                                      "autogenIncludes": [],
+                                      "installIncludes": [],
+                                      "options": [
+                                        [],
+                                        []
+                                      ],
+                                      "profOptions": [
+                                        [],
+                                        []
+                                      ],
+                                      "sharedOptions": [
+                                        [],
+                                        []
+                                      ],
+                                      "staticOptions": [
+                                        [],
+                                        []
+                                      ],
+                                      "customFieldsBI": [],
+                                      "targetBuildDepends": [],
+                                      "mixins": []
+                                    }
+                                  },
+                                  "condTreeConstraints": [],
+                                  "condTreeComponents": [
+                                    {
+                                      "condBranchCondition": {
+                                        "v": {
+                                          "flag": "specificpkgconfig"
+                                        }
+                                      },
+                                      "condBranchIfTrue": {
+                                        "condTreeData": {
+                                          "name": {},
+                                          "exposed-modules": [],
+                                          "re-exported-modules": [],
+                                          "signatures": [],
+                                          "exposed": true,
+                                          "visibility": "LibraryVisibilityPublic",
+                                          "build-info": {
+                                            "buildable": true,
+                                            "buildTools": [],
+                                            "buildToolDepends": [],
+                                            "cppOptions": [],
+                                            "asmOptions": [],
+                                            "cmmOptions": [],
+                                            "ccOptions": [],
+                                            "cxxOptions": [],
+                                            "ldOptions": [],
+                                            "pkgconfigDepends": [
+                                              {
+                                                "pkgconfigName": "llvm-3.8",
+                                                "pkgconfigVersionRange": "-any"
+                                              }
+                                            ],
+                                            "frameworks": [],
+                                            "extraFrameworkDirs": [],
+                                            "asmSources": [],
+                                            "cmmSources": [],
+                                            "cSources": [],
+                                            "cxxSources": [],
+                                            "jsSources": [],
+                                            "hsSourceDirs": [],
+                                            "otherModules": [],
+                                            "virtualModules": [],
+                                            "autogenModules": [],
+                                            "defaultLanguage": null,
+                                            "otherLanguages": [],
+                                            "defaultExtensions": [],
+                                            "otherExtensions": [],
+                                            "oldExtensions": [],
+                                            "extraLibs": [],
+                                            "extraGHCiLibs": [],
+                                            "extraBundledLibs": [],
+                                            "extraLibFlavours": [],
+                                            "extraDynLibFlavours": [],
+                                            "extraLibDirs": [],
+                                            "includeDirs": [],
+                                            "includes": [],
+                                            "autogenIncludes": [],
+                                            "installIncludes": [],
+                                            "options": [
+                                              [],
+                                              []
+                                            ],
+                                            "profOptions": [
+                                              [],
+                                              []
+                                            ],
+                                            "sharedOptions": [
+                                              [],
+                                              []
+                                            ],
+                                            "staticOptions": [
+                                              [],
+                                              []
+                                            ],
+                                            "customFieldsBI": [],
+                                            "targetBuildDepends": [],
+                                            "mixins": []
+                                          }
+                                        },
+                                        "condTreeConstraints": [],
+                                        "condTreeComponents": []
+                                      },
+                                      "condBranchIfFalse": {
+                                        "condTreeData": {
+                                          "name": {},
+                                          "exposed-modules": [],
+                                          "re-exported-modules": [],
+                                          "signatures": [],
+                                          "exposed": true,
+                                          "visibility": "LibraryVisibilityPublic",
+                                          "build-info": {
+                                            "buildable": true,
+                                            "buildTools": [],
+                                            "buildToolDepends": [],
+                                            "cppOptions": [],
+                                            "asmOptions": [],
+                                            "cmmOptions": [],
+                                            "ccOptions": [],
+                                            "cxxOptions": [],
+                                            "ldOptions": [],
+                                            "pkgconfigDepends": [
+                                              {
+                                                "pkgconfigName": "llvm",
+                                                "pkgconfigVersionRange": "==3.8"
+                                              }
+                                            ],
+                                            "frameworks": [],
+                                            "extraFrameworkDirs": [],
+                                            "asmSources": [],
+                                            "cmmSources": [],
+                                            "cSources": [],
+                                            "cxxSources": [],
+                                            "jsSources": [],
+                                            "hsSourceDirs": [],
+                                            "otherModules": [],
+                                            "virtualModules": [],
+                                            "autogenModules": [],
+                                            "defaultLanguage": null,
+                                            "otherLanguages": [],
+                                            "defaultExtensions": [],
+                                            "otherExtensions": [],
+                                            "oldExtensions": [],
+                                            "extraLibs": [],
+                                            "extraGHCiLibs": [],
+                                            "extraBundledLibs": [],
+                                            "extraLibFlavours": [],
+                                            "extraDynLibFlavours": [],
+                                            "extraLibDirs": [],
+                                            "includeDirs": [],
+                                            "includes": [],
+                                            "autogenIncludes": [],
+                                            "installIncludes": [],
+                                            "options": [
+                                              [],
+                                              []
+                                            ],
+                                            "profOptions": [
+                                              [],
+                                              []
+                                            ],
+                                            "sharedOptions": [
+                                              [],
+                                              []
+                                            ],
+                                            "staticOptions": [
+                                              [],
+                                              []
+                                            ],
+                                            "customFieldsBI": [],
+                                            "targetBuildDepends": [],
+                                            "mixins": []
+                                          }
+                                        },
+                                        "condTreeConstraints": [],
+                                        "condTreeComponents": []
+                                      }
+                                    }
+                                  ]
+                                },
+                                "condBranchIfFalse": {
+                                  "condTreeData": {
+                                    "name": {},
+                                    "exposed-modules": [],
+                                    "re-exported-modules": [],
+                                    "signatures": [],
+                                    "exposed": true,
+                                    "visibility": "LibraryVisibilityPublic",
+                                    "build-info": {
+                                      "buildable": true,
+                                      "buildTools": [],
+                                      "buildToolDepends": [],
+                                      "cppOptions": [],
+                                      "asmOptions": [],
+                                      "cmmOptions": [],
+                                      "ccOptions": [],
+                                      "cxxOptions": [],
+                                      "ldOptions": [],
+                                      "pkgconfigDepends": [],
+                                      "frameworks": [],
+                                      "extraFrameworkDirs": [],
+                                      "asmSources": [],
+                                      "cmmSources": [],
+                                      "cSources": [],
+                                      "cxxSources": [],
+                                      "jsSources": [],
+                                      "hsSourceDirs": [],
+                                      "otherModules": [],
+                                      "virtualModules": [],
+                                      "autogenModules": [],
+                                      "defaultLanguage": null,
+                                      "otherLanguages": [],
+                                      "defaultExtensions": [],
+                                      "otherExtensions": [],
+                                      "oldExtensions": [],
+                                      "extraLibs": [
+                                        "LLVM-3.8"
+                                      ],
+                                      "extraGHCiLibs": [],
+                                      "extraBundledLibs": [],
+                                      "extraLibFlavours": [],
+                                      "extraDynLibFlavours": [],
+                                      "extraLibDirs": [],
+                                      "includeDirs": [],
+                                      "includes": [],
+                                      "autogenIncludes": [],
+                                      "installIncludes": [],
+                                      "options": [
+                                        [],
+                                        []
+                                      ],
+                                      "profOptions": [
+                                        [],
+                                        []
+                                      ],
+                                      "sharedOptions": [
+                                        [],
+                                        []
+                                      ],
+                                      "staticOptions": [
+                                        [],
+                                        []
+                                      ],
+                                      "customFieldsBI": [],
+                                      "targetBuildDepends": [],
+                                      "mixins": []
+                                    }
+                                  },
+                                  "condTreeConstraints": [],
+                                  "condTreeComponents": []
+                                }
+                              }
+                            ]
+                          }
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "executables": {
+    "llvm-ffi-example": {
+      "condTreeData": {
+        "name": "llvm-ffi-example",
+        "module-path": "JIT.hs",
+        "scope": "public",
+        "build-info": {
+          "buildable": true,
+          "buildTools": [],
+          "buildToolDepends": [],
+          "cppOptions": [],
+          "asmOptions": [],
+          "cmmOptions": [],
+          "ccOptions": [],
+          "cxxOptions": [],
+          "ldOptions": [],
+          "pkgconfigDepends": [],
+          "frameworks": [],
+          "extraFrameworkDirs": [],
+          "asmSources": [],
+          "cmmSources": [],
+          "cSources": [],
+          "cxxSources": [],
+          "jsSources": [],
+          "hsSourceDirs": [
+            "example"
+          ],
+          "otherModules": [],
+          "virtualModules": [],
+          "autogenModules": [],
+          "defaultLanguage": "Haskell2010",
+          "otherLanguages": [],
+          "defaultExtensions": [],
+          "otherExtensions": [],
+          "oldExtensions": [],
+          "extraLibs": [],
+          "extraGHCiLibs": [],
+          "extraBundledLibs": [],
+          "extraLibFlavours": [],
+          "extraDynLibFlavours": [],
+          "extraLibDirs": [],
+          "includeDirs": [],
+          "includes": [],
+          "autogenIncludes": [],
+          "installIncludes": [],
+          "options": [
+            [
+              "-Wall"
+            ],
+            []
+          ],
+          "profOptions": [
+            [],
+            []
+          ],
+          "sharedOptions": [
+            [],
+            []
+          ],
+          "staticOptions": [
+            [],
+            []
+          ],
+          "customFieldsBI": [],
+          "targetBuildDepends": [],
+          "mixins": []
+        }
+      },
+      "condTreeConstraints": [],
+      "condTreeComponents": [
+        {
+          "condBranchCondition": {
+            "v": {
+              "flag": "buildexamples"
+            }
+          },
+          "condBranchIfTrue": {
+            "condTreeData": {
+              "name": "llvm-ffi-example",
+              "module-path": "",
+              "scope": "public",
+              "build-info": {
+                "buildable": true,
+                "buildTools": [],
+                "buildToolDepends": [],
+                "cppOptions": [],
+                "asmOptions": [],
+                "cmmOptions": [],
+                "ccOptions": [],
+                "cxxOptions": [],
+                "ldOptions": [],
+                "pkgconfigDepends": [],
+                "frameworks": [],
+                "extraFrameworkDirs": [],
+                "asmSources": [],
+                "cmmSources": [],
+                "cSources": [],
+                "cxxSources": [],
+                "jsSources": [],
+                "hsSourceDirs": [],
+                "otherModules": [],
+                "virtualModules": [],
+                "autogenModules": [],
+                "defaultLanguage": null,
+                "otherLanguages": [],
+                "defaultExtensions": [],
+                "otherExtensions": [],
+                "oldExtensions": [],
+                "extraLibs": [],
+                "extraGHCiLibs": [],
+                "extraBundledLibs": [],
+                "extraLibFlavours": [],
+                "extraDynLibFlavours": [],
+                "extraLibDirs": [],
+                "includeDirs": [],
+                "includes": [],
+                "autogenIncludes": [],
+                "installIncludes": [],
+                "options": [
+                  [],
+                  []
+                ],
+                "profOptions": [
+                  [],
+                  []
+                ],
+                "sharedOptions": [
+                  [],
+                  []
+                ],
+                "staticOptions": [
+                  [],
+                  []
+                ],
+                "customFieldsBI": [],
+                "targetBuildDepends": [
+                  {
+                    "package-name": "llvm-ffi",
+                    "version-range": "-any",
+                    "library": [
+                      {}
+                    ]
+                  },
+                  {
+                    "package-name": "utility-ht",
+                    "version-range": ">=0.0.9 && <0.1",
+                    "library": [
+                      {}
+                    ]
+                  },
+                  {
+                    "package-name": "base",
+                    "version-range": "-any",
+                    "library": [
+                      {}
+                    ]
+                  }
+                ],
+                "mixins": []
+              }
+            },
+            "condTreeConstraints": [
+              {
+                "package-name": "llvm-ffi",
+                "version-range": "-any",
+                "library": [
+                  {}
+                ]
+              },
+              {
+                "package-name": "utility-ht",
+                "version-range": ">=0.0.9 && <0.1",
+                "library": [
+                  {}
+                ]
+              },
+              {
+                "package-name": "base",
+                "version-range": "-any",
+                "library": [
+                  {}
+                ]
+              }
+            ],
+            "condTreeComponents": []
+          },
+          "condBranchIfFalse": {
+            "condTreeData": {
+              "name": "llvm-ffi-example",
+              "module-path": "",
+              "scope": "public",
+              "build-info": {
+                "buildable": false,
+                "buildTools": [],
+                "buildToolDepends": [],
+                "cppOptions": [],
+                "asmOptions": [],
+                "cmmOptions": [],
+                "ccOptions": [],
+                "cxxOptions": [],
+                "ldOptions": [],
+                "pkgconfigDepends": [],
+                "frameworks": [],
+                "extraFrameworkDirs": [],
+                "asmSources": [],
+                "cmmSources": [],
+                "cSources": [],
+                "cxxSources": [],
+                "jsSources": [],
+                "hsSourceDirs": [],
+                "otherModules": [],
+                "virtualModules": [],
+                "autogenModules": [],
+                "defaultLanguage": null,
+                "otherLanguages": [],
+                "defaultExtensions": [],
+                "otherExtensions": [],
+                "oldExtensions": [],
+                "extraLibs": [],
+                "extraGHCiLibs": [],
+                "extraBundledLibs": [],
+                "extraLibFlavours": [],
+                "extraDynLibFlavours": [],
+                "extraLibDirs": [],
+                "includeDirs": [],
+                "includes": [],
+                "autogenIncludes": [],
+                "installIncludes": [],
+                "options": [
+                  [],
+                  []
+                ],
+                "profOptions": [
+                  [],
+                  []
+                ],
+                "sharedOptions": [
+                  [],
+                  []
+                ],
+                "staticOptions": [
+                  [],
+                  []
+                ],
+                "customFieldsBI": [],
+                "targetBuildDepends": [],
+                "mixins": []
+              }
+            },
+            "condTreeConstraints": [],
+            "condTreeComponents": []
+          }
+        },
+        {
+          "condBranchCondition": {
+            "v": {
+              "flag": "developer"
+            }
+          },
+          "condBranchIfTrue": {
+            "condTreeData": {
+              "name": "llvm-ffi-example",
+              "module-path": "",
+              "scope": "public",
+              "build-info": {
+                "buildable": true,
+                "buildTools": [],
+                "buildToolDepends": [],
+                "cppOptions": [],
+                "asmOptions": [],
+                "cmmOptions": [],
+                "ccOptions": [],
+                "cxxOptions": [],
+                "ldOptions": [],
+                "pkgconfigDepends": [],
+                "frameworks": [],
+                "extraFrameworkDirs": [],
+                "asmSources": [],
+                "cmmSources": [],
+                "cSources": [],
+                "cxxSources": [],
+                "jsSources": [],
+                "hsSourceDirs": [],
+                "otherModules": [],
+                "virtualModules": [],
+                "autogenModules": [],
+                "defaultLanguage": null,
+                "otherLanguages": [],
+                "defaultExtensions": [],
+                "otherExtensions": [],
+                "oldExtensions": [],
+                "extraLibs": [],
+                "extraGHCiLibs": [],
+                "extraBundledLibs": [],
+                "extraLibFlavours": [],
+                "extraDynLibFlavours": [],
+                "extraLibDirs": [],
+                "includeDirs": [],
+                "includes": [],
+                "autogenIncludes": [],
+                "installIncludes": [],
+                "options": [
+                  [
+                    "-Werror"
+                  ],
+                  []
+                ],
+                "profOptions": [
+                  [],
+                  []
+                ],
+                "sharedOptions": [
+                  [],
+                  []
+                ],
+                "staticOptions": [
+                  [],
+                  []
+                ],
+                "customFieldsBI": [],
+                "targetBuildDepends": [],
+                "mixins": []
+              }
+            },
+            "condTreeConstraints": [],
+            "condTreeComponents": []
+          }
+        }
+      ]
+    }
+  }
+}

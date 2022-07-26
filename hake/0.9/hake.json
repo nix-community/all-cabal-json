@@ -1,0 +1,340 @@
+{
+  "description": {
+    "spec-version": {
+      "Right": ">=1.2"
+    },
+    "package": {
+      "name": "hake",
+      "version": [
+        0,
+        9
+      ]
+    },
+    "license": {
+      "Right": "OtherLicense"
+    },
+    "license-files": [
+      "LICENSE"
+    ],
+    "copyright": "",
+    "maintainer": "Yoshikuni Jujo <PAF01143@nifty.ne.jp>",
+    "author": "Yoshikuni Jujo",
+    "stability": "experimental",
+    "tested-with": [
+      {
+        "compiler": "GHC",
+        "versionRange": "-any"
+      }
+    ],
+    "homepage": "http://homepage3.nifty.com/salamander/second/projects/hake/index.xhtml",
+    "pkg-url": "http://code.haskell.org/hake/",
+    "bug-reports": "",
+    "source-repos": [],
+    "synopsis": "make tool. ruby : rake = haskell : hake",
+    "description": "Like ruby's rake, hake have Hakefile which is Haskell source.\n\nAnd Hakefile is like rake's Rakefile, and make's Makefile.\n\nHakefile is just Haskell source code,\nthen you can use all Haskell features.\n\nI have changed Hakefile syntax.\nIf you want to use old Hakefile,\nput 'import Development.Hake.OldFunSet'.\n\n> import Development.Hake\n> import Development.Hake.FunSet\n> hake_rules = [\n>\n>  dflt\t[ \"greeting\" ]\n>  ,\n>  file\t[ \"greeting\", \"greeting.log\" ] [ \"hello.o\", \"good-bye.o\" ]\n> \t\t[ [ \"linker\", \"-o\", \"greeting\", \"hello.o\", \"good-bye.o\" ] ]\n>  ,\n>  rule\t\".o\" \".sfx1\" $\n> \t\t\\t s -> [ [ \"compiler1\", s, \"-o\", t ] ]\n>  ,\n>  rule\t\".o\" \".sfx2\" $\n> \t\t\\t s -> [ [ \"compiler2\", s, \"-o\", t ] ]\n>  ,\n>  task\t\"clean\"\n>       [ [ \"rm\", \"-f\", \"hello.o\", \"good-by.o\", \"greeting\", \"greeting.log\" ] ]\n>  ,\n>  mkfl\t\"script.sh\" [ \"#!/bin/sh\", \"echo This is script\", \"echo made by Hakefile\" ]\n>  ,\n>  ruleSS \"\" \".o\" $ \\t s -> [ (\".c\",  [ [ \"gcc\", s, \"-o\", t ] ] ) ,\n>                             (\".cc\", [ [ \"g++\", s, \"-o\", t ] ] ) ] )\n>  ,\n>  rule   \".o\" \".c\" $ \\_ s -> [ [ \"gcc\", \"-c\", s ] ]\n>  ,\n>  rule   \".o\" \".cc\" $ \\_ s -> [ [ \"g++\", \"-c\", s ] ]\n>  ,\n>  base   [ (==\"foo\") ] (const [ \"foo.gen\", \"Hakefile\" ]) $ \\t [s] -> [ \\_ -> do\n>               gen <- readFile s\n>               writeFile t $ unlines $\n>                 [ \"#!/bin/sh\", \"echo This is script\" ] ++ lines gen\n>               return ExitSuccess ]\n>\n>  ]\n>\n> main = hake hake_rules",
+    "category": "Development",
+    "custom-fields": [],
+    "build-type-raw": "Simple",
+    "custom-setup": null,
+    "library": null,
+    "sublibraries": [],
+    "executables": [],
+    "foreign-libs": [],
+    "test-suites": [],
+    "benchmarks": [],
+    "data-files": [],
+    "data-dir": ".",
+    "extra-source-files": [],
+    "extra-tmp-files": [],
+    "extra-doc-files": []
+  },
+  "library": {
+    "condTreeData": {
+      "name": {},
+      "exposed-modules": [
+        [
+          "Development",
+          "Hake"
+        ],
+        [
+          "Development",
+          "Hake",
+          "OldFunSet"
+        ],
+        [
+          "Development",
+          "Hake",
+          "FunSet"
+        ]
+      ],
+      "re-exported-modules": [],
+      "signatures": [],
+      "exposed": true,
+      "visibility": "LibraryVisibilityPublic",
+      "build-info": {
+        "buildable": true,
+        "buildTools": [],
+        "buildToolDepends": [],
+        "cppOptions": [],
+        "asmOptions": [],
+        "cmmOptions": [],
+        "ccOptions": [],
+        "cxxOptions": [],
+        "ldOptions": [],
+        "pkgconfigDepends": [],
+        "frameworks": [],
+        "extraFrameworkDirs": [],
+        "asmSources": [],
+        "cmmSources": [],
+        "cSources": [],
+        "cxxSources": [],
+        "jsSources": [],
+        "hsSourceDirs": [],
+        "otherModules": [
+          [
+            "Development",
+            "Hake",
+            "HiddenTools"
+          ],
+          [
+            "Development",
+            "Hake",
+            "Types"
+          ]
+        ],
+        "virtualModules": [],
+        "autogenModules": [],
+        "defaultLanguage": null,
+        "otherLanguages": [],
+        "defaultExtensions": [],
+        "otherExtensions": [],
+        "oldExtensions": [],
+        "extraLibs": [],
+        "extraGHCiLibs": [],
+        "extraBundledLibs": [],
+        "extraLibFlavours": [],
+        "extraDynLibFlavours": [],
+        "extraLibDirs": [],
+        "includeDirs": [],
+        "includes": [],
+        "autogenIncludes": [],
+        "installIncludes": [],
+        "options": [
+          [
+            "-Wall"
+          ],
+          []
+        ],
+        "profOptions": [
+          [],
+          []
+        ],
+        "sharedOptions": [
+          [],
+          []
+        ],
+        "staticOptions": [
+          [],
+          []
+        ],
+        "customFieldsBI": [],
+        "targetBuildDepends": [
+          {
+            "package-name": "base",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "old-time",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "mtl",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "filepath",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          }
+        ],
+        "mixins": []
+      }
+    },
+    "condTreeConstraints": [
+      {
+        "package-name": "base",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "old-time",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "mtl",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "filepath",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      }
+    ],
+    "condTreeComponents": []
+  },
+  "executables": {
+    "hake": {
+      "condTreeData": {
+        "name": "hake",
+        "module-path": "Main.hs",
+        "scope": "public",
+        "build-info": {
+          "buildable": true,
+          "buildTools": [],
+          "buildToolDepends": [],
+          "cppOptions": [],
+          "asmOptions": [],
+          "cmmOptions": [],
+          "ccOptions": [],
+          "cxxOptions": [],
+          "ldOptions": [],
+          "pkgconfigDepends": [],
+          "frameworks": [],
+          "extraFrameworkDirs": [],
+          "asmSources": [],
+          "cmmSources": [],
+          "cSources": [],
+          "cxxSources": [],
+          "jsSources": [],
+          "hsSourceDirs": [],
+          "otherModules": [
+            [
+              "Development",
+              "Hake",
+              "HiddenTools"
+            ]
+          ],
+          "virtualModules": [],
+          "autogenModules": [],
+          "defaultLanguage": null,
+          "otherLanguages": [],
+          "defaultExtensions": [],
+          "otherExtensions": [],
+          "oldExtensions": [],
+          "extraLibs": [],
+          "extraGHCiLibs": [],
+          "extraBundledLibs": [],
+          "extraLibFlavours": [],
+          "extraDynLibFlavours": [],
+          "extraLibDirs": [],
+          "includeDirs": [],
+          "includes": [],
+          "autogenIncludes": [],
+          "installIncludes": [],
+          "options": [
+            [
+              "-Wall"
+            ],
+            []
+          ],
+          "profOptions": [
+            [],
+            []
+          ],
+          "sharedOptions": [
+            [],
+            []
+          ],
+          "staticOptions": [
+            [],
+            []
+          ],
+          "customFieldsBI": [],
+          "targetBuildDepends": [
+            {
+              "package-name": "directory",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "process",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "yjtools",
+              "version-range": ">=0.6",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "regexpr",
+              "version-range": ">=0.3",
+              "library": [
+                {}
+              ]
+            }
+          ],
+          "mixins": []
+        }
+      },
+      "condTreeConstraints": [
+        {
+          "package-name": "directory",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "process",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "yjtools",
+          "version-range": ">=0.6",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "regexpr",
+          "version-range": ">=0.3",
+          "library": [
+            {}
+          ]
+        }
+      ],
+      "condTreeComponents": []
+    }
+  }
+}

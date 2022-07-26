@@ -1,0 +1,693 @@
+{
+  "description": {
+    "spec-version": {
+      "Right": ">=1.10"
+    },
+    "package": {
+      "name": "vivid",
+      "version": [
+        0,
+        5,
+        1,
+        0
+      ]
+    },
+    "license": {
+      "Right": "OtherLicense"
+    },
+    "license-files": [],
+    "copyright": "",
+    "maintainer": "Tom Murphy",
+    "author": "Tom Murphy",
+    "stability": "experimental",
+    "tested-with": [],
+    "homepage": "",
+    "pkg-url": "",
+    "bug-reports": "",
+    "source-repos": [],
+    "synopsis": "Sound synthesis with SuperCollider",
+    "description": "Music and sound synthesis with SuperCollider.\n\nExample usage (after installing and booting SuperCollider):\n\n@\n&#123;&#45;\\# LANGUAGE DataKinds, ExtendedDefaultRules \\#&#45;&#125;\n@\n\n> import Vivid\n>\n> playSong :: VividAction m => m ()\n> playSong = do\n>    fork $ do\n>       s0 <- synth theSound (36 ::I \"note\")\n>       wait 1\n>       free s0\n>    s1 <- synth theSound (60 ::I \"note\")\n>    forM_ [62,66,64] $ \\note -> do\n>       wait (1/4)\n>       set s1 (note ::I \"note\")\n>    wait (1/4)\n>    free s1\n>\n> theSound :: SynthDef '[\"note\"]\n> theSound = sd (0 ::I \"note\") $ do\n>    wobble <- sinOsc (freq_ 5) ? KR ~* 10 ~+ 10\n>    s <- 0.1 ~* sinOsc (freq_ $ midiCPS (V::V \"note\") ~+ wobble)\n>    out 0 [s,s]\n>\n> main :: IO ()\n> main = do\n>    putStrLn \"Simplest:\"\n>    playSong\n>\n>    putStrLn \"With precise timing:\"\n>    doScheduledIn 0.1 playSong\n>    wait 1\n>\n>    putStrLn \"Written to a file, non-realtime synthesis:\"\n>    putStrLn \"(Need to quit the running server for NRT)\"\n>    quitSCServer\n>    writeNRT \"song.wav\" playSong",
+    "category": "Audio, Music, Sound",
+    "custom-fields": [],
+    "build-type-raw": "Simple",
+    "custom-setup": null,
+    "library": null,
+    "sublibraries": [],
+    "executables": [],
+    "foreign-libs": [],
+    "test-suites": [],
+    "benchmarks": [],
+    "data-files": [],
+    "data-dir": ".",
+    "extra-source-files": [
+      "README.md"
+    ],
+    "extra-tmp-files": [],
+    "extra-doc-files": []
+  },
+  "library": {
+    "condTreeData": {
+      "name": {},
+      "exposed-modules": [
+        [
+          "Vivid"
+        ],
+        [
+          "Vivid",
+          "Actions"
+        ],
+        [
+          "Vivid",
+          "Actions",
+          "Class"
+        ],
+        [
+          "Vivid",
+          "Actions",
+          "IO"
+        ],
+        [
+          "Vivid",
+          "Actions",
+          "NRT"
+        ],
+        [
+          "Vivid",
+          "Actions",
+          "Scheduled"
+        ],
+        [
+          "Vivid",
+          "ByteBeat"
+        ],
+        [
+          "Vivid",
+          "Envelopes"
+        ],
+        [
+          "Vivid",
+          "GlobalState"
+        ],
+        [
+          "Vivid",
+          "NoGlobalState"
+        ],
+        [
+          "Vivid",
+          "NoPlugins"
+        ],
+        [
+          "Vivid",
+          "NoPluginsNoGlobalState"
+        ],
+        [
+          "Vivid",
+          "OSC",
+          "Bundles"
+        ],
+        [
+          "Vivid",
+          "Randomness"
+        ],
+        [
+          "Vivid",
+          "SCServer"
+        ],
+        [
+          "Vivid",
+          "SCServer",
+          "Connection"
+        ],
+        [
+          "Vivid",
+          "SCServer",
+          "State"
+        ],
+        [
+          "Vivid",
+          "SCServer",
+          "Types"
+        ],
+        [
+          "Vivid",
+          "SynthDef"
+        ],
+        [
+          "Vivid",
+          "SynthDef",
+          "FromUA"
+        ],
+        [
+          "Vivid",
+          "SynthDef",
+          "ToSig"
+        ],
+        [
+          "Vivid",
+          "SynthDef",
+          "Types"
+        ],
+        [
+          "Vivid",
+          "SynthDef",
+          "TypesafeArgs"
+        ],
+        [
+          "Vivid",
+          "UGens"
+        ],
+        [
+          "Vivid",
+          "UGens",
+          "Algebraic"
+        ],
+        [
+          "Vivid",
+          "UGens",
+          "Analysis"
+        ],
+        [
+          "Vivid",
+          "UGens",
+          "Args"
+        ],
+        [
+          "Vivid",
+          "UGens",
+          "Buffer"
+        ],
+        [
+          "Vivid",
+          "UGens",
+          "Conversion"
+        ],
+        [
+          "Vivid",
+          "UGens",
+          "Convolution"
+        ],
+        [
+          "Vivid",
+          "UGens",
+          "Delays"
+        ],
+        [
+          "Vivid",
+          "UGens",
+          "Demand"
+        ],
+        [
+          "Vivid",
+          "UGens",
+          "Dynamics"
+        ],
+        [
+          "Vivid",
+          "UGens",
+          "Envelopes"
+        ],
+        [
+          "Vivid",
+          "UGens",
+          "Examples"
+        ],
+        [
+          "Vivid",
+          "UGens",
+          "FFT"
+        ],
+        [
+          "Vivid",
+          "UGens",
+          "Filters"
+        ],
+        [
+          "Vivid",
+          "UGens",
+          "Filters",
+          "BEQSuite"
+        ],
+        [
+          "Vivid",
+          "UGens",
+          "Filters",
+          "Linear"
+        ],
+        [
+          "Vivid",
+          "UGens",
+          "Filters",
+          "Nonlinear"
+        ],
+        [
+          "Vivid",
+          "UGens",
+          "Filters",
+          "Pitch"
+        ],
+        [
+          "Vivid",
+          "UGens",
+          "Generators",
+          "Chaotic"
+        ],
+        [
+          "Vivid",
+          "UGens",
+          "Generators",
+          "Deterministic"
+        ],
+        [
+          "Vivid",
+          "UGens",
+          "Generators",
+          "Granular"
+        ],
+        [
+          "Vivid",
+          "UGens",
+          "Generators",
+          "SingleValue"
+        ],
+        [
+          "Vivid",
+          "UGens",
+          "Generators",
+          "Stochastic"
+        ],
+        [
+          "Vivid",
+          "UGens",
+          "Info"
+        ],
+        [
+          "Vivid",
+          "UGens",
+          "InOut"
+        ],
+        [
+          "Vivid",
+          "UGens",
+          "Maths"
+        ],
+        [
+          "Vivid",
+          "UGens",
+          "Multichannel"
+        ],
+        [
+          "Vivid",
+          "UGens",
+          "Random"
+        ],
+        [
+          "Vivid",
+          "UGens",
+          "Reverbs"
+        ],
+        [
+          "Vivid",
+          "UGens",
+          "SynthControl"
+        ],
+        [
+          "Vivid",
+          "UGens",
+          "Triggers"
+        ],
+        [
+          "Vivid",
+          "UGens",
+          "Undocumented"
+        ],
+        [
+          "Vivid",
+          "UGens",
+          "UserInteraction"
+        ]
+      ],
+      "re-exported-modules": [],
+      "signatures": [],
+      "exposed": true,
+      "visibility": "LibraryVisibilityPublic",
+      "build-info": {
+        "buildable": true,
+        "buildTools": [],
+        "buildToolDepends": [],
+        "cppOptions": [],
+        "asmOptions": [],
+        "cmmOptions": [],
+        "ccOptions": [],
+        "cxxOptions": [],
+        "ldOptions": [],
+        "pkgconfigDepends": [],
+        "frameworks": [],
+        "extraFrameworkDirs": [],
+        "asmSources": [],
+        "cmmSources": [],
+        "cSources": [],
+        "cxxSources": [],
+        "jsSources": [],
+        "hsSourceDirs": [],
+        "otherModules": [],
+        "virtualModules": [],
+        "autogenModules": [],
+        "defaultLanguage": "Haskell2010",
+        "otherLanguages": [],
+        "defaultExtensions": [],
+        "otherExtensions": [],
+        "oldExtensions": [],
+        "extraLibs": [],
+        "extraGHCiLibs": [],
+        "extraBundledLibs": [],
+        "extraLibFlavours": [],
+        "extraDynLibFlavours": [],
+        "extraLibDirs": [],
+        "includeDirs": [],
+        "includes": [],
+        "autogenIncludes": [],
+        "installIncludes": [],
+        "options": [
+          [
+            "-O2",
+            "-fconstraint-solver-iterations=0"
+          ],
+          []
+        ],
+        "profOptions": [
+          [],
+          []
+        ],
+        "sharedOptions": [
+          [],
+          []
+        ],
+        "staticOptions": [
+          [],
+          []
+        ],
+        "customFieldsBI": [],
+        "targetBuildDepends": [
+          {
+            "package-name": "base",
+            "version-range": ">3 && <5",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "binary",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "bytestring",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "cereal",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "containers",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "directory",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "filepath",
+            "version-range": ">=1.0",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "hashable",
+            "version-range": ">=1.2.0.6",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "MonadRandom",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "mtl",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "network",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "process",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "random",
+            "version-range": ">=1.1",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "random-shuffle",
+            "version-range": ">=0.0.3",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "split",
+            "version-range": ">=0.2.0.0",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "stm",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "time",
+            "version-range": ">=1.2",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "transformers",
+            "version-range": ">=0.2.0.0",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "utf8-string",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "vivid-osc",
+            "version-range": ">=0.4 && <0.6",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "vivid-supercollider",
+            "version-range": "==0.4.*",
+            "library": [
+              {}
+            ]
+          }
+        ],
+        "mixins": []
+      }
+    },
+    "condTreeConstraints": [
+      {
+        "package-name": "base",
+        "version-range": ">3 && <5",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "binary",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "bytestring",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "cereal",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "containers",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "directory",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "filepath",
+        "version-range": ">=1.0",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "hashable",
+        "version-range": ">=1.2.0.6",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "MonadRandom",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "mtl",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "network",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "process",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "random",
+        "version-range": ">=1.1",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "random-shuffle",
+        "version-range": ">=0.0.3",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "split",
+        "version-range": ">=0.2.0.0",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "stm",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "time",
+        "version-range": ">=1.2",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "transformers",
+        "version-range": ">=0.2.0.0",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "utf8-string",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "vivid-osc",
+        "version-range": ">=0.4 && <0.6",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "vivid-supercollider",
+        "version-range": "==0.4.*",
+        "library": [
+          {}
+        ]
+      }
+    ],
+    "condTreeComponents": []
+  }
+}

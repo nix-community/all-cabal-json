@@ -1,0 +1,1422 @@
+{
+  "description": {
+    "spec-version": {
+      "Right": ">=1.10"
+    },
+    "package": {
+      "name": "io-streams",
+      "version": [
+        1,
+        2,
+        0,
+        0
+      ]
+    },
+    "license": {
+      "Right": "BSD3"
+    },
+    "license-files": [
+      "LICENSE"
+    ],
+    "copyright": "",
+    "maintainer": "Gregory Collins <greg@gregorycollins.net>",
+    "author": "",
+    "stability": "",
+    "tested-with": [
+      {
+        "compiler": "GHC",
+        "versionRange": "==7.8.2"
+      },
+      {
+        "compiler": "GHC",
+        "versionRange": "==7.6.2"
+      },
+      {
+        "compiler": "GHC",
+        "versionRange": "==7.6.1"
+      },
+      {
+        "compiler": "GHC",
+        "versionRange": "==7.4.2"
+      },
+      {
+        "compiler": "GHC",
+        "versionRange": "==7.4.1"
+      },
+      {
+        "compiler": "GHC",
+        "versionRange": "==7.2.2"
+      },
+      {
+        "compiler": "GHC",
+        "versionRange": "==7.0.4"
+      }
+    ],
+    "homepage": "",
+    "pkg-url": "",
+    "bug-reports": "https://github.com/snapframework/io-streams/issues",
+    "source-repos": [
+      {
+        "kind": {},
+        "type": "Git",
+        "location": "https://github.com/snapframework/io-streams.git",
+        "module": null,
+        "branch": null,
+        "tag": null,
+        "subdir": null
+      }
+    ],
+    "synopsis": "Simple, composable, and easy-to-use stream I/O",
+    "description": "/Overview/\n\nThe io-streams library contains simple and easy-to-use primitives for I/O\nusing streams. Most users will want to import the top-level convenience\nmodule \"System.IO.Streams\", which re-exports most of the library:\n\n@\nimport           System.IO.Streams (InputStream, OutputStream)\nimport qualified System.IO.Streams as Streams\n@\n\nFor first-time users, @io-streams@ comes with an included tutorial, which can\nbe found in the \"System.IO.Streams.Tutorial\" module.\n\n/Features/\n\nThe @io-streams@ user API has two basic types: @InputStream a@ and\n@OutputStream a@, and three fundamental I/O primitives:\n\n@\n\\-\\- read an item from an input stream\nStreams.read :: InputStream a -> IO (Maybe a)\n\n\\-\\- push an item back to an input stream\nStreams.unRead :: a -> InputStream a -> IO ()\n\n\\-\\- write to an output stream\nStreams.write :: Maybe a -> OutputStream a -> IO ()\n@\n\nStreams can be transformed by composition and hooked together with provided combinators:\n\n@\nghci> Streams.fromList [1,2,3::Int] >>= Streams.map (*10) >>= Streams.toList\n[10,20,30]\n@\n\nStream composition leaves the original stream accessible:\n\n@\nghci> input \\<- Streams.fromByteString \\\"long string\\\"\nghci> wrapped \\<- Streams.takeBytes 4 input\nghci> Streams.read wrapped\nJust \\\"long\\\"\nghci> Streams.read wrapped\nNothing\nghci> Streams.read input\nJust \\\" string\\\"\n@\n\nSimple types and operations in the IO monad mean straightforward and simple\nexception handling and resource cleanup using Haskell standard library\nfacilities like 'Control.Exception.bracket'.\n\n@io-streams@ comes with:\n\n* functions to use files, handles, concurrent channels, sockets, lists,\nvectors, and more as streams.\n\n* a variety of combinators for wrapping and transforming streams, including\ncompression and decompression using zlib, controlling precisely how many\nbytes are read from or written to a stream, buffering output using\nbytestring builders, folds, maps, filters, zips, etc.\n\n* support for parsing from streams using @attoparsec@.\n\n* support for spawning processes and communicating with them using streams.",
+    "category": "Data, Network, IO-Streams",
+    "custom-fields": [
+      [
+        "x-revision",
+        "1"
+      ]
+    ],
+    "build-type-raw": "Simple",
+    "custom-setup": null,
+    "library": null,
+    "sublibraries": [],
+    "executables": [],
+    "foreign-libs": [],
+    "test-suites": [],
+    "benchmarks": [],
+    "data-files": [],
+    "data-dir": ".",
+    "extra-source-files": [
+      "CONTRIBUTORS",
+      "README.md",
+      "changelog.md"
+    ],
+    "extra-tmp-files": [],
+    "extra-doc-files": []
+  },
+  "package-flags": [
+    {
+      "name": "nointeractivetests",
+      "description": "Do not run interactive tests",
+      "default": false,
+      "manual": false
+    }
+  ],
+  "library": {
+    "condTreeData": {
+      "name": {},
+      "exposed-modules": [
+        [
+          "System",
+          "IO",
+          "Streams"
+        ],
+        [
+          "System",
+          "IO",
+          "Streams",
+          "Attoparsec"
+        ],
+        [
+          "System",
+          "IO",
+          "Streams",
+          "Builder"
+        ],
+        [
+          "System",
+          "IO",
+          "Streams",
+          "ByteString"
+        ],
+        [
+          "System",
+          "IO",
+          "Streams",
+          "Combinators"
+        ],
+        [
+          "System",
+          "IO",
+          "Streams",
+          "Concurrent"
+        ],
+        [
+          "System",
+          "IO",
+          "Streams",
+          "Core"
+        ],
+        [
+          "System",
+          "IO",
+          "Streams",
+          "Debug"
+        ],
+        [
+          "System",
+          "IO",
+          "Streams",
+          "Handle"
+        ],
+        [
+          "System",
+          "IO",
+          "Streams",
+          "File"
+        ],
+        [
+          "System",
+          "IO",
+          "Streams",
+          "List"
+        ],
+        [
+          "System",
+          "IO",
+          "Streams",
+          "Network"
+        ],
+        [
+          "System",
+          "IO",
+          "Streams",
+          "Process"
+        ],
+        [
+          "System",
+          "IO",
+          "Streams",
+          "Text"
+        ],
+        [
+          "System",
+          "IO",
+          "Streams",
+          "Vector"
+        ],
+        [
+          "System",
+          "IO",
+          "Streams",
+          "Zlib"
+        ],
+        [
+          "System",
+          "IO",
+          "Streams",
+          "Internal"
+        ],
+        [
+          "System",
+          "IO",
+          "Streams",
+          "Tutorial"
+        ]
+      ],
+      "re-exported-modules": [],
+      "signatures": [],
+      "exposed": true,
+      "visibility": "LibraryVisibilityPublic",
+      "build-info": {
+        "buildable": true,
+        "buildTools": [],
+        "buildToolDepends": [],
+        "cppOptions": [],
+        "asmOptions": [],
+        "cmmOptions": [],
+        "ccOptions": [],
+        "cxxOptions": [],
+        "ldOptions": [],
+        "pkgconfigDepends": [],
+        "frameworks": [],
+        "extraFrameworkDirs": [],
+        "asmSources": [],
+        "cmmSources": [],
+        "cSources": [],
+        "cxxSources": [],
+        "jsSources": [],
+        "hsSourceDirs": [
+          "src"
+        ],
+        "otherModules": [
+          [
+            "System",
+            "IO",
+            "Streams",
+            "Internal",
+            "Attoparsec"
+          ],
+          [
+            "System",
+            "IO",
+            "Streams",
+            "Internal",
+            "Network"
+          ],
+          [
+            "System",
+            "IO",
+            "Streams",
+            "Internal",
+            "Search"
+          ]
+        ],
+        "virtualModules": [],
+        "autogenModules": [],
+        "defaultLanguage": "Haskell2010",
+        "otherLanguages": [],
+        "defaultExtensions": [],
+        "otherExtensions": [
+          {
+            "enable-extension": "BangPatterns"
+          },
+          {
+            "enable-extension": "CPP"
+          },
+          {
+            "enable-extension": "DeriveDataTypeable"
+          },
+          {
+            "enable-extension": "FlexibleInstances"
+          },
+          {
+            "enable-extension": "GeneralizedNewtypeDeriving"
+          },
+          {
+            "enable-extension": "MultiParamTypeClasses"
+          },
+          {
+            "enable-extension": "OverloadedStrings"
+          },
+          {
+            "enable-extension": "RankNTypes"
+          },
+          {
+            "enable-extension": "TypeSynonymInstances"
+          }
+        ],
+        "oldExtensions": [],
+        "extraLibs": [],
+        "extraGHCiLibs": [],
+        "extraBundledLibs": [],
+        "extraLibFlavours": [],
+        "extraDynLibFlavours": [],
+        "extraLibDirs": [],
+        "includeDirs": [],
+        "includes": [],
+        "autogenIncludes": [],
+        "installIncludes": [],
+        "options": [
+          [
+            "-Wall",
+            "-fwarn-tabs",
+            "-funbox-strict-fields",
+            "-fno-warn-unused-do-bind"
+          ],
+          []
+        ],
+        "profOptions": [
+          [
+            "-prof",
+            "-auto-all"
+          ],
+          []
+        ],
+        "sharedOptions": [
+          [],
+          []
+        ],
+        "staticOptions": [
+          [],
+          []
+        ],
+        "customFieldsBI": [],
+        "targetBuildDepends": [
+          {
+            "package-name": "base",
+            "version-range": ">=4 && <5",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "attoparsec",
+            "version-range": ">=0.10 && <0.13",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "blaze-builder",
+            "version-range": ">=0.3.1 && <0.4",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "bytestring",
+            "version-range": ">=0.9 && <0.11",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "network",
+            "version-range": ">=2.3 && <2.7",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "primitive",
+            "version-range": ">=0.2 && <0.6",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "process",
+            "version-range": ">=1.1 && <1.3",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "text",
+            "version-range": ">=0.10 && <1.3",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "time",
+            "version-range": ">=1.2 && <1.5",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "transformers",
+            "version-range": ">=0.2 && <0.5",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "vector",
+            "version-range": ">=0.7 && <0.11",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "zlib-bindings",
+            "version-range": ">=0.1 && <0.2",
+            "library": [
+              {}
+            ]
+          }
+        ],
+        "mixins": []
+      }
+    },
+    "condTreeConstraints": [
+      {
+        "package-name": "base",
+        "version-range": ">=4 && <5",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "attoparsec",
+        "version-range": ">=0.10 && <0.13",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "blaze-builder",
+        "version-range": ">=0.3.1 && <0.4",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "bytestring",
+        "version-range": ">=0.9 && <0.11",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "network",
+        "version-range": ">=2.3 && <2.7",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "primitive",
+        "version-range": ">=0.2 && <0.6",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "process",
+        "version-range": ">=1.1 && <1.3",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "text",
+        "version-range": ">=0.10 && <1.3",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "time",
+        "version-range": ">=1.2 && <1.5",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "transformers",
+        "version-range": ">=0.2 && <0.5",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "vector",
+        "version-range": ">=0.7 && <0.11",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "zlib-bindings",
+        "version-range": ">=0.1 && <0.2",
+        "library": [
+          {}
+        ]
+      }
+    ],
+    "condTreeComponents": [
+      {
+        "condBranchCondition": {
+          "v": {
+            "compiler": "GHC",
+            "version": ">=7.2"
+          }
+        },
+        "condBranchIfTrue": {
+          "condTreeData": {
+            "name": {},
+            "exposed-modules": [],
+            "re-exported-modules": [],
+            "signatures": [],
+            "exposed": true,
+            "visibility": "LibraryVisibilityPublic",
+            "build-info": {
+              "buildable": true,
+              "buildTools": [],
+              "buildToolDepends": [],
+              "cppOptions": [],
+              "asmOptions": [],
+              "cmmOptions": [],
+              "ccOptions": [],
+              "cxxOptions": [],
+              "ldOptions": [],
+              "pkgconfigDepends": [],
+              "frameworks": [],
+              "extraFrameworkDirs": [],
+              "asmSources": [],
+              "cmmSources": [],
+              "cSources": [],
+              "cxxSources": [],
+              "jsSources": [],
+              "hsSourceDirs": [],
+              "otherModules": [],
+              "virtualModules": [],
+              "autogenModules": [],
+              "defaultLanguage": null,
+              "otherLanguages": [],
+              "defaultExtensions": [],
+              "otherExtensions": [
+                {
+                  "enable-extension": "Trustworthy"
+                }
+              ],
+              "oldExtensions": [],
+              "extraLibs": [],
+              "extraGHCiLibs": [],
+              "extraBundledLibs": [],
+              "extraLibFlavours": [],
+              "extraDynLibFlavours": [],
+              "extraLibDirs": [],
+              "includeDirs": [],
+              "includes": [],
+              "autogenIncludes": [],
+              "installIncludes": [],
+              "options": [
+                [],
+                []
+              ],
+              "profOptions": [
+                [],
+                []
+              ],
+              "sharedOptions": [
+                [],
+                []
+              ],
+              "staticOptions": [
+                [],
+                []
+              ],
+              "customFieldsBI": [],
+              "targetBuildDepends": [],
+              "mixins": []
+            }
+          },
+          "condTreeConstraints": [],
+          "condTreeComponents": []
+        }
+      }
+    ]
+  },
+  "test-suites": {
+    "testsuite": {
+      "condTreeData": {
+        "name": "",
+        "interface": {
+          "version": [
+            1,
+            0
+          ],
+          "filepath": "TestSuite.hs"
+        },
+        "build-info": {
+          "buildable": true,
+          "buildTools": [],
+          "buildToolDepends": [],
+          "cppOptions": [],
+          "asmOptions": [],
+          "cmmOptions": [],
+          "ccOptions": [],
+          "cxxOptions": [],
+          "ldOptions": [],
+          "pkgconfigDepends": [],
+          "frameworks": [],
+          "extraFrameworkDirs": [],
+          "asmSources": [],
+          "cmmSources": [],
+          "cSources": [],
+          "cxxSources": [],
+          "jsSources": [],
+          "hsSourceDirs": [
+            "src",
+            "test"
+          ],
+          "otherModules": [
+            [
+              "System",
+              "IO",
+              "Streams",
+              "Tests",
+              "Attoparsec"
+            ],
+            [
+              "System",
+              "IO",
+              "Streams",
+              "Tests",
+              "Builder"
+            ],
+            [
+              "System",
+              "IO",
+              "Streams",
+              "Tests",
+              "ByteString"
+            ],
+            [
+              "System",
+              "IO",
+              "Streams",
+              "Tests",
+              "Combinators"
+            ],
+            [
+              "System",
+              "IO",
+              "Streams",
+              "Tests",
+              "Common"
+            ],
+            [
+              "System",
+              "IO",
+              "Streams",
+              "Tests",
+              "Concurrent"
+            ],
+            [
+              "System",
+              "IO",
+              "Streams",
+              "Tests",
+              "Debug"
+            ],
+            [
+              "System",
+              "IO",
+              "Streams",
+              "Tests",
+              "File"
+            ],
+            [
+              "System",
+              "IO",
+              "Streams",
+              "Tests",
+              "Handle"
+            ],
+            [
+              "System",
+              "IO",
+              "Streams",
+              "Tests",
+              "Internal"
+            ],
+            [
+              "System",
+              "IO",
+              "Streams",
+              "Tests",
+              "List"
+            ],
+            [
+              "System",
+              "IO",
+              "Streams",
+              "Tests",
+              "Network"
+            ],
+            [
+              "System",
+              "IO",
+              "Streams",
+              "Tests",
+              "Process"
+            ],
+            [
+              "System",
+              "IO",
+              "Streams",
+              "Tests",
+              "Text"
+            ],
+            [
+              "System",
+              "IO",
+              "Streams",
+              "Tests",
+              "Vector"
+            ],
+            [
+              "System",
+              "IO",
+              "Streams",
+              "Tests",
+              "Zlib"
+            ],
+            [
+              "System",
+              "IO",
+              "Streams"
+            ],
+            [
+              "System",
+              "IO",
+              "Streams",
+              "Attoparsec"
+            ],
+            [
+              "System",
+              "IO",
+              "Streams",
+              "Builder"
+            ],
+            [
+              "System",
+              "IO",
+              "Streams",
+              "ByteString"
+            ],
+            [
+              "System",
+              "IO",
+              "Streams",
+              "Combinators"
+            ],
+            [
+              "System",
+              "IO",
+              "Streams",
+              "Concurrent"
+            ],
+            [
+              "System",
+              "IO",
+              "Streams",
+              "Core"
+            ],
+            [
+              "System",
+              "IO",
+              "Streams",
+              "Debug"
+            ],
+            [
+              "System",
+              "IO",
+              "Streams",
+              "Handle"
+            ],
+            [
+              "System",
+              "IO",
+              "Streams",
+              "File"
+            ],
+            [
+              "System",
+              "IO",
+              "Streams",
+              "List"
+            ],
+            [
+              "System",
+              "IO",
+              "Streams",
+              "Network"
+            ],
+            [
+              "System",
+              "IO",
+              "Streams",
+              "Process"
+            ],
+            [
+              "System",
+              "IO",
+              "Streams",
+              "Text"
+            ],
+            [
+              "System",
+              "IO",
+              "Streams",
+              "Vector"
+            ],
+            [
+              "System",
+              "IO",
+              "Streams",
+              "Zlib"
+            ],
+            [
+              "System",
+              "IO",
+              "Streams",
+              "Internal"
+            ],
+            [
+              "System",
+              "IO",
+              "Streams",
+              "Internal",
+              "Attoparsec"
+            ],
+            [
+              "System",
+              "IO",
+              "Streams",
+              "Internal",
+              "Network"
+            ],
+            [
+              "System",
+              "IO",
+              "Streams",
+              "Internal",
+              "Search"
+            ]
+          ],
+          "virtualModules": [],
+          "autogenModules": [],
+          "defaultLanguage": "Haskell2010",
+          "otherLanguages": [],
+          "defaultExtensions": [],
+          "otherExtensions": [
+            {
+              "enable-extension": "BangPatterns"
+            },
+            {
+              "enable-extension": "CPP"
+            },
+            {
+              "enable-extension": "DeriveDataTypeable"
+            },
+            {
+              "enable-extension": "FlexibleInstances"
+            },
+            {
+              "enable-extension": "GeneralizedNewtypeDeriving"
+            },
+            {
+              "enable-extension": "MultiParamTypeClasses"
+            },
+            {
+              "enable-extension": "OverloadedStrings"
+            },
+            {
+              "enable-extension": "RankNTypes"
+            }
+          ],
+          "oldExtensions": [],
+          "extraLibs": [],
+          "extraGHCiLibs": [],
+          "extraBundledLibs": [],
+          "extraLibFlavours": [],
+          "extraDynLibFlavours": [],
+          "extraLibDirs": [],
+          "includeDirs": [],
+          "includes": [],
+          "autogenIncludes": [],
+          "installIncludes": [],
+          "options": [
+            [
+              "-Wall",
+              "-fhpc",
+              "-fwarn-tabs",
+              "-funbox-strict-fields",
+              "-threaded",
+              "-fno-warn-unused-do-bind"
+            ],
+            []
+          ],
+          "profOptions": [
+            [
+              "-prof",
+              "-auto-all"
+            ],
+            []
+          ],
+          "sharedOptions": [
+            [],
+            []
+          ],
+          "staticOptions": [
+            [],
+            []
+          ],
+          "customFieldsBI": [],
+          "targetBuildDepends": [
+            {
+              "package-name": "base",
+              "version-range": ">=4 && <5",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "attoparsec",
+              "version-range": ">=0.10 && <0.13",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "blaze-builder",
+              "version-range": ">=0.3.1 && <0.4",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "bytestring",
+              "version-range": ">=0.9 && <0.11",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "deepseq",
+              "version-range": ">=1.2 && <1.4",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "directory",
+              "version-range": ">=1.1 && <2",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "filepath",
+              "version-range": ">=1.2 && <2",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "mtl",
+              "version-range": ">=2 && <3",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "network",
+              "version-range": ">=2.3 && <2.7",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "primitive",
+              "version-range": ">=0.2 && <0.6",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "process",
+              "version-range": ">=1 && <1.3",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "text",
+              "version-range": ">=0.10 && <1.3",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "time",
+              "version-range": ">=1.2 && <1.5",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "transformers",
+              "version-range": ">=0.2 && <0.5",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "vector",
+              "version-range": ">=0.7 && <0.11",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "zlib-bindings",
+              "version-range": ">=0.1 && <0.2",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "HUnit",
+              "version-range": ">=1.2 && <2",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "QuickCheck",
+              "version-range": ">=2.3.0.2 && <3",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "test-framework",
+              "version-range": ">=0.6 && <0.9",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "test-framework-hunit",
+              "version-range": ">=0.2.7 && <0.4",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "test-framework-quickcheck2",
+              "version-range": ">=0.2.12.1 && <0.4",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "zlib",
+              "version-range": ">=0.5 && <0.6",
+              "library": [
+                {}
+              ]
+            }
+          ],
+          "mixins": []
+        }
+      },
+      "condTreeConstraints": [
+        {
+          "package-name": "base",
+          "version-range": ">=4 && <5",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "attoparsec",
+          "version-range": ">=0.10 && <0.13",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "blaze-builder",
+          "version-range": ">=0.3.1 && <0.4",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "bytestring",
+          "version-range": ">=0.9 && <0.11",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "deepseq",
+          "version-range": ">=1.2 && <1.4",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "directory",
+          "version-range": ">=1.1 && <2",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "filepath",
+          "version-range": ">=1.2 && <2",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "mtl",
+          "version-range": ">=2 && <3",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "network",
+          "version-range": ">=2.3 && <2.7",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "primitive",
+          "version-range": ">=0.2 && <0.6",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "process",
+          "version-range": ">=1 && <1.3",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "text",
+          "version-range": ">=0.10 && <1.3",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "time",
+          "version-range": ">=1.2 && <1.5",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "transformers",
+          "version-range": ">=0.2 && <0.5",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "vector",
+          "version-range": ">=0.7 && <0.11",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "zlib-bindings",
+          "version-range": ">=0.1 && <0.2",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "HUnit",
+          "version-range": ">=1.2 && <2",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "QuickCheck",
+          "version-range": ">=2.3.0.2 && <3",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "test-framework",
+          "version-range": ">=0.6 && <0.9",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "test-framework-hunit",
+          "version-range": ">=0.2.7 && <0.4",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "test-framework-quickcheck2",
+          "version-range": ">=0.2.12.1 && <0.4",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "zlib",
+          "version-range": ">=0.5 && <0.6",
+          "library": [
+            {}
+          ]
+        }
+      ],
+      "condTreeComponents": [
+        {
+          "condBranchCondition": {
+            "cond12": {
+              "cond": {
+                "v": {
+                  "os": "Windows"
+                }
+              }
+            },
+            "cond22": {
+              "cond": {
+                "v": {
+                  "flag": "nointeractivetests"
+                }
+              }
+            }
+          },
+          "condBranchIfTrue": {
+            "condTreeData": {
+              "name": "",
+              "interface": {
+                "type": {
+                  "name": "",
+                  "version": []
+                }
+              },
+              "build-info": {
+                "buildable": true,
+                "buildTools": [],
+                "buildToolDepends": [],
+                "cppOptions": [
+                  "-DENABLE_PROCESS_TESTS"
+                ],
+                "asmOptions": [],
+                "cmmOptions": [],
+                "ccOptions": [],
+                "cxxOptions": [],
+                "ldOptions": [],
+                "pkgconfigDepends": [],
+                "frameworks": [],
+                "extraFrameworkDirs": [],
+                "asmSources": [],
+                "cmmSources": [],
+                "cSources": [],
+                "cxxSources": [],
+                "jsSources": [],
+                "hsSourceDirs": [],
+                "otherModules": [],
+                "virtualModules": [],
+                "autogenModules": [],
+                "defaultLanguage": null,
+                "otherLanguages": [],
+                "defaultExtensions": [],
+                "otherExtensions": [],
+                "oldExtensions": [],
+                "extraLibs": [],
+                "extraGHCiLibs": [],
+                "extraBundledLibs": [],
+                "extraLibFlavours": [],
+                "extraDynLibFlavours": [],
+                "extraLibDirs": [],
+                "includeDirs": [],
+                "includes": [],
+                "autogenIncludes": [],
+                "installIncludes": [],
+                "options": [
+                  [],
+                  []
+                ],
+                "profOptions": [
+                  [],
+                  []
+                ],
+                "sharedOptions": [
+                  [],
+                  []
+                ],
+                "staticOptions": [
+                  [],
+                  []
+                ],
+                "customFieldsBI": [],
+                "targetBuildDepends": [],
+                "mixins": []
+              }
+            },
+            "condTreeConstraints": [],
+            "condTreeComponents": []
+          }
+        },
+        {
+          "condBranchCondition": {
+            "v": {
+              "compiler": "GHC",
+              "version": ">=7.2"
+            }
+          },
+          "condBranchIfTrue": {
+            "condTreeData": {
+              "name": "",
+              "interface": {
+                "type": {
+                  "name": "",
+                  "version": []
+                }
+              },
+              "build-info": {
+                "buildable": true,
+                "buildTools": [],
+                "buildToolDepends": [],
+                "cppOptions": [],
+                "asmOptions": [],
+                "cmmOptions": [],
+                "ccOptions": [],
+                "cxxOptions": [],
+                "ldOptions": [],
+                "pkgconfigDepends": [],
+                "frameworks": [],
+                "extraFrameworkDirs": [],
+                "asmSources": [],
+                "cmmSources": [],
+                "cSources": [],
+                "cxxSources": [],
+                "jsSources": [],
+                "hsSourceDirs": [],
+                "otherModules": [],
+                "virtualModules": [],
+                "autogenModules": [],
+                "defaultLanguage": null,
+                "otherLanguages": [],
+                "defaultExtensions": [],
+                "otherExtensions": [
+                  {
+                    "enable-extension": "Trustworthy"
+                  }
+                ],
+                "oldExtensions": [],
+                "extraLibs": [],
+                "extraGHCiLibs": [],
+                "extraBundledLibs": [],
+                "extraLibFlavours": [],
+                "extraDynLibFlavours": [],
+                "extraLibDirs": [],
+                "includeDirs": [],
+                "includes": [],
+                "autogenIncludes": [],
+                "installIncludes": [],
+                "options": [
+                  [],
+                  []
+                ],
+                "profOptions": [
+                  [],
+                  []
+                ],
+                "sharedOptions": [
+                  [],
+                  []
+                ],
+                "staticOptions": [
+                  [],
+                  []
+                ],
+                "customFieldsBI": [],
+                "targetBuildDepends": [],
+                "mixins": []
+              }
+            },
+            "condTreeConstraints": [],
+            "condTreeComponents": []
+          }
+        }
+      ]
+    }
+  }
+}

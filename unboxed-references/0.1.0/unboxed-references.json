@@ -1,0 +1,304 @@
+{
+  "description": {
+    "spec-version": {
+      "Left": [
+        2,
+        2
+      ]
+    },
+    "package": {
+      "name": "unboxed-references",
+      "version": [
+        0,
+        1,
+        0
+      ]
+    },
+    "license": {
+      "Left": {
+        "license-expression": {
+          "expression": {
+            "id": "BSD_3_Clause"
+          },
+          "exception-id": null
+        }
+      }
+    },
+    "license-files": [],
+    "copyright": "2019",
+    "maintainer": "callan.mcgill@gmail.com",
+    "author": "Callan McGill",
+    "stability": "",
+    "tested-with": [],
+    "homepage": "https://github.com/Boarders/unboxed-references",
+    "pkg-url": "",
+    "bug-reports": "https://github.com/Boarders/unboxed-references/issues",
+    "source-repos": [
+      {
+        "kind": {},
+        "type": "Git",
+        "location": "https://github.com/Boarders/unboxed-references",
+        "module": null,
+        "branch": null,
+        "tag": null,
+        "subdir": null
+      }
+    ],
+    "synopsis": "A library for reference cells backed by unboxed-vectors",
+    "description": "\nThis package contains an interface to references backed by\nunboxed vectors\n\nFor an example of how to use it:\n\n>\n>   module Main where\n>\n>   import           Data.STRef.Unboxed\n>   import           Control.Monad.ST\n>\n>   main :: IO ()\n>   main =\n>     do\n>       print counter\n>       print mySum\n>       print strictModify\n>\n>   -- |\n>   -- Runs a for loop each time modifying the reference cell to add\n>   -- one.\n>   counter :: Int\n>   counter =\n>    runST $\n>      do\n>        ref <- newSTRefU 0\n>        for_ [1..100] $ modifySTRefU ref (+ 1)\n>        readSTRefU ref\n>   -- |\n>   -- Runs a for loop to add all the numbers between 1 and 10.\n>   mySum :: Int\n>   mySum =\n>     runST $\n>       do\n>         ref <- newSTRefU 0\n>         for_ [1..10] $ \\i -> modifySTRefU ref (+ i)\n>         readSTRefU ref\n>   -- |\n>   -- This shows that modifySTRefU is strict in its argument.\n>   strictModify :: Int\n>   strictModify =\n>     runST $\n>       do\n>         ref <- newSTRefU 0\n>         modifySTRefU ref (\\_ -> Unsafe.unsafePerformIO $ print \"Got here!\" >> pure 10)\n>         writeSTRefU ref 42\n>          readSTRefU ref\n>\n\nThis gives the following:\n\n@\n> main\n100\n55\n\"Got here!\"\n42\n@",
+    "category": "Data",
+    "custom-fields": [],
+    "build-type-raw": "Simple",
+    "custom-setup": null,
+    "library": null,
+    "sublibraries": [],
+    "executables": [],
+    "foreign-libs": [],
+    "test-suites": [],
+    "benchmarks": [],
+    "data-files": [],
+    "data-dir": ".",
+    "extra-source-files": [
+      "CHANGELOG.md"
+    ],
+    "extra-tmp-files": [],
+    "extra-doc-files": []
+  },
+  "library": {
+    "condTreeData": {
+      "name": {},
+      "exposed-modules": [
+        [
+          "Data",
+          "STRef",
+          "Unboxed"
+        ]
+      ],
+      "re-exported-modules": [],
+      "signatures": [],
+      "exposed": true,
+      "visibility": "LibraryVisibilityPublic",
+      "build-info": {
+        "buildable": true,
+        "buildTools": [],
+        "buildToolDepends": [],
+        "cppOptions": [],
+        "asmOptions": [],
+        "cmmOptions": [],
+        "ccOptions": [],
+        "cxxOptions": [],
+        "ldOptions": [],
+        "pkgconfigDepends": [],
+        "frameworks": [],
+        "extraFrameworkDirs": [],
+        "asmSources": [],
+        "cmmSources": [],
+        "cSources": [],
+        "cxxSources": [],
+        "jsSources": [],
+        "hsSourceDirs": [
+          "src"
+        ],
+        "otherModules": [],
+        "virtualModules": [],
+        "autogenModules": [],
+        "defaultLanguage": "Haskell2010",
+        "otherLanguages": [],
+        "defaultExtensions": [],
+        "otherExtensions": [],
+        "oldExtensions": [],
+        "extraLibs": [],
+        "extraGHCiLibs": [],
+        "extraBundledLibs": [],
+        "extraLibFlavours": [],
+        "extraDynLibFlavours": [],
+        "extraLibDirs": [],
+        "includeDirs": [],
+        "includes": [],
+        "autogenIncludes": [],
+        "installIncludes": [],
+        "options": [
+          [
+            "-Wall",
+            "-fexpose-all-unfoldings",
+            "-fspecialize-aggressively",
+            "-Wincomplete-patterns"
+          ],
+          []
+        ],
+        "profOptions": [
+          [],
+          []
+        ],
+        "sharedOptions": [
+          [],
+          []
+        ],
+        "staticOptions": [
+          [],
+          []
+        ],
+        "customFieldsBI": [],
+        "targetBuildDepends": [
+          {
+            "package-name": "base",
+            "version-range": ">=4.12.0.0 && <4.14",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "vector",
+            "version-range": ">=0.12.0 && <0.13",
+            "library": [
+              {}
+            ]
+          }
+        ],
+        "mixins": []
+      }
+    },
+    "condTreeConstraints": [
+      {
+        "package-name": "base",
+        "version-range": ">=4.12.0.0 && <4.14",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "vector",
+        "version-range": ">=0.12.0 && <0.13",
+        "library": [
+          {}
+        ]
+      }
+    ],
+    "condTreeComponents": []
+  },
+  "executables": {
+    "example": {
+      "condTreeData": {
+        "name": "example",
+        "module-path": "Example.hs",
+        "scope": "public",
+        "build-info": {
+          "buildable": true,
+          "buildTools": [],
+          "buildToolDepends": [],
+          "cppOptions": [],
+          "asmOptions": [],
+          "cmmOptions": [],
+          "ccOptions": [],
+          "cxxOptions": [],
+          "ldOptions": [],
+          "pkgconfigDepends": [],
+          "frameworks": [],
+          "extraFrameworkDirs": [],
+          "asmSources": [],
+          "cmmSources": [],
+          "cSources": [],
+          "cxxSources": [],
+          "jsSources": [],
+          "hsSourceDirs": [
+            "src"
+          ],
+          "otherModules": [
+            [
+              "Data",
+              "STRef",
+              "Unboxed"
+            ]
+          ],
+          "virtualModules": [],
+          "autogenModules": [],
+          "defaultLanguage": "Haskell2010",
+          "otherLanguages": [],
+          "defaultExtensions": [],
+          "otherExtensions": [],
+          "oldExtensions": [],
+          "extraLibs": [],
+          "extraGHCiLibs": [],
+          "extraBundledLibs": [],
+          "extraLibFlavours": [],
+          "extraDynLibFlavours": [],
+          "extraLibDirs": [],
+          "includeDirs": [],
+          "includes": [],
+          "autogenIncludes": [],
+          "installIncludes": [],
+          "options": [
+            [
+              "-Wall",
+              "-fexpose-all-unfoldings",
+              "-fspecialize-aggressively",
+              "-Wincomplete-patterns"
+            ],
+            []
+          ],
+          "profOptions": [
+            [],
+            []
+          ],
+          "sharedOptions": [
+            [],
+            []
+          ],
+          "staticOptions": [
+            [],
+            []
+          ],
+          "customFieldsBI": [],
+          "targetBuildDepends": [
+            {
+              "package-name": "unboxed-references",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "base",
+              "version-range": ">=4.12.0.0 && <4.14",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "vector",
+              "version-range": ">=0.12.0 && <0.13",
+              "library": [
+                {}
+              ]
+            }
+          ],
+          "mixins": []
+        }
+      },
+      "condTreeConstraints": [
+        {
+          "package-name": "unboxed-references",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "base",
+          "version-range": ">=4.12.0.0 && <4.14",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "vector",
+          "version-range": ">=0.12.0 && <0.13",
+          "library": [
+            {}
+          ]
+        }
+      ],
+      "condTreeComponents": []
+    }
+  }
+}

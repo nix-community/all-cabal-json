@@ -1,0 +1,6506 @@
+{
+  "description": {
+    "spec-version": {
+      "Left": [
+        2,
+        2
+      ]
+    },
+    "package": {
+      "name": "sockets",
+      "version": [
+        0,
+        4,
+        0,
+        0
+      ]
+    },
+    "license": {
+      "Left": {
+        "license-expression": {
+          "expression": {
+            "id": "BSD_3_Clause"
+          },
+          "exception-id": null
+        }
+      }
+    },
+    "license-files": [
+      "LICENSE"
+    ],
+    "copyright": "2019 Andrew Martin",
+    "maintainer": "andrew.thaddeus@gmail.com",
+    "author": "Andrew Martin",
+    "stability": "",
+    "tested-with": [],
+    "homepage": "https://github.com/andrewthad/sockets",
+    "pkg-url": "",
+    "bug-reports": "https://github.com/andrewthad/sockets/issues",
+    "source-repos": [],
+    "synopsis": "High-level network sockets",
+    "description": "This library provides a high-level abstraction for network sockets. It uses\nHaskell2010 (along with GADTs) without typeclasses to ensure that\nconsumers of the API can only call appropriate functions on a socket.\n\nExceptions are tracked in the types of functions and returned to the caller\nwith `Either`. The caller is free to handle these gracefully or to throw\nthem. This library has another class of exceptions described as _unrecoverable_.\nThis library only throws exceptions in three situations:\n\n* The library detects that it has misused the operating system's\nsockets API. This includes getting a `sockaddr` with an unexpected\nsocket family. It also includes getting an error code that should not\nbe possible. For example, the abstractions provided for both datagram\nsockets and stream sockets mean that `send` system calls in either\ncontext should never return the error code `ENOTCONN`. Consequently,\nthis error is treated as unrecoverable.\n\n* The caller asks for a negatively-sized slice of a buffer\n(such exceptions indicate a mistake in the code consuming this API).\n\n* A system call fails with `ENOBUFS` or `ENOMEM`. These indicate that\nthe operating system is out of memory. If this happens, the\nOut Of Memory (OOM) manager is likely killing processes to\nreclaim memory, so the process that received this message may\nbe killed soon. Making things even worse is that the GHC runtime\nrequests pages of memory from the operating system at times that\nare effectively unpredictable to Haskell developers. (Most\nmemory-managed languages have this behavior). Any attempt\nto recover from `ENOBUFS` or `ENOMEM` might cause the runtime to\nallocate memory from the operating system. According to the\ndocumentation for the <http://hackage.haskell.org/package/base-4.12.0.0/docs/Control-Exception-Base.html#t:AsyncException HeapOverflow>\nexception, an allocation failure at this point in time (likely given\nthe recent `ENOBUFS`/`ENOMEM`) would result in immidiate\ntermination of the program. So, although it is technically possible\nto recover from `ENOBUFS`/`ENOMEM`, the OOM killer and the\nGHC runtime make it impossible to do so reliably.  Consequently,\nthese error codes are treated as fatal.",
+    "category": "Network",
+    "custom-fields": [],
+    "build-type-raw": null,
+    "custom-setup": null,
+    "library": null,
+    "sublibraries": [],
+    "executables": [],
+    "foreign-libs": [],
+    "test-suites": [],
+    "benchmarks": [],
+    "data-files": [],
+    "data-dir": ".",
+    "extra-source-files": [
+      "CHANGELOG.md"
+    ],
+    "extra-tmp-files": [],
+    "extra-doc-files": []
+  },
+  "package-flags": [
+    {
+      "name": "mmsg",
+      "description": "Use sendmmsg and recvmmsg",
+      "default": false,
+      "manual": true
+    },
+    {
+      "name": "verbose-errors",
+      "description": "More informative messages from internal errors",
+      "default": false,
+      "manual": true
+    },
+    {
+      "name": "debug",
+      "description": "Print debug output",
+      "default": false,
+      "manual": true
+    },
+    {
+      "name": "checked",
+      "description": "Add bounds-checking to primitive array operations",
+      "default": false,
+      "manual": true
+    },
+    {
+      "name": "example",
+      "description": "Build example executables",
+      "default": false,
+      "manual": true
+    }
+  ],
+  "library": {
+    "condTreeData": {
+      "name": {},
+      "exposed-modules": [
+        [
+          "Socket",
+          "Address"
+        ],
+        [
+          "Socket",
+          "Datagram",
+          "IPv4",
+          "Unconnected"
+        ],
+        [
+          "Socket",
+          "Datagram",
+          "IPv4",
+          "Connected"
+        ],
+        [
+          "Socket",
+          "Stream",
+          "IPv4"
+        ],
+        [
+          "Socket",
+          "Datagram",
+          "Interruptible",
+          "Bytes"
+        ],
+        [
+          "Socket",
+          "Datagram",
+          "Interruptible",
+          "MutableBytes"
+        ],
+        [
+          "Socket",
+          "Datagram",
+          "Slab"
+        ],
+        [
+          "Socket",
+          "Datagram",
+          "Uninterruptible",
+          "Bytes"
+        ],
+        [
+          "Socket",
+          "Datagram",
+          "Uninterruptible",
+          "MutableBytes"
+        ],
+        [
+          "Socket",
+          "Stream",
+          "Interruptible",
+          "Addr"
+        ],
+        [
+          "Socket",
+          "Stream",
+          "Interruptible",
+          "ByteString"
+        ],
+        [
+          "Socket",
+          "Stream",
+          "Interruptible",
+          "Bytes"
+        ],
+        [
+          "Socket",
+          "Stream",
+          "Interruptible",
+          "MutableBytes"
+        ],
+        [
+          "Socket",
+          "Stream",
+          "Interruptible",
+          "Hybrid"
+        ],
+        [
+          "Socket",
+          "Stream",
+          "Uninterruptible",
+          "Addr"
+        ],
+        [
+          "Socket",
+          "Stream",
+          "Uninterruptible",
+          "ByteString"
+        ],
+        [
+          "Socket",
+          "Stream",
+          "Uninterruptible",
+          "Bytes"
+        ],
+        [
+          "Socket",
+          "Stream",
+          "Uninterruptible",
+          "MutableBytes"
+        ],
+        [
+          "Socket",
+          "Stream",
+          "Uninterruptible",
+          "Hybrid"
+        ]
+      ],
+      "re-exported-modules": [],
+      "signatures": [],
+      "exposed": true,
+      "visibility": "LibraryVisibilityPublic",
+      "build-info": {
+        "buildable": true,
+        "buildTools": [],
+        "buildToolDepends": [],
+        "cppOptions": [],
+        "asmOptions": [],
+        "cmmOptions": [],
+        "ccOptions": [],
+        "cxxOptions": [],
+        "ldOptions": [],
+        "pkgconfigDepends": [],
+        "frameworks": [],
+        "extraFrameworkDirs": [],
+        "asmSources": [],
+        "cmmSources": [],
+        "cSources": [],
+        "cxxSources": [],
+        "jsSources": [],
+        "hsSourceDirs": [
+          "src"
+        ],
+        "otherModules": [
+          [
+            "Socket",
+            "Datagram",
+            "Interruptible",
+            "MutableBytes",
+            "Many"
+          ],
+          [
+            "Socket",
+            "Datagram",
+            "Uninterruptible",
+            "MutableBytes",
+            "Many"
+          ]
+        ],
+        "virtualModules": [],
+        "autogenModules": [],
+        "defaultLanguage": "Haskell2010",
+        "otherLanguages": [],
+        "defaultExtensions": [],
+        "otherExtensions": [],
+        "oldExtensions": [],
+        "extraLibs": [],
+        "extraGHCiLibs": [],
+        "extraBundledLibs": [],
+        "extraLibFlavours": [],
+        "extraDynLibFlavours": [],
+        "extraLibDirs": [],
+        "includeDirs": [],
+        "includes": [],
+        "autogenIncludes": [],
+        "installIncludes": [],
+        "options": [
+          [
+            "-O2",
+            "-Wall"
+          ],
+          []
+        ],
+        "profOptions": [
+          [],
+          []
+        ],
+        "sharedOptions": [
+          [],
+          []
+        ],
+        "staticOptions": [
+          [],
+          []
+        ],
+        "customFieldsBI": [],
+        "targetBuildDepends": [
+          {
+            "package-name": "base",
+            "version-range": ">=4.11.1.0 && <5",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "byteslice",
+            "version-range": ">=0.1.1 && <0.2",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "bytestring",
+            "version-range": ">=0.10 && <0.11",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "error-codes",
+            "version-range": ">=0.1.0.1 && <0.2",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "ip",
+            "version-range": ">=1.4.1",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "posix-api",
+            "version-range": ">=0.3 && <0.4",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "primitive-addr",
+            "version-range": ">=0.1 && <0.2",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "primitive-offset",
+            "version-range": ">=0.2 && <0.3",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "primitive-unlifted",
+            "version-range": ">=0.1 && <0.2",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "sockets-datagram-receive",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "sockets-datagram-receive-many",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "sockets-datagram-send",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "sockets-internal",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "sockets-stream-bidirectional",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "sockets-stream-send",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "sockets-stream-send-two",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "stm",
+            "version-range": ">=2.4",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "text",
+            "version-range": ">=1.2",
+            "library": [
+              {}
+            ]
+          }
+        ],
+        "mixins": [
+          {
+            "package-name": "sockets-datagram-receive-many",
+            "include-renaming": {
+              "includeProvidesRn": {
+                "name": [
+                  [
+                    [
+                      "Datagram",
+                      "Receive",
+                      "Many",
+                      "Indefinite"
+                    ],
+                    [
+                      "Socket",
+                      "Datagram",
+                      "Uninterruptible",
+                      "MutableBytes",
+                      "Receive",
+                      "Many",
+                      "Unit"
+                    ]
+                  ]
+                ]
+              },
+              "includeRequiresRn": {
+                "name": [
+                  [
+                    [
+                      "Datagram",
+                      "Receive"
+                    ],
+                    [
+                      "Socket",
+                      "MutableBytes",
+                      "Peerless"
+                    ]
+                  ],
+                  [
+                    [
+                      "Socket",
+                      "Interrupt"
+                    ],
+                    [
+                      "Socket",
+                      "Uninterruptible"
+                    ]
+                  ]
+                ]
+              }
+            }
+          },
+          {
+            "package-name": "sockets-datagram-receive-many",
+            "include-renaming": {
+              "includeProvidesRn": {
+                "name": [
+                  [
+                    [
+                      "Datagram",
+                      "Receive",
+                      "Many",
+                      "Indefinite"
+                    ],
+                    [
+                      "Socket",
+                      "Datagram",
+                      "Uninterruptible",
+                      "MutableBytes",
+                      "Receive",
+                      "Many",
+                      "IPv4"
+                    ]
+                  ]
+                ]
+              },
+              "includeRequiresRn": {
+                "name": [
+                  [
+                    [
+                      "Datagram",
+                      "Receive"
+                    ],
+                    [
+                      "Socket",
+                      "MutableBytes",
+                      "SocketAddressInternet"
+                    ]
+                  ],
+                  [
+                    [
+                      "Socket",
+                      "Interrupt"
+                    ],
+                    [
+                      "Socket",
+                      "Uninterruptible"
+                    ]
+                  ]
+                ]
+              }
+            }
+          },
+          {
+            "package-name": "sockets-datagram-receive-many",
+            "include-renaming": {
+              "includeProvidesRn": {
+                "name": [
+                  [
+                    [
+                      "Datagram",
+                      "Receive",
+                      "Many",
+                      "Indefinite"
+                    ],
+                    [
+                      "Socket",
+                      "Datagram",
+                      "Interruptible",
+                      "MutableBytes",
+                      "Receive",
+                      "Many",
+                      "Unit"
+                    ]
+                  ]
+                ]
+              },
+              "includeRequiresRn": {
+                "name": [
+                  [
+                    [
+                      "Datagram",
+                      "Receive"
+                    ],
+                    [
+                      "Socket",
+                      "MutableBytes",
+                      "Peerless"
+                    ]
+                  ],
+                  [
+                    [
+                      "Socket",
+                      "Interrupt"
+                    ],
+                    [
+                      "Socket",
+                      "Interruptible"
+                    ]
+                  ]
+                ]
+              }
+            }
+          },
+          {
+            "package-name": "sockets-datagram-receive-many",
+            "include-renaming": {
+              "includeProvidesRn": {
+                "name": [
+                  [
+                    [
+                      "Datagram",
+                      "Receive",
+                      "Many",
+                      "Indefinite"
+                    ],
+                    [
+                      "Socket",
+                      "Datagram",
+                      "Interruptible",
+                      "MutableBytes",
+                      "Receive",
+                      "Many",
+                      "IPv4"
+                    ]
+                  ]
+                ]
+              },
+              "includeRequiresRn": {
+                "name": [
+                  [
+                    [
+                      "Datagram",
+                      "Receive"
+                    ],
+                    [
+                      "Socket",
+                      "MutableBytes",
+                      "SocketAddressInternet"
+                    ]
+                  ],
+                  [
+                    [
+                      "Socket",
+                      "Interrupt"
+                    ],
+                    [
+                      "Socket",
+                      "Interruptible"
+                    ]
+                  ]
+                ]
+              }
+            }
+          },
+          {
+            "package-name": "sockets-datagram-send",
+            "include-renaming": {
+              "includeProvidesRn": {
+                "name": [
+                  [
+                    [
+                      "Datagram",
+                      "Send",
+                      "Indefinite"
+                    ],
+                    [
+                      "Socket",
+                      "Datagram",
+                      "Uninterruptible",
+                      "MutableBytes",
+                      "Send",
+                      "IPv4"
+                    ]
+                  ]
+                ]
+              },
+              "includeRequiresRn": {
+                "name": [
+                  [
+                    [
+                      "Datagram",
+                      "Send"
+                    ],
+                    [
+                      "Socket",
+                      "Destined",
+                      "IPv4",
+                      "MutableBytes"
+                    ]
+                  ],
+                  [
+                    [
+                      "Socket",
+                      "Interrupt"
+                    ],
+                    [
+                      "Socket",
+                      "Uninterruptible"
+                    ]
+                  ],
+                  [
+                    [
+                      "Socket",
+                      "Buffer"
+                    ],
+                    [
+                      "Socket",
+                      "MutableBytes"
+                    ]
+                  ]
+                ]
+              }
+            }
+          },
+          {
+            "package-name": "sockets-datagram-send",
+            "include-renaming": {
+              "includeProvidesRn": {
+                "name": [
+                  [
+                    [
+                      "Datagram",
+                      "Send",
+                      "Indefinite"
+                    ],
+                    [
+                      "Socket",
+                      "Datagram",
+                      "Uninterruptible",
+                      "Bytes",
+                      "Send",
+                      "Connected"
+                    ]
+                  ]
+                ]
+              },
+              "includeRequiresRn": {
+                "name": [
+                  [
+                    [
+                      "Datagram",
+                      "Send"
+                    ],
+                    [
+                      "Socket",
+                      "Connected",
+                      "Bytes"
+                    ]
+                  ],
+                  [
+                    [
+                      "Socket",
+                      "Interrupt"
+                    ],
+                    [
+                      "Socket",
+                      "Uninterruptible"
+                    ]
+                  ],
+                  [
+                    [
+                      "Socket",
+                      "Buffer"
+                    ],
+                    [
+                      "Socket",
+                      "Bytes"
+                    ]
+                  ]
+                ]
+              }
+            }
+          },
+          {
+            "package-name": "sockets-datagram-send",
+            "include-renaming": {
+              "includeProvidesRn": {
+                "name": [
+                  [
+                    [
+                      "Datagram",
+                      "Send",
+                      "Indefinite"
+                    ],
+                    [
+                      "Socket",
+                      "Datagram",
+                      "Uninterruptible",
+                      "Bytes",
+                      "Send",
+                      "IPv4"
+                    ]
+                  ]
+                ]
+              },
+              "includeRequiresRn": {
+                "name": [
+                  [
+                    [
+                      "Datagram",
+                      "Send"
+                    ],
+                    [
+                      "Socket",
+                      "Destined",
+                      "IPv4",
+                      "Bytes"
+                    ]
+                  ],
+                  [
+                    [
+                      "Socket",
+                      "Interrupt"
+                    ],
+                    [
+                      "Socket",
+                      "Uninterruptible"
+                    ]
+                  ],
+                  [
+                    [
+                      "Socket",
+                      "Buffer"
+                    ],
+                    [
+                      "Socket",
+                      "Bytes"
+                    ]
+                  ]
+                ]
+              }
+            }
+          },
+          {
+            "package-name": "sockets-datagram-send",
+            "include-renaming": {
+              "includeProvidesRn": {
+                "name": [
+                  [
+                    [
+                      "Datagram",
+                      "Send",
+                      "Indefinite"
+                    ],
+                    [
+                      "Socket",
+                      "Datagram",
+                      "Interruptible",
+                      "MutableBytes",
+                      "Send",
+                      "IPv4"
+                    ]
+                  ]
+                ]
+              },
+              "includeRequiresRn": {
+                "name": [
+                  [
+                    [
+                      "Datagram",
+                      "Send"
+                    ],
+                    [
+                      "Socket",
+                      "Destined",
+                      "IPv4",
+                      "MutableBytes"
+                    ]
+                  ],
+                  [
+                    [
+                      "Socket",
+                      "Interrupt"
+                    ],
+                    [
+                      "Socket",
+                      "Interruptible"
+                    ]
+                  ],
+                  [
+                    [
+                      "Socket",
+                      "Buffer"
+                    ],
+                    [
+                      "Socket",
+                      "MutableBytes"
+                    ]
+                  ]
+                ]
+              }
+            }
+          },
+          {
+            "package-name": "sockets-datagram-send",
+            "include-renaming": {
+              "includeProvidesRn": {
+                "name": [
+                  [
+                    [
+                      "Datagram",
+                      "Send",
+                      "Indefinite"
+                    ],
+                    [
+                      "Socket",
+                      "Datagram",
+                      "Uninterruptible",
+                      "MutableBytes",
+                      "Send",
+                      "Connected"
+                    ]
+                  ]
+                ]
+              },
+              "includeRequiresRn": {
+                "name": [
+                  [
+                    [
+                      "Datagram",
+                      "Send"
+                    ],
+                    [
+                      "Socket",
+                      "Connected",
+                      "MutableBytes"
+                    ]
+                  ],
+                  [
+                    [
+                      "Socket",
+                      "Interrupt"
+                    ],
+                    [
+                      "Socket",
+                      "Uninterruptible"
+                    ]
+                  ],
+                  [
+                    [
+                      "Socket",
+                      "Buffer"
+                    ],
+                    [
+                      "Socket",
+                      "MutableBytes"
+                    ]
+                  ]
+                ]
+              }
+            }
+          },
+          {
+            "package-name": "sockets-datagram-send",
+            "include-renaming": {
+              "includeProvidesRn": {
+                "name": [
+                  [
+                    [
+                      "Datagram",
+                      "Send",
+                      "Indefinite"
+                    ],
+                    [
+                      "Socket",
+                      "Datagram",
+                      "Interruptible",
+                      "MutableBytes",
+                      "Send",
+                      "Connected"
+                    ]
+                  ]
+                ]
+              },
+              "includeRequiresRn": {
+                "name": [
+                  [
+                    [
+                      "Datagram",
+                      "Send"
+                    ],
+                    [
+                      "Socket",
+                      "Connected",
+                      "MutableBytes"
+                    ]
+                  ],
+                  [
+                    [
+                      "Socket",
+                      "Interrupt"
+                    ],
+                    [
+                      "Socket",
+                      "Interruptible"
+                    ]
+                  ],
+                  [
+                    [
+                      "Socket",
+                      "Buffer"
+                    ],
+                    [
+                      "Socket",
+                      "MutableBytes"
+                    ]
+                  ]
+                ]
+              }
+            }
+          },
+          {
+            "package-name": "sockets-datagram-receive",
+            "include-renaming": {
+              "includeProvidesRn": {
+                "name": [
+                  [
+                    [
+                      "Datagram",
+                      "Receive",
+                      "Indefinite"
+                    ],
+                    [
+                      "Socket",
+                      "Datagram",
+                      "Uninterruptible",
+                      "MutableBytes",
+                      "Receive",
+                      "IPv4"
+                    ]
+                  ]
+                ]
+              },
+              "includeRequiresRn": {
+                "name": [
+                  [
+                    [
+                      "Datagram",
+                      "Receive"
+                    ],
+                    [
+                      "Socket",
+                      "MutableBytes",
+                      "SocketAddressInternet"
+                    ]
+                  ],
+                  [
+                    [
+                      "Socket",
+                      "Interrupt"
+                    ],
+                    [
+                      "Socket",
+                      "Uninterruptible"
+                    ]
+                  ],
+                  [
+                    [
+                      "Socket",
+                      "Buffer"
+                    ],
+                    [
+                      "Socket",
+                      "MutableBytes"
+                    ]
+                  ]
+                ]
+              }
+            }
+          },
+          {
+            "package-name": "sockets-datagram-receive",
+            "include-renaming": {
+              "includeProvidesRn": {
+                "name": [
+                  [
+                    [
+                      "Datagram",
+                      "Receive",
+                      "Indefinite"
+                    ],
+                    [
+                      "Socket",
+                      "Datagram",
+                      "Interruptible",
+                      "MutableBytes",
+                      "Receive",
+                      "IPv4"
+                    ]
+                  ]
+                ]
+              },
+              "includeRequiresRn": {
+                "name": [
+                  [
+                    [
+                      "Datagram",
+                      "Receive"
+                    ],
+                    [
+                      "Socket",
+                      "MutableBytes",
+                      "SocketAddressInternet"
+                    ]
+                  ],
+                  [
+                    [
+                      "Socket",
+                      "Interrupt"
+                    ],
+                    [
+                      "Socket",
+                      "Interruptible"
+                    ]
+                  ],
+                  [
+                    [
+                      "Socket",
+                      "Buffer"
+                    ],
+                    [
+                      "Socket",
+                      "MutableBytes"
+                    ]
+                  ]
+                ]
+              }
+            }
+          },
+          {
+            "package-name": "sockets-datagram-receive",
+            "include-renaming": {
+              "includeProvidesRn": {
+                "name": [
+                  [
+                    [
+                      "Datagram",
+                      "Receive",
+                      "Indefinite"
+                    ],
+                    [
+                      "Socket",
+                      "Datagram",
+                      "Uninterruptible",
+                      "MutableBytes",
+                      "Receive",
+                      "Connected"
+                    ]
+                  ]
+                ]
+              },
+              "includeRequiresRn": {
+                "name": [
+                  [
+                    [
+                      "Datagram",
+                      "Receive"
+                    ],
+                    [
+                      "Socket",
+                      "MutableBytes",
+                      "Peerless"
+                    ]
+                  ],
+                  [
+                    [
+                      "Socket",
+                      "Interrupt"
+                    ],
+                    [
+                      "Socket",
+                      "Uninterruptible"
+                    ]
+                  ],
+                  [
+                    [
+                      "Socket",
+                      "Buffer"
+                    ],
+                    [
+                      "Socket",
+                      "MutableBytes"
+                    ]
+                  ]
+                ]
+              }
+            }
+          },
+          {
+            "package-name": "sockets-datagram-receive",
+            "include-renaming": {
+              "includeProvidesRn": {
+                "name": [
+                  [
+                    [
+                      "Datagram",
+                      "Receive",
+                      "Indefinite"
+                    ],
+                    [
+                      "Socket",
+                      "Datagram",
+                      "Interruptible",
+                      "MutableBytes",
+                      "Receive",
+                      "Connected"
+                    ]
+                  ]
+                ]
+              },
+              "includeRequiresRn": {
+                "name": [
+                  [
+                    [
+                      "Datagram",
+                      "Receive"
+                    ],
+                    [
+                      "Socket",
+                      "MutableBytes",
+                      "Peerless"
+                    ]
+                  ],
+                  [
+                    [
+                      "Socket",
+                      "Interrupt"
+                    ],
+                    [
+                      "Socket",
+                      "Interruptible"
+                    ]
+                  ],
+                  [
+                    [
+                      "Socket",
+                      "Buffer"
+                    ],
+                    [
+                      "Socket",
+                      "MutableBytes"
+                    ]
+                  ]
+                ]
+              }
+            }
+          },
+          {
+            "package-name": "sockets-stream-send",
+            "include-renaming": {
+              "includeProvidesRn": {
+                "name": [
+                  [
+                    [
+                      "Stream",
+                      "Send",
+                      "Indefinite"
+                    ],
+                    [
+                      "Socket",
+                      "Stream",
+                      "Interruptible",
+                      "Bytes",
+                      "Send"
+                    ]
+                  ]
+                ]
+              },
+              "includeRequiresRn": {
+                "name": [
+                  [
+                    [
+                      "Stream",
+                      "Send"
+                    ],
+                    [
+                      "Socket",
+                      "Bytes"
+                    ]
+                  ],
+                  [
+                    [
+                      "Socket",
+                      "Interrupt"
+                    ],
+                    [
+                      "Socket",
+                      "Interruptible"
+                    ]
+                  ],
+                  [
+                    [
+                      "Socket",
+                      "Buffer"
+                    ],
+                    [
+                      "Socket",
+                      "Bytes"
+                    ]
+                  ]
+                ]
+              }
+            }
+          },
+          {
+            "package-name": "sockets-stream-send",
+            "include-renaming": {
+              "includeProvidesRn": {
+                "name": [
+                  [
+                    [
+                      "Stream",
+                      "Send",
+                      "Indefinite"
+                    ],
+                    [
+                      "Socket",
+                      "Stream",
+                      "Uninterruptible",
+                      "Bytes",
+                      "Send"
+                    ]
+                  ]
+                ]
+              },
+              "includeRequiresRn": {
+                "name": [
+                  [
+                    [
+                      "Stream",
+                      "Send"
+                    ],
+                    [
+                      "Socket",
+                      "Bytes"
+                    ]
+                  ],
+                  [
+                    [
+                      "Socket",
+                      "Interrupt"
+                    ],
+                    [
+                      "Socket",
+                      "Uninterruptible"
+                    ]
+                  ],
+                  [
+                    [
+                      "Socket",
+                      "Buffer"
+                    ],
+                    [
+                      "Socket",
+                      "Bytes"
+                    ]
+                  ]
+                ]
+              }
+            }
+          },
+          {
+            "package-name": "sockets-stream-bidirectional",
+            "include-renaming": {
+              "includeProvidesRn": {
+                "name": [
+                  [
+                    [
+                      "Stream",
+                      "Send",
+                      "Indefinite"
+                    ],
+                    [
+                      "Socket",
+                      "Stream",
+                      "Interruptible",
+                      "MutableBytes",
+                      "Send"
+                    ]
+                  ],
+                  [
+                    [
+                      "Stream",
+                      "Receive",
+                      "Indefinite"
+                    ],
+                    [
+                      "Socket",
+                      "Stream",
+                      "Interruptible",
+                      "MutableBytes",
+                      "Receive"
+                    ]
+                  ]
+                ]
+              },
+              "includeRequiresRn": {
+                "name": [
+                  [
+                    [
+                      "Stream",
+                      "Send"
+                    ],
+                    [
+                      "Socket",
+                      "MutableBytes"
+                    ]
+                  ],
+                  [
+                    [
+                      "Stream",
+                      "Receive"
+                    ],
+                    [
+                      "Socket",
+                      "MutableBytes"
+                    ]
+                  ],
+                  [
+                    [
+                      "Socket",
+                      "Buffer"
+                    ],
+                    [
+                      "Socket",
+                      "MutableBytes"
+                    ]
+                  ],
+                  [
+                    [
+                      "Socket",
+                      "Interrupt"
+                    ],
+                    [
+                      "Socket",
+                      "Interruptible"
+                    ]
+                  ]
+                ]
+              }
+            }
+          },
+          {
+            "package-name": "sockets-stream-bidirectional",
+            "include-renaming": {
+              "includeProvidesRn": {
+                "name": [
+                  [
+                    [
+                      "Stream",
+                      "Send",
+                      "Indefinite"
+                    ],
+                    [
+                      "Socket",
+                      "Stream",
+                      "Uninterruptible",
+                      "MutableBytes",
+                      "Send"
+                    ]
+                  ],
+                  [
+                    [
+                      "Stream",
+                      "Receive",
+                      "Indefinite"
+                    ],
+                    [
+                      "Socket",
+                      "Stream",
+                      "Uninterruptible",
+                      "MutableBytes",
+                      "Receive"
+                    ]
+                  ]
+                ]
+              },
+              "includeRequiresRn": {
+                "name": [
+                  [
+                    [
+                      "Stream",
+                      "Send"
+                    ],
+                    [
+                      "Socket",
+                      "MutableBytes"
+                    ]
+                  ],
+                  [
+                    [
+                      "Stream",
+                      "Receive"
+                    ],
+                    [
+                      "Socket",
+                      "MutableBytes"
+                    ]
+                  ],
+                  [
+                    [
+                      "Socket",
+                      "Buffer"
+                    ],
+                    [
+                      "Socket",
+                      "MutableBytes"
+                    ]
+                  ],
+                  [
+                    [
+                      "Socket",
+                      "Interrupt"
+                    ],
+                    [
+                      "Socket",
+                      "Uninterruptible"
+                    ]
+                  ]
+                ]
+              }
+            }
+          },
+          {
+            "package-name": "sockets-stream-bidirectional",
+            "include-renaming": {
+              "includeProvidesRn": {
+                "name": [
+                  [
+                    [
+                      "Stream",
+                      "Send",
+                      "Indefinite"
+                    ],
+                    [
+                      "Socket",
+                      "Stream",
+                      "Interruptible",
+                      "Addr",
+                      "Send"
+                    ]
+                  ],
+                  [
+                    [
+                      "Stream",
+                      "Receive",
+                      "Indefinite"
+                    ],
+                    [
+                      "Socket",
+                      "Stream",
+                      "Interruptible",
+                      "Addr",
+                      "Receive"
+                    ]
+                  ]
+                ]
+              },
+              "includeRequiresRn": {
+                "name": [
+                  [
+                    [
+                      "Stream",
+                      "Send"
+                    ],
+                    [
+                      "Socket",
+                      "AddrLength"
+                    ]
+                  ],
+                  [
+                    [
+                      "Stream",
+                      "Receive"
+                    ],
+                    [
+                      "Socket",
+                      "AddrLength"
+                    ]
+                  ],
+                  [
+                    [
+                      "Socket",
+                      "Buffer"
+                    ],
+                    [
+                      "Socket",
+                      "AddrLength"
+                    ]
+                  ],
+                  [
+                    [
+                      "Socket",
+                      "Interrupt"
+                    ],
+                    [
+                      "Socket",
+                      "Interruptible"
+                    ]
+                  ]
+                ]
+              }
+            }
+          },
+          {
+            "package-name": "sockets-stream-bidirectional",
+            "include-renaming": {
+              "includeProvidesRn": {
+                "name": [
+                  [
+                    [
+                      "Stream",
+                      "Send",
+                      "Indefinite"
+                    ],
+                    [
+                      "Socket",
+                      "Stream",
+                      "Uninterruptible",
+                      "Addr",
+                      "Send"
+                    ]
+                  ],
+                  [
+                    [
+                      "Stream",
+                      "Receive",
+                      "Indefinite"
+                    ],
+                    [
+                      "Socket",
+                      "Stream",
+                      "Uninterruptible",
+                      "Addr",
+                      "Receive"
+                    ]
+                  ]
+                ]
+              },
+              "includeRequiresRn": {
+                "name": [
+                  [
+                    [
+                      "Stream",
+                      "Send"
+                    ],
+                    [
+                      "Socket",
+                      "AddrLength"
+                    ]
+                  ],
+                  [
+                    [
+                      "Stream",
+                      "Receive"
+                    ],
+                    [
+                      "Socket",
+                      "AddrLength"
+                    ]
+                  ],
+                  [
+                    [
+                      "Socket",
+                      "Buffer"
+                    ],
+                    [
+                      "Socket",
+                      "AddrLength"
+                    ]
+                  ],
+                  [
+                    [
+                      "Socket",
+                      "Interrupt"
+                    ],
+                    [
+                      "Socket",
+                      "Uninterruptible"
+                    ]
+                  ]
+                ]
+              }
+            }
+          },
+          {
+            "package-name": "sockets-stream-send-two",
+            "include-renaming": {
+              "includeProvidesRn": {
+                "name": [
+                  [
+                    [
+                      "Stream",
+                      "Send",
+                      "Two",
+                      "Indefinite"
+                    ],
+                    [
+                      "Socket",
+                      "Stream",
+                      "Interruptible",
+                      "MutableBytes",
+                      "Addr",
+                      "Send"
+                    ]
+                  ]
+                ]
+              },
+              "includeRequiresRn": {
+                "name": [
+                  [
+                    [
+                      "Stream",
+                      "Send",
+                      "B"
+                    ],
+                    [
+                      "Socket",
+                      "AddrLength"
+                    ]
+                  ],
+                  [
+                    [
+                      "Stream",
+                      "Send",
+                      "Buffer",
+                      "A"
+                    ],
+                    [
+                      "Socket",
+                      "MutableBytes"
+                    ]
+                  ],
+                  [
+                    [
+                      "Stream",
+                      "Send",
+                      "Buffer",
+                      "B"
+                    ],
+                    [
+                      "Socket",
+                      "AddrLength"
+                    ]
+                  ],
+                  [
+                    [
+                      "Stream",
+                      "Send",
+                      "Two"
+                    ],
+                    [
+                      "Hybrid",
+                      "Send",
+                      "MutableBytes",
+                      "AddrLength"
+                    ]
+                  ],
+                  [
+                    [
+                      "Socket",
+                      "Interrupt"
+                    ],
+                    [
+                      "Socket",
+                      "Interruptible"
+                    ]
+                  ]
+                ]
+              }
+            }
+          },
+          {
+            "package-name": "sockets-stream-send-two",
+            "include-renaming": {
+              "includeProvidesRn": {
+                "name": [
+                  [
+                    [
+                      "Stream",
+                      "Send",
+                      "Two",
+                      "Indefinite"
+                    ],
+                    [
+                      "Socket",
+                      "Stream",
+                      "Uninterruptible",
+                      "MutableBytes",
+                      "Addr",
+                      "Send"
+                    ]
+                  ]
+                ]
+              },
+              "includeRequiresRn": {
+                "name": [
+                  [
+                    [
+                      "Stream",
+                      "Send",
+                      "B"
+                    ],
+                    [
+                      "Socket",
+                      "AddrLength"
+                    ]
+                  ],
+                  [
+                    [
+                      "Stream",
+                      "Send",
+                      "Buffer",
+                      "A"
+                    ],
+                    [
+                      "Socket",
+                      "MutableBytes"
+                    ]
+                  ],
+                  [
+                    [
+                      "Stream",
+                      "Send",
+                      "Buffer",
+                      "B"
+                    ],
+                    [
+                      "Socket",
+                      "AddrLength"
+                    ]
+                  ],
+                  [
+                    [
+                      "Stream",
+                      "Send",
+                      "Two"
+                    ],
+                    [
+                      "Hybrid",
+                      "Send",
+                      "MutableBytes",
+                      "AddrLength"
+                    ]
+                  ],
+                  [
+                    [
+                      "Socket",
+                      "Interrupt"
+                    ],
+                    [
+                      "Socket",
+                      "Uninterruptible"
+                    ]
+                  ]
+                ]
+              }
+            }
+          }
+        ]
+      }
+    },
+    "condTreeConstraints": [
+      {
+        "package-name": "base",
+        "version-range": ">=4.11.1.0 && <5",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "byteslice",
+        "version-range": ">=0.1.1 && <0.2",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "bytestring",
+        "version-range": ">=0.10 && <0.11",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "error-codes",
+        "version-range": ">=0.1.0.1 && <0.2",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "ip",
+        "version-range": ">=1.4.1",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "posix-api",
+        "version-range": ">=0.3 && <0.4",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "primitive-addr",
+        "version-range": ">=0.1 && <0.2",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "primitive-offset",
+        "version-range": ">=0.2 && <0.3",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "primitive-unlifted",
+        "version-range": ">=0.1 && <0.2",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "sockets-datagram-receive",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "sockets-datagram-receive-many",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "sockets-datagram-send",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "sockets-internal",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "sockets-stream-bidirectional",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "sockets-stream-send",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "sockets-stream-send-two",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "stm",
+        "version-range": ">=2.4",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "text",
+        "version-range": ">=1.2",
+        "library": [
+          {}
+        ]
+      }
+    ],
+    "condTreeComponents": [
+      {
+        "condBranchCondition": {
+          "v": {
+            "flag": "checked"
+          }
+        },
+        "condBranchIfTrue": {
+          "condTreeData": {
+            "name": {},
+            "exposed-modules": [],
+            "re-exported-modules": [],
+            "signatures": [],
+            "exposed": true,
+            "visibility": "LibraryVisibilityPublic",
+            "build-info": {
+              "buildable": true,
+              "buildTools": [],
+              "buildToolDepends": [],
+              "cppOptions": [],
+              "asmOptions": [],
+              "cmmOptions": [],
+              "ccOptions": [],
+              "cxxOptions": [],
+              "ldOptions": [],
+              "pkgconfigDepends": [],
+              "frameworks": [],
+              "extraFrameworkDirs": [],
+              "asmSources": [],
+              "cmmSources": [],
+              "cSources": [],
+              "cxxSources": [],
+              "jsSources": [],
+              "hsSourceDirs": [],
+              "otherModules": [],
+              "virtualModules": [],
+              "autogenModules": [],
+              "defaultLanguage": null,
+              "otherLanguages": [],
+              "defaultExtensions": [],
+              "otherExtensions": [],
+              "oldExtensions": [],
+              "extraLibs": [],
+              "extraGHCiLibs": [],
+              "extraBundledLibs": [],
+              "extraLibFlavours": [],
+              "extraDynLibFlavours": [],
+              "extraLibDirs": [],
+              "includeDirs": [],
+              "includes": [],
+              "autogenIncludes": [],
+              "installIncludes": [],
+              "options": [
+                [],
+                []
+              ],
+              "profOptions": [
+                [],
+                []
+              ],
+              "sharedOptions": [
+                [],
+                []
+              ],
+              "staticOptions": [
+                [],
+                []
+              ],
+              "customFieldsBI": [],
+              "targetBuildDepends": [
+                {
+                  "package-name": "primitive-checked",
+                  "version-range": ">=0.7 && <0.8",
+                  "library": [
+                    {}
+                  ]
+                }
+              ],
+              "mixins": []
+            }
+          },
+          "condTreeConstraints": [
+            {
+              "package-name": "primitive-checked",
+              "version-range": ">=0.7 && <0.8",
+              "library": [
+                {}
+              ]
+            }
+          ],
+          "condTreeComponents": []
+        },
+        "condBranchIfFalse": {
+          "condTreeData": {
+            "name": {},
+            "exposed-modules": [],
+            "re-exported-modules": [],
+            "signatures": [],
+            "exposed": true,
+            "visibility": "LibraryVisibilityPublic",
+            "build-info": {
+              "buildable": true,
+              "buildTools": [],
+              "buildToolDepends": [],
+              "cppOptions": [],
+              "asmOptions": [],
+              "cmmOptions": [],
+              "ccOptions": [],
+              "cxxOptions": [],
+              "ldOptions": [],
+              "pkgconfigDepends": [],
+              "frameworks": [],
+              "extraFrameworkDirs": [],
+              "asmSources": [],
+              "cmmSources": [],
+              "cSources": [],
+              "cxxSources": [],
+              "jsSources": [],
+              "hsSourceDirs": [],
+              "otherModules": [],
+              "virtualModules": [],
+              "autogenModules": [],
+              "defaultLanguage": null,
+              "otherLanguages": [],
+              "defaultExtensions": [],
+              "otherExtensions": [],
+              "oldExtensions": [],
+              "extraLibs": [],
+              "extraGHCiLibs": [],
+              "extraBundledLibs": [],
+              "extraLibFlavours": [],
+              "extraDynLibFlavours": [],
+              "extraLibDirs": [],
+              "includeDirs": [],
+              "includes": [],
+              "autogenIncludes": [],
+              "installIncludes": [],
+              "options": [
+                [],
+                []
+              ],
+              "profOptions": [
+                [],
+                []
+              ],
+              "sharedOptions": [
+                [],
+                []
+              ],
+              "staticOptions": [
+                [],
+                []
+              ],
+              "customFieldsBI": [],
+              "targetBuildDepends": [
+                {
+                  "package-name": "primitive",
+                  "version-range": ">=0.7 && <0.8",
+                  "library": [
+                    {}
+                  ]
+                }
+              ],
+              "mixins": []
+            }
+          },
+          "condTreeConstraints": [
+            {
+              "package-name": "primitive",
+              "version-range": ">=0.7 && <0.8",
+              "library": [
+                {}
+              ]
+            }
+          ],
+          "condTreeComponents": []
+        }
+      },
+      {
+        "condBranchCondition": {
+          "v": {
+            "flag": "mmsg"
+          }
+        },
+        "condBranchIfTrue": {
+          "condTreeData": {
+            "name": {},
+            "exposed-modules": [],
+            "re-exported-modules": [],
+            "signatures": [],
+            "exposed": true,
+            "visibility": "LibraryVisibilityPublic",
+            "build-info": {
+              "buildable": true,
+              "buildTools": [],
+              "buildToolDepends": [],
+              "cppOptions": [],
+              "asmOptions": [],
+              "cmmOptions": [],
+              "ccOptions": [],
+              "cxxOptions": [],
+              "ldOptions": [],
+              "pkgconfigDepends": [],
+              "frameworks": [],
+              "extraFrameworkDirs": [],
+              "asmSources": [],
+              "cmmSources": [],
+              "cSources": [],
+              "cxxSources": [],
+              "jsSources": [],
+              "hsSourceDirs": [
+                "src-mmsg"
+              ],
+              "otherModules": [],
+              "virtualModules": [],
+              "autogenModules": [],
+              "defaultLanguage": null,
+              "otherLanguages": [],
+              "defaultExtensions": [],
+              "otherExtensions": [],
+              "oldExtensions": [],
+              "extraLibs": [],
+              "extraGHCiLibs": [],
+              "extraBundledLibs": [],
+              "extraLibFlavours": [],
+              "extraDynLibFlavours": [],
+              "extraLibDirs": [],
+              "includeDirs": [],
+              "includes": [],
+              "autogenIncludes": [],
+              "installIncludes": [],
+              "options": [
+                [],
+                []
+              ],
+              "profOptions": [
+                [],
+                []
+              ],
+              "sharedOptions": [
+                [],
+                []
+              ],
+              "staticOptions": [
+                [],
+                []
+              ],
+              "customFieldsBI": [],
+              "targetBuildDepends": [],
+              "mixins": []
+            }
+          },
+          "condTreeConstraints": [],
+          "condTreeComponents": []
+        },
+        "condBranchIfFalse": {
+          "condTreeData": {
+            "name": {},
+            "exposed-modules": [],
+            "re-exported-modules": [],
+            "signatures": [],
+            "exposed": true,
+            "visibility": "LibraryVisibilityPublic",
+            "build-info": {
+              "buildable": true,
+              "buildTools": [],
+              "buildToolDepends": [],
+              "cppOptions": [],
+              "asmOptions": [],
+              "cmmOptions": [],
+              "ccOptions": [],
+              "cxxOptions": [],
+              "ldOptions": [],
+              "pkgconfigDepends": [],
+              "frameworks": [],
+              "extraFrameworkDirs": [],
+              "asmSources": [],
+              "cmmSources": [],
+              "cSources": [],
+              "cxxSources": [],
+              "jsSources": [],
+              "hsSourceDirs": [
+                "src-no-mmsg"
+              ],
+              "otherModules": [],
+              "virtualModules": [],
+              "autogenModules": [],
+              "defaultLanguage": null,
+              "otherLanguages": [],
+              "defaultExtensions": [],
+              "otherExtensions": [],
+              "oldExtensions": [],
+              "extraLibs": [],
+              "extraGHCiLibs": [],
+              "extraBundledLibs": [],
+              "extraLibFlavours": [],
+              "extraDynLibFlavours": [],
+              "extraLibDirs": [],
+              "includeDirs": [],
+              "includes": [],
+              "autogenIncludes": [],
+              "installIncludes": [],
+              "options": [
+                [],
+                []
+              ],
+              "profOptions": [
+                [],
+                []
+              ],
+              "sharedOptions": [
+                [],
+                []
+              ],
+              "staticOptions": [
+                [],
+                []
+              ],
+              "customFieldsBI": [],
+              "targetBuildDepends": [],
+              "mixins": []
+            }
+          },
+          "condTreeConstraints": [],
+          "condTreeComponents": []
+        }
+      }
+    ]
+  },
+  "sublibraries": {
+    "sockets-stream-receive": {
+      "condTreeData": {
+        "name": {
+          "sub-lib-name": "sockets-stream-receive"
+        },
+        "exposed-modules": [
+          [
+            "Stream",
+            "Receive",
+            "Indefinite"
+          ]
+        ],
+        "re-exported-modules": [],
+        "signatures": [
+          [
+            "Stream",
+            "Receive"
+          ]
+        ],
+        "exposed": true,
+        "visibility": "LibraryVisibilityPrivate",
+        "build-info": {
+          "buildable": true,
+          "buildTools": [],
+          "buildToolDepends": [],
+          "cppOptions": [],
+          "asmOptions": [],
+          "cmmOptions": [],
+          "ccOptions": [],
+          "cxxOptions": [],
+          "ldOptions": [],
+          "pkgconfigDepends": [],
+          "frameworks": [],
+          "extraFrameworkDirs": [],
+          "asmSources": [],
+          "cmmSources": [],
+          "cSources": [],
+          "cxxSources": [],
+          "jsSources": [],
+          "hsSourceDirs": [
+            "src-stream-receive"
+          ],
+          "otherModules": [],
+          "virtualModules": [],
+          "autogenModules": [],
+          "defaultLanguage": "Haskell2010",
+          "otherLanguages": [],
+          "defaultExtensions": [],
+          "otherExtensions": [],
+          "oldExtensions": [],
+          "extraLibs": [],
+          "extraGHCiLibs": [],
+          "extraBundledLibs": [],
+          "extraLibFlavours": [],
+          "extraDynLibFlavours": [],
+          "extraLibDirs": [],
+          "includeDirs": [],
+          "includes": [],
+          "autogenIncludes": [],
+          "installIncludes": [],
+          "options": [
+            [
+              "-O2",
+              "-Wall"
+            ],
+            []
+          ],
+          "profOptions": [
+            [],
+            []
+          ],
+          "sharedOptions": [
+            [],
+            []
+          ],
+          "staticOptions": [
+            [],
+            []
+          ],
+          "customFieldsBI": [],
+          "targetBuildDepends": [
+            {
+              "package-name": "base",
+              "version-range": ">=4.11.1.0 && <5",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "error-codes",
+              "version-range": ">=0.1.0.1 && <0.2",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "posix-api",
+              "version-range": ">=0.3 && <0.4",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "stm",
+              "version-range": ">=2.4",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "sockets-internal",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "sockets-buffer",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "sockets-interrupt",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            }
+          ],
+          "mixins": []
+        }
+      },
+      "condTreeConstraints": [
+        {
+          "package-name": "base",
+          "version-range": ">=4.11.1.0 && <5",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "error-codes",
+          "version-range": ">=0.1.0.1 && <0.2",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "posix-api",
+          "version-range": ">=0.3 && <0.4",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "stm",
+          "version-range": ">=2.4",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "sockets-internal",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "sockets-buffer",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "sockets-interrupt",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        }
+      ],
+      "condTreeComponents": []
+    },
+    "sockets-interrupt": {
+      "condTreeData": {
+        "name": {
+          "sub-lib-name": "sockets-interrupt"
+        },
+        "exposed-modules": [],
+        "re-exported-modules": [],
+        "signatures": [
+          [
+            "Socket",
+            "Interrupt"
+          ]
+        ],
+        "exposed": true,
+        "visibility": "LibraryVisibilityPrivate",
+        "build-info": {
+          "buildable": true,
+          "buildTools": [],
+          "buildToolDepends": [],
+          "cppOptions": [],
+          "asmOptions": [],
+          "cmmOptions": [],
+          "ccOptions": [],
+          "cxxOptions": [],
+          "ldOptions": [],
+          "pkgconfigDepends": [],
+          "frameworks": [],
+          "extraFrameworkDirs": [],
+          "asmSources": [],
+          "cmmSources": [],
+          "cSources": [],
+          "cxxSources": [],
+          "jsSources": [],
+          "hsSourceDirs": [
+            "src-interrupt"
+          ],
+          "otherModules": [],
+          "virtualModules": [],
+          "autogenModules": [],
+          "defaultLanguage": "Haskell2010",
+          "otherLanguages": [],
+          "defaultExtensions": [],
+          "otherExtensions": [],
+          "oldExtensions": [],
+          "extraLibs": [],
+          "extraGHCiLibs": [],
+          "extraBundledLibs": [],
+          "extraLibFlavours": [],
+          "extraDynLibFlavours": [],
+          "extraLibDirs": [],
+          "includeDirs": [],
+          "includes": [],
+          "autogenIncludes": [],
+          "installIncludes": [],
+          "options": [
+            [
+              "-O2",
+              "-Wall"
+            ],
+            []
+          ],
+          "profOptions": [
+            [],
+            []
+          ],
+          "sharedOptions": [
+            [],
+            []
+          ],
+          "staticOptions": [
+            [],
+            []
+          ],
+          "customFieldsBI": [],
+          "targetBuildDepends": [
+            {
+              "package-name": "base",
+              "version-range": ">=4.11.1.0 && <5",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "error-codes",
+              "version-range": ">=0.1.0.1 && <0.2",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "stm",
+              "version-range": ">=2.4",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "sockets-internal",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            }
+          ],
+          "mixins": []
+        }
+      },
+      "condTreeConstraints": [
+        {
+          "package-name": "base",
+          "version-range": ">=4.11.1.0 && <5",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "error-codes",
+          "version-range": ">=0.1.0.1 && <0.2",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "stm",
+          "version-range": ">=2.4",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "sockets-internal",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        }
+      ],
+      "condTreeComponents": []
+    },
+    "sockets-buffer": {
+      "condTreeData": {
+        "name": {
+          "sub-lib-name": "sockets-buffer"
+        },
+        "exposed-modules": [],
+        "re-exported-modules": [],
+        "signatures": [
+          [
+            "Socket",
+            "Buffer"
+          ]
+        ],
+        "exposed": true,
+        "visibility": "LibraryVisibilityPrivate",
+        "build-info": {
+          "buildable": true,
+          "buildTools": [],
+          "buildToolDepends": [],
+          "cppOptions": [],
+          "asmOptions": [],
+          "cmmOptions": [],
+          "ccOptions": [],
+          "cxxOptions": [],
+          "ldOptions": [],
+          "pkgconfigDepends": [],
+          "frameworks": [],
+          "extraFrameworkDirs": [],
+          "asmSources": [],
+          "cmmSources": [],
+          "cSources": [],
+          "cxxSources": [],
+          "jsSources": [],
+          "hsSourceDirs": [
+            "src-buffer"
+          ],
+          "otherModules": [],
+          "virtualModules": [],
+          "autogenModules": [],
+          "defaultLanguage": "Haskell2010",
+          "otherLanguages": [],
+          "defaultExtensions": [],
+          "otherExtensions": [],
+          "oldExtensions": [],
+          "extraLibs": [],
+          "extraGHCiLibs": [],
+          "extraBundledLibs": [],
+          "extraLibFlavours": [],
+          "extraDynLibFlavours": [],
+          "extraLibDirs": [],
+          "includeDirs": [],
+          "includes": [],
+          "autogenIncludes": [],
+          "installIncludes": [],
+          "options": [
+            [
+              "-O2",
+              "-Wall"
+            ],
+            []
+          ],
+          "profOptions": [
+            [],
+            []
+          ],
+          "sharedOptions": [
+            [],
+            []
+          ],
+          "staticOptions": [
+            [],
+            []
+          ],
+          "customFieldsBI": [],
+          "targetBuildDepends": [
+            {
+              "package-name": "base",
+              "version-range": ">=4.11.1.0 && <5",
+              "library": [
+                {}
+              ]
+            }
+          ],
+          "mixins": []
+        }
+      },
+      "condTreeConstraints": [
+        {
+          "package-name": "base",
+          "version-range": ">=4.11.1.0 && <5",
+          "library": [
+            {}
+          ]
+        }
+      ],
+      "condTreeComponents": []
+    },
+    "sockets-stream-send": {
+      "condTreeData": {
+        "name": {
+          "sub-lib-name": "sockets-stream-send"
+        },
+        "exposed-modules": [
+          [
+            "Stream",
+            "Send",
+            "Indefinite"
+          ]
+        ],
+        "re-exported-modules": [],
+        "signatures": [
+          [
+            "Stream",
+            "Send"
+          ]
+        ],
+        "exposed": true,
+        "visibility": "LibraryVisibilityPrivate",
+        "build-info": {
+          "buildable": true,
+          "buildTools": [],
+          "buildToolDepends": [],
+          "cppOptions": [],
+          "asmOptions": [],
+          "cmmOptions": [],
+          "ccOptions": [],
+          "cxxOptions": [],
+          "ldOptions": [],
+          "pkgconfigDepends": [],
+          "frameworks": [],
+          "extraFrameworkDirs": [],
+          "asmSources": [],
+          "cmmSources": [],
+          "cSources": [],
+          "cxxSources": [],
+          "jsSources": [],
+          "hsSourceDirs": [
+            "src-stream-send"
+          ],
+          "otherModules": [],
+          "virtualModules": [],
+          "autogenModules": [],
+          "defaultLanguage": "Haskell2010",
+          "otherLanguages": [],
+          "defaultExtensions": [],
+          "otherExtensions": [],
+          "oldExtensions": [],
+          "extraLibs": [],
+          "extraGHCiLibs": [],
+          "extraBundledLibs": [],
+          "extraLibFlavours": [],
+          "extraDynLibFlavours": [],
+          "extraLibDirs": [],
+          "includeDirs": [],
+          "includes": [],
+          "autogenIncludes": [],
+          "installIncludes": [],
+          "options": [
+            [
+              "-O2",
+              "-Wall"
+            ],
+            []
+          ],
+          "profOptions": [
+            [],
+            []
+          ],
+          "sharedOptions": [
+            [],
+            []
+          ],
+          "staticOptions": [
+            [],
+            []
+          ],
+          "customFieldsBI": [],
+          "targetBuildDepends": [
+            {
+              "package-name": "base",
+              "version-range": ">=4.11.1.0 && <5",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "error-codes",
+              "version-range": ">=0.1.0.1 && <0.2",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "posix-api",
+              "version-range": ">=0.3 && <0.4",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "stm",
+              "version-range": ">=2.4",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "sockets-internal",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "sockets-buffer",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "sockets-interrupt",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            }
+          ],
+          "mixins": []
+        }
+      },
+      "condTreeConstraints": [
+        {
+          "package-name": "base",
+          "version-range": ">=4.11.1.0 && <5",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "error-codes",
+          "version-range": ">=0.1.0.1 && <0.2",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "posix-api",
+          "version-range": ">=0.3 && <0.4",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "stm",
+          "version-range": ">=2.4",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "sockets-internal",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "sockets-buffer",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "sockets-interrupt",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        }
+      ],
+      "condTreeComponents": []
+    },
+    "sockets-datagram-receive": {
+      "condTreeData": {
+        "name": {
+          "sub-lib-name": "sockets-datagram-receive"
+        },
+        "exposed-modules": [
+          [
+            "Datagram",
+            "Receive",
+            "Indefinite"
+          ]
+        ],
+        "re-exported-modules": [],
+        "signatures": [
+          [
+            "Datagram",
+            "Receive"
+          ]
+        ],
+        "exposed": true,
+        "visibility": "LibraryVisibilityPrivate",
+        "build-info": {
+          "buildable": true,
+          "buildTools": [],
+          "buildToolDepends": [],
+          "cppOptions": [],
+          "asmOptions": [],
+          "cmmOptions": [],
+          "ccOptions": [],
+          "cxxOptions": [],
+          "ldOptions": [],
+          "pkgconfigDepends": [],
+          "frameworks": [],
+          "extraFrameworkDirs": [],
+          "asmSources": [],
+          "cmmSources": [],
+          "cSources": [],
+          "cxxSources": [],
+          "jsSources": [],
+          "hsSourceDirs": [
+            "src-datagram-receive"
+          ],
+          "otherModules": [],
+          "virtualModules": [],
+          "autogenModules": [],
+          "defaultLanguage": "Haskell2010",
+          "otherLanguages": [],
+          "defaultExtensions": [],
+          "otherExtensions": [],
+          "oldExtensions": [],
+          "extraLibs": [],
+          "extraGHCiLibs": [],
+          "extraBundledLibs": [],
+          "extraLibFlavours": [],
+          "extraDynLibFlavours": [],
+          "extraLibDirs": [],
+          "includeDirs": [],
+          "includes": [],
+          "autogenIncludes": [],
+          "installIncludes": [],
+          "options": [
+            [
+              "-O2",
+              "-Wall"
+            ],
+            []
+          ],
+          "profOptions": [
+            [],
+            []
+          ],
+          "sharedOptions": [
+            [],
+            []
+          ],
+          "staticOptions": [
+            [],
+            []
+          ],
+          "customFieldsBI": [],
+          "targetBuildDepends": [
+            {
+              "package-name": "base",
+              "version-range": ">=4.11.1.0 && <5",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "error-codes",
+              "version-range": ">=0.1.0.1 && <0.2",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "stm",
+              "version-range": ">=2.4",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "posix-api",
+              "version-range": ">=0.3 && <0.4",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "primitive-offset",
+              "version-range": ">=0.2 && <0.3",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "sockets-internal",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "sockets-buffer",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "sockets-interrupt",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            }
+          ],
+          "mixins": []
+        }
+      },
+      "condTreeConstraints": [
+        {
+          "package-name": "base",
+          "version-range": ">=4.11.1.0 && <5",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "error-codes",
+          "version-range": ">=0.1.0.1 && <0.2",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "stm",
+          "version-range": ">=2.4",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "posix-api",
+          "version-range": ">=0.3 && <0.4",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "primitive-offset",
+          "version-range": ">=0.2 && <0.3",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "sockets-internal",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "sockets-buffer",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "sockets-interrupt",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        }
+      ],
+      "condTreeComponents": []
+    },
+    "sockets-stream-bidirectional": {
+      "condTreeData": {
+        "name": {
+          "sub-lib-name": "sockets-stream-bidirectional"
+        },
+        "exposed-modules": [],
+        "re-exported-modules": [
+          {
+            "moduleReexportOriginalPackage": null,
+            "moduleReexportOriginalName": [
+              "Stream",
+              "Send",
+              "Indefinite"
+            ],
+            "moduleReexportName": [
+              "Stream",
+              "Send",
+              "Indefinite"
+            ]
+          },
+          {
+            "moduleReexportOriginalPackage": null,
+            "moduleReexportOriginalName": [
+              "Stream",
+              "Receive",
+              "Indefinite"
+            ],
+            "moduleReexportName": [
+              "Stream",
+              "Receive",
+              "Indefinite"
+            ]
+          }
+        ],
+        "signatures": [],
+        "exposed": true,
+        "visibility": "LibraryVisibilityPrivate",
+        "build-info": {
+          "buildable": true,
+          "buildTools": [],
+          "buildToolDepends": [],
+          "cppOptions": [],
+          "asmOptions": [],
+          "cmmOptions": [],
+          "ccOptions": [],
+          "cxxOptions": [],
+          "ldOptions": [],
+          "pkgconfigDepends": [],
+          "frameworks": [],
+          "extraFrameworkDirs": [],
+          "asmSources": [],
+          "cmmSources": [],
+          "cSources": [],
+          "cxxSources": [],
+          "jsSources": [],
+          "hsSourceDirs": [],
+          "otherModules": [],
+          "virtualModules": [],
+          "autogenModules": [],
+          "defaultLanguage": "Haskell2010",
+          "otherLanguages": [],
+          "defaultExtensions": [],
+          "otherExtensions": [],
+          "oldExtensions": [],
+          "extraLibs": [],
+          "extraGHCiLibs": [],
+          "extraBundledLibs": [],
+          "extraLibFlavours": [],
+          "extraDynLibFlavours": [],
+          "extraLibDirs": [],
+          "includeDirs": [],
+          "includes": [],
+          "autogenIncludes": [],
+          "installIncludes": [],
+          "options": [
+            [],
+            []
+          ],
+          "profOptions": [
+            [],
+            []
+          ],
+          "sharedOptions": [
+            [],
+            []
+          ],
+          "staticOptions": [
+            [],
+            []
+          ],
+          "customFieldsBI": [],
+          "targetBuildDepends": [
+            {
+              "package-name": "base",
+              "version-range": ">=4.11.1.0 && <5",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "error-codes",
+              "version-range": ">=0.1.0.1 && <0.2",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "stm",
+              "version-range": ">=2.4",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "sockets-internal",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "sockets-stream-send",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "sockets-stream-receive",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            }
+          ],
+          "mixins": [
+            {
+              "package-name": "sockets-stream-send",
+              "include-renaming": {
+                "includeProvidesRn": {
+                  "name": [
+                    [
+                      [
+                        "Stream",
+                        "Send",
+                        "Indefinite"
+                      ],
+                      [
+                        "Stream",
+                        "Send",
+                        "Indefinite"
+                      ]
+                    ]
+                  ]
+                },
+                "includeRequiresRn": {}
+              }
+            },
+            {
+              "package-name": "sockets-stream-receive",
+              "include-renaming": {
+                "includeProvidesRn": {
+                  "name": [
+                    [
+                      [
+                        "Stream",
+                        "Receive",
+                        "Indefinite"
+                      ],
+                      [
+                        "Stream",
+                        "Receive",
+                        "Indefinite"
+                      ]
+                    ]
+                  ]
+                },
+                "includeRequiresRn": {}
+              }
+            }
+          ]
+        }
+      },
+      "condTreeConstraints": [
+        {
+          "package-name": "base",
+          "version-range": ">=4.11.1.0 && <5",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "error-codes",
+          "version-range": ">=0.1.0.1 && <0.2",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "stm",
+          "version-range": ">=2.4",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "sockets-internal",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "sockets-stream-send",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "sockets-stream-receive",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        }
+      ],
+      "condTreeComponents": []
+    },
+    "sockets-internal": {
+      "condTreeData": {
+        "name": {
+          "sub-lib-name": "sockets-internal"
+        },
+        "exposed-modules": [
+          [
+            "Socket"
+          ],
+          [
+            "Socket",
+            "AddrLength"
+          ],
+          [
+            "Socket",
+            "Datagram"
+          ],
+          [
+            "Socket",
+            "Debug"
+          ],
+          [
+            "Socket",
+            "Error"
+          ],
+          [
+            "Socket",
+            "EventManager"
+          ],
+          [
+            "Socket",
+            "IPv4"
+          ],
+          [
+            "Socket",
+            "Stream"
+          ],
+          [
+            "Socket",
+            "Bytes"
+          ],
+          [
+            "Socket",
+            "Destined",
+            "IPv4",
+            "MutableBytes"
+          ],
+          [
+            "Socket",
+            "Destined",
+            "IPv4",
+            "Bytes"
+          ],
+          [
+            "Socket",
+            "Discard"
+          ],
+          [
+            "Socket",
+            "Connected",
+            "MutableBytes"
+          ],
+          [
+            "Socket",
+            "Connected",
+            "Bytes"
+          ],
+          [
+            "Socket",
+            "MutableBytes"
+          ],
+          [
+            "Socket",
+            "MutableBytes",
+            "Peerless"
+          ],
+          [
+            "Socket",
+            "MutableBytes",
+            "SocketAddressInternet"
+          ],
+          [
+            "Socket",
+            "Interruptible"
+          ],
+          [
+            "Socket",
+            "Uninterruptible"
+          ],
+          [
+            "Hybrid",
+            "Send",
+            "MutableBytes",
+            "AddrLength"
+          ]
+        ],
+        "re-exported-modules": [],
+        "signatures": [],
+        "exposed": true,
+        "visibility": "LibraryVisibilityPrivate",
+        "build-info": {
+          "buildable": true,
+          "buildTools": [],
+          "buildToolDepends": [],
+          "cppOptions": [],
+          "asmOptions": [],
+          "cmmOptions": [],
+          "ccOptions": [],
+          "cxxOptions": [],
+          "ldOptions": [],
+          "pkgconfigDepends": [],
+          "frameworks": [],
+          "extraFrameworkDirs": [],
+          "asmSources": [],
+          "cmmSources": [],
+          "cSources": [],
+          "cxxSources": [],
+          "jsSources": [],
+          "hsSourceDirs": [
+            "src-internal"
+          ],
+          "otherModules": [],
+          "virtualModules": [],
+          "autogenModules": [],
+          "defaultLanguage": "Haskell2010",
+          "otherLanguages": [],
+          "defaultExtensions": [],
+          "otherExtensions": [],
+          "oldExtensions": [],
+          "extraLibs": [],
+          "extraGHCiLibs": [],
+          "extraBundledLibs": [],
+          "extraLibFlavours": [],
+          "extraDynLibFlavours": [],
+          "extraLibDirs": [],
+          "includeDirs": [],
+          "includes": [],
+          "autogenIncludes": [],
+          "installIncludes": [],
+          "options": [
+            [
+              "-O2",
+              "-Wall"
+            ],
+            []
+          ],
+          "profOptions": [
+            [],
+            []
+          ],
+          "sharedOptions": [
+            [],
+            []
+          ],
+          "staticOptions": [
+            [],
+            []
+          ],
+          "customFieldsBI": [],
+          "targetBuildDepends": [
+            {
+              "package-name": "base",
+              "version-range": ">=4.11.1.0 && <5",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "ip",
+              "version-range": ">=1.4.1",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "posix-api",
+              "version-range": ">=0.3 && <0.4",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "primitive-offset",
+              "version-range": ">=0.2 && <0.3",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "primitive-unlifted",
+              "version-range": ">=0.1 && <0.2",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "primitive-addr",
+              "version-range": ">=0.1 && <0.2",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "stm",
+              "version-range": ">=2.4",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "text",
+              "version-range": ">=1.2",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "byteslice",
+              "version-range": ">=0.1.1 && <0.2",
+              "library": [
+                {}
+              ]
+            }
+          ],
+          "mixins": []
+        }
+      },
+      "condTreeConstraints": [
+        {
+          "package-name": "base",
+          "version-range": ">=4.11.1.0 && <5",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "ip",
+          "version-range": ">=1.4.1",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "posix-api",
+          "version-range": ">=0.3 && <0.4",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "primitive-offset",
+          "version-range": ">=0.2 && <0.3",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "primitive-unlifted",
+          "version-range": ">=0.1 && <0.2",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "primitive-addr",
+          "version-range": ">=0.1 && <0.2",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "stm",
+          "version-range": ">=2.4",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "text",
+          "version-range": ">=1.2",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "byteslice",
+          "version-range": ">=0.1.1 && <0.2",
+          "library": [
+            {}
+          ]
+        }
+      ],
+      "condTreeComponents": [
+        {
+          "condBranchCondition": {
+            "v": {
+              "flag": "checked"
+            }
+          },
+          "condBranchIfTrue": {
+            "condTreeData": {
+              "name": {
+                "sub-lib-name": "sockets-internal"
+              },
+              "exposed-modules": [],
+              "re-exported-modules": [],
+              "signatures": [],
+              "exposed": true,
+              "visibility": "LibraryVisibilityPrivate",
+              "build-info": {
+                "buildable": true,
+                "buildTools": [],
+                "buildToolDepends": [],
+                "cppOptions": [],
+                "asmOptions": [],
+                "cmmOptions": [],
+                "ccOptions": [],
+                "cxxOptions": [],
+                "ldOptions": [],
+                "pkgconfigDepends": [],
+                "frameworks": [],
+                "extraFrameworkDirs": [],
+                "asmSources": [],
+                "cmmSources": [],
+                "cSources": [],
+                "cxxSources": [],
+                "jsSources": [],
+                "hsSourceDirs": [],
+                "otherModules": [],
+                "virtualModules": [],
+                "autogenModules": [],
+                "defaultLanguage": null,
+                "otherLanguages": [],
+                "defaultExtensions": [],
+                "otherExtensions": [],
+                "oldExtensions": [],
+                "extraLibs": [],
+                "extraGHCiLibs": [],
+                "extraBundledLibs": [],
+                "extraLibFlavours": [],
+                "extraDynLibFlavours": [],
+                "extraLibDirs": [],
+                "includeDirs": [],
+                "includes": [],
+                "autogenIncludes": [],
+                "installIncludes": [],
+                "options": [
+                  [],
+                  []
+                ],
+                "profOptions": [
+                  [],
+                  []
+                ],
+                "sharedOptions": [
+                  [],
+                  []
+                ],
+                "staticOptions": [
+                  [],
+                  []
+                ],
+                "customFieldsBI": [],
+                "targetBuildDepends": [
+                  {
+                    "package-name": "primitive-checked",
+                    "version-range": ">=0.7 && <0.8",
+                    "library": [
+                      {}
+                    ]
+                  }
+                ],
+                "mixins": []
+              }
+            },
+            "condTreeConstraints": [
+              {
+                "package-name": "primitive-checked",
+                "version-range": ">=0.7 && <0.8",
+                "library": [
+                  {}
+                ]
+              }
+            ],
+            "condTreeComponents": []
+          },
+          "condBranchIfFalse": {
+            "condTreeData": {
+              "name": {
+                "sub-lib-name": "sockets-internal"
+              },
+              "exposed-modules": [],
+              "re-exported-modules": [],
+              "signatures": [],
+              "exposed": true,
+              "visibility": "LibraryVisibilityPrivate",
+              "build-info": {
+                "buildable": true,
+                "buildTools": [],
+                "buildToolDepends": [],
+                "cppOptions": [],
+                "asmOptions": [],
+                "cmmOptions": [],
+                "ccOptions": [],
+                "cxxOptions": [],
+                "ldOptions": [],
+                "pkgconfigDepends": [],
+                "frameworks": [],
+                "extraFrameworkDirs": [],
+                "asmSources": [],
+                "cmmSources": [],
+                "cSources": [],
+                "cxxSources": [],
+                "jsSources": [],
+                "hsSourceDirs": [],
+                "otherModules": [],
+                "virtualModules": [],
+                "autogenModules": [],
+                "defaultLanguage": null,
+                "otherLanguages": [],
+                "defaultExtensions": [],
+                "otherExtensions": [],
+                "oldExtensions": [],
+                "extraLibs": [],
+                "extraGHCiLibs": [],
+                "extraBundledLibs": [],
+                "extraLibFlavours": [],
+                "extraDynLibFlavours": [],
+                "extraLibDirs": [],
+                "includeDirs": [],
+                "includes": [],
+                "autogenIncludes": [],
+                "installIncludes": [],
+                "options": [
+                  [],
+                  []
+                ],
+                "profOptions": [
+                  [],
+                  []
+                ],
+                "sharedOptions": [
+                  [],
+                  []
+                ],
+                "staticOptions": [
+                  [],
+                  []
+                ],
+                "customFieldsBI": [],
+                "targetBuildDepends": [
+                  {
+                    "package-name": "primitive",
+                    "version-range": ">=0.7 && <0.8",
+                    "library": [
+                      {}
+                    ]
+                  }
+                ],
+                "mixins": []
+              }
+            },
+            "condTreeConstraints": [
+              {
+                "package-name": "primitive",
+                "version-range": ">=0.7 && <0.8",
+                "library": [
+                  {}
+                ]
+              }
+            ],
+            "condTreeComponents": []
+          }
+        },
+        {
+          "condBranchCondition": {
+            "v": {
+              "flag": "debug"
+            }
+          },
+          "condBranchIfTrue": {
+            "condTreeData": {
+              "name": {
+                "sub-lib-name": "sockets-internal"
+              },
+              "exposed-modules": [],
+              "re-exported-modules": [],
+              "signatures": [],
+              "exposed": true,
+              "visibility": "LibraryVisibilityPrivate",
+              "build-info": {
+                "buildable": true,
+                "buildTools": [],
+                "buildToolDepends": [],
+                "cppOptions": [],
+                "asmOptions": [],
+                "cmmOptions": [],
+                "ccOptions": [],
+                "cxxOptions": [],
+                "ldOptions": [],
+                "pkgconfigDepends": [],
+                "frameworks": [],
+                "extraFrameworkDirs": [],
+                "asmSources": [],
+                "cmmSources": [],
+                "cSources": [],
+                "cxxSources": [],
+                "jsSources": [],
+                "hsSourceDirs": [
+                  "src-debug"
+                ],
+                "otherModules": [],
+                "virtualModules": [],
+                "autogenModules": [],
+                "defaultLanguage": null,
+                "otherLanguages": [],
+                "defaultExtensions": [],
+                "otherExtensions": [],
+                "oldExtensions": [],
+                "extraLibs": [],
+                "extraGHCiLibs": [],
+                "extraBundledLibs": [],
+                "extraLibFlavours": [],
+                "extraDynLibFlavours": [],
+                "extraLibDirs": [],
+                "includeDirs": [],
+                "includes": [],
+                "autogenIncludes": [],
+                "installIncludes": [],
+                "options": [
+                  [],
+                  []
+                ],
+                "profOptions": [
+                  [],
+                  []
+                ],
+                "sharedOptions": [
+                  [],
+                  []
+                ],
+                "staticOptions": [
+                  [],
+                  []
+                ],
+                "customFieldsBI": [],
+                "targetBuildDepends": [],
+                "mixins": []
+              }
+            },
+            "condTreeConstraints": [],
+            "condTreeComponents": []
+          },
+          "condBranchIfFalse": {
+            "condTreeData": {
+              "name": {
+                "sub-lib-name": "sockets-internal"
+              },
+              "exposed-modules": [],
+              "re-exported-modules": [],
+              "signatures": [],
+              "exposed": true,
+              "visibility": "LibraryVisibilityPrivate",
+              "build-info": {
+                "buildable": true,
+                "buildTools": [],
+                "buildToolDepends": [],
+                "cppOptions": [],
+                "asmOptions": [],
+                "cmmOptions": [],
+                "ccOptions": [],
+                "cxxOptions": [],
+                "ldOptions": [],
+                "pkgconfigDepends": [],
+                "frameworks": [],
+                "extraFrameworkDirs": [],
+                "asmSources": [],
+                "cmmSources": [],
+                "cSources": [],
+                "cxxSources": [],
+                "jsSources": [],
+                "hsSourceDirs": [
+                  "src-production"
+                ],
+                "otherModules": [],
+                "virtualModules": [],
+                "autogenModules": [],
+                "defaultLanguage": null,
+                "otherLanguages": [],
+                "defaultExtensions": [],
+                "otherExtensions": [],
+                "oldExtensions": [],
+                "extraLibs": [],
+                "extraGHCiLibs": [],
+                "extraBundledLibs": [],
+                "extraLibFlavours": [],
+                "extraDynLibFlavours": [],
+                "extraLibDirs": [],
+                "includeDirs": [],
+                "includes": [],
+                "autogenIncludes": [],
+                "installIncludes": [],
+                "options": [
+                  [],
+                  []
+                ],
+                "profOptions": [
+                  [],
+                  []
+                ],
+                "sharedOptions": [
+                  [],
+                  []
+                ],
+                "staticOptions": [
+                  [],
+                  []
+                ],
+                "customFieldsBI": [],
+                "targetBuildDepends": [],
+                "mixins": []
+              }
+            },
+            "condTreeConstraints": [],
+            "condTreeComponents": []
+          }
+        },
+        {
+          "condBranchCondition": {
+            "cond1": {
+              "v": {
+                "flag": "debug"
+              }
+            },
+            "cond2": {
+              "v": {
+                "flag": "verbose-errors"
+              }
+            }
+          },
+          "condBranchIfTrue": {
+            "condTreeData": {
+              "name": {
+                "sub-lib-name": "sockets-internal"
+              },
+              "exposed-modules": [],
+              "re-exported-modules": [],
+              "signatures": [],
+              "exposed": true,
+              "visibility": "LibraryVisibilityPrivate",
+              "build-info": {
+                "buildable": true,
+                "buildTools": [],
+                "buildToolDepends": [],
+                "cppOptions": [],
+                "asmOptions": [],
+                "cmmOptions": [],
+                "ccOptions": [],
+                "cxxOptions": [],
+                "ldOptions": [],
+                "pkgconfigDepends": [],
+                "frameworks": [],
+                "extraFrameworkDirs": [],
+                "asmSources": [],
+                "cmmSources": [],
+                "cSources": [],
+                "cxxSources": [],
+                "jsSources": [],
+                "hsSourceDirs": [
+                  "src-err"
+                ],
+                "otherModules": [],
+                "virtualModules": [],
+                "autogenModules": [],
+                "defaultLanguage": null,
+                "otherLanguages": [],
+                "defaultExtensions": [],
+                "otherExtensions": [],
+                "oldExtensions": [],
+                "extraLibs": [],
+                "extraGHCiLibs": [],
+                "extraBundledLibs": [],
+                "extraLibFlavours": [],
+                "extraDynLibFlavours": [],
+                "extraLibDirs": [],
+                "includeDirs": [],
+                "includes": [],
+                "autogenIncludes": [],
+                "installIncludes": [],
+                "options": [
+                  [],
+                  []
+                ],
+                "profOptions": [
+                  [],
+                  []
+                ],
+                "sharedOptions": [
+                  [],
+                  []
+                ],
+                "staticOptions": [
+                  [],
+                  []
+                ],
+                "customFieldsBI": [],
+                "targetBuildDepends": [],
+                "mixins": []
+              }
+            },
+            "condTreeConstraints": [],
+            "condTreeComponents": []
+          },
+          "condBranchIfFalse": {
+            "condTreeData": {
+              "name": {
+                "sub-lib-name": "sockets-internal"
+              },
+              "exposed-modules": [],
+              "re-exported-modules": [],
+              "signatures": [],
+              "exposed": true,
+              "visibility": "LibraryVisibilityPrivate",
+              "build-info": {
+                "buildable": true,
+                "buildTools": [],
+                "buildToolDepends": [],
+                "cppOptions": [],
+                "asmOptions": [],
+                "cmmOptions": [],
+                "ccOptions": [],
+                "cxxOptions": [],
+                "ldOptions": [],
+                "pkgconfigDepends": [],
+                "frameworks": [],
+                "extraFrameworkDirs": [],
+                "asmSources": [],
+                "cmmSources": [],
+                "cSources": [],
+                "cxxSources": [],
+                "jsSources": [],
+                "hsSourceDirs": [
+                  "src-noerr"
+                ],
+                "otherModules": [],
+                "virtualModules": [],
+                "autogenModules": [],
+                "defaultLanguage": null,
+                "otherLanguages": [],
+                "defaultExtensions": [],
+                "otherExtensions": [],
+                "oldExtensions": [],
+                "extraLibs": [],
+                "extraGHCiLibs": [],
+                "extraBundledLibs": [],
+                "extraLibFlavours": [],
+                "extraDynLibFlavours": [],
+                "extraLibDirs": [],
+                "includeDirs": [],
+                "includes": [],
+                "autogenIncludes": [],
+                "installIncludes": [],
+                "options": [
+                  [],
+                  []
+                ],
+                "profOptions": [
+                  [],
+                  []
+                ],
+                "sharedOptions": [
+                  [],
+                  []
+                ],
+                "staticOptions": [
+                  [],
+                  []
+                ],
+                "customFieldsBI": [],
+                "targetBuildDepends": [],
+                "mixins": []
+              }
+            },
+            "condTreeConstraints": [],
+            "condTreeComponents": []
+          }
+        }
+      ]
+    },
+    "sockets-datagram-receive-many": {
+      "condTreeData": {
+        "name": {
+          "sub-lib-name": "sockets-datagram-receive-many"
+        },
+        "exposed-modules": [
+          [
+            "Datagram",
+            "Receive",
+            "Many",
+            "Indefinite"
+          ]
+        ],
+        "re-exported-modules": [],
+        "signatures": [],
+        "exposed": true,
+        "visibility": "LibraryVisibilityPrivate",
+        "build-info": {
+          "buildable": true,
+          "buildTools": [],
+          "buildToolDepends": [],
+          "cppOptions": [],
+          "asmOptions": [],
+          "cmmOptions": [],
+          "ccOptions": [],
+          "cxxOptions": [],
+          "ldOptions": [],
+          "pkgconfigDepends": [],
+          "frameworks": [],
+          "extraFrameworkDirs": [],
+          "asmSources": [],
+          "cmmSources": [],
+          "cSources": [],
+          "cxxSources": [],
+          "jsSources": [],
+          "hsSourceDirs": [
+            "src-datagram-receive-many"
+          ],
+          "otherModules": [],
+          "virtualModules": [],
+          "autogenModules": [],
+          "defaultLanguage": "Haskell2010",
+          "otherLanguages": [],
+          "defaultExtensions": [],
+          "otherExtensions": [],
+          "oldExtensions": [],
+          "extraLibs": [],
+          "extraGHCiLibs": [],
+          "extraBundledLibs": [],
+          "extraLibFlavours": [],
+          "extraDynLibFlavours": [],
+          "extraLibDirs": [],
+          "includeDirs": [],
+          "includes": [],
+          "autogenIncludes": [],
+          "installIncludes": [],
+          "options": [
+            [
+              "-O2",
+              "-Wall"
+            ],
+            []
+          ],
+          "profOptions": [
+            [],
+            []
+          ],
+          "sharedOptions": [
+            [],
+            []
+          ],
+          "staticOptions": [
+            [],
+            []
+          ],
+          "customFieldsBI": [],
+          "targetBuildDepends": [
+            {
+              "package-name": "base",
+              "version-range": ">=4.11.1.0 && <5",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "error-codes",
+              "version-range": ">=0.1.0.1 && <0.2",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "stm",
+              "version-range": ">=2.4",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "posix-api",
+              "version-range": ">=0.3 && <0.4",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "primitive-unlifted",
+              "version-range": ">=0.1 && <0.2",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "byteslice",
+              "version-range": ">=0.1.1",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "sockets-datagram-receive",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "sockets-internal",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            }
+          ],
+          "mixins": [
+            {
+              "package-name": "sockets-datagram-receive",
+              "include-renaming": {
+                "includeProvidesRn": {
+                  "name": [
+                    [
+                      [
+                        "Datagram",
+                        "Receive",
+                        "Indefinite"
+                      ],
+                      [
+                        "Socket",
+                        "Datagram",
+                        "Instantiate"
+                      ]
+                    ]
+                  ]
+                },
+                "includeRequiresRn": {
+                  "name": [
+                    [
+                      [
+                        "Socket",
+                        "Buffer"
+                      ],
+                      [
+                        "Socket",
+                        "MutableBytes"
+                      ]
+                    ]
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      },
+      "condTreeConstraints": [
+        {
+          "package-name": "base",
+          "version-range": ">=4.11.1.0 && <5",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "error-codes",
+          "version-range": ">=0.1.0.1 && <0.2",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "stm",
+          "version-range": ">=2.4",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "posix-api",
+          "version-range": ">=0.3 && <0.4",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "primitive-unlifted",
+          "version-range": ">=0.1 && <0.2",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "byteslice",
+          "version-range": ">=0.1.1",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "sockets-datagram-receive",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "sockets-internal",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        }
+      ],
+      "condTreeComponents": [
+        {
+          "condBranchCondition": {
+            "v": {
+              "flag": "checked"
+            }
+          },
+          "condBranchIfTrue": {
+            "condTreeData": {
+              "name": {
+                "sub-lib-name": "sockets-datagram-receive-many"
+              },
+              "exposed-modules": [],
+              "re-exported-modules": [],
+              "signatures": [],
+              "exposed": true,
+              "visibility": "LibraryVisibilityPrivate",
+              "build-info": {
+                "buildable": true,
+                "buildTools": [],
+                "buildToolDepends": [],
+                "cppOptions": [],
+                "asmOptions": [],
+                "cmmOptions": [],
+                "ccOptions": [],
+                "cxxOptions": [],
+                "ldOptions": [],
+                "pkgconfigDepends": [],
+                "frameworks": [],
+                "extraFrameworkDirs": [],
+                "asmSources": [],
+                "cmmSources": [],
+                "cSources": [],
+                "cxxSources": [],
+                "jsSources": [],
+                "hsSourceDirs": [],
+                "otherModules": [],
+                "virtualModules": [],
+                "autogenModules": [],
+                "defaultLanguage": null,
+                "otherLanguages": [],
+                "defaultExtensions": [],
+                "otherExtensions": [],
+                "oldExtensions": [],
+                "extraLibs": [],
+                "extraGHCiLibs": [],
+                "extraBundledLibs": [],
+                "extraLibFlavours": [],
+                "extraDynLibFlavours": [],
+                "extraLibDirs": [],
+                "includeDirs": [],
+                "includes": [],
+                "autogenIncludes": [],
+                "installIncludes": [],
+                "options": [
+                  [],
+                  []
+                ],
+                "profOptions": [
+                  [],
+                  []
+                ],
+                "sharedOptions": [
+                  [],
+                  []
+                ],
+                "staticOptions": [
+                  [],
+                  []
+                ],
+                "customFieldsBI": [],
+                "targetBuildDepends": [
+                  {
+                    "package-name": "primitive-checked",
+                    "version-range": ">=0.7 && <0.8",
+                    "library": [
+                      {}
+                    ]
+                  }
+                ],
+                "mixins": []
+              }
+            },
+            "condTreeConstraints": [
+              {
+                "package-name": "primitive-checked",
+                "version-range": ">=0.7 && <0.8",
+                "library": [
+                  {}
+                ]
+              }
+            ],
+            "condTreeComponents": []
+          },
+          "condBranchIfFalse": {
+            "condTreeData": {
+              "name": {
+                "sub-lib-name": "sockets-datagram-receive-many"
+              },
+              "exposed-modules": [],
+              "re-exported-modules": [],
+              "signatures": [],
+              "exposed": true,
+              "visibility": "LibraryVisibilityPrivate",
+              "build-info": {
+                "buildable": true,
+                "buildTools": [],
+                "buildToolDepends": [],
+                "cppOptions": [],
+                "asmOptions": [],
+                "cmmOptions": [],
+                "ccOptions": [],
+                "cxxOptions": [],
+                "ldOptions": [],
+                "pkgconfigDepends": [],
+                "frameworks": [],
+                "extraFrameworkDirs": [],
+                "asmSources": [],
+                "cmmSources": [],
+                "cSources": [],
+                "cxxSources": [],
+                "jsSources": [],
+                "hsSourceDirs": [],
+                "otherModules": [],
+                "virtualModules": [],
+                "autogenModules": [],
+                "defaultLanguage": null,
+                "otherLanguages": [],
+                "defaultExtensions": [],
+                "otherExtensions": [],
+                "oldExtensions": [],
+                "extraLibs": [],
+                "extraGHCiLibs": [],
+                "extraBundledLibs": [],
+                "extraLibFlavours": [],
+                "extraDynLibFlavours": [],
+                "extraLibDirs": [],
+                "includeDirs": [],
+                "includes": [],
+                "autogenIncludes": [],
+                "installIncludes": [],
+                "options": [
+                  [],
+                  []
+                ],
+                "profOptions": [
+                  [],
+                  []
+                ],
+                "sharedOptions": [
+                  [],
+                  []
+                ],
+                "staticOptions": [
+                  [],
+                  []
+                ],
+                "customFieldsBI": [],
+                "targetBuildDepends": [
+                  {
+                    "package-name": "primitive",
+                    "version-range": ">=0.7 && <0.8",
+                    "library": [
+                      {}
+                    ]
+                  }
+                ],
+                "mixins": []
+              }
+            },
+            "condTreeConstraints": [
+              {
+                "package-name": "primitive",
+                "version-range": ">=0.7 && <0.8",
+                "library": [
+                  {}
+                ]
+              }
+            ],
+            "condTreeComponents": []
+          }
+        }
+      ]
+    },
+    "sockets-stream-send-two": {
+      "condTreeData": {
+        "name": {
+          "sub-lib-name": "sockets-stream-send-two"
+        },
+        "exposed-modules": [
+          [
+            "Stream",
+            "Send",
+            "Two",
+            "Indefinite"
+          ]
+        ],
+        "re-exported-modules": [],
+        "signatures": [
+          [
+            "Stream",
+            "Send",
+            "Two"
+          ],
+          [
+            "Stream",
+            "Send",
+            "B"
+          ],
+          [
+            "Stream",
+            "Send",
+            "Buffer",
+            "A"
+          ],
+          [
+            "Stream",
+            "Send",
+            "Buffer",
+            "B"
+          ]
+        ],
+        "exposed": true,
+        "visibility": "LibraryVisibilityPrivate",
+        "build-info": {
+          "buildable": true,
+          "buildTools": [],
+          "buildToolDepends": [],
+          "cppOptions": [],
+          "asmOptions": [],
+          "cmmOptions": [],
+          "ccOptions": [],
+          "cxxOptions": [],
+          "ldOptions": [],
+          "pkgconfigDepends": [],
+          "frameworks": [],
+          "extraFrameworkDirs": [],
+          "asmSources": [],
+          "cmmSources": [],
+          "cSources": [],
+          "cxxSources": [],
+          "jsSources": [],
+          "hsSourceDirs": [
+            "src-stream-send-two"
+          ],
+          "otherModules": [],
+          "virtualModules": [],
+          "autogenModules": [],
+          "defaultLanguage": "Haskell2010",
+          "otherLanguages": [],
+          "defaultExtensions": [],
+          "otherExtensions": [],
+          "oldExtensions": [],
+          "extraLibs": [],
+          "extraGHCiLibs": [],
+          "extraBundledLibs": [],
+          "extraLibFlavours": [],
+          "extraDynLibFlavours": [],
+          "extraLibDirs": [],
+          "includeDirs": [],
+          "includes": [],
+          "autogenIncludes": [],
+          "installIncludes": [],
+          "options": [
+            [
+              "-O2",
+              "-Wall"
+            ],
+            []
+          ],
+          "profOptions": [
+            [],
+            []
+          ],
+          "sharedOptions": [
+            [],
+            []
+          ],
+          "staticOptions": [
+            [],
+            []
+          ],
+          "customFieldsBI": [],
+          "targetBuildDepends": [
+            {
+              "package-name": "base",
+              "version-range": ">=4.11.1.0 && <5",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "error-codes",
+              "version-range": ">=0.1.0.1 && <0.2",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "posix-api",
+              "version-range": ">=0.3 && <0.4",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "stm",
+              "version-range": ">=2.4",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "sockets-internal",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "sockets-interrupt",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "sockets-stream-send",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            }
+          ],
+          "mixins": [
+            {
+              "package-name": "sockets-stream-send",
+              "include-renaming": {
+                "includeProvidesRn": {
+                  "name": [
+                    [
+                      [
+                        "Stream",
+                        "Send",
+                        "Indefinite"
+                      ],
+                      [
+                        "Stream",
+                        "Send",
+                        "Indefinite"
+                      ]
+                    ]
+                  ]
+                },
+                "includeRequiresRn": {
+                  "name": [
+                    [
+                      [
+                        "Socket",
+                        "Buffer"
+                      ],
+                      [
+                        "Stream",
+                        "Send",
+                        "Buffer",
+                        "B"
+                      ]
+                    ],
+                    [
+                      [
+                        "Stream",
+                        "Send"
+                      ],
+                      [
+                        "Stream",
+                        "Send",
+                        "B"
+                      ]
+                    ]
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      },
+      "condTreeConstraints": [
+        {
+          "package-name": "base",
+          "version-range": ">=4.11.1.0 && <5",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "error-codes",
+          "version-range": ">=0.1.0.1 && <0.2",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "posix-api",
+          "version-range": ">=0.3 && <0.4",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "stm",
+          "version-range": ">=2.4",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "sockets-internal",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "sockets-interrupt",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "sockets-stream-send",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        }
+      ],
+      "condTreeComponents": []
+    },
+    "sockets-datagram-send": {
+      "condTreeData": {
+        "name": {
+          "sub-lib-name": "sockets-datagram-send"
+        },
+        "exposed-modules": [
+          [
+            "Datagram",
+            "Send",
+            "Indefinite"
+          ]
+        ],
+        "re-exported-modules": [],
+        "signatures": [
+          [
+            "Datagram",
+            "Send"
+          ]
+        ],
+        "exposed": true,
+        "visibility": "LibraryVisibilityPrivate",
+        "build-info": {
+          "buildable": true,
+          "buildTools": [],
+          "buildToolDepends": [],
+          "cppOptions": [],
+          "asmOptions": [],
+          "cmmOptions": [],
+          "ccOptions": [],
+          "cxxOptions": [],
+          "ldOptions": [],
+          "pkgconfigDepends": [],
+          "frameworks": [],
+          "extraFrameworkDirs": [],
+          "asmSources": [],
+          "cmmSources": [],
+          "cSources": [],
+          "cxxSources": [],
+          "jsSources": [],
+          "hsSourceDirs": [
+            "src-datagram-send"
+          ],
+          "otherModules": [],
+          "virtualModules": [],
+          "autogenModules": [],
+          "defaultLanguage": "Haskell2010",
+          "otherLanguages": [],
+          "defaultExtensions": [],
+          "otherExtensions": [],
+          "oldExtensions": [],
+          "extraLibs": [],
+          "extraGHCiLibs": [],
+          "extraBundledLibs": [],
+          "extraLibFlavours": [],
+          "extraDynLibFlavours": [],
+          "extraLibDirs": [],
+          "includeDirs": [],
+          "includes": [],
+          "autogenIncludes": [],
+          "installIncludes": [],
+          "options": [
+            [
+              "-O2",
+              "-Wall"
+            ],
+            []
+          ],
+          "profOptions": [
+            [],
+            []
+          ],
+          "sharedOptions": [
+            [],
+            []
+          ],
+          "staticOptions": [
+            [],
+            []
+          ],
+          "customFieldsBI": [],
+          "targetBuildDepends": [
+            {
+              "package-name": "base",
+              "version-range": ">=4.11.1.0 && <5",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "error-codes",
+              "version-range": ">=0.1.0.1 && <0.2",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "posix-api",
+              "version-range": ">=0.3 && <0.4",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "stm",
+              "version-range": ">=2.4",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "sockets-internal",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "sockets-buffer",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "sockets-interrupt",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            }
+          ],
+          "mixins": []
+        }
+      },
+      "condTreeConstraints": [
+        {
+          "package-name": "base",
+          "version-range": ">=4.11.1.0 && <5",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "error-codes",
+          "version-range": ">=0.1.0.1 && <0.2",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "posix-api",
+          "version-range": ">=0.3 && <0.4",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "stm",
+          "version-range": ">=2.4",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "sockets-internal",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "sockets-buffer",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "sockets-interrupt",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        }
+      ],
+      "condTreeComponents": []
+    }
+  },
+  "executables": {
+    "sockets-example": {
+      "condTreeData": {
+        "name": "sockets-example",
+        "module-path": "Main.hs",
+        "scope": "public",
+        "build-info": {
+          "buildable": true,
+          "buildTools": [],
+          "buildToolDepends": [],
+          "cppOptions": [],
+          "asmOptions": [],
+          "cmmOptions": [],
+          "ccOptions": [],
+          "cxxOptions": [],
+          "ldOptions": [],
+          "pkgconfigDepends": [],
+          "frameworks": [],
+          "extraFrameworkDirs": [],
+          "asmSources": [],
+          "cmmSources": [],
+          "cSources": [],
+          "cxxSources": [],
+          "jsSources": [],
+          "hsSourceDirs": [
+            "example"
+          ],
+          "otherModules": [],
+          "virtualModules": [],
+          "autogenModules": [],
+          "defaultLanguage": "Haskell2010",
+          "otherLanguages": [],
+          "defaultExtensions": [],
+          "otherExtensions": [],
+          "oldExtensions": [],
+          "extraLibs": [],
+          "extraGHCiLibs": [],
+          "extraBundledLibs": [],
+          "extraLibFlavours": [],
+          "extraDynLibFlavours": [],
+          "extraLibDirs": [],
+          "includeDirs": [],
+          "includes": [],
+          "autogenIncludes": [],
+          "installIncludes": [],
+          "options": [
+            [
+              "-Wall",
+              "-O2",
+              "-threaded"
+            ],
+            []
+          ],
+          "profOptions": [
+            [],
+            []
+          ],
+          "sharedOptions": [
+            [],
+            []
+          ],
+          "staticOptions": [
+            [],
+            []
+          ],
+          "customFieldsBI": [],
+          "targetBuildDepends": [],
+          "mixins": []
+        }
+      },
+      "condTreeConstraints": [],
+      "condTreeComponents": [
+        {
+          "condBranchCondition": {
+            "v": {
+              "flag": "example"
+            }
+          },
+          "condBranchIfTrue": {
+            "condTreeData": {
+              "name": "sockets-example",
+              "module-path": "",
+              "scope": "public",
+              "build-info": {
+                "buildable": true,
+                "buildTools": [],
+                "buildToolDepends": [],
+                "cppOptions": [],
+                "asmOptions": [],
+                "cmmOptions": [],
+                "ccOptions": [],
+                "cxxOptions": [],
+                "ldOptions": [],
+                "pkgconfigDepends": [],
+                "frameworks": [],
+                "extraFrameworkDirs": [],
+                "asmSources": [],
+                "cmmSources": [],
+                "cSources": [],
+                "cxxSources": [],
+                "jsSources": [],
+                "hsSourceDirs": [],
+                "otherModules": [],
+                "virtualModules": [],
+                "autogenModules": [],
+                "defaultLanguage": null,
+                "otherLanguages": [],
+                "defaultExtensions": [],
+                "otherExtensions": [],
+                "oldExtensions": [],
+                "extraLibs": [],
+                "extraGHCiLibs": [],
+                "extraBundledLibs": [],
+                "extraLibFlavours": [],
+                "extraDynLibFlavours": [],
+                "extraLibDirs": [],
+                "includeDirs": [],
+                "includes": [],
+                "autogenIncludes": [],
+                "installIncludes": [],
+                "options": [
+                  [],
+                  []
+                ],
+                "profOptions": [
+                  [],
+                  []
+                ],
+                "sharedOptions": [
+                  [],
+                  []
+                ],
+                "staticOptions": [
+                  [],
+                  []
+                ],
+                "customFieldsBI": [],
+                "targetBuildDepends": [
+                  {
+                    "package-name": "base",
+                    "version-range": ">=4.11.1.0 && <5",
+                    "library": [
+                      {}
+                    ]
+                  },
+                  {
+                    "package-name": "byteslice",
+                    "version-range": ">=0.1.1 && <0.2",
+                    "library": [
+                      {}
+                    ]
+                  },
+                  {
+                    "package-name": "bytestring",
+                    "version-range": ">=0.10.8.2",
+                    "library": [
+                      {}
+                    ]
+                  },
+                  {
+                    "package-name": "fast-logger",
+                    "version-range": ">=2.4.13",
+                    "library": [
+                      {}
+                    ]
+                  },
+                  {
+                    "package-name": "ip",
+                    "version-range": ">=1.4.1",
+                    "library": [
+                      {}
+                    ]
+                  },
+                  {
+                    "package-name": "sockets",
+                    "version-range": "-any",
+                    "library": [
+                      {}
+                    ]
+                  }
+                ],
+                "mixins": []
+              }
+            },
+            "condTreeConstraints": [
+              {
+                "package-name": "base",
+                "version-range": ">=4.11.1.0 && <5",
+                "library": [
+                  {}
+                ]
+              },
+              {
+                "package-name": "byteslice",
+                "version-range": ">=0.1.1 && <0.2",
+                "library": [
+                  {}
+                ]
+              },
+              {
+                "package-name": "bytestring",
+                "version-range": ">=0.10.8.2",
+                "library": [
+                  {}
+                ]
+              },
+              {
+                "package-name": "fast-logger",
+                "version-range": ">=2.4.13",
+                "library": [
+                  {}
+                ]
+              },
+              {
+                "package-name": "ip",
+                "version-range": ">=1.4.1",
+                "library": [
+                  {}
+                ]
+              },
+              {
+                "package-name": "sockets",
+                "version-range": "-any",
+                "library": [
+                  {}
+                ]
+              }
+            ],
+            "condTreeComponents": [
+              {
+                "condBranchCondition": {
+                  "v": {
+                    "flag": "checked"
+                  }
+                },
+                "condBranchIfTrue": {
+                  "condTreeData": {
+                    "name": "sockets-example",
+                    "module-path": "",
+                    "scope": "public",
+                    "build-info": {
+                      "buildable": true,
+                      "buildTools": [],
+                      "buildToolDepends": [],
+                      "cppOptions": [],
+                      "asmOptions": [],
+                      "cmmOptions": [],
+                      "ccOptions": [],
+                      "cxxOptions": [],
+                      "ldOptions": [],
+                      "pkgconfigDepends": [],
+                      "frameworks": [],
+                      "extraFrameworkDirs": [],
+                      "asmSources": [],
+                      "cmmSources": [],
+                      "cSources": [],
+                      "cxxSources": [],
+                      "jsSources": [],
+                      "hsSourceDirs": [],
+                      "otherModules": [],
+                      "virtualModules": [],
+                      "autogenModules": [],
+                      "defaultLanguage": null,
+                      "otherLanguages": [],
+                      "defaultExtensions": [],
+                      "otherExtensions": [],
+                      "oldExtensions": [],
+                      "extraLibs": [],
+                      "extraGHCiLibs": [],
+                      "extraBundledLibs": [],
+                      "extraLibFlavours": [],
+                      "extraDynLibFlavours": [],
+                      "extraLibDirs": [],
+                      "includeDirs": [],
+                      "includes": [],
+                      "autogenIncludes": [],
+                      "installIncludes": [],
+                      "options": [
+                        [],
+                        []
+                      ],
+                      "profOptions": [
+                        [],
+                        []
+                      ],
+                      "sharedOptions": [
+                        [],
+                        []
+                      ],
+                      "staticOptions": [
+                        [],
+                        []
+                      ],
+                      "customFieldsBI": [],
+                      "targetBuildDepends": [
+                        {
+                          "package-name": "primitive-checked",
+                          "version-range": ">=0.7 && <0.8",
+                          "library": [
+                            {}
+                          ]
+                        }
+                      ],
+                      "mixins": []
+                    }
+                  },
+                  "condTreeConstraints": [
+                    {
+                      "package-name": "primitive-checked",
+                      "version-range": ">=0.7 && <0.8",
+                      "library": [
+                        {}
+                      ]
+                    }
+                  ],
+                  "condTreeComponents": []
+                },
+                "condBranchIfFalse": {
+                  "condTreeData": {
+                    "name": "sockets-example",
+                    "module-path": "",
+                    "scope": "public",
+                    "build-info": {
+                      "buildable": true,
+                      "buildTools": [],
+                      "buildToolDepends": [],
+                      "cppOptions": [],
+                      "asmOptions": [],
+                      "cmmOptions": [],
+                      "ccOptions": [],
+                      "cxxOptions": [],
+                      "ldOptions": [],
+                      "pkgconfigDepends": [],
+                      "frameworks": [],
+                      "extraFrameworkDirs": [],
+                      "asmSources": [],
+                      "cmmSources": [],
+                      "cSources": [],
+                      "cxxSources": [],
+                      "jsSources": [],
+                      "hsSourceDirs": [],
+                      "otherModules": [],
+                      "virtualModules": [],
+                      "autogenModules": [],
+                      "defaultLanguage": null,
+                      "otherLanguages": [],
+                      "defaultExtensions": [],
+                      "otherExtensions": [],
+                      "oldExtensions": [],
+                      "extraLibs": [],
+                      "extraGHCiLibs": [],
+                      "extraBundledLibs": [],
+                      "extraLibFlavours": [],
+                      "extraDynLibFlavours": [],
+                      "extraLibDirs": [],
+                      "includeDirs": [],
+                      "includes": [],
+                      "autogenIncludes": [],
+                      "installIncludes": [],
+                      "options": [
+                        [],
+                        []
+                      ],
+                      "profOptions": [
+                        [],
+                        []
+                      ],
+                      "sharedOptions": [
+                        [],
+                        []
+                      ],
+                      "staticOptions": [
+                        [],
+                        []
+                      ],
+                      "customFieldsBI": [],
+                      "targetBuildDepends": [
+                        {
+                          "package-name": "primitive",
+                          "version-range": ">=0.7 && <0.8",
+                          "library": [
+                            {}
+                          ]
+                        }
+                      ],
+                      "mixins": []
+                    }
+                  },
+                  "condTreeConstraints": [
+                    {
+                      "package-name": "primitive",
+                      "version-range": ">=0.7 && <0.8",
+                      "library": [
+                        {}
+                      ]
+                    }
+                  ],
+                  "condTreeComponents": []
+                }
+              }
+            ]
+          },
+          "condBranchIfFalse": {
+            "condTreeData": {
+              "name": "sockets-example",
+              "module-path": "",
+              "scope": "public",
+              "build-info": {
+                "buildable": false,
+                "buildTools": [],
+                "buildToolDepends": [],
+                "cppOptions": [],
+                "asmOptions": [],
+                "cmmOptions": [],
+                "ccOptions": [],
+                "cxxOptions": [],
+                "ldOptions": [],
+                "pkgconfigDepends": [],
+                "frameworks": [],
+                "extraFrameworkDirs": [],
+                "asmSources": [],
+                "cmmSources": [],
+                "cSources": [],
+                "cxxSources": [],
+                "jsSources": [],
+                "hsSourceDirs": [],
+                "otherModules": [],
+                "virtualModules": [],
+                "autogenModules": [],
+                "defaultLanguage": null,
+                "otherLanguages": [],
+                "defaultExtensions": [],
+                "otherExtensions": [],
+                "oldExtensions": [],
+                "extraLibs": [],
+                "extraGHCiLibs": [],
+                "extraBundledLibs": [],
+                "extraLibFlavours": [],
+                "extraDynLibFlavours": [],
+                "extraLibDirs": [],
+                "includeDirs": [],
+                "includes": [],
+                "autogenIncludes": [],
+                "installIncludes": [],
+                "options": [
+                  [],
+                  []
+                ],
+                "profOptions": [
+                  [],
+                  []
+                ],
+                "sharedOptions": [
+                  [],
+                  []
+                ],
+                "staticOptions": [
+                  [],
+                  []
+                ],
+                "customFieldsBI": [],
+                "targetBuildDepends": [],
+                "mixins": []
+              }
+            },
+            "condTreeConstraints": [],
+            "condTreeComponents": []
+          }
+        }
+      ]
+    }
+  },
+  "test-suites": {
+    "test": {
+      "condTreeData": {
+        "name": "",
+        "interface": {
+          "version": [
+            1,
+            0
+          ],
+          "filepath": "Main.hs"
+        },
+        "build-info": {
+          "buildable": true,
+          "buildTools": [],
+          "buildToolDepends": [],
+          "cppOptions": [],
+          "asmOptions": [],
+          "cmmOptions": [],
+          "ccOptions": [],
+          "cxxOptions": [],
+          "ldOptions": [],
+          "pkgconfigDepends": [],
+          "frameworks": [],
+          "extraFrameworkDirs": [],
+          "asmSources": [],
+          "cmmSources": [],
+          "cSources": [],
+          "cxxSources": [],
+          "jsSources": [],
+          "hsSourceDirs": [
+            "test"
+          ],
+          "otherModules": [],
+          "virtualModules": [],
+          "autogenModules": [],
+          "defaultLanguage": "Haskell2010",
+          "otherLanguages": [],
+          "defaultExtensions": [],
+          "otherExtensions": [],
+          "oldExtensions": [],
+          "extraLibs": [],
+          "extraGHCiLibs": [],
+          "extraBundledLibs": [],
+          "extraLibFlavours": [],
+          "extraDynLibFlavours": [],
+          "extraLibDirs": [],
+          "includeDirs": [],
+          "includes": [],
+          "autogenIncludes": [],
+          "installIncludes": [],
+          "options": [
+            [
+              "-Wall",
+              "-O2",
+              "-threaded"
+            ],
+            []
+          ],
+          "profOptions": [
+            [],
+            []
+          ],
+          "sharedOptions": [
+            [],
+            []
+          ],
+          "staticOptions": [
+            [],
+            []
+          ],
+          "customFieldsBI": [],
+          "targetBuildDepends": [
+            {
+              "package-name": "base",
+              "version-range": ">=4.11.1.0 && <5",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "sockets",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "tasty",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "tasty-hunit",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "ip",
+              "version-range": ">=1.4.1",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "async",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "bytestring",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "byteslice",
+              "version-range": ">=0.1.1",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "primitive-unlifted",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "primitive-addr",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            }
+          ],
+          "mixins": []
+        }
+      },
+      "condTreeConstraints": [
+        {
+          "package-name": "base",
+          "version-range": ">=4.11.1.0 && <5",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "sockets",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "tasty",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "tasty-hunit",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "ip",
+          "version-range": ">=1.4.1",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "async",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "bytestring",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "byteslice",
+          "version-range": ">=0.1.1",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "primitive-unlifted",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "primitive-addr",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        }
+      ],
+      "condTreeComponents": [
+        {
+          "condBranchCondition": {
+            "v": {
+              "flag": "checked"
+            }
+          },
+          "condBranchIfTrue": {
+            "condTreeData": {
+              "name": "",
+              "interface": {
+                "type": {
+                  "name": "",
+                  "version": []
+                }
+              },
+              "build-info": {
+                "buildable": true,
+                "buildTools": [],
+                "buildToolDepends": [],
+                "cppOptions": [],
+                "asmOptions": [],
+                "cmmOptions": [],
+                "ccOptions": [],
+                "cxxOptions": [],
+                "ldOptions": [],
+                "pkgconfigDepends": [],
+                "frameworks": [],
+                "extraFrameworkDirs": [],
+                "asmSources": [],
+                "cmmSources": [],
+                "cSources": [],
+                "cxxSources": [],
+                "jsSources": [],
+                "hsSourceDirs": [],
+                "otherModules": [],
+                "virtualModules": [],
+                "autogenModules": [],
+                "defaultLanguage": null,
+                "otherLanguages": [],
+                "defaultExtensions": [],
+                "otherExtensions": [],
+                "oldExtensions": [],
+                "extraLibs": [],
+                "extraGHCiLibs": [],
+                "extraBundledLibs": [],
+                "extraLibFlavours": [],
+                "extraDynLibFlavours": [],
+                "extraLibDirs": [],
+                "includeDirs": [],
+                "includes": [],
+                "autogenIncludes": [],
+                "installIncludes": [],
+                "options": [
+                  [],
+                  []
+                ],
+                "profOptions": [
+                  [],
+                  []
+                ],
+                "sharedOptions": [
+                  [],
+                  []
+                ],
+                "staticOptions": [
+                  [],
+                  []
+                ],
+                "customFieldsBI": [],
+                "targetBuildDepends": [
+                  {
+                    "package-name": "primitive-checked",
+                    "version-range": ">=0.7 && <0.8",
+                    "library": [
+                      {}
+                    ]
+                  }
+                ],
+                "mixins": []
+              }
+            },
+            "condTreeConstraints": [
+              {
+                "package-name": "primitive-checked",
+                "version-range": ">=0.7 && <0.8",
+                "library": [
+                  {}
+                ]
+              }
+            ],
+            "condTreeComponents": []
+          },
+          "condBranchIfFalse": {
+            "condTreeData": {
+              "name": "",
+              "interface": {
+                "type": {
+                  "name": "",
+                  "version": []
+                }
+              },
+              "build-info": {
+                "buildable": true,
+                "buildTools": [],
+                "buildToolDepends": [],
+                "cppOptions": [],
+                "asmOptions": [],
+                "cmmOptions": [],
+                "ccOptions": [],
+                "cxxOptions": [],
+                "ldOptions": [],
+                "pkgconfigDepends": [],
+                "frameworks": [],
+                "extraFrameworkDirs": [],
+                "asmSources": [],
+                "cmmSources": [],
+                "cSources": [],
+                "cxxSources": [],
+                "jsSources": [],
+                "hsSourceDirs": [],
+                "otherModules": [],
+                "virtualModules": [],
+                "autogenModules": [],
+                "defaultLanguage": null,
+                "otherLanguages": [],
+                "defaultExtensions": [],
+                "otherExtensions": [],
+                "oldExtensions": [],
+                "extraLibs": [],
+                "extraGHCiLibs": [],
+                "extraBundledLibs": [],
+                "extraLibFlavours": [],
+                "extraDynLibFlavours": [],
+                "extraLibDirs": [],
+                "includeDirs": [],
+                "includes": [],
+                "autogenIncludes": [],
+                "installIncludes": [],
+                "options": [
+                  [],
+                  []
+                ],
+                "profOptions": [
+                  [],
+                  []
+                ],
+                "sharedOptions": [
+                  [],
+                  []
+                ],
+                "staticOptions": [
+                  [],
+                  []
+                ],
+                "customFieldsBI": [],
+                "targetBuildDepends": [
+                  {
+                    "package-name": "primitive",
+                    "version-range": ">=0.7 && <0.8",
+                    "library": [
+                      {}
+                    ]
+                  }
+                ],
+                "mixins": []
+              }
+            },
+            "condTreeConstraints": [
+              {
+                "package-name": "primitive",
+                "version-range": ">=0.7 && <0.8",
+                "library": [
+                  {}
+                ]
+              }
+            ],
+            "condTreeComponents": []
+          }
+        }
+      ]
+    }
+  },
+  "benchmarks": {
+    "macro": {
+      "condTreeData": {
+        "name": "",
+        "interface": {
+          "version": [
+            1,
+            0
+          ],
+          "filepath": "Macro.hs"
+        },
+        "build-info": {
+          "buildable": true,
+          "buildTools": [],
+          "buildToolDepends": [],
+          "cppOptions": [],
+          "asmOptions": [],
+          "cmmOptions": [],
+          "ccOptions": [],
+          "cxxOptions": [],
+          "ldOptions": [],
+          "pkgconfigDepends": [],
+          "frameworks": [],
+          "extraFrameworkDirs": [],
+          "asmSources": [],
+          "cmmSources": [],
+          "cSources": [],
+          "cxxSources": [],
+          "jsSources": [],
+          "hsSourceDirs": [
+            "bench"
+          ],
+          "otherModules": [],
+          "virtualModules": [],
+          "autogenModules": [],
+          "defaultLanguage": "Haskell2010",
+          "otherLanguages": [],
+          "defaultExtensions": [],
+          "otherExtensions": [],
+          "oldExtensions": [],
+          "extraLibs": [],
+          "extraGHCiLibs": [],
+          "extraBundledLibs": [],
+          "extraLibFlavours": [],
+          "extraDynLibFlavours": [],
+          "extraLibDirs": [],
+          "includeDirs": [],
+          "includes": [],
+          "autogenIncludes": [],
+          "installIncludes": [],
+          "options": [
+            [
+              "-Wall",
+              "-O2",
+              "-threaded",
+              "-rtsopts"
+            ],
+            []
+          ],
+          "profOptions": [
+            [],
+            []
+          ],
+          "sharedOptions": [
+            [],
+            []
+          ],
+          "staticOptions": [
+            [],
+            []
+          ],
+          "customFieldsBI": [],
+          "targetBuildDepends": [
+            {
+              "package-name": "base",
+              "version-range": ">=4.11.1.0 && <5",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "sockets",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "ip",
+              "version-range": ">=1.4.1",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "bytestring",
+              "version-range": ">=0.10.8.2",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "entropy",
+              "version-range": ">=0.4.1.4",
+              "library": [
+                {}
+              ]
+            }
+          ],
+          "mixins": []
+        }
+      },
+      "condTreeConstraints": [
+        {
+          "package-name": "base",
+          "version-range": ">=4.11.1.0 && <5",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "sockets",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "ip",
+          "version-range": ">=1.4.1",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "bytestring",
+          "version-range": ">=0.10.8.2",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "entropy",
+          "version-range": ">=0.4.1.4",
+          "library": [
+            {}
+          ]
+        }
+      ],
+      "condTreeComponents": [
+        {
+          "condBranchCondition": {
+            "v": {
+              "flag": "checked"
+            }
+          },
+          "condBranchIfTrue": {
+            "condTreeData": {
+              "name": "",
+              "interface": {
+                "benchmark-type": {
+                  "type": "",
+                  "version": []
+                }
+              },
+              "build-info": {
+                "buildable": true,
+                "buildTools": [],
+                "buildToolDepends": [],
+                "cppOptions": [],
+                "asmOptions": [],
+                "cmmOptions": [],
+                "ccOptions": [],
+                "cxxOptions": [],
+                "ldOptions": [],
+                "pkgconfigDepends": [],
+                "frameworks": [],
+                "extraFrameworkDirs": [],
+                "asmSources": [],
+                "cmmSources": [],
+                "cSources": [],
+                "cxxSources": [],
+                "jsSources": [],
+                "hsSourceDirs": [],
+                "otherModules": [],
+                "virtualModules": [],
+                "autogenModules": [],
+                "defaultLanguage": null,
+                "otherLanguages": [],
+                "defaultExtensions": [],
+                "otherExtensions": [],
+                "oldExtensions": [],
+                "extraLibs": [],
+                "extraGHCiLibs": [],
+                "extraBundledLibs": [],
+                "extraLibFlavours": [],
+                "extraDynLibFlavours": [],
+                "extraLibDirs": [],
+                "includeDirs": [],
+                "includes": [],
+                "autogenIncludes": [],
+                "installIncludes": [],
+                "options": [
+                  [],
+                  []
+                ],
+                "profOptions": [
+                  [],
+                  []
+                ],
+                "sharedOptions": [
+                  [],
+                  []
+                ],
+                "staticOptions": [
+                  [],
+                  []
+                ],
+                "customFieldsBI": [],
+                "targetBuildDepends": [
+                  {
+                    "package-name": "primitive-checked",
+                    "version-range": ">=0.7 && <0.8",
+                    "library": [
+                      {}
+                    ]
+                  }
+                ],
+                "mixins": []
+              }
+            },
+            "condTreeConstraints": [
+              {
+                "package-name": "primitive-checked",
+                "version-range": ">=0.7 && <0.8",
+                "library": [
+                  {}
+                ]
+              }
+            ],
+            "condTreeComponents": []
+          },
+          "condBranchIfFalse": {
+            "condTreeData": {
+              "name": "",
+              "interface": {
+                "benchmark-type": {
+                  "type": "",
+                  "version": []
+                }
+              },
+              "build-info": {
+                "buildable": true,
+                "buildTools": [],
+                "buildToolDepends": [],
+                "cppOptions": [],
+                "asmOptions": [],
+                "cmmOptions": [],
+                "ccOptions": [],
+                "cxxOptions": [],
+                "ldOptions": [],
+                "pkgconfigDepends": [],
+                "frameworks": [],
+                "extraFrameworkDirs": [],
+                "asmSources": [],
+                "cmmSources": [],
+                "cSources": [],
+                "cxxSources": [],
+                "jsSources": [],
+                "hsSourceDirs": [],
+                "otherModules": [],
+                "virtualModules": [],
+                "autogenModules": [],
+                "defaultLanguage": null,
+                "otherLanguages": [],
+                "defaultExtensions": [],
+                "otherExtensions": [],
+                "oldExtensions": [],
+                "extraLibs": [],
+                "extraGHCiLibs": [],
+                "extraBundledLibs": [],
+                "extraLibFlavours": [],
+                "extraDynLibFlavours": [],
+                "extraLibDirs": [],
+                "includeDirs": [],
+                "includes": [],
+                "autogenIncludes": [],
+                "installIncludes": [],
+                "options": [
+                  [],
+                  []
+                ],
+                "profOptions": [
+                  [],
+                  []
+                ],
+                "sharedOptions": [
+                  [],
+                  []
+                ],
+                "staticOptions": [
+                  [],
+                  []
+                ],
+                "customFieldsBI": [],
+                "targetBuildDepends": [
+                  {
+                    "package-name": "primitive",
+                    "version-range": ">=0.7 && <0.8",
+                    "library": [
+                      {}
+                    ]
+                  }
+                ],
+                "mixins": []
+              }
+            },
+            "condTreeConstraints": [
+              {
+                "package-name": "primitive",
+                "version-range": ">=0.7 && <0.8",
+                "library": [
+                  {}
+                ]
+              }
+            ],
+            "condTreeComponents": []
+          }
+        }
+      ]
+    },
+    "http": {
+      "condTreeData": {
+        "name": "",
+        "interface": {
+          "version": [
+            1,
+            0
+          ],
+          "filepath": "Http.hs"
+        },
+        "build-info": {
+          "buildable": true,
+          "buildTools": [],
+          "buildToolDepends": [],
+          "cppOptions": [],
+          "asmOptions": [],
+          "cmmOptions": [],
+          "ccOptions": [],
+          "cxxOptions": [],
+          "ldOptions": [],
+          "pkgconfigDepends": [],
+          "frameworks": [],
+          "extraFrameworkDirs": [],
+          "asmSources": [],
+          "cmmSources": [],
+          "cSources": [],
+          "cxxSources": [],
+          "jsSources": [],
+          "hsSourceDirs": [
+            "bench"
+          ],
+          "otherModules": [],
+          "virtualModules": [],
+          "autogenModules": [],
+          "defaultLanguage": "Haskell2010",
+          "otherLanguages": [],
+          "defaultExtensions": [],
+          "otherExtensions": [],
+          "oldExtensions": [],
+          "extraLibs": [],
+          "extraGHCiLibs": [],
+          "extraBundledLibs": [],
+          "extraLibFlavours": [],
+          "extraDynLibFlavours": [],
+          "extraLibDirs": [],
+          "includeDirs": [],
+          "includes": [],
+          "autogenIncludes": [],
+          "installIncludes": [],
+          "options": [
+            [
+              "-Wall",
+              "-O2",
+              "-threaded",
+              "-rtsopts"
+            ],
+            []
+          ],
+          "profOptions": [
+            [],
+            []
+          ],
+          "sharedOptions": [
+            [],
+            []
+          ],
+          "staticOptions": [
+            [],
+            []
+          ],
+          "customFieldsBI": [],
+          "targetBuildDepends": [
+            {
+              "package-name": "base",
+              "version-range": ">=4.11.1.0 && <5",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "sockets",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "ip",
+              "version-range": ">=1.4.1",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "bytestring",
+              "version-range": ">=0.10.8.2",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "byteslice",
+              "version-range": ">=0.1.1",
+              "library": [
+                {}
+              ]
+            }
+          ],
+          "mixins": []
+        }
+      },
+      "condTreeConstraints": [
+        {
+          "package-name": "base",
+          "version-range": ">=4.11.1.0 && <5",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "sockets",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "ip",
+          "version-range": ">=1.4.1",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "bytestring",
+          "version-range": ">=0.10.8.2",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "byteslice",
+          "version-range": ">=0.1.1",
+          "library": [
+            {}
+          ]
+        }
+      ],
+      "condTreeComponents": [
+        {
+          "condBranchCondition": {
+            "v": {
+              "flag": "checked"
+            }
+          },
+          "condBranchIfTrue": {
+            "condTreeData": {
+              "name": "",
+              "interface": {
+                "benchmark-type": {
+                  "type": "",
+                  "version": []
+                }
+              },
+              "build-info": {
+                "buildable": true,
+                "buildTools": [],
+                "buildToolDepends": [],
+                "cppOptions": [],
+                "asmOptions": [],
+                "cmmOptions": [],
+                "ccOptions": [],
+                "cxxOptions": [],
+                "ldOptions": [],
+                "pkgconfigDepends": [],
+                "frameworks": [],
+                "extraFrameworkDirs": [],
+                "asmSources": [],
+                "cmmSources": [],
+                "cSources": [],
+                "cxxSources": [],
+                "jsSources": [],
+                "hsSourceDirs": [],
+                "otherModules": [],
+                "virtualModules": [],
+                "autogenModules": [],
+                "defaultLanguage": null,
+                "otherLanguages": [],
+                "defaultExtensions": [],
+                "otherExtensions": [],
+                "oldExtensions": [],
+                "extraLibs": [],
+                "extraGHCiLibs": [],
+                "extraBundledLibs": [],
+                "extraLibFlavours": [],
+                "extraDynLibFlavours": [],
+                "extraLibDirs": [],
+                "includeDirs": [],
+                "includes": [],
+                "autogenIncludes": [],
+                "installIncludes": [],
+                "options": [
+                  [],
+                  []
+                ],
+                "profOptions": [
+                  [],
+                  []
+                ],
+                "sharedOptions": [
+                  [],
+                  []
+                ],
+                "staticOptions": [
+                  [],
+                  []
+                ],
+                "customFieldsBI": [],
+                "targetBuildDepends": [
+                  {
+                    "package-name": "primitive-checked",
+                    "version-range": ">=0.7 && <0.8",
+                    "library": [
+                      {}
+                    ]
+                  }
+                ],
+                "mixins": []
+              }
+            },
+            "condTreeConstraints": [
+              {
+                "package-name": "primitive-checked",
+                "version-range": ">=0.7 && <0.8",
+                "library": [
+                  {}
+                ]
+              }
+            ],
+            "condTreeComponents": []
+          },
+          "condBranchIfFalse": {
+            "condTreeData": {
+              "name": "",
+              "interface": {
+                "benchmark-type": {
+                  "type": "",
+                  "version": []
+                }
+              },
+              "build-info": {
+                "buildable": true,
+                "buildTools": [],
+                "buildToolDepends": [],
+                "cppOptions": [],
+                "asmOptions": [],
+                "cmmOptions": [],
+                "ccOptions": [],
+                "cxxOptions": [],
+                "ldOptions": [],
+                "pkgconfigDepends": [],
+                "frameworks": [],
+                "extraFrameworkDirs": [],
+                "asmSources": [],
+                "cmmSources": [],
+                "cSources": [],
+                "cxxSources": [],
+                "jsSources": [],
+                "hsSourceDirs": [],
+                "otherModules": [],
+                "virtualModules": [],
+                "autogenModules": [],
+                "defaultLanguage": null,
+                "otherLanguages": [],
+                "defaultExtensions": [],
+                "otherExtensions": [],
+                "oldExtensions": [],
+                "extraLibs": [],
+                "extraGHCiLibs": [],
+                "extraBundledLibs": [],
+                "extraLibFlavours": [],
+                "extraDynLibFlavours": [],
+                "extraLibDirs": [],
+                "includeDirs": [],
+                "includes": [],
+                "autogenIncludes": [],
+                "installIncludes": [],
+                "options": [
+                  [],
+                  []
+                ],
+                "profOptions": [
+                  [],
+                  []
+                ],
+                "sharedOptions": [
+                  [],
+                  []
+                ],
+                "staticOptions": [
+                  [],
+                  []
+                ],
+                "customFieldsBI": [],
+                "targetBuildDepends": [
+                  {
+                    "package-name": "primitive",
+                    "version-range": ">=0.7 && <0.8",
+                    "library": [
+                      {}
+                    ]
+                  }
+                ],
+                "mixins": []
+              }
+            },
+            "condTreeConstraints": [
+              {
+                "package-name": "primitive",
+                "version-range": ">=0.7 && <0.8",
+                "library": [
+                  {}
+                ]
+              }
+            ],
+            "condTreeComponents": []
+          }
+        }
+      ]
+    }
+  }
+}

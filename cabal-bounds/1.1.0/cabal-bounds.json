@@ -1,0 +1,659 @@
+{
+  "description": {
+    "spec-version": {
+      "Right": ">=1.9.2"
+    },
+    "package": {
+      "name": "cabal-bounds",
+      "version": [
+        1,
+        1,
+        0
+      ]
+    },
+    "license": {
+      "Right": "BSD3"
+    },
+    "license-files": [
+      "LICENSE"
+    ],
+    "copyright": "",
+    "maintainer": "daniel.trstenjak@gmail.com",
+    "author": "Daniel Trstenjak",
+    "stability": "",
+    "tested-with": [
+      {
+        "compiler": "GHC",
+        "versionRange": "==7.6.2"
+      },
+      {
+        "compiler": "GHC",
+        "versionRange": "==7.6.3"
+      },
+      {
+        "compiler": "GHC",
+        "versionRange": "==7.8.3"
+      },
+      {
+        "compiler": "GHC",
+        "versionRange": "==7.10.1"
+      },
+      {
+        "compiler": "GHC",
+        "versionRange": "==8.0.1"
+      }
+    ],
+    "homepage": "",
+    "pkg-url": "",
+    "bug-reports": "",
+    "source-repos": [
+      {
+        "kind": {},
+        "type": "Git",
+        "location": "https://github.com/dan-t/cabal-bounds",
+        "module": null,
+        "branch": null,
+        "tag": null,
+        "subdir": null
+      }
+    ],
+    "synopsis": "A command line program for managing the bounds/versions of the dependencies in a cabal file.",
+    "description": "A command line program for managing the bounds/versions of the dependencies in a cabal file.\n\n'cabal-bounds' is able to do these things with the bounds of the dependencies in the cabal file:\n\n* drop them\n\n* update them by the library versions of the current cabal build\n\n* update them by the library versions of a haskell platform release\n\n* update them by the library versions specified by a file\n\n* dump the libraries/dependencies and their lower bound versions from the cabal file(s) into a file\n\nFor further details please consult the <https://github.com/dan-t/cabal-bounds README>.\n\n/Installation/\n\nYou have to ensure, that the 'Cabal' library of 'cabal-bounds' matches the one used by the 'cabal' binary:\n\n> $ cabal --version\n> cabal-install version 1.18.0.2\n> using version 1.18.1 of the Cabal library\n\n> $ cabal install --constraint=\"Cabal == 1.18.1\" cabal-bounds\n\nIf you update the 'cabal' binary and the used 'Cabal' library changes, then you have to rebuild 'cabal-bounds'.\n\n/Issues/\n\nPerhaps the currently most annoying thing is, that you have to live with the reformating of your\n'cabal' file done by the pretty printer of the 'Cabal' library.\n\nTo reformat your 'cabal' file without changing any bounds you can call 'cabal-bounds' with the name of\na section that isn't present in the 'cabal' file:\n\n> $ cabal-bounds drop --executable=blub",
+    "category": "Utils, Development",
+    "custom-fields": [],
+    "build-type-raw": "Simple",
+    "custom-setup": null,
+    "library": null,
+    "sublibraries": [],
+    "executables": [],
+    "foreign-libs": [],
+    "test-suites": [],
+    "benchmarks": [],
+    "data-files": [],
+    "data-dir": ".",
+    "extra-source-files": [
+      "README.md",
+      "CHANGELOG",
+      "tests/inputFiles/original.cabal",
+      "tests/inputFiles/FromFile.hs",
+      "tests/inputFiles/.gitignore",
+      "tests/inputFiles/setup-config-build-env/setup-config.cabal",
+      "tests/inputFiles/setup-config-build-env/src/*.hs",
+      "tests/inputFiles/setup-config-build-env/src/CabalBounds/*.hs",
+      "tests/goldenFiles/*.cabal",
+      "tests/goldenFiles/*.hs",
+      "tests/outputFiles/.gitignore"
+    ],
+    "extra-tmp-files": [],
+    "extra-doc-files": []
+  },
+  "library": {
+    "condTreeData": {
+      "name": {},
+      "exposed-modules": [
+        [
+          "CabalBounds",
+          "Args"
+        ],
+        [
+          "CabalBounds",
+          "Main"
+        ],
+        [
+          "CabalBounds",
+          "VersionComp"
+        ]
+      ],
+      "re-exported-modules": [],
+      "signatures": [],
+      "exposed": true,
+      "visibility": "LibraryVisibilityPublic",
+      "build-info": {
+        "buildable": true,
+        "buildTools": [],
+        "buildToolDepends": [],
+        "cppOptions": [
+          "-DCABAL"
+        ],
+        "asmOptions": [],
+        "cmmOptions": [],
+        "ccOptions": [],
+        "cxxOptions": [],
+        "ldOptions": [],
+        "pkgconfigDepends": [],
+        "frameworks": [],
+        "extraFrameworkDirs": [],
+        "asmSources": [],
+        "cmmSources": [],
+        "cSources": [],
+        "cxxSources": [],
+        "jsSources": [],
+        "hsSourceDirs": [
+          "lib"
+        ],
+        "otherModules": [
+          [
+            "Paths_cabal_bounds"
+          ],
+          [
+            "CabalBounds",
+            "Bound"
+          ],
+          [
+            "CabalBounds",
+            "Sections"
+          ],
+          [
+            "CabalBounds",
+            "Dependencies"
+          ],
+          [
+            "CabalBounds",
+            "Drop"
+          ],
+          [
+            "CabalBounds",
+            "Update"
+          ],
+          [
+            "CabalBounds",
+            "Dump"
+          ],
+          [
+            "CabalBounds",
+            "HaskellPlatform"
+          ]
+        ],
+        "virtualModules": [],
+        "autogenModules": [],
+        "defaultLanguage": null,
+        "otherLanguages": [],
+        "defaultExtensions": [],
+        "otherExtensions": [],
+        "oldExtensions": [],
+        "extraLibs": [],
+        "extraGHCiLibs": [],
+        "extraBundledLibs": [],
+        "extraLibFlavours": [],
+        "extraDynLibFlavours": [],
+        "extraLibDirs": [],
+        "includeDirs": [],
+        "includes": [],
+        "autogenIncludes": [],
+        "installIncludes": [],
+        "options": [
+          [
+            "-W"
+          ],
+          []
+        ],
+        "profOptions": [
+          [],
+          []
+        ],
+        "sharedOptions": [
+          [],
+          []
+        ],
+        "staticOptions": [
+          [],
+          []
+        ],
+        "customFieldsBI": [],
+        "targetBuildDepends": [
+          {
+            "package-name": "base",
+            "version-range": ">=3 && <5",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "cmdargs",
+            "version-range": ">=0.10.5 && <0.11",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "lens",
+            "version-range": ">=4.0.1 && <4.16",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "strict",
+            "version-range": ">=0.3.2 && <0.4",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "unordered-containers",
+            "version-range": ">=0.2.3.3 && <0.3",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "transformers",
+            "version-range": ">=0.3.0.0 && <0.6",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "either",
+            "version-range": ">=4.1.1 && <4.5",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "cabal-lenses",
+            "version-range": ">=0.4.6 && <0.5",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "Cabal",
+            "version-range": ">=1.18.0 && <1.25",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "filepath",
+            "version-range": ">=1.3 && <1.5",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "directory",
+            "version-range": "==1.2.*",
+            "library": [
+              {}
+            ]
+          }
+        ],
+        "mixins": []
+      }
+    },
+    "condTreeConstraints": [
+      {
+        "package-name": "base",
+        "version-range": ">=3 && <5",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "cmdargs",
+        "version-range": ">=0.10.5 && <0.11",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "lens",
+        "version-range": ">=4.0.1 && <4.16",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "strict",
+        "version-range": ">=0.3.2 && <0.4",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "unordered-containers",
+        "version-range": ">=0.2.3.3 && <0.3",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "transformers",
+        "version-range": ">=0.3.0.0 && <0.6",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "either",
+        "version-range": ">=4.1.1 && <4.5",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "cabal-lenses",
+        "version-range": ">=0.4.6 && <0.5",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "Cabal",
+        "version-range": ">=1.18.0 && <1.25",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "filepath",
+        "version-range": ">=1.3 && <1.5",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "directory",
+        "version-range": "==1.2.*",
+        "library": [
+          {}
+        ]
+      }
+    ],
+    "condTreeComponents": []
+  },
+  "executables": {
+    "cabal-bounds": {
+      "condTreeData": {
+        "name": "cabal-bounds",
+        "module-path": "Main.hs",
+        "scope": "public",
+        "build-info": {
+          "buildable": true,
+          "buildTools": [],
+          "buildToolDepends": [],
+          "cppOptions": [],
+          "asmOptions": [],
+          "cmmOptions": [],
+          "ccOptions": [],
+          "cxxOptions": [],
+          "ldOptions": [],
+          "pkgconfigDepends": [],
+          "frameworks": [],
+          "extraFrameworkDirs": [],
+          "asmSources": [],
+          "cmmSources": [],
+          "cSources": [],
+          "cxxSources": [],
+          "jsSources": [],
+          "hsSourceDirs": [
+            "exe"
+          ],
+          "otherModules": [],
+          "virtualModules": [],
+          "autogenModules": [],
+          "defaultLanguage": null,
+          "otherLanguages": [],
+          "defaultExtensions": [],
+          "otherExtensions": [],
+          "oldExtensions": [],
+          "extraLibs": [],
+          "extraGHCiLibs": [],
+          "extraBundledLibs": [],
+          "extraLibFlavours": [],
+          "extraDynLibFlavours": [],
+          "extraLibDirs": [],
+          "includeDirs": [],
+          "includes": [],
+          "autogenIncludes": [],
+          "installIncludes": [],
+          "options": [
+            [
+              "-W"
+            ],
+            []
+          ],
+          "profOptions": [
+            [],
+            []
+          ],
+          "sharedOptions": [
+            [],
+            []
+          ],
+          "staticOptions": [
+            [],
+            []
+          ],
+          "customFieldsBI": [],
+          "targetBuildDepends": [
+            {
+              "package-name": "base",
+              "version-range": ">=3 && <5",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "cabal-bounds",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            }
+          ],
+          "mixins": []
+        }
+      },
+      "condTreeConstraints": [
+        {
+          "package-name": "base",
+          "version-range": ">=3 && <5",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "cabal-bounds",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        }
+      ],
+      "condTreeComponents": []
+    }
+  },
+  "test-suites": {
+    "cabal-bounds-tests": {
+      "condTreeData": {
+        "name": "",
+        "interface": {
+          "version": [
+            1,
+            0
+          ],
+          "filepath": "Main.hs"
+        },
+        "build-info": {
+          "buildable": true,
+          "buildTools": [],
+          "buildToolDepends": [],
+          "cppOptions": [],
+          "asmOptions": [],
+          "cmmOptions": [],
+          "ccOptions": [],
+          "cxxOptions": [],
+          "ldOptions": [],
+          "pkgconfigDepends": [],
+          "frameworks": [],
+          "extraFrameworkDirs": [],
+          "asmSources": [],
+          "cmmSources": [],
+          "cSources": [],
+          "cxxSources": [],
+          "jsSources": [],
+          "hsSourceDirs": [
+            "tests"
+          ],
+          "otherModules": [],
+          "virtualModules": [],
+          "autogenModules": [],
+          "defaultLanguage": null,
+          "otherLanguages": [],
+          "defaultExtensions": [],
+          "otherExtensions": [],
+          "oldExtensions": [],
+          "extraLibs": [],
+          "extraGHCiLibs": [],
+          "extraBundledLibs": [],
+          "extraLibFlavours": [],
+          "extraDynLibFlavours": [],
+          "extraLibDirs": [],
+          "includeDirs": [],
+          "includes": [],
+          "autogenIncludes": [],
+          "installIncludes": [],
+          "options": [
+            [
+              "-W"
+            ],
+            []
+          ],
+          "profOptions": [
+            [],
+            []
+          ],
+          "sharedOptions": [
+            [],
+            []
+          ],
+          "staticOptions": [
+            [],
+            []
+          ],
+          "customFieldsBI": [],
+          "targetBuildDepends": [
+            {
+              "package-name": "base",
+              "version-range": ">=3 && <5",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "tasty",
+              "version-range": ">=0.9.0.1 && <0.12",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "tasty-golden",
+              "version-range": ">=2.2.0.2 && <2.4",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "process",
+              "version-range": ">=1.1.0.2 && <1.5",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "filepath",
+              "version-range": ">=1.3 && <1.5",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "directory",
+              "version-range": "==1.2.*",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "Glob",
+              "version-range": "==0.7.*",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "cabal-bounds",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            }
+          ],
+          "mixins": []
+        }
+      },
+      "condTreeConstraints": [
+        {
+          "package-name": "base",
+          "version-range": ">=3 && <5",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "tasty",
+          "version-range": ">=0.9.0.1 && <0.12",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "tasty-golden",
+          "version-range": ">=2.2.0.2 && <2.4",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "process",
+          "version-range": ">=1.1.0.2 && <1.5",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "filepath",
+          "version-range": ">=1.3 && <1.5",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "directory",
+          "version-range": "==1.2.*",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "Glob",
+          "version-range": "==0.7.*",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "cabal-bounds",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        }
+      ],
+      "condTreeComponents": []
+    }
+  }
+}

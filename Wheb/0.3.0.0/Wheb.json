@@ -1,0 +1,686 @@
+{
+  "description": {
+    "spec-version": {
+      "Right": ">=1.10"
+    },
+    "package": {
+      "name": "Wheb",
+      "version": [
+        0,
+        3,
+        0,
+        0
+      ]
+    },
+    "license": {
+      "Right": "BSD3"
+    },
+    "license-files": [
+      "LICENSE"
+    ],
+    "copyright": "",
+    "maintainer": "me@khanson.io",
+    "author": "Kyle Hanson",
+    "stability": "",
+    "tested-with": [],
+    "homepage": "https://github.com/hansonkd/Wheb-Framework",
+    "pkg-url": "",
+    "bug-reports": "",
+    "source-repos": [
+      {
+        "kind": {},
+        "type": "Git",
+        "location": "git://github.com/hansonkd/Wheb-Framework.git",
+        "module": null,
+        "branch": null,
+        "tag": null,
+        "subdir": null
+      }
+    ],
+    "synopsis": "The frictionless WAI Framework",
+    "description": "Wheb's a framework for building robust, high-concurrency web applications simply and effectively.\n\n* The core datatype will let you build anything from a read-only server to a fully interactive web application with basic Haskell.\n\n* Minimal boilerplate to start your application.\n\n* Session, Auth and Cache interfaces are built in. Just drop in a backend.\n\n* Typesafe web-routes or named routes and URL generation.\n\n* Easy to use for REST APIs\n\n* WebSockets\n\n* Fully database and template agnostic\n\n* Easy handler debugging.\n\n* Middleware\n\n* Fast. It deploys on warp.\n\n/Plugins:/\n\nWheb makes it easy to write plugins. Plugins can add routes, middlware, settings and even handle resource cleanup on server shutdown.\nNamed routes allow plugins to dynamically generate their routes at runtime based on settings.\n\nExamples of plugins:\n\n* Sessions\n\n* Auth\n\n* Cache\n\n* <http://hackage.haskell.org/package/wheb-mongo Wheb-Mongo>\n\n* <http://hackage.haskell.org/package/wheb-redis Wheb-Redis>\n\n* <http://hackage.haskell.org/package/wheb-strapped Wheb-Strapped>\n\n/Wheb in action:/\n\nUse with language extensions /OverloadedStrings/\n\n> import           Web.Wheb\n>\n> main :: IO ()\n> main = do\n>   opts <- genMinOpts $ do\n>      addGET \"home\" rootPat $ text \"Hi!\"\n>      addGET \"about\" (\"about\" </> \"something\") $ html \"<html><body><h1>About!</h1></body></html>\"\n>   runWhebServer opts\n\n/Bigger example (Stateful.hs):/\n\nWheb makes it easy to share a global context and handle requests statefully. The Wheb monad\nis both a Reader and a State Monad allowing you to seperate thread-safe resources.\n\nBelow is an example of site that naively counts the non-unique hits across all pages. MyApp\nis our Reader's type and MyHandlerData is our State's type. MyApp is shared across requests\nwhile MyHandlerData is thread specific with a starting state given in options. We have a middleware\nthat intercepts the request, safely increments the shared resource TVar and sets our MyHandlerData\nto the correct count before it reaches our handler. We use a TVar in the Global context\nbecause any state changes to the handler state will not affect other requests.\n\n>  import           Control.Concurrent.STM\n>  import           Control.Monad.IO.Class\n>  import           Data.Monoid\n>  import           Data.Text.Lazy (Text)\n>  import           Web.Wheb\n>\n>  data MyApp = MyApp Text (TVar Int)\n>  data MyHandlerData = MyHandlerData Int\n>\n>  counterMw :: MonadIO m => WhebMiddleware MyApp MyHandlerData m\n>  counterMw = do\n>    (MyApp _ ctr) <- getApp\n>    number <- liftIO $ atomically $ do\n>            num <- readTVar ctr\n>            writeTVar ctr (succ num)\n>            return num\n>    putHandlerState (MyHandlerData number)\n>    return Nothing\n>\n>  homePage :: WhebHandler MyApp MyHandlerData\n>  homePage = do\n>    (MyApp appName _)   <- getApp\n>    (MyHandlerData num) <- getHandlerState\n>    html $ (\"<h1>Welcome to\" <> appName <>\n>            \"</h1><h2>You are visitor #\" <> (spack num) <> \"</h2>\")\n>\n>  main :: IO ()\n>  main = do\n>    opts <- generateOptions $ do\n>              startingCounter <- liftIO $ newTVarIO 0\n>              addWhebMiddleware counterMw\n>              addGET \".\" rootPat $ homePage\n>              return $ (MyApp \"AwesomeApp\" startingCounter, MyHandlerData 0)\n>    runWhebServer opts",
+    "category": "Web",
+    "custom-fields": [],
+    "build-type-raw": "Simple",
+    "custom-setup": null,
+    "library": null,
+    "sublibraries": [],
+    "executables": [],
+    "foreign-libs": [],
+    "test-suites": [],
+    "benchmarks": [],
+    "data-files": [],
+    "data-dir": ".",
+    "extra-source-files": [],
+    "extra-tmp-files": [],
+    "extra-doc-files": []
+  },
+  "library": {
+    "condTreeData": {
+      "name": {},
+      "exposed-modules": [
+        [
+          "Web",
+          "Wheb"
+        ],
+        [
+          "Web",
+          "Wheb",
+          "Cookie"
+        ],
+        [
+          "Web",
+          "Wheb",
+          "InitM"
+        ],
+        [
+          "Web",
+          "Wheb",
+          "Internal"
+        ],
+        [
+          "Web",
+          "Wheb",
+          "Routes"
+        ],
+        [
+          "Web",
+          "Wheb",
+          "Types"
+        ],
+        [
+          "Web",
+          "Wheb",
+          "Utils"
+        ],
+        [
+          "Web",
+          "Wheb",
+          "WhebT"
+        ],
+        [
+          "Web",
+          "Wheb",
+          "Plugins",
+          "Auth"
+        ],
+        [
+          "Web",
+          "Wheb",
+          "Plugins",
+          "Session"
+        ],
+        [
+          "Web",
+          "Wheb",
+          "Plugins",
+          "Cache"
+        ],
+        [
+          "Web",
+          "Wheb",
+          "Plugins",
+          "Debug",
+          "MemoryBackend"
+        ]
+      ],
+      "re-exported-modules": [],
+      "signatures": [],
+      "exposed": true,
+      "visibility": "LibraryVisibilityPublic",
+      "build-info": {
+        "buildable": true,
+        "buildTools": [],
+        "buildToolDepends": [],
+        "cppOptions": [],
+        "asmOptions": [],
+        "cmmOptions": [],
+        "ccOptions": [],
+        "cxxOptions": [],
+        "ldOptions": [],
+        "pkgconfigDepends": [],
+        "frameworks": [],
+        "extraFrameworkDirs": [],
+        "asmSources": [],
+        "cmmSources": [],
+        "cSources": [],
+        "cxxSources": [],
+        "jsSources": [],
+        "hsSourceDirs": [
+          "src"
+        ],
+        "otherModules": [],
+        "virtualModules": [],
+        "autogenModules": [],
+        "defaultLanguage": "Haskell2010",
+        "otherLanguages": [],
+        "defaultExtensions": [],
+        "otherExtensions": [],
+        "oldExtensions": [],
+        "extraLibs": [],
+        "extraGHCiLibs": [],
+        "extraBundledLibs": [],
+        "extraLibFlavours": [],
+        "extraDynLibFlavours": [],
+        "extraLibDirs": [],
+        "includeDirs": [],
+        "includes": [],
+        "autogenIncludes": [],
+        "installIncludes": [],
+        "options": [
+          [
+            "-Wall",
+            "-fno-warn-orphans"
+          ],
+          []
+        ],
+        "profOptions": [
+          [],
+          []
+        ],
+        "sharedOptions": [
+          [],
+          []
+        ],
+        "staticOptions": [
+          [],
+          []
+        ],
+        "customFieldsBI": [],
+        "targetBuildDepends": [
+          {
+            "package-name": "base",
+            "version-range": ">=4.7 && <4.8",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "text",
+            "version-range": ">=1.0 && <1.2",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "transformers",
+            "version-range": ">=0.4 && <0.5",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "time",
+            "version-range": ">=1.4 && <1.5",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "bytestring",
+            "version-range": ">=0.10 && <0.11",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "blaze-builder",
+            "version-range": ">=0.3 && <0.4",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "cookie",
+            "version-range": ">=0.4 && <0.5",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "mtl",
+            "version-range": ">=2.1 && <2.3",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "containers",
+            "version-range": ">=0.5 && <0.6",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "wai",
+            "version-range": ">=3.0 && <3.1",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "warp",
+            "version-range": ">=3.0 && <3.1",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "wai-extra",
+            "version-range": ">=3.0 && <3.1",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "http-types",
+            "version-range": ">=0.8 && <0.9",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "case-insensitive",
+            "version-range": ">=1.2 && <1.3",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "pwstore-fast",
+            "version-range": ">=2.4 && <2.5",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "uuid",
+            "version-range": ">=1.3 && <1.4",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "stm",
+            "version-range": ">=2.4 && <2.5",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "unix",
+            "version-range": ">=2.7 && <2.8",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "web-routes",
+            "version-range": ">=0.27 && <0.28",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "websockets",
+            "version-range": ">=0.8 && <0.9",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "wai-websockets",
+            "version-range": ">=3.0 && <3.1",
+            "library": [
+              {}
+            ]
+          }
+        ],
+        "mixins": []
+      }
+    },
+    "condTreeConstraints": [
+      {
+        "package-name": "base",
+        "version-range": ">=4.7 && <4.8",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "text",
+        "version-range": ">=1.0 && <1.2",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "transformers",
+        "version-range": ">=0.4 && <0.5",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "time",
+        "version-range": ">=1.4 && <1.5",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "bytestring",
+        "version-range": ">=0.10 && <0.11",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "blaze-builder",
+        "version-range": ">=0.3 && <0.4",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "cookie",
+        "version-range": ">=0.4 && <0.5",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "mtl",
+        "version-range": ">=2.1 && <2.3",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "containers",
+        "version-range": ">=0.5 && <0.6",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "wai",
+        "version-range": ">=3.0 && <3.1",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "warp",
+        "version-range": ">=3.0 && <3.1",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "wai-extra",
+        "version-range": ">=3.0 && <3.1",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "http-types",
+        "version-range": ">=0.8 && <0.9",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "case-insensitive",
+        "version-range": ">=1.2 && <1.3",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "pwstore-fast",
+        "version-range": ">=2.4 && <2.5",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "uuid",
+        "version-range": ">=1.3 && <1.4",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "stm",
+        "version-range": ">=2.4 && <2.5",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "unix",
+        "version-range": ">=2.7 && <2.8",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "web-routes",
+        "version-range": ">=0.27 && <0.28",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "websockets",
+        "version-range": ">=0.8 && <0.9",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "wai-websockets",
+        "version-range": ">=3.0 && <3.1",
+        "library": [
+          {}
+        ]
+      }
+    ],
+    "condTreeComponents": []
+  },
+  "test-suites": {
+    "Main": {
+      "condTreeData": {
+        "name": "",
+        "interface": {
+          "version": [
+            1,
+            0
+          ],
+          "filepath": "Main.hs"
+        },
+        "build-info": {
+          "buildable": true,
+          "buildTools": [],
+          "buildToolDepends": [],
+          "cppOptions": [],
+          "asmOptions": [],
+          "cmmOptions": [],
+          "ccOptions": [],
+          "cxxOptions": [],
+          "ldOptions": [],
+          "pkgconfigDepends": [],
+          "frameworks": [],
+          "extraFrameworkDirs": [],
+          "asmSources": [],
+          "cmmSources": [],
+          "cSources": [],
+          "cxxSources": [],
+          "jsSources": [],
+          "hsSourceDirs": [
+            "tests",
+            "tests"
+          ],
+          "otherModules": [],
+          "virtualModules": [],
+          "autogenModules": [],
+          "defaultLanguage": "Haskell2010",
+          "otherLanguages": [],
+          "defaultExtensions": [],
+          "otherExtensions": [],
+          "oldExtensions": [],
+          "extraLibs": [],
+          "extraGHCiLibs": [],
+          "extraBundledLibs": [],
+          "extraLibFlavours": [],
+          "extraDynLibFlavours": [],
+          "extraLibDirs": [],
+          "includeDirs": [],
+          "includes": [],
+          "autogenIncludes": [],
+          "installIncludes": [],
+          "options": [
+            [
+              "-Wall",
+              "-rtsopts"
+            ],
+            []
+          ],
+          "profOptions": [
+            [],
+            []
+          ],
+          "sharedOptions": [
+            [],
+            []
+          ],
+          "staticOptions": [
+            [],
+            []
+          ],
+          "customFieldsBI": [],
+          "targetBuildDepends": [
+            {
+              "package-name": "Wheb",
+              "version-range": "==0.3.*",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "base",
+              "version-range": "==4.7.*",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "HUnit",
+              "version-range": ">=1.2 && <2",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "QuickCheck",
+              "version-range": ">=2.4",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "test-framework",
+              "version-range": ">=0.4.1",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "test-framework-quickcheck2",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "test-framework-hunit",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "text",
+              "version-range": ">=1.0 && <1.2",
+              "library": [
+                {}
+              ]
+            }
+          ],
+          "mixins": []
+        }
+      },
+      "condTreeConstraints": [
+        {
+          "package-name": "Wheb",
+          "version-range": "==0.3.*",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "base",
+          "version-range": "==4.7.*",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "HUnit",
+          "version-range": ">=1.2 && <2",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "QuickCheck",
+          "version-range": ">=2.4",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "test-framework",
+          "version-range": ">=0.4.1",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "test-framework-quickcheck2",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "test-framework-hunit",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "text",
+          "version-range": ">=1.0 && <1.2",
+          "library": [
+            {}
+          ]
+        }
+      ],
+      "condTreeComponents": []
+    }
+  }
+}

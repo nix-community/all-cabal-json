@@ -1,0 +1,490 @@
+{
+  "description": {
+    "spec-version": {
+      "Right": ">=1.8"
+    },
+    "package": {
+      "name": "lio",
+      "version": [
+        0,
+        9,
+        2,
+        0
+      ]
+    },
+    "license": {
+      "Right": "OtherLicense"
+    },
+    "license-files": [
+      "LICENSE"
+    ],
+    "copyright": "",
+    "maintainer": "Hails team <hails at scs dot stanford dot edu>",
+    "author": "Hails team",
+    "stability": "",
+    "tested-with": [],
+    "homepage": "",
+    "pkg-url": "",
+    "bug-reports": "",
+    "source-repos": [
+      {
+        "kind": {},
+        "type": "Git",
+        "location": "ssh://anonymous@gitstar.com/scs/lio.git",
+        "module": null,
+        "branch": null,
+        "tag": null,
+        "subdir": null
+      }
+    ],
+    "synopsis": "Labeled IO Information Flow Control Library",
+    "description": "The /Labeled IO/ (LIO) library is an information flow control (IFC)\nlibrary. IFC is a mechanism that enforces security policies by\ntracking and controlling the flow of information within a system.\nDifferent from discretionary access control (think UNIX file\npermissions), with IFC you can execute an untrusted computation on\nyour secret data and be sure that it does not leak it or overwrite\nit.\n\nLIO is an IFC library that can be used to implement such untrusted\ncomputations. LIO provides combinators similar to those of 'IO' for\nperforming side-effecting computations (e.g., accessing the\nfilesystem, modifying mutable references, throwing exceptions, etc.)\nTo track and control the flow of information, LIO associates a\nsecurity policy, usually called a /label/, with every piece of data.\nA label may, for example, impose a restriction on who can observe,\npropagate, or modify the data labeled as such.  Different from\nstandard IO operations, the LIO counterparts usually take an\nadditional parameter for the label which they inspect before\nactually performing the (underlying IO) side-effecting computation.\nSo, before writing to a file LIO asserts that the write will not\nviolate any security policies associated with the file or the data\nto be written.\n\nMost code should import module \"LIO\" and whichever label format the\napplication is using (e.g., \"LIO.DCLabel\"). All untrusted code\nshould have type 'LIO', which trusted code can safely execute with\n'evalLIO'. See \"LIO\" for a description of the core library API.\n\nThe paper that describes the core of LIO, including motivation and\nformal modeling/proofs, is available here:\n<http://arxiv.org/abs/1207.1457>",
+    "category": "Security",
+    "custom-fields": [],
+    "build-type-raw": "Simple",
+    "custom-setup": null,
+    "library": null,
+    "sublibraries": [],
+    "executables": [],
+    "foreign-libs": [],
+    "test-suites": [],
+    "benchmarks": [],
+    "data-files": [],
+    "data-dir": ".",
+    "extra-source-files": [
+      "examples/dclabel.hs",
+      "examples/gate.hs",
+      "examples/waitAndCatch.hs",
+      "examples/bracket.hs",
+      "examples/fsExample.hs",
+      "examples/LambdaChair/LambdaChair.hs",
+      "examples/LambdaChair/LambdaChair/TCB.hs",
+      "examples/LambdaChair/AliceCode.hs",
+      "examples/LambdaChair/BobCode.hs",
+      "examples/LambdaChair/Main.hs"
+    ],
+    "extra-tmp-files": [],
+    "extra-doc-files": []
+  },
+  "package-flags": [
+    {
+      "name": "tolabeled",
+      "description": "Enable toLabeled primitive. This is NOT\ntermination-sensitive non-interferant so use with care.",
+      "default": false,
+      "manual": false
+    }
+  ],
+  "library": {
+    "condTreeData": {
+      "name": {},
+      "exposed-modules": [
+        [
+          "LIO"
+        ],
+        [
+          "LIO",
+          "Label"
+        ],
+        [
+          "LIO",
+          "Core"
+        ],
+        [
+          "LIO",
+          "TCB"
+        ],
+        [
+          "LIO",
+          "Labeled"
+        ],
+        [
+          "LIO",
+          "Labeled",
+          "TCB"
+        ],
+        [
+          "LIO",
+          "LIORef"
+        ],
+        [
+          "LIO",
+          "LIORef",
+          "TCB"
+        ],
+        [
+          "LIO",
+          "Gate"
+        ],
+        [
+          "LIO",
+          "Privs"
+        ],
+        [
+          "LIO",
+          "Privs",
+          "TCB"
+        ],
+        [
+          "LIO",
+          "Concurrent"
+        ],
+        [
+          "LIO",
+          "Concurrent",
+          "TCB"
+        ],
+        [
+          "LIO",
+          "Concurrent",
+          "LMVar"
+        ],
+        [
+          "LIO",
+          "Concurrent",
+          "LMVar",
+          "TCB"
+        ],
+        [
+          "LIO",
+          "DCLabel"
+        ],
+        [
+          "LIO",
+          "DCLabel",
+          "Core"
+        ],
+        [
+          "LIO",
+          "DCLabel",
+          "Privs"
+        ],
+        [
+          "LIO",
+          "DCLabel",
+          "Privs",
+          "TCB"
+        ],
+        [
+          "LIO",
+          "DCLabel",
+          "Serialize"
+        ],
+        [
+          "LIO",
+          "DCLabel",
+          "DSL"
+        ],
+        [
+          "LIO",
+          "Handle"
+        ],
+        [
+          "LIO",
+          "FS",
+          "TCB"
+        ]
+      ],
+      "re-exported-modules": [],
+      "signatures": [],
+      "exposed": true,
+      "visibility": "LibraryVisibilityPublic",
+      "build-info": {
+        "buildable": true,
+        "buildTools": [],
+        "buildToolDepends": [],
+        "cppOptions": [],
+        "asmOptions": [],
+        "cmmOptions": [],
+        "ccOptions": [],
+        "cxxOptions": [],
+        "ldOptions": [],
+        "pkgconfigDepends": [],
+        "frameworks": [],
+        "extraFrameworkDirs": [],
+        "asmSources": [],
+        "cmmSources": [],
+        "cSources": [],
+        "cxxSources": [],
+        "jsSources": [],
+        "hsSourceDirs": [],
+        "otherModules": [],
+        "virtualModules": [],
+        "autogenModules": [],
+        "defaultLanguage": null,
+        "otherLanguages": [],
+        "defaultExtensions": [],
+        "otherExtensions": [],
+        "oldExtensions": [],
+        "extraLibs": [],
+        "extraGHCiLibs": [],
+        "extraBundledLibs": [],
+        "extraLibFlavours": [],
+        "extraDynLibFlavours": [],
+        "extraLibDirs": [],
+        "includeDirs": [],
+        "includes": [],
+        "autogenIncludes": [],
+        "installIncludes": [],
+        "options": [
+          [
+            "-Wall",
+            "-fno-warn-orphans"
+          ],
+          []
+        ],
+        "profOptions": [
+          [],
+          []
+        ],
+        "sharedOptions": [
+          [],
+          []
+        ],
+        "staticOptions": [
+          [],
+          []
+        ],
+        "customFieldsBI": [],
+        "targetBuildDepends": [
+          {
+            "package-name": "base",
+            "version-range": ">=4.5 && <5.0",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "transformers",
+            "version-range": ">=0.2.2",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "containers",
+            "version-range": ">=0.4.2",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "bytestring",
+            "version-range": ">=0.9",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "cereal",
+            "version-range": ">=0.3.5.1",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "filepath",
+            "version-range": ">=1.3.0.0",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "directory",
+            "version-range": ">=1.1.0.2",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "xattr",
+            "version-range": ">=0.6.1",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "zlib",
+            "version-range": ">=0.5.3.1",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "SHA",
+            "version-range": ">=1.5.0.0",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "time",
+            "version-range": ">=1.2.0.5",
+            "library": [
+              {}
+            ]
+          }
+        ],
+        "mixins": []
+      }
+    },
+    "condTreeConstraints": [
+      {
+        "package-name": "base",
+        "version-range": ">=4.5 && <5.0",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "transformers",
+        "version-range": ">=0.2.2",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "containers",
+        "version-range": ">=0.4.2",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "bytestring",
+        "version-range": ">=0.9",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "cereal",
+        "version-range": ">=0.3.5.1",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "filepath",
+        "version-range": ">=1.3.0.0",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "directory",
+        "version-range": ">=1.1.0.2",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "xattr",
+        "version-range": ">=0.6.1",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "zlib",
+        "version-range": ">=0.5.3.1",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "SHA",
+        "version-range": ">=1.5.0.0",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "time",
+        "version-range": ">=1.2.0.5",
+        "library": [
+          {}
+        ]
+      }
+    ],
+    "condTreeComponents": [
+      {
+        "condBranchCondition": {
+          "v": {
+            "flag": "tolabeled"
+          }
+        },
+        "condBranchIfTrue": {
+          "condTreeData": {
+            "name": {},
+            "exposed-modules": [],
+            "re-exported-modules": [],
+            "signatures": [],
+            "exposed": true,
+            "visibility": "LibraryVisibilityPublic",
+            "build-info": {
+              "buildable": true,
+              "buildTools": [],
+              "buildToolDepends": [],
+              "cppOptions": [
+                "-DTO_LABELED"
+              ],
+              "asmOptions": [],
+              "cmmOptions": [],
+              "ccOptions": [],
+              "cxxOptions": [],
+              "ldOptions": [],
+              "pkgconfigDepends": [],
+              "frameworks": [],
+              "extraFrameworkDirs": [],
+              "asmSources": [],
+              "cmmSources": [],
+              "cSources": [],
+              "cxxSources": [],
+              "jsSources": [],
+              "hsSourceDirs": [],
+              "otherModules": [],
+              "virtualModules": [],
+              "autogenModules": [],
+              "defaultLanguage": null,
+              "otherLanguages": [],
+              "defaultExtensions": [],
+              "otherExtensions": [],
+              "oldExtensions": [],
+              "extraLibs": [],
+              "extraGHCiLibs": [],
+              "extraBundledLibs": [],
+              "extraLibFlavours": [],
+              "extraDynLibFlavours": [],
+              "extraLibDirs": [],
+              "includeDirs": [],
+              "includes": [],
+              "autogenIncludes": [],
+              "installIncludes": [],
+              "options": [
+                [],
+                []
+              ],
+              "profOptions": [
+                [],
+                []
+              ],
+              "sharedOptions": [
+                [],
+                []
+              ],
+              "staticOptions": [
+                [],
+                []
+              ],
+              "customFieldsBI": [],
+              "targetBuildDepends": [],
+              "mixins": []
+            }
+          },
+          "condTreeConstraints": [],
+          "condTreeComponents": []
+        }
+      }
+    ]
+  }
+}

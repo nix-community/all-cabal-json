@@ -1,0 +1,1335 @@
+{
+  "description": {
+    "spec-version": {
+      "Right": ">=1.8"
+    },
+    "package": {
+      "name": "htsn-import",
+      "version": [
+        0,
+        0,
+        2
+      ]
+    },
+    "license": {
+      "Right": "OtherLicense"
+    },
+    "license-files": [
+      "doc/LICENSE"
+    ],
+    "copyright": "",
+    "maintainer": "Michael Orlitzky <michael@orlitzky.com>",
+    "author": "Michael Orlitzky",
+    "stability": "",
+    "tested-with": [],
+    "homepage": "",
+    "pkg-url": "",
+    "bug-reports": "",
+    "source-repos": [
+      {
+        "kind": {},
+        "type": "Git",
+        "location": "http://michael.orlitzky.com/git/htsn-import.git",
+        "module": null,
+        "branch": "master",
+        "tag": null,
+        "subdir": null
+      }
+    ],
+    "synopsis": "Import XML files from The Sports Network into an RDBMS.",
+    "description": "/Usage/:\n\n@\nhtsn-import [OPTIONS] [FILES]\n@\n\nThe Sports Network <http://www.sportsnetwork.com/> offers an XML feed\ncontaining various sports news and statistics. Our sister program\n/htsn/ is capable of retrieving the feed and saving the individual\nXML documents contained therein. But what to do with them?\n\nThe purpose of /htsn-import/ is to take these XML documents and\nget them into something we can use, a relational database management\nsystem (RDBMS), loosely known as a SQL database. The structure of\nrelational database, is, well, relational, and the feed XML is not. So\nthere is some work to do before the data can be inserted.\n\nFirst, we must parse the XML. Each supported document type (see below)\nhas a full pickle/unpickle implementation (\\\"pickle\\\" is simply a\nsynonym for serialize here). That means that we parse the entire\ndocument into a data structure, and if we pickle (serialize) that data\nstructure, we get the exact same XML document tha we started with.\n\nThis is important for two reasons. First, it serves as a second level\nof validation. The first validation is performed by the XML parser,\nbut if that succeeds and unpicking fails, we know that something is\nfishy. Second, we don't ever want to be surprised by some new element\nor attribute showing up in the XML. The fact that we can unpickle the\nwhole thing now means that we won't be surprised in the future.\n\nThe aforementioned feature is especially important because we\nautomatically migrate the database schema every time we import a\ndocument. If you attempt to import a \\\"newsxml.dtd\\\" document, all\ndatabase objects relating to the news will be created if they do not\nexist. We don't want the schema to change out from under us without\nwarning, so it's important that no XML be parsed that would result in\na different schema than we had previously. Since we can\npickle/unpickle everything already, this should be impossible.\n\nExamples and usage documentation are available in the man page.",
+    "category": "Utils",
+    "custom-fields": [],
+    "build-type-raw": "Simple",
+    "custom-setup": null,
+    "library": null,
+    "sublibraries": [],
+    "executables": [],
+    "foreign-libs": [],
+    "test-suites": [],
+    "benchmarks": [],
+    "data-files": [],
+    "data-dir": ".",
+    "extra-source-files": [
+      "doc/dbschema/*.png",
+      "doc/htsn-importrc.example",
+      "doc/man1/htsn-import.1",
+      "doc/README.dbschema",
+      "doc/README.schemagen",
+      "doc/TODO",
+      "makefile",
+      "schema/*.dtd",
+      "schemagen/Heartbeat/*.xml",
+      "schemagen/injuriesxml/*.xml",
+      "schemagen/Injuries_Detail_XML/*.xml",
+      "schemagen/newsxml/*.xml",
+      "schemagen/Odds_XML/*.xml",
+      "schemagen/weatherxml/*.xml",
+      "test/shell/*.test",
+      "test/xml/*.xml",
+      "test/xml/*.dtd"
+    ],
+    "extra-tmp-files": [],
+    "extra-doc-files": []
+  },
+  "executables": {
+    "htsn-import": {
+      "condTreeData": {
+        "name": "htsn-import",
+        "module-path": "Main.hs",
+        "scope": "public",
+        "build-info": {
+          "buildable": true,
+          "buildTools": [],
+          "buildToolDepends": [],
+          "cppOptions": [],
+          "asmOptions": [],
+          "cmmOptions": [],
+          "ccOptions": [],
+          "cxxOptions": [],
+          "ldOptions": [],
+          "pkgconfigDepends": [],
+          "frameworks": [],
+          "extraFrameworkDirs": [],
+          "asmSources": [],
+          "cmmSources": [],
+          "cSources": [],
+          "cxxSources": [],
+          "jsSources": [],
+          "hsSourceDirs": [
+            "src/"
+          ],
+          "otherModules": [
+            [
+              "Backend"
+            ],
+            [
+              "CommandLine"
+            ],
+            [
+              "Configuration"
+            ],
+            [
+              "ConnectionString"
+            ],
+            [
+              "ExitCodes"
+            ],
+            [
+              "OptionalConfiguration"
+            ],
+            [
+              "TSN",
+              "Codegen"
+            ],
+            [
+              "TSN",
+              "Database"
+            ],
+            [
+              "TSN",
+              "DbImport"
+            ],
+            [
+              "TSN",
+              "Picklers"
+            ],
+            [
+              "TSN",
+              "XmlImport"
+            ],
+            [
+              "TSN",
+              "XML",
+              "Heartbeat"
+            ],
+            [
+              "TSN",
+              "XML",
+              "Injuries"
+            ],
+            [
+              "TSN",
+              "XML",
+              "InjuriesDetail"
+            ],
+            [
+              "TSN",
+              "XML",
+              "News"
+            ],
+            [
+              "TSN",
+              "XML",
+              "Odds"
+            ],
+            [
+              "TSN",
+              "XML",
+              "Weather"
+            ],
+            [
+              "Xml"
+            ]
+          ],
+          "virtualModules": [],
+          "autogenModules": [],
+          "defaultLanguage": null,
+          "otherLanguages": [],
+          "defaultExtensions": [],
+          "otherExtensions": [],
+          "oldExtensions": [],
+          "extraLibs": [],
+          "extraGHCiLibs": [],
+          "extraBundledLibs": [],
+          "extraLibFlavours": [],
+          "extraDynLibFlavours": [],
+          "extraLibDirs": [],
+          "includeDirs": [],
+          "includes": [],
+          "autogenIncludes": [],
+          "installIncludes": [],
+          "options": [
+            [
+              "-Wall",
+              "-fwarn-hi-shadowing",
+              "-fwarn-missing-signatures",
+              "-fwarn-name-shadowing",
+              "-fwarn-orphans",
+              "-fwarn-type-defaults",
+              "-fwarn-tabs",
+              "-fwarn-incomplete-record-updates",
+              "-fwarn-monomorphism-restriction",
+              "-fwarn-unused-do-bind",
+              "-O2"
+            ],
+            []
+          ],
+          "profOptions": [
+            [
+              "-prof",
+              "-fprof-auto",
+              "-fprof-cafs",
+              "-hisuf",
+              "hi_p",
+              "-osuf",
+              "o_p"
+            ],
+            []
+          ],
+          "sharedOptions": [
+            [],
+            []
+          ],
+          "staticOptions": [
+            [],
+            []
+          ],
+          "customFieldsBI": [],
+          "targetBuildDepends": [
+            {
+              "package-name": "base",
+              "version-range": "==4.*",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "cmdargs",
+              "version-range": ">=0.10.6",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "configurator",
+              "version-range": "==0.2.*",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "directory",
+              "version-range": "==1.2.*",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "filepath",
+              "version-range": "==1.3.*",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "hslogger",
+              "version-range": "==1.2.*",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "htsn-common",
+              "version-range": "==0.0.1",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "hxt",
+              "version-range": "==9.3.*",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "groundhog",
+              "version-range": "==0.4.*",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "groundhog-postgresql",
+              "version-range": "==0.4.*",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "groundhog-sqlite",
+              "version-range": "==0.4.*",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "groundhog-th",
+              "version-range": "==0.4.*",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "MissingH",
+              "version-range": "==1.2.*",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "old-locale",
+              "version-range": "==1.0.*",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "tasty",
+              "version-range": "==0.7.*",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "tasty-hunit",
+              "version-range": "==0.4.*",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "time",
+              "version-range": "==1.4.*",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "transformers",
+              "version-range": "==0.3.*",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "tuple",
+              "version-range": "==0.2.*",
+              "library": [
+                {}
+              ]
+            }
+          ],
+          "mixins": []
+        }
+      },
+      "condTreeConstraints": [
+        {
+          "package-name": "base",
+          "version-range": "==4.*",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "cmdargs",
+          "version-range": ">=0.10.6",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "configurator",
+          "version-range": "==0.2.*",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "directory",
+          "version-range": "==1.2.*",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "filepath",
+          "version-range": "==1.3.*",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "hslogger",
+          "version-range": "==1.2.*",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "htsn-common",
+          "version-range": "==0.0.1",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "hxt",
+          "version-range": "==9.3.*",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "groundhog",
+          "version-range": "==0.4.*",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "groundhog-postgresql",
+          "version-range": "==0.4.*",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "groundhog-sqlite",
+          "version-range": "==0.4.*",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "groundhog-th",
+          "version-range": "==0.4.*",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "MissingH",
+          "version-range": "==1.2.*",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "old-locale",
+          "version-range": "==1.0.*",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "tasty",
+          "version-range": "==0.7.*",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "tasty-hunit",
+          "version-range": "==0.4.*",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "time",
+          "version-range": "==1.4.*",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "transformers",
+          "version-range": "==0.3.*",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "tuple",
+          "version-range": "==0.2.*",
+          "library": [
+            {}
+          ]
+        }
+      ],
+      "condTreeComponents": []
+    }
+  },
+  "test-suites": {
+    "testsuite": {
+      "condTreeData": {
+        "name": "",
+        "interface": {
+          "version": [
+            1,
+            0
+          ],
+          "filepath": "TestSuite.hs"
+        },
+        "build-info": {
+          "buildable": true,
+          "buildTools": [],
+          "buildToolDepends": [],
+          "cppOptions": [],
+          "asmOptions": [],
+          "cmmOptions": [],
+          "ccOptions": [],
+          "cxxOptions": [],
+          "ldOptions": [],
+          "pkgconfigDepends": [],
+          "frameworks": [],
+          "extraFrameworkDirs": [],
+          "asmSources": [],
+          "cmmSources": [],
+          "cSources": [],
+          "cxxSources": [],
+          "jsSources": [],
+          "hsSourceDirs": [
+            "src",
+            "test"
+          ],
+          "otherModules": [],
+          "virtualModules": [],
+          "autogenModules": [],
+          "defaultLanguage": null,
+          "otherLanguages": [],
+          "defaultExtensions": [],
+          "otherExtensions": [],
+          "oldExtensions": [],
+          "extraLibs": [],
+          "extraGHCiLibs": [],
+          "extraBundledLibs": [],
+          "extraLibFlavours": [],
+          "extraDynLibFlavours": [],
+          "extraLibDirs": [],
+          "includeDirs": [],
+          "includes": [],
+          "autogenIncludes": [],
+          "installIncludes": [],
+          "options": [
+            [
+              "-Wall",
+              "-fwarn-hi-shadowing",
+              "-fwarn-missing-signatures",
+              "-fwarn-name-shadowing",
+              "-fwarn-orphans",
+              "-fwarn-type-defaults",
+              "-fwarn-tabs",
+              "-fwarn-incomplete-record-updates",
+              "-fwarn-monomorphism-restriction",
+              "-fwarn-unused-do-bind",
+              "-O2"
+            ],
+            []
+          ],
+          "profOptions": [
+            [],
+            []
+          ],
+          "sharedOptions": [
+            [],
+            []
+          ],
+          "staticOptions": [
+            [],
+            []
+          ],
+          "customFieldsBI": [],
+          "targetBuildDepends": [
+            {
+              "package-name": "base",
+              "version-range": "==4.*",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "cmdargs",
+              "version-range": ">=0.10.6",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "configurator",
+              "version-range": "==0.2.*",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "directory",
+              "version-range": "==1.2.*",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "filepath",
+              "version-range": "==1.3.*",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "hslogger",
+              "version-range": "==1.2.*",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "htsn-common",
+              "version-range": "==0.0.1",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "hxt",
+              "version-range": "==9.3.*",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "groundhog",
+              "version-range": "==0.4.*",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "groundhog-postgresql",
+              "version-range": "==0.4.*",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "groundhog-sqlite",
+              "version-range": "==0.4.*",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "groundhog-th",
+              "version-range": "==0.4.*",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "MissingH",
+              "version-range": "==1.2.*",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "old-locale",
+              "version-range": "==1.0.*",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "tasty",
+              "version-range": "==0.7.*",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "tasty-hunit",
+              "version-range": "==0.4.*",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "time",
+              "version-range": "==1.4.*",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "transformers",
+              "version-range": "==0.3.*",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "tuple",
+              "version-range": "==0.2.*",
+              "library": [
+                {}
+              ]
+            }
+          ],
+          "mixins": []
+        }
+      },
+      "condTreeConstraints": [
+        {
+          "package-name": "base",
+          "version-range": "==4.*",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "cmdargs",
+          "version-range": ">=0.10.6",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "configurator",
+          "version-range": "==0.2.*",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "directory",
+          "version-range": "==1.2.*",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "filepath",
+          "version-range": "==1.3.*",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "hslogger",
+          "version-range": "==1.2.*",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "htsn-common",
+          "version-range": "==0.0.1",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "hxt",
+          "version-range": "==9.3.*",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "groundhog",
+          "version-range": "==0.4.*",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "groundhog-postgresql",
+          "version-range": "==0.4.*",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "groundhog-sqlite",
+          "version-range": "==0.4.*",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "groundhog-th",
+          "version-range": "==0.4.*",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "MissingH",
+          "version-range": "==1.2.*",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "old-locale",
+          "version-range": "==1.0.*",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "tasty",
+          "version-range": "==0.7.*",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "tasty-hunit",
+          "version-range": "==0.4.*",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "time",
+          "version-range": "==1.4.*",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "transformers",
+          "version-range": "==0.3.*",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "tuple",
+          "version-range": "==0.2.*",
+          "library": [
+            {}
+          ]
+        }
+      ],
+      "condTreeComponents": []
+    },
+    "doctests": {
+      "condTreeData": {
+        "name": "",
+        "interface": {
+          "version": [
+            1,
+            0
+          ],
+          "filepath": "Doctests.hs"
+        },
+        "build-info": {
+          "buildable": true,
+          "buildTools": [],
+          "buildToolDepends": [],
+          "cppOptions": [],
+          "asmOptions": [],
+          "cmmOptions": [],
+          "ccOptions": [],
+          "cxxOptions": [],
+          "ldOptions": [],
+          "pkgconfigDepends": [],
+          "frameworks": [],
+          "extraFrameworkDirs": [],
+          "asmSources": [],
+          "cmmSources": [],
+          "cSources": [],
+          "cxxSources": [],
+          "jsSources": [],
+          "hsSourceDirs": [
+            "test"
+          ],
+          "otherModules": [],
+          "virtualModules": [],
+          "autogenModules": [],
+          "defaultLanguage": null,
+          "otherLanguages": [],
+          "defaultExtensions": [],
+          "otherExtensions": [],
+          "oldExtensions": [],
+          "extraLibs": [],
+          "extraGHCiLibs": [],
+          "extraBundledLibs": [],
+          "extraLibFlavours": [],
+          "extraDynLibFlavours": [],
+          "extraLibDirs": [],
+          "includeDirs": [],
+          "includes": [],
+          "autogenIncludes": [],
+          "installIncludes": [],
+          "options": [
+            [
+              "-Wall",
+              "-fwarn-hi-shadowing",
+              "-fwarn-missing-signatures",
+              "-fwarn-name-shadowing",
+              "-fwarn-orphans",
+              "-fwarn-type-defaults",
+              "-fwarn-tabs",
+              "-fwarn-incomplete-record-updates",
+              "-fwarn-monomorphism-restriction",
+              "-fwarn-unused-do-bind",
+              "-rtsopts",
+              "-threaded",
+              "-optc-O3",
+              "-optc-march=native",
+              "-O2"
+            ],
+            []
+          ],
+          "profOptions": [
+            [],
+            []
+          ],
+          "sharedOptions": [
+            [],
+            []
+          ],
+          "staticOptions": [
+            [],
+            []
+          ],
+          "customFieldsBI": [],
+          "targetBuildDepends": [
+            {
+              "package-name": "base",
+              "version-range": "==4.*",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "doctest",
+              "version-range": "==0.9.*",
+              "library": [
+                {}
+              ]
+            }
+          ],
+          "mixins": []
+        }
+      },
+      "condTreeConstraints": [
+        {
+          "package-name": "base",
+          "version-range": "==4.*",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "doctest",
+          "version-range": "==0.9.*",
+          "library": [
+            {}
+          ]
+        }
+      ],
+      "condTreeComponents": []
+    },
+    "shelltests": {
+      "condTreeData": {
+        "name": "",
+        "interface": {
+          "version": [
+            1,
+            0
+          ],
+          "filepath": "ShellTests.hs"
+        },
+        "build-info": {
+          "buildable": true,
+          "buildTools": [],
+          "buildToolDepends": [],
+          "cppOptions": [],
+          "asmOptions": [],
+          "cmmOptions": [],
+          "ccOptions": [],
+          "cxxOptions": [],
+          "ldOptions": [],
+          "pkgconfigDepends": [],
+          "frameworks": [],
+          "extraFrameworkDirs": [],
+          "asmSources": [],
+          "cmmSources": [],
+          "cSources": [],
+          "cxxSources": [],
+          "jsSources": [],
+          "hsSourceDirs": [
+            "test"
+          ],
+          "otherModules": [],
+          "virtualModules": [],
+          "autogenModules": [],
+          "defaultLanguage": null,
+          "otherLanguages": [],
+          "defaultExtensions": [],
+          "otherExtensions": [],
+          "oldExtensions": [],
+          "extraLibs": [],
+          "extraGHCiLibs": [],
+          "extraBundledLibs": [],
+          "extraLibFlavours": [],
+          "extraDynLibFlavours": [],
+          "extraLibDirs": [],
+          "includeDirs": [],
+          "includes": [],
+          "autogenIncludes": [],
+          "installIncludes": [],
+          "options": [
+            [],
+            []
+          ],
+          "profOptions": [
+            [],
+            []
+          ],
+          "sharedOptions": [
+            [],
+            []
+          ],
+          "staticOptions": [
+            [],
+            []
+          ],
+          "customFieldsBI": [],
+          "targetBuildDepends": [
+            {
+              "package-name": "base",
+              "version-range": "==4.*",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "cmdargs",
+              "version-range": ">=0.10.6",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "configurator",
+              "version-range": "==0.2.*",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "directory",
+              "version-range": "==1.2.*",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "filepath",
+              "version-range": "==1.3.*",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "hslogger",
+              "version-range": "==1.2.*",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "htsn-common",
+              "version-range": "==0.0.1",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "hxt",
+              "version-range": "==9.3.*",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "groundhog",
+              "version-range": "==0.4.*",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "groundhog-postgresql",
+              "version-range": "==0.4.*",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "groundhog-sqlite",
+              "version-range": "==0.4.*",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "groundhog-th",
+              "version-range": "==0.4.*",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "MissingH",
+              "version-range": "==1.2.*",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "old-locale",
+              "version-range": "==1.0.*",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "process",
+              "version-range": "==1.1.*",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "tasty",
+              "version-range": "==0.7.*",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "tasty-hunit",
+              "version-range": "==0.4.*",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "time",
+              "version-range": "==1.4.*",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "transformers",
+              "version-range": "==0.3.*",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "tuple",
+              "version-range": "==0.2.*",
+              "library": [
+                {}
+              ]
+            }
+          ],
+          "mixins": []
+        }
+      },
+      "condTreeConstraints": [
+        {
+          "package-name": "base",
+          "version-range": "==4.*",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "cmdargs",
+          "version-range": ">=0.10.6",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "configurator",
+          "version-range": "==0.2.*",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "directory",
+          "version-range": "==1.2.*",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "filepath",
+          "version-range": "==1.3.*",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "hslogger",
+          "version-range": "==1.2.*",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "htsn-common",
+          "version-range": "==0.0.1",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "hxt",
+          "version-range": "==9.3.*",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "groundhog",
+          "version-range": "==0.4.*",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "groundhog-postgresql",
+          "version-range": "==0.4.*",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "groundhog-sqlite",
+          "version-range": "==0.4.*",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "groundhog-th",
+          "version-range": "==0.4.*",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "MissingH",
+          "version-range": "==1.2.*",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "old-locale",
+          "version-range": "==1.0.*",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "process",
+          "version-range": "==1.1.*",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "tasty",
+          "version-range": "==0.7.*",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "tasty-hunit",
+          "version-range": "==0.4.*",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "time",
+          "version-range": "==1.4.*",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "transformers",
+          "version-range": "==0.3.*",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "tuple",
+          "version-range": "==0.2.*",
+          "library": [
+            {}
+          ]
+        }
+      ],
+      "condTreeComponents": []
+    }
+  }
+}

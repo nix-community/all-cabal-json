@@ -1,0 +1,190 @@
+{
+  "description": {
+    "spec-version": {
+      "Right": ">=1.6"
+    },
+    "package": {
+      "name": "safe-globals",
+      "version": [
+        0,
+        1,
+        1
+      ]
+    },
+    "license": {
+      "Right": "BSD3"
+    },
+    "license-files": [
+      "LICENSE"
+    ],
+    "copyright": "",
+    "maintainer": "Keegan McAllister <mcallister.keegan@gmail.com>",
+    "author": "Keegan McAllister <mcallister.keegan@gmail.com>",
+    "stability": "",
+    "tested-with": [],
+    "homepage": "",
+    "pkg-url": "",
+    "bug-reports": "",
+    "source-repos": [
+      {
+        "kind": {},
+        "type": "Git",
+        "location": "git://github.com/kmcallister/safe-globals",
+        "module": null,
+        "branch": null,
+        "tag": null,
+        "subdir": null
+      }
+    ],
+    "synopsis": "Safe top-level mutable variables which scope like ordinary values",
+    "description": "This library provides a way to declare @IORef@s, @TVar@s, @Chan@s, etc.\nat the top level of a module.\n\n* Declarations are safe.  User code does not invoke @unsafePerformIO@\nor compiler pragmas.\n\n* Variables are ordinary module-level bindings.  Their scope can be\ncontrolled through the usual module import/export mechanism.  Unrelated\ncode cannot interfere with private variables by guessing some global\nidentifier.\n\n* References are statically typed, and polymorphic references are statically\nforbidden.\n\n* The implementation is simple, and closely follows existing common practice.\n\nThis library does not prevent the software design problems caused by global\nstate.  Rather, it provides some implementation safety for those\ncircumstances where global state really is necessary.\n\nFundamentally this library just provides Template Haskell macros for the\nusual @unsafePerformIO@ trick, so it is subject to the same caveats.  In\nparticular, linking a module and then loading the same module dynamically\nthrough the GHC API may produce two copies of the same top-level variable.\nSee the documentation of @unsafePerformIO@ for additional compiler-specific\nrequirements.\n\nThis library may not work properly on GHC before 7.4, due to a GHC bug:\n<http://hackage.haskell.org/trac/ghc/ticket/5558>",
+    "category": "Data",
+    "custom-fields": [],
+    "build-type-raw": "Simple",
+    "custom-setup": null,
+    "library": null,
+    "sublibraries": [],
+    "executables": [],
+    "foreign-libs": [],
+    "test-suites": [],
+    "benchmarks": [],
+    "data-files": [],
+    "data-dir": ".",
+    "extra-source-files": [
+      "README",
+      "examples/all.hs",
+      "examples/isolation/A.hs",
+      "examples/isolation/B.hs",
+      "examples/isolation/main.hs"
+    ],
+    "extra-tmp-files": [],
+    "extra-doc-files": []
+  },
+  "library": {
+    "condTreeData": {
+      "name": {},
+      "exposed-modules": [
+        [
+          "Data",
+          "Global"
+        ]
+      ],
+      "re-exported-modules": [],
+      "signatures": [],
+      "exposed": true,
+      "visibility": "LibraryVisibilityPublic",
+      "build-info": {
+        "buildable": true,
+        "buildTools": [],
+        "buildToolDepends": [],
+        "cppOptions": [],
+        "asmOptions": [],
+        "cmmOptions": [],
+        "ccOptions": [],
+        "cxxOptions": [],
+        "ldOptions": [],
+        "pkgconfigDepends": [],
+        "frameworks": [],
+        "extraFrameworkDirs": [],
+        "asmSources": [],
+        "cmmSources": [],
+        "cSources": [],
+        "cxxSources": [],
+        "jsSources": [],
+        "hsSourceDirs": [],
+        "otherModules": [],
+        "virtualModules": [],
+        "autogenModules": [],
+        "defaultLanguage": null,
+        "otherLanguages": [],
+        "defaultExtensions": [],
+        "otherExtensions": [
+          {
+            "enable-extension": "TemplateHaskell"
+          },
+          {
+            "enable-extension": "CPP"
+          }
+        ],
+        "oldExtensions": [],
+        "extraLibs": [],
+        "extraGHCiLibs": [],
+        "extraBundledLibs": [],
+        "extraLibFlavours": [],
+        "extraDynLibFlavours": [],
+        "extraLibDirs": [],
+        "includeDirs": [],
+        "includes": [],
+        "autogenIncludes": [],
+        "installIncludes": [],
+        "options": [
+          [
+            "-Wall"
+          ],
+          []
+        ],
+        "profOptions": [
+          [],
+          []
+        ],
+        "sharedOptions": [
+          [],
+          []
+        ],
+        "staticOptions": [
+          [],
+          []
+        ],
+        "customFieldsBI": [],
+        "targetBuildDepends": [
+          {
+            "package-name": "base",
+            "version-range": ">=3 && <5",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "stm",
+            "version-range": ">=2.1",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "template-haskell",
+            "version-range": ">=2.4",
+            "library": [
+              {}
+            ]
+          }
+        ],
+        "mixins": []
+      }
+    },
+    "condTreeConstraints": [
+      {
+        "package-name": "base",
+        "version-range": ">=3 && <5",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "stm",
+        "version-range": ">=2.1",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "template-haskell",
+        "version-range": ">=2.4",
+        "library": [
+          {}
+        ]
+      }
+    ],
+    "condTreeComponents": []
+  }
+}

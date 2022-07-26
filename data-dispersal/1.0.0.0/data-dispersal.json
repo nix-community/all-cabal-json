@@ -1,0 +1,552 @@
+{
+  "description": {
+    "spec-version": {
+      "Right": ">=1.8"
+    },
+    "package": {
+      "name": "data-dispersal",
+      "version": [
+        1,
+        0,
+        0,
+        0
+      ]
+    },
+    "license": {
+      "Right": "OtherLicense"
+    },
+    "license-files": [
+      "LICENSE"
+    ],
+    "copyright": "Peter Robinson 2014",
+    "maintainer": "peter.robinson@monoid.at",
+    "author": "Peter Robinson <peter.robinson@monoid.at>",
+    "stability": "",
+    "tested-with": [],
+    "homepage": "http://monoid.at/code",
+    "pkg-url": "",
+    "bug-reports": "",
+    "source-repos": [],
+    "synopsis": "Space-efficient and privacy-preserving data dispersal algorithms.",
+    "description": "This library provides space-efficient (m,n)-information dispersal algorithms (IDAs).\n\nGiven a ByteString @bstr@ of length @D@, we encode @bstr@ as a list @fs@ of @n@\n'Fragment's, each containing a ByteString\nof length @O(D/m)@. Then, each fragment in @fs@ could be stored on a separate\nmachine for fault-tolerance.\nEven if up to @n-m@ of these machines crash, we can still reconstruct the original\nByteString out of the remaining m fragments.\nThe total space required for the n fragments is @O((n/m)*D)@.\nNote that @m@ and @n@ are roughly in the same order, so the actual storage overhead\nfor getting good fault-tolerance increases only by a constant factor.\n\nThe module @Data.IDA@ contains the basic information dispersal algorithm. The module\n@Crypto.IDA@ augments the dispersal scheme by combining it with secret sharing, i.e.,\nthe knowledge of up to @m-1@ fragments does not leak any information about\nthe original data. See \"Crypto.IDA\" for details.\n\n/GHCi Example:/\n\n> > :m + Data.IDA\n> > let msg = Data.ByteString.Char8.pack \"my really important data\"\n> > let fragments = encode 5 15 msg\n> -- Now we could distributed the fragments on different sites to add some\n> -- fault-tolerance.\n> > let frags' = drop 5 $ take 10 fragments -- let's pretend that 10 machines crashed\n> > decode frags'\n> \"my really important data\"\n\n/Fault-Tolerance:/\n\nSuppose that we have @N@ machines and encode our data as @2log(N)@ fragments\nwith reconstruction threshold m = @log(N)@.\nLet's assume that we store each fragment on a separate machine and each\nmachine fails (independently) with probability at most 0.5.\n\n* What is the probability of our data being safe?\n@Pr[ at most n-m machines crash ] >= 1-0.5^(log(N)) = 1-N^(-1).@\n\n* What is the overhead in terms of space that we pay for this level of fault-tolerance?\nWe have n fragments, each of size D\\/m, so the total space is @n * D\\/ m =\n2D.@\nIn other words, we can guarantee that the data survives with high probability\nby increasing the required space by a constant factor.\n\nThis library is based on the following works:\n\n* \\\"Efficient Dispersal of\nInformation for Security, Load Balancing, and Fault Tolerance\\\", by Michael O.\nRabin, JACM 1989.\n\n* \\\"How to share a secret.\\\" by Adi Shamir.\nIn Communications of the ACM 22 (11): 612–613, 1979.\n\n* \\\"Secret Sharing Made Short\\\" Hugo Krawczyk.\nCRYPTO 1993: 136-146",
+    "category": "Data, Cryptography",
+    "custom-fields": [
+      [
+        "x-revision",
+        "1"
+      ]
+    ],
+    "build-type-raw": "Simple",
+    "custom-setup": null,
+    "library": null,
+    "sublibraries": [],
+    "executables": [],
+    "foreign-libs": [],
+    "test-suites": [],
+    "benchmarks": [],
+    "data-files": [],
+    "data-dir": ".",
+    "extra-source-files": [],
+    "extra-tmp-files": [],
+    "extra-doc-files": []
+  },
+  "library": {
+    "condTreeData": {
+      "name": {},
+      "exposed-modules": [
+        [
+          "Data",
+          "IDA"
+        ],
+        [
+          "Data",
+          "IDA",
+          "Internal"
+        ],
+        [
+          "Data",
+          "IDA",
+          "FiniteField"
+        ],
+        [
+          "Crypto",
+          "IDA"
+        ]
+      ],
+      "re-exported-modules": [],
+      "signatures": [],
+      "exposed": true,
+      "visibility": "LibraryVisibilityPublic",
+      "build-info": {
+        "buildable": true,
+        "buildTools": [],
+        "buildToolDepends": [],
+        "cppOptions": [],
+        "asmOptions": [],
+        "cmmOptions": [],
+        "ccOptions": [],
+        "cxxOptions": [],
+        "ldOptions": [],
+        "pkgconfigDepends": [],
+        "frameworks": [],
+        "extraFrameworkDirs": [],
+        "asmSources": [],
+        "cmmSources": [],
+        "cSources": [],
+        "cxxSources": [],
+        "jsSources": [],
+        "hsSourceDirs": [
+          "src"
+        ],
+        "otherModules": [],
+        "virtualModules": [],
+        "autogenModules": [],
+        "defaultLanguage": null,
+        "otherLanguages": [],
+        "defaultExtensions": [],
+        "otherExtensions": [],
+        "oldExtensions": [],
+        "extraLibs": [],
+        "extraGHCiLibs": [],
+        "extraBundledLibs": [],
+        "extraLibFlavours": [],
+        "extraDynLibFlavours": [],
+        "extraLibDirs": [],
+        "includeDirs": [],
+        "includes": [],
+        "autogenIncludes": [],
+        "installIncludes": [],
+        "options": [
+          [
+            "-Wall"
+          ],
+          []
+        ],
+        "profOptions": [
+          [],
+          []
+        ],
+        "sharedOptions": [
+          [],
+          []
+        ],
+        "staticOptions": [
+          [],
+          []
+        ],
+        "customFieldsBI": [],
+        "targetBuildDepends": [
+          {
+            "package-name": "base",
+            "version-range": "<0",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "base",
+            "version-range": "==4.6.*",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "array",
+            "version-range": ">=0.4.0.1",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "vector",
+            "version-range": ">=0.10.11.0",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "binary",
+            "version-range": ">=0.7.2.1",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "bytestring",
+            "version-range": ">=0.10.0.2",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "syb",
+            "version-range": ">=0.4.0",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "binary",
+            "version-range": ">=0.5.1.1",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "finite-field",
+            "version-range": ">=0.8.0",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "matrix",
+            "version-range": ">=0.3.4.0",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "AES",
+            "version-range": ">=0.2.9",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "entropy",
+            "version-range": ">=0.3.2",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "secret-sharing",
+            "version-range": ">=1.0.0.0",
+            "library": [
+              {}
+            ]
+          }
+        ],
+        "mixins": []
+      }
+    },
+    "condTreeConstraints": [
+      {
+        "package-name": "base",
+        "version-range": "<0",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "base",
+        "version-range": "==4.6.*",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "array",
+        "version-range": ">=0.4.0.1",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "vector",
+        "version-range": ">=0.10.11.0",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "binary",
+        "version-range": ">=0.7.2.1",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "bytestring",
+        "version-range": ">=0.10.0.2",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "syb",
+        "version-range": ">=0.4.0",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "binary",
+        "version-range": ">=0.5.1.1",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "finite-field",
+        "version-range": ">=0.8.0",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "matrix",
+        "version-range": ">=0.3.4.0",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "AES",
+        "version-range": ">=0.2.9",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "entropy",
+        "version-range": ">=0.3.2",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "secret-sharing",
+        "version-range": ">=1.0.0.0",
+        "library": [
+          {}
+        ]
+      }
+    ],
+    "condTreeComponents": []
+  },
+  "test-suites": {
+    "Main": {
+      "condTreeData": {
+        "name": "",
+        "interface": {
+          "version": [
+            1,
+            0
+          ],
+          "filepath": "Tests.hs"
+        },
+        "build-info": {
+          "buildable": true,
+          "buildTools": [],
+          "buildToolDepends": [],
+          "cppOptions": [],
+          "asmOptions": [],
+          "cmmOptions": [],
+          "ccOptions": [],
+          "cxxOptions": [],
+          "ldOptions": [],
+          "pkgconfigDepends": [],
+          "frameworks": [],
+          "extraFrameworkDirs": [],
+          "asmSources": [],
+          "cmmSources": [],
+          "cSources": [],
+          "cxxSources": [],
+          "jsSources": [],
+          "hsSourceDirs": [
+            "src",
+            "tests"
+          ],
+          "otherModules": [],
+          "virtualModules": [],
+          "autogenModules": [],
+          "defaultLanguage": null,
+          "otherLanguages": [],
+          "defaultExtensions": [],
+          "otherExtensions": [],
+          "oldExtensions": [],
+          "extraLibs": [],
+          "extraGHCiLibs": [],
+          "extraBundledLibs": [],
+          "extraLibFlavours": [],
+          "extraDynLibFlavours": [],
+          "extraLibDirs": [],
+          "includeDirs": [],
+          "includes": [],
+          "autogenIncludes": [],
+          "installIncludes": [],
+          "options": [
+            [],
+            []
+          ],
+          "profOptions": [
+            [],
+            []
+          ],
+          "sharedOptions": [
+            [],
+            []
+          ],
+          "staticOptions": [
+            [],
+            []
+          ],
+          "customFieldsBI": [
+            [
+              "x-uses-tf",
+              "true"
+            ]
+          ],
+          "targetBuildDepends": [
+            {
+              "package-name": "base",
+              "version-range": ">=4 && <5",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "QuickCheck",
+              "version-range": ">=2.4",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "test-framework",
+              "version-range": ">=0.4.1",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "test-framework-quickcheck2",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "array",
+              "version-range": ">=0.4.0.1",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "vector",
+              "version-range": ">=0.10.11.0",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "spool",
+              "version-range": ">=0.1",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "binary",
+              "version-range": ">=0.7.2.1",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "bytestring",
+              "version-range": ">=0.10.0.2",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "syb",
+              "version-range": ">=0.4.0",
+              "library": [
+                {}
+              ]
+            }
+          ],
+          "mixins": []
+        }
+      },
+      "condTreeConstraints": [
+        {
+          "package-name": "base",
+          "version-range": ">=4 && <5",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "QuickCheck",
+          "version-range": ">=2.4",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "test-framework",
+          "version-range": ">=0.4.1",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "test-framework-quickcheck2",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "array",
+          "version-range": ">=0.4.0.1",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "vector",
+          "version-range": ">=0.10.11.0",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "spool",
+          "version-range": ">=0.1",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "binary",
+          "version-range": ">=0.7.2.1",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "bytestring",
+          "version-range": ">=0.10.0.2",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "syb",
+          "version-range": ">=0.4.0",
+          "library": [
+            {}
+          ]
+        }
+      ],
+      "condTreeComponents": []
+    }
+  }
+}
