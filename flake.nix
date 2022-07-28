@@ -34,14 +34,14 @@
           targetFile=$targetFolder/''${cabalFile%.*}.json
 
           # create target dir and copy hashes json file
-          mkdir -p $targetFolder
+          mkdir -p $(dirname $targetFile)
           cp $cabalHashesFile $targetFolder/''${cabalFile%.*}.hashes.json
 
           echo "creating: $targetFile"
           ${pkgs.haskellPackages.cabal2json}/bin/cabal2json $cabalFile | ${pkgs.jq}/bin/jq . > $targetFile
         '';
 
-        updater = pkgs.writeScript "update-all-cabal-json" ''
+        updater = pkgs.writeScriptBin "update-all-cabal-json" ''
           #!/usr/bin/env bash
           set -eou pipefail
 
@@ -57,10 +57,7 @@
       in
       {
         packages.default = updater;
-        defaultApp = {
-          type = "app";
-          program = "${updater}";
-        };
+        defaultApp = updater;
       }
     );
 }
