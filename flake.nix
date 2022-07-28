@@ -3,12 +3,12 @@
 
   inputs = {
     nixpkgs.url = "nixpkgs/nixos-unstable";
-    all-cabal-files.url = "github:commercialhaskell/all-cabal-files/hackage";
-    all-cabal-files.flake = false;
+    all-cabal-hashes.url = "github:commercialhaskell/all-cabal-hashes/hackage";
+    all-cabal-hashes.flake = false;
     flake-utils.url = "github:numtide/flake-utils";
   };
 
-  outputs = { self, nixpkgs, flake-utils, all-cabal-files }:
+  outputs = { self, nixpkgs, flake-utils, all-cabal-hashes }:
     flake-utils.lib.eachSystem [ flake-utils.lib.system.x86_64-linux ] (system:
       let
         overlay = final: prev: {
@@ -30,19 +30,24 @@
 
           cabalFile=$1
           targetFolder=$2
+          cabalHashesFile=''${cabalFile%.*}.json
           targetFile=$targetFolder/''${cabalFile%.*}.json
-          echo "creating: $targetFile"
+
+          # create target dir and copy hashes json file
           mkdir -p $(dirname $targetFile)
+          cp $cabalHashesFile $targetFolder/''${cabalFile%.*}.hashes.json
+
+          echo "creating: $targetFile"
           ${pkgs.haskellPackages.cabal2json}/bin/cabal2json $cabalFile | ${pkgs.jq}/bin/jq . > $targetFile
         '';
 
-        updater = pkgs.writeScript "update-all-cabal-json" ''
+        updater = pkgs.writeScriptBin "update-all-cabal-json" ''
           #!/usr/bin/env bash
           set -eou pipefail
 
           currFolder=$PWD
 
-          cd ${all-cabal-files}
+          cd ${all-cabal-hashes}
           ${pkgs.parallel}/bin/parallel \
             --halt now,fail,1 \
             -a <(${pkgs.findutils}/bin/find . -type f -name '*.cabal') \
@@ -52,10 +57,7 @@
       in
       {
         packages.default = updater;
-        defaultApp = {
-          type = "app";
-          program = "${updater}";
-        };
+        defaultApp = updater;
       }
     );
 }
