@@ -33,9 +33,13 @@
           cabalHashesFile=''${cabalFile%.*}.json
           targetFile=$targetFolder/''${cabalFile%.*}.json
 
-          # create target dir and copy hashes json file
+          # create target dir
           mkdir -p $(dirname $targetFile)
-          cp $cabalHashesFile $targetFolder/''${cabalFile%.*}.hashes.json
+
+          # copy hashes json file
+          if [ -e $cabalHashesFile ]; then
+            cp $cabalHashesFile $targetFolder/''${cabalFile%.*}.hashes.json
+          fi
 
           echo "creating: $targetFile"
           ${pkgs.haskellPackages.cabal2json}/bin/cabal2json $cabalFile | ${pkgs.jq}/bin/jq . > $targetFile
