@@ -31,7 +31,9 @@
           cabalFile=$1
           targetFolder=$2
           cabalHashesJson=''${cabalFile%.*}.json
+          cabalHashesCabal=''${cabalFile%.*}.cabal
           jsonTargetFile=$targetFolder/''${cabalFile%.*}.json
+          cabalTargetFile=$targetFolder/''${cabalFile%.*}.cabal
 
           # create target dir
           mkdir -p $(dirname $jsonTargetFile)
@@ -43,6 +45,11 @@
 
           echo "creating: $jsonTargetFile"
           ${pkgs.haskellPackages.cabal2json}/bin/cabal2json $cabalFile | ${pkgs.jq}/bin/jq . > $jsonTargetFile
+
+          # copy hashes cabal file
+          if [ -e $cabalHashesCabal ]; then
+            cp $cabalHashesCabal $cabalTargetFile
+          fi
         '';
 
         updater = pkgs.writeScriptBin "update-all-cabal-json" ''
