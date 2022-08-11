@@ -30,15 +30,15 @@
 
           cabalFile=$1
           targetFolder=$2
-          cabalHashesFile=''${cabalFile%.*}.json
+          cabalHashesJson=''${cabalFile%.*}.json
           targetFile=$targetFolder/''${cabalFile%.*}.json
 
           # create target dir
           mkdir -p $(dirname $targetFile)
 
           # copy hashes json file
-          if [ -e $cabalHashesFile ]; then
-            cp $cabalHashesFile $targetFolder/''${cabalFile%.*}.hashes.json
+          if [ -e $cabalHashesJson ]; then
+            cp $cabalHashesJson $targetFolder/''${cabalFile%.*}.hashes.json
           fi
 
           echo "creating: $targetFile"
