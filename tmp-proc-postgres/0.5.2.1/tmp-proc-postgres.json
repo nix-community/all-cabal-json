@@ -2,24 +2,24 @@
   "description": {
     "spec-version": {
       "Left": [
-        2,
-        4
+        3,
+        0
       ]
     },
     "package": {
-      "name": "crypto-rng-effectful",
+      "name": "tmp-proc-postgres",
       "version": [
-        1,
         0,
-        0,
-        0
+        5,
+        2,
+        1
       ]
     },
     "license": {
       "Left": {
         "license-expression": {
           "expression": {
-            "id": "MIT"
+            "id": "BSD_3_Clause"
           },
           "exception-id": null
         }
@@ -28,39 +28,46 @@
     "license-files": [
       "LICENSE"
     ],
-    "copyright": "",
-    "maintainer": "andrzej@rybczak.net",
-    "author": "Andrzej Rybczak, Dominik Peteler, Hécate Moonlight",
+    "copyright": "2021 Tim Emiola",
+    "maintainer": "adetokunbo@users.noreply.github.com",
+    "author": "Tim Emiola",
     "stability": "",
     "tested-with": [
       {
         "compiler": "GHC",
-        "versionRange": "==8.8.4 || ==8.10.7 || ==9.0.2 || ==9.2.3 || ==9.4.1"
+        "versionRange": "==8.8.4"
+      },
+      {
+        "compiler": "GHC",
+        "versionRange": "==8.10.5"
+      },
+      {
+        "compiler": "GHC",
+        "versionRange": "==8.10.7"
+      },
+      {
+        "compiler": "GHC",
+        "versionRange": "==9.2.2"
       }
     ],
     "homepage": "",
     "pkg-url": "",
-    "bug-reports": "https://github.com/haskell-effectful/crypto-rng-effectful/issues",
+    "bug-reports": "https://github.com/adetokunbo/tmp-proc/issues",
     "source-repos": [
       {
         "kind": {},
         "type": "Git",
-        "location": "https://github.com/haskell-effectful/crypto-rng-effectful",
+        "location": "https://github.com/adetokunbo/tmp-proc.git",
         "module": null,
         "branch": null,
         "tag": null,
         "subdir": null
       }
     ],
-    "synopsis": "Adaptation of the crypto-rng library for the effectful ecosystem.",
-    "description": "Adaptation of the @<https://hackage.haskell.org/package/crypto-rng crypto-rng>@ library for the @<https://hackage.haskell.org/package/effectful effectful>@ ecosystem.",
-    "category": "Crypto",
-    "custom-fields": [
-      [
-        "x-revision",
-        "3"
-      ]
-    ],
+    "synopsis": "Shows how to run a PostgreSQL database as a tmp proc",
+    "description": "An example of using tmp-proc to launch dockerized PostgreSQL in integration tests.",
+    "category": "testing",
+    "custom-fields": [],
     "build-type-raw": "Simple",
     "custom-setup": null,
     "library": null,
@@ -72,8 +79,7 @@
     "data-files": [],
     "data-dir": ".",
     "extra-source-files": [
-      "CHANGELOG.md",
-      "README.md"
+      "ChangeLog.md"
     ],
     "extra-tmp-files": [],
     "extra-doc-files": []
@@ -83,15 +89,10 @@
       "name": {},
       "exposed-modules": [
         [
-          "Effectful",
-          "Crypto",
-          "RNG"
-        ],
-        [
-          "Effectful",
-          "Crypto",
-          "RNG",
-          "Unsafe"
+          "System",
+          "TmpProc",
+          "Docker",
+          "Postgres"
         ]
       ],
       "re-exported-modules": [],
@@ -119,83 +120,12 @@
         "hsSourceDirs": [
           "src"
         ],
-        "otherModules": [
-          [
-            "Effectful",
-            "Crypto",
-            "RNG",
-            "Effect"
-          ]
-        ],
+        "otherModules": [],
         "virtualModules": [],
         "autogenModules": [],
         "defaultLanguage": "Haskell2010",
         "otherLanguages": [],
-        "defaultExtensions": [
-          {
-            "enable-extension": "BangPatterns"
-          },
-          {
-            "enable-extension": "ConstraintKinds"
-          },
-          {
-            "enable-extension": "DataKinds"
-          },
-          {
-            "enable-extension": "DeriveFunctor"
-          },
-          {
-            "enable-extension": "DeriveGeneric"
-          },
-          {
-            "enable-extension": "DerivingStrategies"
-          },
-          {
-            "enable-extension": "FlexibleContexts"
-          },
-          {
-            "enable-extension": "FlexibleInstances"
-          },
-          {
-            "enable-extension": "GADTs"
-          },
-          {
-            "enable-extension": "GeneralizedNewtypeDeriving"
-          },
-          {
-            "enable-extension": "LambdaCase"
-          },
-          {
-            "enable-extension": "MultiParamTypeClasses"
-          },
-          {
-            "disable-extension": "StarIsType"
-          },
-          {
-            "enable-extension": "RankNTypes"
-          },
-          {
-            "enable-extension": "RoleAnnotations"
-          },
-          {
-            "enable-extension": "ScopedTypeVariables"
-          },
-          {
-            "enable-extension": "StandaloneDeriving"
-          },
-          {
-            "enable-extension": "TupleSections"
-          },
-          {
-            "enable-extension": "TypeApplications"
-          },
-          {
-            "enable-extension": "TypeFamilies"
-          },
-          {
-            "enable-extension": "TypeOperators"
-          }
-        ],
+        "defaultExtensions": [],
         "otherExtensions": [],
         "oldExtensions": [],
         "extraLibs": [],
@@ -210,9 +140,8 @@
         "installIncludes": [],
         "options": [
           [
-            "-Wall",
-            "-Wcompat",
-            "-Wno-unticked-promoted-constructors"
+            "-fno-ignore-asserts",
+            "-Wall"
           ],
           []
         ],
@@ -232,35 +161,35 @@
         "targetBuildDepends": [
           {
             "package-name": "base",
-            "version-range": ">=4.13 && <5",
+            "version-range": ">=4.11 && <5",
             "library": [
               {}
             ]
           },
           {
             "package-name": "bytestring",
-            "version-range": ">=0.10.8",
+            "version-range": ">=0.10.8.2 && <0.12",
             "library": [
               {}
             ]
           },
           {
-            "package-name": "crypto-rng",
-            "version-range": ">=0.3 && <0.4",
+            "package-name": "postgresql-simple",
+            "version-range": ">=0.5.4.0 && <0.6.5",
             "library": [
               {}
             ]
           },
           {
-            "package-name": "effectful-core",
-            "version-range": ">=1.0.0.0 && <3.0.0.0",
+            "package-name": "text",
+            "version-range": ">=1.2.3 && <2.2",
             "library": [
               {}
             ]
           },
           {
-            "package-name": "random",
-            "version-range": ">=1.1 && <1.3",
+            "package-name": "tmp-proc",
+            "version-range": ">=0.5 && <0.6",
             "library": [
               {}
             ]
@@ -272,35 +201,35 @@
     "condTreeConstraints": [
       {
         "package-name": "base",
-        "version-range": ">=4.13 && <5",
+        "version-range": ">=4.11 && <5",
         "library": [
           {}
         ]
       },
       {
         "package-name": "bytestring",
-        "version-range": ">=0.10.8",
+        "version-range": ">=0.10.8.2 && <0.12",
         "library": [
           {}
         ]
       },
       {
-        "package-name": "crypto-rng",
-        "version-range": ">=0.3 && <0.4",
+        "package-name": "postgresql-simple",
+        "version-range": ">=0.5.4.0 && <0.6.5",
         "library": [
           {}
         ]
       },
       {
-        "package-name": "effectful-core",
-        "version-range": ">=1.0.0.0 && <3.0.0.0",
+        "package-name": "text",
+        "version-range": ">=1.2.3 && <2.2",
         "library": [
           {}
         ]
       },
       {
-        "package-name": "random",
-        "version-range": ">=1.1 && <1.3",
+        "package-name": "tmp-proc",
+        "version-range": ">=0.5 && <0.6",
         "library": [
           {}
         ]
@@ -309,7 +238,7 @@
     "condTreeComponents": []
   },
   "test-suites": {
-    "test": {
+    "integration-test": {
       "condTreeData": {
         "name": "",
         "interface": {
@@ -317,7 +246,7 @@
             1,
             0
           ],
-          "filepath": "Main.hs"
+          "filepath": "Spec.hs"
         },
         "build-info": {
           "buildable": true,
@@ -338,82 +267,21 @@
           "cxxSources": [],
           "jsSources": [],
           "hsSourceDirs": [
-            "tests"
+            "test"
           ],
           "otherModules": [
             [
-              "Utils"
+              "Test",
+              "TmpProc",
+              "Docker",
+              "PostgresSpec"
             ]
           ],
           "virtualModules": [],
           "autogenModules": [],
           "defaultLanguage": "Haskell2010",
           "otherLanguages": [],
-          "defaultExtensions": [
-            {
-              "enable-extension": "BangPatterns"
-            },
-            {
-              "enable-extension": "ConstraintKinds"
-            },
-            {
-              "enable-extension": "DataKinds"
-            },
-            {
-              "enable-extension": "DeriveFunctor"
-            },
-            {
-              "enable-extension": "DeriveGeneric"
-            },
-            {
-              "enable-extension": "DerivingStrategies"
-            },
-            {
-              "enable-extension": "FlexibleContexts"
-            },
-            {
-              "enable-extension": "FlexibleInstances"
-            },
-            {
-              "enable-extension": "GADTs"
-            },
-            {
-              "enable-extension": "GeneralizedNewtypeDeriving"
-            },
-            {
-              "enable-extension": "LambdaCase"
-            },
-            {
-              "enable-extension": "MultiParamTypeClasses"
-            },
-            {
-              "disable-extension": "StarIsType"
-            },
-            {
-              "enable-extension": "RankNTypes"
-            },
-            {
-              "enable-extension": "RoleAnnotations"
-            },
-            {
-              "enable-extension": "ScopedTypeVariables"
-            },
-            {
-              "enable-extension": "StandaloneDeriving"
-            },
-            {
-              "enable-extension": "TupleSections"
-            },
-            {
-              "enable-extension": "TypeApplications"
-            },
-            {
-              "enable-extension": "TypeFamilies"
-            },
-            {
-              "enable-extension": "TypeOperators"
-            }
-          ],
+          "defaultExtensions": [],
           "otherExtensions": [],
           "oldExtensions": [],
           "extraLibs": [],
@@ -428,12 +296,11 @@
           "installIncludes": [],
           "options": [
             [
-              "-Wall",
-              "-Wcompat",
-              "-Wno-unticked-promoted-constructors",
               "-threaded",
               "-rtsopts",
-              "-with-rtsopts=-N4"
+              "-with-rtsopts=-N",
+              "-fno-ignore-asserts",
+              "-Wall"
             ],
             []
           ],
@@ -466,35 +333,42 @@
               ]
             },
             {
-              "package-name": "crypto-rng",
+              "package-name": "hspec",
               "version-range": "-any",
               "library": [
                 {}
               ]
             },
             {
-              "package-name": "effectful-core",
+              "package-name": "hspec-tmp-proc",
               "version-range": "-any",
               "library": [
                 {}
               ]
             },
             {
-              "package-name": "crypto-rng-effectful",
+              "package-name": "postgresql-simple",
               "version-range": "-any",
               "library": [
                 {}
               ]
             },
             {
-              "package-name": "tasty",
+              "package-name": "text",
               "version-range": "-any",
               "library": [
                 {}
               ]
             },
             {
-              "package-name": "tasty-hunit",
+              "package-name": "tmp-proc",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "tmp-proc-postgres",
               "version-range": "-any",
               "library": [
                 {}
@@ -520,35 +394,42 @@
           ]
         },
         {
-          "package-name": "crypto-rng",
+          "package-name": "hspec",
           "version-range": "-any",
           "library": [
             {}
           ]
         },
         {
-          "package-name": "effectful-core",
+          "package-name": "hspec-tmp-proc",
           "version-range": "-any",
           "library": [
             {}
           ]
         },
         {
-          "package-name": "crypto-rng-effectful",
+          "package-name": "postgresql-simple",
           "version-range": "-any",
           "library": [
             {}
           ]
         },
         {
-          "package-name": "tasty",
+          "package-name": "text",
           "version-range": "-any",
           "library": [
             {}
           ]
         },
         {
-          "package-name": "tasty-hunit",
+          "package-name": "tmp-proc",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "tmp-proc-postgres",
           "version-range": "-any",
           "library": [
             {}

@@ -7,9 +7,9 @@
       ]
     },
     "package": {
-      "name": "crypto-rng-effectful",
+      "name": "effectful-core",
       "version": [
-        1,
+        2,
         0,
         0,
         0
@@ -19,7 +19,7 @@
       "Left": {
         "license-expression": {
           "expression": {
-            "id": "MIT"
+            "id": "BSD_3_Clause"
           },
           "exception-id": null
         }
@@ -30,37 +30,32 @@
     ],
     "copyright": "",
     "maintainer": "andrzej@rybczak.net",
-    "author": "Andrzej Rybczak, Dominik Peteler, Hécate Moonlight",
+    "author": "Andrzej Rybczak",
     "stability": "",
     "tested-with": [
       {
         "compiler": "GHC",
-        "versionRange": "==8.8.4 || ==8.10.7 || ==9.0.2 || ==9.2.3 || ==9.4.1"
+        "versionRange": "==8.8.4 || ==8.10.7 || ==9.0.2 || ==9.2.4 || ==9.4.1"
       }
     ],
     "homepage": "",
     "pkg-url": "",
-    "bug-reports": "https://github.com/haskell-effectful/crypto-rng-effectful/issues",
+    "bug-reports": "https://github.com/haskell-effectful/effectful/issues",
     "source-repos": [
       {
         "kind": {},
         "type": "Git",
-        "location": "https://github.com/haskell-effectful/crypto-rng-effectful",
+        "location": "https://github.com/haskell-effectful/effectful.git",
         "module": null,
         "branch": null,
         "tag": null,
         "subdir": null
       }
     ],
-    "synopsis": "Adaptation of the crypto-rng library for the effectful ecosystem.",
-    "description": "Adaptation of the @<https://hackage.haskell.org/package/crypto-rng crypto-rng>@ library for the @<https://hackage.haskell.org/package/effectful effectful>@ ecosystem.",
-    "category": "Crypto",
-    "custom-fields": [
-      [
-        "x-revision",
-        "3"
-      ]
-    ],
+    "synopsis": "An easy to use, performant extensible effects library.",
+    "description": "An easy to use, performant extensible effects library with seamless\nintegration with the existing Haskell ecosystem.\n\nThis library provides core definitions with a minimal dependency\nfootprint. See the @<https://hackage.haskell.org/package/effectful effectful>@\npackage for the \"batteries-included\" variant.",
+    "category": "Control",
+    "custom-fields": [],
     "build-type-raw": "Simple",
     "custom-setup": null,
     "library": null,
@@ -83,18 +78,128 @@
       "name": {},
       "exposed-modules": [
         [
-          "Effectful",
-          "Crypto",
-          "RNG"
+          "Effectful"
         ],
         [
           "Effectful",
-          "Crypto",
-          "RNG",
+          "Dispatch",
+          "Dynamic"
+        ],
+        [
+          "Effectful",
+          "Dispatch",
+          "Static"
+        ],
+        [
+          "Effectful",
+          "Dispatch",
+          "Static",
+          "Primitive"
+        ],
+        [
+          "Effectful",
+          "Dispatch",
+          "Static",
           "Unsafe"
+        ],
+        [
+          "Effectful",
+          "Error",
+          "Dynamic"
+        ],
+        [
+          "Effectful",
+          "Error",
+          "Static"
+        ],
+        [
+          "Effectful",
+          "Fail"
+        ],
+        [
+          "Effectful",
+          "Internal",
+          "Effect"
+        ],
+        [
+          "Effectful",
+          "Internal",
+          "Env"
+        ],
+        [
+          "Effectful",
+          "Internal",
+          "Monad"
+        ],
+        [
+          "Effectful",
+          "Internal",
+          "Unlift"
+        ],
+        [
+          "Effectful",
+          "Prim"
+        ],
+        [
+          "Effectful",
+          "Reader",
+          "Dynamic"
+        ],
+        [
+          "Effectful",
+          "Reader",
+          "Static"
+        ],
+        [
+          "Effectful",
+          "State",
+          "Dynamic"
+        ],
+        [
+          "Effectful",
+          "State",
+          "Static",
+          "Local"
+        ],
+        [
+          "Effectful",
+          "State",
+          "Static",
+          "Shared"
+        ],
+        [
+          "Effectful",
+          "Writer",
+          "Dynamic"
+        ],
+        [
+          "Effectful",
+          "Writer",
+          "Static",
+          "Local"
+        ],
+        [
+          "Effectful",
+          "Writer",
+          "Static",
+          "Shared"
         ]
       ],
-      "re-exported-modules": [],
+      "re-exported-modules": [
+        {
+          "moduleReexportOriginalPackage": null,
+          "moduleReexportOriginalName": [
+            "Effectful",
+            "Internal",
+            "Utils"
+          ],
+          "moduleReexportName": [
+            "Effectful",
+            "Internal",
+            "Utils"
+          ]
+        }
+      ],
       "signatures": [],
       "exposed": true,
       "visibility": "LibraryVisibilityPublic",
@@ -119,14 +224,7 @@
         "hsSourceDirs": [
           "src"
         ],
-        "otherModules": [
-          [
-            "Effectful",
-            "Crypto",
-            "RNG",
-            "Effect"
-          ]
-        ],
+        "otherModules": [],
         "virtualModules": [],
         "autogenModules": [],
         "defaultLanguage": "Haskell2010",
@@ -146,9 +244,6 @@
           },
           {
             "enable-extension": "DeriveGeneric"
-          },
-          {
-            "enable-extension": "DerivingStrategies"
           },
           {
             "enable-extension": "FlexibleContexts"
@@ -212,7 +307,8 @@
           [
             "-Wall",
             "-Wcompat",
-            "-Wno-unticked-promoted-constructors"
+            "-Wno-unticked-promoted-constructors",
+            "-O2"
           ],
           []
         ],
@@ -231,6 +327,13 @@
         "customFieldsBI": [],
         "targetBuildDepends": [
           {
+            "package-name": "effectful-internal-utils",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
             "package-name": "base",
             "version-range": ">=4.13 && <5",
             "library": [
@@ -238,29 +341,43 @@
             ]
           },
           {
-            "package-name": "bytestring",
-            "version-range": ">=0.10.8",
+            "package-name": "containers",
+            "version-range": ">=0.6",
             "library": [
               {}
             ]
           },
           {
-            "package-name": "crypto-rng",
-            "version-range": ">=0.3 && <0.4",
+            "package-name": "exceptions",
+            "version-range": ">=0.10.4",
             "library": [
               {}
             ]
           },
           {
-            "package-name": "effectful-core",
-            "version-range": ">=1.0.0.0 && <3.0.0.0",
+            "package-name": "monad-control",
+            "version-range": ">=1.0.3",
             "library": [
               {}
             ]
           },
           {
-            "package-name": "random",
-            "version-range": ">=1.1 && <1.3",
+            "package-name": "primitive",
+            "version-range": ">=0.7.3.0",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "transformers-base",
+            "version-range": ">=0.4.6",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "unliftio-core",
+            "version-range": ">=0.2.0.1",
             "library": [
               {}
             ]
@@ -271,6 +388,13 @@
     },
     "condTreeConstraints": [
       {
+        "package-name": "effectful-internal-utils",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
         "package-name": "base",
         "version-range": ">=4.13 && <5",
         "library": [
@@ -278,29 +402,43 @@
         ]
       },
       {
-        "package-name": "bytestring",
-        "version-range": ">=0.10.8",
+        "package-name": "containers",
+        "version-range": ">=0.6",
         "library": [
           {}
         ]
       },
       {
-        "package-name": "crypto-rng",
-        "version-range": ">=0.3 && <0.4",
+        "package-name": "exceptions",
+        "version-range": ">=0.10.4",
         "library": [
           {}
         ]
       },
       {
-        "package-name": "effectful-core",
-        "version-range": ">=1.0.0.0 && <3.0.0.0",
+        "package-name": "monad-control",
+        "version-range": ">=1.0.3",
         "library": [
           {}
         ]
       },
       {
-        "package-name": "random",
-        "version-range": ">=1.1 && <1.3",
+        "package-name": "primitive",
+        "version-range": ">=0.7.3.0",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "transformers-base",
+        "version-range": ">=0.4.6",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "unliftio-core",
+        "version-range": ">=0.2.0.1",
         "library": [
           {}
         ]
@@ -308,17 +446,23 @@
     ],
     "condTreeComponents": []
   },
-  "test-suites": {
-    "test": {
+  "sublibraries": {
+    "effectful-internal-utils": {
       "condTreeData": {
-        "name": "",
-        "interface": {
-          "version": [
-            1,
-            0
-          ],
-          "filepath": "Main.hs"
+        "name": {
+          "sub-lib-name": "effectful-internal-utils"
         },
+        "exposed-modules": [
+          [
+            "Effectful",
+            "Internal",
+            "Utils"
+          ]
+        ],
+        "re-exported-modules": [],
+        "signatures": [],
+        "exposed": true,
+        "visibility": "LibraryVisibilityPrivate",
         "build-info": {
           "buildable": true,
           "buildTools": [],
@@ -334,17 +478,15 @@
           "extraFrameworkDirs": [],
           "asmSources": [],
           "cmmSources": [],
-          "cSources": [],
+          "cSources": [
+            "utils/utils.c"
+          ],
           "cxxSources": [],
           "jsSources": [],
           "hsSourceDirs": [
-            "tests"
+            "utils"
           ],
-          "otherModules": [
-            [
-              "Utils"
-            ]
-          ],
+          "otherModules": [],
           "virtualModules": [],
           "autogenModules": [],
           "defaultLanguage": "Haskell2010",
@@ -364,9 +506,6 @@
             },
             {
               "enable-extension": "DeriveGeneric"
-            },
-            {
-              "enable-extension": "DerivingStrategies"
             },
             {
               "enable-extension": "FlexibleContexts"
@@ -430,10 +569,7 @@
             [
               "-Wall",
               "-Wcompat",
-              "-Wno-unticked-promoted-constructors",
-              "-threaded",
-              "-rtsopts",
-              "-with-rtsopts=-N4"
+              "-Wno-unticked-promoted-constructors"
             ],
             []
           ],
@@ -457,48 +593,6 @@
               "library": [
                 {}
               ]
-            },
-            {
-              "package-name": "bytestring",
-              "version-range": "-any",
-              "library": [
-                {}
-              ]
-            },
-            {
-              "package-name": "crypto-rng",
-              "version-range": "-any",
-              "library": [
-                {}
-              ]
-            },
-            {
-              "package-name": "effectful-core",
-              "version-range": "-any",
-              "library": [
-                {}
-              ]
-            },
-            {
-              "package-name": "crypto-rng-effectful",
-              "version-range": "-any",
-              "library": [
-                {}
-              ]
-            },
-            {
-              "package-name": "tasty",
-              "version-range": "-any",
-              "library": [
-                {}
-              ]
-            },
-            {
-              "package-name": "tasty-hunit",
-              "version-range": "-any",
-              "library": [
-                {}
-              ]
             }
           ],
           "mixins": []
@@ -507,48 +601,6 @@
       "condTreeConstraints": [
         {
           "package-name": "base",
-          "version-range": "-any",
-          "library": [
-            {}
-          ]
-        },
-        {
-          "package-name": "bytestring",
-          "version-range": "-any",
-          "library": [
-            {}
-          ]
-        },
-        {
-          "package-name": "crypto-rng",
-          "version-range": "-any",
-          "library": [
-            {}
-          ]
-        },
-        {
-          "package-name": "effectful-core",
-          "version-range": "-any",
-          "library": [
-            {}
-          ]
-        },
-        {
-          "package-name": "crypto-rng-effectful",
-          "version-range": "-any",
-          "library": [
-            {}
-          ]
-        },
-        {
-          "package-name": "tasty",
-          "version-range": "-any",
-          "library": [
-            {}
-          ]
-        },
-        {
-          "package-name": "tasty-hunit",
           "version-range": "-any",
           "library": [
             {}
