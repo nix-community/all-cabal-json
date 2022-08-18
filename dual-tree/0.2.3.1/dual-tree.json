@@ -1,18 +1,15 @@
 {
   "description": {
     "spec-version": {
-      "Left": [
-        1,
-        12
-      ]
+      "Right": ">=1.10"
     },
     "package": {
-      "name": "sitemap-gen",
+      "name": "dual-tree",
       "version": [
         0,
-        1,
-        0,
-        0
+        2,
+        3,
+        1
       ]
     },
     "license": {
@@ -21,34 +18,34 @@
     "license-files": [
       "LICENSE"
     ],
-    "copyright": "2019 Pavan Rikhi",
-    "maintainer": "pavan.rikhi@gmail.com",
-    "author": "Pavan Rikhi",
+    "copyright": "",
+    "maintainer": "diagrams-discuss@googlegroups.com",
+    "author": "Brent Yorgey",
     "stability": "",
-    "tested-with": [],
-    "homepage": "https://github.com/prikhi/sitemap-gen#readme",
+    "tested-with": [
+      {
+        "compiler": "GHC",
+        "versionRange": "==8.4.4 || ==8.6.5 || ==8.8.4 || ==8.10.7 || ==9.0.2 || ==9.2.4 || ==9.4.1"
+      }
+    ],
+    "homepage": "",
     "pkg-url": "",
-    "bug-reports": "https://github.com/prikhi/sitemap-gen/issues",
+    "bug-reports": "https://github.com/diagrams/dual-tree/issues",
     "source-repos": [
       {
         "kind": {},
         "type": "Git",
-        "location": "https://github.com/prikhi/sitemap-gen",
+        "location": "https://github.com/diagrams/dual-tree.git",
         "module": null,
         "branch": null,
         "tag": null,
         "subdir": null
       }
     ],
-    "synopsis": "Generate XML Sitemaps & Sitemap Indexes",
-    "description": "The @sitemap-gen@ package uses the @xmlgen@ package to generate XML\nsitemaps that are compliant with the sitemaps.org XML schema.\n\nSee the \"Web.Sitemap.Gen\" module and the\n<https://github.com/prikhi/sitemap-gen/blob/master/README.md README> file\nfor documentation & usage details.",
-    "category": "Web",
-    "custom-fields": [
-      [
-        "x-revision",
-        "1"
-      ]
-    ],
+    "synopsis": "Rose trees with cached and accumulating monoidal annotations",
+    "description": "Rose (n-ary) trees with both upwards- (/i.e./\ncached) and downwards-traveling (/i.e./\naccumulating) monoidal annotations.  This is used\nas the core data structure underlying\nthe @diagrams@ framework\n(<https://diagrams.github.io>), but\npotentially has other applications as well.\n\nAbstractly, a DUALTree is a rose (n-ary) tree\nwith data (of type @l@) at leaves, data (of type\n@a@) at internal nodes, and two types of monoidal\nannotations, one (of type @u@) travelling \\\"up\\\"\nthe tree and one (of type @d@) traveling\n\\\"down\\\".\n\nSee \"Data.Tree.DUAL\" for full documentation.\n\"Data.Tree.DUAL\" provides a public API which\nshould suffice for most purposes.\n\"Data.Tree.DUAL.Internal\" exports more of the\ninternal implementation---use it at your own\nrisk.",
+    "category": "Data",
+    "custom-fields": [],
     "build-type-raw": "Simple",
     "custom-setup": null,
     "library": null,
@@ -60,8 +57,7 @@
     "data-files": [],
     "data-dir": ".",
     "extra-source-files": [
-      "README.md",
-      "CHANGELOG.md"
+      "CHANGES"
     ],
     "extra-tmp-files": [],
     "extra-doc-files": []
@@ -71,9 +67,15 @@
       "name": {},
       "exposed-modules": [
         [
-          "Web",
-          "Sitemap",
-          "Gen"
+          "Data",
+          "Tree",
+          "DUAL"
+        ],
+        [
+          "Data",
+          "Tree",
+          "DUAL",
+          "Internal"
         ]
       ],
       "re-exported-modules": [],
@@ -101,17 +103,35 @@
         "hsSourceDirs": [
           "src"
         ],
-        "otherModules": [
-          [
-            "Paths_sitemap_gen"
-          ]
-        ],
+        "otherModules": [],
         "virtualModules": [],
         "autogenModules": [],
         "defaultLanguage": "Haskell2010",
         "otherLanguages": [],
         "defaultExtensions": [],
-        "otherExtensions": [],
+        "otherExtensions": [
+          {
+            "enable-extension": "GeneralizedNewtypeDeriving"
+          },
+          {
+            "enable-extension": "MultiParamTypeClasses"
+          },
+          {
+            "enable-extension": "FlexibleInstances"
+          },
+          {
+            "enable-extension": "DeriveFunctor"
+          },
+          {
+            "enable-extension": "TypeOperators"
+          },
+          {
+            "enable-extension": "FlexibleContexts"
+          },
+          {
+            "enable-extension": "DeriveDataTypeable"
+          }
+        ],
         "oldExtensions": [],
         "extraLibs": [],
         "extraGHCiLibs": [],
@@ -124,13 +144,7 @@
         "autogenIncludes": [],
         "installIncludes": [],
         "options": [
-          [
-            "-Wall",
-            "-Wcompat",
-            "-Wincomplete-record-updates",
-            "-Wincomplete-uni-patterns",
-            "-Wredundant-constraints"
-          ],
+          [],
           []
         ],
         "profOptions": [
@@ -149,28 +163,21 @@
         "targetBuildDepends": [
           {
             "package-name": "base",
-            "version-range": ">=4.7 && <5",
+            "version-range": ">=4.3 && <4.18",
             "library": [
               {}
             ]
           },
           {
-            "package-name": "text",
-            "version-range": ">=1 && <3",
+            "package-name": "semigroups",
+            "version-range": ">=0.8 && <0.21",
             "library": [
               {}
             ]
           },
           {
-            "package-name": "time",
-            "version-range": ">=1.6 && <2",
-            "library": [
-              {}
-            ]
-          },
-          {
-            "package-name": "xmlgen",
-            "version-range": ">=0.6 && <1",
+            "package-name": "monoid-extras",
+            "version-range": ">=0.6 && <0.7",
             "library": [
               {}
             ]
@@ -182,28 +189,21 @@
     "condTreeConstraints": [
       {
         "package-name": "base",
-        "version-range": ">=4.7 && <5",
+        "version-range": ">=4.3 && <4.18",
         "library": [
           {}
         ]
       },
       {
-        "package-name": "text",
-        "version-range": ">=1 && <3",
+        "package-name": "semigroups",
+        "version-range": ">=0.8 && <0.21",
         "library": [
           {}
         ]
       },
       {
-        "package-name": "time",
-        "version-range": ">=1.6 && <2",
-        "library": [
-          {}
-        ]
-      },
-      {
-        "package-name": "xmlgen",
-        "version-range": ">=0.6 && <1",
+        "package-name": "monoid-extras",
+        "version-range": ">=0.6 && <0.7",
         "library": [
           {}
         ]
@@ -212,7 +212,7 @@
     "condTreeComponents": []
   },
   "test-suites": {
-    "sitemap-gen-tests": {
+    "test": {
       "condTreeData": {
         "name": "",
         "interface": {
@@ -220,7 +220,7 @@
             1,
             0
           ],
-          "filepath": "Spec.hs"
+          "filepath": "Test.hs"
         },
         "build-info": {
           "buildable": true,
@@ -241,13 +241,9 @@
           "cxxSources": [],
           "jsSources": [],
           "hsSourceDirs": [
-            "tests"
+            "test"
           ],
-          "otherModules": [
-            [
-              "Paths_sitemap_gen"
-            ]
-          ],
+          "otherModules": [],
           "virtualModules": [],
           "autogenModules": [],
           "defaultLanguage": "Haskell2010",
@@ -266,11 +262,7 @@
           "autogenIncludes": [],
           "installIncludes": [],
           "options": [
-            [
-              "-threaded",
-              "-rtsopts",
-              "-with-rtsopts=-N"
-            ],
+            [],
             []
           ],
           "profOptions": [
@@ -288,56 +280,42 @@
           "customFieldsBI": [],
           "targetBuildDepends": [
             {
-              "package-name": "HUnit",
-              "version-range": "-any",
-              "library": [
-                {}
-              ]
-            },
-            {
               "package-name": "base",
-              "version-range": ">=4.7 && <5",
-              "library": [
-                {}
-              ]
-            },
-            {
-              "package-name": "bytestring",
               "version-range": "-any",
               "library": [
                 {}
               ]
             },
             {
-              "package-name": "raw-strings-qq",
+              "package-name": "QuickCheck",
               "version-range": "-any",
               "library": [
                 {}
               ]
             },
             {
-              "package-name": "sitemap-gen",
+              "package-name": "testing-feat",
               "version-range": "-any",
               "library": [
                 {}
               ]
             },
             {
-              "package-name": "tasty",
+              "package-name": "monoid-extras",
               "version-range": "-any",
               "library": [
                 {}
               ]
             },
             {
-              "package-name": "tasty-hunit",
+              "package-name": "semigroups",
               "version-range": "-any",
               "library": [
                 {}
               ]
             },
             {
-              "package-name": "time",
+              "package-name": "dual-tree",
               "version-range": "-any",
               "library": [
                 {}
@@ -349,56 +327,42 @@
       },
       "condTreeConstraints": [
         {
-          "package-name": "HUnit",
-          "version-range": "-any",
-          "library": [
-            {}
-          ]
-        },
-        {
           "package-name": "base",
-          "version-range": ">=4.7 && <5",
-          "library": [
-            {}
-          ]
-        },
-        {
-          "package-name": "bytestring",
           "version-range": "-any",
           "library": [
             {}
           ]
         },
         {
-          "package-name": "raw-strings-qq",
+          "package-name": "QuickCheck",
           "version-range": "-any",
           "library": [
             {}
           ]
         },
         {
-          "package-name": "sitemap-gen",
+          "package-name": "testing-feat",
           "version-range": "-any",
           "library": [
             {}
           ]
         },
         {
-          "package-name": "tasty",
+          "package-name": "monoid-extras",
           "version-range": "-any",
           "library": [
             {}
           ]
         },
         {
-          "package-name": "tasty-hunit",
+          "package-name": "semigroups",
           "version-range": "-any",
           "library": [
             {}
           ]
         },
         {
-          "package-name": "time",
+          "package-name": "dual-tree",
           "version-range": "-any",
           "library": [
             {}
