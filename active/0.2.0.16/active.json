@@ -2,16 +2,17 @@
   "description": {
     "spec-version": {
       "Left": [
-        2,
-        0
+        1,
+        18
       ]
     },
     "package": {
-      "name": "PSQueue",
+      "name": "active",
       "version": [
-        1,
-        1,
-        1
+        0,
+        2,
+        0,
+        16
       ]
     },
     "license": {
@@ -20,39 +21,34 @@
     "license-files": [
       "LICENSE"
     ],
-    "copyright": "",
-    "maintainer": "Teo Camarasu <teofilcamarasu@gmail.com>",
-    "author": "Ralf Hinze",
+    "copyright": "(c) 2011-2015 Brent Yorgey",
+    "maintainer": "byorgey@gmail.com",
+    "author": "Brent Yorgey",
     "stability": "",
     "tested-with": [
       {
         "compiler": "GHC",
-        "versionRange": "==8.8.4 || ==8.10.7 || ==9.0.2 || ==9.2.4 || ==9.4.1"
+        "versionRange": "==7.8.4 || ==7.10.3 || ==8.0.2 || ==8.2.2 || ==8.4.4 || ==8.6.5 || ==8.8.4 || ==8.10.7 || ==9.0.2 || ==9.2.4 || ==9.4.1"
       }
     ],
     "homepage": "",
     "pkg-url": "",
-    "bug-reports": "https://github.com/TeofilC/PSQueue/issues",
+    "bug-reports": "https://github.com/diagrams/active/issues",
     "source-repos": [
       {
         "kind": {},
         "type": "Git",
-        "location": "https://github.com/TeofilC/PSQueue.git",
+        "location": "https://github.com/diagrams/active.git",
         "module": null,
         "branch": null,
         "tag": null,
         "subdir": null
       }
     ],
-    "synopsis": "Priority Search Queue",
-    "description": "A /priority search queue/ efficiently supports the\nopperations of both a search tree and a priority queue. A\n'Binding' is a product of a key and a priority.  Bindings\ncan be inserted, deleted, modified and queried in\nlogarithmic time, and the binding with the least priority\ncan be retrieved in constant time.  A queue can be built\nfrom a list of bindings, sorted by keys, in linear time.",
-    "category": "Data Structures",
-    "custom-fields": [
-      [
-        "x-revision",
-        "1"
-      ]
-    ],
+    "synopsis": "Abstractions for animation",
+    "description": "\"Active\" abstraction for animated things with finite start and end times.",
+    "category": "Data",
+    "custom-fields": [],
     "build-type-raw": "Simple",
     "custom-setup": null,
     "library": null,
@@ -64,10 +60,14 @@
     "data-files": [],
     "data-dir": ".",
     "extra-source-files": [
-      "ChangeLog.md"
+      "CHANGES",
+      "README.markdown",
+      "diagrams/*.svg"
     ],
     "extra-tmp-files": [],
-    "extra-doc-files": []
+    "extra-doc-files": [
+      "diagrams/*.svg"
+    ]
   },
   "library": {
     "condTreeData": {
@@ -75,12 +75,7 @@
       "exposed-modules": [
         [
           "Data",
-          "PSQueue"
-        ],
-        [
-          "Data",
-          "PSQueue",
-          "Internal"
+          "Active"
         ]
       ],
       "re-exported-modules": [],
@@ -106,7 +101,7 @@
         "cxxSources": [],
         "jsSources": [],
         "hsSourceDirs": [
-          "src/"
+          "src"
         ],
         "otherModules": [],
         "virtualModules": [],
@@ -146,7 +141,42 @@
         "targetBuildDepends": [
           {
             "package-name": "base",
-            "version-range": ">=4.3 && <4.18",
+            "version-range": ">=4.0 && <4.18",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "vector",
+            "version-range": ">=0.10",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "semigroups",
+            "version-range": ">=0.1 && <0.21",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "semigroupoids",
+            "version-range": ">=1.2 && <5.4",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "lens",
+            "version-range": ">=4.0 && <5.3",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "linear",
+            "version-range": ">=1.14 && <1.22",
             "library": [
               {}
             ]
@@ -158,98 +188,51 @@
     "condTreeConstraints": [
       {
         "package-name": "base",
-        "version-range": ">=4.3 && <4.18",
+        "version-range": ">=4.0 && <4.18",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "vector",
+        "version-range": ">=0.10",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "semigroups",
+        "version-range": ">=0.1 && <0.21",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "semigroupoids",
+        "version-range": ">=1.2 && <5.4",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "lens",
+        "version-range": ">=4.0 && <5.3",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "linear",
+        "version-range": ">=1.14 && <1.22",
         "library": [
           {}
         ]
       }
     ],
-    "condTreeComponents": [
-      {
-        "condBranchCondition": {
-          "v": {
-            "compiler": "GHC",
-            "version": ">7.2"
-          }
-        },
-        "condBranchIfTrue": {
-          "condTreeData": {
-            "name": {},
-            "exposed-modules": [],
-            "re-exported-modules": [],
-            "signatures": [],
-            "exposed": true,
-            "visibility": "LibraryVisibilityPublic",
-            "build-info": {
-              "buildable": true,
-              "buildTools": [],
-              "buildToolDepends": [],
-              "cppOptions": [],
-              "asmOptions": [],
-              "cmmOptions": [],
-              "ccOptions": [],
-              "cxxOptions": [],
-              "ldOptions": [],
-              "pkgconfigDepends": [],
-              "frameworks": [],
-              "extraFrameworkDirs": [],
-              "asmSources": [],
-              "cmmSources": [],
-              "cSources": [],
-              "cxxSources": [],
-              "jsSources": [],
-              "hsSourceDirs": [],
-              "otherModules": [],
-              "virtualModules": [],
-              "autogenModules": [],
-              "defaultLanguage": null,
-              "otherLanguages": [],
-              "defaultExtensions": [
-                {
-                  "enable-extension": "Safe"
-                }
-              ],
-              "otherExtensions": [],
-              "oldExtensions": [],
-              "extraLibs": [],
-              "extraGHCiLibs": [],
-              "extraBundledLibs": [],
-              "extraLibFlavours": [],
-              "extraDynLibFlavours": [],
-              "extraLibDirs": [],
-              "includeDirs": [],
-              "includes": [],
-              "autogenIncludes": [],
-              "installIncludes": [],
-              "options": [
-                [],
-                []
-              ],
-              "profOptions": [
-                [],
-                []
-              ],
-              "sharedOptions": [
-                [],
-                []
-              ],
-              "staticOptions": [
-                [],
-                []
-              ],
-              "customFieldsBI": [],
-              "targetBuildDepends": [],
-              "mixins": []
-            }
-          },
-          "condTreeConstraints": [],
-          "condTreeComponents": []
-        }
-      }
-    ]
+    "condTreeComponents": []
   },
   "test-suites": {
-    "test": {
+    "active-tests": {
       "condTreeData": {
         "name": "",
         "interface": {
@@ -257,7 +240,7 @@
             1,
             0
           ],
-          "filepath": "Test.hs"
+          "filepath": "active-tests.hs"
         },
         "build-info": {
           "buildable": true,
@@ -278,9 +261,15 @@
           "cxxSources": [],
           "jsSources": [],
           "hsSourceDirs": [
-            "test/"
+            "src",
+            "test"
           ],
-          "otherModules": [],
+          "otherModules": [
+            [
+              "Data",
+              "Active"
+            ]
+          ],
           "virtualModules": [],
           "autogenModules": [],
           "defaultLanguage": "Haskell2010",
@@ -318,21 +307,49 @@
           "targetBuildDepends": [
             {
               "package-name": "base",
-              "version-range": "-any",
+              "version-range": ">=4.0 && <4.18",
               "library": [
                 {}
               ]
             },
             {
-              "package-name": "PSQueue",
-              "version-range": "-any",
+              "package-name": "vector",
+              "version-range": ">=0.10",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "semigroups",
+              "version-range": ">=0.1 && <0.21",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "semigroupoids",
+              "version-range": ">=1.2 && <5.4",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "lens",
+              "version-range": ">=4.0 && <5.3",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "linear",
+              "version-range": ">=1.14 && <1.22",
               "library": [
                 {}
               ]
             },
             {
               "package-name": "QuickCheck",
-              "version-range": "-any",
+              "version-range": ">=2.9 && <2.15",
               "library": [
                 {}
               ]
@@ -344,21 +361,49 @@
       "condTreeConstraints": [
         {
           "package-name": "base",
-          "version-range": "-any",
+          "version-range": ">=4.0 && <4.18",
           "library": [
             {}
           ]
         },
         {
-          "package-name": "PSQueue",
-          "version-range": "-any",
+          "package-name": "vector",
+          "version-range": ">=0.10",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "semigroups",
+          "version-range": ">=0.1 && <0.21",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "semigroupoids",
+          "version-range": ">=1.2 && <5.4",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "lens",
+          "version-range": ">=4.0 && <5.3",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "linear",
+          "version-range": ">=1.14 && <1.22",
           "library": [
             {}
           ]
         },
         {
           "package-name": "QuickCheck",
-          "version-range": "-any",
+          "version-range": ">=2.9 && <2.15",
           "library": [
             {}
           ]
