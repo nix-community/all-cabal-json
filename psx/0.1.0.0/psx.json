@@ -7,12 +7,12 @@
       ]
     },
     "package": {
-      "name": "broadcast-chan-tests",
+      "name": "psx",
       "version": [
         0,
-        2,
         1,
-        2
+        0,
+        0
       ]
     },
     "license": {
@@ -28,71 +28,42 @@
     "license-files": [
       "LICENSE"
     ],
-    "copyright": "Copyright © 2014-2021 Merijn Verstraaten",
-    "maintainer": "Merijn Verstraaten <merijn@inconsistent.nl>",
-    "author": "Merijn Verstraaten",
-    "stability": "",
+    "copyright": "(c) 2022 Nicolas Trangez",
+    "maintainer": "ikke@nicolast.be",
+    "author": "Nicolas Trangez",
+    "stability": "alpha",
     "tested-with": [
       {
         "compiler": "GHC",
-        "versionRange": "==8.0.2"
+        "versionRange": "==8.10.5"
       },
       {
         "compiler": "GHC",
-        "versionRange": "==8.2.2"
+        "versionRange": "==9.0.2"
       },
       {
         "compiler": "GHC",
-        "versionRange": "==8.4.4"
-      },
-      {
-        "compiler": "GHC",
-        "versionRange": "==8.6.5"
-      },
-      {
-        "compiler": "GHC",
-        "versionRange": "==8.8.4"
-      },
-      {
-        "compiler": "GHC",
-        "versionRange": "==8.10.7"
-      },
-      {
-        "compiler": "GHC",
-        "versionRange": "==9.0.1"
-      },
-      {
-        "compiler": "GHC",
-        "versionRange": "==9.2.4"
-      },
-      {
-        "compiler": "GHC",
-        "versionRange": "==9.4.1"
+        "versionRange": "==9.2.2"
       }
     ],
-    "homepage": "https://github.com/merijn/broadcast-chan",
+    "homepage": "https://github.com/NicolasT/landlock-hs",
     "pkg-url": "",
-    "bug-reports": "https://github.com/merijn/broadcast-chan/issues",
+    "bug-reports": "https://github.com/NicolasT/landlock-hs/issues",
     "source-repos": [
       {
         "kind": {},
         "type": "Git",
-        "location": "ssh://github.com:merijn/broadcast-chan.git",
+        "location": "https://github.com/NicolasT/landlock-hs.git",
         "module": null,
-        "branch": null,
+        "branch": "main",
         "tag": null,
-        "subdir": null
+        "subdir": "psx"
       }
     ],
-    "synopsis": "Helpers for generating tests for broadcast-chan",
-    "description": "Provides helpers for implementing the streaming/concurrency tests used by\nbroadcast-chan, broadcast-chan-conduit, and broadcast-chan-pipes.",
+    "synopsis": "Integrate @libpsx@ with the GHC RTS",
+    "description": "This library embeds libpsx in a GHC Haskell-compiled application.\n\nNote @libpsx@ performs some trickery with signal handling in a process.\nFurthermore, when using this library, @sigfillset@ will be wrapped so\n@SIGSYS@ is /not/ set, in order for the GHC RTS @ticker@ thread not to\nblock the signal and work properly with @libpsx@.\n\n__Warning:__ @libpsx@ on current Ubuntu and Debian systems (from @libcap@\n2.44) is broken. Hence, this library contains a bundled version of @libpsx@\nby default. Disable the @bundled-libpsx@ flag to use a system-provided\nversion of the library, which must be from @libcap@ version 2.46 or higher.\nThe license of the bundled library can be found in @cbits\\/psx\\/License@.",
     "category": "System",
-    "custom-fields": [
-      [
-        "x-revision",
-        "3"
-      ]
-    ],
+    "custom-fields": [],
     "build-type-raw": "Simple",
     "custom-setup": null,
     "library": null,
@@ -104,18 +75,31 @@
     "data-files": [],
     "data-dir": ".",
     "extra-source-files": [
-      "CHANGELOG.md"
+      "CHANGELOG.md",
+      "README.md",
+      "cbits/hs-psx.h",
+      "cbits/psx/License",
+      "cbits/psx/psx_syscall.h",
+      "test/detect-psx.h"
     ],
     "extra-tmp-files": [],
     "extra-doc-files": []
   },
+  "package-flags": [
+    {
+      "name": "bundled-libpsx",
+      "description": "Use the bundled libpsx instead of a (potentially broken) system-provided version. See @cbits\\/psx\\/License@.",
+      "default": true,
+      "manual": true
+    }
+  ],
   "library": {
     "condTreeData": {
       "name": {},
       "exposed-modules": [
         [
-          "BroadcastChan",
-          "Test"
+          "System",
+          "PSX"
         ]
       ],
       "re-exported-modules": [],
@@ -129,35 +113,34 @@
         "cppOptions": [],
         "asmOptions": [],
         "cmmOptions": [],
-        "ccOptions": [],
+        "ccOptions": [
+          "-Wall"
+        ],
         "cxxOptions": [],
-        "ldOptions": [],
+        "ldOptions": [
+          "-Wl,-wrap,sigfillset",
+          "-Wl,-undefined,__wrap_sigfillset"
+        ],
         "pkgconfigDepends": [],
         "frameworks": [],
         "extraFrameworkDirs": [],
         "asmSources": [],
         "cmmSources": [],
-        "cSources": [],
+        "cSources": [
+          "cbits/hs-psx.c"
+        ],
         "cxxSources": [],
         "jsSources": [],
-        "hsSourceDirs": [],
+        "hsSourceDirs": [
+          "src"
+        ],
         "otherModules": [],
         "virtualModules": [],
         "autogenModules": [],
         "defaultLanguage": "Haskell2010",
         "otherLanguages": [],
         "defaultExtensions": [],
-        "otherExtensions": [
-          {
-            "enable-extension": "DeriveDataTypeable"
-          },
-          {
-            "enable-extension": "ScopedTypeVariables"
-          },
-          {
-            "enable-extension": "Trustworthy"
-          }
-        ],
+        "otherExtensions": [],
         "oldExtensions": [],
         "extraLibs": [],
         "extraGHCiLibs": [],
@@ -165,15 +148,17 @@
         "extraLibFlavours": [],
         "extraDynLibFlavours": [],
         "extraLibDirs": [],
-        "includeDirs": [],
+        "includeDirs": [
+          "cbits"
+        ],
         "includes": [],
         "autogenIncludes": [],
-        "installIncludes": [],
+        "installIncludes": [
+          "hs-psx.h"
+        ],
         "options": [
           [
-            "-Wall",
-            "-O2",
-            "-Wno-unused-do-bind"
+            "-Wall"
           ],
           []
         ],
@@ -193,105 +178,7 @@
         "targetBuildDepends": [
           {
             "package-name": "base",
-            "version-range": ">=4.8 && <4.18",
-            "library": [
-              {}
-            ]
-          },
-          {
-            "package-name": "async",
-            "version-range": ">=2.1 && <2.3",
-            "library": [
-              {}
-            ]
-          },
-          {
-            "package-name": "broadcast-chan",
-            "version-range": "==0.2.1.2",
-            "library": [
-              {}
-            ]
-          },
-          {
-            "package-name": "clock",
-            "version-range": ">=0.7 && <0.9",
-            "library": [
-              {}
-            ]
-          },
-          {
-            "package-name": "containers",
-            "version-range": ">=0.4 && <0.7",
-            "library": [
-              {}
-            ]
-          },
-          {
-            "package-name": "optparse-applicative",
-            "version-range": ">=0.12 && <0.17",
-            "library": [
-              {}
-            ]
-          },
-          {
-            "package-name": "paramtree",
-            "version-range": ">=0.1.1 && <0.2",
-            "library": [
-              {}
-            ]
-          },
-          {
-            "package-name": "stm",
-            "version-range": ">=2.4 && <2.6",
-            "library": [
-              {}
-            ]
-          },
-          {
-            "package-name": "tagged",
-            "version-range": "==0.8.*",
-            "library": [
-              {}
-            ]
-          },
-          {
-            "package-name": "tasty",
-            "version-range": ">=0.11 && <1.5",
-            "library": [
-              {}
-            ]
-          },
-          {
-            "package-name": "tasty-golden",
-            "version-range": ">=2.0 && <2.4",
-            "library": [
-              {}
-            ]
-          },
-          {
-            "package-name": "tasty-hunit",
-            "version-range": ">=0.9 && <0.11",
-            "library": [
-              {}
-            ]
-          },
-          {
-            "package-name": "tasty-travis",
-            "version-range": ">=0.2 && <0.3",
-            "library": [
-              {}
-            ]
-          },
-          {
-            "package-name": "temporary",
-            "version-range": ">=1.2 && <1.4",
-            "library": [
-              {}
-            ]
-          },
-          {
-            "package-name": "text",
-            "version-range": ">=1.0 && <1.3 || ^>=2.0",
+            "version-range": "^>=4.14.2.0 || ^>=4.15 || ^>=4.16",
             "library": [
               {}
             ]
@@ -303,105 +190,7 @@
     "condTreeConstraints": [
       {
         "package-name": "base",
-        "version-range": ">=4.8 && <4.18",
-        "library": [
-          {}
-        ]
-      },
-      {
-        "package-name": "async",
-        "version-range": ">=2.1 && <2.3",
-        "library": [
-          {}
-        ]
-      },
-      {
-        "package-name": "broadcast-chan",
-        "version-range": "==0.2.1.2",
-        "library": [
-          {}
-        ]
-      },
-      {
-        "package-name": "clock",
-        "version-range": ">=0.7 && <0.9",
-        "library": [
-          {}
-        ]
-      },
-      {
-        "package-name": "containers",
-        "version-range": ">=0.4 && <0.7",
-        "library": [
-          {}
-        ]
-      },
-      {
-        "package-name": "optparse-applicative",
-        "version-range": ">=0.12 && <0.17",
-        "library": [
-          {}
-        ]
-      },
-      {
-        "package-name": "paramtree",
-        "version-range": ">=0.1.1 && <0.2",
-        "library": [
-          {}
-        ]
-      },
-      {
-        "package-name": "stm",
-        "version-range": ">=2.4 && <2.6",
-        "library": [
-          {}
-        ]
-      },
-      {
-        "package-name": "tagged",
-        "version-range": "==0.8.*",
-        "library": [
-          {}
-        ]
-      },
-      {
-        "package-name": "tasty",
-        "version-range": ">=0.11 && <1.5",
-        "library": [
-          {}
-        ]
-      },
-      {
-        "package-name": "tasty-golden",
-        "version-range": ">=2.0 && <2.4",
-        "library": [
-          {}
-        ]
-      },
-      {
-        "package-name": "tasty-hunit",
-        "version-range": ">=0.9 && <0.11",
-        "library": [
-          {}
-        ]
-      },
-      {
-        "package-name": "tasty-travis",
-        "version-range": ">=0.2 && <0.3",
-        "library": [
-          {}
-        ]
-      },
-      {
-        "package-name": "temporary",
-        "version-range": ">=1.2 && <1.4",
-        "library": [
-          {}
-        ]
-      },
-      {
-        "package-name": "text",
-        "version-range": ">=1.0 && <1.3 || ^>=2.0",
+        "version-range": "^>=4.14.2.0 || ^>=4.15 || ^>=4.16",
         "library": [
           {}
         ]
@@ -411,8 +200,7 @@
       {
         "condBranchCondition": {
           "v": {
-            "compiler": "GHC",
-            "version": "<=7.10"
+            "flag": "bundled-libpsx"
           }
         },
         "condBranchIfTrue": {
@@ -430,10 +218,91 @@
               "cppOptions": [],
               "asmOptions": [],
               "cmmOptions": [],
+              "ccOptions": [
+                "-DBUNDLED_LIBPSX"
+              ],
+              "cxxOptions": [],
+              "ldOptions": [
+                "-pthread",
+                "-Wl,-wrap,pthread_create"
+              ],
+              "pkgconfigDepends": [],
+              "frameworks": [],
+              "extraFrameworkDirs": [],
+              "asmSources": [],
+              "cmmSources": [],
+              "cSources": [
+                "cbits/psx/psx.c"
+              ],
+              "cxxSources": [],
+              "jsSources": [],
+              "hsSourceDirs": [],
+              "otherModules": [],
+              "virtualModules": [],
+              "autogenModules": [],
+              "defaultLanguage": null,
+              "otherLanguages": [],
+              "defaultExtensions": [],
+              "otherExtensions": [],
+              "oldExtensions": [],
+              "extraLibs": [],
+              "extraGHCiLibs": [],
+              "extraBundledLibs": [],
+              "extraLibFlavours": [],
+              "extraDynLibFlavours": [],
+              "extraLibDirs": [],
+              "includeDirs": [],
+              "includes": [],
+              "autogenIncludes": [],
+              "installIncludes": [],
+              "options": [
+                [],
+                []
+              ],
+              "profOptions": [
+                [],
+                []
+              ],
+              "sharedOptions": [
+                [],
+                []
+              ],
+              "staticOptions": [
+                [],
+                []
+              ],
+              "customFieldsBI": [],
+              "targetBuildDepends": [],
+              "mixins": []
+            }
+          },
+          "condTreeConstraints": [],
+          "condTreeComponents": []
+        },
+        "condBranchIfFalse": {
+          "condTreeData": {
+            "name": {},
+            "exposed-modules": [],
+            "re-exported-modules": [],
+            "signatures": [],
+            "exposed": true,
+            "visibility": "LibraryVisibilityPublic",
+            "build-info": {
+              "buildable": true,
+              "buildTools": [],
+              "buildToolDepends": [],
+              "cppOptions": [],
+              "asmOptions": [],
+              "cmmOptions": [],
               "ccOptions": [],
               "cxxOptions": [],
               "ldOptions": [],
-              "pkgconfigDepends": [],
+              "pkgconfigDepends": [
+                {
+                  "pkgconfigName": "libpsx",
+                  "pkgconfigVersionRange": "-any"
+                }
+              ],
               "frameworks": [],
               "extraFrameworkDirs": [],
               "asmSources": [],
@@ -477,34 +346,18 @@
                 []
               ],
               "customFieldsBI": [],
-              "targetBuildDepends": [
-                {
-                  "package-name": "transformers",
-                  "version-range": ">=0.2 && <0.7",
-                  "library": [
-                    {}
-                  ]
-                }
-              ],
+              "targetBuildDepends": [],
               "mixins": []
             }
           },
-          "condTreeConstraints": [
-            {
-              "package-name": "transformers",
-              "version-range": ">=0.2 && <0.7",
-              "library": [
-                {}
-              ]
-            }
-          ],
+          "condTreeConstraints": [],
           "condTreeComponents": []
         }
       }
     ]
   },
   "test-suites": {
-    "basic-unthreaded": {
+    "psx-test-threaded": {
       "condTreeData": {
         "name": "",
         "interface": {
@@ -512,7 +365,7 @@
             1,
             0
           ],
-          "filepath": "Basic.hs"
+          "filepath": "psx-test-threaded.hs"
         },
         "build-info": {
           "buildable": true,
@@ -529,175 +382,19 @@
           "extraFrameworkDirs": [],
           "asmSources": [],
           "cmmSources": [],
-          "cSources": [],
+          "cSources": [
+            "test/detect-psx.c"
+          ],
           "cxxSources": [],
           "jsSources": [],
           "hsSourceDirs": [
-            "tests"
+            "test"
           ],
-          "otherModules": [],
-          "virtualModules": [],
-          "autogenModules": [],
-          "defaultLanguage": "Haskell2010",
-          "otherLanguages": [],
-          "defaultExtensions": [],
-          "otherExtensions": [],
-          "oldExtensions": [],
-          "extraLibs": [],
-          "extraGHCiLibs": [],
-          "extraBundledLibs": [],
-          "extraLibFlavours": [],
-          "extraDynLibFlavours": [],
-          "extraLibDirs": [],
-          "includeDirs": [],
-          "includes": [],
-          "autogenIncludes": [],
-          "installIncludes": [],
-          "options": [
+          "otherModules": [
             [
-              "-Wall",
-              "-Wno-unused-do-bind"
-            ],
-            []
+              "TestCases"
+            ]
           ],
-          "profOptions": [
-            [],
-            []
-          ],
-          "sharedOptions": [
-            [],
-            []
-          ],
-          "staticOptions": [
-            [],
-            []
-          ],
-          "customFieldsBI": [],
-          "targetBuildDepends": [
-            {
-              "package-name": "base",
-              "version-range": "-any",
-              "library": [
-                {}
-              ]
-            },
-            {
-              "package-name": "broadcast-chan",
-              "version-range": "-any",
-              "library": [
-                {}
-              ]
-            },
-            {
-              "package-name": "broadcast-chan-tests",
-              "version-range": "-any",
-              "library": [
-                {}
-              ]
-            },
-            {
-              "package-name": "foldl",
-              "version-range": ">=1.4 && <1.5",
-              "library": [
-                {}
-              ]
-            },
-            {
-              "package-name": "monad-loops",
-              "version-range": ">=0.4.3 && <0.5",
-              "library": [
-                {}
-              ]
-            },
-            {
-              "package-name": "random",
-              "version-range": ">=1.1 && <1.3",
-              "library": [
-                {}
-              ]
-            }
-          ],
-          "mixins": []
-        }
-      },
-      "condTreeConstraints": [
-        {
-          "package-name": "base",
-          "version-range": "-any",
-          "library": [
-            {}
-          ]
-        },
-        {
-          "package-name": "broadcast-chan",
-          "version-range": "-any",
-          "library": [
-            {}
-          ]
-        },
-        {
-          "package-name": "broadcast-chan-tests",
-          "version-range": "-any",
-          "library": [
-            {}
-          ]
-        },
-        {
-          "package-name": "foldl",
-          "version-range": ">=1.4 && <1.5",
-          "library": [
-            {}
-          ]
-        },
-        {
-          "package-name": "monad-loops",
-          "version-range": ">=0.4.3 && <0.5",
-          "library": [
-            {}
-          ]
-        },
-        {
-          "package-name": "random",
-          "version-range": ">=1.1 && <1.3",
-          "library": [
-            {}
-          ]
-        }
-      ],
-      "condTreeComponents": []
-    },
-    "parallel-io": {
-      "condTreeData": {
-        "name": "",
-        "interface": {
-          "version": [
-            1,
-            0
-          ],
-          "filepath": "IOTest.hs"
-        },
-        "build-info": {
-          "buildable": true,
-          "buildTools": [],
-          "buildToolDepends": [],
-          "cppOptions": [],
-          "asmOptions": [],
-          "cmmOptions": [],
-          "ccOptions": [],
-          "cxxOptions": [],
-          "ldOptions": [],
-          "pkgconfigDepends": [],
-          "frameworks": [],
-          "extraFrameworkDirs": [],
-          "asmSources": [],
-          "cmmSources": [],
-          "cSources": [],
-          "cxxSources": [],
-          "jsSources": [],
-          "hsSourceDirs": [
-            "tests"
-          ],
-          "otherModules": [],
           "virtualModules": [],
           "autogenModules": [],
           "defaultLanguage": "Haskell2010",
@@ -711,144 +408,9 @@
           "extraLibFlavours": [],
           "extraDynLibFlavours": [],
           "extraLibDirs": [],
-          "includeDirs": [],
-          "includes": [],
-          "autogenIncludes": [],
-          "installIncludes": [],
-          "options": [
-            [
-              "-Wall",
-              "-O2",
-              "-Wno-unused-do-bind",
-              "-threaded",
-              "-with-rtsopts=-qg"
-            ],
-            []
+          "includeDirs": [
+            "test"
           ],
-          "profOptions": [
-            [],
-            []
-          ],
-          "sharedOptions": [
-            [],
-            []
-          ],
-          "staticOptions": [
-            [],
-            []
-          ],
-          "customFieldsBI": [],
-          "targetBuildDepends": [
-            {
-              "package-name": "base",
-              "version-range": "-any",
-              "library": [
-                {}
-              ]
-            },
-            {
-              "package-name": "broadcast-chan",
-              "version-range": "-any",
-              "library": [
-                {}
-              ]
-            },
-            {
-              "package-name": "broadcast-chan-tests",
-              "version-range": "-any",
-              "library": [
-                {}
-              ]
-            },
-            {
-              "package-name": "containers",
-              "version-range": ">=0.4 && <0.7",
-              "library": [
-                {}
-              ]
-            }
-          ],
-          "mixins": []
-        }
-      },
-      "condTreeConstraints": [
-        {
-          "package-name": "base",
-          "version-range": "-any",
-          "library": [
-            {}
-          ]
-        },
-        {
-          "package-name": "broadcast-chan",
-          "version-range": "-any",
-          "library": [
-            {}
-          ]
-        },
-        {
-          "package-name": "broadcast-chan-tests",
-          "version-range": "-any",
-          "library": [
-            {}
-          ]
-        },
-        {
-          "package-name": "containers",
-          "version-range": ">=0.4 && <0.7",
-          "library": [
-            {}
-          ]
-        }
-      ],
-      "condTreeComponents": []
-    },
-    "basic": {
-      "condTreeData": {
-        "name": "",
-        "interface": {
-          "version": [
-            1,
-            0
-          ],
-          "filepath": "Basic.hs"
-        },
-        "build-info": {
-          "buildable": true,
-          "buildTools": [],
-          "buildToolDepends": [],
-          "cppOptions": [],
-          "asmOptions": [],
-          "cmmOptions": [],
-          "ccOptions": [],
-          "cxxOptions": [],
-          "ldOptions": [],
-          "pkgconfigDepends": [],
-          "frameworks": [],
-          "extraFrameworkDirs": [],
-          "asmSources": [],
-          "cmmSources": [],
-          "cSources": [],
-          "cxxSources": [],
-          "jsSources": [],
-          "hsSourceDirs": [
-            "tests"
-          ],
-          "otherModules": [],
-          "virtualModules": [],
-          "autogenModules": [],
-          "defaultLanguage": "Haskell2010",
-          "otherLanguages": [],
-          "defaultExtensions": [],
-          "otherExtensions": [],
-          "oldExtensions": [],
-          "extraLibs": [],
-          "extraGHCiLibs": [],
-          "extraBundledLibs": [],
-          "extraLibFlavours": [],
-          "extraDynLibFlavours": [],
-          "extraLibDirs": [],
-          "includeDirs": [],
           "includes": [],
           "autogenIncludes": [],
           "installIncludes": [],
@@ -856,8 +418,160 @@
             [
               "-Wall",
               "-threaded",
-              "-Wno-unused-do-bind",
-              "-with-rtsopts=-qg"
+              "-with-rtsopts",
+              "-N2"
+            ],
+            []
+          ],
+          "profOptions": [
+            [],
+            []
+          ],
+          "sharedOptions": [
+            [],
+            []
+          ],
+          "staticOptions": [
+            [],
+            []
+          ],
+          "customFieldsBI": [],
+          "targetBuildDepends": [
+            {
+              "package-name": "psx",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "base",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "async",
+              "version-range": "^>=2.2.3",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "tasty",
+              "version-range": "^>=1.4.1",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "tasty-hunit",
+              "version-range": "^>=0.10.0.3",
+              "library": [
+                {}
+              ]
+            }
+          ],
+          "mixins": []
+        }
+      },
+      "condTreeConstraints": [
+        {
+          "package-name": "psx",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "base",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "async",
+          "version-range": "^>=2.2.3",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "tasty",
+          "version-range": "^>=1.4.1",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "tasty-hunit",
+          "version-range": "^>=0.10.0.3",
+          "library": [
+            {}
+          ]
+        }
+      ],
+      "condTreeComponents": []
+    },
+    "psx-test-no-psx": {
+      "condTreeData": {
+        "name": "",
+        "interface": {
+          "version": [
+            1,
+            0
+          ],
+          "filepath": "psx-test-no-psx.hs"
+        },
+        "build-info": {
+          "buildable": true,
+          "buildTools": [],
+          "buildToolDepends": [],
+          "cppOptions": [],
+          "asmOptions": [],
+          "cmmOptions": [],
+          "ccOptions": [],
+          "cxxOptions": [],
+          "ldOptions": [],
+          "pkgconfigDepends": [],
+          "frameworks": [],
+          "extraFrameworkDirs": [],
+          "asmSources": [],
+          "cmmSources": [],
+          "cSources": [
+            "test/detect-psx.c"
+          ],
+          "cxxSources": [],
+          "jsSources": [],
+          "hsSourceDirs": [
+            "test"
+          ],
+          "otherModules": [],
+          "virtualModules": [],
+          "autogenModules": [],
+          "defaultLanguage": "Haskell2010",
+          "otherLanguages": [],
+          "defaultExtensions": [],
+          "otherExtensions": [],
+          "oldExtensions": [],
+          "extraLibs": [],
+          "extraGHCiLibs": [],
+          "extraBundledLibs": [],
+          "extraLibFlavours": [],
+          "extraDynLibFlavours": [],
+          "extraLibDirs": [],
+          "includeDirs": [
+            "test",
+            "cbits"
+          ],
+          "includes": [],
+          "autogenIncludes": [],
+          "installIncludes": [],
+          "options": [
+            [
+              "-Wall"
             ],
             []
           ],
@@ -883,36 +597,15 @@
               ]
             },
             {
-              "package-name": "broadcast-chan",
-              "version-range": "-any",
+              "package-name": "tasty",
+              "version-range": "^>=1.4.1",
               "library": [
                 {}
               ]
             },
             {
-              "package-name": "broadcast-chan-tests",
-              "version-range": "-any",
-              "library": [
-                {}
-              ]
-            },
-            {
-              "package-name": "foldl",
-              "version-range": ">=1.4 && <1.5",
-              "library": [
-                {}
-              ]
-            },
-            {
-              "package-name": "monad-loops",
-              "version-range": ">=0.4.3 && <0.5",
-              "library": [
-                {}
-              ]
-            },
-            {
-              "package-name": "random",
-              "version-range": ">=1.1 && <1.3",
+              "package-name": "tasty-hunit",
+              "version-range": "^>=0.10.0.3",
               "library": [
                 {}
               ]
@@ -930,36 +623,170 @@
           ]
         },
         {
-          "package-name": "broadcast-chan",
+          "package-name": "tasty",
+          "version-range": "^>=1.4.1",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "tasty-hunit",
+          "version-range": "^>=0.10.0.3",
+          "library": [
+            {}
+          ]
+        }
+      ],
+      "condTreeComponents": []
+    },
+    "psx-test": {
+      "condTreeData": {
+        "name": "",
+        "interface": {
+          "version": [
+            1,
+            0
+          ],
+          "filepath": "psx-test.hs"
+        },
+        "build-info": {
+          "buildable": true,
+          "buildTools": [],
+          "buildToolDepends": [],
+          "cppOptions": [],
+          "asmOptions": [],
+          "cmmOptions": [],
+          "ccOptions": [],
+          "cxxOptions": [],
+          "ldOptions": [],
+          "pkgconfigDepends": [],
+          "frameworks": [],
+          "extraFrameworkDirs": [],
+          "asmSources": [],
+          "cmmSources": [],
+          "cSources": [
+            "test/detect-psx.c"
+          ],
+          "cxxSources": [],
+          "jsSources": [],
+          "hsSourceDirs": [
+            "test"
+          ],
+          "otherModules": [
+            [
+              "TestCases"
+            ]
+          ],
+          "virtualModules": [],
+          "autogenModules": [],
+          "defaultLanguage": "Haskell2010",
+          "otherLanguages": [],
+          "defaultExtensions": [],
+          "otherExtensions": [],
+          "oldExtensions": [],
+          "extraLibs": [],
+          "extraGHCiLibs": [],
+          "extraBundledLibs": [],
+          "extraLibFlavours": [],
+          "extraDynLibFlavours": [],
+          "extraLibDirs": [],
+          "includeDirs": [
+            "test"
+          ],
+          "includes": [],
+          "autogenIncludes": [],
+          "installIncludes": [],
+          "options": [
+            [
+              "-Wall"
+            ],
+            []
+          ],
+          "profOptions": [
+            [],
+            []
+          ],
+          "sharedOptions": [
+            [],
+            []
+          ],
+          "staticOptions": [
+            [],
+            []
+          ],
+          "customFieldsBI": [],
+          "targetBuildDepends": [
+            {
+              "package-name": "psx",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "base",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "async",
+              "version-range": "^>=2.2.3",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "tasty",
+              "version-range": "^>=1.4.1",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "tasty-hunit",
+              "version-range": "^>=0.10.0.3",
+              "library": [
+                {}
+              ]
+            }
+          ],
+          "mixins": []
+        }
+      },
+      "condTreeConstraints": [
+        {
+          "package-name": "psx",
           "version-range": "-any",
           "library": [
             {}
           ]
         },
         {
-          "package-name": "broadcast-chan-tests",
+          "package-name": "base",
           "version-range": "-any",
           "library": [
             {}
           ]
         },
         {
-          "package-name": "foldl",
-          "version-range": ">=1.4 && <1.5",
+          "package-name": "async",
+          "version-range": "^>=2.2.3",
           "library": [
             {}
           ]
         },
         {
-          "package-name": "monad-loops",
-          "version-range": ">=0.4.3 && <0.5",
+          "package-name": "tasty",
+          "version-range": "^>=1.4.1",
           "library": [
             {}
           ]
         },
         {
-          "package-name": "random",
-          "version-range": ">=1.1 && <1.3",
+          "package-name": "tasty-hunit",
+          "version-range": "^>=0.10.0.3",
           "library": [
             {}
           ]
