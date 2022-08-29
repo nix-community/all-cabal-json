@@ -1,26 +1,37 @@
 {
   "description": {
     "spec-version": {
-      "Right": ">=1.8"
+      "Left": [
+        2,
+        2
+      ]
     },
     "package": {
-      "name": "hedgehog-quickcheck",
+      "name": "unix-bytestring",
       "version": [
         0,
-        1,
-        1
+        3,
+        7,
+        8
       ]
     },
     "license": {
-      "Right": "BSD3"
+      "Left": {
+        "license-expression": {
+          "expression": {
+            "id": "BSD_3_Clause"
+          },
+          "exception-id": null
+        }
+      }
     },
     "license-files": [
       "LICENSE"
     ],
-    "copyright": "",
-    "maintainer": "Jacob Stanley <jacob@stanley.io>",
-    "author": "Jacob Stanley",
-    "stability": "",
+    "copyright": "2010–2022 wren romano",
+    "maintainer": "wren@cpan.org",
+    "author": "wren gayle romano",
+    "stability": "provisional",
     "tested-with": [
       {
         "compiler": "GHC",
@@ -40,36 +51,43 @@
       },
       {
         "compiler": "GHC",
-        "versionRange": "==8.8.3"
+        "versionRange": "==8.8.4"
       },
       {
         "compiler": "GHC",
-        "versionRange": "==8.10.1"
+        "versionRange": "==8.10.3"
+      },
+      {
+        "compiler": "GHC",
+        "versionRange": "==9.0.1"
+      },
+      {
+        "compiler": "GHC",
+        "versionRange": "==9.2.4"
+      },
+      {
+        "compiler": "GHC",
+        "versionRange": "==9.4.1"
       }
     ],
-    "homepage": "https://hedgehog.qa",
+    "homepage": "https://wrengr.org/software/hackage.html",
     "pkg-url": "",
-    "bug-reports": "https://github.com/hedgehogqa/haskell-hedgehog/issues",
+    "bug-reports": "https://github.com/wrengr/unix-bytestring/issues",
     "source-repos": [
       {
         "kind": {},
         "type": "Git",
-        "location": "git://github.com/hedgehogqa/haskell-hedgehog.git",
+        "location": "https://github.com/wrengr/unix-bytestring.git",
         "module": null,
         "branch": null,
         "tag": null,
         "subdir": null
       }
     ],
-    "synopsis": "Use QuickCheck generators in Hedgehog and vice versa.",
-    "description": "Use QuickCheck generators in Hedgehog and vice versa.\n\nHedgehog is a modern property-based testing system, in the spirit of\nQuickCheck. Hedgehog uses integrated shrinking, so shrinks obey the\ninvariants of generated values by construction.\n\nTo get started quickly, see the examples:\n<https://github.com/hedgehogqa/haskell-hedgehog/tree/master/hedgehog-",
-    "category": "Testing",
-    "custom-fields": [
-      [
-        "x-revision",
-        "4"
-      ]
-    ],
+    "synopsis": "Unix/Posix-specific functions for ByteStrings.",
+    "description": "Unix\\/Posix-specific functions for ByteStrings.\n\nProvides @ByteString@ file-descriptor based I\\/O API, designed\nloosely after the @String@ file-descriptor based I\\/O API in\n\"System.Posix.IO\". The functions here wrap standard C implementations\nof the functions specified by the ISO\\/IEC 9945-1:1990 (``POSIX.1'')\nand X\\/Open Portability Guide Issue 4, Version 2 (``XPG4.2'')\nspecifications.\n\nNote that this package doesn't require the @unix@ package as a\ndependency. But you'll need it in order to get your hands on\nan @Fd@, so we're not offering a complete replacement.",
+    "category": "System",
+    "custom-fields": [],
     "build-type-raw": "Simple",
     "custom-setup": null,
     "library": null,
@@ -82,7 +100,7 @@
     "data-dir": ".",
     "extra-source-files": [
       "README.md",
-      "CHANGELOG.md"
+      "CHANGELOG"
     ],
     "extra-tmp-files": [],
     "extra-doc-files": []
@@ -92,14 +110,29 @@
       "name": {},
       "exposed-modules": [
         [
-          "Hedgehog",
-          "Gen",
-          "QuickCheck"
+          "Foreign",
+          "C",
+          "Error",
+          "Safe"
         ],
         [
-          "Test",
-          "QuickCheck",
-          "Hedgehog"
+          "System",
+          "Posix",
+          "IO",
+          "ByteString"
+        ],
+        [
+          "System",
+          "Posix",
+          "IO",
+          "ByteString",
+          "Lazy"
+        ],
+        [
+          "System",
+          "Posix",
+          "Types",
+          "Iovec"
         ]
       ],
       "re-exported-modules": [],
@@ -130,7 +163,7 @@
         "otherModules": [],
         "virtualModules": [],
         "autogenModules": [],
-        "defaultLanguage": null,
+        "defaultLanguage": "Haskell2010",
         "otherLanguages": [],
         "defaultExtensions": [],
         "otherExtensions": [],
@@ -146,9 +179,7 @@
         "autogenIncludes": [],
         "installIncludes": [],
         "options": [
-          [
-            "-Wall"
-          ],
+          [],
           []
         ],
         "profOptions": [
@@ -167,28 +198,14 @@
         "targetBuildDepends": [
           {
             "package-name": "base",
-            "version-range": ">=3 && <5",
+            "version-range": ">=4.1 && <4.18",
             "library": [
               {}
             ]
           },
           {
-            "package-name": "hedgehog",
-            "version-range": ">=0.5 && <1.3",
-            "library": [
-              {}
-            ]
-          },
-          {
-            "package-name": "QuickCheck",
-            "version-range": ">=2.7 && <2.15",
-            "library": [
-              {}
-            ]
-          },
-          {
-            "package-name": "transformers",
-            "version-range": ">=0.4 && <0.7",
+            "package-name": "bytestring",
+            "version-range": ">=0.9.1.5 && <0.12",
             "library": [
               {}
             ]
@@ -200,28 +217,14 @@
     "condTreeConstraints": [
       {
         "package-name": "base",
-        "version-range": ">=3 && <5",
+        "version-range": ">=4.1 && <4.18",
         "library": [
           {}
         ]
       },
       {
-        "package-name": "hedgehog",
-        "version-range": ">=0.5 && <1.3",
-        "library": [
-          {}
-        ]
-      },
-      {
-        "package-name": "QuickCheck",
-        "version-range": ">=2.7 && <2.15",
-        "library": [
-          {}
-        ]
-      },
-      {
-        "package-name": "transformers",
-        "version-range": ">=0.4 && <0.7",
+        "package-name": "bytestring",
+        "version-range": ">=0.9.1.5 && <0.12",
         "library": [
           {}
         ]
