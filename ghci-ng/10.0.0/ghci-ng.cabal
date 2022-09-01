@@ -1,0 +1,70 @@
+name:          ghci-ng
+version:       10.0.0
+x-revision: 4
+synopsis:      Next generation GHCi
+description:   GHCi plus extra goodies. See <https://github.com/chrisdone/ghci-ng#features README> for feature list.
+               .
+               NOTE: The feature-set of @ghci-ng-10.0.0@ has been merged back upstream and is therefore available in GHCi 8.0 proper!
+license:       BSD3
+homepage:      https://github.com/chrisdone/ghci-ng
+license-file:  LICENSE
+author:        The GHC Team, Chris Done
+maintainer:    chrisdone@gmail.com
+copyright:     2005 The University of Glasgow, 2008 Claus Reinke, 2012 Kazu Yamamoto, 2014 Chris Done
+category:      Development
+build-type:    Simple
+stability:     Experimental
+cabal-version: >= 1.10
+
+extra-source-files: ghc/HsVersions.h rts/PosixSource.h
+
+executable ghci-ng
+  main-is:          Main.hs
+  hs-source-dirs:   ghc/
+  ghc-options:      -Wall -O2
+  c-sources:        ghc/hschooks.c
+  other-modules:    InteractiveUI
+                    GhciMonad
+                    GhciTags
+                    GhciTypes
+                    GhciInfo
+                    GhciFind
+  ghc-options:      -Wall -fno-warn-name-shadowing -threaded -dynamic
+  cpp-options:      -DGHCI
+  default-language: Haskell2010
+  default-extensions:
+    CPP
+    FlexibleInstances
+    MagicHash
+    NondecreasingIndentation
+    UnboxedTuples
+
+  -- In other words, demand at least version 7.8.
+  -- NB: the cumbersome `if impl(ghc)` conditional below makes no sense, and is actually incorrect, but cabal revisions don't allow us to fix this
+  if impl(ghc<7.8)
+    build-depends:
+      ghc           == 7.8.* || == 7.10.*
+  if impl(ghc>=7.8)
+    build-depends:
+      base          >= 4.7    && < 4.9,
+      array         == 0.5.*,
+      bytestring    >= 0.10.4 && < 0.11,
+      directory     >= 1.2.1  && < 1.3,
+      filepath      >= 1.3    && < 1.5,
+      ghc           == 7.8.* || == 7.10.*,
+      ghc-paths     == 0.1.*,
+      haskeline     >= 0.7    && < 0.8,
+      process       >= 1.2    && < 1.3,
+      transformers  >= 0.3    && < 0.5,
+      syb           >= 0.3.6  && < 0.8,
+      containers    >= 0.5.5  && < 0.6,
+      time          >= 1.4.2  && < 1.6
+
+  if os(windows)
+      build-depends: Win32
+  else
+      build-depends: unix == 2.7.*
+
+source-repository head
+  type:     git
+  location: git://github.com/chrisdone/ghci-ng.git

@@ -1,0 +1,67 @@
+name:          hask
+category:      Control
+version:       0
+x-revision: 2
+license:       BSD3
+cabal-version: >= 1.10
+license-file:  LICENSE
+author:        Edward A. Kmett
+maintainer:    Edward A. Kmett <ekmett@gmail.com>
+stability:     experimental
+homepage:      http://github.com/ekmett/hask
+bug-reports:   http://github.com/ekmett/hask/issues
+synopsis:      Categories
+copyright:     Copyright (C) 2008-2014, Edward A. Kmett
+description:   Kind-polymorphic category theory in Haskell
+build-type:    Simple
+tested-with:   GHC == 7.8.2
+extra-source-files:
+  .gitignore
+  .travis.yml
+  .vim.custom
+  README.markdown
+  CHANGELOG.markdown
+
+source-repository head
+  type: git
+  location: git://github.com/ekmett/hask.git
+
+flag Optimize
+  description: Enable optimizations
+  default:     False
+
+
+library
+  default-language: Haskell2010
+
+  exposed-modules:
+    Hask.Adjunction
+    Hask.Category
+    Hask.Category.Polynomial
+    Hask.Functor.Faithful
+    Hask.Iso
+    Hask.Prof
+    Hask.Tensor
+    Hask.Tensor.Compose
+    Hask.Tensor.Day
+
+  -- This package currently relies and behavior that is specific to
+  -- GHC version 7.8.3 (not 7.8.2 or 7.8.4 or 7.10.*)
+  --
+  -- See also https://github.com/ekmett/hask/issues/5
+  build-depends:
+    base == 4.7.0.1
+
+  build-depends:
+    constraints < 0.5,
+    ghc-prim,
+    reflection < 2.2,
+    transformers < 0.6,
+    tagged < 0.9,
+    void >= 0.5.4.2 && < 1
+
+  hs-source-dirs: src
+  ghc-options: -Wall -fno-warn-missing-signatures
+
+  if flag(Optimize)
+    ghc-options: -funbox-strict-fields -O2

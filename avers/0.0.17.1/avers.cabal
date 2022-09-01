@@ -1,0 +1,113 @@
+name: avers
+version: 0.0.17.1
+x-revision: 40
+cabal-version: >=1.10
+build-type: Simple
+license: GPL-3
+license-file: LICENSE
+maintainer: tomas.carnecky@gmail.com
+synopsis:            Server-side implementation of the Avers storage model
+description:
+  This is the server-side implementation of the Avers storage model. It is a
+  Haskell library, intended to be used by your application. The library provides
+  you with everything you need to write your own Avers server. You can create and
+  patch objects and collections thereof. It has builtin support for sessions,
+  authentication and managing blobs. The database is not configurable. Avers is
+  currently hardcoded to use RethinkDB.
+
+category: Avers
+author: Tomas Carnecky
+extra-source-files:
+    src/Avers/Metrics/Measurements.txt
+
+source-repository head
+    type: git
+    location: git://github.com/wereHamster/avers-haskell.git
+
+library
+    exposed-modules:
+        Avers
+        Avers.Handle
+        Avers.Index
+        Avers.Metrics
+        Avers.Metrics.Measurements
+        Avers.Metrics.TH
+        Avers.Patching
+        Avers.Storage
+        Avers.Storage.Backend
+        Avers.Storage.Expressions
+        Avers.TH
+        Avers.Types
+        Avers.Views
+    build-depends:
+        aeson >=1.1.2.1 && <1.6,
+        attoparsec >=0.13.1.0 && <0.14,
+        base >=4.9.0.0 && <4.15,
+        bytestring >=0.10.8.1 && <0.11,
+        clock >=0.7.2 && <0.9,
+        containers >=0.5.7.1 && <0.7,
+        filepath >=1.4.1.0 && <1.5,
+        mtl >=2.2.1 && <2.3,
+        network >=2.6.3.1 && <3.2,
+        network-uri >=2.6.1.0 && <2.7,
+        safe >=0.3.10 && <0.4,
+        stm >=2.4.4.1 && <2.6,
+        template-haskell >=2.11.0.0 && <2.17,
+        text >=1.2.2.1 && <1.3,
+        time >=1.6.0.1 && <1.10,
+        unordered-containers >=0.2.7.2 && <0.3,
+        vector >=0.11.0.0 && <0.13,
+        MonadRandom >=0.4.2.3 && <0.6,
+        cryptonite >=0.21 && <0.29,
+        memory >=0.14 && <0.16,
+        inflections >=0.3.0.0 && <0.5,
+        resource-pool >=0.2.3.2 && <0.3,
+        rethinkdb-client-driver >=0.0.23 && <0.1,
+        scrypt >=0.5.0 && <0.6
+    default-language: Haskell2010
+    hs-source-dirs: src
+    ghc-options: -Wall
+
+test-suite spec
+    type: exitcode-stdio-1.0
+    main-is: Test.hs
+    build-depends:
+        MonadRandom >=0.4.2.3 && <0.6,
+        aeson >=1.0.2.1 && <1.6,
+        attoparsec >=0.13.1.0 && <0.14,
+        avers,
+        base >=4.9.0.0 && <4.15,
+        base16-bytestring,
+        bytestring >=0.10.8.1 && <0.11,
+        containers >=0.5.7.1 && <0.7,
+        cryptohash >=0.11.9 && <0.12,
+        hspec >=2.3.2,
+        inflections >=0.3.0.0 && <0.5,
+        mtl >=2.2.1 && <2.3,
+        resource-pool >=0.2.3.2 && <0.3,
+        rethinkdb-client-driver >=0.0.23 && <0.1,
+        scrypt >=0.5.0 && <0.6,
+        stm >=2.4.4.1 && <2.6,
+        text >=1.2.2.1 && <1.3,
+        time >=1.6.0.1 && <1.10,
+        unordered-containers >=0.2.7.2 && <0.3,
+        vector >=0.11.0.0 && <0.13
+    default-language: Haskell2010
+    hs-source-dirs: test
+
+benchmark benchmark
+    type: exitcode-stdio-1.0
+    main-is: Benchmark.hs
+    build-depends:
+        aeson >=1.0.2.1 && <1.6,
+        avers,
+        base >=4.9.0.0 && <4.15,
+        mtl >=2.2.1 && <2.3,
+        criterion >=1.1.4.0 && <1.6,
+        resource-pool >=0.2.3.2 && <0.3,
+        rethinkdb-client-driver >=0.0.23 && <0.1,
+        network-uri >=2.6.1.0 && <2.7,
+        text >=1.2.2.1 && <1.3
+    default-language: Haskell2010
+    hs-source-dirs: benchmark
+    ghc-options: -threaded -Wall -O2 -rtsopts

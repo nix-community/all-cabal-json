@@ -1,0 +1,146 @@
+name:                hup
+version:             0.2.0.0
+x-revision: 1
+synopsis:            Upload packages or documentation to a hackage server
+description:         
+  Upload packages or documentation to a hackage server
+  .
+  See README for details.
+homepage:            https://github.com/phlummox/hup
+license:             BSD2
+license-file:        LICENSE
+author:              phlummox
+maintainer:          phlummox2@gmail.com
+copyright:           phlummox 2016, others where indicated
+category:            Distribution, Web, Documentation  
+build-type:          Simple
+tested-with:         GHC == 8.0.1, GHC == 7.10.3 
+cabal-version:       >=1.10
+extra-source-files:  README.md, stack.yaml 
+
+Flag EnableWebTests
+  Description: Enable tests that do a (pretty minimal) check by running an actual
+    Warp web server. (Slower to build and run than other tests.)
+  Default:     False
+  Manual:      True
+
+
+library
+  hs-source-dirs:      lib
+  exposed-modules:     
+      Distribution.Hup
+    , Distribution.Hup.BuildTar
+    , Distribution.Hup.Parse
+    , Distribution.Hup.Types
+    , Distribution.Hup.Upload
+  build-depends:       
+      base >= 4.2 && < 5
+    , bytestring >=0.10.6.0
+    , directory >=1.2.2.0
+    , filepath  >=1.4.0.0
+    , http-client >=0.4.26.2
+    , http-client-tls >=0.2.2
+    , http-types >=0.8.6
+    , mtl >=2.2.1
+    , split >=0.2.2
+    , tar >=0.4.2.2
+    , zlib >=0.5.4.2
+  default-language:    Haskell2010
+
+
+Flag PatchHelpMessage
+  Description:
+    Use patched version of cmdargs-0.10.14.1 with more informative help
+    message. The patched version will need to be pulled from github
+    (or a stack.yaml file must point to it) - see stack.yaml for details.
+  Default:     False
+  Manual:      True
+
+
+executable hup
+  hs-source-dirs:      src
+  main-is:             Main.hs
+  other-modules:       
+      CmdArgs
+    , CmdArgs.PatchHelp
+    , DefaultServerUrl
+    , Paths_hup
+    , SanityCheck
+    , Types
+    , Upload
+  if flag(PatchHelpMessage)
+    other-modules: CmdArgs.PatchHelp
+    cpp-options:   -DPATCH_HELP
+    build-depends: cmdargs == 0.10.14.1 
+  else     
+    build-depends: cmdargs  
+  default-language:    Haskell2010
+  build-depends:       
+      base 
+    , bytestring >=0.10.6.0
+    , directory >=1.2.2.0
+    , mtl  >=2.2.1
+    , shelly >= 1.6.5
+    -- shelly - higher possibly needed?
+    , tagsoup >=0.13.6
+    , text >=1.2.2.0
+    , transformers >=0.4.2.0
+    , hup
+
+test-suite hup-spec
+  type:                exitcode-stdio-1.0
+  hs-source-dirs:      test
+  main-is:             Spec.hs
+  build-depends:
+      base
+    , bytestring  >=0.10.6.0
+    , filepath >=1.4.0.0
+    , hspec-wai >=0.6.4
+    , http-client  >=0.4.26.2
+    , http-types  >=0.8.6
+    , hup
+    , hspec >=2.1.10
+    , QuickCheck >=2.8.1
+    , simple  >=0.11.1
+    , temporary >=1.2.0.3
+    , transformers  >=0.4.2.0
+    , wai >=3.0.5.0
+    , wai-extra >=3.0.13
+  ghc-options:         -threaded -rtsopts -with-rtsopts=-N
+  default-language:    Haskell2010
+  other-modules:
+      Distribution.Hup.WebTest
+    , Distribution.Hup.ParseSpec
+    , Distribution.Hup.Parse.Test
+    , Distribution.Hup.UploadSpec
+    , Distribution.Hup.Upload.Test
+  if flag(EnableWebTests)
+    build-depends:
+        network >=2.6.2.1
+      , vector >=0.10.12.3
+      -- ridiculous. With cabal 1.24 and ghc 8.0.1, (a) installing dependencies
+      -- fails if 'vector' isn't added here (despite it not being a direct
+      -- dependency) and (b) the build takes much longer than with, e.g.
+      -- ghc 7.10.3.
+      -- TODO: track down the problem sometime.
+      , warp >=3.1.3.1
+    cpp-options:         -DWEB_TESTS
+
+
+test-suite hup-doctest
+  type:                exitcode-stdio-1.0
+  hs-source-dirs:      test
+  main-is:             DocTest.hs
+  build-depends:       base
+                     , hup
+                     , doctest  >=0.10.1
+                     , Glob >=0.7.5
+  ghc-options:         -threaded -rtsopts -with-rtsopts=-N
+  default-language:    Haskell2010
+
+
+source-repository head
+  type:     git
+  location: https://github.com/phlummox/hup
+
+

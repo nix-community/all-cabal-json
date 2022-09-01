@@ -1,0 +1,75 @@
+Name:                   cabal2nix
+Version:                1.73
+x-revision: 5
+Copyright:              Peter Simons, Andres Loeh
+License:                BSD3
+License-File:           LICENSE
+Author:                 Peter Simons, Andres Loeh
+Maintainer:             Peter Simons <simons@cryp.to>
+Homepage:               http://github.com/NixOS/cabal2nix
+Category:               Distribution
+Synopsis:               Convert Cabal files into Nix build instructions
+Cabal-Version:          >= 1.8
+Build-Type:             Custom
+Tested-With:            GHC >= 7.0.4 && <= 7.8.3
+Data-files:             README.md
+Description:
+  This package is no longer maintained on Hackage. Users of Nix can
+  install the latest version by running:
+  .
+  > nix-env -i cabal2nix
+
+Source-Repository head
+  Type:                 git
+  Location:             git://github.com/NixOS/cabal2nix.git
+
+Executable cabal2nix
+  main-is:              cabal2nix.hs
+  hs-source-dirs:       src
+  Build-Depends:        base >= 3 && < 5, regex-posix, pretty, Cabal >= 1.18 && < 1.22,
+                        filepath, directory, process, hackage-db >= 1.11, transformers, deepseq
+  Extensions:           PatternGuards, RecordWildCards, CPP
+  Ghc-Options:          -Wall
+  other-modules:        Cabal2Nix.CorePackages
+                        Cabal2Nix.Flags
+                        Cabal2Nix.Generate
+                        Cabal2Nix.Package
+                        Cabal2Nix.License
+                        Cabal2Nix.Name
+                        Cabal2Nix.Normalize
+                        Cabal2Nix.PostProcess
+                        Cabal2Nix.Version
+                        Distribution.NixOS.Fetch
+                        Distribution.NixOS.Derivation.Cabal
+                        Distribution.NixOS.Derivation.License
+                        Distribution.NixOS.Derivation.Meta
+                        Distribution.NixOS.PrettyPrinting
+                        Distribution.NixOS.Regex
+
+Executable hackage4nix
+  main-is:              hackage4nix.hs
+  hs-source-dirs:       src
+  Build-Depends:        base >= 3 && < 5, regex-posix, pretty, Cabal >= 1.18 && < 1.22,
+                        mtl, containers, directory, filepath, hackage-db >= 1.11,
+                        transformers, process, deepseq
+  Extensions:           PatternGuards, RecordWildCards, CPP
+  Ghc-Options:          -Wall
+  other-modules:        Cabal2Nix.CorePackages
+                        Cabal2Nix.Flags
+                        Cabal2Nix.Generate
+                        Cabal2Nix.License
+                        Cabal2Nix.Name
+                        Cabal2Nix.Normalize
+                        Cabal2Nix.PostProcess
+                        Distribution.NixOS.Fetch
+                        Distribution.NixOS.Derivation.Cabal
+                        Distribution.NixOS.Derivation.License
+                        Distribution.NixOS.Derivation.Meta
+                        Distribution.NixOS.PrettyPrinting
+                        Distribution.NixOS.Regex
+
+Test-Suite doctest-cabal2nix
+  type:                 exitcode-stdio-1.0
+  main-is:              doc-test.hs
+  hs-source-dirs:       test
+  build-depends:        base, doctest

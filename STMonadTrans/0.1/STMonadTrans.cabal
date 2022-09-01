@@ -1,0 +1,29 @@
+name:		STMonadTrans
+version:	0.1
+x-revision: 2
+license:	BSD3
+license-file:	LICENSE
+author:		Josef Svenningsson
+maintainer:	josef.svenningsson@gmail.com
+category:	Monads
+synopsis:	A monad transformer version of the ST monad
+description:	A monad transformer version of the ST monad
+cabal-version: >=1.2
+build-type:	Simple
+
+flag splitBase
+  description: Choose the new smaller, split-up base package.
+
+library
+  -- Monad(fail) was removed in base-4.13
+  build-depends: base <4.13
+
+  if flag(splitBase)
+    build-depends: base >= 3 && < 4.7, mtl, array
+  else
+    build-depends: base < 3
+
+  exposed-modules:	Control.Monad.ST.Trans
+  extensions:	MagicHash, UnboxedTuples, Rank2Types, FlexibleInstances, 
+        MultiParamTypeClasses
+

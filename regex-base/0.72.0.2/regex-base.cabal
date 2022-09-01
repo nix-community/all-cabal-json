@@ -1,0 +1,43 @@
+Cabal-Version:          >=1.2
+-- ****************************************************************
+-- To fix for cabal < 1.1.4 comment out the Extra-Source-Files line
+-- ****************************************************************
+Name:                   regex-base
+Version:                0.72.0.2
+x-revision: 2
+Build-Type:             Simple
+
+License:                BSD3
+License-File:           LICENSE
+Copyright:              Copyright (c) 2006, Christopher Kuklewicz
+Author:                 Christopher Kuklewicz
+Maintainer:             TextRegexLazy@personal.mightyreason.com
+Stability:              Seems to work, passes a few tests
+Homepage:               http://sourceforge.net/projects/lazy-regex
+Synopsis:               Replaces/Enhances Text.Regex
+Description:            Interface API for regex-posix,pcre,parsec,dfa
+Category:               Text
+Tested-With:            GHC
+
+Flag split-base
+Flag bytestring-in-base
+
+Library
+  build-depends: base<4.13
+  if flag(split-base)
+    Build-Depends:      base >= 3, array < 0.6
+  else
+    Build-Depends:      base < 3
+  if flag(bytestring-in-base)
+    Build-Depends:      base >= 2 && < 3
+  else
+    Build-Depends:      base < 2 || >= 3, bytestring < 0.11
+
+  Exposed-Modules:      Text.Regex.Base
+                        Text.Regex.Base.RegexLike
+                        Text.Regex.Base.Context
+                        Text.Regex.Base.Impl
+
+  Buildable:              True
+  Extensions:             MultiParamTypeClasses, FunctionalDependencies, CPP
+  GHC-Options:            -Wall -O2

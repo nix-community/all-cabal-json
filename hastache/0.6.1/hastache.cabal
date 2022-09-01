@@ -1,0 +1,88 @@
+name:            hastache
+version:         0.6.1
+x-revision: 6
+license:         BSD3
+license-file:    LICENSE
+category:        Text
+copyright:       Sergey S Lymar (c) 2011-2014
+author:          Sergey S Lymar <sergey.lymar@gmail.com>
+maintainer:      Daniil Frumin <dan at covariant.me>
+stability:       experimental
+synopsis:        Haskell implementation of Mustache templates
+cabal-version:   >= 1.8
+homepage:        http://github.com/lymar/hastache
+bug-reports:     http://github.com/lymar/hastache/issues
+build-type:      Simple
+description:
+    Haskell implementation of Mustache templates (<http://mustache.github.com/>).
+    .
+    See homepage for examples of usage: <http://github.com/lymar/hastache>
+    .
+    In case version constraints need updating please comment
+    <https://github.com/haskell-infra/hackage-trustees/issues/58 here>
+
+extra-source-files:
+    tests/partFile
+    tests/RunTest.sh
+    tests/test.hs
+    README.md
+    ChangeLog
+
+library
+  exposed-modules:
+    Text.Hastache
+    Text.Hastache.Context
+
+  -- GHC 7.0 fails on Illegal instance declaration for `Monoid (MuContext m)'
+  -- text-1.2.5.0 introduces Data.Text.elem which causes ambiguity
+  build-depends:
+      base          >=4.4 && <4.11
+    , blaze-builder          <0.5
+    , bytestring             <0.11
+    , containers             <0.6
+    , directory              <1.4
+    , filepath               <1.5
+    , ieee754                <0.9
+    , mtl           >=2   && <2.3
+    , syb                    <0.8
+    , text                   <1.2.5.0
+    , transformers           <0.6
+
+  other-extensions: CPP, ExistentialQuantification, FlexibleInstances, IncoherentInstances, OverloadedStrings, RankNTypes, ScopedTypeVariables
+
+executable mkReadme
+  main-is: mkReadme.hs
+  build-depends:
+      hastache
+    , process               < 1.7
+      -- version constraints inherited from
+    , base
+    , blaze-builder
+    , bytestring
+    , containers
+    , directory
+    , filepath
+    , ieee754
+    , mtl
+    , syb
+    , text
+    , transformers
+
+test-suite test-hastache
+  type:           exitcode-stdio-1.0
+  main-is:        test.hs
+  hs-source-dirs: tests
+
+  build-depends:
+      hastache
+    , base
+    , directory
+    , mtl
+    , HUnit
+    , text
+    , bytestring
+    , syb
+
+source-repository head
+  type:     git
+  location: http://github.com/lymar/hastache
