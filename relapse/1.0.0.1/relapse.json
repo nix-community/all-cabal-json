@@ -4,73 +4,43 @@
       "Right": ">=1.10"
     },
     "package": {
-      "name": "tasty-hedgehog",
+      "name": "relapse",
       "version": [
         1,
-        3,
         0,
-        0
+        0,
+        1
       ]
     },
     "license": {
-      "Right": "BSD3"
+      "Right": "MIT"
     },
     "license-files": [
-      "LICENCE"
+      "LICENSE"
     ],
-    "copyright": "Copyright (c) 2017, Commonwealth Scientific and Industrial Research Organisation (CSIRO) ABN 41 687 119 230.",
-    "maintainer": "dave.laing.80@gmail.com",
-    "author": "Dave Laing",
+    "copyright": "2017 Ilya Ostrovskiy",
+    "maintainer": "firstname at thenumbertwohundred thewordproof dotcc",
+    "author": "Ilya Ostrovskiy",
     "stability": "",
-    "tested-with": [
-      {
-        "compiler": "GHC",
-        "versionRange": "==8.0.2"
-      },
-      {
-        "compiler": "GHC",
-        "versionRange": "==8.2.2"
-      },
-      {
-        "compiler": "GHC",
-        "versionRange": "==8.4.4"
-      },
-      {
-        "compiler": "GHC",
-        "versionRange": "==8.6.5"
-      },
-      {
-        "compiler": "GHC",
-        "versionRange": "==8.8.3"
-      },
-      {
-        "compiler": "GHC",
-        "versionRange": "==8.10.1"
-      }
-    ],
-    "homepage": "https://github.com/qfpl/tasty-hedgehog",
+    "tested-with": [],
+    "homepage": "https://github.com/iostat/relapse#readme",
     "pkg-url": "",
-    "bug-reports": "https://github.com/qfpl/tasty-hedgehog/issues",
+    "bug-reports": "",
     "source-repos": [
       {
         "kind": {},
         "type": "Git",
-        "location": "git@github.com:qfpl/tasty-hedgehog.git",
+        "location": "https://github.com/iostat/relapse",
         "module": null,
         "branch": null,
         "tag": null,
         "subdir": null
       }
     ],
-    "synopsis": "Integration for tasty and hedgehog.",
-    "description": "Integrates the <https://hackage.haskell.org/package/hedgehog hedgehog testing library> with the <https://hackage.haskell.org/package/tasty tasty testing framework>.",
-    "category": "Testing",
-    "custom-fields": [
-      [
-        "x-revision",
-        "1"
-      ]
-    ],
+    "synopsis": "Sensible RLP encoding",
+    "description": "An implementation of RLP as specified in the Ethereum Wiki, using Attoparsec",
+    "category": "Data",
+    "custom-fields": [],
     "build-type-raw": "Simple",
     "custom-setup": null,
     "library": null,
@@ -82,7 +52,8 @@
     "data-files": [],
     "data-dir": ".",
     "extra-source-files": [
-      "changelog.md"
+      "README.md",
+      "test/resources/rlptest.json"
     ],
     "extra-tmp-files": [],
     "extra-doc-files": []
@@ -92,9 +63,13 @@
       "name": {},
       "exposed-modules": [
         [
-          "Test",
-          "Tasty",
-          "Hedgehog"
+          "Data",
+          "RLP"
+        ],
+        [
+          "Data",
+          "RLP",
+          "Types"
         ]
       ],
       "re-exported-modules": [],
@@ -141,9 +116,7 @@
         "autogenIncludes": [],
         "installIncludes": [],
         "options": [
-          [
-            "-Wall"
-          ],
+          [],
           []
         ],
         "profOptions": [
@@ -162,28 +135,21 @@
         "targetBuildDepends": [
           {
             "package-name": "base",
-            "version-range": ">=4.8 && <4.18",
+            "version-range": ">=4.8 && <5",
             "library": [
               {}
             ]
           },
           {
-            "package-name": "tagged",
-            "version-range": ">=0.8 && <0.9",
+            "package-name": "attoparsec",
+            "version-range": ">=0.13.1.0 && <0.15",
             "library": [
               {}
             ]
           },
           {
-            "package-name": "tasty",
-            "version-range": ">=0.11 && <1.5",
-            "library": [
-              {}
-            ]
-          },
-          {
-            "package-name": "hedgehog",
-            "version-range": ">=1.0.2 && <1.1.3",
+            "package-name": "bytestring",
+            "version-range": "-any",
             "library": [
               {}
             ]
@@ -195,28 +161,21 @@
     "condTreeConstraints": [
       {
         "package-name": "base",
-        "version-range": ">=4.8 && <4.18",
+        "version-range": ">=4.8 && <5",
         "library": [
           {}
         ]
       },
       {
-        "package-name": "tagged",
-        "version-range": ">=0.8 && <0.9",
+        "package-name": "attoparsec",
+        "version-range": ">=0.13.1.0 && <0.15",
         "library": [
           {}
         ]
       },
       {
-        "package-name": "tasty",
-        "version-range": ">=0.11 && <1.5",
-        "library": [
-          {}
-        ]
-      },
-      {
-        "package-name": "hedgehog",
-        "version-range": ">=1.0.2 && <1.1.3",
+        "package-name": "bytestring",
+        "version-range": "-any",
         "library": [
           {}
         ]
@@ -225,7 +184,7 @@
     "condTreeComponents": []
   },
   "test-suites": {
-    "tasty-hedgehog-tests": {
+    "relapse-test": {
       "condTreeData": {
         "name": "",
         "interface": {
@@ -256,7 +215,14 @@
           "hsSourceDirs": [
             "test"
           ],
-          "otherModules": [],
+          "otherModules": [
+            [
+              "RLPTest"
+            ],
+            [
+              "GenericRLPTest"
+            ]
+          ],
           "virtualModules": [],
           "autogenModules": [],
           "defaultLanguage": "Haskell2010",
@@ -276,7 +242,9 @@
           "installIncludes": [],
           "options": [
             [
-              "-Wall"
+              "-threaded",
+              "-rtsopts",
+              "-with-rtsopts=-N"
             ],
             []
           ],
@@ -296,34 +264,90 @@
           "targetBuildDepends": [
             {
               "package-name": "base",
-              "version-range": ">=4.8 && <4.18",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "containers",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "bytestring",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "base16-bytestring",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "text",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "vector",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "aeson",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "hspec",
+              "version-range": "-any",
               "library": [
                 {}
               ]
             },
             {
               "package-name": "tasty",
-              "version-range": ">=0.11 && <1.5",
+              "version-range": "-any",
               "library": [
                 {}
               ]
             },
             {
-              "package-name": "tasty-expected-failure",
-              "version-range": ">=0.11 && <0.13",
+              "package-name": "tasty-hspec",
+              "version-range": "-any",
               "library": [
                 {}
               ]
             },
             {
-              "package-name": "hedgehog",
-              "version-range": ">=1.0.2 && <1.1.3",
+              "package-name": "include-file",
+              "version-range": "-any",
               "library": [
                 {}
               ]
             },
             {
-              "package-name": "tasty-hedgehog",
+              "package-name": "QuickCheck",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "relapse",
               "version-range": "-any",
               "library": [
                 {}
@@ -336,34 +360,90 @@
       "condTreeConstraints": [
         {
           "package-name": "base",
-          "version-range": ">=4.8 && <4.18",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "containers",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "bytestring",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "base16-bytestring",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "text",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "vector",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "aeson",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "hspec",
+          "version-range": "-any",
           "library": [
             {}
           ]
         },
         {
           "package-name": "tasty",
-          "version-range": ">=0.11 && <1.5",
+          "version-range": "-any",
           "library": [
             {}
           ]
         },
         {
-          "package-name": "tasty-expected-failure",
-          "version-range": ">=0.11 && <0.13",
+          "package-name": "tasty-hspec",
+          "version-range": "-any",
           "library": [
             {}
           ]
         },
         {
-          "package-name": "hedgehog",
-          "version-range": ">=1.0.2 && <1.1.3",
+          "package-name": "include-file",
+          "version-range": "-any",
           "library": [
             {}
           ]
         },
         {
-          "package-name": "tasty-hedgehog",
+          "package-name": "QuickCheck",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "relapse",
           "version-range": "-any",
           "library": [
             {}
