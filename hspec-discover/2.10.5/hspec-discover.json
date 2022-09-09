@@ -1,51 +1,48 @@
 {
   "description": {
     "spec-version": {
-      "Right": ">=1.10"
+      "Left": [
+        1,
+        12
+      ]
     },
     "package": {
-      "name": "unicode-transforms",
+      "name": "hspec-discover",
       "version": [
-        0,
-        1,
-        0,
-        1
+        2,
+        10,
+        5
       ]
     },
     "license": {
-      "Right": "BSD3"
+      "Right": "MIT"
     },
     "license-files": [
       "LICENSE"
     ],
-    "copyright": "2016 Harendra Kumar",
-    "maintainer": "harendra.kumar@gmail.com",
-    "author": "Harendra Kumar",
-    "stability": "Experimental",
+    "copyright": "(c) 2012-2022 Simon Hengel",
+    "maintainer": "Simon Hengel <sol@typeful.net>",
+    "author": "Simon Hengel <sol@typeful.net>",
+    "stability": "experimental",
     "tested-with": [],
-    "homepage": "http://github.com/harendra-kumar/unicode-transforms",
+    "homepage": "http://hspec.github.io/",
     "pkg-url": "",
-    "bug-reports": "",
+    "bug-reports": "https://github.com/hspec/hspec/issues",
     "source-repos": [
       {
         "kind": {},
         "type": "Git",
-        "location": "https://github.com/harendra-kumar/unicode-transforms",
+        "location": "https://github.com/hspec/hspec",
         "module": null,
         "branch": null,
         "tag": null,
-        "subdir": null
+        "subdir": "hspec-discover"
       }
     ],
-    "synopsis": "Unicode transforms (normalization NFC/NFD/NFKC/NFKD)",
-    "description": "This is a lightweight library supporting a limited set of unicode\ntransformations (only normalizations as of now) on ByteStrings (UTF-8) and\nText without requiring any other system libraries. It is based on\nthe utf8proc C utility supporting unicode versions upto 5.1.0.\n\ntext-icu is a full featured alternative for all unicode operations but with\na dependency on the system installed icu libraries. This package aims to\nprovide an API similar to text-icu.\n\nFor more details see the README.md file.",
-    "category": "Data,Text,Unicode",
-    "custom-fields": [
-      [
-        "x-revision",
-        "1"
-      ]
-    ],
+    "synopsis": "Automatically discover and run Hspec tests",
+    "description": "Automatically discover and run Hspec tests\n\n<http://hspec.github.io/hspec-discover.html>",
+    "category": "Testing",
+    "custom-fields": [],
     "build-type-raw": "Simple",
     "custom-setup": null,
     "library": null,
@@ -57,53 +54,37 @@
     "data-files": [],
     "data-dir": ".",
     "extra-source-files": [
-      "NOTES.md",
-      "README.md",
-      "benchmark/data/*.txt",
-      "cbits/*.h",
-      "cbits/XQillaExport.hpp",
-      "stack.yaml",
-      "stack-7.8.yaml",
-      "stack-7.10.yaml",
-      "stack-8.0.yaml",
-      "unicode-data/README.md",
-      "unicode-data/ucd/NormalizationTest.txt"
+      "version.yaml"
     ],
     "extra-tmp-files": [],
     "extra-doc-files": []
   },
-  "package-flags": [
-    {
-      "name": "bench-icu",
-      "description": "Use text-icu for benchmark comparison",
-      "default": false,
-      "manual": true
-    }
-  ],
   "library": {
     "condTreeData": {
       "name": {},
       "exposed-modules": [
         [
-          "Data",
-          "ByteString",
-          "UTF8",
-          "Normalize"
+          "Test",
+          "Hspec",
+          "Discover",
+          "Config"
         ],
         [
-          "Data",
-          "Text",
-          "Normalize"
+          "Test",
+          "Hspec",
+          "Discover",
+          "Run"
         ],
         [
-          "Data",
-          "Unicode",
-          "Types"
+          "Test",
+          "Hspec",
+          "Discover",
+          "Sort"
         ]
       ],
       "re-exported-modules": [],
       "signatures": [],
-      "exposed": true,
+      "exposed": false,
       "visibility": "LibraryVisibilityPublic",
       "build-info": {
         "buildable": true,
@@ -112,9 +93,7 @@
         "cppOptions": [],
         "asmOptions": [],
         "cmmOptions": [],
-        "ccOptions": [
-          "-Wall"
-        ],
+        "ccOptions": [],
         "cxxOptions": [],
         "ldOptions": [],
         "pkgconfigDepends": [],
@@ -122,22 +101,20 @@
         "extraFrameworkDirs": [],
         "asmSources": [],
         "cmmSources": [],
-        "cSources": [
-          "cbits/utf8proc.c"
-        ],
+        "cSources": [],
         "cxxSources": [],
         "jsSources": [],
-        "hsSourceDirs": [],
+        "hsSourceDirs": [
+          "src"
+        ],
         "otherModules": [
           [
-            "Data",
-            "Unicode",
-            "UTF8Proc"
+            "Paths_hspec_discover"
           ]
         ],
         "virtualModules": [],
         "autogenModules": [],
-        "defaultLanguage": "Haskell98",
+        "defaultLanguage": "Haskell2010",
         "otherLanguages": [],
         "defaultExtensions": [],
         "otherExtensions": [],
@@ -148,19 +125,14 @@
         "extraLibFlavours": [],
         "extraDynLibFlavours": [],
         "extraLibDirs": [],
-        "includeDirs": [
-          "cbits"
-        ],
+        "includeDirs": [],
         "includes": [],
         "autogenIncludes": [],
         "installIncludes": [],
         "options": [
           [
             "-Wall",
-            "-fwarn-identities",
-            "-fwarn-incomplete-record-updates",
-            "-fwarn-incomplete-uni-patterns",
-            "-fwarn-tabs"
+            "-fno-warn-incomplete-uni-patterns"
           ],
           []
         ],
@@ -180,21 +152,21 @@
         "targetBuildDepends": [
           {
             "package-name": "base",
-            "version-range": ">=4.7 && <5",
+            "version-range": ">=4.5.0.0 && <5",
             "library": [
               {}
             ]
           },
           {
-            "package-name": "bytestring",
+            "package-name": "directory",
             "version-range": "-any",
             "library": [
               {}
             ]
           },
           {
-            "package-name": "text",
-            "version-range": "<1.3",
+            "package-name": "filepath",
+            "version-range": "-any",
             "library": [
               {}
             ]
@@ -206,21 +178,21 @@
     "condTreeConstraints": [
       {
         "package-name": "base",
-        "version-range": ">=4.7 && <5",
+        "version-range": ">=4.5.0.0 && <5",
         "library": [
           {}
         ]
       },
       {
-        "package-name": "bytestring",
+        "package-name": "directory",
         "version-range": "-any",
         "library": [
           {}
         ]
       },
       {
-        "package-name": "text",
-        "version-range": "<1.3",
+        "package-name": "filepath",
+        "version-range": "-any",
         "library": [
           {}
         ]
@@ -228,8 +200,143 @@
     ],
     "condTreeComponents": []
   },
+  "executables": {
+    "hspec-discover": {
+      "condTreeData": {
+        "name": "hspec-discover",
+        "module-path": "hspec-discover.hs",
+        "scope": "public",
+        "build-info": {
+          "buildable": true,
+          "buildTools": [],
+          "buildToolDepends": [],
+          "cppOptions": [],
+          "asmOptions": [],
+          "cmmOptions": [],
+          "ccOptions": [],
+          "cxxOptions": [],
+          "ldOptions": [],
+          "pkgconfigDepends": [],
+          "frameworks": [],
+          "extraFrameworkDirs": [],
+          "asmSources": [],
+          "cmmSources": [],
+          "cSources": [],
+          "cxxSources": [],
+          "jsSources": [],
+          "hsSourceDirs": [
+            "driver"
+          ],
+          "otherModules": [
+            [
+              "Paths_hspec_discover"
+            ]
+          ],
+          "virtualModules": [],
+          "autogenModules": [],
+          "defaultLanguage": "Haskell2010",
+          "otherLanguages": [],
+          "defaultExtensions": [],
+          "otherExtensions": [],
+          "oldExtensions": [],
+          "extraLibs": [],
+          "extraGHCiLibs": [],
+          "extraBundledLibs": [],
+          "extraLibFlavours": [],
+          "extraDynLibFlavours": [],
+          "extraLibDirs": [],
+          "includeDirs": [],
+          "includes": [],
+          "autogenIncludes": [],
+          "installIncludes": [],
+          "options": [
+            [
+              "-Wall",
+              "-fno-warn-incomplete-uni-patterns"
+            ],
+            []
+          ],
+          "profOptions": [
+            [],
+            []
+          ],
+          "sharedOptions": [
+            [],
+            []
+          ],
+          "staticOptions": [
+            [],
+            []
+          ],
+          "customFieldsBI": [],
+          "targetBuildDepends": [
+            {
+              "package-name": "base",
+              "version-range": ">=4.5.0.0 && <5",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "directory",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "filepath",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "hspec-discover",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            }
+          ],
+          "mixins": []
+        }
+      },
+      "condTreeConstraints": [
+        {
+          "package-name": "base",
+          "version-range": ">=4.5.0.0 && <5",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "directory",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "filepath",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "hspec-discover",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        }
+      ],
+      "condTreeComponents": []
+    }
+  },
   "test-suites": {
-    "test": {
+    "spec": {
       "condTreeData": {
         "name": "",
         "interface": {
@@ -237,12 +344,18 @@
             1,
             0
           ],
-          "filepath": "NormalizationTest.hs"
+          "filepath": "Spec.hs"
         },
         "build-info": {
           "buildable": true,
           "buildTools": [],
-          "buildToolDepends": [],
+          "buildToolDepends": [
+            {
+              "package-name": "hspec-meta",
+              "executable-component-name": "hspec-meta-discover",
+              "version-range": "-any"
+            }
+          ],
           "cppOptions": [],
           "asmOptions": [],
           "cmmOptions": [],
@@ -260,10 +373,35 @@
           "hsSourceDirs": [
             "test"
           ],
-          "otherModules": [],
+          "otherModules": [
+            [
+              "Helper"
+            ],
+            [
+              "Test",
+              "Hspec",
+              "Discover",
+              "ConfigSpec"
+            ],
+            [
+              "Test",
+              "Hspec",
+              "Discover",
+              "RunSpec"
+            ],
+            [
+              "Test",
+              "Hspec",
+              "Discover",
+              "SortSpec"
+            ],
+            [
+              "Paths_hspec_discover"
+            ]
+          ],
           "virtualModules": [],
           "autogenModules": [],
-          "defaultLanguage": "Haskell98",
+          "defaultLanguage": "Haskell2010",
           "otherLanguages": [],
           "defaultExtensions": [],
           "otherExtensions": [],
@@ -281,14 +419,7 @@
           "options": [
             [
               "-Wall",
-              "-fwarn-identities",
-              "-fwarn-incomplete-record-updates",
-              "-fwarn-incomplete-uni-patterns",
-              "-fwarn-tabs",
-              "-Wall",
-              "-threaded",
-              "-rtsopts",
-              "-with-rtsopts=-N"
+              "-fno-warn-incomplete-uni-patterns"
             ],
             []
           ],
@@ -307,165 +438,22 @@
           "customFieldsBI": [],
           "targetBuildDepends": [
             {
-              "package-name": "base",
-              "version-range": ">=4.7 && <5",
+              "package-name": "QuickCheck",
+              "version-range": ">=2.7",
               "library": [
                 {}
               ]
             },
-            {
-              "package-name": "split",
-              "version-range": "-any",
-              "library": [
-                {}
-              ]
-            },
-            {
-              "package-name": "text",
-              "version-range": "-any",
-              "library": [
-                {}
-              ]
-            },
-            {
-              "package-name": "unicode-transforms",
-              "version-range": "-any",
-              "library": [
-                {}
-              ]
-            }
-          ],
-          "mixins": []
-        }
-      },
-      "condTreeConstraints": [
-        {
-          "package-name": "base",
-          "version-range": ">=4.7 && <5",
-          "library": [
-            {}
-          ]
-        },
-        {
-          "package-name": "split",
-          "version-range": "-any",
-          "library": [
-            {}
-          ]
-        },
-        {
-          "package-name": "text",
-          "version-range": "-any",
-          "library": [
-            {}
-          ]
-        },
-        {
-          "package-name": "unicode-transforms",
-          "version-range": "-any",
-          "library": [
-            {}
-          ]
-        }
-      ],
-      "condTreeComponents": []
-    }
-  },
-  "benchmarks": {
-    "bench": {
-      "condTreeData": {
-        "name": "",
-        "interface": {
-          "version": [
-            1,
-            0
-          ],
-          "filepath": "Benchmark.hs"
-        },
-        "build-info": {
-          "buildable": true,
-          "buildTools": [],
-          "buildToolDepends": [],
-          "cppOptions": [],
-          "asmOptions": [],
-          "cmmOptions": [],
-          "ccOptions": [],
-          "cxxOptions": [],
-          "ldOptions": [],
-          "pkgconfigDepends": [],
-          "frameworks": [],
-          "extraFrameworkDirs": [],
-          "asmSources": [],
-          "cmmSources": [],
-          "cSources": [],
-          "cxxSources": [],
-          "jsSources": [],
-          "hsSourceDirs": [
-            "benchmark"
-          ],
-          "otherModules": [],
-          "virtualModules": [],
-          "autogenModules": [],
-          "defaultLanguage": "Haskell98",
-          "otherLanguages": [],
-          "defaultExtensions": [],
-          "otherExtensions": [],
-          "oldExtensions": [],
-          "extraLibs": [],
-          "extraGHCiLibs": [],
-          "extraBundledLibs": [],
-          "extraLibFlavours": [],
-          "extraDynLibFlavours": [],
-          "extraLibDirs": [],
-          "includeDirs": [],
-          "includes": [],
-          "autogenIncludes": [],
-          "installIncludes": [],
-          "options": [
-            [
-              "-Wall",
-              "-fwarn-identities",
-              "-fwarn-incomplete-record-updates",
-              "-fwarn-incomplete-uni-patterns",
-              "-fwarn-tabs",
-              "-Wall",
-              "-threaded",
-              "-rtsopts",
-              "-with-rtsopts=-N"
-            ],
-            []
-          ],
-          "profOptions": [
-            [],
-            []
-          ],
-          "sharedOptions": [
-            [],
-            []
-          ],
-          "staticOptions": [
-            [],
-            []
-          ],
-          "customFieldsBI": [],
-          "targetBuildDepends": [
             {
               "package-name": "base",
-              "version-range": ">=4.7 && <5",
+              "version-range": ">=4.5.0.0 && <5",
               "library": [
                 {}
               ]
             },
             {
-              "package-name": "criterion",
-              "version-range": ">=0.4.0",
-              "library": [
-                {}
-              ]
-            },
-            {
-              "package-name": "deepseq",
-              "version-range": ">=1.1.0.0",
+              "package-name": "directory",
+              "version-range": "-any",
               "library": [
                 {}
               ]
@@ -478,29 +466,22 @@
               ]
             },
             {
-              "package-name": "path",
+              "package-name": "hspec-discover",
               "version-range": "-any",
               "library": [
                 {}
               ]
             },
             {
-              "package-name": "path-io",
-              "version-range": "-any",
+              "package-name": "hspec-meta",
+              "version-range": "==2.9.3",
               "library": [
                 {}
               ]
             },
             {
-              "package-name": "text",
-              "version-range": "-any",
-              "library": [
-                {}
-              ]
-            },
-            {
-              "package-name": "unicode-transforms",
-              "version-range": "-any",
+              "package-name": "mockery",
+              "version-range": ">=0.3.5",
               "library": [
                 {}
               ]
@@ -511,22 +492,22 @@
       },
       "condTreeConstraints": [
         {
+          "package-name": "QuickCheck",
+          "version-range": ">=2.7",
+          "library": [
+            {}
+          ]
+        },
+        {
           "package-name": "base",
-          "version-range": ">=4.7 && <5",
+          "version-range": ">=4.5.0.0 && <5",
           "library": [
             {}
           ]
         },
         {
-          "package-name": "criterion",
-          "version-range": ">=0.4.0",
-          "library": [
-            {}
-          ]
-        },
-        {
-          "package-name": "deepseq",
-          "version-range": ">=1.1.0.0",
+          "package-name": "directory",
+          "version-range": "-any",
           "library": [
             {}
           ]
@@ -539,131 +520,28 @@
           ]
         },
         {
-          "package-name": "path",
+          "package-name": "hspec-discover",
           "version-range": "-any",
           "library": [
             {}
           ]
         },
         {
-          "package-name": "path-io",
-          "version-range": "-any",
+          "package-name": "hspec-meta",
+          "version-range": "==2.9.3",
           "library": [
             {}
           ]
         },
         {
-          "package-name": "text",
-          "version-range": "-any",
-          "library": [
-            {}
-          ]
-        },
-        {
-          "package-name": "unicode-transforms",
-          "version-range": "-any",
+          "package-name": "mockery",
+          "version-range": ">=0.3.5",
           "library": [
             {}
           ]
         }
       ],
-      "condTreeComponents": [
-        {
-          "condBranchCondition": {
-            "v": {
-              "flag": "bench-icu"
-            }
-          },
-          "condBranchIfTrue": {
-            "condTreeData": {
-              "name": "",
-              "interface": {
-                "benchmark-type": {
-                  "type": "",
-                  "version": []
-                }
-              },
-              "build-info": {
-                "buildable": true,
-                "buildTools": [],
-                "buildToolDepends": [],
-                "cppOptions": [
-                  "-DBENCH_ICU"
-                ],
-                "asmOptions": [],
-                "cmmOptions": [],
-                "ccOptions": [],
-                "cxxOptions": [],
-                "ldOptions": [],
-                "pkgconfigDepends": [],
-                "frameworks": [],
-                "extraFrameworkDirs": [],
-                "asmSources": [],
-                "cmmSources": [],
-                "cSources": [],
-                "cxxSources": [],
-                "jsSources": [],
-                "hsSourceDirs": [],
-                "otherModules": [],
-                "virtualModules": [],
-                "autogenModules": [],
-                "defaultLanguage": null,
-                "otherLanguages": [],
-                "defaultExtensions": [],
-                "otherExtensions": [],
-                "oldExtensions": [],
-                "extraLibs": [],
-                "extraGHCiLibs": [],
-                "extraBundledLibs": [],
-                "extraLibFlavours": [],
-                "extraDynLibFlavours": [],
-                "extraLibDirs": [],
-                "includeDirs": [],
-                "includes": [],
-                "autogenIncludes": [],
-                "installIncludes": [],
-                "options": [
-                  [],
-                  []
-                ],
-                "profOptions": [
-                  [],
-                  []
-                ],
-                "sharedOptions": [
-                  [],
-                  []
-                ],
-                "staticOptions": [
-                  [],
-                  []
-                ],
-                "customFieldsBI": [],
-                "targetBuildDepends": [
-                  {
-                    "package-name": "text-icu",
-                    "version-range": ">=0.6.2.1",
-                    "library": [
-                      {}
-                    ]
-                  }
-                ],
-                "mixins": []
-              }
-            },
-            "condTreeConstraints": [
-              {
-                "package-name": "text-icu",
-                "version-range": ">=0.6.2.1",
-                "library": [
-                  {}
-                ]
-              }
-            ],
-            "condTreeComponents": []
-          }
-        }
-      ]
+      "condTreeComponents": []
     }
   }
 }
