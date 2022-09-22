@@ -1,109 +1,51 @@
 {
   "description": {
     "spec-version": {
-      "Left": [
-        2,
-        4
-      ]
+      "Right": ">=1.10"
     },
     "package": {
-      "name": "these-skinny",
+      "name": "log-elasticsearch",
       "version": [
         0,
-        7,
-        5
+        13,
+        0,
+        0
       ]
     },
     "license": {
-      "Left": {
-        "license-expression": {
-          "expression": {
-            "id": "BSD_3_Clause"
-          },
-          "exception-id": null
-        }
-      }
+      "Right": "BSD3"
     },
     "license-files": [
       "LICENSE"
     ],
-    "copyright": "",
-    "maintainer": "chessai <chessai1996@gmail.com>",
-    "author": "C. McCann",
+    "copyright": "Scrive AB",
+    "maintainer": "Andrzej Rybczak <andrzej@rybczak.net>,\nJonathan Jouty <jonathan@scrive.com>,\nMikhail Glushenkov <mikhail@scrive.com>,\nOleg Grenrus <oleg.grenrus@iki.fi>",
+    "author": "Scrive AB",
     "stability": "",
     "tested-with": [
       {
         "compiler": "GHC",
-        "versionRange": "==7.4.2"
-      },
-      {
-        "compiler": "GHC",
-        "versionRange": "==7.6.3"
-      },
-      {
-        "compiler": "GHC",
-        "versionRange": "==7.8.4"
-      },
-      {
-        "compiler": "GHC",
-        "versionRange": "==7.10.3"
-      },
-      {
-        "compiler": "GHC",
-        "versionRange": "==8.0.2"
-      },
-      {
-        "compiler": "GHC",
-        "versionRange": "==8.2.2"
-      },
-      {
-        "compiler": "GHC",
-        "versionRange": "==8.4.4"
-      },
-      {
-        "compiler": "GHC",
-        "versionRange": "==8.6.5"
-      },
-      {
-        "compiler": "GHC",
-        "versionRange": "==8.8.4"
-      },
-      {
-        "compiler": "GHC",
-        "versionRange": "==8.10.7"
-      },
-      {
-        "compiler": "GHC",
-        "versionRange": "==9.0.2"
-      },
-      {
-        "compiler": "GHC",
-        "versionRange": "==9.2.1"
+        "versionRange": "==8.8.4 || ==8.10.7 || ==9.0.2 || ==9.2.4 || ==9.4.2"
       }
     ],
-    "homepage": "https://github.com/chessai/these-skinny",
+    "homepage": "https://github.com/scrive/log",
     "pkg-url": "",
     "bug-reports": "",
     "source-repos": [
       {
         "kind": {},
         "type": "Git",
-        "location": "https://github.com/chessai/these-skinny.git",
+        "location": "https://github.com/scrive/log.git",
         "module": null,
         "branch": null,
         "tag": null,
         "subdir": null
       }
     ],
-    "synopsis": "A fork of the 'these' package without the dependency bloat",
-    "description": "This package provides a data type @These a b@ which can hold a value of either\ntype or values of each type. This is usually thought of as an \"inclusive or\"\ntype (contrasting @Either a b@ as \"exclusive or\") or as an \"outer join\" type\n(contrasting @(a, b)@ as \"inner join\").",
-    "category": "Data",
-    "custom-fields": [
-      [
-        "x-revision",
-        "1"
-      ]
-    ],
+    "synopsis": "Structured logging solution (Elasticsearch back end)",
+    "description": "Elasticsearch back end for the 'log' library suite.\nDepends on 'log-base'.",
+    "category": "System",
+    "custom-fields": [],
     "build-type-raw": "Simple",
     "custom-setup": null,
     "library": null,
@@ -115,18 +57,40 @@
     "data-files": [],
     "data-dir": ".",
     "extra-source-files": [
-      "CHANGELOG.md"
+      "CHANGELOG.md",
+      "README.md"
     ],
     "extra-tmp-files": [],
     "extra-doc-files": []
   },
+  "package-flags": [
+    {
+      "name": "openssl",
+      "description": "Use http-client-openssl instead of http-client-tls",
+      "default": true,
+      "manual": false
+    }
+  ],
   "library": {
     "condTreeData": {
       "name": {},
       "exposed-modules": [
         [
-          "Data",
-          "These"
+          "Log",
+          "Backend",
+          "ElasticSearch"
+        ],
+        [
+          "Log",
+          "Backend",
+          "ElasticSearch",
+          "Internal"
+        ],
+        [
+          "Log",
+          "Backend",
+          "ElasticSearch",
+          "Lens"
         ]
       ],
       "re-exported-modules": [],
@@ -151,13 +115,55 @@
         "cSources": [],
         "cxxSources": [],
         "jsSources": [],
-        "hsSourceDirs": [],
+        "hsSourceDirs": [
+          "src"
+        ],
         "otherModules": [],
         "virtualModules": [],
         "autogenModules": [],
         "defaultLanguage": "Haskell2010",
         "otherLanguages": [],
-        "defaultExtensions": [],
+        "defaultExtensions": [
+          {
+            "enable-extension": "BangPatterns"
+          },
+          {
+            "enable-extension": "FlexibleContexts"
+          },
+          {
+            "enable-extension": "FlexibleInstances"
+          },
+          {
+            "enable-extension": "GeneralizedNewtypeDeriving"
+          },
+          {
+            "enable-extension": "LambdaCase"
+          },
+          {
+            "enable-extension": "MultiParamTypeClasses"
+          },
+          {
+            "enable-extension": "OverloadedStrings"
+          },
+          {
+            "enable-extension": "RankNTypes"
+          },
+          {
+            "enable-extension": "RecordWildCards"
+          },
+          {
+            "enable-extension": "ScopedTypeVariables"
+          },
+          {
+            "enable-extension": "TupleSections"
+          },
+          {
+            "enable-extension": "TypeFamilies"
+          },
+          {
+            "enable-extension": "UndecidableInstances"
+          }
+        ],
         "otherExtensions": [],
         "oldExtensions": [],
         "extraLibs": [],
@@ -192,7 +198,35 @@
         "targetBuildDepends": [
           {
             "package-name": "base",
-            "version-range": ">=4.4 && <4.18",
+            "version-range": ">=4.13 && <5",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "aeson",
+            "version-range": ">=1.0",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "aeson-pretty",
+            "version-range": ">=0.8.2",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "base64-bytestring",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "bytestring",
+            "version-range": "-any",
             "library": [
               {}
             ]
@@ -205,7 +239,84 @@
             ]
           },
           {
-            "package-name": "ghc-prim",
+            "package-name": "http-client",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "http-types",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "log-base",
+            "version-range": ">=0.10 && <0.13",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "network-uri",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "semigroups",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "text",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "text-show",
+            "version-range": ">=2",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "time",
+            "version-range": ">=1.5",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "transformers",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "unliftio-core",
+            "version-range": ">=0.2",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "unordered-containers",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "vector",
             "version-range": "-any",
             "library": [
               {}
@@ -218,7 +329,35 @@
     "condTreeConstraints": [
       {
         "package-name": "base",
-        "version-range": ">=4.4 && <4.18",
+        "version-range": ">=4.13 && <5",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "aeson",
+        "version-range": ">=1.0",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "aeson-pretty",
+        "version-range": ">=0.8.2",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "base64-bytestring",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "bytestring",
+        "version-range": "-any",
         "library": [
           {}
         ]
@@ -231,7 +370,84 @@
         ]
       },
       {
-        "package-name": "ghc-prim",
+        "package-name": "http-client",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "http-types",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "log-base",
+        "version-range": ">=0.10 && <0.13",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "network-uri",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "semigroups",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "text",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "text-show",
+        "version-range": ">=2",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "time",
+        "version-range": ">=1.5",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "transformers",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "unliftio-core",
+        "version-range": ">=0.2",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "unordered-containers",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "vector",
         "version-range": "-any",
         "library": [
           {}
@@ -242,8 +458,7 @@
       {
         "condBranchCondition": {
           "v": {
-            "compiler": "GHC",
-            "version": "<8.2"
+            "flag": "openssl"
           }
         },
         "condBranchIfTrue": {
@@ -258,7 +473,9 @@
               "buildable": true,
               "buildTools": [],
               "buildToolDepends": [],
-              "cppOptions": [],
+              "cppOptions": [
+                "-DOPENSSL"
+              ],
               "asmOptions": [],
               "cmmOptions": [],
               "ccOptions": [],
@@ -310,8 +527,8 @@
               "customFieldsBI": [],
               "targetBuildDepends": [
                 {
-                  "package-name": "bifunctors",
-                  "version-range": "-any",
+                  "package-name": "http-client-openssl",
+                  "version-range": ">=0.3.2",
                   "library": [
                     {}
                   ]
@@ -322,24 +539,16 @@
           },
           "condTreeConstraints": [
             {
-              "package-name": "bifunctors",
-              "version-range": "-any",
+              "package-name": "http-client-openssl",
+              "version-range": ">=0.3.2",
               "library": [
                 {}
               ]
             }
           ],
           "condTreeComponents": []
-        }
-      },
-      {
-        "condBranchCondition": {
-          "v": {
-            "compiler": "GHC",
-            "version": "<8.0"
-          }
         },
-        "condBranchIfTrue": {
+        "condBranchIfFalse": {
           "condTreeData": {
             "name": {},
             "exposed-modules": [],
@@ -403,7 +612,7 @@
               "customFieldsBI": [],
               "targetBuildDepends": [
                 {
-                  "package-name": "semigroups",
+                  "package-name": "http-client-tls",
                   "version-range": "-any",
                   "library": [
                     {}
@@ -415,7 +624,7 @@
           },
           "condTreeConstraints": [
             {
-              "package-name": "semigroups",
+              "package-name": "http-client-tls",
               "version-range": "-any",
               "library": [
                 {}
