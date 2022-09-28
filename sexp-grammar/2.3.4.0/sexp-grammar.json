@@ -4,11 +4,12 @@
       "Right": ">=1.10"
     },
     "package": {
-      "name": "lucid",
+      "name": "sexp-grammar",
       "version": [
         2,
-        11,
-        1
+        3,
+        4,
+        0
       ]
     },
     "license": {
@@ -17,23 +18,11 @@
     "license-files": [
       "LICENSE"
     ],
-    "copyright": "2014-2021 Chris Done",
-    "maintainer": "chrisdone@gmail.com",
-    "author": "Chris Done",
+    "copyright": "",
+    "maintainer": "Yevhen Smolanka <ys@polymorphic.me>",
+    "author": "Yevhen Smolanka, Sergey Vinokurov",
     "stability": "",
     "tested-with": [
-      {
-        "compiler": "GHC",
-        "versionRange": "==7.10.3"
-      },
-      {
-        "compiler": "GHC",
-        "versionRange": "==8.0.2"
-      },
-      {
-        "compiler": "GHC",
-        "versionRange": "==8.2.2"
-      },
       {
         "compiler": "GHC",
         "versionRange": "==8.4.4"
@@ -53,35 +42,26 @@
       {
         "compiler": "GHC",
         "versionRange": "==9.0.1"
-      },
-      {
-        "compiler": "GHC",
-        "versionRange": "==9.2.1"
       }
     ],
-    "homepage": "https://github.com/chrisdone/lucid",
+    "homepage": "https://github.com/esmolanka/sexp-grammar",
     "pkg-url": "",
     "bug-reports": "",
     "source-repos": [
       {
         "kind": {},
         "type": "Git",
-        "location": "https://github.com/chrisdone/lucid.git",
+        "location": "https://github.com/esmolanka/sexp-grammar",
         "module": null,
         "branch": null,
         "tag": null,
         "subdir": null
       }
     ],
-    "synopsis": "Clear to write, read and edit DSL for HTML",
-    "description": "Clear to write, read and edit DSL for HTML.\n\n* Names are consistent, and do not conflict with base or are keywords (all have suffix @_@)\n\n* Same combinator can be used for attributes and elements (e.g. 'style_')\n\n* For more, read <https://chrisdone.com/posts/lucid the blog post>\n\nSee the \"Lucid\" module for more documentation.",
-    "category": "Web",
-    "custom-fields": [
-      [
-        "x-revision",
-        "1"
-      ]
-    ],
+    "synopsis": "Invertible grammar combinators for S-expressions",
+    "description": "Serialisation to and deserialisation from S-expressions derived from\na single grammar definition.",
+    "category": "Language",
+    "custom-fields": [],
     "build-type-raw": "Simple",
     "custom-setup": null,
     "library": null,
@@ -93,8 +73,7 @@
     "data-files": [],
     "data-dir": ".",
     "extra-source-files": [
-      "README.md",
-      "CHANGELOG.md"
+      "README.md"
     ],
     "extra-tmp-files": [],
     "extra-doc-files": []
@@ -104,19 +83,27 @@
       "name": {},
       "exposed-modules": [
         [
-          "Lucid"
+          "Language",
+          "Sexp"
         ],
         [
-          "Lucid",
-          "Base"
+          "Language",
+          "Sexp",
+          "Located"
         ],
         [
-          "Lucid",
-          "Html5"
+          "Language",
+          "SexpGrammar"
         ],
         [
-          "Lucid",
-          "Bootstrap"
+          "Language",
+          "SexpGrammar",
+          "TH"
+        ],
+        [
+          "Language",
+          "SexpGrammar",
+          "Generic"
         ]
       ],
       "re-exported-modules": [],
@@ -125,7 +112,16 @@
       "visibility": "LibraryVisibilityPublic",
       "build-info": {
         "buildable": true,
-        "buildTools": [],
+        "buildTools": [
+          {
+            "package-name": "alex",
+            "include-renaming": "-any"
+          },
+          {
+            "package-name": "happy",
+            "include-renaming": "-any"
+          }
+        ],
         "buildToolDepends": [],
         "cppOptions": [],
         "asmOptions": [],
@@ -142,9 +138,50 @@
         "cxxSources": [],
         "jsSources": [],
         "hsSourceDirs": [
-          "src/"
+          "src"
         ],
-        "otherModules": [],
+        "otherModules": [
+          [
+            "Language",
+            "Sexp",
+            "Encode"
+          ],
+          [
+            "Language",
+            "Sexp",
+            "Lexer"
+          ],
+          [
+            "Language",
+            "Sexp",
+            "Parser"
+          ],
+          [
+            "Language",
+            "Sexp",
+            "Pretty"
+          ],
+          [
+            "Language",
+            "Sexp",
+            "Token"
+          ],
+          [
+            "Language",
+            "Sexp",
+            "Types"
+          ],
+          [
+            "Language",
+            "SexpGrammar",
+            "Base"
+          ],
+          [
+            "Language",
+            "SexpGrammar",
+            "Class"
+          ]
+        ],
         "virtualModules": [],
         "autogenModules": [],
         "defaultLanguage": "Haskell2010",
@@ -165,7 +202,8 @@
         "options": [
           [
             "-Wall",
-            "-O2"
+            "-fno-warn-name-shadowing",
+            "-fno-warn-unused-do-bind"
           ],
           []
         ],
@@ -184,64 +222,92 @@
         "customFieldsBI": [],
         "targetBuildDepends": [
           {
+            "package-name": "array",
+            "version-range": ">=0.5 && <0.6",
+            "library": [
+              {}
+            ]
+          },
+          {
             "package-name": "base",
-            "version-range": ">=4.8 && <4.18",
+            "version-range": ">=4.11 && <5.0",
             "library": [
               {}
             ]
           },
           {
             "package-name": "bytestring",
-            "version-range": ">=0.10.6.0",
+            "version-range": ">=0.10 && <0.12",
             "library": [
               {}
             ]
           },
           {
             "package-name": "containers",
-            "version-range": ">=0.5.6.2",
+            "version-range": ">=0.5.5 && <0.7",
             "library": [
               {}
             ]
           },
           {
-            "package-name": "transformers",
-            "version-range": ">=0.4.2.0",
+            "package-name": "data-fix",
+            "version-range": ">=0.3 && <0.4",
             "library": [
               {}
             ]
           },
           {
-            "package-name": "mtl",
-            "version-range": ">=2.2",
+            "package-name": "deepseq",
+            "version-range": ">=1.4.3 && <2.0",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "invertible-grammar",
+            "version-range": ">=0.1.3 && <0.2",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "prettyprinter",
+            "version-range": ">=1 && <1.8",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "recursion-schemes",
+            "version-range": ">=5.2 && <5.3",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "scientific",
+            "version-range": ">=0.3.3 && <0.4",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "semigroups",
+            "version-range": ">=0.16 && <0.21",
             "library": [
               {}
             ]
           },
           {
             "package-name": "text",
-            "version-range": ">=1.2.0.2",
+            "version-range": ">=1.2 && <1.3 || >=2.0 && <2.1",
             "library": [
               {}
             ]
           },
           {
-            "package-name": "blaze-builder",
-            "version-range": ">=0.4.0.0",
-            "library": [
-              {}
-            ]
-          },
-          {
-            "package-name": "hashable",
-            "version-range": ">=1.2.3.2",
-            "library": [
-              {}
-            ]
-          },
-          {
-            "package-name": "mmorph",
-            "version-range": ">=1.0.3",
+            "package-name": "utf8-string",
+            "version-range": ">=1.0 && <2.0",
             "library": [
               {}
             ]
@@ -252,169 +318,101 @@
     },
     "condTreeConstraints": [
       {
+        "package-name": "array",
+        "version-range": ">=0.5 && <0.6",
+        "library": [
+          {}
+        ]
+      },
+      {
         "package-name": "base",
-        "version-range": ">=4.8 && <4.18",
+        "version-range": ">=4.11 && <5.0",
         "library": [
           {}
         ]
       },
       {
         "package-name": "bytestring",
-        "version-range": ">=0.10.6.0",
+        "version-range": ">=0.10 && <0.12",
         "library": [
           {}
         ]
       },
       {
         "package-name": "containers",
-        "version-range": ">=0.5.6.2",
+        "version-range": ">=0.5.5 && <0.7",
         "library": [
           {}
         ]
       },
       {
-        "package-name": "transformers",
-        "version-range": ">=0.4.2.0",
+        "package-name": "data-fix",
+        "version-range": ">=0.3 && <0.4",
         "library": [
           {}
         ]
       },
       {
-        "package-name": "mtl",
-        "version-range": ">=2.2",
+        "package-name": "deepseq",
+        "version-range": ">=1.4.3 && <2.0",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "invertible-grammar",
+        "version-range": ">=0.1.3 && <0.2",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "prettyprinter",
+        "version-range": ">=1 && <1.8",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "recursion-schemes",
+        "version-range": ">=5.2 && <5.3",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "scientific",
+        "version-range": ">=0.3.3 && <0.4",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "semigroups",
+        "version-range": ">=0.16 && <0.21",
         "library": [
           {}
         ]
       },
       {
         "package-name": "text",
-        "version-range": ">=1.2.0.2",
+        "version-range": ">=1.2 && <1.3 || >=2.0 && <2.1",
         "library": [
           {}
         ]
       },
       {
-        "package-name": "blaze-builder",
-        "version-range": ">=0.4.0.0",
-        "library": [
-          {}
-        ]
-      },
-      {
-        "package-name": "hashable",
-        "version-range": ">=1.2.3.2",
-        "library": [
-          {}
-        ]
-      },
-      {
-        "package-name": "mmorph",
-        "version-range": ">=1.0.3",
+        "package-name": "utf8-string",
+        "version-range": ">=1.0 && <2.0",
         "library": [
           {}
         ]
       }
     ],
-    "condTreeComponents": [
-      {
-        "condBranchCondition": {
-          "cond": {
-            "v": {
-              "compiler": "GHC",
-              "version": ">=8.0"
-            }
-          }
-        },
-        "condBranchIfTrue": {
-          "condTreeData": {
-            "name": {},
-            "exposed-modules": [],
-            "re-exported-modules": [],
-            "signatures": [],
-            "exposed": true,
-            "visibility": "LibraryVisibilityPublic",
-            "build-info": {
-              "buildable": true,
-              "buildTools": [],
-              "buildToolDepends": [],
-              "cppOptions": [],
-              "asmOptions": [],
-              "cmmOptions": [],
-              "ccOptions": [],
-              "cxxOptions": [],
-              "ldOptions": [],
-              "pkgconfigDepends": [],
-              "frameworks": [],
-              "extraFrameworkDirs": [],
-              "asmSources": [],
-              "cmmSources": [],
-              "cSources": [],
-              "cxxSources": [],
-              "jsSources": [],
-              "hsSourceDirs": [],
-              "otherModules": [],
-              "virtualModules": [],
-              "autogenModules": [],
-              "defaultLanguage": null,
-              "otherLanguages": [],
-              "defaultExtensions": [],
-              "otherExtensions": [],
-              "oldExtensions": [],
-              "extraLibs": [],
-              "extraGHCiLibs": [],
-              "extraBundledLibs": [],
-              "extraLibFlavours": [],
-              "extraDynLibFlavours": [],
-              "extraLibDirs": [],
-              "includeDirs": [],
-              "includes": [],
-              "autogenIncludes": [],
-              "installIncludes": [],
-              "options": [
-                [],
-                []
-              ],
-              "profOptions": [
-                [],
-                []
-              ],
-              "sharedOptions": [
-                [],
-                []
-              ],
-              "staticOptions": [
-                [],
-                []
-              ],
-              "customFieldsBI": [],
-              "targetBuildDepends": [
-                {
-                  "package-name": "semigroups",
-                  "version-range": ">=0.16.1",
-                  "library": [
-                    {}
-                  ]
-                }
-              ],
-              "mixins": []
-            }
-          },
-          "condTreeConstraints": [
-            {
-              "package-name": "semigroups",
-              "version-range": ">=0.16.1",
-              "library": [
-                {}
-              ]
-            }
-          ],
-          "condTreeComponents": []
-        }
-      }
-    ]
+    "condTreeComponents": []
   },
   "test-suites": {
-    "test": {
+    "sexp-grammar-test": {
       "condTreeData": {
         "name": "",
         "interface": {
@@ -445,199 +443,6 @@
           "hsSourceDirs": [
             "test"
           ],
-          "otherModules": [
-            [
-              "Example1"
-            ]
-          ],
-          "virtualModules": [],
-          "autogenModules": [],
-          "defaultLanguage": "Haskell2010",
-          "otherLanguages": [],
-          "defaultExtensions": [],
-          "otherExtensions": [],
-          "oldExtensions": [],
-          "extraLibs": [],
-          "extraGHCiLibs": [],
-          "extraBundledLibs": [],
-          "extraLibFlavours": [],
-          "extraDynLibFlavours": [],
-          "extraLibDirs": [],
-          "includeDirs": [],
-          "includes": [],
-          "autogenIncludes": [],
-          "installIncludes": [],
-          "options": [
-            [],
-            []
-          ],
-          "profOptions": [
-            [],
-            []
-          ],
-          "sharedOptions": [
-            [],
-            []
-          ],
-          "staticOptions": [
-            [],
-            []
-          ],
-          "customFieldsBI": [],
-          "targetBuildDepends": [
-            {
-              "package-name": "base",
-              "version-range": "-any",
-              "library": [
-                {}
-              ]
-            },
-            {
-              "package-name": "lucid",
-              "version-range": "-any",
-              "library": [
-                {}
-              ]
-            },
-            {
-              "package-name": "HUnit",
-              "version-range": "-any",
-              "library": [
-                {}
-              ]
-            },
-            {
-              "package-name": "hspec",
-              "version-range": "-any",
-              "library": [
-                {}
-              ]
-            },
-            {
-              "package-name": "parsec",
-              "version-range": "-any",
-              "library": [
-                {}
-              ]
-            },
-            {
-              "package-name": "bifunctors",
-              "version-range": "-any",
-              "library": [
-                {}
-              ]
-            },
-            {
-              "package-name": "text",
-              "version-range": "-any",
-              "library": [
-                {}
-              ]
-            },
-            {
-              "package-name": "mtl",
-              "version-range": "-any",
-              "library": [
-                {}
-              ]
-            }
-          ],
-          "mixins": []
-        }
-      },
-      "condTreeConstraints": [
-        {
-          "package-name": "base",
-          "version-range": "-any",
-          "library": [
-            {}
-          ]
-        },
-        {
-          "package-name": "lucid",
-          "version-range": "-any",
-          "library": [
-            {}
-          ]
-        },
-        {
-          "package-name": "HUnit",
-          "version-range": "-any",
-          "library": [
-            {}
-          ]
-        },
-        {
-          "package-name": "hspec",
-          "version-range": "-any",
-          "library": [
-            {}
-          ]
-        },
-        {
-          "package-name": "parsec",
-          "version-range": "-any",
-          "library": [
-            {}
-          ]
-        },
-        {
-          "package-name": "bifunctors",
-          "version-range": "-any",
-          "library": [
-            {}
-          ]
-        },
-        {
-          "package-name": "text",
-          "version-range": "-any",
-          "library": [
-            {}
-          ]
-        },
-        {
-          "package-name": "mtl",
-          "version-range": "-any",
-          "library": [
-            {}
-          ]
-        }
-      ],
-      "condTreeComponents": []
-    }
-  },
-  "benchmarks": {
-    "bench-io": {
-      "condTreeData": {
-        "name": "",
-        "interface": {
-          "version": [
-            1,
-            0
-          ],
-          "filepath": "IO.hs"
-        },
-        "build-info": {
-          "buildable": true,
-          "buildTools": [],
-          "buildToolDepends": [],
-          "cppOptions": [],
-          "asmOptions": [],
-          "cmmOptions": [],
-          "ccOptions": [],
-          "cxxOptions": [],
-          "ldOptions": [],
-          "pkgconfigDepends": [],
-          "frameworks": [],
-          "extraFrameworkDirs": [],
-          "asmSources": [],
-          "cmmSources": [],
-          "cSources": [],
-          "cxxSources": [],
-          "jsSources": [],
-          "hsSourceDirs": [
-            "benchmarks"
-          ],
           "otherModules": [],
           "virtualModules": [],
           "autogenModules": [],
@@ -657,9 +462,7 @@
           "autogenIncludes": [],
           "installIncludes": [],
           "options": [
-            [
-              "-O2"
-            ],
+            [],
             []
           ],
           "profOptions": [
@@ -677,6 +480,13 @@
           "customFieldsBI": [],
           "targetBuildDepends": [
             {
+              "package-name": "QuickCheck",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
               "package-name": "base",
               "version-range": "-any",
               "library": [
@@ -684,14 +494,70 @@
               ]
             },
             {
-              "package-name": "criterion",
+              "package-name": "bytestring",
               "version-range": "-any",
               "library": [
                 {}
               ]
             },
             {
-              "package-name": "transformers",
+              "package-name": "containers",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "invertible-grammar",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "prettyprinter",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "scientific",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "semigroups",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "sexp-grammar",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "tasty",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "tasty-hunit",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "tasty-quickcheck",
               "version-range": "-any",
               "library": [
                 {}
@@ -703,19 +569,19 @@
               "library": [
                 {}
               ]
-            },
-            {
-              "package-name": "lucid",
-              "version-range": "-any",
-              "library": [
-                {}
-              ]
             }
           ],
           "mixins": []
         }
       },
       "condTreeConstraints": [
+        {
+          "package-name": "QuickCheck",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
         {
           "package-name": "base",
           "version-range": "-any",
@@ -724,14 +590,70 @@
           ]
         },
         {
-          "package-name": "criterion",
+          "package-name": "bytestring",
           "version-range": "-any",
           "library": [
             {}
           ]
         },
         {
-          "package-name": "transformers",
+          "package-name": "containers",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "invertible-grammar",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "prettyprinter",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "scientific",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "semigroups",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "sexp-grammar",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "tasty",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "tasty-hunit",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "tasty-quickcheck",
           "version-range": "-any",
           "library": [
             {}
@@ -743,18 +665,13 @@
           "library": [
             {}
           ]
-        },
-        {
-          "package-name": "lucid",
-          "version-range": "-any",
-          "library": [
-            {}
-          ]
         }
       ],
       "condTreeComponents": []
-    },
-    "bench": {
+    }
+  },
+  "benchmarks": {
+    "sexp-grammar-bench": {
       "condTreeData": {
         "name": "",
         "interface": {
@@ -783,13 +700,9 @@
           "cxxSources": [],
           "jsSources": [],
           "hsSourceDirs": [
-            "benchmarks"
+            "bench"
           ],
-          "otherModules": [
-            [
-              "HtmlBenchmarks"
-            ]
-          ],
+          "otherModules": [],
           "virtualModules": [],
           "autogenModules": [],
           "defaultLanguage": "Haskell2010",
@@ -808,9 +721,7 @@
           "autogenIncludes": [],
           "installIncludes": [],
           "options": [
-            [
-              "-O2"
-            ],
+            [],
             []
           ],
           "profOptions": [
@@ -835,7 +746,7 @@
               ]
             },
             {
-              "package-name": "deepseq",
+              "package-name": "bytestring",
               "version-range": "-any",
               "library": [
                 {}
@@ -849,7 +760,14 @@
               ]
             },
             {
-              "package-name": "blaze-builder",
+              "package-name": "deepseq",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "sexp-grammar",
               "version-range": "-any",
               "library": [
                 {}
@@ -857,20 +775,6 @@
             },
             {
               "package-name": "text",
-              "version-range": "-any",
-              "library": [
-                {}
-              ]
-            },
-            {
-              "package-name": "bytestring",
-              "version-range": "-any",
-              "library": [
-                {}
-              ]
-            },
-            {
-              "package-name": "lucid",
               "version-range": "-any",
               "library": [
                 {}
@@ -889,7 +793,7 @@
           ]
         },
         {
-          "package-name": "deepseq",
+          "package-name": "bytestring",
           "version-range": "-any",
           "library": [
             {}
@@ -903,7 +807,14 @@
           ]
         },
         {
-          "package-name": "blaze-builder",
+          "package-name": "deepseq",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "sexp-grammar",
           "version-range": "-any",
           "library": [
             {}
@@ -911,20 +822,6 @@
         },
         {
           "package-name": "text",
-          "version-range": "-any",
-          "library": [
-            {}
-          ]
-        },
-        {
-          "package-name": "bytestring",
-          "version-range": "-any",
-          "library": [
-            {}
-          ]
-        },
-        {
-          "package-name": "lucid",
           "version-range": "-any",
           "library": [
             {}
