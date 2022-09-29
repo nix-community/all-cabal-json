@@ -2,54 +2,53 @@
   "description": {
     "spec-version": {
       "Left": [
-        1,
-        12
+        2,
+        4
       ]
     },
     "package": {
-      "name": "numeric-logarithms",
+      "name": "word-compat",
       "version": [
         0,
-        1,
         0,
-        0
+        6
       ]
     },
     "license": {
-      "Right": "OtherLicense"
+      "Left": {
+        "license-expression": {
+          "expression": {
+            "id": "BSD_3_Clause"
+          },
+          "exception-id": null
+        }
+      }
     },
-    "license-files": [
-      "LICENSE"
-    ],
-    "copyright": "2018-2021 Google LLC",
-    "maintainer": "Andrew Pritchard <awpritchard@gmail.com>",
-    "author": "Andrew Pritchard <awpritchard@gmail.com>",
+    "license-files": [],
+    "copyright": "Copyright (c) 2022 Fumiaki Kinoshita",
+    "maintainer": "fumiexcel@gmail.com",
+    "author": "Fumiaki Kinoshita",
     "stability": "",
     "tested-with": [],
-    "homepage": "https://github.com/awpr/numeric-logarithms#readme",
+    "homepage": "",
     "pkg-url": "",
-    "bug-reports": "https://github.com/awpr/numeric-logarithms/issues",
+    "bug-reports": "",
     "source-repos": [
       {
         "kind": {},
         "type": "Git",
-        "location": "https://github.com/google/hs-numeric-logarithms",
+        "location": "git@github.com:fumieval/word-compat",
         "module": null,
         "branch": null,
         "tag": null,
         "subdir": null
       }
     ],
-    "synopsis": "Integral and rational log2 algorithms",
-    "description": "This provides a user-facing API for the GHC primitive 'integerLog2#', in the\nform of functions computing the floor, ceiling, or other rounded form of the\nbase-2 logarithm of 'Integral' or 'Rational' types.",
-    "category": "Numeric",
-    "custom-fields": [
-      [
-        "x-revision",
-        "5"
-      ]
-    ],
-    "build-type-raw": "Simple",
+    "synopsis": "Compatibility shim for the Int/Word internal change in GHC 9.2",
+    "description": "This package offers a workaround for the breaking change in Word/Int. Import GHC.Word.Compat in place of GHC.Word to take effect.",
+    "category": "Data",
+    "custom-fields": [],
+    "build-type-raw": null,
     "custom-setup": null,
     "library": null,
     "sublibraries": [],
@@ -70,8 +69,19 @@
       "name": {},
       "exposed-modules": [
         [
-          "Numeric",
-          "Logarithms"
+          "GHC",
+          "Word",
+          "Compat"
+        ],
+        [
+          "GHC",
+          "Int",
+          "Compat"
+        ],
+        [
+          "GHC",
+          "Prim",
+          "Compat"
         ]
       ],
       "re-exported-modules": [],
@@ -99,11 +109,7 @@
         "hsSourceDirs": [
           "src"
         ],
-        "otherModules": [
-          [
-            "Paths_numeric_logarithms"
-          ]
-        ],
+        "otherModules": [],
         "virtualModules": [],
         "autogenModules": [],
         "defaultLanguage": "Haskell2010",
@@ -122,7 +128,10 @@
         "autogenIncludes": [],
         "installIncludes": [],
         "options": [
-          [],
+          [
+            "-Wall",
+            "-Wcompat"
+          ],
           []
         ],
         "profOptions": [
@@ -141,14 +150,14 @@
         "targetBuildDepends": [
           {
             "package-name": "base",
-            "version-range": ">=4.9 && <4.18",
+            "version-range": ">=4.9 && <5",
             "library": [
               {}
             ]
           },
           {
-            "package-name": "integer-gmp",
-            "version-range": ">=0.5 && <1.2",
+            "package-name": "ghc-prim",
+            "version-range": "-any",
             "library": [
               {}
             ]
@@ -160,14 +169,14 @@
     "condTreeConstraints": [
       {
         "package-name": "base",
-        "version-range": ">=4.9 && <4.18",
+        "version-range": ">=4.9 && <5",
         "library": [
           {}
         ]
       },
       {
-        "package-name": "integer-gmp",
-        "version-range": ">=0.5 && <1.2",
+        "package-name": "ghc-prim",
+        "version-range": "-any",
         "library": [
           {}
         ]
@@ -176,7 +185,7 @@
     "condTreeComponents": []
   },
   "test-suites": {
-    "Logarithms-test": {
+    "test": {
       "condTreeData": {
         "name": "",
         "interface": {
@@ -184,7 +193,7 @@
             1,
             0
           ],
-          "filepath": "LogarithmsTest.hs"
+          "filepath": "test.hs"
         },
         "build-info": {
           "buildable": true,
@@ -205,13 +214,9 @@
           "cxxSources": [],
           "jsSources": [],
           "hsSourceDirs": [
-            "test"
+            "tests"
           ],
-          "otherModules": [
-            [
-              "Paths_numeric_logarithms"
-            ]
-          ],
+          "otherModules": [],
           "virtualModules": [],
           "autogenModules": [],
           "defaultLanguage": "Haskell2010",
@@ -230,7 +235,10 @@
           "autogenIncludes": [],
           "installIncludes": [],
           "options": [
-            [],
+            [
+              "-Wall",
+              "-Wcompat"
+            ],
             []
           ],
           "profOptions": [
@@ -248,42 +256,14 @@
           "customFieldsBI": [],
           "targetBuildDepends": [
             {
-              "package-name": "QuickCheck",
-              "version-range": "-any",
-              "library": [
-                {}
-              ]
-            },
-            {
               "package-name": "base",
-              "version-range": ">=4.9 && <4.18",
-              "library": [
-                {}
-              ]
-            },
-            {
-              "package-name": "integer-gmp",
-              "version-range": ">=0.5 && <1.2",
-              "library": [
-                {}
-              ]
-            },
-            {
-              "package-name": "numeric-logarithms",
               "version-range": "-any",
               "library": [
                 {}
               ]
             },
             {
-              "package-name": "test-framework",
-              "version-range": "-any",
-              "library": [
-                {}
-              ]
-            },
-            {
-              "package-name": "test-framework-quickcheck2",
+              "package-name": "word-compat",
               "version-range": "-any",
               "library": [
                 {}
@@ -295,42 +275,14 @@
       },
       "condTreeConstraints": [
         {
-          "package-name": "QuickCheck",
-          "version-range": "-any",
-          "library": [
-            {}
-          ]
-        },
-        {
           "package-name": "base",
-          "version-range": ">=4.9 && <4.18",
-          "library": [
-            {}
-          ]
-        },
-        {
-          "package-name": "integer-gmp",
-          "version-range": ">=0.5 && <1.2",
-          "library": [
-            {}
-          ]
-        },
-        {
-          "package-name": "numeric-logarithms",
           "version-range": "-any",
           "library": [
             {}
           ]
         },
         {
-          "package-name": "test-framework",
-          "version-range": "-any",
-          "library": [
-            {}
-          ]
-        },
-        {
-          "package-name": "test-framework-quickcheck2",
+          "package-name": "word-compat",
           "version-range": "-any",
           "library": [
             {}
