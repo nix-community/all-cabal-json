@@ -7,12 +7,12 @@
       ]
     },
     "package": {
-      "name": "ascii-superset",
+      "name": "ascii-th",
       "version": [
         1,
         0,
-        1,
-        13
+        0,
+        11
       ]
     },
     "license": {
@@ -47,13 +47,13 @@
         "subdir": null
       }
     ],
-    "synopsis": "Representing ASCII with refined supersets",
-    "description": "This package defines classes which describe what subset of a type\nis valid as ASCII, as well as a type constructor representing a\nvalue of a superset that is known to be valid ASCII.\n\nIt also defines the Lift class, which provides a polymorphic lift\noperation that can be used to convert characters and strings into\ntypes that support a larger set of characters.",
+    "synopsis": "Template Haskell support for ASCII",
+    "description": "This package defines Template Haskell support for ASCII,\nincluding quasi-quoters for expressing ASCII strings.",
     "category": "Data, Text",
     "custom-fields": [
       [
         "x-revision",
-        "2"
+        "1"
       ]
     ],
     "build-type-raw": "Simple",
@@ -76,19 +76,11 @@
       "exposed-modules": [
         [
           "ASCII",
-          "Superset"
+          "TemplateHaskell"
         ],
         [
           "ASCII",
-          "Isomorphism"
-        ],
-        [
-          "ASCII",
-          "Refinement"
-        ],
-        [
-          "ASCII",
-          "Lift"
+          "QuasiQuoters"
         ]
       ],
       "re-exported-modules": [],
@@ -126,19 +118,13 @@
             "disable-extension": "ImplicitPrelude"
           },
           {
-            "enable-extension": "DeriveDataTypeable"
+            "enable-extension": "QuasiQuotes"
           },
           {
-            "enable-extension": "DeriveGeneric"
+            "enable-extension": "TemplateHaskell"
           },
           {
-            "enable-extension": "DerivingStrategies"
-          },
-          {
-            "enable-extension": "GeneralizedNewtypeDeriving"
-          },
-          {
-            "enable-extension": "StandaloneDeriving"
+            "enable-extension": "ViewPatterns"
           }
         ],
         "otherExtensions": [],
@@ -155,8 +141,7 @@
         "installIncludes": [],
         "options": [
           [
-            "-Wall",
-            "-fno-warn-unused-imports"
+            "-Wall"
           ],
           []
         ],
@@ -182,6 +167,13 @@
             ]
           },
           {
+            "package-name": "ascii-superset",
+            "version-range": "^>=1.0",
+            "library": [
+              {}
+            ]
+          },
+          {
             "package-name": "base",
             "version-range": ">=4.14 && <4.18",
             "library": [
@@ -189,22 +181,8 @@
             ]
           },
           {
-            "package-name": "text",
-            "version-range": "^>=1.2.4.1 || ^>=2.0",
-            "library": [
-              {}
-            ]
-          },
-          {
-            "package-name": "bytestring",
-            "version-range": "^>=0.10 || ^>=0.11",
-            "library": [
-              {}
-            ]
-          },
-          {
-            "package-name": "hashable",
-            "version-range": ">=1.3 && <1.5",
+            "package-name": "template-haskell",
+            "version-range": ">=2.16 && <2.20",
             "library": [
               {}
             ]
@@ -222,6 +200,13 @@
         ]
       },
       {
+        "package-name": "ascii-superset",
+        "version-range": "^>=1.0",
+        "library": [
+          {}
+        ]
+      },
+      {
         "package-name": "base",
         "version-range": ">=4.14 && <4.18",
         "library": [
@@ -229,22 +214,8 @@
         ]
       },
       {
-        "package-name": "text",
-        "version-range": "^>=1.2.4.1 || ^>=2.0",
-        "library": [
-          {}
-        ]
-      },
-      {
-        "package-name": "bytestring",
-        "version-range": "^>=0.10 || ^>=0.11",
-        "library": [
-          {}
-        ]
-      },
-      {
-        "package-name": "hashable",
-        "version-range": ">=1.3 && <1.5",
+        "package-name": "template-haskell",
+        "version-range": ">=2.16 && <2.20",
         "library": [
           {}
         ]
@@ -253,7 +224,7 @@
     "condTreeComponents": []
   },
   "test-suites": {
-    "test-ascii-superset": {
+    "test-ascii-th": {
       "condTreeData": {
         "name": "",
         "interface": {
@@ -294,13 +265,16 @@
               "disable-extension": "ImplicitPrelude"
             },
             {
-              "enable-extension": "OverloadedStrings"
-            },
-            {
               "enable-extension": "QuasiQuotes"
             },
             {
               "enable-extension": "TemplateHaskell"
+            },
+            {
+              "enable-extension": "ViewPatterns"
+            },
+            {
+              "enable-extension": "OverloadedStrings"
             }
           ],
           "otherExtensions": [],
@@ -317,7 +291,8 @@
           "installIncludes": [],
           "options": [
             [
-              "-Wall"
+              "-Wall",
+              "-fno-warn-overlapping-patterns"
             ],
             []
           ],
@@ -343,6 +318,13 @@
               ]
             },
             {
+              "package-name": "ascii-superset",
+              "version-range": "^>=1.0",
+              "library": [
+                {}
+              ]
+            },
+            {
               "package-name": "base",
               "version-range": ">=4.14 && <4.18",
               "library": [
@@ -350,15 +332,15 @@
               ]
             },
             {
-              "package-name": "text",
-              "version-range": "^>=1.2.4.1 || ^>=2.0",
+              "package-name": "ascii-th",
+              "version-range": "-any",
               "library": [
                 {}
               ]
             },
             {
-              "package-name": "ascii-superset",
-              "version-range": "-any",
+              "package-name": "bytestring",
+              "version-range": "^>=0.10 || ^>=0.11",
               "library": [
                 {}
               ]
@@ -366,6 +348,13 @@
             {
               "package-name": "hedgehog",
               "version-range": "^>=1.0.5 || ^>=1.1 || ^>=1.2",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "text",
+              "version-range": "^>=1.2.4.1 || ^>=2.0",
               "library": [
                 {}
               ]
@@ -383,6 +372,13 @@
           ]
         },
         {
+          "package-name": "ascii-superset",
+          "version-range": "^>=1.0",
+          "library": [
+            {}
+          ]
+        },
+        {
           "package-name": "base",
           "version-range": ">=4.14 && <4.18",
           "library": [
@@ -390,15 +386,15 @@
           ]
         },
         {
-          "package-name": "text",
-          "version-range": "^>=1.2.4.1 || ^>=2.0",
+          "package-name": "ascii-th",
+          "version-range": "-any",
           "library": [
             {}
           ]
         },
         {
-          "package-name": "ascii-superset",
-          "version-range": "-any",
+          "package-name": "bytestring",
+          "version-range": "^>=0.10 || ^>=0.11",
           "library": [
             {}
           ]
@@ -406,6 +402,13 @@
         {
           "package-name": "hedgehog",
           "version-range": "^>=1.0.5 || ^>=1.1 || ^>=1.2",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "text",
+          "version-range": "^>=1.2.4.1 || ^>=2.0",
           "library": [
             {}
           ]

@@ -1,14 +1,14 @@
 cabal-version: 3.0
 
-name: ascii-predicates
-version: 1.0.1.0
-x-revision: 2
-synopsis: Various categorizations of ASCII characters
+name: ascii-th
+version: 1.0.0.11
+x-revision: 1
+synopsis: Template Haskell support for ASCII
 category: Data, Text
 
 description:
-    This package provides a variety of predicates
-    on the ASCII character set.
+    This package defines Template Haskell support for ASCII,
+    including quasi-quoters for expressing ASCII strings.
 
 license: Apache-2.0
 license-file: license.txt
@@ -31,31 +31,38 @@ common base
 
     default-extensions:
         NoImplicitPrelude
+        QuasiQuotes
+        TemplateHaskell
+        ViewPatterns
 
     build-depends:
         ascii-char ^>= 1.0
+      , ascii-superset ^>= 1.0
       , base >= 4.14 && < 4.18
 
 library
     import: base
     hs-source-dirs: library
 
-    exposed-modules:
-        ASCII.Predicates
-      , ASCII.Lists
-      , ASCII.ListsAndPredicates
+    build-depends:
+        template-haskell >= 2.16 && < 2.20
 
-test-suite test-ascii-predicates
+    exposed-modules:
+        ASCII.TemplateHaskell
+      , ASCII.QuasiQuoters
+
+test-suite test-ascii-th
     import: base
     type: exitcode-stdio-1.0
+    ghc-options: -fno-warn-overlapping-patterns
     hs-source-dirs: test
     main-is: Main.hs
 
     default-extensions:
         OverloadedStrings
-        QuasiQuotes
-        TemplateHaskell
 
     build-depends:
-        ascii-predicates
+        ascii-th
+      , bytestring ^>= 0.10 || ^>= 0.11
       , hedgehog ^>= 1.0.5 || ^>= 1.1 || ^>= 1.2
+      , text ^>= 1.2.4.1 || ^>= 2.0
