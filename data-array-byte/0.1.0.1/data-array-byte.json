@@ -4,23 +4,23 @@
       "Right": ">=1.10"
     },
     "package": {
-      "name": "bitvec",
+      "name": "data-array-byte",
       "version": [
         0,
-        2,
+        1,
         0,
-        0
+        1
       ]
     },
     "license": {
-      "Right": "PublicDomain"
+      "Right": "BSD3"
     },
     "license-files": [
       "LICENSE"
     ],
-    "copyright": "",
-    "maintainer": "Andrew Lelechenko <andrew.lelechenko@gmail.com>",
-    "author": "James Cook <mokus@deepbondi.net>,\nAndrew Lelechenko <andrew.lelechenko@gmail.com>",
+    "copyright": "(c) Roman Leshchinskiy 2009-2012",
+    "maintainer": "andrew.lelechenko@gmail.com",
+    "author": "Roman Leshchinskiy <rl@cse.unsw.edu.au>",
     "stability": "",
     "tested-with": [
       {
@@ -33,36 +33,51 @@
       },
       {
         "compiler": "GHC",
-        "versionRange": "==8.4.3"
+        "versionRange": "==8.4.4"
       },
       {
         "compiler": "GHC",
-        "versionRange": "==8.6.3"
+        "versionRange": "==8.6.5"
+      },
+      {
+        "compiler": "GHC",
+        "versionRange": "==8.8.4"
+      },
+      {
+        "compiler": "GHC",
+        "versionRange": "==8.10.7"
+      },
+      {
+        "compiler": "GHC",
+        "versionRange": "==9.0.2"
+      },
+      {
+        "compiler": "GHC",
+        "versionRange": "==9.2.4"
+      },
+      {
+        "compiler": "GHC",
+        "versionRange": "==9.4.2"
       }
     ],
-    "homepage": "https://github.com/Bodigrim/bitvec",
+    "homepage": "https://github.com/Bodigrim/data-array-byte",
     "pkg-url": "",
-    "bug-reports": "",
+    "bug-reports": "https://github.com/Bodigrim/data-array-byte/issues",
     "source-repos": [
       {
         "kind": {},
         "type": "Git",
-        "location": "git://github.com/Bodigrim/bitvec.git",
+        "location": "https://github.com/Bodigrim/data-array-byte",
         "module": null,
         "branch": null,
         "tag": null,
         "subdir": null
       }
     ],
-    "synopsis": "Unboxed bit vectors",
-    "description": "Bit vectors library for Haskell.\nThe current @vector@ package represents unboxed arrays of @Bool@\nallocating one byte per boolean, which might be considered wasteful.\nThis library provides a newtype wrapper @Bit@ and a custom instance\nof unboxed @Vector@, which packs booleans densely.\nIt is a time-memory tradeoff: 8x less memory footprint\nat the price of moderate performance penalty\n(mostly, for random writes).",
-    "category": "Data, Bit Vectors",
-    "custom-fields": [
-      [
-        "x-revision",
-        "1"
-      ]
-    ],
+    "synopsis": "Compatibility layer for Data.Array.Byte",
+    "description": "Compatibility layer for [Data.Array.Byte](https://hackage.haskell.org/package/base/docs/Data-Array-Byte.html), providing boxed wrappers for @ByteArray#@ and @MutableByteArray#@ and relevant instances for GHC < 9.4. Include it into your Cabal file:\n\n> build-depends: base\n> if impl(ghc < 9.4)\n>   build-depends: data-array-byte\n\nand then @import Data.Array.Byte@ unconditionally.",
+    "category": "Compatibility",
+    "custom-fields": [],
     "build-type-raw": "Simple",
     "custom-setup": null,
     "library": null,
@@ -74,7 +89,8 @@
     "data-files": [],
     "data-dir": ".",
     "extra-source-files": [
-      "changelog.md"
+      "changelog.md",
+      "README.md"
     ],
     "extra-tmp-files": [],
     "extra-doc-files": []
@@ -82,25 +98,7 @@
   "library": {
     "condTreeData": {
       "name": {},
-      "exposed-modules": [
-        [
-          "Data",
-          "Bit"
-        ],
-        [
-          "Data",
-          "Vector",
-          "Unboxed",
-          "Bit"
-        ],
-        [
-          "Data",
-          "Vector",
-          "Unboxed",
-          "Mutable",
-          "Bit"
-        ]
-      ],
+      "exposed-modules": [],
       "re-exported-modules": [],
       "signatures": [],
       "exposed": true,
@@ -123,23 +121,8 @@
         "cSources": [],
         "cxxSources": [],
         "jsSources": [],
-        "hsSourceDirs": [
-          "src"
-        ],
-        "otherModules": [
-          [
-            "Data",
-            "Bit",
-            "Internal"
-          ],
-          [
-            "Data",
-            "Vector",
-            "Unboxed",
-            "Bit",
-            "Internal"
-          ]
-        ],
+        "hsSourceDirs": [],
+        "otherModules": [],
         "virtualModules": [],
         "autogenModules": [],
         "defaultLanguage": "Haskell2010",
@@ -159,9 +142,7 @@
         "installIncludes": [],
         "options": [
           [
-            "-fwarn-unused-imports",
-            "-fwarn-unused-binds",
-            "-fwarn-type-defaults"
+            "-Wall"
           ],
           []
         ],
@@ -181,21 +162,21 @@
         "targetBuildDepends": [
           {
             "package-name": "base",
-            "version-range": ">=4.8 && <4.17",
+            "version-range": ">=4.9 && <4.18",
             "library": [
               {}
             ]
           },
           {
-            "package-name": "primitive",
-            "version-range": "-any",
+            "package-name": "deepseq",
+            "version-range": ">=1.4 && <1.5",
             "library": [
               {}
             ]
           },
           {
-            "package-name": "vector",
-            "version-range": ">=0.8",
+            "package-name": "template-haskell",
+            "version-range": ">=2.11 && <2.20",
             "library": [
               {}
             ]
@@ -207,30 +188,114 @@
     "condTreeConstraints": [
       {
         "package-name": "base",
-        "version-range": ">=4.8 && <4.17",
+        "version-range": ">=4.9 && <4.18",
         "library": [
           {}
         ]
       },
       {
-        "package-name": "primitive",
-        "version-range": "-any",
+        "package-name": "deepseq",
+        "version-range": ">=1.4 && <1.5",
         "library": [
           {}
         ]
       },
       {
-        "package-name": "vector",
-        "version-range": ">=0.8",
+        "package-name": "template-haskell",
+        "version-range": ">=2.11 && <2.20",
         "library": [
           {}
         ]
       }
     ],
-    "condTreeComponents": []
+    "condTreeComponents": [
+      {
+        "condBranchCondition": {
+          "v": {
+            "compiler": "GHC",
+            "version": "<9.4"
+          }
+        },
+        "condBranchIfTrue": {
+          "condTreeData": {
+            "name": {},
+            "exposed-modules": [
+              [
+                "Data",
+                "Array",
+                "Byte"
+              ]
+            ],
+            "re-exported-modules": [],
+            "signatures": [],
+            "exposed": true,
+            "visibility": "LibraryVisibilityPublic",
+            "build-info": {
+              "buildable": true,
+              "buildTools": [],
+              "buildToolDepends": [],
+              "cppOptions": [],
+              "asmOptions": [],
+              "cmmOptions": [],
+              "ccOptions": [],
+              "cxxOptions": [],
+              "ldOptions": [],
+              "pkgconfigDepends": [],
+              "frameworks": [],
+              "extraFrameworkDirs": [],
+              "asmSources": [],
+              "cmmSources": [],
+              "cSources": [],
+              "cxxSources": [],
+              "jsSources": [],
+              "hsSourceDirs": [],
+              "otherModules": [],
+              "virtualModules": [],
+              "autogenModules": [],
+              "defaultLanguage": null,
+              "otherLanguages": [],
+              "defaultExtensions": [],
+              "otherExtensions": [],
+              "oldExtensions": [],
+              "extraLibs": [],
+              "extraGHCiLibs": [],
+              "extraBundledLibs": [],
+              "extraLibFlavours": [],
+              "extraDynLibFlavours": [],
+              "extraLibDirs": [],
+              "includeDirs": [],
+              "includes": [],
+              "autogenIncludes": [],
+              "installIncludes": [],
+              "options": [
+                [],
+                []
+              ],
+              "profOptions": [
+                [],
+                []
+              ],
+              "sharedOptions": [
+                [],
+                []
+              ],
+              "staticOptions": [
+                [],
+                []
+              ],
+              "customFieldsBI": [],
+              "targetBuildDepends": [],
+              "mixins": []
+            }
+          },
+          "condTreeConstraints": [],
+          "condTreeComponents": []
+        }
+      }
+    ]
   },
   "test-suites": {
-    "bitvec-tests": {
+    "data-array-byte-tests": {
       "condTreeData": {
         "name": "",
         "interface": {
@@ -261,23 +326,7 @@
           "hsSourceDirs": [
             "test"
           ],
-          "otherModules": [
-            [
-              "Support"
-            ],
-            [
-              "Tests",
-              "MVector"
-            ],
-            [
-              "Tests",
-              "SetOps"
-            ],
-            [
-              "Tests",
-              "Vector"
-            ]
-          ],
+          "otherModules": [],
           "virtualModules": [],
           "autogenModules": [],
           "defaultLanguage": "Haskell2010",
@@ -297,9 +346,7 @@
           "installIncludes": [],
           "options": [
             [
-              "-threaded",
-              "-fwarn-unused-imports",
-              "-fwarn-unused-binds"
+              "-Wall"
             ],
             []
           ],
@@ -319,70 +366,42 @@
           "targetBuildDepends": [
             {
               "package-name": "base",
-              "version-range": ">=4.8 && <5",
-              "library": [
-                {}
-              ]
-            },
-            {
-              "package-name": "bitvec",
               "version-range": "-any",
               "library": [
                 {}
               ]
             },
             {
-              "package-name": "HUnit",
+              "package-name": "data-array-byte",
               "version-range": "-any",
               "library": [
                 {}
               ]
             },
             {
-              "package-name": "primitive",
+              "package-name": "quickcheck-classes-base",
+              "version-range": ">=0.6 && <0.7",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "tasty",
+              "version-range": ">=1.4 && <1.5",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "tasty-quickcheck",
+              "version-range": ">=0.10 && <0.11",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "template-haskell",
               "version-range": "-any",
-              "library": [
-                {}
-              ]
-            },
-            {
-              "package-name": "vector",
-              "version-range": ">=0.8",
-              "library": [
-                {}
-              ]
-            },
-            {
-              "package-name": "test-framework",
-              "version-range": "-any",
-              "library": [
-                {}
-              ]
-            },
-            {
-              "package-name": "test-framework-hunit",
-              "version-range": "-any",
-              "library": [
-                {}
-              ]
-            },
-            {
-              "package-name": "test-framework-quickcheck2",
-              "version-range": "-any",
-              "library": [
-                {}
-              ]
-            },
-            {
-              "package-name": "QuickCheck",
-              "version-range": ">=2.10",
-              "library": [
-                {}
-              ]
-            },
-            {
-              "package-name": "quickcheck-classes",
-              "version-range": ">=0.6.1",
               "library": [
                 {}
               ]
@@ -394,70 +413,42 @@
       "condTreeConstraints": [
         {
           "package-name": "base",
-          "version-range": ">=4.8 && <5",
-          "library": [
-            {}
-          ]
-        },
-        {
-          "package-name": "bitvec",
           "version-range": "-any",
           "library": [
             {}
           ]
         },
         {
-          "package-name": "HUnit",
+          "package-name": "data-array-byte",
           "version-range": "-any",
           "library": [
             {}
           ]
         },
         {
-          "package-name": "primitive",
+          "package-name": "quickcheck-classes-base",
+          "version-range": ">=0.6 && <0.7",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "tasty",
+          "version-range": ">=1.4 && <1.5",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "tasty-quickcheck",
+          "version-range": ">=0.10 && <0.11",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "template-haskell",
           "version-range": "-any",
-          "library": [
-            {}
-          ]
-        },
-        {
-          "package-name": "vector",
-          "version-range": ">=0.8",
-          "library": [
-            {}
-          ]
-        },
-        {
-          "package-name": "test-framework",
-          "version-range": "-any",
-          "library": [
-            {}
-          ]
-        },
-        {
-          "package-name": "test-framework-hunit",
-          "version-range": "-any",
-          "library": [
-            {}
-          ]
-        },
-        {
-          "package-name": "test-framework-quickcheck2",
-          "version-range": "-any",
-          "library": [
-            {}
-          ]
-        },
-        {
-          "package-name": "QuickCheck",
-          "version-range": ">=2.10",
-          "library": [
-            {}
-          ]
-        },
-        {
-          "package-name": "quickcheck-classes",
-          "version-range": ">=0.6.1",
           "library": [
             {}
           ]
