@@ -1,19 +1,29 @@
 {
   "description": {
     "spec-version": {
-      "Right": ">=1.10"
+      "Left": [
+        3,
+        0
+      ]
     },
     "package": {
-      "name": "colonnade",
+      "name": "siphon",
       "version": [
-        1,
-        2,
         0,
-        2
+        8,
+        2,
+        0
       ]
     },
     "license": {
-      "Right": "BSD3"
+      "Left": {
+        "license-expression": {
+          "expression": {
+            "id": "BSD_3_Clause"
+          },
+          "exception-id": null
+        }
+      }
     },
     "license-files": [
       "LICENSE"
@@ -37,15 +47,10 @@
         "subdir": null
       }
     ],
-    "synopsis": "Generic types and functions for columnar encoding and decoding",
-    "description": "The `colonnade` package provides a way to talk about\ncolumnar encodings and decodings of data. This package provides\nvery general types and does not provide a way for the end-user\nto actually apply the columnar encodings they build to data.\nMost users will also want to one a companion packages\nthat provides (1) a content type and (2) functions for feeding\ndata into a columnar encoding:\n\n* <https://hackage.haskell.org/package/lucid-colonnade lucid-colonnade> for `lucid` html tables\n\n* <https://hackage.haskell.org/package/blaze-colonnade blaze-colonnade> for `blaze` html tables\n\n* <https://hackage.haskell.org/package/reflex-dom-colonnade reflex-dom-colonnade> for reactive `reflex-dom` tables\n\n* <https://hackage.haskell.org/package/yesod-colonnade yesod-colonnade> for `yesod` widgets\n\n* <http://hackage.haskell.org/package/siphon siphon> for encoding and decoding CSVs",
+    "synopsis": "Encode and decode CSV files",
+    "description": "Please see README.md",
     "category": "web",
-    "custom-fields": [
-      [
-        "x-revision",
-        "3"
-      ]
-    ],
+    "custom-fields": [],
     "build-type-raw": "Simple",
     "custom-setup": null,
     "library": null,
@@ -56,7 +61,9 @@
     "benchmarks": [],
     "data-files": [],
     "data-dir": ".",
-    "extra-source-files": [],
+    "extra-source-files": [
+      "CHANGELOG.md"
+    ],
     "extra-tmp-files": [],
     "extra-doc-files": []
   },
@@ -65,11 +72,11 @@
       "name": {},
       "exposed-modules": [
         [
-          "Colonnade"
+          "Siphon"
         ],
         [
-          "Colonnade",
-          "Encode"
+          "Siphon",
+          "Types"
         ]
       ],
       "re-exported-modules": [],
@@ -116,9 +123,7 @@
         "autogenIncludes": [],
         "installIncludes": [],
         "options": [
-          [
-            "-Wall"
-          ],
+          [],
           []
         ],
         "profOptions": [
@@ -143,15 +148,8 @@
             ]
           },
           {
-            "package-name": "contravariant",
-            "version-range": ">=1.2 && <1.6",
-            "library": [
-              {}
-            ]
-          },
-          {
-            "package-name": "vector",
-            "version-range": ">=0.10 && <0.13",
+            "package-name": "colonnade",
+            "version-range": ">=1.2 && <1.3",
             "library": [
               {}
             ]
@@ -165,14 +163,35 @@
           },
           {
             "package-name": "bytestring",
-            "version-range": ">=0.10 && <0.11",
+            "version-range": "-any",
             "library": [
               {}
             ]
           },
           {
-            "package-name": "profunctors",
-            "version-range": ">=5.0 && <5.7",
+            "package-name": "vector",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "streaming",
+            "version-range": ">=0.1.4 && <0.3",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "attoparsec",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "transformers",
+            "version-range": ">=0.4.2 && <0.6",
             "library": [
               {}
             ]
@@ -197,15 +216,8 @@
         ]
       },
       {
-        "package-name": "contravariant",
-        "version-range": ">=1.2 && <1.6",
-        "library": [
-          {}
-        ]
-      },
-      {
-        "package-name": "vector",
-        "version-range": ">=0.10 && <0.13",
+        "package-name": "colonnade",
+        "version-range": ">=1.2 && <1.3",
         "library": [
           {}
         ]
@@ -219,14 +231,35 @@
       },
       {
         "package-name": "bytestring",
-        "version-range": ">=0.10 && <0.11",
+        "version-range": "-any",
         "library": [
           {}
         ]
       },
       {
-        "package-name": "profunctors",
-        "version-range": ">=5.0 && <5.7",
+        "package-name": "vector",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "streaming",
+        "version-range": ">=0.1.4 && <0.3",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "attoparsec",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "transformers",
+        "version-range": ">=0.4.2 && <0.6",
         "library": [
           {}
         ]
@@ -250,7 +283,7 @@
             1,
             0
           ],
-          "filepath": "Main.hs"
+          "filepath": "Test.hs"
         },
         "build-info": {
           "buildable": true,
@@ -311,34 +344,13 @@
           "targetBuildDepends": [
             {
               "package-name": "base",
-              "version-range": ">=4.7 && <=5",
-              "library": [
-                {}
-              ]
-            },
-            {
-              "package-name": "colonnade",
               "version-range": "-any",
               "library": [
                 {}
               ]
             },
             {
-              "package-name": "doctest",
-              "version-range": "-any",
-              "library": [
-                {}
-              ]
-            },
-            {
-              "package-name": "semigroupoids",
-              "version-range": "-any",
-              "library": [
-                {}
-              ]
-            },
-            {
-              "package-name": "ansi-wl-pprint",
+              "package-name": "HUnit",
               "version-range": "-any",
               "library": [
                 {}
@@ -352,7 +364,91 @@
               ]
             },
             {
-              "package-name": "fast-logger",
+              "package-name": "bytestring",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "colonnade",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "contravariant",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "either",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "pipes",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "profunctors",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "siphon",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "streaming",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "test-framework",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "test-framework-hunit",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "test-framework-quickcheck2",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "text",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "vector",
               "version-range": "-any",
               "library": [
                 {}
@@ -365,34 +461,13 @@
       "condTreeConstraints": [
         {
           "package-name": "base",
-          "version-range": ">=4.7 && <=5",
-          "library": [
-            {}
-          ]
-        },
-        {
-          "package-name": "colonnade",
           "version-range": "-any",
           "library": [
             {}
           ]
         },
         {
-          "package-name": "doctest",
-          "version-range": "-any",
-          "library": [
-            {}
-          ]
-        },
-        {
-          "package-name": "semigroupoids",
-          "version-range": "-any",
-          "library": [
-            {}
-          ]
-        },
-        {
-          "package-name": "ansi-wl-pprint",
+          "package-name": "HUnit",
           "version-range": "-any",
           "library": [
             {}
@@ -406,7 +481,91 @@
           ]
         },
         {
-          "package-name": "fast-logger",
+          "package-name": "bytestring",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "colonnade",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "contravariant",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "either",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "pipes",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "profunctors",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "siphon",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "streaming",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "test-framework",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "test-framework-hunit",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "test-framework-quickcheck2",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "text",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "vector",
           "version-range": "-any",
           "library": [
             {}
