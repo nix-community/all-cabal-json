@@ -5,16 +5,31 @@
     nixpkgs.url = "nixpkgs/nixos-unstable";
     all-cabal-hashes.url = "github:commercialhaskell/all-cabal-hashes/hackage";
     all-cabal-hashes.flake = false;
+    cabal2json.url = "github:NorfairKing/cabal2json";
     flake-utils.url = "github:numtide/flake-utils";
   };
 
-  outputs = { self, nixpkgs, flake-utils, all-cabal-hashes }:
+  outputs = {
+    self,
+    all-cabal-hashes,
+    cabal2json,
+    flake-utils,
+    nixpkgs,
+  }:
     flake-utils.lib.eachSystem [ flake-utils.lib.system.x86_64-linux ] (system:
       let
         overlay = final: prev: {
           haskellPackages = prev.haskell.packages.ghc8107.override {
             overrides = hFinal: hPrev: {
-              cabal2json = final.haskell.lib.dontCheck (final.haskell.lib.markUnbroken hPrev.cabal2json);
+              cabal2json =
+                nixpkgs.lib.pipe
+                (hPrev.cabal2json.overrideAttrs (old: {
+                  src = cabal2json;
+                }))
+                [
+                  final.haskell.lib.dontCheck
+                  final.haskell.lib.markUnbroken
+                ];
               autodocodec = final.haskell.lib.dontCheck (hPrev.autodocodec);
             };
           };
