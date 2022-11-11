@@ -2,61 +2,46 @@
   "description": {
     "spec-version": {
       "Left": [
-        3,
-        0
+        2,
+        4
       ]
     },
     "package": {
-      "name": "hex-text",
+      "name": "migrant-hdbc",
       "version": [
         0,
         1,
         0,
-        6
+        3
       ]
     },
     "license": {
       "Left": {
         "license-expression": {
           "expression": {
-            "id": "MIT"
+            "id": "BSD_3_Clause"
           },
           "exception-id": null
         }
       }
     },
     "license-files": [
-      "license.txt"
+      "LICENSE"
     ],
-    "copyright": "2021 Mission Valley Software LLC",
-    "maintainer": "Chris Martin, Julie Moronuki",
-    "author": "Chris Martin",
+    "copyright": "",
+    "maintainer": "tdammers@gmail.com",
+    "author": "Tobias Dammers",
     "stability": "",
     "tested-with": [],
-    "homepage": "https://github.com/typeclasses/hex-text",
+    "homepage": "https://github.com/tdammers/migrant",
     "pkg-url": "",
-    "bug-reports": "https://github.com/typeclasses/hex-text/issues",
-    "source-repos": [
-      {
-        "kind": {},
-        "type": "Git",
-        "location": "https://github.com/typeclasses/hex-text",
-        "module": null,
-        "branch": null,
-        "tag": null,
-        "subdir": null
-      }
-    ],
-    "synopsis": "ByteString-Text hexidecimal conversions",
-    "description": "Encode a ByteString as a hexidecimal Text value,\nor decode hexidecimal Text as a ByteString.",
-    "category": "Text",
-    "custom-fields": [
-      [
-        "x-revision",
-        "2"
-      ]
-    ],
-    "build-type-raw": "Simple",
+    "bug-reports": "",
+    "source-repos": [],
+    "synopsis": "Semi-automatic database schema migrations",
+    "description": "",
+    "category": "Database",
+    "custom-fields": [],
+    "build-type-raw": null,
     "custom-setup": null,
     "library": null,
     "sublibraries": [],
@@ -66,10 +51,7 @@
     "benchmarks": [],
     "data-files": [],
     "data-dir": ".",
-    "extra-source-files": [
-      "README.md",
-      "changelog.txt"
-    ],
+    "extra-source-files": [],
     "extra-tmp-files": [],
     "extra-doc-files": []
   },
@@ -78,8 +60,10 @@
       "name": {},
       "exposed-modules": [
         [
-          "Text",
-          "Hex"
+          "Database",
+          "Migrant",
+          "Driver",
+          "HDBC"
         ]
       ],
       "re-exported-modules": [],
@@ -126,9 +110,7 @@
         "autogenIncludes": [],
         "installIncludes": [],
         "options": [
-          [
-            "-Wall"
-          ],
+          [],
           []
         ],
         "profOptions": [
@@ -147,28 +129,28 @@
         "targetBuildDepends": [
           {
             "package-name": "base",
-            "version-range": "^>=4.9 || ^>=4.10 || ^>=4.11 || ^>=4.12 || ^>=4.13 || ^>=4.14 || ^>=4.15 || ^>=4.16 || ^>=4.17",
+            "version-range": ">=4.12.0.0 && <5",
             "library": [
               {}
             ]
           },
           {
-            "package-name": "base16-bytestring",
-            "version-range": "^>=1.0",
+            "package-name": "migrant-core",
+            "version-range": "-any",
             "library": [
               {}
             ]
           },
           {
-            "package-name": "bytestring",
-            "version-range": "^>=0.10 || ^>=0.11",
+            "package-name": "HDBC",
+            "version-range": ">=2.4.0.3 && <2.5",
             "library": [
               {}
             ]
           },
           {
             "package-name": "text",
-            "version-range": "^>=1.2 || ^>=2.0",
+            "version-range": ">=1.2 && <3",
             "library": [
               {}
             ]
@@ -180,28 +162,28 @@
     "condTreeConstraints": [
       {
         "package-name": "base",
-        "version-range": "^>=4.9 || ^>=4.10 || ^>=4.11 || ^>=4.12 || ^>=4.13 || ^>=4.14 || ^>=4.15 || ^>=4.16 || ^>=4.17",
+        "version-range": ">=4.12.0.0 && <5",
         "library": [
           {}
         ]
       },
       {
-        "package-name": "base16-bytestring",
-        "version-range": "^>=1.0",
+        "package-name": "migrant-core",
+        "version-range": "-any",
         "library": [
           {}
         ]
       },
       {
-        "package-name": "bytestring",
-        "version-range": "^>=0.10 || ^>=0.11",
+        "package-name": "HDBC",
+        "version-range": ">=2.4.0.3 && <2.5",
         "library": [
           {}
         ]
       },
       {
         "package-name": "text",
-        "version-range": "^>=1.2 || ^>=2.0",
+        "version-range": ">=1.2 && <3",
         "library": [
           {}
         ]
@@ -210,7 +192,7 @@
     "condTreeComponents": []
   },
   "test-suites": {
-    "test-hex-text": {
+    "migrant-hdbc-test": {
       "condTreeData": {
         "name": "",
         "interface": {
@@ -218,7 +200,7 @@
             1,
             0
           ],
-          "filepath": "Main.hs"
+          "filepath": "Spec.hs"
         },
         "build-info": {
           "buildable": true,
@@ -241,7 +223,14 @@
           "hsSourceDirs": [
             "test"
           ],
-          "otherModules": [],
+          "otherModules": [
+            [
+              "Database",
+              "Migrant",
+              "Driver",
+              "HDBC_Tests"
+            ]
+          ],
           "virtualModules": [],
           "autogenModules": [],
           "defaultLanguage": "Haskell2010",
@@ -279,35 +268,91 @@
           "targetBuildDepends": [
             {
               "package-name": "base",
-              "version-range": "^>=4.9 || ^>=4.10 || ^>=4.11 || ^>=4.12 || ^>=4.13 || ^>=4.14 || ^>=4.15 || ^>=4.16 || ^>=4.17",
+              "version-range": ">=4.12.0.0 && <5",
               "library": [
                 {}
               ]
             },
             {
-              "package-name": "base16-bytestring",
-              "version-range": "^>=1.0",
+              "package-name": "migrant-core",
+              "version-range": "-any",
               "library": [
                 {}
               ]
             },
             {
-              "package-name": "bytestring",
-              "version-range": "^>=0.10 || ^>=0.11",
+              "package-name": "migrant-hdbc",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "HUnit",
+              "version-range": ">=1.6.1.0 && <1.7",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "QuickCheck",
+              "version-range": ">=2.14.2 && <2.15",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "HDBC",
+              "version-range": ">=2.4.0.3 && <2.5",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "HDBC-sqlite3",
+              "version-range": ">=2.3.3.1 && <2.4",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "process",
+              "version-range": ">=1.5 && <1.7",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "random",
+              "version-range": ">=1.2.0 && <1.3",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "tasty",
+              "version-range": ">=1.4 && <1.5",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "tasty-hunit",
+              "version-range": ">=0.10.0.2 && <0.11",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "tasty-quickcheck",
+              "version-range": ">=0.10.1.1 && <0.11",
               "library": [
                 {}
               ]
             },
             {
               "package-name": "text",
-              "version-range": "^>=1.2 || ^>=2.0",
-              "library": [
-                {}
-              ]
-            },
-            {
-              "package-name": "hex-text",
-              "version-range": "-any",
+              "version-range": ">=1.2 && <3",
               "library": [
                 {}
               ]
@@ -319,35 +364,91 @@
       "condTreeConstraints": [
         {
           "package-name": "base",
-          "version-range": "^>=4.9 || ^>=4.10 || ^>=4.11 || ^>=4.12 || ^>=4.13 || ^>=4.14 || ^>=4.15 || ^>=4.16 || ^>=4.17",
+          "version-range": ">=4.12.0.0 && <5",
           "library": [
             {}
           ]
         },
         {
-          "package-name": "base16-bytestring",
-          "version-range": "^>=1.0",
+          "package-name": "migrant-core",
+          "version-range": "-any",
           "library": [
             {}
           ]
         },
         {
-          "package-name": "bytestring",
-          "version-range": "^>=0.10 || ^>=0.11",
+          "package-name": "migrant-hdbc",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "HUnit",
+          "version-range": ">=1.6.1.0 && <1.7",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "QuickCheck",
+          "version-range": ">=2.14.2 && <2.15",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "HDBC",
+          "version-range": ">=2.4.0.3 && <2.5",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "HDBC-sqlite3",
+          "version-range": ">=2.3.3.1 && <2.4",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "process",
+          "version-range": ">=1.5 && <1.7",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "random",
+          "version-range": ">=1.2.0 && <1.3",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "tasty",
+          "version-range": ">=1.4 && <1.5",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "tasty-hunit",
+          "version-range": ">=0.10.0.2 && <0.11",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "tasty-quickcheck",
+          "version-range": ">=0.10.1.1 && <0.11",
           "library": [
             {}
           ]
         },
         {
           "package-name": "text",
-          "version-range": "^>=1.2 || ^>=2.0",
-          "library": [
-            {}
-          ]
-        },
-        {
-          "package-name": "hex-text",
-          "version-range": "-any",
+          "version-range": ">=1.2 && <3",
           "library": [
             {}
           ]

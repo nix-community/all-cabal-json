@@ -2,58 +2,48 @@
   "description": {
     "spec-version": {
       "Left": [
-        3,
-        0
+        2,
+        4
       ]
     },
     "package": {
-      "name": "hex-text",
+      "name": "sqlite-easy",
       "version": [
         0,
         1,
         0,
-        6
+        0
       ]
     },
     "license": {
       "Left": {
         "license-expression": {
           "expression": {
-            "id": "MIT"
+            "id": "BSD_3_Clause"
           },
           "exception-id": null
         }
       }
     },
     "license-files": [
-      "license.txt"
+      "LICENSE"
     ],
-    "copyright": "2021 Mission Valley Software LLC",
-    "maintainer": "Chris Martin, Julie Moronuki",
-    "author": "Chris Martin",
-    "stability": "",
+    "copyright": "2022 Gil Mizrahi",
+    "maintainer": "gilmi@posteo.net",
+    "author": "Gil Mizrahi",
+    "stability": "Experimental",
     "tested-with": [],
-    "homepage": "https://github.com/typeclasses/hex-text",
+    "homepage": "https://gitlab.com/gilmi/sqlite-easy",
     "pkg-url": "",
-    "bug-reports": "https://github.com/typeclasses/hex-text/issues",
-    "source-repos": [
-      {
-        "kind": {},
-        "type": "Git",
-        "location": "https://github.com/typeclasses/hex-text",
-        "module": null,
-        "branch": null,
-        "tag": null,
-        "subdir": null
-      }
-    ],
-    "synopsis": "ByteString-Text hexidecimal conversions",
-    "description": "Encode a ByteString as a hexidecimal Text value,\nor decode hexidecimal Text as a ByteString.",
-    "category": "Text",
+    "bug-reports": "",
+    "source-repos": [],
+    "synopsis": "A primitive yet easy to use sqlite library.",
+    "description": "A primitive yet easy to use sqlite library built using sqlite-direct, resource-pool and migrant.",
+    "category": "Database",
     "custom-fields": [
       [
         "x-revision",
-        "2"
+        "1"
       ]
     ],
     "build-type-raw": "Simple",
@@ -67,8 +57,7 @@
     "data-files": [],
     "data-dir": ".",
     "extra-source-files": [
-      "README.md",
-      "changelog.txt"
+      "README.md"
     ],
     "extra-tmp-files": [],
     "extra-doc-files": []
@@ -78,8 +67,21 @@
       "name": {},
       "exposed-modules": [
         [
-          "Text",
-          "Hex"
+          "Database",
+          "Sqlite",
+          "Easy"
+        ],
+        [
+          "Database",
+          "Sqlite",
+          "Easy",
+          "Internal"
+        ],
+        [
+          "Database",
+          "Sqlite",
+          "Easy",
+          "Migrant"
         ]
       ],
       "re-exported-modules": [],
@@ -147,28 +149,42 @@
         "targetBuildDepends": [
           {
             "package-name": "base",
-            "version-range": "^>=4.9 || ^>=4.10 || ^>=4.11 || ^>=4.12 || ^>=4.13 || ^>=4.14 || ^>=4.15 || ^>=4.16 || ^>=4.17",
-            "library": [
-              {}
-            ]
-          },
-          {
-            "package-name": "base16-bytestring",
-            "version-range": "^>=1.0",
+            "version-range": ">=4.12 && <5",
             "library": [
               {}
             ]
           },
           {
             "package-name": "bytestring",
-            "version-range": "^>=0.10 || ^>=0.11",
+            "version-range": "-any",
             "library": [
               {}
             ]
           },
           {
             "package-name": "text",
-            "version-range": "^>=1.2 || ^>=2.0",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "direct-sqlite",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "resource-pool",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "migrant-core",
+            "version-range": "-any",
             "library": [
               {}
             ]
@@ -180,28 +196,42 @@
     "condTreeConstraints": [
       {
         "package-name": "base",
-        "version-range": "^>=4.9 || ^>=4.10 || ^>=4.11 || ^>=4.12 || ^>=4.13 || ^>=4.14 || ^>=4.15 || ^>=4.16 || ^>=4.17",
-        "library": [
-          {}
-        ]
-      },
-      {
-        "package-name": "base16-bytestring",
-        "version-range": "^>=1.0",
+        "version-range": ">=4.12 && <5",
         "library": [
           {}
         ]
       },
       {
         "package-name": "bytestring",
-        "version-range": "^>=0.10 || ^>=0.11",
+        "version-range": "-any",
         "library": [
           {}
         ]
       },
       {
         "package-name": "text",
-        "version-range": "^>=1.2 || ^>=2.0",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "direct-sqlite",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "resource-pool",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "migrant-core",
+        "version-range": "-any",
         "library": [
           {}
         ]
@@ -210,7 +240,7 @@
     "condTreeComponents": []
   },
   "test-suites": {
-    "test-hex-text": {
+    "sqlite-easy-test": {
       "condTreeData": {
         "name": "",
         "interface": {
@@ -218,12 +248,18 @@
             1,
             0
           ],
-          "filepath": "Main.hs"
+          "filepath": "Spec.hs"
         },
         "build-info": {
           "buildable": true,
           "buildTools": [],
-          "buildToolDepends": [],
+          "buildToolDepends": [
+            {
+              "package-name": "hspec-discover",
+              "executable-component-name": "hspec-discover",
+              "version-range": "-any"
+            }
+          ],
           "cppOptions": [],
           "asmOptions": [],
           "cmmOptions": [],
@@ -241,7 +277,11 @@
           "hsSourceDirs": [
             "test"
           ],
-          "otherModules": [],
+          "otherModules": [
+            [
+              "SqliteEasySpec"
+            ]
+          ],
           "virtualModules": [],
           "autogenModules": [],
           "defaultLanguage": "Haskell2010",
@@ -260,7 +300,11 @@
           "autogenIncludes": [],
           "installIncludes": [],
           "options": [
-            [],
+            [
+              "-threaded",
+              "-rtsopts",
+              "-with-rtsopts=-N"
+            ],
             []
           ],
           "profOptions": [
@@ -279,34 +323,41 @@
           "targetBuildDepends": [
             {
               "package-name": "base",
-              "version-range": "^>=4.9 || ^>=4.10 || ^>=4.11 || ^>=4.12 || ^>=4.13 || ^>=4.14 || ^>=4.15 || ^>=4.16 || ^>=4.17",
+              "version-range": "-any",
               "library": [
                 {}
               ]
             },
             {
-              "package-name": "base16-bytestring",
-              "version-range": "^>=1.0",
+              "package-name": "hspec",
+              "version-range": "-any",
               "library": [
                 {}
               ]
             },
             {
-              "package-name": "bytestring",
-              "version-range": "^>=0.10 || ^>=0.11",
+              "package-name": "hspec-discover",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "sqlite-easy",
+              "version-range": "-any",
               "library": [
                 {}
               ]
             },
             {
               "package-name": "text",
-              "version-range": "^>=1.2 || ^>=2.0",
+              "version-range": "-any",
               "library": [
                 {}
               ]
             },
             {
-              "package-name": "hex-text",
+              "package-name": "direct-sqlite",
               "version-range": "-any",
               "library": [
                 {}
@@ -319,34 +370,41 @@
       "condTreeConstraints": [
         {
           "package-name": "base",
-          "version-range": "^>=4.9 || ^>=4.10 || ^>=4.11 || ^>=4.12 || ^>=4.13 || ^>=4.14 || ^>=4.15 || ^>=4.16 || ^>=4.17",
+          "version-range": "-any",
           "library": [
             {}
           ]
         },
         {
-          "package-name": "base16-bytestring",
-          "version-range": "^>=1.0",
+          "package-name": "hspec",
+          "version-range": "-any",
           "library": [
             {}
           ]
         },
         {
-          "package-name": "bytestring",
-          "version-range": "^>=0.10 || ^>=0.11",
+          "package-name": "hspec-discover",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "sqlite-easy",
+          "version-range": "-any",
           "library": [
             {}
           ]
         },
         {
           "package-name": "text",
-          "version-range": "^>=1.2 || ^>=2.0",
+          "version-range": "-any",
           "library": [
             {}
           ]
         },
         {
-          "package-name": "hex-text",
+          "package-name": "direct-sqlite",
           "version-range": "-any",
           "library": [
             {}
