@@ -7,17 +7,19 @@
       ]
     },
     "package": {
-      "name": "bip32",
+      "name": "foreign",
       "version": [
         0,
-        2
+        2,
+        0,
+        0
       ]
     },
     "license": {
       "Left": {
         "license-expression": {
           "expression": {
-            "id": "Apache_2_0"
+            "id": "BSD_3_Clause"
           },
           "exception-id": null
         }
@@ -26,37 +28,34 @@
     "license-files": [
       "LICENSE"
     ],
-    "copyright": "Copyright (c) Renzo Carbonara 2020",
-    "maintainer": "k0001",
-    "author": "k0001",
+    "copyright": "Copyright (c)",
+    "maintainer": "mu@laxcat.xyz",
+    "author": "mu",
     "stability": "",
     "tested-with": [
       {
         "compiler": "GHC",
-        "versionRange": "==8.8.3"
-      },
-      {
-        "compiler": "GHC",
-        "versionRange": "==8.6.5"
-      },
-      {
-        "compiler": "GHCJS",
-        "versionRange": "==8.6.0"
+        "versionRange": "==8.10.7 || ==9.2.5"
       }
     ],
-    "homepage": "https://gitlab.com/k0001/hs-bip32",
+    "homepage": "https://github.com/4eUeP/foreign",
     "pkg-url": "",
-    "bug-reports": "https://gitlab.com/k0001/hs-bip32/issues",
-    "source-repos": [],
-    "synopsis": "BIP-0032: Hierarchical Deterministic Wallets for Bitcoin and other cryptocurrencies",
-    "description": "BIP-0032: Hierarchical Deterministic Wallets for Bitcoin and other cryptocurrencies\n\nThis library builds in GHC and GHCJS.",
-    "category": "Cryptography",
-    "custom-fields": [
-      [
-        "x-revision",
-        "1"
-      ]
+    "bug-reports": "https://github.com/4eUeP/foreign/issues",
+    "source-repos": [
+      {
+        "kind": {},
+        "type": "Git",
+        "location": "https://github.com/4eUeP/foreign",
+        "module": null,
+        "branch": null,
+        "tag": null,
+        "subdir": null
+      }
     ],
+    "synopsis": "A collection of helpers for ffi.",
+    "description": "Please see the README on Github at <https://github.com/4eUeP/foreign#readme>",
+    "category": "Foreign",
+    "custom-fields": [],
     "build-type-raw": "Simple",
     "custom-setup": null,
     "library": null,
@@ -68,8 +67,9 @@
     "data-files": [],
     "data-dir": ".",
     "extra-source-files": [
-      "README.md",
-      "CHANGELOG.md"
+      "ChangeLog.md",
+      "include/**/*.h",
+      "README.md"
     ],
     "extra-tmp-files": [],
     "extra-doc-files": []
@@ -79,7 +79,27 @@
       "name": {},
       "exposed-modules": [
         [
-          "BIP32"
+          "HsForeign"
+        ],
+        [
+          "HsForeign",
+          "AsyncFFI"
+        ],
+        [
+          "HsForeign",
+          "CppStd"
+        ],
+        [
+          "HsForeign",
+          "Primitive"
+        ],
+        [
+          "HsForeign",
+          "String"
+        ],
+        [
+          "HsForeign",
+          "Utils"
         ]
       ],
       "re-exported-modules": [],
@@ -94,7 +114,10 @@
         "asmOptions": [],
         "cmmOptions": [],
         "ccOptions": [],
-        "cxxOptions": [],
+        "cxxOptions": [
+          "-std=c++17",
+          "-Werror=switch"
+        ],
         "ldOptions": [],
         "pkgconfigDepends": [],
         "frameworks": [],
@@ -102,40 +125,85 @@
         "asmSources": [],
         "cmmSources": [],
         "cSources": [],
-        "cxxSources": [],
+        "cxxSources": [
+          "cbits/hs_cpp_std.cpp"
+        ],
         "jsSources": [],
         "hsSourceDirs": [
-          "lib"
+          "src"
         ],
         "otherModules": [],
         "virtualModules": [],
         "autogenModules": [],
         "defaultLanguage": "Haskell2010",
         "otherLanguages": [],
-        "defaultExtensions": [],
+        "defaultExtensions": [
+          {
+            "enable-extension": "DeriveGeneric"
+          },
+          {
+            "enable-extension": "DerivingStrategies"
+          },
+          {
+            "enable-extension": "EmptyDataDeriving"
+          },
+          {
+            "enable-extension": "GADTSyntax"
+          },
+          {
+            "enable-extension": "GeneralizedNewtypeDeriving"
+          },
+          {
+            "enable-extension": "LambdaCase"
+          },
+          {
+            "enable-extension": "OverloadedStrings"
+          },
+          {
+            "enable-extension": "RecordWildCards"
+          },
+          {
+            "enable-extension": "ScopedTypeVariables"
+          },
+          {
+            "enable-extension": "TypeApplications"
+          },
+          {
+            "enable-extension": "UnliftedFFITypes"
+          },
+          {
+            "enable-extension": "UnliftedNewtypes"
+          }
+        ],
         "otherExtensions": [],
         "oldExtensions": [],
-        "extraLibs": [],
+        "extraLibs": [
+          "stdc++"
+        ],
         "extraGHCiLibs": [],
         "extraBundledLibs": [],
         "extraLibFlavours": [],
         "extraDynLibFlavours": [],
         "extraLibDirs": [],
-        "includeDirs": [],
-        "includes": [],
+        "includeDirs": [
+          "include"
+        ],
+        "includes": [
+          "hs_foreign.h"
+        ],
         "autogenIncludes": [],
         "installIncludes": [],
         "options": [
           [
-            "-O2",
             "-Wall",
-            "-Werror=incomplete-patterns"
+            "-Wcompat",
+            "-Widentities",
+            "-Wincomplete-record-updates",
+            "-Wincomplete-uni-patterns",
+            "-Wpartial-fields",
+            "-Wredundant-constraints"
           ],
-          [
-            "-O3",
-            "-Wall",
-            "-Werror=incomplete-patterns"
-          ]
+          []
         ],
         "profOptions": [
           [],
@@ -153,42 +221,35 @@
         "targetBuildDepends": [
           {
             "package-name": "base",
-            "version-range": "==4.*",
-            "library": [
-              {}
-            ]
-          },
-          {
-            "package-name": "base58-bytestring",
-            "version-range": "-any",
-            "library": [
-              {}
-            ]
-          },
-          {
-            "package-name": "binary",
-            "version-range": "-any",
-            "library": [
-              {}
-            ]
-          },
-          {
-            "package-name": "bitcoin-keys",
-            "version-range": "-any",
+            "version-range": ">=4.14 && <5",
             "library": [
               {}
             ]
           },
           {
             "package-name": "bytestring",
-            "version-range": "-any",
+            "version-range": ">=0.10 && <0.12.0",
             "library": [
               {}
             ]
           },
           {
-            "package-name": "bitcoin-hash",
-            "version-range": "-any",
+            "package-name": "ghc-prim",
+            "version-range": ">=0.5 && <1.0",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "primitive",
+            "version-range": "^>=0.7",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "primitive-unlifted",
+            "version-range": ">=0.1.3.1 && <0.2",
             "library": [
               {}
             ]
@@ -200,42 +261,35 @@
     "condTreeConstraints": [
       {
         "package-name": "base",
-        "version-range": "==4.*",
-        "library": [
-          {}
-        ]
-      },
-      {
-        "package-name": "base58-bytestring",
-        "version-range": "-any",
-        "library": [
-          {}
-        ]
-      },
-      {
-        "package-name": "binary",
-        "version-range": "-any",
-        "library": [
-          {}
-        ]
-      },
-      {
-        "package-name": "bitcoin-keys",
-        "version-range": "-any",
+        "version-range": ">=4.14 && <5",
         "library": [
           {}
         ]
       },
       {
         "package-name": "bytestring",
-        "version-range": "-any",
+        "version-range": ">=0.10 && <0.12.0",
         "library": [
           {}
         ]
       },
       {
-        "package-name": "bitcoin-hash",
-        "version-range": "-any",
+        "package-name": "ghc-prim",
+        "version-range": ">=0.5 && <1.0",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "primitive",
+        "version-range": "^>=0.7",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "primitive-unlifted",
+        "version-range": ">=0.1.3.1 && <0.2",
         "library": [
           {}
         ]
@@ -244,7 +298,7 @@
     "condTreeComponents": []
   },
   "test-suites": {
-    "test": {
+    "foreign-test": {
       "condTreeData": {
         "name": "",
         "interface": {
@@ -252,12 +306,18 @@
             1,
             0
           ],
-          "filepath": "Main.hs"
+          "filepath": "Spec.hs"
         },
         "build-info": {
           "buildable": true,
           "buildTools": [],
-          "buildToolDepends": [],
+          "buildToolDepends": [
+            {
+              "package-name": "hspec-discover",
+              "executable-component-name": "hspec-discover",
+              "version-range": ">=2 && <3"
+            }
+          ],
           "cppOptions": [],
           "asmOptions": [],
           "cmmOptions": [],
@@ -269,18 +329,70 @@
           "extraFrameworkDirs": [],
           "asmSources": [],
           "cmmSources": [],
-          "cSources": [],
+          "cSources": [
+            "test/cbits/ffi.c"
+          ],
           "cxxSources": [],
           "jsSources": [],
           "hsSourceDirs": [
             "test"
           ],
-          "otherModules": [],
+          "otherModules": [
+            [
+              "HsForeign",
+              "AsyncFFISpec"
+            ],
+            [
+              "HsForeign",
+              "PrimitiveSpec"
+            ],
+            [
+              "HsForeign",
+              "StringSpec"
+            ]
+          ],
           "virtualModules": [],
           "autogenModules": [],
           "defaultLanguage": "Haskell2010",
           "otherLanguages": [],
-          "defaultExtensions": [],
+          "defaultExtensions": [
+            {
+              "enable-extension": "DeriveGeneric"
+            },
+            {
+              "enable-extension": "DerivingStrategies"
+            },
+            {
+              "enable-extension": "EmptyDataDeriving"
+            },
+            {
+              "enable-extension": "GADTSyntax"
+            },
+            {
+              "enable-extension": "GeneralizedNewtypeDeriving"
+            },
+            {
+              "enable-extension": "LambdaCase"
+            },
+            {
+              "enable-extension": "OverloadedStrings"
+            },
+            {
+              "enable-extension": "RecordWildCards"
+            },
+            {
+              "enable-extension": "ScopedTypeVariables"
+            },
+            {
+              "enable-extension": "TypeApplications"
+            },
+            {
+              "enable-extension": "UnliftedFFITypes"
+            },
+            {
+              "enable-extension": "UnliftedNewtypes"
+            }
+          ],
           "otherExtensions": [],
           "oldExtensions": [],
           "extraLibs": [],
@@ -295,15 +407,18 @@
           "installIncludes": [],
           "options": [
             [
-              "-O2",
               "-Wall",
-              "-Werror=incomplete-patterns"
+              "-Wcompat",
+              "-Widentities",
+              "-Wincomplete-record-updates",
+              "-Wincomplete-uni-patterns",
+              "-Wpartial-fields",
+              "-Wredundant-constraints",
+              "-threaded",
+              "-rtsopts",
+              "-with-rtsopts=-N"
             ],
-            [
-              "-O3",
-              "-Wall",
-              "-Werror=incomplete-patterns"
-            ]
+            []
           ],
           "profOptions": [
             [],
@@ -321,76 +436,34 @@
           "targetBuildDepends": [
             {
               "package-name": "base",
-              "version-range": "==4.*",
+              "version-range": ">=4.14 && <5",
               "library": [
                 {}
               ]
             },
             {
-              "package-name": "base58-bytestring",
+              "package-name": "foreign",
               "version-range": "-any",
               "library": [
                 {}
               ]
             },
             {
-              "package-name": "binary",
+              "package-name": "hspec",
               "version-range": "-any",
               "library": [
                 {}
               ]
             },
             {
-              "package-name": "bitcoin-keys",
+              "package-name": "QuickCheck",
               "version-range": "-any",
               "library": [
                 {}
               ]
             },
             {
-              "package-name": "bytestring",
-              "version-range": "-any",
-              "library": [
-                {}
-              ]
-            },
-            {
-              "package-name": "base16-bytestring",
-              "version-range": "-any",
-              "library": [
-                {}
-              ]
-            },
-            {
-              "package-name": "hedgehog",
-              "version-range": "-any",
-              "library": [
-                {}
-              ]
-            },
-            {
-              "package-name": "bip32",
-              "version-range": "-any",
-              "library": [
-                {}
-              ]
-            },
-            {
-              "package-name": "tasty",
-              "version-range": "-any",
-              "library": [
-                {}
-              ]
-            },
-            {
-              "package-name": "tasty-hedgehog",
-              "version-range": "-any",
-              "library": [
-                {}
-              ]
-            },
-            {
-              "package-name": "tasty-hunit",
+              "package-name": "quickcheck-instances",
               "version-range": "-any",
               "library": [
                 {}
@@ -403,76 +476,34 @@
       "condTreeConstraints": [
         {
           "package-name": "base",
-          "version-range": "==4.*",
+          "version-range": ">=4.14 && <5",
           "library": [
             {}
           ]
         },
         {
-          "package-name": "base58-bytestring",
+          "package-name": "foreign",
           "version-range": "-any",
           "library": [
             {}
           ]
         },
         {
-          "package-name": "binary",
+          "package-name": "hspec",
           "version-range": "-any",
           "library": [
             {}
           ]
         },
         {
-          "package-name": "bitcoin-keys",
+          "package-name": "QuickCheck",
           "version-range": "-any",
           "library": [
             {}
           ]
         },
         {
-          "package-name": "bytestring",
-          "version-range": "-any",
-          "library": [
-            {}
-          ]
-        },
-        {
-          "package-name": "base16-bytestring",
-          "version-range": "-any",
-          "library": [
-            {}
-          ]
-        },
-        {
-          "package-name": "hedgehog",
-          "version-range": "-any",
-          "library": [
-            {}
-          ]
-        },
-        {
-          "package-name": "bip32",
-          "version-range": "-any",
-          "library": [
-            {}
-          ]
-        },
-        {
-          "package-name": "tasty",
-          "version-range": "-any",
-          "library": [
-            {}
-          ]
-        },
-        {
-          "package-name": "tasty-hedgehog",
-          "version-range": "-any",
-          "library": [
-            {}
-          ]
-        },
-        {
-          "package-name": "tasty-hunit",
+          "package-name": "quickcheck-instances",
           "version-range": "-any",
           "library": [
             {}
