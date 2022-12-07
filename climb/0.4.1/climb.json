@@ -7,47 +7,42 @@
       ]
     },
     "package": {
-      "name": "portray",
+      "name": "climb",
       "version": [
         0,
-        3,
-        0
+        4,
+        1
       ]
     },
     "license": {
-      "Right": "OtherLicense"
+      "Right": "BSD3"
     },
     "license-files": [
       "LICENSE"
     ],
-    "copyright": "2020-2021 Google LLC; 2022 Andrew Pritchard",
-    "maintainer": "Andrew Pritchard <awpritchard@gmail.com>",
-    "author": "Andrew Pritchard <awpritchard@gmail.com>",
+    "copyright": "(c) 2019 Eric Conlon",
+    "maintainer": "ejconlon@gmail.com",
+    "author": "Eric Conlon",
     "stability": "",
     "tested-with": [],
-    "homepage": "https://github.com/awpr/portray#readme",
+    "homepage": "https://github.com/ejconlon/climb#readme",
     "pkg-url": "",
-    "bug-reports": "https://github.com/awpr/portray/issues",
+    "bug-reports": "https://github.com/ejconlon/climb/issues",
     "source-repos": [
       {
         "kind": {},
         "type": "Git",
-        "location": "https://github.com/awpr/portray",
+        "location": "https://github.com/ejconlon/climb",
         "module": null,
         "branch": null,
         "tag": null,
-        "subdir": "portray"
+        "subdir": null
       }
     ],
-    "synopsis": "Rendering to pseudo-Haskell syntax",
-    "description": "This provides a single place to describe how a type should be formatted as\npseudo-Haskell syntax, independently of the actual pretty-printing library\n(e.g. \"pretty\", \"ansi-wl-pprint\", or \"prettyprinter\") that will ultimately be\nused to render it.  This means packages can cheaply provide integration with\nall pretty-printers by providing an instance of this class, without needing\nto depend on any of them (or their layout algorithms).\n\nOf course, this comes at the cost of targeting a predeclared set of\nformatting choices.  If there are any egregious omissions, we can always add\nmore constructors.\n\nThis library is explicitly not intended to provide a way to express\n/all documents/; only a particular flavor of pseudo-Haskell syntax\nrepresenting values and types.",
-    "category": "Text",
-    "custom-fields": [
-      [
-        "x-revision",
-        "1"
-      ]
-    ],
+    "synopsis": "Building blocks for a GHCi-like REPL with colon-commands",
+    "description": "Please see the README on GitHub at <https://github.com/ejconlon/climb#readme>",
+    "category": "User Interfaces",
+    "custom-fields": [],
     "build-type-raw": "Simple",
     "custom-setup": null,
     "library": null,
@@ -59,7 +54,7 @@
     "data-files": [],
     "data-dir": ".",
     "extra-source-files": [
-      "CHANGELOG.md"
+      "README.md"
     ],
     "extra-tmp-files": [],
     "extra-doc-files": []
@@ -69,8 +64,7 @@
       "name": {},
       "exposed-modules": [
         [
-          "Data",
-          "Portray"
+          "Climb"
         ]
       ],
       "re-exported-modules": [],
@@ -98,12 +92,23 @@
         "hsSourceDirs": [
           "src"
         ],
-        "otherModules": [],
+        "otherModules": [
+          [
+            "Paths_climb"
+          ]
+        ],
         "virtualModules": [],
         "autogenModules": [],
         "defaultLanguage": "Haskell2010",
         "otherLanguages": [],
-        "defaultExtensions": [],
+        "defaultExtensions": [
+          {
+            "enable-extension": "DerivingStrategies"
+          },
+          {
+            "enable-extension": "GeneralizedNewtypeDeriving"
+          }
+        ],
         "otherExtensions": [],
         "oldExtensions": [],
         "extraLibs": [],
@@ -117,7 +122,16 @@
         "autogenIncludes": [],
         "installIncludes": [],
         "options": [
-          [],
+          [
+            "-Wall",
+            "-Wcompat",
+            "-Widentities",
+            "-Wincomplete-record-updates",
+            "-Wincomplete-uni-patterns",
+            "-Wpartial-fields",
+            "-Wredundant-constraints",
+            "-fno-warn-unused-top-binds"
+          ],
           []
         ],
         "profOptions": [
@@ -136,35 +150,56 @@
         "targetBuildDepends": [
           {
             "package-name": "base",
-            "version-range": ">=4.12 && <4.18",
+            "version-range": ">=4.12 && <5",
             "library": [
               {}
             ]
           },
           {
             "package-name": "bytestring",
-            "version-range": ">=0.9 && <0.12",
+            "version-range": ">=0.10 && <1",
             "library": [
               {}
             ]
           },
           {
             "package-name": "containers",
-            "version-range": "==0.6.*",
+            "version-range": ">=0.6 && <1",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "exceptions",
+            "version-range": ">=0.10 && <1",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "linenoise",
+            "version-range": ">=0.3.2 && <1",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "mtl",
+            "version-range": ">=2.2 && <3",
             "library": [
               {}
             ]
           },
           {
             "package-name": "text",
-            "version-range": ">=0.1 && <2.1",
+            "version-range": ">=1.2 && <2",
             "library": [
               {}
             ]
           },
           {
-            "package-name": "wrapped",
-            "version-range": "==0.1.*",
+            "package-name": "unliftio-core",
+            "version-range": ">=0.1 && <1",
             "library": [
               {}
             ]
@@ -176,35 +211,56 @@
     "condTreeConstraints": [
       {
         "package-name": "base",
-        "version-range": ">=4.12 && <4.18",
+        "version-range": ">=4.12 && <5",
         "library": [
           {}
         ]
       },
       {
         "package-name": "bytestring",
-        "version-range": ">=0.9 && <0.12",
+        "version-range": ">=0.10 && <1",
         "library": [
           {}
         ]
       },
       {
         "package-name": "containers",
-        "version-range": "==0.6.*",
+        "version-range": ">=0.6 && <1",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "exceptions",
+        "version-range": ">=0.10 && <1",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "linenoise",
+        "version-range": ">=0.3.2 && <1",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "mtl",
+        "version-range": ">=2.2 && <3",
         "library": [
           {}
         ]
       },
       {
         "package-name": "text",
-        "version-range": ">=0.1 && <2.1",
+        "version-range": ">=1.2 && <2",
         "library": [
           {}
         ]
       },
       {
-        "package-name": "wrapped",
-        "version-range": "==0.1.*",
+        "package-name": "unliftio-core",
+        "version-range": ">=0.1 && <1",
         "library": [
           {}
         ]
@@ -212,17 +268,12 @@
     ],
     "condTreeComponents": []
   },
-  "test-suites": {
-    "Portray-test": {
+  "executables": {
+    "climb-demo": {
       "condTreeData": {
-        "name": "",
-        "interface": {
-          "version": [
-            1,
-            0
-          ],
-          "filepath": "Main.hs"
-        },
+        "name": "climb-demo",
+        "module-path": "Main.hs",
+        "scope": "public",
         "build-info": {
           "buildable": true,
           "buildTools": [],
@@ -242,14 +293,25 @@
           "cxxSources": [],
           "jsSources": [],
           "hsSourceDirs": [
-            "test"
+            "app"
           ],
-          "otherModules": [],
+          "otherModules": [
+            [
+              "Paths_climb"
+            ]
+          ],
           "virtualModules": [],
           "autogenModules": [],
           "defaultLanguage": "Haskell2010",
           "otherLanguages": [],
-          "defaultExtensions": [],
+          "defaultExtensions": [
+            {
+              "enable-extension": "DerivingStrategies"
+            },
+            {
+              "enable-extension": "GeneralizedNewtypeDeriving"
+            }
+          ],
           "otherExtensions": [],
           "oldExtensions": [],
           "extraLibs": [],
@@ -263,7 +325,19 @@
           "autogenIncludes": [],
           "installIncludes": [],
           "options": [
-            [],
+            [
+              "-Wall",
+              "-Wcompat",
+              "-Widentities",
+              "-Wincomplete-record-updates",
+              "-Wincomplete-uni-patterns",
+              "-Wpartial-fields",
+              "-Wredundant-constraints",
+              "-fno-warn-unused-top-binds",
+              "-threaded",
+              "-rtsopts",
+              "-with-rtsopts=-N"
+            ],
             []
           ],
           "profOptions": [
@@ -281,64 +355,64 @@
           "customFieldsBI": [],
           "targetBuildDepends": [
             {
-              "package-name": "HUnit",
-              "version-range": "-any",
-              "library": [
-                {}
-              ]
-            },
-            {
               "package-name": "base",
-              "version-range": ">=4.12 && <4.18",
+              "version-range": ">=4.12 && <5",
               "library": [
                 {}
               ]
             },
             {
               "package-name": "bytestring",
-              "version-range": ">=0.9 && <0.12",
+              "version-range": ">=0.10 && <1",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "climb",
+              "version-range": "-any",
               "library": [
                 {}
               ]
             },
             {
               "package-name": "containers",
-              "version-range": "==0.6.*",
+              "version-range": ">=0.6 && <1",
               "library": [
                 {}
               ]
             },
             {
-              "package-name": "portray",
-              "version-range": "-any",
+              "package-name": "exceptions",
+              "version-range": ">=0.10 && <1",
               "library": [
                 {}
               ]
             },
             {
-              "package-name": "test-framework",
-              "version-range": "-any",
+              "package-name": "linenoise",
+              "version-range": ">=0.3.2 && <1",
               "library": [
                 {}
               ]
             },
             {
-              "package-name": "test-framework-hunit",
-              "version-range": "-any",
+              "package-name": "mtl",
+              "version-range": ">=2.2 && <3",
               "library": [
                 {}
               ]
             },
             {
               "package-name": "text",
-              "version-range": ">=0.1 && <2.1",
+              "version-range": ">=1.2 && <2",
               "library": [
                 {}
               ]
             },
             {
-              "package-name": "wrapped",
-              "version-range": "==0.1.*",
+              "package-name": "unliftio-core",
+              "version-range": ">=0.1 && <1",
               "library": [
                 {}
               ]
@@ -349,64 +423,64 @@
       },
       "condTreeConstraints": [
         {
-          "package-name": "HUnit",
-          "version-range": "-any",
-          "library": [
-            {}
-          ]
-        },
-        {
           "package-name": "base",
-          "version-range": ">=4.12 && <4.18",
+          "version-range": ">=4.12 && <5",
           "library": [
             {}
           ]
         },
         {
           "package-name": "bytestring",
-          "version-range": ">=0.9 && <0.12",
+          "version-range": ">=0.10 && <1",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "climb",
+          "version-range": "-any",
           "library": [
             {}
           ]
         },
         {
           "package-name": "containers",
-          "version-range": "==0.6.*",
+          "version-range": ">=0.6 && <1",
           "library": [
             {}
           ]
         },
         {
-          "package-name": "portray",
-          "version-range": "-any",
+          "package-name": "exceptions",
+          "version-range": ">=0.10 && <1",
           "library": [
             {}
           ]
         },
         {
-          "package-name": "test-framework",
-          "version-range": "-any",
+          "package-name": "linenoise",
+          "version-range": ">=0.3.2 && <1",
           "library": [
             {}
           ]
         },
         {
-          "package-name": "test-framework-hunit",
-          "version-range": "-any",
+          "package-name": "mtl",
+          "version-range": ">=2.2 && <3",
           "library": [
             {}
           ]
         },
         {
           "package-name": "text",
-          "version-range": ">=0.1 && <2.1",
+          "version-range": ">=1.2 && <2",
           "library": [
             {}
           ]
         },
         {
-          "package-name": "wrapped",
-          "version-range": "==0.1.*",
+          "package-name": "unliftio-core",
+          "version-range": ">=0.1 && <1",
           "library": [
             {}
           ]
