@@ -2,17 +2,17 @@
   "description": {
     "spec-version": {
       "Left": [
-        2,
-        2
+        3,
+        0
       ]
     },
     "package": {
-      "name": "unpacked-maybe-text",
+      "name": "text-compression",
       "version": [
         0,
         1,
         0,
-        0
+        22
       ]
     },
     "license": {
@@ -28,34 +28,19 @@
     "license-files": [
       "LICENSE"
     ],
-    "copyright": "2019 Andrew Martin",
-    "maintainer": "andrew.thaddeus@gmail.com",
-    "author": "Andrew Martin",
+    "copyright": "",
+    "maintainer": "mattm.github@gmail.com",
+    "author": "Matthew Mosior",
     "stability": "",
     "tested-with": [],
-    "homepage": "https://github.com/andrewthad/unpacked-maybe-text",
+    "homepage": "https://github.com/Matthew-Mosior/text-compression",
     "pkg-url": "",
-    "bug-reports": "https://github.com/andrewthad/unpacked-maybe-text/issues",
-    "source-repos": [
-      {
-        "kind": {},
-        "type": "Git",
-        "location": "https://github.com/andrewthad/unpacked-maybe-numeric",
-        "module": null,
-        "branch": null,
-        "tag": null,
-        "subdir": null
-      }
-    ],
-    "synopsis": "optional text that unpacks well",
-    "description": "This library provides a specialization of `Maybe ShortText`.\nWhen this is an unpacked field of data constructor, this will\nresult in fewer indirections and fewer allocations. This is\na micro-optimization, so think hard about whether or not this\nwill improve performance in a particular situation. A different\nway to accomplish a similar goal is to forbid empty text and then\nuse the empty text value as a placeholder that signifies `Nothing`.\nThis alternative may or may not be an option depending on whether\nor not the empty string is valid in your problem domain.",
-    "category": "Data",
-    "custom-fields": [
-      [
-        "x-revision",
-        "1"
-      ]
-    ],
+    "bug-reports": "https://github.com/Matthew-Mosior/text-compression/issues",
+    "source-repos": [],
+    "synopsis": "A text compression library.",
+    "description": "This package contains efficient implementations of various text compression algorithms.",
+    "category": "Data Structures",
+    "custom-fields": [],
     "build-type-raw": "Simple",
     "custom-setup": null,
     "library": null,
@@ -68,7 +53,9 @@
     "data-dir": ".",
     "extra-source-files": [],
     "extra-tmp-files": [],
-    "extra-doc-files": []
+    "extra-doc-files": [
+      "CHANGELOG.md"
+    ]
   },
   "library": {
     "condTreeData": {
@@ -76,10 +63,39 @@
       "exposed-modules": [
         [
           "Data",
-          "Maybe",
-          "Unpacked",
-          "Text",
-          "Short"
+          "BWT",
+          "Internal"
+        ],
+        [
+          "Data",
+          "BWT"
+        ],
+        [
+          "Data",
+          "RLE",
+          "Internal"
+        ],
+        [
+          "Data",
+          "RLE"
+        ],
+        [
+          "Data",
+          "MTF",
+          "Internal"
+        ],
+        [
+          "Data",
+          "MTF"
+        ],
+        [
+          "Data",
+          "FMIndex",
+          "Internal"
+        ],
+        [
+          "Data",
+          "FMIndex"
         ]
       ],
       "re-exported-modules": [],
@@ -128,7 +144,8 @@
         "options": [
           [
             "-Wall",
-            "-O2"
+            "-O2",
+            "-fprof-auto"
           ],
           []
         ],
@@ -148,21 +165,42 @@
         "targetBuildDepends": [
           {
             "package-name": "base",
-            "version-range": ">=4.10.1.0 && <5",
-            "library": [
-              {}
-            ]
-          },
-          {
-            "package-name": "text-short",
-            "version-range": ">=0.1.3 && <0.2",
+            "version-range": "^>=4.16.3.0",
             "library": [
               {}
             ]
           },
           {
             "package-name": "bytestring",
-            "version-range": ">=0.10.8 && <0.12",
+            "version-range": ">=0.11.3 && <0.12",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "containers",
+            "version-range": ">=0.6.5 && <0.7",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "mtl",
+            "version-range": ">=2.2.2 && <2.3",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "parallel",
+            "version-range": ">=3.2.2 && <3.3",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "text",
+            "version-range": ">=1.2.5 && <1.3",
             "library": [
               {}
             ]
@@ -174,21 +212,42 @@
     "condTreeConstraints": [
       {
         "package-name": "base",
-        "version-range": ">=4.10.1.0 && <5",
-        "library": [
-          {}
-        ]
-      },
-      {
-        "package-name": "text-short",
-        "version-range": ">=0.1.3 && <0.2",
+        "version-range": "^>=4.16.3.0",
         "library": [
           {}
         ]
       },
       {
         "package-name": "bytestring",
-        "version-range": ">=0.10.8 && <0.12",
+        "version-range": ">=0.11.3 && <0.12",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "containers",
+        "version-range": ">=0.6.5 && <0.7",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "mtl",
+        "version-range": ">=2.2.2 && <2.3",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "parallel",
+        "version-range": ">=3.2.2 && <3.3",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "text",
+        "version-range": ">=1.2.5 && <1.3",
         "library": [
           {}
         ]
