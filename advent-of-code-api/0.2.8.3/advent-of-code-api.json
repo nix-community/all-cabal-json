@@ -7,46 +7,48 @@
       ]
     },
     "package": {
-      "name": "cabal2json",
+      "name": "advent-of-code-api",
       "version": [
         0,
-        0,
-        0,
-        0
+        2,
+        8,
+        3
       ]
     },
     "license": {
-      "Right": "MIT"
+      "Right": "BSD3"
     },
-    "license-files": [],
-    "copyright": "Copyright (c) 2022 Tom Sydney Kerckhove",
-    "maintainer": "syd@cs-syd.eu",
-    "author": "Tom Sydney Kerckhove",
+    "license-files": [
+      "LICENSE"
+    ],
+    "copyright": "(c) Justin Le 2018",
+    "maintainer": "justin@jle.im",
+    "author": "Justin Le",
     "stability": "",
-    "tested-with": [],
-    "homepage": "https://github.com/NorfairKing/cabal2json#readme",
+    "tested-with": [
+      {
+        "compiler": "GHC",
+        "versionRange": ">=8.0"
+      }
+    ],
+    "homepage": "https://github.com/mstksg/advent-of-code-api#readme",
     "pkg-url": "",
-    "bug-reports": "https://github.com/NorfairKing/cabal2json/issues",
+    "bug-reports": "https://github.com/mstksg/advent-of-code-api/issues",
     "source-repos": [
       {
         "kind": {},
         "type": "Git",
-        "location": "https://github.com/NorfairKing/cabal2json",
+        "location": "https://github.com/mstksg/advent-of-code-api",
         "module": null,
         "branch": null,
         "tag": null,
         "subdir": null
       }
     ],
-    "synopsis": "Turn a .cabal file into a .json file",
-    "description": "",
-    "category": "",
-    "custom-fields": [
-      [
-        "x-revision",
-        "1"
-      ]
-    ],
+    "synopsis": "Advent of Code REST API bindings and servant API",
+    "description": "Haskell bindings for Advent of Code REST API and a servant API.  Please use\nresponsibly! See README.md or \"Advent\" module for an introduction and\ntutorial.",
+    "category": "Web",
+    "custom-fields": [],
     "build-type-raw": "Simple",
     "custom-setup": null,
     "library": null,
@@ -57,7 +59,19 @@
     "benchmarks": [],
     "data-files": [],
     "data-dir": ".",
-    "extra-source-files": [],
+    "extra-source-files": [
+      "README.md",
+      "CHANGELOG.md",
+      "test-data/correct-rank.txt",
+      "test-data/correct.txt",
+      "test-data/incorrect-high.txt",
+      "test-data/incorrect-low.txt",
+      "test-data/incorrect-wait.txt",
+      "test-data/incorrect.txt",
+      "test-data/invalid.txt",
+      "test-data/wait.txt",
+      "test-data/wait2.txt"
+    ],
     "extra-tmp-files": [],
     "extra-doc-files": []
   },
@@ -66,7 +80,15 @@
       "name": {},
       "exposed-modules": [
         [
-          "Cabal2JSON"
+          "Advent"
+        ],
+        [
+          "Advent",
+          "API"
+        ],
+        [
+          "Advent",
+          "Types"
         ]
       ],
       "re-exported-modules": [],
@@ -96,7 +118,12 @@
         ],
         "otherModules": [
           [
-            "Paths_cabal2json"
+            "Advent",
+            "Throttle"
+          ],
+          [
+            "Advent",
+            "Cache"
           ]
         ],
         "virtualModules": [],
@@ -117,7 +144,11 @@
         "autogenIncludes": [],
         "installIncludes": [],
         "options": [
-          [],
+          [
+            "-Wall",
+            "-Wcompat",
+            "-Werror=incomplete-patterns"
+          ],
           []
         ],
         "profOptions": [
@@ -135,13 +166,6 @@
         "customFieldsBI": [],
         "targetBuildDepends": [
           {
-            "package-name": "Cabal",
-            "version-range": "<3.3",
-            "library": [
-              {}
-            ]
-          },
-          {
             "package-name": "aeson",
             "version-range": "-any",
             "library": [
@@ -149,15 +173,8 @@
             ]
           },
           {
-            "package-name": "autodocodec",
-            "version-range": "-any",
-            "library": [
-              {}
-            ]
-          },
-          {
             "package-name": "base",
-            "version-range": ">=4.7 && <5",
+            "version-range": ">=4.9 && <5",
             "library": [
               {}
             ]
@@ -170,21 +187,119 @@
             ]
           },
           {
-            "package-name": "hashable",
+            "package-name": "containers",
             "version-range": "-any",
             "library": [
               {}
             ]
           },
           {
-            "package-name": "pretty",
+            "package-name": "deepseq",
             "version-range": "-any",
             "library": [
               {}
             ]
           },
           {
-            "package-name": "pretty-show",
+            "package-name": "directory",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "filepath",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "finite-typelits",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "http-api-data",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "http-client",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "http-client-tls",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "http-media",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "megaparsec",
+            "version-range": ">=7",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "mtl",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "profunctors",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "servant",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "servant-client",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "servant-client-core",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "stm",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "tagsoup",
             "version-range": "-any",
             "library": [
               {}
@@ -198,8 +313,15 @@
             ]
           },
           {
-            "package-name": "unordered-containers",
+            "package-name": "time",
             "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "time-compat",
+            "version-range": ">=1.9",
             "library": [
               {}
             ]
@@ -210,13 +332,6 @@
     },
     "condTreeConstraints": [
       {
-        "package-name": "Cabal",
-        "version-range": "<3.3",
-        "library": [
-          {}
-        ]
-      },
-      {
         "package-name": "aeson",
         "version-range": "-any",
         "library": [
@@ -224,15 +339,8 @@
         ]
       },
       {
-        "package-name": "autodocodec",
-        "version-range": "-any",
-        "library": [
-          {}
-        ]
-      },
-      {
         "package-name": "base",
-        "version-range": ">=4.7 && <5",
+        "version-range": ">=4.9 && <5",
         "library": [
           {}
         ]
@@ -245,21 +353,119 @@
         ]
       },
       {
-        "package-name": "hashable",
+        "package-name": "containers",
         "version-range": "-any",
         "library": [
           {}
         ]
       },
       {
-        "package-name": "pretty",
+        "package-name": "deepseq",
         "version-range": "-any",
         "library": [
           {}
         ]
       },
       {
-        "package-name": "pretty-show",
+        "package-name": "directory",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "filepath",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "finite-typelits",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "http-api-data",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "http-client",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "http-client-tls",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "http-media",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "megaparsec",
+        "version-range": ">=7",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "mtl",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "profunctors",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "servant",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "servant-client",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "servant-client-core",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "stm",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "tagsoup",
         "version-range": "-any",
         "library": [
           {}
@@ -273,8 +479,15 @@
         ]
       },
       {
-        "package-name": "unordered-containers",
+        "package-name": "time",
         "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "time-compat",
+        "version-range": ">=1.9",
         "library": [
           {}
         ]
@@ -282,12 +495,17 @@
     ],
     "condTreeComponents": []
   },
-  "executables": {
-    "cabal2json": {
+  "test-suites": {
+    "advent-of-code-api-test": {
       "condTreeData": {
-        "name": "cabal2json",
-        "module-path": "Main.hs",
-        "scope": "public",
+        "name": "",
+        "interface": {
+          "version": [
+            1,
+            0
+          ],
+          "filepath": "Spec.hs"
+        },
         "build-info": {
           "buildable": true,
           "buildTools": [],
@@ -307,133 +525,11 @@
           "cxxSources": [],
           "jsSources": [],
           "hsSourceDirs": [
-            "app"
-          ],
-          "otherModules": [
-            [
-              "Paths_cabal2json"
-            ]
-          ],
-          "virtualModules": [],
-          "autogenModules": [],
-          "defaultLanguage": "Haskell2010",
-          "otherLanguages": [],
-          "defaultExtensions": [],
-          "otherExtensions": [],
-          "oldExtensions": [],
-          "extraLibs": [],
-          "extraGHCiLibs": [],
-          "extraBundledLibs": [],
-          "extraLibFlavours": [],
-          "extraDynLibFlavours": [],
-          "extraLibDirs": [],
-          "includeDirs": [],
-          "includes": [],
-          "autogenIncludes": [],
-          "installIncludes": [],
-          "options": [
-            [
-              "-threaded",
-              "-rtsopts",
-              "-with-rtsopts=-N"
-            ],
-            []
-          ],
-          "profOptions": [
-            [],
-            []
-          ],
-          "sharedOptions": [
-            [],
-            []
-          ],
-          "staticOptions": [
-            [],
-            []
-          ],
-          "customFieldsBI": [],
-          "targetBuildDepends": [
-            {
-              "package-name": "base",
-              "version-range": ">=4.7 && <5",
-              "library": [
-                {}
-              ]
-            },
-            {
-              "package-name": "cabal2json",
-              "version-range": "-any",
-              "library": [
-                {}
-              ]
-            }
-          ],
-          "mixins": []
-        }
-      },
-      "condTreeConstraints": [
-        {
-          "package-name": "base",
-          "version-range": ">=4.7 && <5",
-          "library": [
-            {}
-          ]
-        },
-        {
-          "package-name": "cabal2json",
-          "version-range": "-any",
-          "library": [
-            {}
-          ]
-        }
-      ],
-      "condTreeComponents": []
-    }
-  },
-  "test-suites": {
-    "cabal2json-test": {
-      "condTreeData": {
-        "name": "",
-        "interface": {
-          "version": [
-            1,
-            0
-          ],
-          "filepath": "Spec.hs"
-        },
-        "build-info": {
-          "buildable": true,
-          "buildTools": [],
-          "buildToolDepends": [
-            {
-              "package-name": "sydtest-discover",
-              "executable-component-name": "sydtest-discover",
-              "version-range": "-any"
-            }
-          ],
-          "cppOptions": [],
-          "asmOptions": [],
-          "cmmOptions": [],
-          "ccOptions": [],
-          "cxxOptions": [],
-          "ldOptions": [],
-          "pkgconfigDepends": [],
-          "frameworks": [],
-          "extraFrameworkDirs": [],
-          "asmSources": [],
-          "cmmSources": [],
-          "cSources": [],
-          "cxxSources": [],
-          "jsSources": [],
-          "hsSourceDirs": [
             "test"
           ],
           "otherModules": [
             [
-              "Cabal2JSONSpec"
-            ],
-            [
-              "Paths_cabal2json"
+              "Paths_advent_of_code_api"
             ]
           ],
           "virtualModules": [],
@@ -455,6 +551,9 @@
           "installIncludes": [],
           "options": [
             [
+              "-Wall",
+              "-Wcompat",
+              "-Werror=incomplete-patterns",
               "-threaded",
               "-rtsopts",
               "-with-rtsopts=-N"
@@ -476,21 +575,14 @@
           "customFieldsBI": [],
           "targetBuildDepends": [
             {
-              "package-name": "Cabal",
+              "package-name": "HUnit",
               "version-range": "-any",
               "library": [
                 {}
               ]
             },
             {
-              "package-name": "autodocodec",
-              "version-range": "-any",
-              "library": [
-                {}
-              ]
-            },
-            {
-              "package-name": "autodocodec-yaml",
+              "package-name": "advent-of-code-api",
               "version-range": "-any",
               "library": [
                 {}
@@ -498,34 +590,27 @@
             },
             {
               "package-name": "base",
-              "version-range": ">=4.7 && <5",
+              "version-range": ">=4.9 && <5",
               "library": [
                 {}
               ]
             },
             {
-              "package-name": "cabal2json",
+              "package-name": "directory",
               "version-range": "-any",
               "library": [
                 {}
               ]
             },
             {
-              "package-name": "sydtest",
+              "package-name": "filepath",
               "version-range": "-any",
               "library": [
                 {}
               ]
             },
             {
-              "package-name": "sydtest-aeson",
-              "version-range": "-any",
-              "library": [
-                {}
-              ]
-            },
-            {
-              "package-name": "utf8-string",
+              "package-name": "text",
               "version-range": "-any",
               "library": [
                 {}
@@ -537,21 +622,14 @@
       },
       "condTreeConstraints": [
         {
-          "package-name": "Cabal",
+          "package-name": "HUnit",
           "version-range": "-any",
           "library": [
             {}
           ]
         },
         {
-          "package-name": "autodocodec",
-          "version-range": "-any",
-          "library": [
-            {}
-          ]
-        },
-        {
-          "package-name": "autodocodec-yaml",
+          "package-name": "advent-of-code-api",
           "version-range": "-any",
           "library": [
             {}
@@ -559,34 +637,27 @@
         },
         {
           "package-name": "base",
-          "version-range": ">=4.7 && <5",
+          "version-range": ">=4.9 && <5",
           "library": [
             {}
           ]
         },
         {
-          "package-name": "cabal2json",
+          "package-name": "directory",
           "version-range": "-any",
           "library": [
             {}
           ]
         },
         {
-          "package-name": "sydtest",
+          "package-name": "filepath",
           "version-range": "-any",
           "library": [
             {}
           ]
         },
         {
-          "package-name": "sydtest-aeson",
-          "version-range": "-any",
-          "library": [
-            {}
-          ]
-        },
-        {
-          "package-name": "utf8-string",
+          "package-name": "text",
           "version-range": "-any",
           "library": [
             {}
