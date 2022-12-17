@@ -4,38 +4,50 @@
       "Right": ">=1.10"
     },
     "package": {
-      "name": "nvim-hs-ghcid",
+      "name": "smtlib-backends-process",
       "version": [
-        2,
         0,
-        0,
-        0
+        2
       ]
     },
     "license": {
-      "Right": "OtherLicense"
+      "Right": "MIT"
     },
     "license-files": [
       "LICENSE"
     ],
-    "copyright": "Sebastian Witte <woozletoff@gmail.com>",
-    "maintainer": "woozletoff@gmail.com",
-    "author": "Sebastian Witte",
+    "copyright": "",
+    "maintainer": "quentin.aristote@tweag.io",
+    "author": "Quentin Aristote",
     "stability": "",
     "tested-with": [],
-    "homepage": "https://github.com/saep/nvim-hs-ghcid",
+    "homepage": "",
     "pkg-url": "",
     "bug-reports": "",
-    "source-repos": [],
-    "synopsis": "Neovim plugin that runs ghcid to update the quickfix list",
-    "description": "This plugin uses the nvim-hs plugin backend for neovim and\nfills the quickfix list on file-saves with the errors and\nwarnings that ghcid determines.\n\nThe only limitation for this tool is that it needs a .cabal\nfile to work.\n\nThis plugin provides 3 commands:\n\n@:GhcidStart@ will prompt you for the configuration you\nwant to use. It should guess a reasonable option based on\nthe files present in your project directory and so you will\njust have to press enter all the time. If you provide a\nbang, these questions will not be asked.\n\n@:GhcidStop@ stops the current ghcid process.\n\n@:GhcidRestart@ combines the two previous commands.\n\nSimply import the @plugin@ definition from \"Neovim.Ghcid\"\nand add it to your plugin list.",
-    "category": "Editor",
-    "custom-fields": [
-      [
-        "x-revision",
-        "1"
-      ]
+    "source-repos": [
+      {
+        "kind": {},
+        "type": "Git",
+        "location": "https://github.com/tweag/smtlib-backends",
+        "module": null,
+        "branch": null,
+        "tag": null,
+        "subdir": "smtlib-backends-process"
+      },
+      {
+        "kind": {},
+        "type": "Git",
+        "location": "https://github.com/tweag/smtlib-backends",
+        "module": null,
+        "branch": null,
+        "tag": "0.2",
+        "subdir": "smtlib-backends-process"
+      }
     ],
+    "synopsis": "An SMT-LIB backend running solvers as external processes.",
+    "description": "This library implements an SMT-LIB backend (in the sense of the smtlib-backends\npackage) using by running solvers as external processes.",
+    "category": "SMT",
+    "custom-fields": [],
     "build-type-raw": "Simple",
     "custom-setup": null,
     "library": null,
@@ -47,7 +59,7 @@
     "data-files": [],
     "data-dir": ".",
     "extra-source-files": [
-      "README.md"
+      "CHANGELOG.md"
     ],
     "extra-tmp-files": [],
     "extra-doc-files": []
@@ -57,13 +69,9 @@
       "name": {},
       "exposed-modules": [
         [
-          "Neovim",
-          "Ghcid"
-        ],
-        [
-          "Neovim",
-          "Ghcid",
-          "Plugin"
+          "SMTLIB",
+          "Backends",
+          "Process"
         ]
       ],
       "re-exported-modules": [],
@@ -88,26 +96,18 @@
         "cSources": [],
         "cxxSources": [],
         "jsSources": [],
-        "hsSourceDirs": [],
+        "hsSourceDirs": [
+          "src"
+        ],
         "otherModules": [],
         "virtualModules": [],
         "autogenModules": [],
         "defaultLanguage": "Haskell2010",
         "otherLanguages": [],
-        "defaultExtensions": [
-          {
-            "enable-extension": "OverloadedStrings"
-          },
-          {
-            "enable-extension": "LambdaCase"
-          }
-        ],
+        "defaultExtensions": [],
         "otherExtensions": [
           {
-            "enable-extension": "TemplateHaskell"
-          },
-          {
-            "enable-extension": "DeriveGeneric"
+            "enable-extension": "Safe"
           }
         ],
         "oldExtensions": [],
@@ -122,7 +122,10 @@
         "autogenIncludes": [],
         "installIncludes": [],
         "options": [
-          [],
+          [
+            "-Wall",
+            "-Wunused-packages"
+          ],
           []
         ],
         "profOptions": [
@@ -140,85 +143,43 @@
         "customFieldsBI": [],
         "targetBuildDepends": [
           {
+            "package-name": "async",
+            "version-range": ">=2.2.4 && <2.3",
+            "library": [
+              {}
+            ]
+          },
+          {
             "package-name": "base",
-            "version-range": ">=4.9 && <5",
-            "library": [
-              {}
-            ]
-          },
-          {
-            "package-name": "nvim-hs",
-            "version-range": ">=2 && <2.3",
-            "library": [
-              {}
-            ]
-          },
-          {
-            "package-name": "nvim-hs-contrib",
-            "version-range": ">=2.0 && <3",
-            "library": [
-              {}
-            ]
-          },
-          {
-            "package-name": "containers",
-            "version-range": ">=0.5",
-            "library": [
-              {}
-            ]
-          },
-          {
-            "package-name": "yaml",
-            "version-range": "-any",
-            "library": [
-              {}
-            ]
-          },
-          {
-            "package-name": "ghcid",
-            "version-range": ">=0.6.1 && <1",
-            "library": [
-              {}
-            ]
-          },
-          {
-            "package-name": "resourcet",
-            "version-range": "-any",
+            "version-range": ">=4.14 && <4.17.0",
             "library": [
               {}
             ]
           },
           {
             "package-name": "bytestring",
-            "version-range": "-any",
+            "version-range": ">=0.10.12 && <0.11",
             "library": [
               {}
             ]
           },
           {
-            "package-name": "directory",
-            "version-range": "-any",
+            "package-name": "data-default",
+            "version-range": ">=0.7.1 && <0.8",
             "library": [
               {}
             ]
           },
           {
-            "package-name": "filepath",
-            "version-range": "-any",
+            "package-name": "smtlib-backends",
+            "version-range": ">=0.2 && <0.3",
             "library": [
               {}
             ]
           },
           {
-            "package-name": "transformers",
-            "version-range": "-any",
-            "library": [
-              {}
-            ]
-          },
-          {
-            "package-name": "unliftio",
-            "version-range": "-any",
+            "package-name": "typed-process",
+            "version-range": ">=0.2.10 && <0.3",
             "library": [
               {}
             ]
@@ -229,85 +190,43 @@
     },
     "condTreeConstraints": [
       {
+        "package-name": "async",
+        "version-range": ">=2.2.4 && <2.3",
+        "library": [
+          {}
+        ]
+      },
+      {
         "package-name": "base",
-        "version-range": ">=4.9 && <5",
-        "library": [
-          {}
-        ]
-      },
-      {
-        "package-name": "nvim-hs",
-        "version-range": ">=2 && <2.3",
-        "library": [
-          {}
-        ]
-      },
-      {
-        "package-name": "nvim-hs-contrib",
-        "version-range": ">=2.0 && <3",
-        "library": [
-          {}
-        ]
-      },
-      {
-        "package-name": "containers",
-        "version-range": ">=0.5",
-        "library": [
-          {}
-        ]
-      },
-      {
-        "package-name": "yaml",
-        "version-range": "-any",
-        "library": [
-          {}
-        ]
-      },
-      {
-        "package-name": "ghcid",
-        "version-range": ">=0.6.1 && <1",
-        "library": [
-          {}
-        ]
-      },
-      {
-        "package-name": "resourcet",
-        "version-range": "-any",
+        "version-range": ">=4.14 && <4.17.0",
         "library": [
           {}
         ]
       },
       {
         "package-name": "bytestring",
-        "version-range": "-any",
+        "version-range": ">=0.10.12 && <0.11",
         "library": [
           {}
         ]
       },
       {
-        "package-name": "directory",
-        "version-range": "-any",
+        "package-name": "data-default",
+        "version-range": ">=0.7.1 && <0.8",
         "library": [
           {}
         ]
       },
       {
-        "package-name": "filepath",
-        "version-range": "-any",
+        "package-name": "smtlib-backends",
+        "version-range": ">=0.2 && <0.3",
         "library": [
           {}
         ]
       },
       {
-        "package-name": "transformers",
-        "version-range": "-any",
-        "library": [
-          {}
-        ]
-      },
-      {
-        "package-name": "unliftio",
-        "version-range": "-any",
+        "package-name": "typed-process",
+        "version-range": ">=0.2.10 && <0.3",
         "library": [
           {}
         ]
@@ -315,12 +234,17 @@
     ],
     "condTreeComponents": []
   },
-  "executables": {
-    "nvim-hs-ghcid": {
+  "test-suites": {
+    "test": {
       "condTreeData": {
-        "name": "nvim-hs-ghcid",
-        "module-path": "Main.hs",
-        "scope": "public",
+        "name": "",
+        "interface": {
+          "version": [
+            1,
+            0
+          ],
+          "filepath": "Main.hs"
+        },
         "build-info": {
           "buildable": true,
           "buildTools": [],
@@ -340,9 +264,13 @@
           "cxxSources": [],
           "jsSources": [],
           "hsSourceDirs": [
-            "executable"
+            "tests"
           ],
-          "otherModules": [],
+          "otherModules": [
+            [
+              "Examples"
+            ]
+          ],
           "virtualModules": [],
           "autogenModules": [],
           "defaultLanguage": "Haskell2010",
@@ -363,8 +291,8 @@
           "options": [
             [
               "-threaded",
-              "-rtsopts",
-              "-with-rtsopts=-N"
+              "-Wall",
+              "-Wunused-packages"
             ],
             []
           ],
@@ -384,20 +312,62 @@
           "targetBuildDepends": [
             {
               "package-name": "base",
-              "version-range": ">=4.9 && <5",
-              "library": [
-                {}
-              ]
-            },
-            {
-              "package-name": "nvim-hs",
               "version-range": "-any",
               "library": [
                 {}
               ]
             },
             {
-              "package-name": "nvim-hs-ghcid",
+              "package-name": "bytestring",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "data-default",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "smtlib-backends",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "smtlib-backends-process",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "smtlib-backends-tests",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "tasty",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "tasty-hunit",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "typed-process",
               "version-range": "-any",
               "library": [
                 {}
@@ -410,20 +380,62 @@
       "condTreeConstraints": [
         {
           "package-name": "base",
-          "version-range": ">=4.9 && <5",
-          "library": [
-            {}
-          ]
-        },
-        {
-          "package-name": "nvim-hs",
           "version-range": "-any",
           "library": [
             {}
           ]
         },
         {
-          "package-name": "nvim-hs-ghcid",
+          "package-name": "bytestring",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "data-default",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "smtlib-backends",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "smtlib-backends-process",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "smtlib-backends-tests",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "tasty",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "tasty-hunit",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "typed-process",
           "version-range": "-any",
           "library": [
             {}
