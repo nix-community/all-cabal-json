@@ -2,17 +2,17 @@
   "description": {
     "spec-version": {
       "Left": [
-        2,
-        0
+        1,
+        12
       ]
     },
     "package": {
-      "name": "Unique",
+      "name": "typecheck-plugin-nat-simple",
       "version": [
         0,
-        4,
-        7,
-        9
+        1,
+        0,
+        8
       ]
     },
     "license": {
@@ -21,39 +21,29 @@
     "license-files": [
       "LICENSE"
     ],
-    "copyright": "",
-    "maintainer": "ualinuxcn@gmail.com",
-    "author": "Volodymyr Yashchenko",
+    "copyright": "Yoshikuni Jujo",
+    "maintainer": "yoshikuni.jujo.pc@gmail.com",
+    "author": "Yoshikuni Jujo",
     "stability": "",
-    "tested-with": [
-      {
-        "compiler": "GHC",
-        "versionRange": ">=7.4 && <8.2.1 || >8.2.1 && <8.12"
-      }
-    ],
-    "homepage": "",
+    "tested-with": [],
+    "homepage": "https://github.com/YoshikuniJujo/typecheck-plugin-nat-simple#readme",
     "pkg-url": "",
-    "bug-reports": "",
+    "bug-reports": "https://github.com/YoshikuniJujo/typecheck-plugin-nat-simple/issues",
     "source-repos": [
       {
         "kind": {},
         "type": "Git",
-        "location": "https://github.com/kapralVV/Unique.git",
+        "location": "https://github.com/YoshikuniJujo/typecheck-plugin-nat-simple",
         "module": null,
         "branch": null,
         "tag": null,
         "subdir": null
       }
     ],
-    "synopsis": "It provides the functionality like unix \"uniq\" utility",
-    "description": "Library provides the functions to find unique and duplicate elements in the list",
-    "category": "Data",
-    "custom-fields": [
-      [
-        "x-revision",
-        "1"
-      ]
-    ],
+    "synopsis": "Simple type check plugin which calculate addition, subtraction and less-or-equal-than",
+    "description": "Please see the README on GitHub at <https://github.com/YoshikuniJujo/typecheck-plugin-nat-simple#readme>",
+    "category": "Compiler Plugin",
+    "custom-fields": [],
     "build-type-raw": "Simple",
     "custom-setup": null,
     "library": null,
@@ -62,9 +52,19 @@
     "foreign-libs": [],
     "test-suites": [],
     "benchmarks": [],
-    "data-files": [],
-    "data-dir": ".",
-    "extra-source-files": [],
+    "data-files": [
+      "lengthed_tail.hs",
+      "plus1minus1.hs",
+      "two_equations.hs",
+      "minus1plus1.hs",
+      "complex.hs",
+      "mplus1_nplus1.hs"
+    ],
+    "data-dir": "sample",
+    "extra-source-files": [
+      "README.md",
+      "ChangeLog.md"
+    ],
     "extra-tmp-files": [],
     "extra-doc-files": []
   },
@@ -73,19 +73,48 @@
       "name": {},
       "exposed-modules": [
         [
-          "Data",
-          "List",
-          "Unique"
+          "Plugin",
+          "TypeCheck",
+          "Nat",
+          "Simple"
+        ],
+        [
+          "Plugin",
+          "TypeCheck",
+          "Nat",
+          "Simple",
+          "TypeCheckWith"
+        ],
+        [
+          "Plugin",
+          "TypeCheck",
+          "Nat",
+          "Simple",
+          "Decode"
         ],
         [
           "Data",
-          "List",
-          "UniqueStrict"
+          "Derivation",
+          "CanDerive"
         ],
         [
           "Data",
-          "List",
-          "UniqueUnsorted"
+          "Derivation",
+          "Expression"
+        ],
+        [
+          "Data",
+          "Derivation",
+          "Parse"
+        ],
+        [
+          "Control",
+          "Monad",
+          "Try"
+        ],
+        [
+          "Data",
+          "Log"
         ]
       ],
       "re-exported-modules": [],
@@ -110,8 +139,41 @@
         "cSources": [],
         "cxxSources": [],
         "jsSources": [],
-        "hsSourceDirs": [],
-        "otherModules": [],
+        "hsSourceDirs": [
+          "src"
+        ],
+        "otherModules": [
+          [
+            "Control",
+            "Monad",
+            "StateT"
+          ],
+          [
+            "Data",
+            "Derivation",
+            "Constraint"
+          ],
+          [
+            "Data",
+            "Derivation",
+            "Expression",
+            "Internal"
+          ],
+          [
+            "Data",
+            "Parse"
+          ],
+          [
+            "Plugin",
+            "TypeCheck",
+            "Nat",
+            "Simple",
+            "UnNomEq"
+          ],
+          [
+            "Paths_typecheck_plugin_nat_simple"
+          ]
+        ],
         "virtualModules": [],
         "autogenModules": [],
         "defaultLanguage": "Haskell2010",
@@ -130,9 +192,7 @@
         "autogenIncludes": [],
         "installIncludes": [],
         "options": [
-          [
-            "-Wall"
-          ],
+          [],
           []
         ],
         "profOptions": [
@@ -151,35 +211,28 @@
         "targetBuildDepends": [
           {
             "package-name": "base",
-            "version-range": ">=4.0 && <5",
+            "version-range": ">=4.7 && <5",
             "library": [
               {}
             ]
           },
           {
             "package-name": "containers",
-            "version-range": ">=0.5.0.0 && <=0.7",
+            "version-range": "-any",
             "library": [
               {}
             ]
           },
           {
-            "package-name": "extra",
-            "version-range": ">=1.6.2 && <=1.8",
+            "package-name": "ghc",
+            "version-range": ">=9.2.2",
             "library": [
               {}
             ]
           },
           {
-            "package-name": "hashable",
-            "version-range": ">=1.2.6 && <=1.5",
-            "library": [
-              {}
-            ]
-          },
-          {
-            "package-name": "unordered-containers",
-            "version-range": ">=0.2.8 && <=0.3",
+            "package-name": "ghc-tcplugins-extra",
+            "version-range": "-any",
             "library": [
               {}
             ]
@@ -191,35 +244,28 @@
     "condTreeConstraints": [
       {
         "package-name": "base",
-        "version-range": ">=4.0 && <5",
+        "version-range": ">=4.7 && <5",
         "library": [
           {}
         ]
       },
       {
         "package-name": "containers",
-        "version-range": ">=0.5.0.0 && <=0.7",
+        "version-range": "-any",
         "library": [
           {}
         ]
       },
       {
-        "package-name": "extra",
-        "version-range": ">=1.6.2 && <=1.8",
+        "package-name": "ghc",
+        "version-range": ">=9.2.2",
         "library": [
           {}
         ]
       },
       {
-        "package-name": "hashable",
-        "version-range": ">=1.2.6 && <=1.5",
-        "library": [
-          {}
-        ]
-      },
-      {
-        "package-name": "unordered-containers",
-        "version-range": ">=0.2.8 && <=0.3",
+        "package-name": "ghc-tcplugins-extra",
+        "version-range": "-any",
         "library": [
           {}
         ]
@@ -228,7 +274,7 @@
     "condTreeComponents": []
   },
   "test-suites": {
-    "HspecTest": {
+    "typecheck-plugin-nat-simple-test-log": {
       "condTreeData": {
         "name": "",
         "interface": {
@@ -236,7 +282,7 @@
             1,
             0
           ],
-          "filepath": "Main.hs"
+          "filepath": "log.hs"
         },
         "build-info": {
           "buildable": true,
@@ -257,60 +303,11 @@
           "cxxSources": [],
           "jsSources": [],
           "hsSourceDirs": [
-            "tests"
+            "test"
           ],
           "otherModules": [
             [
-              "Unique",
-              "Complex"
-            ],
-            [
-              "Unique",
-              "IsUnique"
-            ],
-            [
-              "Unique",
-              "RepeatedBy"
-            ],
-            [
-              "Unique",
-              "SortUniq"
-            ],
-            [
-              "Unique",
-              "AllUnique"
-            ],
-            [
-              "UniqueStrict",
-              "IsUnique"
-            ],
-            [
-              "UniqueStrict",
-              "RepeatedBy"
-            ],
-            [
-              "UniqueStrict",
-              "SortUniq"
-            ],
-            [
-              "UniqueStrict",
-              "AllUnique"
-            ],
-            [
-              "UniqueUnsorted",
-              "IsUnique"
-            ],
-            [
-              "UniqueUnsorted",
-              "RemoveDuplicates"
-            ],
-            [
-              "UniqueUnsorted",
-              "RepeatedBy"
-            ],
-            [
-              "UniqueUnsorted",
-              "AllUnique"
+              "Paths_typecheck_plugin_nat_simple"
             ]
           ],
           "virtualModules": [],
@@ -332,7 +329,9 @@
           "installIncludes": [],
           "options": [
             [
-              "-Wall"
+              "-threaded",
+              "-rtsopts",
+              "-with-rtsopts=-N"
             ],
             []
           ],
@@ -352,35 +351,35 @@
           "targetBuildDepends": [
             {
               "package-name": "base",
-              "version-range": ">=4.0 && <5",
-              "library": [
-                {}
-              ]
-            },
-            {
-              "package-name": "Unique",
-              "version-range": "-any",
-              "library": [
-                {}
-              ]
-            },
-            {
-              "package-name": "hspec",
-              "version-range": "-any",
+              "version-range": ">=4.7 && <5",
               "library": [
                 {}
               ]
             },
             {
               "package-name": "containers",
-              "version-range": ">=0.5.0.0 && <=0.7",
+              "version-range": "-any",
               "library": [
                 {}
               ]
             },
             {
-              "package-name": "QuickCheck",
-              "version-range": ">=2.10 && <2.15",
+              "package-name": "ghc",
+              "version-range": ">=9.2.2",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "ghc-tcplugins-extra",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "typecheck-plugin-nat-simple",
+              "version-range": "-any",
               "library": [
                 {}
               ]
@@ -392,45 +391,43 @@
       "condTreeConstraints": [
         {
           "package-name": "base",
-          "version-range": ">=4.0 && <5",
-          "library": [
-            {}
-          ]
-        },
-        {
-          "package-name": "Unique",
-          "version-range": "-any",
-          "library": [
-            {}
-          ]
-        },
-        {
-          "package-name": "hspec",
-          "version-range": "-any",
+          "version-range": ">=4.7 && <5",
           "library": [
             {}
           ]
         },
         {
           "package-name": "containers",
-          "version-range": ">=0.5.0.0 && <=0.7",
+          "version-range": "-any",
           "library": [
             {}
           ]
         },
         {
-          "package-name": "QuickCheck",
-          "version-range": ">=2.10 && <2.15",
+          "package-name": "ghc",
+          "version-range": ">=9.2.2",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "ghc-tcplugins-extra",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "typecheck-plugin-nat-simple",
+          "version-range": "-any",
           "library": [
             {}
           ]
         }
       ],
       "condTreeComponents": []
-    }
-  },
-  "benchmarks": {
-    "Criterion": {
+    },
+    "typecheck-plugin-nat-simple-test-spec": {
       "condTreeData": {
         "name": "",
         "interface": {
@@ -438,7 +435,7 @@
             1,
             0
           ],
-          "filepath": "Main.hs"
+          "filepath": "spec.hs"
         },
         "build-info": {
           "buildable": true,
@@ -459,9 +456,13 @@
           "cxxSources": [],
           "jsSources": [],
           "hsSourceDirs": [
-            "bench"
+            "test"
           ],
-          "otherModules": [],
+          "otherModules": [
+            [
+              "Paths_typecheck_plugin_nat_simple"
+            ]
+          ],
           "virtualModules": [],
           "autogenModules": [],
           "defaultLanguage": "Haskell2010",
@@ -481,8 +482,9 @@
           "installIncludes": [],
           "options": [
             [
-              "-Wall",
-              "-rtsopts"
+              "-threaded",
+              "-rtsopts",
+              "-with-rtsopts=-N"
             ],
             []
           ],
@@ -502,48 +504,34 @@
           "targetBuildDepends": [
             {
               "package-name": "base",
-              "version-range": ">=4.0 && <5",
+              "version-range": ">=4.7 && <5",
               "library": [
                 {}
               ]
             },
             {
-              "package-name": "Unique",
+              "package-name": "containers",
               "version-range": "-any",
               "library": [
                 {}
               ]
             },
             {
-              "package-name": "criterion",
+              "package-name": "ghc",
+              "version-range": ">=9.2.2",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "ghc-tcplugins-extra",
               "version-range": "-any",
               "library": [
                 {}
               ]
             },
             {
-              "package-name": "QuickCheck",
-              "version-range": ">=2.10 && <2.15",
-              "library": [
-                {}
-              ]
-            },
-            {
-              "package-name": "quickcheck-instances",
-              "version-range": "-any",
-              "library": [
-                {}
-              ]
-            },
-            {
-              "package-name": "bytestring",
-              "version-range": "-any",
-              "library": [
-                {}
-              ]
-            },
-            {
-              "package-name": "hashable",
+              "package-name": "typecheck-plugin-nat-simple",
               "version-range": "-any",
               "library": [
                 {}
@@ -556,48 +544,187 @@
       "condTreeConstraints": [
         {
           "package-name": "base",
-          "version-range": ">=4.0 && <5",
+          "version-range": ">=4.7 && <5",
           "library": [
             {}
           ]
         },
         {
-          "package-name": "Unique",
+          "package-name": "containers",
           "version-range": "-any",
           "library": [
             {}
           ]
         },
         {
-          "package-name": "criterion",
+          "package-name": "ghc",
+          "version-range": ">=9.2.2",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "ghc-tcplugins-extra",
           "version-range": "-any",
           "library": [
             {}
           ]
         },
         {
-          "package-name": "QuickCheck",
-          "version-range": ">=2.10 && <2.15",
+          "package-name": "typecheck-plugin-nat-simple",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        }
+      ],
+      "condTreeComponents": []
+    },
+    "typecheck-plugin-nat-simple-test-tryLog": {
+      "condTreeData": {
+        "name": "",
+        "interface": {
+          "version": [
+            1,
+            0
+          ],
+          "filepath": "tryLog.hs"
+        },
+        "build-info": {
+          "buildable": true,
+          "buildTools": [],
+          "buildToolDepends": [],
+          "cppOptions": [],
+          "asmOptions": [],
+          "cmmOptions": [],
+          "ccOptions": [],
+          "cxxOptions": [],
+          "ldOptions": [],
+          "pkgconfigDepends": [],
+          "frameworks": [],
+          "extraFrameworkDirs": [],
+          "asmSources": [],
+          "cmmSources": [],
+          "cSources": [],
+          "cxxSources": [],
+          "jsSources": [],
+          "hsSourceDirs": [
+            "test"
+          ],
+          "otherModules": [
+            [
+              "Paths_typecheck_plugin_nat_simple"
+            ]
+          ],
+          "virtualModules": [],
+          "autogenModules": [],
+          "defaultLanguage": "Haskell2010",
+          "otherLanguages": [],
+          "defaultExtensions": [],
+          "otherExtensions": [],
+          "oldExtensions": [],
+          "extraLibs": [],
+          "extraGHCiLibs": [],
+          "extraBundledLibs": [],
+          "extraLibFlavours": [],
+          "extraDynLibFlavours": [],
+          "extraLibDirs": [],
+          "includeDirs": [],
+          "includes": [],
+          "autogenIncludes": [],
+          "installIncludes": [],
+          "options": [
+            [
+              "-threaded",
+              "-rtsopts",
+              "-with-rtsopts=-N"
+            ],
+            []
+          ],
+          "profOptions": [
+            [],
+            []
+          ],
+          "sharedOptions": [
+            [],
+            []
+          ],
+          "staticOptions": [
+            [],
+            []
+          ],
+          "customFieldsBI": [],
+          "targetBuildDepends": [
+            {
+              "package-name": "base",
+              "version-range": ">=4.7 && <5",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "containers",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "ghc",
+              "version-range": ">=9.2.2",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "ghc-tcplugins-extra",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "typecheck-plugin-nat-simple",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            }
+          ],
+          "mixins": []
+        }
+      },
+      "condTreeConstraints": [
+        {
+          "package-name": "base",
+          "version-range": ">=4.7 && <5",
           "library": [
             {}
           ]
         },
         {
-          "package-name": "quickcheck-instances",
+          "package-name": "containers",
           "version-range": "-any",
           "library": [
             {}
           ]
         },
         {
-          "package-name": "bytestring",
+          "package-name": "ghc",
+          "version-range": ">=9.2.2",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "ghc-tcplugins-extra",
           "version-range": "-any",
           "library": [
             {}
           ]
         },
         {
-          "package-name": "hashable",
+          "package-name": "typecheck-plugin-nat-simple",
           "version-range": "-any",
           "library": [
             {}
