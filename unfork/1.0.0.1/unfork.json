@@ -1,0 +1,259 @@
+{
+  "description": {
+    "spec-version": {
+      "Left": [
+        3,
+        0
+      ]
+    },
+    "package": {
+      "name": "unfork",
+      "version": [
+        1,
+        0,
+        0,
+        1
+      ]
+    },
+    "license": {
+      "Left": {
+        "license-expression": {
+          "expression": {
+            "id": "Apache_2_0"
+          },
+          "exception-id": null
+        }
+      }
+    },
+    "license-files": [
+      "license.txt"
+    ],
+    "copyright": "2022 Mission Valley Software LLC",
+    "maintainer": "Chris Martin, Julie Moronuki",
+    "author": "Chris Martin",
+    "stability": "",
+    "tested-with": [],
+    "homepage": "https://github.com/typeclasses/unfork",
+    "pkg-url": "",
+    "bug-reports": "https://github.com/typeclasses/unfork/issues",
+    "source-repos": [
+      {
+        "kind": {},
+        "type": "Git",
+        "location": "git://github.com/typeclasses/unfork.git",
+        "module": null,
+        "branch": null,
+        "tag": null,
+        "subdir": null
+      }
+    ],
+    "synopsis": "Make any action thread safe",
+    "description": "“Unfork” is the opposite of “fork”; whereas forking allows things to run concurrently, unforking prevents things from running concurrently. Use one of the functions in the \"Unfork\" module when you have an action that will be used by concurrent threads but needs to run serially.\n\nA typical use case is a multi-threaded program that writes log messages. If threads use @putStrLn@ directly, the strings may be interleaved in the combined output. Instead, create an unforked version of @putStrLn@:\n\n> import Unfork\n>\n> main :: IO ()\n> main =\n>     unforkAsyncIO_ putStrLn \\putStrLn' ->\n>         _ -- Within this continuation, use\n>           -- putStrLn' instead of putStrLn\n\nThe new @putStrLn'@ function writes to a queue. A separate thread reads from the queue and performs the actions, thus ensuring that the actions are all performed in one linear sequence. The main thread returns after the continuation has returned and the queue is empty. If an exception is raised in either thread, both threads halt and the exception is re-raised in the main thread.",
+    "category": "Concurrency",
+    "custom-fields": [],
+    "build-type-raw": null,
+    "custom-setup": null,
+    "library": null,
+    "sublibraries": [],
+    "executables": [],
+    "foreign-libs": [],
+    "test-suites": [],
+    "benchmarks": [],
+    "data-files": [],
+    "data-dir": ".",
+    "extra-source-files": [
+      "*.md"
+    ],
+    "extra-tmp-files": [],
+    "extra-doc-files": []
+  },
+  "library": {
+    "condTreeData": {
+      "name": {},
+      "exposed-modules": [
+        [
+          "Unfork"
+        ]
+      ],
+      "re-exported-modules": [],
+      "signatures": [],
+      "exposed": true,
+      "visibility": "LibraryVisibilityPublic",
+      "build-info": {
+        "buildable": true,
+        "buildTools": [],
+        "buildToolDepends": [],
+        "cppOptions": [],
+        "asmOptions": [],
+        "cmmOptions": [],
+        "ccOptions": [],
+        "cxxOptions": [],
+        "ldOptions": [],
+        "pkgconfigDepends": [],
+        "frameworks": [],
+        "extraFrameworkDirs": [],
+        "asmSources": [],
+        "cmmSources": [],
+        "cSources": [],
+        "cxxSources": [],
+        "jsSources": [],
+        "hsSourceDirs": [],
+        "otherModules": [
+          [
+            "Unfork",
+            "Async",
+            "Core"
+          ],
+          [
+            "Unfork",
+            "Async",
+            "FireAndForget",
+            "IO"
+          ],
+          [
+            "Unfork",
+            "Async",
+            "FireAndForget",
+            "STM"
+          ],
+          [
+            "Unfork",
+            "Async",
+            "WithResult",
+            "Future"
+          ],
+          [
+            "Unfork",
+            "Async",
+            "WithResult",
+            "IO"
+          ],
+          [
+            "Unfork",
+            "Async",
+            "WithResult",
+            "STM"
+          ],
+          [
+            "Unfork",
+            "Async",
+            "WithResult",
+            "Task"
+          ],
+          [
+            "Unfork",
+            "Sync"
+          ]
+        ],
+        "virtualModules": [],
+        "autogenModules": [],
+        "defaultLanguage": "Haskell2010",
+        "otherLanguages": [],
+        "defaultExtensions": [
+          {
+            "enable-extension": "BlockArguments"
+          },
+          {
+            "enable-extension": "ExistentialQuantification"
+          },
+          {
+            "enable-extension": "NamedFieldPuns"
+          }
+        ],
+        "otherExtensions": [],
+        "oldExtensions": [],
+        "extraLibs": [],
+        "extraGHCiLibs": [],
+        "extraBundledLibs": [],
+        "extraLibFlavours": [],
+        "extraDynLibFlavours": [],
+        "extraLibDirs": [],
+        "includeDirs": [],
+        "includes": [],
+        "autogenIncludes": [],
+        "installIncludes": [],
+        "options": [
+          [
+            "-Wall"
+          ],
+          []
+        ],
+        "profOptions": [
+          [],
+          []
+        ],
+        "sharedOptions": [
+          [],
+          []
+        ],
+        "staticOptions": [
+          [],
+          []
+        ],
+        "customFieldsBI": [],
+        "targetBuildDepends": [
+          {
+            "package-name": "async",
+            "version-range": "^>=2.2.4",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "base",
+            "version-range": "^>=4.14 || ^>=4.15 || ^>=4.16 || ^>=4.17",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "safe-exceptions",
+            "version-range": "^>=0.1.7",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "stm",
+            "version-range": "^>=2.5",
+            "library": [
+              {}
+            ]
+          }
+        ],
+        "mixins": []
+      }
+    },
+    "condTreeConstraints": [
+      {
+        "package-name": "async",
+        "version-range": "^>=2.2.4",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "base",
+        "version-range": "^>=4.14 || ^>=4.15 || ^>=4.16 || ^>=4.17",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "safe-exceptions",
+        "version-range": "^>=0.1.7",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "stm",
+        "version-range": "^>=2.5",
+        "library": [
+          {}
+        ]
+      }
+    ],
+    "condTreeComponents": []
+  }
+}
