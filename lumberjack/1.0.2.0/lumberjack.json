@@ -1,62 +1,47 @@
 {
   "description": {
     "spec-version": {
-      "Left": [
-        3,
-        0
-      ]
+      "Right": ">=1.10"
     },
     "package": {
-      "name": "ascii-th",
+      "name": "lumberjack",
       "version": [
         1,
         0,
-        0,
-        14
+        2,
+        0
       ]
     },
     "license": {
-      "Left": {
-        "license-expression": {
-          "expression": {
-            "id": "Apache_2_0"
-          },
-          "exception-id": null
-        }
-      }
+      "Right": "ISC"
     },
     "license-files": [
-      "license.txt"
+      "LICENSE"
     ],
-    "copyright": "",
-    "maintainer": "Chris Martin, Julie Moronuki",
-    "author": "Chris Martin",
+    "copyright": "2020-2022, Galois Inc.",
+    "maintainer": "kquick@galois.com",
+    "author": "Kevin Quick",
     "stability": "",
     "tested-with": [],
-    "homepage": "https://github.com/typeclasses/ascii-th",
+    "homepage": "https://github.com/GaloisInc/lumberjack",
     "pkg-url": "",
-    "bug-reports": "https://github.com/typeclasses/ascii-th/issues",
+    "bug-reports": "https://github.com/GaloisInc/lumberjack/issues",
     "source-repos": [
       {
         "kind": {},
         "type": "Git",
-        "location": "git://github.com/typeclasses/ascii-th.git",
+        "location": "https://github.com/GaloisInc/lumberjack.git",
         "module": null,
         "branch": null,
         "tag": null,
         "subdir": null
       }
     ],
-    "synopsis": "Template Haskell support for ASCII",
-    "description": "This package defines Template Haskell support for ASCII,\nincluding quasi-quoters for expressing ASCII strings.",
-    "category": "Data, Text",
-    "custom-fields": [
-      [
-        "x-revision",
-        "2"
-      ]
-    ],
-    "build-type-raw": null,
+    "synopsis": "Trek through your code forest and make logs",
+    "description": "This is a logging facility.  Yes, there are many, and this is the one\nwith a beard, wearing flannel and boots, that gets the job done.  It's\nnot the fanciest, it doesn't have a cargo-van full of features.  This\nlogger is designed to be straightforward to use, provide a good set of\nstandard features, and be useable across a broad set of code.\n\n* Logging itself is a monadic activity.  This activity is most often\nperformed in a monad stack with a MonadIO context to allow\nwriting to files.\n\n* The specific logging action implementations are managed separately\nfrom the actions of logging messages in the target code.  This\nallows logging to be configurable and the manner of logging to\nbe specified at startup time without requiring changes in the\ncode from which log messages are being generated.\n\n* The logging implementation code can use contravariant functors to\nadjust existing logging.\n\n* Main code will typically retrieve the logging actions from a Reader\ncontext in your monad stack.  That said, Log actions are not tied\nto an enclosing Monad.  There are helpers to support a Monad which\ncan store Log actions, but Log actions can also be explicitly\npassed and used.\n\n* The prettyprinter package is used for formatting.",
+    "category": "Logging",
+    "custom-fields": [],
+    "build-type-raw": "Simple",
     "custom-setup": null,
     "library": null,
     "sublibraries": [],
@@ -67,7 +52,7 @@
     "data-files": [],
     "data-dir": ".",
     "extra-source-files": [
-      "*.md"
+      "CHANGELOG.md"
     ],
     "extra-tmp-files": [],
     "extra-doc-files": []
@@ -77,12 +62,7 @@
       "name": {},
       "exposed-modules": [
         [
-          "ASCII",
-          "TemplateHaskell"
-        ],
-        [
-          "ASCII",
-          "QuasiQuoters"
+          "Lumberjack"
         ]
       ],
       "re-exported-modules": [],
@@ -108,24 +88,14 @@
         "cxxSources": [],
         "jsSources": [],
         "hsSourceDirs": [
-          "library"
+          "src"
         ],
         "otherModules": [],
         "virtualModules": [],
         "autogenModules": [],
         "defaultLanguage": "Haskell2010",
         "otherLanguages": [],
-        "defaultExtensions": [
-          {
-            "disable-extension": "ImplicitPrelude"
-          },
-          {
-            "enable-extension": "TemplateHaskell"
-          },
-          {
-            "enable-extension": "ViewPatterns"
-          }
-        ],
+        "defaultExtensions": [],
         "otherExtensions": [],
         "oldExtensions": [],
         "extraLibs": [],
@@ -139,9 +109,7 @@
         "autogenIncludes": [],
         "installIncludes": [],
         "options": [
-          [
-            "-Wall"
-          ],
+          [],
           []
         ],
         "profOptions": [
@@ -159,29 +127,57 @@
         "customFieldsBI": [],
         "targetBuildDepends": [
           {
-            "package-name": "ascii-char",
-            "version-range": "^>=1.0",
-            "library": [
-              {}
-            ]
-          },
-          {
-            "package-name": "ascii-superset",
-            "version-range": "^>=1.0.1",
-            "library": [
-              {}
-            ]
-          },
-          {
             "package-name": "base",
-            "version-range": "^>=4.14 || ^>=4.15 || ^>=4.16 || ^>=4.17",
+            "version-range": ">=4.11 && <4.18",
             "library": [
               {}
             ]
           },
           {
-            "package-name": "template-haskell",
-            "version-range": "^>=2.16 || ^>=2.17 || ^>=2.18 || ^>=2.19",
+            "package-name": "contravariant",
+            "version-range": ">=1.5 && <1.6",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "exceptions",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "mtl",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "prettyprinter",
+            "version-range": ">=1.6 && <1.8",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "prettyprinter-ansi-terminal",
+            "version-range": ">=1.1.1.2 && <1.2",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "text",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "time",
+            "version-range": "-any",
             "library": [
               {}
             ]
@@ -192,29 +188,57 @@
     },
     "condTreeConstraints": [
       {
-        "package-name": "ascii-char",
-        "version-range": "^>=1.0",
-        "library": [
-          {}
-        ]
-      },
-      {
-        "package-name": "ascii-superset",
-        "version-range": "^>=1.0.1",
-        "library": [
-          {}
-        ]
-      },
-      {
         "package-name": "base",
-        "version-range": "^>=4.14 || ^>=4.15 || ^>=4.16 || ^>=4.17",
+        "version-range": ">=4.11 && <4.18",
         "library": [
           {}
         ]
       },
       {
-        "package-name": "template-haskell",
-        "version-range": "^>=2.16 || ^>=2.17 || ^>=2.18 || ^>=2.19",
+        "package-name": "contravariant",
+        "version-range": ">=1.5 && <1.6",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "exceptions",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "mtl",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "prettyprinter",
+        "version-range": ">=1.6 && <1.8",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "prettyprinter-ansi-terminal",
+        "version-range": ">=1.1.1.2 && <1.2",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "text",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "time",
+        "version-range": "-any",
         "library": [
           {}
         ]
@@ -222,17 +246,12 @@
     ],
     "condTreeComponents": []
   },
-  "test-suites": {
-    "test-ascii-th": {
+  "executables": {
+    "example_log": {
       "condTreeData": {
-        "name": "",
-        "interface": {
-          "version": [
-            1,
-            0
-          ],
-          "filepath": "Main.hs"
-        },
+        "name": "example_log",
+        "module-path": "ExampleLog.hs",
+        "scope": "public",
         "build-info": {
           "buildable": true,
           "buildTools": [],
@@ -252,33 +271,14 @@
           "cxxSources": [],
           "jsSources": [],
           "hsSourceDirs": [
-            "test"
+            "example"
           ],
           "otherModules": [],
           "virtualModules": [],
           "autogenModules": [],
           "defaultLanguage": "Haskell2010",
           "otherLanguages": [],
-          "defaultExtensions": [
-            {
-              "disable-extension": "ImplicitPrelude"
-            },
-            {
-              "enable-extension": "OverloadedStrings"
-            },
-            {
-              "enable-extension": "QuasiQuotes"
-            },
-            {
-              "enable-extension": "TemplateHaskell"
-            },
-            {
-              "enable-extension": "TypeApplications"
-            },
-            {
-              "enable-extension": "ViewPatterns"
-            }
-          ],
+          "defaultExtensions": [],
           "otherExtensions": [],
           "oldExtensions": [],
           "extraLibs": [],
@@ -292,10 +292,7 @@
           "autogenIncludes": [],
           "installIncludes": [],
           "options": [
-            [
-              "-Wall",
-              "-fno-warn-overlapping-patterns"
-            ],
+            [],
             []
           ],
           "profOptions": [
@@ -313,50 +310,50 @@
           "customFieldsBI": [],
           "targetBuildDepends": [
             {
-              "package-name": "ascii-char",
-              "version-range": "^>=1.0",
-              "library": [
-                {}
-              ]
-            },
-            {
-              "package-name": "ascii-superset",
-              "version-range": "^>=1.0.1",
-              "library": [
-                {}
-              ]
-            },
-            {
               "package-name": "base",
-              "version-range": "^>=4.14 || ^>=4.15 || ^>=4.16 || ^>=4.17",
-              "library": [
-                {}
-              ]
-            },
-            {
-              "package-name": "ascii-th",
               "version-range": "-any",
               "library": [
                 {}
               ]
             },
             {
-              "package-name": "bytestring",
-              "version-range": "^>=0.10.12 || ^>=0.11",
+              "package-name": "contravariant",
+              "version-range": "-any",
               "library": [
                 {}
               ]
             },
             {
-              "package-name": "hspec",
-              "version-range": "^>=2.8.5 || ^>=2.9 || ^>=2.10",
+              "package-name": "exceptions",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "lumberjack",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "mtl",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "prettyprinter",
+              "version-range": "-any",
               "library": [
                 {}
               ]
             },
             {
               "package-name": "text",
-              "version-range": "^>=1.2.4 || ^>=2.0",
+              "version-range": "-any",
               "library": [
                 {}
               ]
@@ -367,50 +364,50 @@
       },
       "condTreeConstraints": [
         {
-          "package-name": "ascii-char",
-          "version-range": "^>=1.0",
-          "library": [
-            {}
-          ]
-        },
-        {
-          "package-name": "ascii-superset",
-          "version-range": "^>=1.0.1",
-          "library": [
-            {}
-          ]
-        },
-        {
           "package-name": "base",
-          "version-range": "^>=4.14 || ^>=4.15 || ^>=4.16 || ^>=4.17",
-          "library": [
-            {}
-          ]
-        },
-        {
-          "package-name": "ascii-th",
           "version-range": "-any",
           "library": [
             {}
           ]
         },
         {
-          "package-name": "bytestring",
-          "version-range": "^>=0.10.12 || ^>=0.11",
+          "package-name": "contravariant",
+          "version-range": "-any",
           "library": [
             {}
           ]
         },
         {
-          "package-name": "hspec",
-          "version-range": "^>=2.8.5 || ^>=2.9 || ^>=2.10",
+          "package-name": "exceptions",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "lumberjack",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "mtl",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "prettyprinter",
+          "version-range": "-any",
           "library": [
             {}
           ]
         },
         {
           "package-name": "text",
-          "version-range": "^>=1.2.4 || ^>=2.0",
+          "version-range": "-any",
           "library": [
             {}
           ]

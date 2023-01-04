@@ -2,61 +2,68 @@
   "description": {
     "spec-version": {
       "Left": [
-        3,
-        0
+        2,
+        2
       ]
     },
     "package": {
-      "name": "ascii-th",
+      "name": "comfort-glpk",
       "version": [
-        1,
         0,
-        0,
-        14
+        0
       ]
     },
     "license": {
       "Left": {
         "license-expression": {
           "expression": {
-            "id": "Apache_2_0"
+            "id": "BSD_3_Clause"
           },
           "exception-id": null
         }
       }
     },
     "license-files": [
-      "license.txt"
+      "LICENSE"
     ],
     "copyright": "",
-    "maintainer": "Chris Martin, Julie Moronuki",
-    "author": "Chris Martin",
+    "maintainer": "Henning Thielemann <haskell@henning-thielemann.de>",
+    "author": "Henning Thielemann <haskell@henning-thielemann.de>",
     "stability": "",
-    "tested-with": [],
-    "homepage": "https://github.com/typeclasses/ascii-th",
+    "tested-with": [
+      {
+        "compiler": "GHC",
+        "versionRange": "==8.6.5"
+      }
+    ],
+    "homepage": "",
     "pkg-url": "",
-    "bug-reports": "https://github.com/typeclasses/ascii-th/issues",
+    "bug-reports": "",
     "source-repos": [
       {
         "kind": {},
-        "type": "Git",
-        "location": "git://github.com/typeclasses/ascii-th.git",
+        "type": "Darcs",
+        "location": "https://hub.darcs.net/thielema/comfort-glpk/",
+        "module": null,
+        "branch": null,
+        "tag": "0.0",
+        "subdir": null
+      },
+      {
+        "kind": {},
+        "type": "Darcs",
+        "location": "https://hub.darcs.net/thielema/comfort-glpk/",
         "module": null,
         "branch": null,
         "tag": null,
         "subdir": null
       }
     ],
-    "synopsis": "Template Haskell support for ASCII",
-    "description": "This package defines Template Haskell support for ASCII,\nincluding quasi-quoters for expressing ASCII strings.",
-    "category": "Data, Text",
-    "custom-fields": [
-      [
-        "x-revision",
-        "2"
-      ]
-    ],
-    "build-type-raw": null,
+    "synopsis": "Linear Programming using GLPK and comfort-array",
+    "description": "Simple interface to linear programming functions provided by GLPK\nusing the flexible Array shape framework from @comfort-array@.\n\nE.g. you can use @Shape.Tuple@ to convert safely\nbetween nested tuples and arrays with the same number of elements.\n\n> type X = Shape.Element\n> type PairShape = Shape.NestedTuple Shape.TupleIndex (X,X)\n>\n> case Shape.indexTupleFromShape (Shape.static :: PairShape) of\n>   (posIx,negIx) ->\n>     case mapSnd (mapSnd Array.toTuple) <$>\n>          LP.simplex [] [[1.*posIx, (-1).*negIx] ==. 314]\n>            (LP.Minimize,\n>             Array.fromTuple (23,42) :: Array PairShape Double)\n>       of\n>         (Right (LP.Optimal, (absol, (pos, neg)))) ->\n>           printf \"absol %f,  pos %f, neg %f\\n\" absol pos neg\n>         _ -> fail \"GLPK solver failed\"\n\nAlternatives: @hmatrix-glpk@, @glpk-hs@",
+    "category": "Math",
+    "custom-fields": [],
+    "build-type-raw": "Simple",
     "custom-setup": null,
     "library": null,
     "sublibraries": [],
@@ -66,9 +73,7 @@
     "benchmarks": [],
     "data-files": [],
     "data-dir": ".",
-    "extra-source-files": [
-      "*.md"
-    ],
+    "extra-source-files": [],
     "extra-tmp-files": [],
     "extra-doc-files": []
   },
@@ -77,12 +82,8 @@
       "name": {},
       "exposed-modules": [
         [
-          "ASCII",
-          "TemplateHaskell"
-        ],
-        [
-          "ASCII",
-          "QuasiQuoters"
+          "Numeric",
+          "GLPK"
         ]
       ],
       "re-exported-modules": [],
@@ -108,27 +109,19 @@
         "cxxSources": [],
         "jsSources": [],
         "hsSourceDirs": [
-          "library"
+          "src"
         ],
         "otherModules": [],
         "virtualModules": [],
         "autogenModules": [],
-        "defaultLanguage": "Haskell2010",
+        "defaultLanguage": "Haskell98",
         "otherLanguages": [],
-        "defaultExtensions": [
-          {
-            "disable-extension": "ImplicitPrelude"
-          },
-          {
-            "enable-extension": "TemplateHaskell"
-          },
-          {
-            "enable-extension": "ViewPatterns"
-          }
-        ],
+        "defaultExtensions": [],
         "otherExtensions": [],
         "oldExtensions": [],
-        "extraLibs": [],
+        "extraLibs": [
+          "glpk"
+        ],
         "extraGHCiLibs": [],
         "extraBundledLibs": [],
         "extraLibFlavours": [],
@@ -159,29 +152,43 @@
         "customFieldsBI": [],
         "targetBuildDepends": [
           {
-            "package-name": "ascii-char",
-            "version-range": "^>=1.0",
+            "package-name": "glpk-headers",
+            "version-range": ">=0.4.1 && <0.5",
             "library": [
               {}
             ]
           },
           {
-            "package-name": "ascii-superset",
-            "version-range": "^>=1.0.1",
+            "package-name": "comfort-array",
+            "version-range": ">=0.4 && <0.6",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "deepseq",
+            "version-range": ">=1.3 && <1.5",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "non-empty",
+            "version-range": ">=0.3.2 && <0.4",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "utility-ht",
+            "version-range": ">=0.0.16 && <0.1",
             "library": [
               {}
             ]
           },
           {
             "package-name": "base",
-            "version-range": "^>=4.14 || ^>=4.15 || ^>=4.16 || ^>=4.17",
-            "library": [
-              {}
-            ]
-          },
-          {
-            "package-name": "template-haskell",
-            "version-range": "^>=2.16 || ^>=2.17 || ^>=2.18 || ^>=2.19",
+            "version-range": ">=4.5 && <5",
             "library": [
               {}
             ]
@@ -192,29 +199,43 @@
     },
     "condTreeConstraints": [
       {
-        "package-name": "ascii-char",
-        "version-range": "^>=1.0",
+        "package-name": "glpk-headers",
+        "version-range": ">=0.4.1 && <0.5",
         "library": [
           {}
         ]
       },
       {
-        "package-name": "ascii-superset",
-        "version-range": "^>=1.0.1",
+        "package-name": "comfort-array",
+        "version-range": ">=0.4 && <0.6",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "deepseq",
+        "version-range": ">=1.3 && <1.5",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "non-empty",
+        "version-range": ">=0.3.2 && <0.4",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "utility-ht",
+        "version-range": ">=0.0.16 && <0.1",
         "library": [
           {}
         ]
       },
       {
         "package-name": "base",
-        "version-range": "^>=4.14 || ^>=4.15 || ^>=4.16 || ^>=4.17",
-        "library": [
-          {}
-        ]
-      },
-      {
-        "package-name": "template-haskell",
-        "version-range": "^>=2.16 || ^>=2.17 || ^>=2.18 || ^>=2.19",
+        "version-range": ">=4.5 && <5",
         "library": [
           {}
         ]
@@ -223,7 +244,7 @@
     "condTreeComponents": []
   },
   "test-suites": {
-    "test-ascii-th": {
+    "comfort-glpk-test": {
       "condTreeData": {
         "name": "",
         "interface": {
@@ -254,31 +275,18 @@
           "hsSourceDirs": [
             "test"
           ],
-          "otherModules": [],
+          "otherModules": [
+            [
+              "Test",
+              "Numeric",
+              "GLPK"
+            ]
+          ],
           "virtualModules": [],
           "autogenModules": [],
-          "defaultLanguage": "Haskell2010",
+          "defaultLanguage": "Haskell98",
           "otherLanguages": [],
-          "defaultExtensions": [
-            {
-              "disable-extension": "ImplicitPrelude"
-            },
-            {
-              "enable-extension": "OverloadedStrings"
-            },
-            {
-              "enable-extension": "QuasiQuotes"
-            },
-            {
-              "enable-extension": "TemplateHaskell"
-            },
-            {
-              "enable-extension": "TypeApplications"
-            },
-            {
-              "enable-extension": "ViewPatterns"
-            }
-          ],
+          "defaultExtensions": [],
           "otherExtensions": [],
           "oldExtensions": [],
           "extraLibs": [],
@@ -293,8 +301,7 @@
           "installIncludes": [],
           "options": [
             [
-              "-Wall",
-              "-fno-warn-overlapping-patterns"
+              "-Wall"
             ],
             []
           ],
@@ -313,50 +320,50 @@
           "customFieldsBI": [],
           "targetBuildDepends": [
             {
-              "package-name": "ascii-char",
-              "version-range": "^>=1.0",
-              "library": [
-                {}
-              ]
-            },
-            {
-              "package-name": "ascii-superset",
-              "version-range": "^>=1.0.1",
-              "library": [
-                {}
-              ]
-            },
-            {
-              "package-name": "base",
-              "version-range": "^>=4.14 || ^>=4.15 || ^>=4.16 || ^>=4.17",
-              "library": [
-                {}
-              ]
-            },
-            {
-              "package-name": "ascii-th",
+              "package-name": "comfort-glpk",
               "version-range": "-any",
               "library": [
                 {}
               ]
             },
             {
-              "package-name": "bytestring",
-              "version-range": "^>=0.10.12 || ^>=0.11",
+              "package-name": "comfort-array",
+              "version-range": ">=0.5.2",
               "library": [
                 {}
               ]
             },
             {
-              "package-name": "hspec",
-              "version-range": "^>=2.8.5 || ^>=2.9 || ^>=2.10",
+              "package-name": "utility-ht",
+              "version-range": "-any",
               "library": [
                 {}
               ]
             },
             {
-              "package-name": "text",
-              "version-range": "^>=1.2.4 || ^>=2.0",
+              "package-name": "doctest-exitcode-stdio",
+              "version-range": ">=0.0 && <0.1",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "doctest-lib",
+              "version-range": ">=0.1 && <0.2",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "QuickCheck",
+              "version-range": ">=2.1 && <3",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "base",
+              "version-range": ">=4.5 && <5",
               "library": [
                 {}
               ]
@@ -367,50 +374,50 @@
       },
       "condTreeConstraints": [
         {
-          "package-name": "ascii-char",
-          "version-range": "^>=1.0",
-          "library": [
-            {}
-          ]
-        },
-        {
-          "package-name": "ascii-superset",
-          "version-range": "^>=1.0.1",
-          "library": [
-            {}
-          ]
-        },
-        {
-          "package-name": "base",
-          "version-range": "^>=4.14 || ^>=4.15 || ^>=4.16 || ^>=4.17",
-          "library": [
-            {}
-          ]
-        },
-        {
-          "package-name": "ascii-th",
+          "package-name": "comfort-glpk",
           "version-range": "-any",
           "library": [
             {}
           ]
         },
         {
-          "package-name": "bytestring",
-          "version-range": "^>=0.10.12 || ^>=0.11",
+          "package-name": "comfort-array",
+          "version-range": ">=0.5.2",
           "library": [
             {}
           ]
         },
         {
-          "package-name": "hspec",
-          "version-range": "^>=2.8.5 || ^>=2.9 || ^>=2.10",
+          "package-name": "utility-ht",
+          "version-range": "-any",
           "library": [
             {}
           ]
         },
         {
-          "package-name": "text",
-          "version-range": "^>=1.2.4 || ^>=2.0",
+          "package-name": "doctest-exitcode-stdio",
+          "version-range": ">=0.0 && <0.1",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "doctest-lib",
+          "version-range": ">=0.1 && <0.2",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "QuickCheck",
+          "version-range": ">=2.1 && <3",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "base",
+          "version-range": ">=4.5 && <5",
           "library": [
             {}
           ]
