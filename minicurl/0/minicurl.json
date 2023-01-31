@@ -1,42 +1,59 @@
 {
   "description": {
     "spec-version": {
-      "Right": ">=1.10"
+      "Left": [
+        3,
+        0
+      ]
     },
     "package": {
-      "name": "harfbuzz-pure",
+      "name": "minicurl",
       "version": [
-        1,
-        0,
-        1,
         0
       ]
     },
     "license": {
-      "Right": "MIT"
+      "Left": {
+        "license-expression": {
+          "expression": {
+            "id": "BSD_3_Clause"
+          },
+          "exception-id": null
+        }
+      }
     },
     "license-files": [
       "LICENSE"
     ],
     "copyright": "",
-    "maintainer": "opensource@openwork.nz",
-    "author": "Adrian Cochrane",
+    "maintainer": "Oleg Grenrus <oleg.grenrus@iki.fi>",
+    "author": "Oleg Grenrus <oleg.grenrus@iki.fi>",
     "stability": "",
-    "tested-with": [],
-    "homepage": "https://harfbuzz.github.io/",
-    "pkg-url": "",
-    "bug-reports": "",
-    "source-repos": [],
-    "synopsis": "Pure-functional Harfbuzz language bindings",
-    "description": "HarfBuzz is a text shaping library. Using the HarfBuzz library allows programs to convert a sequence of Unicode input into properly formatted and positioned glyph output—for any writing system and language.\nNOTE: You may need to install Harfbuzz 3.3.0 (Jan 2022) or newer from source, it hasn't been widely packaged yet.",
-    "category": "Text",
-    "custom-fields": [
-      [
-        "x-revision",
-        "1"
-      ]
+    "tested-with": [
+      {
+        "compiler": "GHC",
+        "versionRange": "==8.0.2 || ==8.2.2 || ==8.4.4 || ==8.6.5 || ==8.8.4 || ==8.10.7 || ==9.0.2 || ==9.2.5 || ==9.4.4"
+      }
     ],
-    "build-type-raw": "Simple",
+    "homepage": "https://github.com/phadej/minicurl",
+    "pkg-url": "",
+    "bug-reports": "https://github.com/phadej/minicurl/issues",
+    "source-repos": [
+      {
+        "kind": {},
+        "type": "Git",
+        "location": "https://github.com/phadej/minicurl.git",
+        "module": null,
+        "branch": null,
+        "tag": null,
+        "subdir": null
+      }
+    ],
+    "synopsis": "Minimal bindings to libcurl",
+    "description": "Minimal bindings to @libcurl@.\nAllows to download files if you know their size.",
+    "category": "Network",
+    "custom-fields": [],
+    "build-type-raw": null,
     "custom-setup": null,
     "library": null,
     "sublibraries": [],
@@ -47,7 +64,7 @@
     "data-files": [],
     "data-dir": ".",
     "extra-source-files": [
-      "ChangeLog.md"
+      "include/hs_minicurl.h"
     ],
     "extra-tmp-files": [],
     "extra-doc-files": []
@@ -57,9 +74,7 @@
       "name": {},
       "exposed-modules": [
         [
-          "Data",
-          "Text",
-          "Glyphize"
+          "MiniCurl"
         ]
       ],
       "re-exported-modules": [],
@@ -78,8 +93,8 @@
         "ldOptions": [],
         "pkgconfigDepends": [
           {
-            "pkgconfigName": "harfbuzz",
-            "pkgconfigVersionRange": "==3.3 || >3.3"
+            "pkgconfigName": "libcurl",
+            "pkgconfigVersionRange": ">=7.58.0"
           }
         ],
         "frameworks": [],
@@ -89,27 +104,10 @@
         "cSources": [],
         "cxxSources": [],
         "jsSources": [],
-        "hsSourceDirs": [],
-        "otherModules": [
-          [
-            "Data",
-            "Text",
-            "Glyphize",
-            "Buffer"
-          ],
-          [
-            "Data",
-            "Text",
-            "Glyphize",
-            "Font"
-          ],
-          [
-            "Data",
-            "Text",
-            "Glyphize",
-            "Oom"
-          ]
+        "hsSourceDirs": [
+          "src"
         ],
+        "otherModules": [],
         "virtualModules": [],
         "autogenModules": [],
         "defaultLanguage": "Haskell2010",
@@ -123,12 +121,16 @@
         "extraLibFlavours": [],
         "extraDynLibFlavours": [],
         "extraLibDirs": [],
-        "includeDirs": [],
+        "includeDirs": [
+          "include"
+        ],
         "includes": [],
         "autogenIncludes": [],
         "installIncludes": [],
         "options": [
-          [],
+          [
+            "-Wall"
+          ],
           []
         ],
         "profOptions": [
@@ -147,35 +149,14 @@
         "targetBuildDepends": [
           {
             "package-name": "base",
-            "version-range": ">=4.12 && <4.16",
-            "library": [
-              {}
-            ]
-          },
-          {
-            "package-name": "text",
-            "version-range": ">=2.0 && <3",
+            "version-range": ">=4.9.0.0 && <4.18",
             "library": [
               {}
             ]
           },
           {
             "package-name": "bytestring",
-            "version-range": ">=0.11",
-            "library": [
-              {}
-            ]
-          },
-          {
-            "package-name": "freetype2",
-            "version-range": ">=0.2",
-            "library": [
-              {}
-            ]
-          },
-          {
-            "package-name": "derive-storable",
-            "version-range": ">=0.3 && <1",
+            "version-range": "^>=0.10.8.1 || ^>=0.11.3.1",
             "library": [
               {}
             ]
@@ -187,35 +168,14 @@
     "condTreeConstraints": [
       {
         "package-name": "base",
-        "version-range": ">=4.12 && <4.16",
-        "library": [
-          {}
-        ]
-      },
-      {
-        "package-name": "text",
-        "version-range": ">=2.0 && <3",
+        "version-range": ">=4.9.0.0 && <4.18",
         "library": [
           {}
         ]
       },
       {
         "package-name": "bytestring",
-        "version-range": ">=0.11",
-        "library": [
-          {}
-        ]
-      },
-      {
-        "package-name": "freetype2",
-        "version-range": ">=0.2",
-        "library": [
-          {}
-        ]
-      },
-      {
-        "package-name": "derive-storable",
-        "version-range": ">=0.3 && <1",
+        "version-range": "^>=0.10.8.1 || ^>=0.11.3.1",
         "library": [
           {}
         ]
@@ -223,12 +183,17 @@
     ],
     "condTreeComponents": []
   },
-  "executables": {
-    "shape-text": {
+  "test-suites": {
+    "minicurl-example": {
       "condTreeData": {
-        "name": "shape-text",
-        "module-path": "Main.hs",
-        "scope": "public",
+        "name": "",
+        "interface": {
+          "version": [
+            1,
+            0
+          ],
+          "filepath": "minicurl-example.hs"
+        },
         "build-info": {
           "buildable": true,
           "buildTools": [],
@@ -248,7 +213,7 @@
           "cxxSources": [],
           "jsSources": [],
           "hsSourceDirs": [
-            "."
+            "example"
           ],
           "otherModules": [],
           "virtualModules": [],
@@ -269,9 +234,7 @@
           "autogenIncludes": [],
           "installIncludes": [],
           "options": [
-            [
-              "-threaded"
-            ],
+            [],
             []
           ],
           "profOptions": [
@@ -290,27 +253,6 @@
           "targetBuildDepends": [
             {
               "package-name": "base",
-              "version-range": ">=4.9 && <5",
-              "library": [
-                {}
-              ]
-            },
-            {
-              "package-name": "harfbuzz-pure",
-              "version-range": "-any",
-              "library": [
-                {}
-              ]
-            },
-            {
-              "package-name": "parallel",
-              "version-range": ">=2.2 && <4",
-              "library": [
-                {}
-              ]
-            },
-            {
-              "package-name": "text",
               "version-range": "-any",
               "library": [
                 {}
@@ -322,6 +264,27 @@
               "library": [
                 {}
               ]
+            },
+            {
+              "package-name": "minicurl",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "cryptohash-sha256",
+              "version-range": "^>=0.11.102.1",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "HUnit",
+              "version-range": "^>=1.6.2.0",
+              "library": [
+                {}
+              ]
             }
           ],
           "mixins": []
@@ -330,27 +293,6 @@
       "condTreeConstraints": [
         {
           "package-name": "base",
-          "version-range": ">=4.9 && <5",
-          "library": [
-            {}
-          ]
-        },
-        {
-          "package-name": "harfbuzz-pure",
-          "version-range": "-any",
-          "library": [
-            {}
-          ]
-        },
-        {
-          "package-name": "parallel",
-          "version-range": ">=2.2 && <4",
-          "library": [
-            {}
-          ]
-        },
-        {
-          "package-name": "text",
           "version-range": "-any",
           "library": [
             {}
@@ -359,6 +301,27 @@
         {
           "package-name": "bytestring",
           "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "minicurl",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "cryptohash-sha256",
+          "version-range": "^>=0.11.102.1",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "HUnit",
+          "version-range": "^>=1.6.2.0",
           "library": [
             {}
           ]
