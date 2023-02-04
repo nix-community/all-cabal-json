@@ -2,63 +2,75 @@
   "description": {
     "spec-version": {
       "Left": [
-        2,
-        2
+        1,
+        24
       ]
     },
     "package": {
-      "name": "ghc-byteorder",
+      "name": "HasCacBDD",
       "version": [
-        4,
-        11,
         0,
+        1,
         0,
-        10
+        4
       ]
     },
     "license": {
-      "Left": {
-        "license-expression": {
-          "expression": {
-            "id": "BSD_3_Clause"
-          },
-          "exception-id": null
-        }
-      }
+      "Right": "OtherLicense"
     },
     "license-files": [
       "LICENSE"
     ],
     "copyright": "",
-    "maintainer": "Herbert Valerio Riedel <hvr@gnu.org>",
-    "author": "",
+    "maintainer": "malvin@w4eg.de",
+    "author": "Malvin Gattinger",
     "stability": "",
     "tested-with": [],
-    "homepage": "",
+    "homepage": "https://github.com/m4lvin/HasCacBDD",
     "pkg-url": "",
-    "bug-reports": "https://github.com/hvr/ghc-byteorder/issues",
+    "bug-reports": "",
     "source-repos": [
       {
         "kind": {},
         "type": "Git",
-        "location": "https://github.com/hvr/ghc-byteorder.git",
+        "location": "git://github.com/m4lvin/HasCacBDD.git",
         "module": null,
         "branch": null,
         "tag": null,
         "subdir": null
       }
     ],
-    "synopsis": "\"GHC.ByteOrder\" API Compatibility Layer",
-    "description": "This package transparently supplies the \"GHC.ByteOrder\" API as provided in @base-4.11.0.0@ for legacy GHC releases which didn't provide it yet (i.e. GHC 7.0 through GHC 8.2).\n\nThis release reexports [GHC.ByteOrder from base](https://hackage.haskell.org/package/base-4.11.1.0/docs/GHC-ByteOrder.html) via Cabal's @reexported-modules@ mechanism.  For GHC 8.2 and earlier a different release of @ghc-byteorder@ (with the same minor version) is eligible by the Cabal solver with a backported \"GHC.ByteOrder\" module.\n\nIn order to use this compatibility layer, simply declare a dependency on @ghc-byteorder@ in your @.cabal@ package description like so\n\n> build-depends: ghc-byteorder ^>= 4.11.0.0\n\nAnd your code will be able to access this respective API version of the module via the usual\n\n> import GHC.ByteOrder\n\nmechanism.",
-    "category": "FFI",
-    "custom-fields": [
-      [
-        "x-revision",
-        "4"
-      ]
-    ],
-    "build-type-raw": null,
-    "custom-setup": null,
+    "synopsis": "Haskell bindings for CacBDD",
+    "description": "Haskell bindings for CacBDD, a Binary Decision Diagram (BDD) package with dynamic cache management.\nOriginal C++ code from <http://kailesu.net/CacBDD> and a C wrapper are included.",
+    "category": "Data",
+    "custom-fields": [],
+    "build-type-raw": "Custom",
+    "custom-setup": {
+      "setup-depends": [
+        {
+          "package-name": "base",
+          "version-range": ">=4.8 && <5",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "Cabal",
+          "version-range": "<3.9",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "directory",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        }
+      ],
+      "__defaultSetupDepends": false
+    },
     "library": null,
     "sublibraries": [],
     "executables": [],
@@ -67,27 +79,36 @@
     "benchmarks": [],
     "data-files": [],
     "data-dir": ".",
-    "extra-source-files": [],
+    "extra-source-files": [
+      "README.md",
+      "stack.yaml",
+      "c/BDDNodeC.cpp",
+      "c/BDDNodeC.h",
+      "c/Makefile",
+      "cpp/*.cpp",
+      "cpp/*.h",
+      "cpp/Makefile",
+      "cpp/OriginalMakefile",
+      "cpp/README"
+    ],
     "extra-tmp-files": [],
     "extra-doc-files": []
   },
   "library": {
     "condTreeData": {
       "name": {},
-      "exposed-modules": [],
-      "re-exported-modules": [
-        {
-          "moduleReexportOriginalPackage": null,
-          "moduleReexportOriginalName": [
-            "GHC",
-            "ByteOrder"
-          ],
-          "moduleReexportName": [
-            "GHC",
-            "ByteOrder"
-          ]
-        }
+      "exposed-modules": [
+        [
+          "Data",
+          "HasCacBDD"
+        ],
+        [
+          "Data",
+          "HasCacBDD",
+          "Visuals"
+        ]
       ],
+      "re-exported-modules": [],
       "signatures": [],
       "exposed": true,
       "visibility": "LibraryVisibilityPublic",
@@ -98,7 +119,10 @@
         "cppOptions": [],
         "asmOptions": [],
         "cmmOptions": [],
-        "ccOptions": [],
+        "ccOptions": [
+          "-fPIC",
+          "-shared"
+        ],
         "cxxOptions": [],
         "ldOptions": [],
         "pkgconfigDepends": [],
@@ -109,7 +133,9 @@
         "cSources": [],
         "cxxSources": [],
         "jsSources": [],
-        "hsSourceDirs": [],
+        "hsSourceDirs": [
+          "hs"
+        ],
         "otherModules": [],
         "virtualModules": [],
         "autogenModules": [],
@@ -118,7 +144,10 @@
         "defaultExtensions": [],
         "otherExtensions": [],
         "oldExtensions": [],
-        "extraLibs": [],
+        "extraLibs": [
+          "stdc++",
+          "CacBDD"
+        ],
         "extraGHCiLibs": [],
         "extraBundledLibs": [],
         "extraLibFlavours": [],
@@ -129,7 +158,13 @@
         "autogenIncludes": [],
         "installIncludes": [],
         "options": [
-          [],
+          [
+            "-pgml",
+            "g++",
+            "-Wall",
+            "-fPIC",
+            "-fno-full-laziness"
+          ],
           []
         ],
         "profOptions": [
@@ -148,7 +183,21 @@
         "targetBuildDepends": [
           {
             "package-name": "base",
-            "version-range": ">=4.11 && <4.19",
+            "version-range": ">=4.8 && <5",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "process",
+            "version-range": ">=1.1",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "QuickCheck",
+            "version-range": "-any",
             "library": [
               {}
             ]
@@ -160,7 +209,21 @@
     "condTreeConstraints": [
       {
         "package-name": "base",
-        "version-range": ">=4.11 && <4.19",
+        "version-range": ">=4.8 && <5",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "process",
+        "version-range": ">=1.1",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "QuickCheck",
+        "version-range": "-any",
         "library": [
           {}
         ]
@@ -177,7 +240,7 @@
             1,
             0
           ],
-          "filepath": "tests.hs"
+          "filepath": "Main.hs"
         },
         "build-info": {
           "buildable": true,
@@ -198,7 +261,7 @@
           "cxxSources": [],
           "jsSources": [],
           "hsSourceDirs": [
-            "src-test"
+            "tests"
           ],
           "otherModules": [],
           "virtualModules": [],
@@ -220,7 +283,8 @@
           "installIncludes": [],
           "options": [
             [
-              "-Wall"
+              "-Wall",
+              "-threaded"
             ],
             []
           ],
@@ -240,14 +304,28 @@
           "targetBuildDepends": [
             {
               "package-name": "base",
+              "version-range": ">=4.8",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "HasCacBDD",
               "version-range": "-any",
               "library": [
                 {}
               ]
             },
             {
-              "package-name": "ghc-byteorder",
+              "package-name": "hspec",
               "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "QuickCheck",
+              "version-range": ">2.4",
               "library": [
                 {}
               ]
@@ -259,14 +337,28 @@
       "condTreeConstraints": [
         {
           "package-name": "base",
+          "version-range": ">=4.8",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "HasCacBDD",
           "version-range": "-any",
           "library": [
             {}
           ]
         },
         {
-          "package-name": "ghc-byteorder",
+          "package-name": "hspec",
           "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "QuickCheck",
+          "version-range": ">2.4",
           "library": [
             {}
           ]

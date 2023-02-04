@@ -1,63 +1,37 @@
 {
   "description": {
     "spec-version": {
-      "Left": [
-        2,
-        2
-      ]
+      "Right": ">=1.10"
     },
     "package": {
-      "name": "ghc-byteorder",
+      "name": "phonetic-languages-ukrainian-array",
       "version": [
-        4,
-        11,
         0,
+        10,
         0,
-        10
+        0
       ]
     },
     "license": {
-      "Left": {
-        "license-expression": {
-          "expression": {
-            "id": "BSD_3_Clause"
-          },
-          "exception-id": null
-        }
-      }
+      "Right": "MIT"
     },
     "license-files": [
       "LICENSE"
     ],
-    "copyright": "",
-    "maintainer": "Herbert Valerio Riedel <hvr@gnu.org>",
-    "author": "",
+    "copyright": "Oleksandr Zhabenko",
+    "maintainer": "oleksandr.zhabenko@yahoo.com",
+    "author": "OleksandrZhabenko",
     "stability": "",
     "tested-with": [],
-    "homepage": "",
+    "homepage": "https://hackage.haskell.org/package/phonetic-languages-ukrainian-array",
     "pkg-url": "",
-    "bug-reports": "https://github.com/hvr/ghc-byteorder/issues",
-    "source-repos": [
-      {
-        "kind": {},
-        "type": "Git",
-        "location": "https://github.com/hvr/ghc-byteorder.git",
-        "module": null,
-        "branch": null,
-        "tag": null,
-        "subdir": null
-      }
-    ],
-    "synopsis": "\"GHC.ByteOrder\" API Compatibility Layer",
-    "description": "This package transparently supplies the \"GHC.ByteOrder\" API as provided in @base-4.11.0.0@ for legacy GHC releases which didn't provide it yet (i.e. GHC 7.0 through GHC 8.2).\n\nThis release reexports [GHC.ByteOrder from base](https://hackage.haskell.org/package/base-4.11.1.0/docs/GHC-ByteOrder.html) via Cabal's @reexported-modules@ mechanism.  For GHC 8.2 and earlier a different release of @ghc-byteorder@ (with the same minor version) is eligible by the Cabal solver with a backported \"GHC.ByteOrder\" module.\n\nIn order to use this compatibility layer, simply declare a dependency on @ghc-byteorder@ in your @.cabal@ package description like so\n\n> build-depends: ghc-byteorder ^>= 4.11.0.0\n\nAnd your code will be able to access this respective API version of the module via the usual\n\n> import GHC.ByteOrder\n\nmechanism.",
-    "category": "FFI",
-    "custom-fields": [
-      [
-        "x-revision",
-        "4"
-      ]
-    ],
-    "build-type-raw": null,
+    "bug-reports": "",
+    "source-repos": [],
+    "synopsis": "Prepares Ukrainian text to be used as a phonetic language text",
+    "description": "Applies needed minimal grammar connections so that the text afterwards can be processed by dobutokO-poetry or phonetic languages approach related programs. Uses arrays instead of vectors. Besides can be used to reverse many of the done concatenations.",
+    "category": "Language,Game",
+    "custom-fields": [],
+    "build-type-raw": "Simple",
     "custom-setup": null,
     "library": null,
     "sublibraries": [],
@@ -67,27 +41,28 @@
     "benchmarks": [],
     "data-files": [],
     "data-dir": ".",
-    "extra-source-files": [],
+    "extra-source-files": [
+      "ChangeLog.md"
+    ],
     "extra-tmp-files": [],
     "extra-doc-files": []
   },
   "library": {
     "condTreeData": {
       "name": {},
-      "exposed-modules": [],
-      "re-exported-modules": [
-        {
-          "moduleReexportOriginalPackage": null,
-          "moduleReexportOriginalName": [
-            "GHC",
-            "ByteOrder"
-          ],
-          "moduleReexportName": [
-            "GHC",
-            "ByteOrder"
-          ]
-        }
+      "exposed-modules": [
+        [
+          "Phladiprelio",
+          "Ukrainian",
+          "PrepareText"
+        ],
+        [
+          "Phladiprelio",
+          "Ukrainian",
+          "ReverseConcatenations"
+        ]
       ],
+      "re-exported-modules": [],
       "signatures": [],
       "exposed": true,
       "visibility": "LibraryVisibilityPublic",
@@ -116,7 +91,14 @@
         "defaultLanguage": "Haskell2010",
         "otherLanguages": [],
         "defaultExtensions": [],
-        "otherExtensions": [],
+        "otherExtensions": [
+          {
+            "enable-extension": "BangPatterns"
+          },
+          {
+            "disable-extension": "ImplicitPrelude"
+          }
+        ],
         "oldExtensions": [],
         "extraLibs": [],
         "extraGHCiLibs": [],
@@ -148,7 +130,21 @@
         "targetBuildDepends": [
           {
             "package-name": "base",
-            "version-range": ">=4.11 && <4.19",
+            "version-range": ">=4.13 && <5",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "mmsyn2-array",
+            "version-range": "==0.3.1.1",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "mmsyn5",
+            "version-range": "==0.6.0.0",
             "library": [
               {}
             ]
@@ -160,7 +156,21 @@
     "condTreeConstraints": [
       {
         "package-name": "base",
-        "version-range": ">=4.11 && <4.19",
+        "version-range": ">=4.13 && <5",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "mmsyn2-array",
+        "version-range": "==0.3.1.1",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "mmsyn5",
+        "version-range": "==0.6.0.0",
         "library": [
           {}
         ]
@@ -168,17 +178,12 @@
     ],
     "condTreeComponents": []
   },
-  "test-suites": {
-    "tests": {
+  "executables": {
+    "unconcatUkr": {
       "condTreeData": {
-        "name": "",
-        "interface": {
-          "version": [
-            1,
-            0
-          ],
-          "filepath": "tests.hs"
-        },
+        "name": "unconcatUkr",
+        "module-path": "Main.hs",
+        "scope": "public",
         "build-info": {
           "buildable": true,
           "buildTools": [],
@@ -197,16 +202,27 @@
           "cSources": [],
           "cxxSources": [],
           "jsSources": [],
-          "hsSourceDirs": [
-            "src-test"
+          "hsSourceDirs": [],
+          "otherModules": [
+            [
+              "Phladiprelio",
+              "Ukrainian",
+              "ReverseConcatenations"
+            ]
           ],
-          "otherModules": [],
           "virtualModules": [],
           "autogenModules": [],
           "defaultLanguage": "Haskell2010",
           "otherLanguages": [],
           "defaultExtensions": [],
-          "otherExtensions": [],
+          "otherExtensions": [
+            {
+              "enable-extension": "BangPatterns"
+            },
+            {
+              "disable-extension": "ImplicitPrelude"
+            }
+          ],
           "oldExtensions": [],
           "extraLibs": [],
           "extraGHCiLibs": [],
@@ -220,7 +236,8 @@
           "installIncludes": [],
           "options": [
             [
-              "-Wall"
+              "-threaded",
+              "-rtsopts"
             ],
             []
           ],
@@ -240,14 +257,21 @@
           "targetBuildDepends": [
             {
               "package-name": "base",
-              "version-range": "-any",
+              "version-range": ">=4.13 && <5",
               "library": [
                 {}
               ]
             },
             {
-              "package-name": "ghc-byteorder",
-              "version-range": "-any",
+              "package-name": "mmsyn2-array",
+              "version-range": "==0.3.1.1",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "mmsyn5",
+              "version-range": "==0.6.0.0",
               "library": [
                 {}
               ]
@@ -259,14 +283,21 @@
       "condTreeConstraints": [
         {
           "package-name": "base",
-          "version-range": "-any",
+          "version-range": ">=4.13 && <5",
           "library": [
             {}
           ]
         },
         {
-          "package-name": "ghc-byteorder",
-          "version-range": "-any",
+          "package-name": "mmsyn2-array",
+          "version-range": "==0.3.1.1",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "mmsyn5",
+          "version-range": "==0.6.0.0",
           "library": [
             {}
           ]
