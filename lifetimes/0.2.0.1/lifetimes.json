@@ -2,53 +2,55 @@
   "description": {
     "spec-version": {
       "Left": [
-        1,
-        12
+        2,
+        2
       ]
     },
     "package": {
-      "name": "typograffiti",
+      "name": "lifetimes",
       "version": [
         0,
         2,
         0,
-        0
+        1
       ]
     },
     "license": {
-      "Right": "BSD3"
+      "Left": {
+        "license-expression": {
+          "expression": {
+            "id": "Apache_2_0"
+          },
+          "exception-id": null
+        }
+      }
     },
     "license-files": [
       "LICENSE"
     ],
-    "copyright": "2018 Schell Scivally & others",
-    "maintainer": "alcinnz@argonaut-constellation.org",
-    "author": "Schell Scivally & Adrian Cochrane",
+    "copyright": "2021-2023 Ian Denhardt",
+    "maintainer": "ian@zenhack.net",
+    "author": "Ian Denhardt",
     "stability": "",
     "tested-with": [],
-    "homepage": "https://github.com/schell/typograffiti#readme",
+    "homepage": "https://github.com/zenhack/haskell-lifetimes",
     "pkg-url": "",
-    "bug-reports": "https://github.com/schell/typograffiti/issues",
+    "bug-reports": "",
     "source-repos": [
       {
         "kind": {},
         "type": "Git",
-        "location": "https://github.com/schell/typograffiti",
+        "location": "https://github.com/zenhack/haskell-lifetimes",
         "module": null,
-        "branch": null,
+        "branch": "main",
         "tag": null,
         "subdir": null
       }
     ],
-    "synopsis": "Just let me draw nice text already",
-    "description": "This is a text rendering library that uses OpenGL and freetype2 to render TTF font strings quickly. It is fast enough to render large chunks of text in real time. This library exists because text rendering is one of the biggest hurdles in Haskell graphics programming - and it shouldn't be!\nTypograffiti includes an MTL style typeclass and a default monad transformer. It does not assume you are using any specific windowing solution. It does assume you are using OpenGL 3.3+.\nPull requests are very welcome :)\nSee https://github.com/schell/typograffiti/blob/master/app/Main.hs for an example.",
-    "category": "Graphics",
-    "custom-fields": [
-      [
-        "x-revision",
-        "2"
-      ]
-    ],
+    "synopsis": "Flexible manual resource management",
+    "description": "The lifetimes package provides support for manual resource management,\nin a way that is more flexible than what is provided by @resourcet@ or\n@bracket@.\n\nLike @resourcet@, this package allows releasing acquired resources early.\nIn addition, it also provides move semantics: resources can be moved to\na different lifetime after they are acquired. Lifetimes are first class\nvalues, which can themselves be acquired as resources, allowing for\nheirarchical management as well.",
+    "category": "",
+    "custom-fields": [],
     "build-type-raw": "Simple",
     "custom-setup": null,
     "library": null,
@@ -60,8 +62,9 @@
     "data-files": [],
     "data-dir": ".",
     "extra-source-files": [
+      "CHANGELOG.md",
       "README.md",
-      "ChangeLog.md"
+      ".gitignore"
     ],
     "extra-tmp-files": [],
     "extra-doc-files": []
@@ -71,31 +74,19 @@
       "name": {},
       "exposed-modules": [
         [
-          "Typograffiti"
+          "Lifetimes"
         ],
         [
-          "Typograffiti",
-          "Atlas"
+          "Lifetimes",
+          "Async"
         ],
         [
-          "Typograffiti",
-          "Cache"
+          "Lifetimes",
+          "Rc"
         ],
         [
-          "Typograffiti",
-          "GL"
-        ],
-        [
-          "Typograffiti",
-          "Store"
-        ],
-        [
-          "Typograffiti",
-          "Text"
-        ],
-        [
-          "Typograffiti",
-          "Rich"
+          "Lifetimes",
+          "Gc"
         ]
       ],
       "re-exported-modules": [],
@@ -128,7 +119,14 @@
         "autogenModules": [],
         "defaultLanguage": "Haskell2010",
         "otherLanguages": [],
-        "defaultExtensions": [],
+        "defaultExtensions": [
+          {
+            "disable-extension": "ImplicitPrelude"
+          },
+          {
+            "enable-extension": "OverloadedStrings"
+          }
+        ],
         "otherExtensions": [],
         "oldExtensions": [],
         "extraLibs": [],
@@ -161,77 +159,49 @@
         "targetBuildDepends": [
           {
             "package-name": "base",
-            "version-range": ">=4.12 && <4.16",
+            "version-range": ">=4.12 && <5",
             "library": [
               {}
             ]
           },
           {
-            "package-name": "linear",
-            "version-range": ">=1.20",
+            "package-name": "async",
+            "version-range": "^>=2.2.4",
             "library": [
               {}
             ]
           },
           {
             "package-name": "containers",
-            "version-range": ">=0.6",
-            "library": [
-              {}
-            ]
-          },
-          {
-            "package-name": "freetype2",
-            "version-range": ">=0.2",
-            "library": [
-              {}
-            ]
-          },
-          {
-            "package-name": "gl",
-            "version-range": ">=0.8",
-            "library": [
-              {}
-            ]
-          },
-          {
-            "package-name": "mtl",
-            "version-range": ">=2.2",
+            "version-range": "^>=0.6.2",
             "library": [
               {}
             ]
           },
           {
             "package-name": "stm",
-            "version-range": ">=2.5",
+            "version-range": "^>=2.5",
             "library": [
               {}
             ]
           },
           {
-            "package-name": "text",
-            "version-range": "-any",
+            "package-name": "monad-stm",
+            "version-range": "^>=0.1",
             "library": [
               {}
             ]
           },
           {
-            "package-name": "vector",
-            "version-range": ">=0.12",
+            "package-name": "transformers",
+            "version-range": "^>=0.5.6",
             "library": [
               {}
             ]
           },
           {
-            "package-name": "harfbuzz-pure",
-            "version-range": ">=1.0.2",
-            "library": [
-              {}
-            ]
-          },
-          {
-            "package-name": "bytestring",
-            "version-range": ">=0.10",
+            "package-name": "zenhack-prelude",
+            "version-range": "^>=0.1",
             "library": [
               {}
             ]
@@ -243,77 +213,49 @@
     "condTreeConstraints": [
       {
         "package-name": "base",
-        "version-range": ">=4.12 && <4.16",
+        "version-range": ">=4.12 && <5",
         "library": [
           {}
         ]
       },
       {
-        "package-name": "linear",
-        "version-range": ">=1.20",
+        "package-name": "async",
+        "version-range": "^>=2.2.4",
         "library": [
           {}
         ]
       },
       {
         "package-name": "containers",
-        "version-range": ">=0.6",
-        "library": [
-          {}
-        ]
-      },
-      {
-        "package-name": "freetype2",
-        "version-range": ">=0.2",
-        "library": [
-          {}
-        ]
-      },
-      {
-        "package-name": "gl",
-        "version-range": ">=0.8",
-        "library": [
-          {}
-        ]
-      },
-      {
-        "package-name": "mtl",
-        "version-range": ">=2.2",
+        "version-range": "^>=0.6.2",
         "library": [
           {}
         ]
       },
       {
         "package-name": "stm",
-        "version-range": ">=2.5",
+        "version-range": "^>=2.5",
         "library": [
           {}
         ]
       },
       {
-        "package-name": "text",
-        "version-range": "-any",
+        "package-name": "monad-stm",
+        "version-range": "^>=0.1",
         "library": [
           {}
         ]
       },
       {
-        "package-name": "vector",
-        "version-range": ">=0.12",
+        "package-name": "transformers",
+        "version-range": "^>=0.5.6",
         "library": [
           {}
         ]
       },
       {
-        "package-name": "harfbuzz-pure",
-        "version-range": ">=1.0.2",
-        "library": [
-          {}
-        ]
-      },
-      {
-        "package-name": "bytestring",
-        "version-range": ">=0.10",
+        "package-name": "zenhack-prelude",
+        "version-range": "^>=0.1",
         "library": [
           {}
         ]
@@ -321,12 +263,17 @@
     ],
     "condTreeComponents": []
   },
-  "executables": {
-    "typograffiti": {
+  "test-suites": {
+    "tests": {
       "condTreeData": {
-        "name": "typograffiti",
-        "module-path": "Main.hs",
-        "scope": "public",
+        "name": "",
+        "interface": {
+          "version": [
+            1,
+            0
+          ],
+          "filepath": "Main.hs"
+        },
         "build-info": {
           "buildable": true,
           "buildTools": [],
@@ -346,14 +293,21 @@
           "cxxSources": [],
           "jsSources": [],
           "hsSourceDirs": [
-            "app"
+            "tests"
           ],
           "otherModules": [],
           "virtualModules": [],
           "autogenModules": [],
           "defaultLanguage": "Haskell2010",
           "otherLanguages": [],
-          "defaultExtensions": [],
+          "defaultExtensions": [
+            {
+              "disable-extension": "ImplicitPrelude"
+            },
+            {
+              "enable-extension": "OverloadedStrings"
+            }
+          ],
           "otherExtensions": [],
           "oldExtensions": [],
           "extraLibs": [],
@@ -386,42 +340,70 @@
           "targetBuildDepends": [
             {
               "package-name": "base",
-              "version-range": ">=4.12 && <4.16",
+              "version-range": ">=4.12 && <5",
               "library": [
                 {}
               ]
             },
             {
-              "package-name": "typograffiti",
+              "package-name": "async",
+              "version-range": "^>=2.2.4",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "containers",
+              "version-range": "^>=0.6.2",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "stm",
+              "version-range": "^>=2.5",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "monad-stm",
+              "version-range": "^>=0.1",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "transformers",
+              "version-range": "^>=0.5.6",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "zenhack-prelude",
+              "version-range": "^>=0.1",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "lifetimes",
               "version-range": "-any",
               "library": [
                 {}
               ]
             },
             {
-              "package-name": "sdl2",
-              "version-range": ">=2.5.4",
+              "package-name": "hspec",
+              "version-range": "^>=2.7.6",
               "library": [
                 {}
               ]
             },
             {
-              "package-name": "text",
-              "version-range": "-any",
-              "library": [
-                {}
-              ]
-            },
-            {
-              "package-name": "gl",
-              "version-range": "-any",
-              "library": [
-                {}
-              ]
-            },
-            {
-              "package-name": "mtl",
-              "version-range": "-any",
+              "package-name": "safe-exceptions",
+              "version-range": "^>=0.1.7",
               "library": [
                 {}
               ]
@@ -433,42 +415,70 @@
       "condTreeConstraints": [
         {
           "package-name": "base",
-          "version-range": ">=4.12 && <4.16",
+          "version-range": ">=4.12 && <5",
           "library": [
             {}
           ]
         },
         {
-          "package-name": "typograffiti",
+          "package-name": "async",
+          "version-range": "^>=2.2.4",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "containers",
+          "version-range": "^>=0.6.2",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "stm",
+          "version-range": "^>=2.5",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "monad-stm",
+          "version-range": "^>=0.1",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "transformers",
+          "version-range": "^>=0.5.6",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "zenhack-prelude",
+          "version-range": "^>=0.1",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "lifetimes",
           "version-range": "-any",
           "library": [
             {}
           ]
         },
         {
-          "package-name": "sdl2",
-          "version-range": ">=2.5.4",
+          "package-name": "hspec",
+          "version-range": "^>=2.7.6",
           "library": [
             {}
           ]
         },
         {
-          "package-name": "text",
-          "version-range": "-any",
-          "library": [
-            {}
-          ]
-        },
-        {
-          "package-name": "gl",
-          "version-range": "-any",
-          "library": [
-            {}
-          ]
-        },
-        {
-          "package-name": "mtl",
-          "version-range": "-any",
+          "package-name": "safe-exceptions",
+          "version-range": "^>=0.1.7",
           "library": [
             {}
           ]
