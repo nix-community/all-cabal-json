@@ -1,61 +1,53 @@
 {
   "description": {
     "spec-version": {
-      "Left": [
-        2,
-        2
-      ]
+      "Right": ">=1.10"
     },
     "package": {
-      "name": "modular-arithmetic",
+      "name": "smtlib-backends-z3",
       "version": [
-        2,
         0,
-        0,
-        2
+        3
       ]
     },
     "license": {
-      "Left": {
-        "license-expression": {
-          "expression": {
-            "id": "BSD_3_Clause"
-          },
-          "exception-id": null
-        }
-      }
+      "Right": "MIT"
     },
     "license-files": [
       "LICENSE"
     ],
     "copyright": "",
-    "maintainer": "Tikhon Jelvis <tikhon@jelv.is>",
-    "author": "Tikhon Jelvis <tikhon@jelv.is>",
+    "maintainer": "quentin.aristote@tweag.io",
+    "author": "Quentin Aristote",
     "stability": "",
     "tested-with": [],
-    "homepage": "https://github.com/TikhonJelvis/modular-arithmetic",
+    "homepage": "",
     "pkg-url": "",
-    "bug-reports": "https://github.com/TikhonJelvis/modular-arithmetic/issues",
+    "bug-reports": "",
     "source-repos": [
       {
         "kind": {},
         "type": "Git",
-        "location": "git://github.com/TikhonJelvis/modular-arithmetic.git",
+        "location": "https://github.com/tweag/smtlib-backends",
         "module": null,
         "branch": null,
         "tag": null,
-        "subdir": null
+        "subdir": "smtlib-backends-z3"
+      },
+      {
+        "kind": {},
+        "type": "Git",
+        "location": "https://github.com/tweag/smtlib-backends",
+        "module": null,
+        "branch": null,
+        "tag": "0.3",
+        "subdir": "smtlib-backends-z3"
       }
     ],
-    "synopsis": "A type for integers modulo some constant.",
-    "description": "A convenient type for working with integers modulo some constant. It saves you from manually wrapping numeric operations all over the place and prevents a range of simple mistakes. @Integer `Mod` 7@ is the type of integers (mod 7) backed by @Integer@.\nWe also have some cute syntax for these types like @ℤ/7@ for integers modulo 7.",
-    "category": "Math",
-    "custom-fields": [
-      [
-        "x-revision",
-        "1"
-      ]
-    ],
+    "synopsis": "An SMT-LIB backend implemented using Z3's C API.",
+    "description": "This library implements an SMT-LIB backend (in the sense of the smtlib-backends\npackage) using inlined calls to Z3's C API. It is thus in particular faster\nthan the standard backends relying on running solvers as external processes, as\nthe OS doesn't need to spawn processes and handle pipes between them.",
+    "category": "SMT",
+    "custom-fields": [],
     "build-type-raw": "Simple",
     "custom-setup": null,
     "library": null,
@@ -67,7 +59,6 @@
     "data-files": [],
     "data-dir": ".",
     "extra-source-files": [
-      "README.md",
       "CHANGELOG.md"
     ],
     "extra-tmp-files": [],
@@ -78,8 +69,9 @@
       "name": {},
       "exposed-modules": [
         [
-          "Data",
-          "Modular"
+          "SMTLIB",
+          "Backends",
+          "Z3"
         ]
       ],
       "re-exported-modules": [],
@@ -101,7 +93,9 @@
         "extraFrameworkDirs": [],
         "asmSources": [],
         "cmmSources": [],
-        "cSources": [],
+        "cSources": [
+          "cbits/z3.c"
+        ],
         "cxxSources": [],
         "jsSources": [],
         "hsSourceDirs": [
@@ -127,7 +121,8 @@
         "installIncludes": [],
         "options": [
           [
-            "-Wall"
+            "-Wall",
+            "-Wunused-packages"
           ],
           []
         ],
@@ -147,7 +142,21 @@
         "targetBuildDepends": [
           {
             "package-name": "base",
-            "version-range": ">4.9 && <4.17",
+            "version-range": ">=4.14 && <4.18",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "bytestring",
+            "version-range": ">=0.10.12 && <0.12",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "smtlib-backends",
+            "version-range": ">=0.3 && <0.4",
             "library": [
               {}
             ]
@@ -159,7 +168,21 @@
     "condTreeConstraints": [
       {
         "package-name": "base",
-        "version-range": ">4.9 && <4.17",
+        "version-range": ">=4.14 && <4.18",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "bytestring",
+        "version-range": ">=0.10.12 && <0.12",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "smtlib-backends",
+        "version-range": ">=0.3 && <0.4",
         "library": [
           {}
         ]
@@ -168,9 +191,15 @@
     "condTreeComponents": [
       {
         "condBranchCondition": {
-          "variable": {
-            "compiler": "GHC",
-            "version": "<9.2.1"
+          "cond_or_1": {
+            "variable": {
+              "os": "OSX"
+            }
+          },
+          "cond_or_2": {
+            "variable": {
+              "os": "Windows"
+            }
           }
         },
         "condBranchIfTrue": {
@@ -208,7 +237,9 @@
               "defaultExtensions": [],
               "otherExtensions": [],
               "oldExtensions": [],
-              "extraLibs": [],
+              "extraLibs": [
+                "z3"
+              ],
               "extraGHCiLibs": [],
               "extraBundledLibs": [],
               "extraLibFlavours": [],
@@ -235,34 +266,91 @@
                 []
               ],
               "customFieldsBI": [],
-              "targetBuildDepends": [
-                {
-                  "package-name": "typelits-witnesses",
-                  "version-range": "<0.5",
-                  "library": [
-                    {}
-                  ]
-                }
-              ],
+              "targetBuildDepends": [],
               "mixins": []
             }
           },
-          "condTreeConstraints": [
-            {
-              "package-name": "typelits-witnesses",
-              "version-range": "<0.5",
-              "library": [
-                {}
-              ]
+          "condTreeConstraints": [],
+          "condTreeComponents": []
+        },
+        "condBranchIfFalse": {
+          "condTreeData": {
+            "name": {},
+            "exposed-modules": [],
+            "re-exported-modules": [],
+            "signatures": [],
+            "exposed": true,
+            "visibility": "LibraryVisibilityPublic",
+            "build-info": {
+              "buildable": true,
+              "buildTools": [],
+              "buildToolDepends": [],
+              "cppOptions": [],
+              "asmOptions": [],
+              "cmmOptions": [],
+              "ccOptions": [],
+              "cxxOptions": [],
+              "ldOptions": [],
+              "pkgconfigDepends": [],
+              "frameworks": [],
+              "extraFrameworkDirs": [],
+              "asmSources": [],
+              "cmmSources": [],
+              "cSources": [],
+              "cxxSources": [],
+              "jsSources": [],
+              "hsSourceDirs": [],
+              "otherModules": [],
+              "virtualModules": [],
+              "autogenModules": [],
+              "defaultLanguage": null,
+              "otherLanguages": [],
+              "defaultExtensions": [],
+              "otherExtensions": [],
+              "oldExtensions": [],
+              "extraLibs": [
+                "gomp",
+                "z3",
+                "gomp"
+              ],
+              "extraGHCiLibs": [],
+              "extraBundledLibs": [],
+              "extraLibFlavours": [],
+              "extraDynLibFlavours": [],
+              "extraLibDirs": [],
+              "includeDirs": [],
+              "includes": [],
+              "autogenIncludes": [],
+              "installIncludes": [],
+              "options": [
+                [],
+                []
+              ],
+              "profOptions": [
+                [],
+                []
+              ],
+              "sharedOptions": [
+                [],
+                []
+              ],
+              "staticOptions": [
+                [],
+                []
+              ],
+              "customFieldsBI": [],
+              "targetBuildDepends": [],
+              "mixins": []
             }
-          ],
+          },
+          "condTreeConstraints": [],
           "condTreeComponents": []
         }
       }
     ]
   },
   "test-suites": {
-    "examples": {
+    "test": {
       "condTreeData": {
         "name": "",
         "interface": {
@@ -270,7 +358,7 @@
             1,
             0
           ],
-          "filepath": "DocTest.hs"
+          "filepath": "Main.hs"
         },
         "build-info": {
           "buildable": true,
@@ -291,10 +379,16 @@
           "cxxSources": [],
           "jsSources": [],
           "hsSourceDirs": [
-            "test-suite",
-            "src"
+            "tests"
           ],
-          "otherModules": [],
+          "otherModules": [
+            [
+              "EdgeCases"
+            ],
+            [
+              "Examples"
+            ]
+          ],
           "virtualModules": [],
           "autogenModules": [],
           "defaultLanguage": "Haskell2010",
@@ -313,7 +407,11 @@
           "autogenIncludes": [],
           "installIncludes": [],
           "options": [
-            [],
+            [
+              "-threaded",
+              "-Wall",
+              "-Wunused-packages"
+            ],
             []
           ],
           "profOptions": [
@@ -332,14 +430,49 @@
           "targetBuildDepends": [
             {
               "package-name": "base",
-              "version-range": ">4.9 && <5",
+              "version-range": "-any",
               "library": [
                 {}
               ]
             },
             {
-              "package-name": "doctest",
-              "version-range": ">=0.9",
+              "package-name": "bytestring",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "smtlib-backends",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "smtlib-backends-tests",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "smtlib-backends-z3",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "tasty",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "tasty-hunit",
+              "version-range": "-any",
               "library": [
                 {}
               ]
@@ -351,115 +484,55 @@
       "condTreeConstraints": [
         {
           "package-name": "base",
-          "version-range": ">4.9 && <5",
+          "version-range": "-any",
           "library": [
             {}
           ]
         },
         {
-          "package-name": "doctest",
-          "version-range": ">=0.9",
+          "package-name": "bytestring",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "smtlib-backends",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "smtlib-backends-tests",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "smtlib-backends-z3",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "tasty",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "tasty-hunit",
+          "version-range": "-any",
           "library": [
             {}
           ]
         }
       ],
-      "condTreeComponents": [
-        {
-          "condBranchCondition": {
-            "variable": {
-              "compiler": "GHC",
-              "version": "<9.2.1"
-            }
-          },
-          "condBranchIfTrue": {
-            "condTreeData": {
-              "name": "",
-              "interface": {
-                "type": {
-                  "name": "",
-                  "version": []
-                }
-              },
-              "build-info": {
-                "buildable": true,
-                "buildTools": [],
-                "buildToolDepends": [],
-                "cppOptions": [],
-                "asmOptions": [],
-                "cmmOptions": [],
-                "ccOptions": [],
-                "cxxOptions": [],
-                "ldOptions": [],
-                "pkgconfigDepends": [],
-                "frameworks": [],
-                "extraFrameworkDirs": [],
-                "asmSources": [],
-                "cmmSources": [],
-                "cSources": [],
-                "cxxSources": [],
-                "jsSources": [],
-                "hsSourceDirs": [],
-                "otherModules": [],
-                "virtualModules": [],
-                "autogenModules": [],
-                "defaultLanguage": null,
-                "otherLanguages": [],
-                "defaultExtensions": [],
-                "otherExtensions": [],
-                "oldExtensions": [],
-                "extraLibs": [],
-                "extraGHCiLibs": [],
-                "extraBundledLibs": [],
-                "extraLibFlavours": [],
-                "extraDynLibFlavours": [],
-                "extraLibDirs": [],
-                "includeDirs": [],
-                "includes": [],
-                "autogenIncludes": [],
-                "installIncludes": [],
-                "options": [
-                  [],
-                  []
-                ],
-                "profOptions": [
-                  [],
-                  []
-                ],
-                "sharedOptions": [
-                  [],
-                  []
-                ],
-                "staticOptions": [
-                  [],
-                  []
-                ],
-                "customFieldsBI": [],
-                "targetBuildDepends": [
-                  {
-                    "package-name": "typelits-witnesses",
-                    "version-range": "<0.5",
-                    "library": [
-                      {}
-                    ]
-                  }
-                ],
-                "mixins": []
-              }
-            },
-            "condTreeConstraints": [
-              {
-                "package-name": "typelits-witnesses",
-                "version-range": "<0.5",
-                "library": [
-                  {}
-                ]
-              }
-            ],
-            "condTreeComponents": []
-          }
-        }
-      ]
+      "condTreeComponents": []
     }
   }
 }
