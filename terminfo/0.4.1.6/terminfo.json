@@ -4,9 +4,11 @@
       "Right": ">=1.10"
     },
     "package": {
-      "name": "MonadRandom",
+      "name": "terminfo",
       "version": [
         0,
+        4,
+        1,
         6
       ]
     },
@@ -16,40 +18,30 @@
     "license-files": [
       "LICENSE"
     ],
-    "copyright": "",
-    "maintainer": "Brent Yorgey <byorgey@gmail.com>",
-    "author": "Cale Gibbard and others",
-    "stability": "",
-    "tested-with": [
-      {
-        "compiler": "GHC",
-        "versionRange": "==7.10.3 || ==8.0.2 || ==8.2.2 || ==8.4.4 || ==8.6.5 || ==8.8.4 || ==8.10.7 || ==9.0.2 || ==9.2.4 || ==9.4.2"
-      }
-    ],
-    "homepage": "",
+    "copyright": "(c) Judah Jacobson",
+    "maintainer": "Judah Jacobson <judah.jacobson@gmail.com>",
+    "author": "Judah Jacobson",
+    "stability": "Stable",
+    "tested-with": [],
+    "homepage": "https://github.com/judah/terminfo",
     "pkg-url": "",
-    "bug-reports": "https://github.com/byorgey/MonadRandom/issues",
+    "bug-reports": "https://github.com/judah/terminfo/issues",
     "source-repos": [
       {
         "kind": {},
         "type": "Git",
-        "location": "git://github.com/byorgey/MonadRandom.git",
+        "location": "https://github.com/judah/terminfo.git",
         "module": null,
         "branch": null,
         "tag": null,
         "subdir": null
       }
     ],
-    "synopsis": "Random-number generation monad.",
-    "description": "Support for computations which consume random values.",
-    "category": "Control",
-    "custom-fields": [
-      [
-        "x-revision",
-        "3"
-      ]
-    ],
-    "build-type-raw": "Simple",
+    "synopsis": "Haskell bindings to the terminfo library.",
+    "description": "This library provides an interface to the terminfo database (via bindings to the\ncurses library).  <http://en.wikipedia.org/wiki/Terminfo Terminfo> allows POSIX\nsystems to interact with a variety of terminals using a standard set of capabilities.",
+    "category": "User Interfaces",
+    "custom-fields": [],
+    "build-type-raw": "Configure",
     "custom-setup": null,
     "library": null,
     "sublibraries": [],
@@ -60,9 +52,17 @@
     "data-files": [],
     "data-dir": ".",
     "extra-source-files": [
-      "CHANGES.markdown"
+      "configure.ac",
+      "configure",
+      "terminfo.buildinfo.in",
+      "Changelog"
     ],
-    "extra-tmp-files": [],
+    "extra-tmp-files": [
+      "config.log",
+      "config.status",
+      "autom4te.cache",
+      "terminfo.buildinfo"
+    ],
     "extra-doc-files": []
   },
   "library": {
@@ -70,47 +70,45 @@
       "name": {},
       "exposed-modules": [
         [
-          "Control",
-          "Monad",
-          "Random"
+          "System",
+          "Console",
+          "Terminfo"
         ],
         [
-          "Control",
-          "Monad",
-          "Random",
-          "Class"
+          "System",
+          "Console",
+          "Terminfo",
+          "Base"
         ],
         [
-          "Control",
-          "Monad",
-          "Random",
-          "Lazy"
+          "System",
+          "Console",
+          "Terminfo",
+          "Cursor"
         ],
         [
-          "Control",
-          "Monad",
-          "Random",
-          "Strict"
+          "System",
+          "Console",
+          "Terminfo",
+          "Color"
         ],
         [
-          "Control",
-          "Monad",
-          "Trans",
-          "Random"
+          "System",
+          "Console",
+          "Terminfo",
+          "Edit"
         ],
         [
-          "Control",
-          "Monad",
-          "Trans",
-          "Random",
-          "Lazy"
+          "System",
+          "Console",
+          "Terminfo",
+          "Effects"
         ],
         [
-          "Control",
-          "Monad",
-          "Trans",
-          "Random",
-          "Strict"
+          "System",
+          "Console",
+          "Terminfo",
+          "Keys"
         ]
       ],
       "re-exported-modules": [],
@@ -144,7 +142,16 @@
         "defaultExtensions": [],
         "otherExtensions": [
           {
-            "enable-extension": "Safe"
+            "enable-extension": "CPP"
+          },
+          {
+            "enable-extension": "DeriveDataTypeable"
+          },
+          {
+            "enable-extension": "FlexibleInstances"
+          },
+          {
+            "enable-extension": "ScopedTypeVariables"
           }
         ],
         "oldExtensions": [],
@@ -180,42 +187,7 @@
         "targetBuildDepends": [
           {
             "package-name": "base",
-            "version-range": ">=4.8 && <5",
-            "library": [
-              {}
-            ]
-          },
-          {
-            "package-name": "transformers",
-            "version-range": ">=0.4 && <0.7",
-            "library": [
-              {}
-            ]
-          },
-          {
-            "package-name": "transformers-compat",
-            "version-range": ">=0.4 && <0.8",
-            "library": [
-              {}
-            ]
-          },
-          {
-            "package-name": "mtl",
-            "version-range": ">=2.2.1 && <2.3 || >=2.3.1 && <2.4",
-            "library": [
-              {}
-            ]
-          },
-          {
-            "package-name": "primitive",
-            "version-range": ">=0.6 && <0.9",
-            "library": [
-              {}
-            ]
-          },
-          {
-            "package-name": "random",
-            "version-range": ">=1.0.1 && <1.3",
+            "version-range": ">=4.9 && <4.19",
             "library": [
               {}
             ]
@@ -227,42 +199,7 @@
     "condTreeConstraints": [
       {
         "package-name": "base",
-        "version-range": ">=4.8 && <5",
-        "library": [
-          {}
-        ]
-      },
-      {
-        "package-name": "transformers",
-        "version-range": ">=0.4 && <0.7",
-        "library": [
-          {}
-        ]
-      },
-      {
-        "package-name": "transformers-compat",
-        "version-range": ">=0.4 && <0.8",
-        "library": [
-          {}
-        ]
-      },
-      {
-        "package-name": "mtl",
-        "version-range": ">=2.2.1 && <2.3 || >=2.3.1 && <2.4",
-        "library": [
-          {}
-        ]
-      },
-      {
-        "package-name": "primitive",
-        "version-range": ">=0.6 && <0.9",
-        "library": [
-          {}
-        ]
-      },
-      {
-        "package-name": "random",
-        "version-range": ">=1.0.1 && <1.3",
+        "version-range": ">=4.9 && <4.19",
         "library": [
           {}
         ]
@@ -273,7 +210,7 @@
         "condBranchCondition": {
           "variable": {
             "compiler": "GHC",
-            "version": "<8.0"
+            "version": ">=7.3"
           }
         },
         "condBranchIfTrue": {
@@ -309,7 +246,14 @@
               "defaultLanguage": null,
               "otherLanguages": [],
               "defaultExtensions": [],
-              "otherExtensions": [],
+              "otherExtensions": [
+                {
+                  "enable-extension": "Safe"
+                },
+                {
+                  "enable-extension": "Trustworthy"
+                }
+              ],
               "oldExtensions": [],
               "extraLibs": [],
               "extraGHCiLibs": [],
@@ -338,27 +282,11 @@
                 []
               ],
               "customFieldsBI": [],
-              "targetBuildDepends": [
-                {
-                  "package-name": "fail",
-                  "version-range": ">=4.9",
-                  "library": [
-                    {}
-                  ]
-                }
-              ],
+              "targetBuildDepends": [],
               "mixins": []
             }
           },
-          "condTreeConstraints": [
-            {
-              "package-name": "fail",
-              "version-range": ">=4.9",
-              "library": [
-                {}
-              ]
-            }
-          ],
+          "condTreeConstraints": [],
           "condTreeComponents": []
         }
       }
