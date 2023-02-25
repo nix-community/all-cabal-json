@@ -1,15 +1,18 @@
 {
   "description": {
     "spec-version": {
-      "Right": ">=1.10"
+      "Left": [
+        1,
+        18
+      ]
     },
     "package": {
-      "name": "alex-meta",
+      "name": "happy-meta",
       "version": [
         0,
-        3,
-        0,
-        13
+        2,
+        1,
+        0
       ]
     },
     "license": {
@@ -19,11 +22,11 @@
       "LICENSE"
     ],
     "copyright": "",
-    "maintainer": "artem.pelenitsyn@gmail.com",
+    "maintainer": "Artem Pelenitsyn (a.pelenitsyn@gmail.com)",
     "author": "Jonas Duregard",
     "stability": "",
     "tested-with": [],
-    "homepage": "",
+    "homepage": "https://github.com/ulysses4ever/BNFC-meta",
     "pkg-url": "",
     "bug-reports": "",
     "source-repos": [
@@ -34,18 +37,13 @@
         "module": null,
         "branch": null,
         "tag": null,
-        "subdir": "alex-meta"
+        "subdir": "happy-meta"
       }
     ],
-    "synopsis": "Quasi-quoter for Alex lexers",
-    "description": "A Template-Haskell based version of the Alex lexer generator. It is used by BNFC-meta to generate lexers and currently this is the only feature known to be working.",
+    "synopsis": "Quasi-quoter for Happy parsers",
+    "description": "A Template-Haskell based version of the Happy parser generator. Used to generate parsers for BNFC-meta, currently this is the only use known to be working.",
     "category": "Development",
-    "custom-fields": [
-      [
-        "x-revision",
-        "4"
-      ]
-    ],
+    "custom-fields": [],
     "build-type-raw": "Simple",
     "custom-setup": null,
     "library": null,
@@ -56,11 +54,11 @@
     "benchmarks": [],
     "data-files": [],
     "data-dir": ".",
-    "extra-source-files": [
-      "changelog.md"
-    ],
+    "extra-source-files": [],
     "extra-tmp-files": [],
-    "extra-doc-files": []
+    "extra-doc-files": [
+      "changelog.md"
+    ]
   },
   "library": {
     "condTreeData": {
@@ -68,13 +66,8 @@
       "exposed-modules": [
         [
           "Text",
-          "Alex",
+          "Happy",
           "Quote"
-        ],
-        [
-          "Text",
-          "Alex",
-          "AlexTemplate"
         ]
       ],
       "re-exported-modules": [],
@@ -84,10 +77,6 @@
       "build-info": {
         "buildable": true,
         "buildTools": [
-          {
-            "package-name": "alex",
-            "include-renaming": "-any"
-          },
           {
             "package-name": "happy",
             "include-renaming": "-any"
@@ -115,74 +104,57 @@
         "otherModules": [
           [
             "Text",
-            "Alex"
+            "Happy"
+          ],
+          [
+            "Text",
+            "Happy",
+            "HappyTemplate"
           ],
           [
             "AbsSyn"
           ],
           [
-            "CharSet"
+            "First"
           ],
           [
-            "DFA"
+            "GenUtils"
           ],
           [
-            "DFS"
+            "Grammar"
           ],
           [
-            "Info"
+            "LALR"
           ],
           [
-            "Map"
-          ],
-          [
-            "NFA"
-          ],
-          [
-            "Output"
-          ],
-          [
-            "Parser"
+            "Lexer"
           ],
           [
             "ParseMonad"
           ],
           [
-            "Scan"
+            "Parser"
           ],
           [
-            "Set"
+            "ProduceCode"
           ],
           [
-            "Sort"
+            "ProduceGLRCode"
           ],
           [
-            "Util"
+            "NameSet"
           ],
           [
-            "UTF8"
+            "Target"
           ],
           [
-            "DFAMin"
+            "AttrGrammar"
           ],
           [
-            "Data",
-            "Ranged"
+            "AttrGrammarParser"
           ],
           [
-            "Data",
-            "Ranged",
-            "Boundaries"
-          ],
-          [
-            "Data",
-            "Ranged",
-            "RangedSet"
-          ],
-          [
-            "Data",
-            "Ranged",
-            "Ranges"
+            "ParamRules"
           ]
         ],
         "virtualModules": [],
@@ -192,6 +164,9 @@
         "defaultExtensions": [
           {
             "enable-extension": "CPP"
+          },
+          {
+            "enable-extension": "MagicHash"
           }
         ],
         "otherExtensions": [],
@@ -226,7 +201,7 @@
         "targetBuildDepends": [
           {
             "package-name": "template-haskell",
-            "version-range": ">=2.5 && <3",
+            "version-range": ">=2.4 && <3",
             "library": [
               {}
             ]
@@ -260,8 +235,15 @@
             ]
           },
           {
-            "package-name": "QuickCheck",
-            "version-range": ">=2",
+            "package-name": "fail",
+            "version-range": ">=4.9.0.0 && <5",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "mtl",
+            "version-range": ">=1.0",
             "library": [
               {}
             ]
@@ -273,7 +255,7 @@
     "condTreeConstraints": [
       {
         "package-name": "template-haskell",
-        "version-range": ">=2.5 && <3",
+        "version-range": ">=2.4 && <3",
         "library": [
           {}
         ]
@@ -307,109 +289,20 @@
         ]
       },
       {
-        "package-name": "QuickCheck",
-        "version-range": ">=2",
+        "package-name": "fail",
+        "version-range": ">=4.9.0.0 && <5",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "mtl",
+        "version-range": ">=1.0",
         "library": [
           {}
         ]
       }
     ],
-    "condTreeComponents": [
-      {
-        "condBranchCondition": {
-          "cond_not": {
-            "variable": {
-              "compiler": "GHC",
-              "version": ">=8.0"
-            }
-          }
-        },
-        "condBranchIfTrue": {
-          "condTreeData": {
-            "name": {},
-            "exposed-modules": [],
-            "re-exported-modules": [],
-            "signatures": [],
-            "exposed": true,
-            "visibility": "LibraryVisibilityPublic",
-            "build-info": {
-              "buildable": true,
-              "buildTools": [],
-              "buildToolDepends": [],
-              "cppOptions": [],
-              "asmOptions": [],
-              "cmmOptions": [],
-              "ccOptions": [],
-              "cxxOptions": [],
-              "ldOptions": [],
-              "pkgconfigDepends": [],
-              "frameworks": [],
-              "extraFrameworkDirs": [],
-              "asmSources": [],
-              "cmmSources": [],
-              "cSources": [],
-              "cxxSources": [],
-              "jsSources": [],
-              "hsSourceDirs": [],
-              "otherModules": [],
-              "virtualModules": [],
-              "autogenModules": [],
-              "defaultLanguage": null,
-              "otherLanguages": [],
-              "defaultExtensions": [],
-              "otherExtensions": [],
-              "oldExtensions": [],
-              "extraLibs": [],
-              "extraGHCiLibs": [],
-              "extraBundledLibs": [],
-              "extraLibFlavours": [],
-              "extraDynLibFlavours": [],
-              "extraLibDirs": [],
-              "includeDirs": [],
-              "includes": [],
-              "autogenIncludes": [],
-              "installIncludes": [],
-              "options": [
-                [],
-                []
-              ],
-              "profOptions": [
-                [],
-                []
-              ],
-              "sharedOptions": [
-                [],
-                []
-              ],
-              "staticOptions": [
-                [],
-                []
-              ],
-              "customFieldsBI": [],
-              "targetBuildDepends": [
-                {
-                  "package-name": "semigroups",
-                  "version-range": "==0.19.*",
-                  "library": [
-                    {}
-                  ]
-                }
-              ],
-              "mixins": []
-            }
-          },
-          "condTreeConstraints": [
-            {
-              "package-name": "semigroups",
-              "version-range": "==0.19.*",
-              "library": [
-                {}
-              ]
-            }
-          ],
-          "condTreeComponents": []
-        }
-      }
-    ]
+    "condTreeComponents": []
   }
 }
