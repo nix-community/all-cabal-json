@@ -2,16 +2,16 @@
   "description": {
     "spec-version": {
       "Left": [
-        3,
-        0
+        2,
+        2
       ]
     },
     "package": {
-      "name": "ascii-th",
+      "name": "aws-arn",
       "version": [
-        1,
-        2,
         0,
+        3,
+        1,
         0
       ]
     },
@@ -19,44 +19,44 @@
       "Left": {
         "license-expression": {
           "expression": {
-            "id": "Apache_2_0"
+            "id": "BSD_3_Clause"
           },
           "exception-id": null
         }
       }
     },
     "license-files": [
-      "license.txt"
+      "LICENSE"
     ],
-    "copyright": "",
-    "maintainer": "Chris Martin, Julie Moronuki",
-    "author": "Chris Martin",
+    "copyright": "Copyright (C) 2020-2022 Bellroy Pty Ltd",
+    "maintainer": "Bellroy Tech Team <haskell@bellroy.com>",
+    "author": "Bellroy Tech Team <haskell@bellroy.com>",
     "stability": "",
-    "tested-with": [],
-    "homepage": "https://github.com/typeclasses/ascii-th",
+    "tested-with": [
+      {
+        "compiler": "GHC",
+        "versionRange": "==8.6.5 || ==8.8.4 || ==8.10.7 || ==9.0.2"
+      }
+    ],
+    "homepage": "",
     "pkg-url": "",
-    "bug-reports": "https://github.com/typeclasses/ascii-th/issues",
+    "bug-reports": "http://github.com/bellroy/aws-arn/issues",
     "source-repos": [
       {
         "kind": {},
         "type": "Git",
-        "location": "git://github.com/typeclasses/ascii-th.git",
+        "location": "https://github.com/bellroy/aws-arn.git",
         "module": null,
         "branch": null,
         "tag": null,
         "subdir": null
       }
     ],
-    "synopsis": "Template Haskell support for ASCII",
-    "description": "This package defines Template Haskell support for ASCII,\nincluding quasi-quoters for expressing ASCII strings.",
-    "category": "Data, Text",
-    "custom-fields": [
-      [
-        "x-revision",
-        "1"
-      ]
-    ],
-    "build-type-raw": null,
+    "synopsis": "Types and optics for manipulating Amazon Resource Names (ARNs)",
+    "description": "This library provides a type representing [Amazon Resource Names\n(ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html),\nand parsing/unparsing functions for them. The provided prisms, when\ncombined with [generic-lens](https://hackage.haskell.org/package/generic-lens)\nor [generic-optics](https://hackage.haskell.org/package/generic-optics),\nmake it very convenient to rewrite parts of ARNs.\n\nStart reading at the \"Network.AWS.ARN\" module, which defines the\ncore data type and includes some examples.\n\nThe @ARN@ type is not designed to be a 100% correct-by-construction\nrepresentation of only valid ARNs; it is designed to be a\nlightweight way to destructure and reassemble ARNs to be used in\nplace of string munging.\n\nThe library aims to provide additional parsers for destructuring the\n\"resource\" part of an ARN, but many are missing right now. PRs to\nadd this support for more AWS resource types are __especially__\nwelcome.",
+    "category": "AWS, Cloud",
+    "custom-fields": [],
+    "build-type-raw": "Simple",
     "custom-setup": null,
     "library": null,
     "sublibraries": [],
@@ -67,7 +67,8 @@
     "data-files": [],
     "data-dir": ".",
     "extra-source-files": [
-      "*.md"
+      "CHANGELOG.md",
+      "README.md"
     ],
     "extra-tmp-files": [],
     "extra-doc-files": []
@@ -77,12 +78,28 @@
       "name": {},
       "exposed-modules": [
         [
-          "ASCII",
-          "TemplateHaskell"
+          "Network",
+          "AWS",
+          "ARN"
         ],
         [
-          "ASCII",
-          "QuasiQuoters"
+          "Network",
+          "AWS",
+          "ARN",
+          "Internal",
+          "Lens"
+        ],
+        [
+          "Network",
+          "AWS",
+          "ARN",
+          "Lambda"
+        ],
+        [
+          "Network",
+          "AWS",
+          "ARN",
+          "S3"
         ]
       ],
       "re-exported-modules": [],
@@ -108,42 +125,14 @@
         "cxxSources": [],
         "jsSources": [],
         "hsSourceDirs": [
-          "library"
+          "src"
         ],
         "otherModules": [],
         "virtualModules": [],
         "autogenModules": [],
         "defaultLanguage": "Haskell2010",
         "otherLanguages": [],
-        "defaultExtensions": [
-          {
-            "enable-extension": "AllowAmbiguousTypes"
-          },
-          {
-            "enable-extension": "DataKinds"
-          },
-          {
-            "enable-extension": "FlexibleContexts"
-          },
-          {
-            "enable-extension": "KindSignatures"
-          },
-          {
-            "disable-extension": "ImplicitPrelude"
-          },
-          {
-            "enable-extension": "ScopedTypeVariables"
-          },
-          {
-            "enable-extension": "TemplateHaskell"
-          },
-          {
-            "enable-extension": "TypeApplications"
-          },
-          {
-            "enable-extension": "ViewPatterns"
-          }
-        ],
+        "defaultExtensions": [],
         "otherExtensions": [],
         "oldExtensions": [],
         "extraLibs": [],
@@ -158,7 +147,19 @@
         "installIncludes": [],
         "options": [
           [
-            "-Wall"
+            "-Wall",
+            "-Wcompat",
+            "-Widentities",
+            "-Wincomplete-record-updates",
+            "-Wincomplete-uni-patterns",
+            "-Werror=incomplete-patterns",
+            "-Wredundant-constraints",
+            "-Wpartial-fields",
+            "-Wtabs",
+            "-Wmissing-local-signatures",
+            "-fhelpful-errors",
+            "-fprint-expanded-synonyms",
+            "-fwarn-unused-do-bind"
           ],
           []
         ],
@@ -177,43 +178,43 @@
         "customFieldsBI": [],
         "targetBuildDepends": [
           {
-            "package-name": "ascii-case",
-            "version-range": "^>=1.0",
-            "library": [
-              {}
-            ]
-          },
-          {
-            "package-name": "ascii-caseless",
-            "version-range": "^>=0.0",
-            "library": [
-              {}
-            ]
-          },
-          {
-            "package-name": "ascii-char",
-            "version-range": "^>=1.0",
-            "library": [
-              {}
-            ]
-          },
-          {
-            "package-name": "ascii-superset",
-            "version-range": "^>=1.2.4 || ^>=1.3",
-            "library": [
-              {}
-            ]
-          },
-          {
             "package-name": "base",
-            "version-range": "^>=4.14 || ^>=4.15 || ^>=4.16 || ^>=4.17",
+            "version-range": ">=4.12 && <4.18",
             "library": [
               {}
             ]
           },
           {
-            "package-name": "template-haskell",
-            "version-range": "^>=2.16 || ^>=2.17 || ^>=2.18 || ^>=2.19",
+            "package-name": "deriving-compat",
+            "version-range": ">=0.5.10 && <0.7",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "profunctors",
+            "version-range": ">=5.0 && <5.7",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "tagged",
+            "version-range": "^>=0.8",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "text",
+            "version-range": "^>=1.2.3 || ^>=2.0",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "hashable",
+            "version-range": ">=1.3.0.0 && <1.5",
             "library": [
               {}
             ]
@@ -224,43 +225,43 @@
     },
     "condTreeConstraints": [
       {
-        "package-name": "ascii-case",
-        "version-range": "^>=1.0",
-        "library": [
-          {}
-        ]
-      },
-      {
-        "package-name": "ascii-caseless",
-        "version-range": "^>=0.0",
-        "library": [
-          {}
-        ]
-      },
-      {
-        "package-name": "ascii-char",
-        "version-range": "^>=1.0",
-        "library": [
-          {}
-        ]
-      },
-      {
-        "package-name": "ascii-superset",
-        "version-range": "^>=1.2.4 || ^>=1.3",
-        "library": [
-          {}
-        ]
-      },
-      {
         "package-name": "base",
-        "version-range": "^>=4.14 || ^>=4.15 || ^>=4.16 || ^>=4.17",
+        "version-range": ">=4.12 && <4.18",
         "library": [
           {}
         ]
       },
       {
-        "package-name": "template-haskell",
-        "version-range": "^>=2.16 || ^>=2.17 || ^>=2.18 || ^>=2.19",
+        "package-name": "deriving-compat",
+        "version-range": ">=0.5.10 && <0.7",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "profunctors",
+        "version-range": ">=5.0 && <5.7",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "tagged",
+        "version-range": "^>=0.8",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "text",
+        "version-range": "^>=1.2.3 || ^>=2.0",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "hashable",
+        "version-range": ">=1.3.0.0 && <1.5",
         "library": [
           {}
         ]
@@ -269,7 +270,7 @@
     "condTreeComponents": []
   },
   "test-suites": {
-    "test-ascii-th": {
+    "spec": {
       "condTreeData": {
         "name": "",
         "interface": {
@@ -282,7 +283,13 @@
         "build-info": {
           "buildable": true,
           "buildTools": [],
-          "buildToolDepends": [],
+          "buildToolDepends": [
+            {
+              "package-name": "tasty-discover",
+              "executable-component-name": "tasty-discover",
+              "version-range": ">=4.2.2 && <5.1"
+            }
+          ],
           "cppOptions": [],
           "asmOptions": [],
           "cmmOptions": [],
@@ -300,31 +307,33 @@
           "hsSourceDirs": [
             "test"
           ],
-          "otherModules": [],
+          "otherModules": [
+            [
+              "Network",
+              "AWS",
+              "ARN",
+              "Lambda",
+              "Test"
+            ],
+            [
+              "Network",
+              "AWS",
+              "ARN",
+              "S3",
+              "Test"
+            ],
+            [
+              "Network",
+              "AWS",
+              "ARN",
+              "Test"
+            ]
+          ],
           "virtualModules": [],
           "autogenModules": [],
           "defaultLanguage": "Haskell2010",
           "otherLanguages": [],
-          "defaultExtensions": [
-            {
-              "disable-extension": "ImplicitPrelude"
-            },
-            {
-              "enable-extension": "OverloadedStrings"
-            },
-            {
-              "enable-extension": "QuasiQuotes"
-            },
-            {
-              "enable-extension": "TemplateHaskell"
-            },
-            {
-              "enable-extension": "TypeApplications"
-            },
-            {
-              "enable-extension": "ViewPatterns"
-            }
-          ],
+          "defaultExtensions": [],
           "otherExtensions": [],
           "oldExtensions": [],
           "extraLibs": [],
@@ -340,7 +349,19 @@
           "options": [
             [
               "-Wall",
-              "-fno-warn-overlapping-patterns"
+              "-Wcompat",
+              "-Widentities",
+              "-Wincomplete-record-updates",
+              "-Wincomplete-uni-patterns",
+              "-Werror=incomplete-patterns",
+              "-Wredundant-constraints",
+              "-Wpartial-fields",
+              "-Wtabs",
+              "-Wmissing-local-signatures",
+              "-fhelpful-errors",
+              "-fprint-expanded-synonyms",
+              "-fwarn-unused-do-bind",
+              "-threaded"
             ],
             []
           ],
@@ -359,64 +380,57 @@
           "customFieldsBI": [],
           "targetBuildDepends": [
             {
-              "package-name": "ascii-case",
-              "version-range": "^>=1.0",
-              "library": [
-                {}
-              ]
-            },
-            {
-              "package-name": "ascii-caseless",
-              "version-range": "^>=0.0",
-              "library": [
-                {}
-              ]
-            },
-            {
-              "package-name": "ascii-char",
-              "version-range": "^>=1.0",
-              "library": [
-                {}
-              ]
-            },
-            {
-              "package-name": "ascii-superset",
-              "version-range": "^>=1.2.4 || ^>=1.3",
-              "library": [
-                {}
-              ]
-            },
-            {
               "package-name": "base",
-              "version-range": "^>=4.14 || ^>=4.15 || ^>=4.16 || ^>=4.17",
+              "version-range": ">=4.12 && <4.18",
               "library": [
                 {}
               ]
             },
             {
-              "package-name": "ascii-th",
-              "version-range": "-any",
+              "package-name": "deriving-compat",
+              "version-range": ">=0.5.10 && <0.7",
               "library": [
                 {}
               ]
             },
             {
-              "package-name": "bytestring",
-              "version-range": "^>=0.10.12 || ^>=0.11",
+              "package-name": "profunctors",
+              "version-range": ">=5.0 && <5.7",
               "library": [
                 {}
               ]
             },
             {
-              "package-name": "hspec",
-              "version-range": "^>=2.8.5 || ^>=2.9 || ^>=2.10",
+              "package-name": "tagged",
+              "version-range": "^>=0.8",
               "library": [
                 {}
               ]
             },
             {
               "package-name": "text",
-              "version-range": "^>=1.2.4 || ^>=2.0",
+              "version-range": "^>=1.2.3 || ^>=2.0",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "aws-arn",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "tasty",
+              "version-range": "^>=1.4.0.2",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "tasty-hunit",
+              "version-range": "^>=0.10.0.3",
               "library": [
                 {}
               ]
@@ -427,64 +441,57 @@
       },
       "condTreeConstraints": [
         {
-          "package-name": "ascii-case",
-          "version-range": "^>=1.0",
-          "library": [
-            {}
-          ]
-        },
-        {
-          "package-name": "ascii-caseless",
-          "version-range": "^>=0.0",
-          "library": [
-            {}
-          ]
-        },
-        {
-          "package-name": "ascii-char",
-          "version-range": "^>=1.0",
-          "library": [
-            {}
-          ]
-        },
-        {
-          "package-name": "ascii-superset",
-          "version-range": "^>=1.2.4 || ^>=1.3",
-          "library": [
-            {}
-          ]
-        },
-        {
           "package-name": "base",
-          "version-range": "^>=4.14 || ^>=4.15 || ^>=4.16 || ^>=4.17",
+          "version-range": ">=4.12 && <4.18",
           "library": [
             {}
           ]
         },
         {
-          "package-name": "ascii-th",
-          "version-range": "-any",
+          "package-name": "deriving-compat",
+          "version-range": ">=0.5.10 && <0.7",
           "library": [
             {}
           ]
         },
         {
-          "package-name": "bytestring",
-          "version-range": "^>=0.10.12 || ^>=0.11",
+          "package-name": "profunctors",
+          "version-range": ">=5.0 && <5.7",
           "library": [
             {}
           ]
         },
         {
-          "package-name": "hspec",
-          "version-range": "^>=2.8.5 || ^>=2.9 || ^>=2.10",
+          "package-name": "tagged",
+          "version-range": "^>=0.8",
           "library": [
             {}
           ]
         },
         {
           "package-name": "text",
-          "version-range": "^>=1.2.4 || ^>=2.0",
+          "version-range": "^>=1.2.3 || ^>=2.0",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "aws-arn",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "tasty",
+          "version-range": "^>=1.4.0.2",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "tasty-hunit",
+          "version-range": "^>=0.10.0.3",
           "library": [
             {}
           ]

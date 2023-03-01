@@ -2,52 +2,60 @@
   "description": {
     "spec-version": {
       "Left": [
-        1,
-        12
+        2,
+        2
       ]
     },
     "package": {
-      "name": "streamly-bytestring",
+      "name": "psx",
       "version": [
         0,
         1,
-        4
+        1,
+        1
       ]
     },
     "license": {
-      "Right": "BSD3"
+      "Left": {
+        "license-expression": {
+          "expression": {
+            "id": "BSD_3_Clause"
+          },
+          "exception-id": null
+        }
+      }
     },
     "license-files": [
       "LICENSE"
     ],
-    "copyright": "Sibi Prabakaran",
-    "maintainer": "sibi@psibi.in",
-    "author": "Sibi Prabakaran",
-    "stability": "",
-    "tested-with": [],
-    "homepage": "https://github.com/psibi/streamly-bytestring#readme",
+    "copyright": "(c) 2022 Nicolas Trangez",
+    "maintainer": "ikke@nicolast.be",
+    "author": "Nicolas Trangez",
+    "stability": "alpha",
+    "tested-with": [
+      {
+        "compiler": "GHC",
+        "versionRange": "==8.10.7 || ==9.0.2 || ==9.2.4 || ==9.4.2 || ==9.6.1"
+      }
+    ],
+    "homepage": "https://github.com/NicolasT/landlock-hs",
     "pkg-url": "",
-    "bug-reports": "https://github.com/psibi/streamly-bytestring/issues",
+    "bug-reports": "https://github.com/NicolasT/landlock-hs/issues",
     "source-repos": [
       {
         "kind": {},
         "type": "Git",
-        "location": "https://github.com/psibi/streamly-bytestring",
+        "location": "https://github.com/NicolasT/landlock-hs.git",
         "module": null,
-        "branch": null,
+        "branch": "main",
         "tag": null,
-        "subdir": null
+        "subdir": "psx"
       }
     ],
-    "synopsis": "Library for streamly and bytestring interoperation.",
-    "description": "Please see the README on GitHub at <https://github.com/psibi/streamly-bytestring#readme>",
-    "category": "Streamly, Stream, ByteString",
-    "custom-fields": [
-      [
-        "x-revision",
-        "5"
-      ]
-    ],
+    "synopsis": "Integrate libpsx with the GHC RTS",
+    "description": "This library embeds @libpsx@ in a GHC Haskell-compiled application.\n\nNote @libpsx@ performs some trickery with signal handling in a process.\nFurthermore, when using this library, @sigfillset@ will be wrapped so\n@SIGSYS@ is /not/ set, in order for the GHC RTS @ticker@ thread not to\nblock the signal and work properly with @libpsx@.\n\n__Warning:__ @libpsx@ on current Ubuntu and Debian systems (from @libcap@\n2.44) is broken. Hence, this library contains a bundled version of @libpsx@\nby default. Disable the @bundled-libpsx@ flag to use a system-provided\nversion of the library, which must be from @libcap@ version 2.46 or higher.\nThe license of the bundled library can be found in @cbits\\/psx\\/License@.",
+    "category": "System",
+    "custom-fields": [],
     "build-type-raw": "Simple",
     "custom-setup": null,
     "library": null,
@@ -59,26 +67,38 @@
     "data-files": [],
     "data-dir": ".",
     "extra-source-files": [
-      "README.md",
-      "Changelog.md"
+      "cbits/hs-psx.h",
+      "cbits/psx/psx_syscall.h",
+      "test/detect-psx.h"
     ],
     "extra-tmp-files": [],
-    "extra-doc-files": []
+    "extra-doc-files": [
+      "cbits/psx/License",
+      "CHANGELOG.md",
+      "README.md"
+    ]
   },
+  "package-flags": [
+    {
+      "name": "bundled-libpsx",
+      "description": "Use the bundled libpsx instead of a (potentially broken) system-provided version. See @cbits\\/psx\\/License@.",
+      "default": true,
+      "manual": true
+    },
+    {
+      "name": "werror",
+      "description": "Turn compiler warnings into errors.",
+      "default": false,
+      "manual": true
+    }
+  ],
   "library": {
     "condTreeData": {
       "name": {},
       "exposed-modules": [
         [
-          "Streamly",
-          "External",
-          "ByteString"
-        ],
-        [
-          "Streamly",
-          "External",
-          "ByteString",
-          "Lazy"
+          "System",
+          "PSX"
         ]
       ],
       "re-exported-modules": [],
@@ -92,25 +112,29 @@
         "cppOptions": [],
         "asmOptions": [],
         "cmmOptions": [],
-        "ccOptions": [],
+        "ccOptions": [
+          "-Wall",
+          "-Wextra",
+          "-pedantic"
+        ],
         "cxxOptions": [],
-        "ldOptions": [],
+        "ldOptions": [
+          "-Wl,-wrap,sigfillset"
+        ],
         "pkgconfigDepends": [],
         "frameworks": [],
         "extraFrameworkDirs": [],
         "asmSources": [],
         "cmmSources": [],
-        "cSources": [],
+        "cSources": [
+          "cbits/hs-psx.c"
+        ],
         "cxxSources": [],
         "jsSources": [],
         "hsSourceDirs": [
           "src"
         ],
-        "otherModules": [
-          [
-            "Paths_streamly_bytestring"
-          ]
-        ],
+        "otherModules": [],
         "virtualModules": [],
         "autogenModules": [],
         "defaultLanguage": "Haskell2010",
@@ -124,14 +148,25 @@
         "extraLibFlavours": [],
         "extraDynLibFlavours": [],
         "extraLibDirs": [],
-        "includeDirs": [],
+        "includeDirs": [
+          "cbits"
+        ],
         "includes": [],
         "autogenIncludes": [],
-        "installIncludes": [],
+        "installIncludes": [
+          "hs-psx.h"
+        ],
         "options": [
           [
             "-Wall",
-            "-O2"
+            "-Wincomplete-uni-patterns",
+            "-Wincomplete-record-updates",
+            "-Wpartial-fields",
+            "-Wmissing-home-modules",
+            "-Widentities",
+            "-Wredundant-constraints",
+            "-Wcpp-undef",
+            "-Wmissing-export-lists"
           ],
           []
         ],
@@ -151,21 +186,7 @@
         "targetBuildDepends": [
           {
             "package-name": "base",
-            "version-range": ">=4.7 && <5",
-            "library": [
-              {}
-            ]
-          },
-          {
-            "package-name": "bytestring",
-            "version-range": ">=0.10.0 && <=0.11.3.1",
-            "library": [
-              {}
-            ]
-          },
-          {
-            "package-name": "streamly",
-            "version-range": "==0.8.1.* || ==0.8.2.* || ==0.8.3.*",
+            "version-range": ">=4.14.2.0 && <4.18",
             "library": [
               {}
             ]
@@ -177,21 +198,7 @@
     "condTreeConstraints": [
       {
         "package-name": "base",
-        "version-range": ">=4.7 && <5",
-        "library": [
-          {}
-        ]
-      },
-      {
-        "package-name": "bytestring",
-        "version-range": ">=0.10.0 && <=0.11.3.1",
-        "library": [
-          {}
-        ]
-      },
-      {
-        "package-name": "streamly",
-        "version-range": "==0.8.1.* || ==0.8.2.* || ==0.8.3.*",
+        "version-range": ">=4.14.2.0 && <4.18",
         "library": [
           {}
         ]
@@ -201,8 +208,7 @@
       {
         "condBranchCondition": {
           "variable": {
-            "compiler": "GHC",
-            "version": "<8.1"
+            "flag": "werror"
           }
         },
         "condBranchIfTrue": {
@@ -220,7 +226,12 @@
               "cppOptions": [],
               "asmOptions": [],
               "cmmOptions": [],
-              "ccOptions": [],
+              "ccOptions": [
+                "-Werror",
+                "-Wno-error=overlength-strings",
+                "-Wno-error=type-limits",
+                "-Wno-error=variadic-macros"
+              ],
               "cxxOptions": [],
               "ldOptions": [],
               "pkgconfigDepends": [],
@@ -251,7 +262,10 @@
               "autogenIncludes": [],
               "installIncludes": [],
               "options": [
-                [],
+                [
+                  "-Werror",
+                  "-optc=-Werror"
+                ],
                 []
               ],
               "profOptions": [
@@ -267,35 +281,18 @@
                 []
               ],
               "customFieldsBI": [],
-              "targetBuildDepends": [
-                {
-                  "package-name": "base-compat",
-                  "version-range": ">=0.11",
-                  "library": [
-                    {}
-                  ]
-                }
-              ],
+              "targetBuildDepends": [],
               "mixins": []
             }
           },
-          "condTreeConstraints": [
-            {
-              "package-name": "base-compat",
-              "version-range": ">=0.11",
-              "library": [
-                {}
-              ]
-            }
-          ],
+          "condTreeConstraints": [],
           "condTreeComponents": []
         }
       },
       {
         "condBranchCondition": {
           "variable": {
-            "compiler": "GHC",
-            "version": "<8"
+            "flag": "bundled-libpsx"
           }
         },
         "condBranchIfTrue": {
@@ -313,10 +310,91 @@
               "cppOptions": [],
               "asmOptions": [],
               "cmmOptions": [],
+              "ccOptions": [
+                "-DBUNDLED_LIBPSX"
+              ],
+              "cxxOptions": [],
+              "ldOptions": [
+                "-pthread",
+                "-Wl,-wrap,pthread_create"
+              ],
+              "pkgconfigDepends": [],
+              "frameworks": [],
+              "extraFrameworkDirs": [],
+              "asmSources": [],
+              "cmmSources": [],
+              "cSources": [
+                "cbits/psx/psx.c"
+              ],
+              "cxxSources": [],
+              "jsSources": [],
+              "hsSourceDirs": [],
+              "otherModules": [],
+              "virtualModules": [],
+              "autogenModules": [],
+              "defaultLanguage": null,
+              "otherLanguages": [],
+              "defaultExtensions": [],
+              "otherExtensions": [],
+              "oldExtensions": [],
+              "extraLibs": [],
+              "extraGHCiLibs": [],
+              "extraBundledLibs": [],
+              "extraLibFlavours": [],
+              "extraDynLibFlavours": [],
+              "extraLibDirs": [],
+              "includeDirs": [],
+              "includes": [],
+              "autogenIncludes": [],
+              "installIncludes": [],
+              "options": [
+                [],
+                []
+              ],
+              "profOptions": [
+                [],
+                []
+              ],
+              "sharedOptions": [
+                [],
+                []
+              ],
+              "staticOptions": [
+                [],
+                []
+              ],
+              "customFieldsBI": [],
+              "targetBuildDepends": [],
+              "mixins": []
+            }
+          },
+          "condTreeConstraints": [],
+          "condTreeComponents": []
+        },
+        "condBranchIfFalse": {
+          "condTreeData": {
+            "name": {},
+            "exposed-modules": [],
+            "re-exported-modules": [],
+            "signatures": [],
+            "exposed": true,
+            "visibility": "LibraryVisibilityPublic",
+            "build-info": {
+              "buildable": true,
+              "buildTools": [],
+              "buildToolDepends": [],
+              "cppOptions": [],
+              "asmOptions": [],
+              "cmmOptions": [],
               "ccOptions": [],
               "cxxOptions": [],
               "ldOptions": [],
-              "pkgconfigDepends": [],
+              "pkgconfigDepends": [
+                {
+                  "pkgconfigName": "libpsx",
+                  "pkgconfigVersionRange": "-any"
+                }
+              ],
               "frameworks": [],
               "extraFrameworkDirs": [],
               "asmSources": [],
@@ -360,34 +438,18 @@
                 []
               ],
               "customFieldsBI": [],
-              "targetBuildDepends": [
-                {
-                  "package-name": "transformers",
-                  "version-range": ">=0.4",
-                  "library": [
-                    {}
-                  ]
-                }
-              ],
+              "targetBuildDepends": [],
               "mixins": []
             }
           },
-          "condTreeConstraints": [
-            {
-              "package-name": "transformers",
-              "version-range": ">=0.4",
-              "library": [
-                {}
-              ]
-            }
-          ],
+          "condTreeConstraints": [],
           "condTreeComponents": []
         }
       }
     ]
   },
   "test-suites": {
-    "sb-test": {
+    "psx-test-threaded": {
       "condTreeData": {
         "name": "",
         "interface": {
@@ -395,7 +457,7 @@
             1,
             0
           ],
-          "filepath": "Main.hs"
+          "filepath": "psx-test-threaded.hs"
         },
         "build-info": {
           "buildable": true,
@@ -404,7 +466,11 @@
           "cppOptions": [],
           "asmOptions": [],
           "cmmOptions": [],
-          "ccOptions": [],
+          "ccOptions": [
+            "-Wall",
+            "-Wextra",
+            "-pedantic"
+          ],
           "cxxOptions": [],
           "ldOptions": [],
           "pkgconfigDepends": [],
@@ -412,7 +478,9 @@
           "extraFrameworkDirs": [],
           "asmSources": [],
           "cmmSources": [],
-          "cSources": [],
+          "cSources": [
+            "test/detect-psx.c"
+          ],
           "cxxSources": [],
           "jsSources": [],
           "hsSourceDirs": [
@@ -420,7 +488,7 @@
           ],
           "otherModules": [
             [
-              "Paths_streamly_bytestring"
+              "TestCases"
             ]
           ],
           "virtualModules": [],
@@ -428,7 +496,11 @@
           "defaultLanguage": "Haskell2010",
           "otherLanguages": [],
           "defaultExtensions": [],
-          "otherExtensions": [],
+          "otherExtensions": [
+            {
+              "enable-extension": "CApiFFI"
+            }
+          ],
           "oldExtensions": [],
           "extraLibs": [],
           "extraGHCiLibs": [],
@@ -436,16 +508,26 @@
           "extraLibFlavours": [],
           "extraDynLibFlavours": [],
           "extraLibDirs": [],
-          "includeDirs": [],
+          "includeDirs": [
+            "test"
+          ],
           "includes": [],
           "autogenIncludes": [],
           "installIncludes": [],
           "options": [
             [
               "-Wall",
+              "-Wincomplete-uni-patterns",
+              "-Wincomplete-record-updates",
+              "-Wpartial-fields",
+              "-Wmissing-home-modules",
+              "-Widentities",
+              "-Wredundant-constraints",
+              "-Wcpp-undef",
+              "-Wmissing-export-lists",
               "-threaded",
-              "-rtsopts",
-              "-with-rtsopts=-N"
+              "-with-rtsopts",
+              "-N2"
             ],
             []
           ],
@@ -464,78 +546,36 @@
           "customFieldsBI": [],
           "targetBuildDepends": [
             {
+              "package-name": "async",
+              "version-range": "^>=2.2.3",
+              "library": [
+                {}
+              ]
+            },
+            {
               "package-name": "base",
-              "version-range": ">=4.7 && <5",
+              "version-range": ">=4.14.2.0 && <4.18",
               "library": [
                 {}
               ]
             },
             {
-              "package-name": "bytestring",
+              "package-name": "psx",
               "version-range": "-any",
               "library": [
                 {}
               ]
             },
             {
-              "package-name": "directory",
-              "version-range": "-any",
+              "package-name": "tasty",
+              "version-range": "^>=1.4.1",
               "library": [
                 {}
               ]
             },
             {
-              "package-name": "filepath",
-              "version-range": "-any",
-              "library": [
-                {}
-              ]
-            },
-            {
-              "package-name": "hspec",
-              "version-range": "-any",
-              "library": [
-                {}
-              ]
-            },
-            {
-              "package-name": "hspec-discover",
-              "version-range": "-any",
-              "library": [
-                {}
-              ]
-            },
-            {
-              "package-name": "quickcheck-instances",
-              "version-range": "-any",
-              "library": [
-                {}
-              ]
-            },
-            {
-              "package-name": "random",
-              "version-range": "-any",
-              "library": [
-                {}
-              ]
-            },
-            {
-              "package-name": "streamly",
-              "version-range": "-any",
-              "library": [
-                {}
-              ]
-            },
-            {
-              "package-name": "streamly-bytestring",
-              "version-range": "-any",
-              "library": [
-                {}
-              ]
-            },
-            {
-              "package-name": "temporary",
-              "version-range": "-any",
+              "package-name": "tasty-hunit",
+              "version-range": "^>=0.10.0.3",
               "library": [
                 {}
               ]
@@ -546,78 +586,36 @@
       },
       "condTreeConstraints": [
         {
+          "package-name": "async",
+          "version-range": "^>=2.2.3",
+          "library": [
+            {}
+          ]
+        },
+        {
           "package-name": "base",
-          "version-range": ">=4.7 && <5",
+          "version-range": ">=4.14.2.0 && <4.18",
           "library": [
             {}
           ]
         },
         {
-          "package-name": "bytestring",
+          "package-name": "psx",
           "version-range": "-any",
           "library": [
             {}
           ]
         },
         {
-          "package-name": "directory",
-          "version-range": "-any",
+          "package-name": "tasty",
+          "version-range": "^>=1.4.1",
           "library": [
             {}
           ]
         },
         {
-          "package-name": "filepath",
-          "version-range": "-any",
-          "library": [
-            {}
-          ]
-        },
-        {
-          "package-name": "hspec",
-          "version-range": "-any",
-          "library": [
-            {}
-          ]
-        },
-        {
-          "package-name": "hspec-discover",
-          "version-range": "-any",
-          "library": [
-            {}
-          ]
-        },
-        {
-          "package-name": "quickcheck-instances",
-          "version-range": "-any",
-          "library": [
-            {}
-          ]
-        },
-        {
-          "package-name": "random",
-          "version-range": "-any",
-          "library": [
-            {}
-          ]
-        },
-        {
-          "package-name": "streamly",
-          "version-range": "-any",
-          "library": [
-            {}
-          ]
-        },
-        {
-          "package-name": "streamly-bytestring",
-          "version-range": "-any",
-          "library": [
-            {}
-          ]
-        },
-        {
-          "package-name": "temporary",
-          "version-range": "-any",
+          "package-name": "tasty-hunit",
+          "version-range": "^>=0.10.0.3",
           "library": [
             {}
           ]
@@ -627,8 +625,7 @@
         {
           "condBranchCondition": {
             "variable": {
-              "compiler": "GHC",
-              "version": "<8.1"
+              "flag": "werror"
             }
           },
           "condBranchIfTrue": {
@@ -647,7 +644,12 @@
                 "cppOptions": [],
                 "asmOptions": [],
                 "cmmOptions": [],
-                "ccOptions": [],
+                "ccOptions": [
+                  "-Werror",
+                  "-Wno-error=overlength-strings",
+                  "-Wno-error=type-limits",
+                  "-Wno-error=variadic-macros"
+                ],
                 "cxxOptions": [],
                 "ldOptions": [],
                 "pkgconfigDepends": [],
@@ -678,7 +680,10 @@
                 "autogenIncludes": [],
                 "installIncludes": [],
                 "options": [
-                  [],
+                  [
+                    "-Werror",
+                    "-optc=-Werror"
+                  ],
                   []
                 ],
                 "profOptions": [
@@ -694,129 +699,17 @@
                   []
                 ],
                 "customFieldsBI": [],
-                "targetBuildDepends": [
-                  {
-                    "package-name": "base-compat",
-                    "version-range": ">=0.11",
-                    "library": [
-                      {}
-                    ]
-                  }
-                ],
+                "targetBuildDepends": [],
                 "mixins": []
               }
             },
-            "condTreeConstraints": [
-              {
-                "package-name": "base-compat",
-                "version-range": ">=0.11",
-                "library": [
-                  {}
-                ]
-              }
-            ],
-            "condTreeComponents": []
-          }
-        },
-        {
-          "condBranchCondition": {
-            "variable": {
-              "compiler": "GHC",
-              "version": "<8"
-            }
-          },
-          "condBranchIfTrue": {
-            "condTreeData": {
-              "name": "",
-              "interface": {
-                "type": {
-                  "name": "",
-                  "version": []
-                }
-              },
-              "build-info": {
-                "buildable": true,
-                "buildTools": [],
-                "buildToolDepends": [],
-                "cppOptions": [],
-                "asmOptions": [],
-                "cmmOptions": [],
-                "ccOptions": [],
-                "cxxOptions": [],
-                "ldOptions": [],
-                "pkgconfigDepends": [],
-                "frameworks": [],
-                "extraFrameworkDirs": [],
-                "asmSources": [],
-                "cmmSources": [],
-                "cSources": [],
-                "cxxSources": [],
-                "jsSources": [],
-                "hsSourceDirs": [],
-                "otherModules": [],
-                "virtualModules": [],
-                "autogenModules": [],
-                "defaultLanguage": null,
-                "otherLanguages": [],
-                "defaultExtensions": [],
-                "otherExtensions": [],
-                "oldExtensions": [],
-                "extraLibs": [],
-                "extraGHCiLibs": [],
-                "extraBundledLibs": [],
-                "extraLibFlavours": [],
-                "extraDynLibFlavours": [],
-                "extraLibDirs": [],
-                "includeDirs": [],
-                "includes": [],
-                "autogenIncludes": [],
-                "installIncludes": [],
-                "options": [
-                  [],
-                  []
-                ],
-                "profOptions": [
-                  [],
-                  []
-                ],
-                "sharedOptions": [
-                  [],
-                  []
-                ],
-                "staticOptions": [
-                  [],
-                  []
-                ],
-                "customFieldsBI": [],
-                "targetBuildDepends": [
-                  {
-                    "package-name": "transformers",
-                    "version-range": ">=0.4",
-                    "library": [
-                      {}
-                    ]
-                  }
-                ],
-                "mixins": []
-              }
-            },
-            "condTreeConstraints": [
-              {
-                "package-name": "transformers",
-                "version-range": ">=0.4",
-                "library": [
-                  {}
-                ]
-              }
-            ],
+            "condTreeConstraints": [],
             "condTreeComponents": []
           }
         }
       ]
-    }
-  },
-  "benchmarks": {
-    "sb-benchmark": {
+    },
+    "psx-test-no-psx": {
       "condTreeData": {
         "name": "",
         "interface": {
@@ -824,7 +717,7 @@
             1,
             0
           ],
-          "filepath": "Main.hs"
+          "filepath": "psx-test-no-psx.hs"
         },
         "build-info": {
           "buildable": true,
@@ -833,7 +726,11 @@
           "cppOptions": [],
           "asmOptions": [],
           "cmmOptions": [],
-          "ccOptions": [],
+          "ccOptions": [
+            "-Wall",
+            "-Wextra",
+            "-pedantic"
+          ],
           "cxxOptions": [],
           "ldOptions": [],
           "pkgconfigDepends": [],
@@ -841,23 +738,25 @@
           "extraFrameworkDirs": [],
           "asmSources": [],
           "cmmSources": [],
-          "cSources": [],
+          "cSources": [
+            "test/detect-psx.c"
+          ],
           "cxxSources": [],
           "jsSources": [],
           "hsSourceDirs": [
-            "benchmark"
+            "test"
           ],
-          "otherModules": [
-            [
-              "Paths_streamly_bytestring"
-            ]
-          ],
+          "otherModules": [],
           "virtualModules": [],
           "autogenModules": [],
           "defaultLanguage": "Haskell2010",
           "otherLanguages": [],
           "defaultExtensions": [],
-          "otherExtensions": [],
+          "otherExtensions": [
+            {
+              "enable-extension": "CApiFFI"
+            }
+          ],
           "oldExtensions": [],
           "extraLibs": [],
           "extraGHCiLibs": [],
@@ -865,14 +764,24 @@
           "extraLibFlavours": [],
           "extraDynLibFlavours": [],
           "extraLibDirs": [],
-          "includeDirs": [],
+          "includeDirs": [
+            "test",
+            "cbits"
+          ],
           "includes": [],
           "autogenIncludes": [],
           "installIncludes": [],
           "options": [
             [
               "-Wall",
-              "-O2"
+              "-Wincomplete-uni-patterns",
+              "-Wincomplete-record-updates",
+              "-Wpartial-fields",
+              "-Wmissing-home-modules",
+              "-Widentities",
+              "-Wredundant-constraints",
+              "-Wcpp-undef",
+              "-Wmissing-export-lists"
             ],
             []
           ],
@@ -892,49 +801,21 @@
           "targetBuildDepends": [
             {
               "package-name": "base",
-              "version-range": ">=4.7 && <5",
+              "version-range": ">=4.14.2.0 && <4.18",
               "library": [
                 {}
               ]
             },
             {
-              "package-name": "bytestring",
-              "version-range": "-any",
+              "package-name": "tasty",
+              "version-range": "^>=1.4.1",
               "library": [
                 {}
               ]
             },
             {
-              "package-name": "deepseq",
-              "version-range": "-any",
-              "library": [
-                {}
-              ]
-            },
-            {
-              "package-name": "gauge",
-              "version-range": "-any",
-              "library": [
-                {}
-              ]
-            },
-            {
-              "package-name": "random",
-              "version-range": "-any",
-              "library": [
-                {}
-              ]
-            },
-            {
-              "package-name": "streamly",
-              "version-range": "-any",
-              "library": [
-                {}
-              ]
-            },
-            {
-              "package-name": "streamly-bytestring",
-              "version-range": "-any",
+              "package-name": "tasty-hunit",
+              "version-range": "^>=0.10.0.3",
               "library": [
                 {}
               ]
@@ -946,49 +827,21 @@
       "condTreeConstraints": [
         {
           "package-name": "base",
-          "version-range": ">=4.7 && <5",
+          "version-range": ">=4.14.2.0 && <4.18",
           "library": [
             {}
           ]
         },
         {
-          "package-name": "bytestring",
-          "version-range": "-any",
+          "package-name": "tasty",
+          "version-range": "^>=1.4.1",
           "library": [
             {}
           ]
         },
         {
-          "package-name": "deepseq",
-          "version-range": "-any",
-          "library": [
-            {}
-          ]
-        },
-        {
-          "package-name": "gauge",
-          "version-range": "-any",
-          "library": [
-            {}
-          ]
-        },
-        {
-          "package-name": "random",
-          "version-range": "-any",
-          "library": [
-            {}
-          ]
-        },
-        {
-          "package-name": "streamly",
-          "version-range": "-any",
-          "library": [
-            {}
-          ]
-        },
-        {
-          "package-name": "streamly-bytestring",
-          "version-range": "-any",
+          "package-name": "tasty-hunit",
+          "version-range": "^>=0.10.0.3",
           "library": [
             {}
           ]
@@ -998,16 +851,15 @@
         {
           "condBranchCondition": {
             "variable": {
-              "compiler": "GHC",
-              "version": "<8.1"
+              "flag": "werror"
             }
           },
           "condBranchIfTrue": {
             "condTreeData": {
               "name": "",
               "interface": {
-                "benchmark-type": {
-                  "type": "",
+                "type": {
+                  "name": "",
                   "version": []
                 }
               },
@@ -1018,7 +870,12 @@
                 "cppOptions": [],
                 "asmOptions": [],
                 "cmmOptions": [],
-                "ccOptions": [],
+                "ccOptions": [
+                  "-Werror",
+                  "-Wno-error=overlength-strings",
+                  "-Wno-error=type-limits",
+                  "-Wno-error=variadic-macros"
+                ],
                 "cxxOptions": [],
                 "ldOptions": [],
                 "pkgconfigDepends": [],
@@ -1049,7 +906,10 @@
                 "autogenIncludes": [],
                 "installIncludes": [],
                 "options": [
-                  [],
+                  [
+                    "-Werror",
+                    "-optc=-Werror"
+                  ],
                   []
                 ],
                 "profOptions": [
@@ -1065,43 +925,198 @@
                   []
                 ],
                 "customFieldsBI": [],
-                "targetBuildDepends": [
-                  {
-                    "package-name": "base-compat",
-                    "version-range": ">=0.11",
-                    "library": [
-                      {}
-                    ]
-                  }
-                ],
+                "targetBuildDepends": [],
                 "mixins": []
               }
             },
-            "condTreeConstraints": [
-              {
-                "package-name": "base-compat",
-                "version-range": ">=0.11",
-                "library": [
-                  {}
-                ]
-              }
-            ],
+            "condTreeConstraints": [],
             "condTreeComponents": []
           }
+        }
+      ]
+    },
+    "psx-test": {
+      "condTreeData": {
+        "name": "",
+        "interface": {
+          "version": [
+            1,
+            0
+          ],
+          "filepath": "psx-test.hs"
         },
+        "build-info": {
+          "buildable": true,
+          "buildTools": [],
+          "buildToolDepends": [],
+          "cppOptions": [],
+          "asmOptions": [],
+          "cmmOptions": [],
+          "ccOptions": [
+            "-Wall",
+            "-Wextra",
+            "-pedantic"
+          ],
+          "cxxOptions": [],
+          "ldOptions": [],
+          "pkgconfigDepends": [],
+          "frameworks": [],
+          "extraFrameworkDirs": [],
+          "asmSources": [],
+          "cmmSources": [],
+          "cSources": [
+            "test/detect-psx.c"
+          ],
+          "cxxSources": [],
+          "jsSources": [],
+          "hsSourceDirs": [
+            "test"
+          ],
+          "otherModules": [
+            [
+              "TestCases"
+            ]
+          ],
+          "virtualModules": [],
+          "autogenModules": [],
+          "defaultLanguage": "Haskell2010",
+          "otherLanguages": [],
+          "defaultExtensions": [],
+          "otherExtensions": [
+            {
+              "enable-extension": "CApiFFI"
+            }
+          ],
+          "oldExtensions": [],
+          "extraLibs": [],
+          "extraGHCiLibs": [],
+          "extraBundledLibs": [],
+          "extraLibFlavours": [],
+          "extraDynLibFlavours": [],
+          "extraLibDirs": [],
+          "includeDirs": [
+            "test"
+          ],
+          "includes": [],
+          "autogenIncludes": [],
+          "installIncludes": [],
+          "options": [
+            [
+              "-Wall",
+              "-Wincomplete-uni-patterns",
+              "-Wincomplete-record-updates",
+              "-Wpartial-fields",
+              "-Wmissing-home-modules",
+              "-Widentities",
+              "-Wredundant-constraints",
+              "-Wcpp-undef",
+              "-Wmissing-export-lists"
+            ],
+            []
+          ],
+          "profOptions": [
+            [],
+            []
+          ],
+          "sharedOptions": [
+            [],
+            []
+          ],
+          "staticOptions": [
+            [],
+            []
+          ],
+          "customFieldsBI": [],
+          "targetBuildDepends": [
+            {
+              "package-name": "async",
+              "version-range": "^>=2.2.3",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "base",
+              "version-range": ">=4.14.2.0 && <4.18",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "psx",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "tasty",
+              "version-range": "^>=1.4.1",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "tasty-hunit",
+              "version-range": "^>=0.10.0.3",
+              "library": [
+                {}
+              ]
+            }
+          ],
+          "mixins": []
+        }
+      },
+      "condTreeConstraints": [
+        {
+          "package-name": "async",
+          "version-range": "^>=2.2.3",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "base",
+          "version-range": ">=4.14.2.0 && <4.18",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "psx",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "tasty",
+          "version-range": "^>=1.4.1",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "tasty-hunit",
+          "version-range": "^>=0.10.0.3",
+          "library": [
+            {}
+          ]
+        }
+      ],
+      "condTreeComponents": [
         {
           "condBranchCondition": {
             "variable": {
-              "compiler": "GHC",
-              "version": "<8"
+              "flag": "werror"
             }
           },
           "condBranchIfTrue": {
             "condTreeData": {
               "name": "",
               "interface": {
-                "benchmark-type": {
-                  "type": "",
+                "type": {
+                  "name": "",
                   "version": []
                 }
               },
@@ -1112,7 +1127,12 @@
                 "cppOptions": [],
                 "asmOptions": [],
                 "cmmOptions": [],
-                "ccOptions": [],
+                "ccOptions": [
+                  "-Werror",
+                  "-Wno-error=overlength-strings",
+                  "-Wno-error=type-limits",
+                  "-Wno-error=variadic-macros"
+                ],
                 "cxxOptions": [],
                 "ldOptions": [],
                 "pkgconfigDepends": [],
@@ -1143,7 +1163,10 @@
                 "autogenIncludes": [],
                 "installIncludes": [],
                 "options": [
-                  [],
+                  [
+                    "-Werror",
+                    "-optc=-Werror"
+                  ],
                   []
                 ],
                 "profOptions": [
@@ -1159,27 +1182,11 @@
                   []
                 ],
                 "customFieldsBI": [],
-                "targetBuildDepends": [
-                  {
-                    "package-name": "transformers",
-                    "version-range": ">=0.4",
-                    "library": [
-                      {}
-                    ]
-                  }
-                ],
+                "targetBuildDepends": [],
                 "mixins": []
               }
             },
-            "condTreeConstraints": [
-              {
-                "package-name": "transformers",
-                "version-range": ">=0.4",
-                "library": [
-                  {}
-                ]
-              }
-            ],
+            "condTreeConstraints": [],
             "condTreeComponents": []
           }
         }
