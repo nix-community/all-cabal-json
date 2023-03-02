@@ -1,7 +1,10 @@
 {
   "description": {
     "spec-version": {
-      "Right": ">=1.10"
+      "Left": [
+        3,
+        0
+      ]
     },
     "package": {
       "name": "aeson-decode",
@@ -9,16 +12,23 @@
         0,
         1,
         0,
-        0
+        1
       ]
     },
     "license": {
-      "Right": "OtherLicense"
+      "Left": {
+        "license-expression": {
+          "expression": {
+            "id": "Apache_2_0"
+          },
+          "exception-id": null
+        }
+      }
     },
     "license-files": [
       "license.txt"
     ],
-    "copyright": "2018 Typeclass Consulting, LLC",
+    "copyright": "2018 Mission Valley Software LLC",
     "maintainer": "Chris Martin, Julie Moronuki",
     "author": "Chris Martin",
     "stability": "",
@@ -40,13 +50,8 @@
     "synopsis": "Easy functions for converting from Aeson.Value",
     "description": "A small and simple library for interpreting JSON after it has\nbeen parsed by @aeson@ into the @Value@ type.\n\nDecoding failures do not come with any error messages; results\nare all @Maybe@.",
     "category": "JSON",
-    "custom-fields": [
-      [
-        "x-revision",
-        "1"
-      ]
-    ],
-    "build-type-raw": "Simple",
+    "custom-fields": [],
+    "build-type-raw": null,
     "custom-setup": null,
     "library": null,
     "sublibraries": [],
@@ -57,7 +62,7 @@
     "data-files": [],
     "data-dir": ".",
     "extra-source-files": [
-      "readme.md"
+      "*.md"
     ],
     "extra-tmp-files": [],
     "extra-doc-files": []
@@ -98,9 +103,22 @@
         "otherModules": [],
         "virtualModules": [],
         "autogenModules": [],
-        "defaultLanguage": "Haskell2010",
+        "defaultLanguage": "GHC2021",
         "otherLanguages": [],
-        "defaultExtensions": [],
+        "defaultExtensions": [
+          {
+            "enable-extension": "BlockArguments"
+          },
+          {
+            "enable-extension": "LambdaCase"
+          },
+          {
+            "disable-extension": "ImplicitPrelude"
+          },
+          {
+            "enable-extension": "ViewPatterns"
+          }
+        ],
         "otherExtensions": [],
         "oldExtensions": [],
         "extraLibs": [],
@@ -135,49 +153,56 @@
         "targetBuildDepends": [
           {
             "package-name": "aeson",
-            "version-range": "<2",
+            "version-range": "^>=2.0 || ^>=2.1",
             "library": [
               {}
             ]
           },
           {
             "package-name": "base",
-            "version-range": ">=4.7 && <5",
+            "version-range": "^>=4.16 || ^>=4.17",
             "library": [
               {}
             ]
           },
           {
             "package-name": "containers",
-            "version-range": "-any",
+            "version-range": "^>=0.6.5",
             "library": [
               {}
             ]
           },
           {
-            "package-name": "data-default",
-            "version-range": "-any",
+            "package-name": "data-default-class",
+            "version-range": "^>=0.1.2",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "quaalude",
+            "version-range": "^>=0.0",
             "library": [
               {}
             ]
           },
           {
             "package-name": "text",
-            "version-range": "-any",
+            "version-range": "^>=1.2.5 || ^>=2.0",
             "library": [
               {}
             ]
           },
           {
             "package-name": "unordered-containers",
-            "version-range": "-any",
+            "version-range": "^>=0.2.17",
             "library": [
               {}
             ]
           },
           {
             "package-name": "vector",
-            "version-range": "-any",
+            "version-range": "^>=0.12.3",
             "library": [
               {}
             ]
@@ -189,49 +214,56 @@
     "condTreeConstraints": [
       {
         "package-name": "aeson",
-        "version-range": "<2",
+        "version-range": "^>=2.0 || ^>=2.1",
         "library": [
           {}
         ]
       },
       {
         "package-name": "base",
-        "version-range": ">=4.7 && <5",
+        "version-range": "^>=4.16 || ^>=4.17",
         "library": [
           {}
         ]
       },
       {
         "package-name": "containers",
-        "version-range": "-any",
+        "version-range": "^>=0.6.5",
         "library": [
           {}
         ]
       },
       {
-        "package-name": "data-default",
-        "version-range": "-any",
+        "package-name": "data-default-class",
+        "version-range": "^>=0.1.2",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "quaalude",
+        "version-range": "^>=0.0",
         "library": [
           {}
         ]
       },
       {
         "package-name": "text",
-        "version-range": "-any",
+        "version-range": "^>=1.2.5 || ^>=2.0",
         "library": [
           {}
         ]
       },
       {
         "package-name": "unordered-containers",
-        "version-range": "-any",
+        "version-range": "^>=0.2.17",
         "library": [
           {}
         ]
       },
       {
         "package-name": "vector",
-        "version-range": "-any",
+        "version-range": "^>=0.12.3",
         "library": [
           {}
         ]
@@ -240,7 +272,7 @@
     "condTreeComponents": []
   },
   "test-suites": {
-    "hedgehog": {
+    "test-aeson-decode": {
       "condTreeData": {
         "name": "",
         "interface": {
@@ -248,7 +280,7 @@
             1,
             0
           ],
-          "filepath": "hedgehog.hs"
+          "filepath": "Main.hs"
         },
         "build-info": {
           "buildable": true,
@@ -271,12 +303,43 @@
           "hsSourceDirs": [
             "test"
           ],
-          "otherModules": [],
+          "otherModules": [
+            [
+              "Examples",
+              "Asset"
+            ],
+            [
+              "Examples",
+              "Policy"
+            ]
+          ],
           "virtualModules": [],
           "autogenModules": [],
-          "defaultLanguage": "Haskell2010",
+          "defaultLanguage": "GHC2021",
           "otherLanguages": [],
-          "defaultExtensions": [],
+          "defaultExtensions": [
+            {
+              "enable-extension": "BlockArguments"
+            },
+            {
+              "enable-extension": "LambdaCase"
+            },
+            {
+              "disable-extension": "ImplicitPrelude"
+            },
+            {
+              "enable-extension": "ViewPatterns"
+            },
+            {
+              "enable-extension": "OverloadedLists"
+            },
+            {
+              "enable-extension": "OverloadedStrings"
+            },
+            {
+              "enable-extension": "QuasiQuotes"
+            }
+          ],
           "otherExtensions": [],
           "oldExtensions": [],
           "extraLibs": [],
@@ -311,6 +374,62 @@
           "customFieldsBI": [],
           "targetBuildDepends": [
             {
+              "package-name": "aeson",
+              "version-range": "^>=2.0 || ^>=2.1",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "base",
+              "version-range": "^>=4.16 || ^>=4.17",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "containers",
+              "version-range": "^>=0.6.5",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "data-default-class",
+              "version-range": "^>=0.1.2",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "quaalude",
+              "version-range": "^>=0.0",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "text",
+              "version-range": "^>=1.2.5 || ^>=2.0",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "unordered-containers",
+              "version-range": "^>=0.2.17",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "vector",
+              "version-range": "^>=0.12.3",
+              "library": [
+                {}
+              ]
+            },
+            {
               "package-name": "aeson-decode",
               "version-range": "-any",
               "library": [
@@ -319,42 +438,21 @@
             },
             {
               "package-name": "aeson-qq",
-              "version-range": "-any",
+              "version-range": "^>=0.8.4",
               "library": [
                 {}
               ]
             },
             {
-              "package-name": "base",
-              "version-range": ">=4.9 && <4.12",
-              "library": [
-                {}
-              ]
-            },
-            {
-              "package-name": "containers",
-              "version-range": "-any",
-              "library": [
-                {}
-              ]
-            },
-            {
-              "package-name": "hedgehog",
-              "version-range": "-any",
-              "library": [
-                {}
-              ]
-            },
-            {
-              "package-name": "text",
-              "version-range": "-any",
+              "package-name": "hspec",
+              "version-range": "^>=2.8.5 || ^>=2.9 || ^>=2.10",
               "library": [
                 {}
               ]
             },
             {
               "package-name": "time",
-              "version-range": "-any",
+              "version-range": "^>=1.11.1 || ^>=1.12",
               "library": [
                 {}
               ]
@@ -365,6 +463,62 @@
       },
       "condTreeConstraints": [
         {
+          "package-name": "aeson",
+          "version-range": "^>=2.0 || ^>=2.1",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "base",
+          "version-range": "^>=4.16 || ^>=4.17",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "containers",
+          "version-range": "^>=0.6.5",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "data-default-class",
+          "version-range": "^>=0.1.2",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "quaalude",
+          "version-range": "^>=0.0",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "text",
+          "version-range": "^>=1.2.5 || ^>=2.0",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "unordered-containers",
+          "version-range": "^>=0.2.17",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "vector",
+          "version-range": "^>=0.12.3",
+          "library": [
+            {}
+          ]
+        },
+        {
           "package-name": "aeson-decode",
           "version-range": "-any",
           "library": [
@@ -373,42 +527,21 @@
         },
         {
           "package-name": "aeson-qq",
-          "version-range": "-any",
+          "version-range": "^>=0.8.4",
           "library": [
             {}
           ]
         },
         {
-          "package-name": "base",
-          "version-range": ">=4.9 && <4.12",
-          "library": [
-            {}
-          ]
-        },
-        {
-          "package-name": "containers",
-          "version-range": "-any",
-          "library": [
-            {}
-          ]
-        },
-        {
-          "package-name": "hedgehog",
-          "version-range": "-any",
-          "library": [
-            {}
-          ]
-        },
-        {
-          "package-name": "text",
-          "version-range": "-any",
+          "package-name": "hspec",
+          "version-range": "^>=2.8.5 || ^>=2.9 || ^>=2.10",
           "library": [
             {}
           ]
         },
         {
           "package-name": "time",
-          "version-range": "-any",
+          "version-range": "^>=1.11.1 || ^>=1.12",
           "library": [
             {}
           ]

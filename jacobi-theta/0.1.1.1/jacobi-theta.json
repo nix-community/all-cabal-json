@@ -4,48 +4,43 @@
       "Right": ">=1.10"
     },
     "package": {
-      "name": "aeson-decode",
+      "name": "jacobi-theta",
       "version": [
         0,
         1,
-        0,
-        0
+        1,
+        1
       ]
     },
     "license": {
-      "Right": "OtherLicense"
+      "Right": "BSD3"
     },
     "license-files": [
-      "license.txt"
+      "LICENSE"
     ],
-    "copyright": "2018 Typeclass Consulting, LLC",
-    "maintainer": "Chris Martin, Julie Moronuki",
-    "author": "Chris Martin",
+    "copyright": "2023 Stéphane Laurent",
+    "maintainer": "laurent_step@outlook.fr",
+    "author": "Stéphane Laurent",
     "stability": "",
     "tested-with": [],
-    "homepage": "https://github.com/typeclasses/aeson-decode",
+    "homepage": "https://github.com/stla/jacobi-theta#readme",
     "pkg-url": "",
-    "bug-reports": "https://github.com/typeclasses/aeson-decode/issues",
+    "bug-reports": "",
     "source-repos": [
       {
         "kind": {},
         "type": "Git",
-        "location": "https://github.com/typeclasses/aeson-decode",
+        "location": "https://github.com/stla/jacobi-theta",
         "module": null,
         "branch": null,
         "tag": null,
         "subdir": null
       }
     ],
-    "synopsis": "Easy functions for converting from Aeson.Value",
-    "description": "A small and simple library for interpreting JSON after it has\nbeen parsed by @aeson@ into the @Value@ type.\n\nDecoding failures do not come with any error messages; results\nare all @Maybe@.",
-    "category": "JSON",
-    "custom-fields": [
-      [
-        "x-revision",
-        "1"
-      ]
-    ],
+    "synopsis": "Jacobi Theta Functions",
+    "description": "Evaluation of the Jacobi theta functions.",
+    "category": "Math, Numeric",
+    "custom-fields": [],
     "build-type-raw": "Simple",
     "custom-setup": null,
     "library": null,
@@ -57,7 +52,8 @@
     "data-files": [],
     "data-dir": ".",
     "extra-source-files": [
-      "readme.md"
+      "README.md",
+      "CHANGELOG.md"
     ],
     "extra-tmp-files": [],
     "extra-doc-files": []
@@ -67,7 +63,8 @@
       "name": {},
       "exposed-modules": [
         [
-          "AesonDecode"
+          "Math",
+          "JacobiTheta"
         ]
       ],
       "re-exported-modules": [],
@@ -115,7 +112,15 @@
         "installIncludes": [],
         "options": [
           [
-            "-Wall"
+            "-Wall",
+            "-Wcompat",
+            "-Widentities",
+            "-Wincomplete-record-updates",
+            "-Wincomplete-uni-patterns",
+            "-Wmissing-export-lists",
+            "-Wmissing-home-modules",
+            "-Wpartial-fields",
+            "-Wredundant-constraints"
           ],
           []
         ],
@@ -134,50 +139,8 @@
         "customFieldsBI": [],
         "targetBuildDepends": [
           {
-            "package-name": "aeson",
-            "version-range": "<2",
-            "library": [
-              {}
-            ]
-          },
-          {
             "package-name": "base",
             "version-range": ">=4.7 && <5",
-            "library": [
-              {}
-            ]
-          },
-          {
-            "package-name": "containers",
-            "version-range": "-any",
-            "library": [
-              {}
-            ]
-          },
-          {
-            "package-name": "data-default",
-            "version-range": "-any",
-            "library": [
-              {}
-            ]
-          },
-          {
-            "package-name": "text",
-            "version-range": "-any",
-            "library": [
-              {}
-            ]
-          },
-          {
-            "package-name": "unordered-containers",
-            "version-range": "-any",
-            "library": [
-              {}
-            ]
-          },
-          {
-            "package-name": "vector",
-            "version-range": "-any",
             "library": [
               {}
             ]
@@ -188,50 +151,8 @@
     },
     "condTreeConstraints": [
       {
-        "package-name": "aeson",
-        "version-range": "<2",
-        "library": [
-          {}
-        ]
-      },
-      {
         "package-name": "base",
         "version-range": ">=4.7 && <5",
-        "library": [
-          {}
-        ]
-      },
-      {
-        "package-name": "containers",
-        "version-range": "-any",
-        "library": [
-          {}
-        ]
-      },
-      {
-        "package-name": "data-default",
-        "version-range": "-any",
-        "library": [
-          {}
-        ]
-      },
-      {
-        "package-name": "text",
-        "version-range": "-any",
-        "library": [
-          {}
-        ]
-      },
-      {
-        "package-name": "unordered-containers",
-        "version-range": "-any",
-        "library": [
-          {}
-        ]
-      },
-      {
-        "package-name": "vector",
-        "version-range": "-any",
         "library": [
           {}
         ]
@@ -240,7 +161,7 @@
     "condTreeComponents": []
   },
   "test-suites": {
-    "hedgehog": {
+    "unit-tests": {
       "condTreeData": {
         "name": "",
         "interface": {
@@ -248,7 +169,7 @@
             1,
             0
           ],
-          "filepath": "hedgehog.hs"
+          "filepath": "Main.hs"
         },
         "build-info": {
           "buildable": true,
@@ -269,9 +190,13 @@
           "cxxSources": [],
           "jsSources": [],
           "hsSourceDirs": [
-            "test"
+            "tests/"
           ],
-          "otherModules": [],
+          "otherModules": [
+            [
+              "Approx"
+            ]
+          ],
           "virtualModules": [],
           "autogenModules": [],
           "defaultLanguage": "Haskell2010",
@@ -290,10 +215,7 @@
           "autogenIncludes": [],
           "installIncludes": [],
           "options": [
-            [
-              "-Wall",
-              "-threaded"
-            ],
+            [],
             []
           ],
           "profOptions": [
@@ -311,49 +233,28 @@
           "customFieldsBI": [],
           "targetBuildDepends": [
             {
-              "package-name": "aeson-decode",
-              "version-range": "-any",
-              "library": [
-                {}
-              ]
-            },
-            {
-              "package-name": "aeson-qq",
-              "version-range": "-any",
-              "library": [
-                {}
-              ]
-            },
-            {
               "package-name": "base",
-              "version-range": ">=4.9 && <4.12",
+              "version-range": ">=4.7 && <5",
               "library": [
                 {}
               ]
             },
             {
-              "package-name": "containers",
+              "package-name": "tasty",
               "version-range": "-any",
               "library": [
                 {}
               ]
             },
             {
-              "package-name": "hedgehog",
+              "package-name": "tasty-hunit",
               "version-range": "-any",
               "library": [
                 {}
               ]
             },
             {
-              "package-name": "text",
-              "version-range": "-any",
-              "library": [
-                {}
-              ]
-            },
-            {
-              "package-name": "time",
+              "package-name": "jacobi-theta",
               "version-range": "-any",
               "library": [
                 {}
@@ -365,49 +266,28 @@
       },
       "condTreeConstraints": [
         {
-          "package-name": "aeson-decode",
-          "version-range": "-any",
-          "library": [
-            {}
-          ]
-        },
-        {
-          "package-name": "aeson-qq",
-          "version-range": "-any",
-          "library": [
-            {}
-          ]
-        },
-        {
           "package-name": "base",
-          "version-range": ">=4.9 && <4.12",
+          "version-range": ">=4.7 && <5",
           "library": [
             {}
           ]
         },
         {
-          "package-name": "containers",
+          "package-name": "tasty",
           "version-range": "-any",
           "library": [
             {}
           ]
         },
         {
-          "package-name": "hedgehog",
+          "package-name": "tasty-hunit",
           "version-range": "-any",
           "library": [
             {}
           ]
         },
         {
-          "package-name": "text",
-          "version-range": "-any",
-          "library": [
-            {}
-          ]
-        },
-        {
-          "package-name": "time",
+          "package-name": "jacobi-theta",
           "version-range": "-any",
           "library": [
             {}
