@@ -1,0 +1,2597 @@
+{
+  "description": {
+    "spec-version": {
+      "Left": [
+        2,
+        2
+      ]
+    },
+    "package": {
+      "name": "streamly-core",
+      "version": [
+        0,
+        1,
+        0
+      ]
+    },
+    "license": {
+      "Left": {
+        "license-expression": {
+          "expression": {
+            "id": "BSD_3_Clause"
+          },
+          "exception-id": null
+        }
+      }
+    },
+    "license-files": [
+      "LICENSE"
+    ],
+    "copyright": "2017 Composewell Technologies",
+    "maintainer": "streamly@composewell.com",
+    "author": "Composewell Technologies",
+    "stability": "Stable",
+    "tested-with": [
+      {
+        "compiler": "GHC",
+        "versionRange": "==8.6.5"
+      },
+      {
+        "compiler": "GHC",
+        "versionRange": "==8.8.4"
+      },
+      {
+        "compiler": "GHC",
+        "versionRange": "==8.10.7"
+      },
+      {
+        "compiler": "GHC",
+        "versionRange": "==9.0.2"
+      },
+      {
+        "compiler": "GHC",
+        "versionRange": "==9.2.7"
+      },
+      {
+        "compiler": "GHC",
+        "versionRange": "==9.4.4"
+      }
+    ],
+    "homepage": "https://streamly.composewell.com",
+    "pkg-url": "",
+    "bug-reports": "https://github.com/composewell/streamly/issues",
+    "source-repos": [
+      {
+        "kind": {},
+        "type": "Git",
+        "location": "https://github.com/composewell/streamly",
+        "module": null,
+        "branch": null,
+        "tag": null,
+        "subdir": null
+      }
+    ],
+    "synopsis": "Streaming, parsers, arrays and more",
+    "description": "Streamly consists of two packages: \"streamly-core\" and \"streamly\".\n<https://hackage.haskell.org/package/streamly-core streamly-core>\nprovides basic features, and depends only on GHC boot libraries (see\nnote below), while\n<https://hackage.haskell.org/package/streamly streamly> provides\nhigher-level features like concurrency, time, lifted exceptions,\nand networking. For documentation, visit the\n<https://streamly.composewell.com Streamly website>.\n\nThis package provides streams, arrays, parsers, unicode text, file\nIO, and console IO functionality.\n\nNote: The dependencies \"heaps\" and \"monad-control\" are included in\nthe package solely for backward compatibility, and will be removed in\nfuture versions.",
+    "category": "Streamly, Streaming, Dataflow, Pipes, List,\nLogic, Non-determinism, Parsing, Array, Time",
+    "custom-fields": [],
+    "build-type-raw": "Configure",
+    "custom-setup": null,
+    "library": null,
+    "sublibraries": [],
+    "executables": [],
+    "foreign-libs": [],
+    "test-suites": [],
+    "benchmarks": [],
+    "data-files": [],
+    "data-dir": ".",
+    "extra-source-files": [
+      "configure",
+      "configure.ac",
+      "src/DocTestDataArray.hs",
+      "src/DocTestDataFold.hs",
+      "src/DocTestDataMutArray.hs",
+      "src/DocTestDataMutArrayGeneric.hs",
+      "src/DocTestDataParser.hs",
+      "src/DocTestDataStream.hs",
+      "src/DocTestDataStreamK.hs",
+      "src/DocTestDataUnfold.hs",
+      "src/Streamly/Internal/Data/Array/ArrayMacros.h",
+      "src/assert.hs",
+      "src/inline.hs",
+      "src/Streamly/Internal/Data/Time/Clock/config-clock.h",
+      "src/config.h.in"
+    ],
+    "extra-tmp-files": [
+      "config.log",
+      "config.status",
+      "autom4te.cache",
+      "src/config.h"
+    ],
+    "extra-doc-files": [
+      "Changelog.md",
+      "docs/*.md",
+      "docs/ApiChangelogs/0.1.0.txt"
+    ]
+  },
+  "package-flags": [
+    {
+      "name": "debug",
+      "description": "Debug build with asserts enabled",
+      "default": false,
+      "manual": true
+    },
+    {
+      "name": "dev",
+      "description": "Development build",
+      "default": false,
+      "manual": true
+    },
+    {
+      "name": "has-llvm",
+      "description": "Use llvm backend for code generation",
+      "default": false,
+      "manual": true
+    },
+    {
+      "name": "no-fusion",
+      "description": "Disable rewrite rules for stream fusion",
+      "default": false,
+      "manual": true
+    },
+    {
+      "name": "use-c-malloc",
+      "description": "Use C malloc instead of GHC malloc",
+      "default": false,
+      "manual": true
+    },
+    {
+      "name": "opt",
+      "description": "off=GHC default, on=-O2",
+      "default": true,
+      "manual": true
+    },
+    {
+      "name": "limit-build-mem",
+      "description": "Limits memory when building",
+      "default": false,
+      "manual": true
+    },
+    {
+      "name": "use-unliftio",
+      "description": "Use unliftio-core instead of monad-control",
+      "default": false,
+      "manual": true
+    },
+    {
+      "name": "use-unfolds",
+      "description": "Use unfolds for generation everywhere",
+      "default": false,
+      "manual": true
+    },
+    {
+      "name": "use-folds",
+      "description": "Use folds for elimination everywhere",
+      "default": false,
+      "manual": true
+    }
+  ],
+  "library": {
+    "condTreeData": {
+      "name": {},
+      "exposed-modules": [
+        [
+          "Streamly",
+          "Internal",
+          "BaseCompat"
+        ],
+        [
+          "Streamly",
+          "Internal",
+          "Control",
+          "Exception"
+        ],
+        [
+          "Streamly",
+          "Internal",
+          "Control",
+          "Monad"
+        ],
+        [
+          "Streamly",
+          "Internal",
+          "Control",
+          "ForkIO"
+        ],
+        [
+          "Streamly",
+          "Internal",
+          "Data",
+          "IsMap"
+        ],
+        [
+          "Streamly",
+          "Internal",
+          "System",
+          "IO"
+        ],
+        [
+          "Streamly",
+          "Internal",
+          "Data",
+          "Tuple",
+          "Strict"
+        ],
+        [
+          "Streamly",
+          "Internal",
+          "Data",
+          "Maybe",
+          "Strict"
+        ],
+        [
+          "Streamly",
+          "Internal",
+          "Data",
+          "Either",
+          "Strict"
+        ],
+        [
+          "Streamly",
+          "Internal",
+          "Data",
+          "IOFinalizer"
+        ],
+        [
+          "Streamly",
+          "Internal",
+          "Data",
+          "Time",
+          "TimeSpec"
+        ],
+        [
+          "Streamly",
+          "Internal",
+          "Data",
+          "Time",
+          "Units"
+        ],
+        [
+          "Streamly",
+          "Internal",
+          "Data",
+          "Time",
+          "Clock",
+          "Type"
+        ],
+        [
+          "Streamly",
+          "Internal",
+          "Data",
+          "Time",
+          "Clock"
+        ],
+        [
+          "Streamly",
+          "Internal",
+          "Data",
+          "SVar",
+          "Type"
+        ],
+        [
+          "Streamly",
+          "Internal",
+          "Data",
+          "Stream",
+          "StreamK",
+          "Type"
+        ],
+        [
+          "Streamly",
+          "Internal",
+          "Data",
+          "Fold",
+          "Step"
+        ],
+        [
+          "Streamly",
+          "Internal",
+          "Data",
+          "Refold",
+          "Type"
+        ],
+        [
+          "Streamly",
+          "Internal",
+          "Data",
+          "Fold",
+          "Type"
+        ],
+        [
+          "Streamly",
+          "Internal",
+          "Data",
+          "Stream",
+          "StreamD",
+          "Step"
+        ],
+        [
+          "Streamly",
+          "Internal",
+          "Data",
+          "Stream",
+          "StreamD",
+          "Type"
+        ],
+        [
+          "Streamly",
+          "Internal",
+          "Data",
+          "Unfold",
+          "Type"
+        ],
+        [
+          "Streamly",
+          "Internal",
+          "Data",
+          "Producer",
+          "Type"
+        ],
+        [
+          "Streamly",
+          "Internal",
+          "Data",
+          "Producer"
+        ],
+        [
+          "Streamly",
+          "Internal",
+          "Data",
+          "Producer",
+          "Source"
+        ],
+        [
+          "Streamly",
+          "Internal",
+          "Data",
+          "Parser",
+          "ParserK",
+          "Type"
+        ],
+        [
+          "Streamly",
+          "Internal",
+          "Data",
+          "Parser",
+          "ParserD",
+          "Type"
+        ],
+        [
+          "Streamly",
+          "Internal",
+          "Data",
+          "Pipe",
+          "Type"
+        ],
+        [
+          "Streamly",
+          "Internal",
+          "Data",
+          "Unboxed"
+        ],
+        [
+          "Streamly",
+          "Internal",
+          "Data",
+          "IORef",
+          "Unboxed"
+        ],
+        [
+          "Streamly",
+          "Internal",
+          "Data",
+          "Array",
+          "Mut",
+          "Type"
+        ],
+        [
+          "Streamly",
+          "Internal",
+          "Data",
+          "Array",
+          "Mut"
+        ],
+        [
+          "Streamly",
+          "Internal",
+          "Data",
+          "Array",
+          "Type"
+        ],
+        [
+          "Streamly",
+          "Internal",
+          "Data",
+          "Array",
+          "Generic",
+          "Mut",
+          "Type"
+        ],
+        [
+          "Streamly",
+          "Internal",
+          "Data",
+          "Stream",
+          "StreamK"
+        ],
+        [
+          "Streamly",
+          "Internal",
+          "Data",
+          "Stream",
+          "StreamD",
+          "Generate"
+        ],
+        [
+          "Streamly",
+          "Internal",
+          "Data",
+          "Stream",
+          "StreamD",
+          "Eliminate"
+        ],
+        [
+          "Streamly",
+          "Internal",
+          "Data",
+          "Stream",
+          "StreamD",
+          "Nesting"
+        ],
+        [
+          "Streamly",
+          "Internal",
+          "Data",
+          "Stream",
+          "StreamD",
+          "Transform"
+        ],
+        [
+          "Streamly",
+          "Internal",
+          "Data",
+          "Stream",
+          "StreamD",
+          "Exception"
+        ],
+        [
+          "Streamly",
+          "Internal",
+          "Data",
+          "Stream",
+          "StreamD",
+          "Lift"
+        ],
+        [
+          "Streamly",
+          "Internal",
+          "Data",
+          "Stream",
+          "StreamD",
+          "Top"
+        ],
+        [
+          "Streamly",
+          "Internal",
+          "Data",
+          "Stream",
+          "StreamD"
+        ],
+        [
+          "Streamly",
+          "Internal",
+          "Data",
+          "Stream",
+          "Common"
+        ],
+        [
+          "Streamly",
+          "Internal",
+          "Data",
+          "Stream"
+        ],
+        [
+          "Streamly",
+          "Internal",
+          "Data",
+          "Parser",
+          "ParserD",
+          "Tee"
+        ],
+        [
+          "Streamly",
+          "Internal",
+          "Data",
+          "Parser",
+          "ParserD"
+        ],
+        [
+          "Streamly",
+          "Internal",
+          "Data",
+          "Builder"
+        ],
+        [
+          "Streamly",
+          "Internal",
+          "Data",
+          "Unfold"
+        ],
+        [
+          "Streamly",
+          "Internal",
+          "Data",
+          "Unfold",
+          "Enumeration"
+        ],
+        [
+          "Streamly",
+          "Internal",
+          "Data",
+          "Fold",
+          "Tee"
+        ],
+        [
+          "Streamly",
+          "Internal",
+          "Data",
+          "Fold"
+        ],
+        [
+          "Streamly",
+          "Internal",
+          "Data",
+          "Fold",
+          "Chunked"
+        ],
+        [
+          "Streamly",
+          "Internal",
+          "Data",
+          "Fold",
+          "Window"
+        ],
+        [
+          "Streamly",
+          "Internal",
+          "Data",
+          "Parser"
+        ],
+        [
+          "Streamly",
+          "Internal",
+          "Data",
+          "Pipe"
+        ],
+        [
+          "Streamly",
+          "Internal",
+          "Data",
+          "Stream",
+          "StreamD",
+          "Transformer"
+        ],
+        [
+          "Streamly",
+          "Internal",
+          "Data",
+          "Stream",
+          "StreamK",
+          "Transformer"
+        ],
+        [
+          "Streamly",
+          "Internal",
+          "Data",
+          "Stream",
+          "StreamD",
+          "Container"
+        ],
+        [
+          "Streamly",
+          "Internal",
+          "Data",
+          "Fold",
+          "Container"
+        ],
+        [
+          "Streamly",
+          "Internal",
+          "Data",
+          "Stream",
+          "Chunked"
+        ],
+        [
+          "Streamly",
+          "Internal",
+          "Data",
+          "Array",
+          "Generic"
+        ],
+        [
+          "Streamly",
+          "Internal",
+          "Data",
+          "Array"
+        ],
+        [
+          "Streamly",
+          "Internal",
+          "Data",
+          "Array",
+          "Mut",
+          "Stream"
+        ],
+        [
+          "Streamly",
+          "Internal",
+          "Serialize",
+          "FromBytes"
+        ],
+        [
+          "Streamly",
+          "Internal",
+          "Serialize",
+          "ToBytes"
+        ],
+        [
+          "Streamly",
+          "Internal",
+          "Unicode",
+          "Stream"
+        ],
+        [
+          "Streamly",
+          "Internal",
+          "Unicode",
+          "String"
+        ],
+        [
+          "Streamly",
+          "Internal",
+          "Unicode",
+          "Parser"
+        ],
+        [
+          "Streamly",
+          "Internal",
+          "Unicode",
+          "Array"
+        ],
+        [
+          "Streamly",
+          "Internal",
+          "FileSystem",
+          "Handle"
+        ],
+        [
+          "Streamly",
+          "Internal",
+          "FileSystem",
+          "File"
+        ],
+        [
+          "Streamly",
+          "Internal",
+          "FileSystem",
+          "Dir"
+        ],
+        [
+          "Streamly",
+          "Internal",
+          "Data",
+          "Ring",
+          "Unboxed"
+        ],
+        [
+          "Streamly",
+          "Internal",
+          "Data",
+          "Ring"
+        ],
+        [
+          "Streamly",
+          "Internal",
+          "Console",
+          "Stdio"
+        ],
+        [
+          "Streamly",
+          "Console",
+          "Stdio"
+        ],
+        [
+          "Streamly",
+          "Data",
+          "Array"
+        ],
+        [
+          "Streamly",
+          "Data",
+          "Array",
+          "Generic"
+        ],
+        [
+          "Streamly",
+          "Data",
+          "MutArray"
+        ],
+        [
+          "Streamly",
+          "Data",
+          "MutArray",
+          "Generic"
+        ],
+        [
+          "Streamly",
+          "Data",
+          "Fold"
+        ],
+        [
+          "Streamly",
+          "Data",
+          "Parser"
+        ],
+        [
+          "Streamly",
+          "Data",
+          "ParserK"
+        ],
+        [
+          "Streamly",
+          "Data",
+          "Stream"
+        ],
+        [
+          "Streamly",
+          "Data",
+          "StreamK"
+        ],
+        [
+          "Streamly",
+          "Data",
+          "Unfold"
+        ],
+        [
+          "Streamly",
+          "FileSystem",
+          "Dir"
+        ],
+        [
+          "Streamly",
+          "FileSystem",
+          "File"
+        ],
+        [
+          "Streamly",
+          "FileSystem",
+          "Handle"
+        ],
+        [
+          "Streamly",
+          "Unicode",
+          "Parser"
+        ],
+        [
+          "Streamly",
+          "Unicode",
+          "Stream"
+        ],
+        [
+          "Streamly",
+          "Unicode",
+          "String"
+        ]
+      ],
+      "re-exported-modules": [],
+      "signatures": [],
+      "exposed": true,
+      "visibility": "LibraryVisibilityPublic",
+      "build-info": {
+        "buildable": true,
+        "buildTools": [],
+        "buildToolDepends": [],
+        "cppOptions": [],
+        "asmOptions": [],
+        "cmmOptions": [],
+        "ccOptions": [],
+        "cxxOptions": [],
+        "ldOptions": [],
+        "pkgconfigDepends": [],
+        "frameworks": [],
+        "extraFrameworkDirs": [],
+        "asmSources": [],
+        "cmmSources": [],
+        "cSources": [],
+        "cxxSources": [],
+        "jsSources": [
+          "jsbits/clock.js"
+        ],
+        "hsSourceDirs": [
+          "src"
+        ],
+        "otherModules": [],
+        "virtualModules": [],
+        "autogenModules": [],
+        "defaultLanguage": "Haskell2010",
+        "otherLanguages": [],
+        "defaultExtensions": [
+          {
+            "enable-extension": "BangPatterns"
+          },
+          {
+            "enable-extension": "CApiFFI"
+          },
+          {
+            "enable-extension": "CPP"
+          },
+          {
+            "enable-extension": "ConstraintKinds"
+          },
+          {
+            "enable-extension": "DeriveDataTypeable"
+          },
+          {
+            "enable-extension": "DeriveGeneric"
+          },
+          {
+            "enable-extension": "DeriveTraversable"
+          },
+          {
+            "enable-extension": "ExistentialQuantification"
+          },
+          {
+            "enable-extension": "FlexibleContexts"
+          },
+          {
+            "enable-extension": "FlexibleInstances"
+          },
+          {
+            "enable-extension": "GeneralizedNewtypeDeriving"
+          },
+          {
+            "enable-extension": "InstanceSigs"
+          },
+          {
+            "enable-extension": "KindSignatures"
+          },
+          {
+            "enable-extension": "LambdaCase"
+          },
+          {
+            "enable-extension": "MagicHash"
+          },
+          {
+            "enable-extension": "MultiParamTypeClasses"
+          },
+          {
+            "enable-extension": "PatternSynonyms"
+          },
+          {
+            "enable-extension": "RankNTypes"
+          },
+          {
+            "enable-extension": "RecordWildCards"
+          },
+          {
+            "enable-extension": "ScopedTypeVariables"
+          },
+          {
+            "enable-extension": "StandaloneDeriving"
+          },
+          {
+            "enable-extension": "TupleSections"
+          },
+          {
+            "enable-extension": "TypeApplications"
+          },
+          {
+            "enable-extension": "TypeFamilies"
+          },
+          {
+            "enable-extension": "TypeOperators"
+          },
+          {
+            "enable-extension": "ViewPatterns"
+          },
+          {
+            "disable-extension": "MonoLocalBinds"
+          }
+        ],
+        "otherExtensions": [],
+        "oldExtensions": [],
+        "extraLibs": [],
+        "extraGHCiLibs": [],
+        "extraBundledLibs": [],
+        "extraLibFlavours": [],
+        "extraDynLibFlavours": [],
+        "extraLibDirs": [],
+        "includeDirs": [
+          "src",
+          "src/Streamly/Internal/Data/Array",
+          "src/Streamly/Internal/Data/Stream"
+        ],
+        "includes": [],
+        "autogenIncludes": [],
+        "installIncludes": [],
+        "options": [
+          [
+            "-Weverything",
+            "-Wno-implicit-prelude",
+            "-Wno-missing-deriving-strategies",
+            "-Wno-missing-exported-signatures",
+            "-Wno-missing-import-lists",
+            "-Wno-missing-local-signatures",
+            "-Wno-missing-safe-haskell-mode",
+            "-Wno-missed-specialisations",
+            "-Wno-all-missed-specialisations",
+            "-Wno-monomorphism-restriction",
+            "-Wno-prepositive-qualified-module",
+            "-Wno-unsafe",
+            "-Rghc-timing"
+          ],
+          []
+        ],
+        "profOptions": [
+          [],
+          []
+        ],
+        "sharedOptions": [
+          [],
+          []
+        ],
+        "staticOptions": [
+          [],
+          []
+        ],
+        "customFieldsBI": [],
+        "targetBuildDepends": [
+          {
+            "package-name": "ghc-prim",
+            "version-range": ">=0.5.3 && <0.10",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "fusion-plugin-types",
+            "version-range": ">=0.1 && <0.2",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "base",
+            "version-range": ">=4.12 && <4.19",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "exceptions",
+            "version-range": ">=0.8.0 && <0.11",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "transformers",
+            "version-range": ">=0.5.5 && <0.7",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "filepath",
+            "version-range": ">=1.4.2 && <1.5",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "template-haskell",
+            "version-range": ">=2.14 && <2.20",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "directory",
+            "version-range": ">=1.3.3 && <1.4",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "containers",
+            "version-range": ">=0.6.0 && <0.7",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "heaps",
+            "version-range": ">=0.3 && <0.5",
+            "library": [
+              {}
+            ]
+          }
+        ],
+        "mixins": []
+      }
+    },
+    "condTreeConstraints": [
+      {
+        "package-name": "ghc-prim",
+        "version-range": ">=0.5.3 && <0.10",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "fusion-plugin-types",
+        "version-range": ">=0.1 && <0.2",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "base",
+        "version-range": ">=4.12 && <4.19",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "exceptions",
+        "version-range": ">=0.8.0 && <0.11",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "transformers",
+        "version-range": ">=0.5.5 && <0.7",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "filepath",
+        "version-range": ">=1.4.2 && <1.5",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "template-haskell",
+        "version-range": ">=2.14 && <2.20",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "directory",
+        "version-range": ">=1.3.3 && <1.4",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "containers",
+        "version-range": ">=0.6.0 && <0.7",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "heaps",
+        "version-range": ">=0.3 && <0.5",
+        "library": [
+          {}
+        ]
+      }
+    ],
+    "condTreeComponents": [
+      {
+        "condBranchCondition": {
+          "variable": {
+            "flag": "no-fusion"
+          }
+        },
+        "condBranchIfTrue": {
+          "condTreeData": {
+            "name": {},
+            "exposed-modules": [],
+            "re-exported-modules": [],
+            "signatures": [],
+            "exposed": true,
+            "visibility": "LibraryVisibilityPublic",
+            "build-info": {
+              "buildable": true,
+              "buildTools": [],
+              "buildToolDepends": [],
+              "cppOptions": [
+                "-DDISABLE_FUSION"
+              ],
+              "asmOptions": [],
+              "cmmOptions": [],
+              "ccOptions": [],
+              "cxxOptions": [],
+              "ldOptions": [],
+              "pkgconfigDepends": [],
+              "frameworks": [],
+              "extraFrameworkDirs": [],
+              "asmSources": [],
+              "cmmSources": [],
+              "cSources": [],
+              "cxxSources": [],
+              "jsSources": [],
+              "hsSourceDirs": [],
+              "otherModules": [],
+              "virtualModules": [],
+              "autogenModules": [],
+              "defaultLanguage": null,
+              "otherLanguages": [],
+              "defaultExtensions": [],
+              "otherExtensions": [],
+              "oldExtensions": [],
+              "extraLibs": [],
+              "extraGHCiLibs": [],
+              "extraBundledLibs": [],
+              "extraLibFlavours": [],
+              "extraDynLibFlavours": [],
+              "extraLibDirs": [],
+              "includeDirs": [],
+              "includes": [],
+              "autogenIncludes": [],
+              "installIncludes": [],
+              "options": [
+                [],
+                []
+              ],
+              "profOptions": [
+                [],
+                []
+              ],
+              "sharedOptions": [
+                [],
+                []
+              ],
+              "staticOptions": [
+                [],
+                []
+              ],
+              "customFieldsBI": [],
+              "targetBuildDepends": [],
+              "mixins": []
+            }
+          },
+          "condTreeConstraints": [],
+          "condTreeComponents": []
+        }
+      },
+      {
+        "condBranchCondition": {
+          "variable": {
+            "flag": "dev"
+          }
+        },
+        "condBranchIfTrue": {
+          "condTreeData": {
+            "name": {},
+            "exposed-modules": [],
+            "re-exported-modules": [],
+            "signatures": [],
+            "exposed": true,
+            "visibility": "LibraryVisibilityPublic",
+            "build-info": {
+              "buildable": true,
+              "buildTools": [],
+              "buildToolDepends": [],
+              "cppOptions": [
+                "-DDEVBUILD"
+              ],
+              "asmOptions": [],
+              "cmmOptions": [],
+              "ccOptions": [],
+              "cxxOptions": [],
+              "ldOptions": [],
+              "pkgconfigDepends": [],
+              "frameworks": [],
+              "extraFrameworkDirs": [],
+              "asmSources": [],
+              "cmmSources": [],
+              "cSources": [],
+              "cxxSources": [],
+              "jsSources": [],
+              "hsSourceDirs": [],
+              "otherModules": [],
+              "virtualModules": [],
+              "autogenModules": [],
+              "defaultLanguage": null,
+              "otherLanguages": [],
+              "defaultExtensions": [],
+              "otherExtensions": [],
+              "oldExtensions": [],
+              "extraLibs": [],
+              "extraGHCiLibs": [],
+              "extraBundledLibs": [],
+              "extraLibFlavours": [],
+              "extraDynLibFlavours": [],
+              "extraLibDirs": [],
+              "includeDirs": [],
+              "includes": [],
+              "autogenIncludes": [],
+              "installIncludes": [],
+              "options": [
+                [],
+                []
+              ],
+              "profOptions": [
+                [],
+                []
+              ],
+              "sharedOptions": [
+                [],
+                []
+              ],
+              "staticOptions": [
+                [],
+                []
+              ],
+              "customFieldsBI": [],
+              "targetBuildDepends": [],
+              "mixins": []
+            }
+          },
+          "condTreeConstraints": [],
+          "condTreeComponents": []
+        }
+      },
+      {
+        "condBranchCondition": {
+          "variable": {
+            "flag": "use-unfolds"
+          }
+        },
+        "condBranchIfTrue": {
+          "condTreeData": {
+            "name": {},
+            "exposed-modules": [],
+            "re-exported-modules": [],
+            "signatures": [],
+            "exposed": true,
+            "visibility": "LibraryVisibilityPublic",
+            "build-info": {
+              "buildable": true,
+              "buildTools": [],
+              "buildToolDepends": [],
+              "cppOptions": [
+                "-DUSE_UNFOLDS_EVERYWHERE"
+              ],
+              "asmOptions": [],
+              "cmmOptions": [],
+              "ccOptions": [],
+              "cxxOptions": [],
+              "ldOptions": [],
+              "pkgconfigDepends": [],
+              "frameworks": [],
+              "extraFrameworkDirs": [],
+              "asmSources": [],
+              "cmmSources": [],
+              "cSources": [],
+              "cxxSources": [],
+              "jsSources": [],
+              "hsSourceDirs": [],
+              "otherModules": [],
+              "virtualModules": [],
+              "autogenModules": [],
+              "defaultLanguage": null,
+              "otherLanguages": [],
+              "defaultExtensions": [],
+              "otherExtensions": [],
+              "oldExtensions": [],
+              "extraLibs": [],
+              "extraGHCiLibs": [],
+              "extraBundledLibs": [],
+              "extraLibFlavours": [],
+              "extraDynLibFlavours": [],
+              "extraLibDirs": [],
+              "includeDirs": [],
+              "includes": [],
+              "autogenIncludes": [],
+              "installIncludes": [],
+              "options": [
+                [],
+                []
+              ],
+              "profOptions": [
+                [],
+                []
+              ],
+              "sharedOptions": [
+                [],
+                []
+              ],
+              "staticOptions": [
+                [],
+                []
+              ],
+              "customFieldsBI": [],
+              "targetBuildDepends": [],
+              "mixins": []
+            }
+          },
+          "condTreeConstraints": [],
+          "condTreeComponents": []
+        }
+      },
+      {
+        "condBranchCondition": {
+          "variable": {
+            "flag": "use-folds"
+          }
+        },
+        "condBranchIfTrue": {
+          "condTreeData": {
+            "name": {},
+            "exposed-modules": [],
+            "re-exported-modules": [],
+            "signatures": [],
+            "exposed": true,
+            "visibility": "LibraryVisibilityPublic",
+            "build-info": {
+              "buildable": true,
+              "buildTools": [],
+              "buildToolDepends": [],
+              "cppOptions": [
+                "-DUSE_FOLDS_EVERYWHERE"
+              ],
+              "asmOptions": [],
+              "cmmOptions": [],
+              "ccOptions": [],
+              "cxxOptions": [],
+              "ldOptions": [],
+              "pkgconfigDepends": [],
+              "frameworks": [],
+              "extraFrameworkDirs": [],
+              "asmSources": [],
+              "cmmSources": [],
+              "cSources": [],
+              "cxxSources": [],
+              "jsSources": [],
+              "hsSourceDirs": [],
+              "otherModules": [],
+              "virtualModules": [],
+              "autogenModules": [],
+              "defaultLanguage": null,
+              "otherLanguages": [],
+              "defaultExtensions": [],
+              "otherExtensions": [],
+              "oldExtensions": [],
+              "extraLibs": [],
+              "extraGHCiLibs": [],
+              "extraBundledLibs": [],
+              "extraLibFlavours": [],
+              "extraDynLibFlavours": [],
+              "extraLibDirs": [],
+              "includeDirs": [],
+              "includes": [],
+              "autogenIncludes": [],
+              "installIncludes": [],
+              "options": [
+                [],
+                []
+              ],
+              "profOptions": [
+                [],
+                []
+              ],
+              "sharedOptions": [
+                [],
+                []
+              ],
+              "staticOptions": [
+                [],
+                []
+              ],
+              "customFieldsBI": [],
+              "targetBuildDepends": [],
+              "mixins": []
+            }
+          },
+          "condTreeConstraints": [],
+          "condTreeComponents": []
+        }
+      },
+      {
+        "condBranchCondition": {
+          "variable": {
+            "flag": "use-c-malloc"
+          }
+        },
+        "condBranchIfTrue": {
+          "condTreeData": {
+            "name": {},
+            "exposed-modules": [],
+            "re-exported-modules": [],
+            "signatures": [],
+            "exposed": true,
+            "visibility": "LibraryVisibilityPublic",
+            "build-info": {
+              "buildable": true,
+              "buildTools": [],
+              "buildToolDepends": [],
+              "cppOptions": [
+                "-DUSE_C_MALLOC"
+              ],
+              "asmOptions": [],
+              "cmmOptions": [],
+              "ccOptions": [],
+              "cxxOptions": [],
+              "ldOptions": [],
+              "pkgconfigDepends": [],
+              "frameworks": [],
+              "extraFrameworkDirs": [],
+              "asmSources": [],
+              "cmmSources": [],
+              "cSources": [],
+              "cxxSources": [],
+              "jsSources": [],
+              "hsSourceDirs": [],
+              "otherModules": [],
+              "virtualModules": [],
+              "autogenModules": [],
+              "defaultLanguage": null,
+              "otherLanguages": [],
+              "defaultExtensions": [],
+              "otherExtensions": [],
+              "oldExtensions": [],
+              "extraLibs": [],
+              "extraGHCiLibs": [],
+              "extraBundledLibs": [],
+              "extraLibFlavours": [],
+              "extraDynLibFlavours": [],
+              "extraLibDirs": [],
+              "includeDirs": [],
+              "includes": [],
+              "autogenIncludes": [],
+              "installIncludes": [],
+              "options": [
+                [],
+                []
+              ],
+              "profOptions": [
+                [],
+                []
+              ],
+              "sharedOptions": [
+                [],
+                []
+              ],
+              "staticOptions": [
+                [],
+                []
+              ],
+              "customFieldsBI": [],
+              "targetBuildDepends": [],
+              "mixins": []
+            }
+          },
+          "condTreeConstraints": [],
+          "condTreeComponents": []
+        }
+      },
+      {
+        "condBranchCondition": {
+          "variable": {
+            "compiler": "GHC",
+            "version": ">=9.2"
+          }
+        },
+        "condBranchIfTrue": {
+          "condTreeData": {
+            "name": {},
+            "exposed-modules": [],
+            "re-exported-modules": [],
+            "signatures": [],
+            "exposed": true,
+            "visibility": "LibraryVisibilityPublic",
+            "build-info": {
+              "buildable": true,
+              "buildTools": [],
+              "buildToolDepends": [],
+              "cppOptions": [],
+              "asmOptions": [],
+              "cmmOptions": [],
+              "ccOptions": [],
+              "cxxOptions": [],
+              "ldOptions": [],
+              "pkgconfigDepends": [],
+              "frameworks": [],
+              "extraFrameworkDirs": [],
+              "asmSources": [],
+              "cmmSources": [],
+              "cSources": [],
+              "cxxSources": [],
+              "jsSources": [],
+              "hsSourceDirs": [],
+              "otherModules": [],
+              "virtualModules": [],
+              "autogenModules": [],
+              "defaultLanguage": null,
+              "otherLanguages": [],
+              "defaultExtensions": [],
+              "otherExtensions": [],
+              "oldExtensions": [],
+              "extraLibs": [],
+              "extraGHCiLibs": [],
+              "extraBundledLibs": [],
+              "extraLibFlavours": [],
+              "extraDynLibFlavours": [],
+              "extraLibDirs": [],
+              "includeDirs": [],
+              "includes": [],
+              "autogenIncludes": [],
+              "installIncludes": [],
+              "options": [
+                [
+                  "-Wno-missing-kind-signatures",
+                  "-Wno-redundant-bang-patterns",
+                  "-Wno-operator-whitespace"
+                ],
+                []
+              ],
+              "profOptions": [
+                [],
+                []
+              ],
+              "sharedOptions": [
+                [],
+                []
+              ],
+              "staticOptions": [
+                [],
+                []
+              ],
+              "customFieldsBI": [],
+              "targetBuildDepends": [],
+              "mixins": []
+            }
+          },
+          "condTreeConstraints": [],
+          "condTreeComponents": []
+        }
+      },
+      {
+        "condBranchCondition": {
+          "variable": {
+            "flag": "has-llvm"
+          }
+        },
+        "condBranchIfTrue": {
+          "condTreeData": {
+            "name": {},
+            "exposed-modules": [],
+            "re-exported-modules": [],
+            "signatures": [],
+            "exposed": true,
+            "visibility": "LibraryVisibilityPublic",
+            "build-info": {
+              "buildable": true,
+              "buildTools": [],
+              "buildToolDepends": [],
+              "cppOptions": [],
+              "asmOptions": [],
+              "cmmOptions": [],
+              "ccOptions": [],
+              "cxxOptions": [],
+              "ldOptions": [],
+              "pkgconfigDepends": [],
+              "frameworks": [],
+              "extraFrameworkDirs": [],
+              "asmSources": [],
+              "cmmSources": [],
+              "cSources": [],
+              "cxxSources": [],
+              "jsSources": [],
+              "hsSourceDirs": [],
+              "otherModules": [],
+              "virtualModules": [],
+              "autogenModules": [],
+              "defaultLanguage": null,
+              "otherLanguages": [],
+              "defaultExtensions": [],
+              "otherExtensions": [],
+              "oldExtensions": [],
+              "extraLibs": [],
+              "extraGHCiLibs": [],
+              "extraBundledLibs": [],
+              "extraLibFlavours": [],
+              "extraDynLibFlavours": [],
+              "extraLibDirs": [],
+              "includeDirs": [],
+              "includes": [],
+              "autogenIncludes": [],
+              "installIncludes": [],
+              "options": [
+                [
+                  "-fllvm"
+                ],
+                []
+              ],
+              "profOptions": [
+                [],
+                []
+              ],
+              "sharedOptions": [
+                [],
+                []
+              ],
+              "staticOptions": [
+                [],
+                []
+              ],
+              "customFieldsBI": [],
+              "targetBuildDepends": [],
+              "mixins": []
+            }
+          },
+          "condTreeConstraints": [],
+          "condTreeComponents": []
+        }
+      },
+      {
+        "condBranchCondition": {
+          "variable": {
+            "flag": "dev"
+          }
+        },
+        "condBranchIfTrue": {
+          "condTreeData": {
+            "name": {},
+            "exposed-modules": [],
+            "re-exported-modules": [],
+            "signatures": [],
+            "exposed": true,
+            "visibility": "LibraryVisibilityPublic",
+            "build-info": {
+              "buildable": true,
+              "buildTools": [],
+              "buildToolDepends": [],
+              "cppOptions": [],
+              "asmOptions": [],
+              "cmmOptions": [],
+              "ccOptions": [],
+              "cxxOptions": [],
+              "ldOptions": [],
+              "pkgconfigDepends": [],
+              "frameworks": [],
+              "extraFrameworkDirs": [],
+              "asmSources": [],
+              "cmmSources": [],
+              "cSources": [],
+              "cxxSources": [],
+              "jsSources": [],
+              "hsSourceDirs": [],
+              "otherModules": [],
+              "virtualModules": [],
+              "autogenModules": [],
+              "defaultLanguage": null,
+              "otherLanguages": [],
+              "defaultExtensions": [],
+              "otherExtensions": [],
+              "oldExtensions": [],
+              "extraLibs": [],
+              "extraGHCiLibs": [],
+              "extraBundledLibs": [],
+              "extraLibFlavours": [],
+              "extraDynLibFlavours": [],
+              "extraLibDirs": [],
+              "includeDirs": [],
+              "includes": [],
+              "autogenIncludes": [],
+              "installIncludes": [],
+              "options": [
+                [
+                  "-Wmissed-specialisations",
+                  "-Wall-missed-specialisations"
+                ],
+                []
+              ],
+              "profOptions": [
+                [],
+                []
+              ],
+              "sharedOptions": [
+                [],
+                []
+              ],
+              "staticOptions": [
+                [],
+                []
+              ],
+              "customFieldsBI": [],
+              "targetBuildDepends": [],
+              "mixins": []
+            }
+          },
+          "condTreeConstraints": [],
+          "condTreeComponents": []
+        }
+      },
+      {
+        "condBranchCondition": {
+          "variable": {
+            "flag": "limit-build-mem"
+          }
+        },
+        "condBranchIfTrue": {
+          "condTreeData": {
+            "name": {},
+            "exposed-modules": [],
+            "re-exported-modules": [],
+            "signatures": [],
+            "exposed": true,
+            "visibility": "LibraryVisibilityPublic",
+            "build-info": {
+              "buildable": true,
+              "buildTools": [],
+              "buildToolDepends": [],
+              "cppOptions": [],
+              "asmOptions": [],
+              "cmmOptions": [],
+              "ccOptions": [],
+              "cxxOptions": [],
+              "ldOptions": [],
+              "pkgconfigDepends": [],
+              "frameworks": [],
+              "extraFrameworkDirs": [],
+              "asmSources": [],
+              "cmmSources": [],
+              "cSources": [],
+              "cxxSources": [],
+              "jsSources": [],
+              "hsSourceDirs": [],
+              "otherModules": [],
+              "virtualModules": [],
+              "autogenModules": [],
+              "defaultLanguage": null,
+              "otherLanguages": [],
+              "defaultExtensions": [],
+              "otherExtensions": [],
+              "oldExtensions": [],
+              "extraLibs": [],
+              "extraGHCiLibs": [],
+              "extraBundledLibs": [],
+              "extraLibFlavours": [],
+              "extraDynLibFlavours": [],
+              "extraLibDirs": [],
+              "includeDirs": [],
+              "includes": [],
+              "autogenIncludes": [],
+              "installIncludes": [],
+              "options": [
+                [
+                  "+RTS",
+                  "-M1000M",
+                  "-RTS"
+                ],
+                []
+              ],
+              "profOptions": [
+                [],
+                []
+              ],
+              "sharedOptions": [
+                [],
+                []
+              ],
+              "staticOptions": [
+                [],
+                []
+              ],
+              "customFieldsBI": [],
+              "targetBuildDepends": [],
+              "mixins": []
+            }
+          },
+          "condTreeConstraints": [],
+          "condTreeComponents": []
+        }
+      },
+      {
+        "condBranchCondition": {
+          "variable": {
+            "flag": "use-unliftio"
+          }
+        },
+        "condBranchIfTrue": {
+          "condTreeData": {
+            "name": {},
+            "exposed-modules": [],
+            "re-exported-modules": [],
+            "signatures": [],
+            "exposed": true,
+            "visibility": "LibraryVisibilityPublic",
+            "build-info": {
+              "buildable": true,
+              "buildTools": [],
+              "buildToolDepends": [],
+              "cppOptions": [
+                "-DUSE_UNLIFTIO"
+              ],
+              "asmOptions": [],
+              "cmmOptions": [],
+              "ccOptions": [],
+              "cxxOptions": [],
+              "ldOptions": [],
+              "pkgconfigDepends": [],
+              "frameworks": [],
+              "extraFrameworkDirs": [],
+              "asmSources": [],
+              "cmmSources": [],
+              "cSources": [],
+              "cxxSources": [],
+              "jsSources": [],
+              "hsSourceDirs": [],
+              "otherModules": [],
+              "virtualModules": [],
+              "autogenModules": [],
+              "defaultLanguage": null,
+              "otherLanguages": [],
+              "defaultExtensions": [],
+              "otherExtensions": [],
+              "oldExtensions": [],
+              "extraLibs": [],
+              "extraGHCiLibs": [],
+              "extraBundledLibs": [],
+              "extraLibFlavours": [],
+              "extraDynLibFlavours": [],
+              "extraLibDirs": [],
+              "includeDirs": [],
+              "includes": [],
+              "autogenIncludes": [],
+              "installIncludes": [],
+              "options": [
+                [],
+                []
+              ],
+              "profOptions": [
+                [],
+                []
+              ],
+              "sharedOptions": [
+                [],
+                []
+              ],
+              "staticOptions": [
+                [],
+                []
+              ],
+              "customFieldsBI": [],
+              "targetBuildDepends": [],
+              "mixins": []
+            }
+          },
+          "condTreeConstraints": [],
+          "condTreeComponents": []
+        }
+      },
+      {
+        "condBranchCondition": {
+          "variable": {
+            "flag": "opt"
+          }
+        },
+        "condBranchIfTrue": {
+          "condTreeData": {
+            "name": {},
+            "exposed-modules": [],
+            "re-exported-modules": [],
+            "signatures": [],
+            "exposed": true,
+            "visibility": "LibraryVisibilityPublic",
+            "build-info": {
+              "buildable": true,
+              "buildTools": [],
+              "buildToolDepends": [],
+              "cppOptions": [],
+              "asmOptions": [],
+              "cmmOptions": [],
+              "ccOptions": [],
+              "cxxOptions": [],
+              "ldOptions": [],
+              "pkgconfigDepends": [],
+              "frameworks": [],
+              "extraFrameworkDirs": [],
+              "asmSources": [],
+              "cmmSources": [],
+              "cSources": [],
+              "cxxSources": [],
+              "jsSources": [],
+              "hsSourceDirs": [],
+              "otherModules": [],
+              "virtualModules": [],
+              "autogenModules": [],
+              "defaultLanguage": null,
+              "otherLanguages": [],
+              "defaultExtensions": [],
+              "otherExtensions": [],
+              "oldExtensions": [],
+              "extraLibs": [],
+              "extraGHCiLibs": [],
+              "extraBundledLibs": [],
+              "extraLibFlavours": [],
+              "extraDynLibFlavours": [],
+              "extraLibDirs": [],
+              "includeDirs": [],
+              "includes": [],
+              "autogenIncludes": [],
+              "installIncludes": [],
+              "options": [
+                [
+                  "-O2",
+                  "-fdicts-strict",
+                  "-fspec-constr-recursive=16",
+                  "-fmax-worker-args=16"
+                ],
+                []
+              ],
+              "profOptions": [
+                [],
+                []
+              ],
+              "sharedOptions": [
+                [],
+                []
+              ],
+              "staticOptions": [
+                [],
+                []
+              ],
+              "customFieldsBI": [],
+              "targetBuildDepends": [],
+              "mixins": []
+            }
+          },
+          "condTreeConstraints": [],
+          "condTreeComponents": []
+        }
+      },
+      {
+        "condBranchCondition": {
+          "cond_or_1": {
+            "cond_or_1": {
+              "variable": {
+                "flag": "dev"
+              }
+            },
+            "cond_or_2": {
+              "variable": {
+                "flag": "debug"
+              }
+            }
+          },
+          "cond_or_2": {
+            "cond_not": {
+              "variable": {
+                "flag": "opt"
+              }
+            }
+          }
+        },
+        "condBranchIfTrue": {
+          "condTreeData": {
+            "name": {},
+            "exposed-modules": [],
+            "re-exported-modules": [],
+            "signatures": [],
+            "exposed": true,
+            "visibility": "LibraryVisibilityPublic",
+            "build-info": {
+              "buildable": true,
+              "buildTools": [],
+              "buildToolDepends": [],
+              "cppOptions": [],
+              "asmOptions": [],
+              "cmmOptions": [],
+              "ccOptions": [],
+              "cxxOptions": [],
+              "ldOptions": [],
+              "pkgconfigDepends": [],
+              "frameworks": [],
+              "extraFrameworkDirs": [],
+              "asmSources": [],
+              "cmmSources": [],
+              "cSources": [],
+              "cxxSources": [],
+              "jsSources": [],
+              "hsSourceDirs": [],
+              "otherModules": [],
+              "virtualModules": [],
+              "autogenModules": [],
+              "defaultLanguage": null,
+              "otherLanguages": [],
+              "defaultExtensions": [],
+              "otherExtensions": [],
+              "oldExtensions": [],
+              "extraLibs": [],
+              "extraGHCiLibs": [],
+              "extraBundledLibs": [],
+              "extraLibFlavours": [],
+              "extraDynLibFlavours": [],
+              "extraLibDirs": [],
+              "includeDirs": [],
+              "includes": [],
+              "autogenIncludes": [],
+              "installIncludes": [],
+              "options": [
+                [
+                  "-fno-ignore-asserts"
+                ],
+                []
+              ],
+              "profOptions": [
+                [],
+                []
+              ],
+              "sharedOptions": [
+                [],
+                []
+              ],
+              "staticOptions": [
+                [],
+                []
+              ],
+              "customFieldsBI": [],
+              "targetBuildDepends": [],
+              "mixins": []
+            }
+          },
+          "condTreeConstraints": [],
+          "condTreeComponents": []
+        }
+      },
+      {
+        "condBranchCondition": {
+          "variable": {
+            "compiler": "GHC",
+            "version": ">=8.6"
+          }
+        },
+        "condBranchIfTrue": {
+          "condTreeData": {
+            "name": {},
+            "exposed-modules": [],
+            "re-exported-modules": [],
+            "signatures": [],
+            "exposed": true,
+            "visibility": "LibraryVisibilityPublic",
+            "build-info": {
+              "buildable": true,
+              "buildTools": [],
+              "buildToolDepends": [],
+              "cppOptions": [],
+              "asmOptions": [],
+              "cmmOptions": [],
+              "ccOptions": [],
+              "cxxOptions": [],
+              "ldOptions": [],
+              "pkgconfigDepends": [],
+              "frameworks": [],
+              "extraFrameworkDirs": [],
+              "asmSources": [],
+              "cmmSources": [],
+              "cSources": [],
+              "cxxSources": [],
+              "jsSources": [],
+              "hsSourceDirs": [],
+              "otherModules": [],
+              "virtualModules": [],
+              "autogenModules": [],
+              "defaultLanguage": null,
+              "otherLanguages": [],
+              "defaultExtensions": [
+                {
+                  "enable-extension": "QuantifiedConstraints"
+                }
+              ],
+              "otherExtensions": [],
+              "oldExtensions": [],
+              "extraLibs": [],
+              "extraGHCiLibs": [],
+              "extraBundledLibs": [],
+              "extraLibFlavours": [],
+              "extraDynLibFlavours": [],
+              "extraLibDirs": [],
+              "includeDirs": [],
+              "includes": [],
+              "autogenIncludes": [],
+              "installIncludes": [],
+              "options": [
+                [],
+                []
+              ],
+              "profOptions": [
+                [],
+                []
+              ],
+              "sharedOptions": [
+                [],
+                []
+              ],
+              "staticOptions": [
+                [],
+                []
+              ],
+              "customFieldsBI": [],
+              "targetBuildDepends": [],
+              "mixins": []
+            }
+          },
+          "condTreeConstraints": [],
+          "condTreeComponents": []
+        }
+      },
+      {
+        "condBranchCondition": {
+          "variable": {
+            "os": "Windows"
+          }
+        },
+        "condBranchIfTrue": {
+          "condTreeData": {
+            "name": {},
+            "exposed-modules": [],
+            "re-exported-modules": [],
+            "signatures": [],
+            "exposed": true,
+            "visibility": "LibraryVisibilityPublic",
+            "build-info": {
+              "buildable": true,
+              "buildTools": [],
+              "buildToolDepends": [],
+              "cppOptions": [],
+              "asmOptions": [],
+              "cmmOptions": [],
+              "ccOptions": [],
+              "cxxOptions": [],
+              "ldOptions": [],
+              "pkgconfigDepends": [],
+              "frameworks": [],
+              "extraFrameworkDirs": [],
+              "asmSources": [],
+              "cmmSources": [],
+              "cSources": [
+                "src/Streamly/Internal/Data/Time/Clock/Windows.c"
+              ],
+              "cxxSources": [],
+              "jsSources": [],
+              "hsSourceDirs": [],
+              "otherModules": [],
+              "virtualModules": [],
+              "autogenModules": [],
+              "defaultLanguage": null,
+              "otherLanguages": [],
+              "defaultExtensions": [],
+              "otherExtensions": [],
+              "oldExtensions": [],
+              "extraLibs": [],
+              "extraGHCiLibs": [],
+              "extraBundledLibs": [],
+              "extraLibFlavours": [],
+              "extraDynLibFlavours": [],
+              "extraLibDirs": [],
+              "includeDirs": [],
+              "includes": [],
+              "autogenIncludes": [],
+              "installIncludes": [],
+              "options": [
+                [],
+                []
+              ],
+              "profOptions": [
+                [],
+                []
+              ],
+              "sharedOptions": [
+                [],
+                []
+              ],
+              "staticOptions": [
+                [],
+                []
+              ],
+              "customFieldsBI": [],
+              "targetBuildDepends": [],
+              "mixins": []
+            }
+          },
+          "condTreeConstraints": [],
+          "condTreeComponents": []
+        }
+      },
+      {
+        "condBranchCondition": {
+          "variable": {
+            "os": "OSX"
+          }
+        },
+        "condBranchIfTrue": {
+          "condTreeData": {
+            "name": {},
+            "exposed-modules": [],
+            "re-exported-modules": [],
+            "signatures": [],
+            "exposed": true,
+            "visibility": "LibraryVisibilityPublic",
+            "build-info": {
+              "buildable": true,
+              "buildTools": [],
+              "buildToolDepends": [],
+              "cppOptions": [],
+              "asmOptions": [],
+              "cmmOptions": [],
+              "ccOptions": [],
+              "cxxOptions": [],
+              "ldOptions": [],
+              "pkgconfigDepends": [],
+              "frameworks": [],
+              "extraFrameworkDirs": [],
+              "asmSources": [],
+              "cmmSources": [],
+              "cSources": [
+                "src/Streamly/Internal/Data/Time/Clock/Darwin.c"
+              ],
+              "cxxSources": [],
+              "jsSources": [],
+              "hsSourceDirs": [],
+              "otherModules": [],
+              "virtualModules": [],
+              "autogenModules": [],
+              "defaultLanguage": null,
+              "otherLanguages": [],
+              "defaultExtensions": [],
+              "otherExtensions": [],
+              "oldExtensions": [],
+              "extraLibs": [],
+              "extraGHCiLibs": [],
+              "extraBundledLibs": [],
+              "extraLibFlavours": [],
+              "extraDynLibFlavours": [],
+              "extraLibDirs": [],
+              "includeDirs": [
+                "src/Streamly/Internal"
+              ],
+              "includes": [],
+              "autogenIncludes": [],
+              "installIncludes": [],
+              "options": [
+                [],
+                []
+              ],
+              "profOptions": [
+                [],
+                []
+              ],
+              "sharedOptions": [
+                [],
+                []
+              ],
+              "staticOptions": [
+                [],
+                []
+              ],
+              "customFieldsBI": [],
+              "targetBuildDepends": [],
+              "mixins": []
+            }
+          },
+          "condTreeConstraints": [],
+          "condTreeComponents": []
+        }
+      },
+      {
+        "condBranchCondition": {
+          "variable": {
+            "flag": "dev"
+          }
+        },
+        "condBranchIfTrue": {
+          "condTreeData": {
+            "name": {},
+            "exposed-modules": [
+              [
+                "Streamly",
+                "Internal",
+                "Data",
+                "Stream",
+                "StreamK",
+                "Alt"
+              ],
+              [
+                "Streamly",
+                "Internal",
+                "Data",
+                "Stream",
+                "Type"
+              ],
+              [
+                "Streamly",
+                "Internal",
+                "Data",
+                "Stream",
+                "Eliminate"
+              ],
+              [
+                "Streamly",
+                "Internal",
+                "Data",
+                "Stream",
+                "Enumerate"
+              ],
+              [
+                "Streamly",
+                "Internal",
+                "Data",
+                "Stream",
+                "Generate"
+              ],
+              [
+                "Streamly",
+                "Internal",
+                "Data",
+                "Stream",
+                "Transform"
+              ],
+              [
+                "Streamly",
+                "Internal",
+                "Data",
+                "Stream",
+                "Bottom"
+              ],
+              [
+                "Streamly",
+                "Internal",
+                "Data",
+                "Stream",
+                "Exception"
+              ],
+              [
+                "Streamly",
+                "Internal",
+                "Data",
+                "Stream",
+                "Expand"
+              ],
+              [
+                "Streamly",
+                "Internal",
+                "Data",
+                "Stream",
+                "Lift"
+              ],
+              [
+                "Streamly",
+                "Internal",
+                "Data",
+                "Stream",
+                "Reduce"
+              ],
+              [
+                "Streamly",
+                "Internal",
+                "Data",
+                "Stream",
+                "Transformer"
+              ],
+              [
+                "Streamly",
+                "Internal",
+                "Data",
+                "Stream",
+                "StreamDK"
+              ],
+              [
+                "Streamly",
+                "Internal",
+                "Data",
+                "Stream",
+                "Zip"
+              ],
+              [
+                "Streamly",
+                "Internal",
+                "Data",
+                "Stream",
+                "Cross"
+              ],
+              [
+                "Streamly",
+                "Internal",
+                "Data",
+                "List"
+              ],
+              [
+                "Streamly",
+                "Data",
+                "Stream",
+                "Zip"
+              ]
+            ],
+            "re-exported-modules": [],
+            "signatures": [],
+            "exposed": true,
+            "visibility": "LibraryVisibilityPublic",
+            "build-info": {
+              "buildable": true,
+              "buildTools": [],
+              "buildToolDepends": [],
+              "cppOptions": [],
+              "asmOptions": [],
+              "cmmOptions": [],
+              "ccOptions": [],
+              "cxxOptions": [],
+              "ldOptions": [],
+              "pkgconfigDepends": [],
+              "frameworks": [],
+              "extraFrameworkDirs": [],
+              "asmSources": [],
+              "cmmSources": [],
+              "cSources": [],
+              "cxxSources": [],
+              "jsSources": [],
+              "hsSourceDirs": [],
+              "otherModules": [],
+              "virtualModules": [],
+              "autogenModules": [],
+              "defaultLanguage": null,
+              "otherLanguages": [],
+              "defaultExtensions": [],
+              "otherExtensions": [],
+              "oldExtensions": [],
+              "extraLibs": [],
+              "extraGHCiLibs": [],
+              "extraBundledLibs": [],
+              "extraLibFlavours": [],
+              "extraDynLibFlavours": [],
+              "extraLibDirs": [],
+              "includeDirs": [],
+              "includes": [],
+              "autogenIncludes": [],
+              "installIncludes": [],
+              "options": [
+                [],
+                []
+              ],
+              "profOptions": [
+                [],
+                []
+              ],
+              "sharedOptions": [
+                [],
+                []
+              ],
+              "staticOptions": [
+                [],
+                []
+              ],
+              "customFieldsBI": [],
+              "targetBuildDepends": [],
+              "mixins": []
+            }
+          },
+          "condTreeConstraints": [],
+          "condTreeComponents": []
+        }
+      },
+      {
+        "condBranchCondition": {
+          "cond_not": {
+            "variable": {
+              "flag": "use-unliftio"
+            }
+          }
+        },
+        "condBranchIfTrue": {
+          "condTreeData": {
+            "name": {},
+            "exposed-modules": [],
+            "re-exported-modules": [],
+            "signatures": [],
+            "exposed": true,
+            "visibility": "LibraryVisibilityPublic",
+            "build-info": {
+              "buildable": true,
+              "buildTools": [],
+              "buildToolDepends": [],
+              "cppOptions": [],
+              "asmOptions": [],
+              "cmmOptions": [],
+              "ccOptions": [],
+              "cxxOptions": [],
+              "ldOptions": [],
+              "pkgconfigDepends": [],
+              "frameworks": [],
+              "extraFrameworkDirs": [],
+              "asmSources": [],
+              "cmmSources": [],
+              "cSources": [],
+              "cxxSources": [],
+              "jsSources": [],
+              "hsSourceDirs": [],
+              "otherModules": [],
+              "virtualModules": [],
+              "autogenModules": [],
+              "defaultLanguage": null,
+              "otherLanguages": [],
+              "defaultExtensions": [],
+              "otherExtensions": [],
+              "oldExtensions": [],
+              "extraLibs": [],
+              "extraGHCiLibs": [],
+              "extraBundledLibs": [],
+              "extraLibFlavours": [],
+              "extraDynLibFlavours": [],
+              "extraLibDirs": [],
+              "includeDirs": [],
+              "includes": [],
+              "autogenIncludes": [],
+              "installIncludes": [],
+              "options": [
+                [],
+                []
+              ],
+              "profOptions": [
+                [],
+                []
+              ],
+              "sharedOptions": [
+                [],
+                []
+              ],
+              "staticOptions": [
+                [],
+                []
+              ],
+              "customFieldsBI": [],
+              "targetBuildDepends": [
+                {
+                  "package-name": "monad-control",
+                  "version-range": ">=1.0 && <1.1",
+                  "library": [
+                    {}
+                  ]
+                }
+              ],
+              "mixins": []
+            }
+          },
+          "condTreeConstraints": [
+            {
+              "package-name": "monad-control",
+              "version-range": ">=1.0 && <1.1",
+              "library": [
+                {}
+              ]
+            }
+          ],
+          "condTreeComponents": []
+        }
+      }
+    ]
+  }
+}
