@@ -7,12 +7,11 @@
       ]
     },
     "package": {
-      "name": "topograph",
+      "name": "unix-bytestring",
       "version": [
-        1,
         0,
-        0,
-        2
+        4,
+        0
       ]
     },
     "license": {
@@ -28,39 +27,70 @@
     "license-files": [
       "LICENSE"
     ],
-    "copyright": "(c) 2018-2019 Oleg Grenrus",
-    "maintainer": "Oleg.Grenrus <oleg.grenrus@iki.fi>",
-    "author": "Oleg Grenrus <oleg.grenrus@iki.fi>",
-    "stability": "",
+    "copyright": "2010–2023 wren romano",
+    "maintainer": "wren@cpan.org",
+    "author": "wren gayle romano",
+    "stability": "provisional",
     "tested-with": [
       {
         "compiler": "GHC",
-        "versionRange": "==7.6.3 || ==7.8.4 || ==7.10.3 || ==8.0.2 || ==8.2.2 || ==8.4.4 || ==8.6.5 || ==8.8.4 || ==8.10.7 || ==9.0.2 || ==9.2.7 || ==9.4.4 || ==9.6.1"
+        "versionRange": "==8.0.2"
+      },
+      {
+        "compiler": "GHC",
+        "versionRange": "==8.2.2"
+      },
+      {
+        "compiler": "GHC",
+        "versionRange": "==8.4.4"
+      },
+      {
+        "compiler": "GHC",
+        "versionRange": "==8.6.5"
+      },
+      {
+        "compiler": "GHC",
+        "versionRange": "==8.8.4"
+      },
+      {
+        "compiler": "GHC",
+        "versionRange": "==8.10.3"
+      },
+      {
+        "compiler": "GHC",
+        "versionRange": "==9.0.1"
+      },
+      {
+        "compiler": "GHC",
+        "versionRange": "==9.2.4"
+      },
+      {
+        "compiler": "GHC",
+        "versionRange": "==9.4.4"
+      },
+      {
+        "compiler": "GHC",
+        "versionRange": "==9.6.1"
       }
     ],
-    "homepage": "https://github.com/phadej/topograph",
+    "homepage": "https://wrengr.org/software/hackage.html",
     "pkg-url": "",
-    "bug-reports": "https://github.com/phadej/topograph/issues",
+    "bug-reports": "https://github.com/wrengr/unix-bytestring/issues",
     "source-repos": [
       {
         "kind": {},
         "type": "Git",
-        "location": "https://github.com/phadej/topograph.git",
+        "location": "https://github.com/wrengr/unix-bytestring.git",
         "module": null,
         "branch": null,
         "tag": null,
         "subdir": null
       }
     ],
-    "synopsis": "Directed acyclic graphs.",
-    "description": "Directed acyclic graphs can be sorted topographically.\nExistence of topographic ordering allows writing many graph algorithms efficiently.\nAnd many graphs, e.g. most dependency graphs are acyclic!\n\nThere are some algorithms built-in: dfs, transpose, transitive closure,\ntransitive reduction...\nSome algorithms even become not-so-hard to implement, like a longest path!",
-    "category": "Data, Graph",
-    "custom-fields": [
-      [
-        "x-revision",
-        "1"
-      ]
-    ],
+    "synopsis": "Unix/Posix-specific functions for ByteStrings.",
+    "description": "Unix\\/Posix-specific functions for ByteStrings.\n\nProvides @ByteString@ file-descriptor based I\\/O API, designed\nloosely after the @String@ file-descriptor based I\\/O API in\n\"System.Posix.IO\". The functions here wrap standard C implementations\nof the functions specified by the ISO\\/IEC 9945-1:1990 (``POSIX.1'')\nand X\\/Open Portability Guide Issue 4, Version 2 (``XPG4.2'')\nspecifications.\n\nNote that this package doesn't require the @unix@ package as a\ndependency. But you'll need it in order to get your hands on\nan @Fd@, so we're not offering a complete replacement.",
+    "category": "System",
+    "custom-fields": [],
     "build-type-raw": "Simple",
     "custom-setup": null,
     "library": null,
@@ -71,22 +101,43 @@
     "benchmarks": [],
     "data-files": [],
     "data-dir": ".",
-    "extra-source-files": [],
+    "extra-source-files": [
+      "README.md",
+      "CHANGELOG"
+    ],
     "extra-tmp-files": [],
-    "extra-doc-files": [
-      "dag-original.png",
-      "dag-closure.png",
-      "dag-reduction.png",
-      "dag-transpose.png",
-      "dag-tree.png"
-    ]
+    "extra-doc-files": []
   },
   "library": {
     "condTreeData": {
       "name": {},
       "exposed-modules": [
         [
-          "Topograph"
+          "Foreign",
+          "C",
+          "Error",
+          "Safe"
+        ],
+        [
+          "System",
+          "Posix",
+          "IO",
+          "ByteString",
+          "Ext"
+        ],
+        [
+          "System",
+          "Posix",
+          "IO",
+          "ByteString",
+          "Ext",
+          "Lazy"
+        ],
+        [
+          "System",
+          "Posix",
+          "Types",
+          "Iovec"
         ]
       ],
       "re-exported-modules": [],
@@ -120,17 +171,7 @@
         "defaultLanguage": "Haskell2010",
         "otherLanguages": [],
         "defaultExtensions": [],
-        "otherExtensions": [
-          {
-            "enable-extension": "RankNTypes"
-          },
-          {
-            "enable-extension": "RecordWildCards"
-          },
-          {
-            "enable-extension": "ScopedTypeVariables"
-          }
-        ],
+        "otherExtensions": [],
         "oldExtensions": [],
         "extraLibs": [],
         "extraGHCiLibs": [],
@@ -162,35 +203,14 @@
         "targetBuildDepends": [
           {
             "package-name": "base",
-            "version-range": ">=4.6 && <4.19",
+            "version-range": ">=4.1 && <4.19",
             "library": [
               {}
             ]
           },
           {
-            "package-name": "base-compat",
-            "version-range": "^>=0.10.5 || ^>=0.11.0 || ^>=0.12.0 || ^>=0.13.0",
-            "library": [
-              {}
-            ]
-          },
-          {
-            "package-name": "base-orphans",
-            "version-range": "^>=0.8 || ^>=0.9.0",
-            "library": [
-              {}
-            ]
-          },
-          {
-            "package-name": "containers",
-            "version-range": "^>=0.5.0.0 || ^>=0.6.0.1",
-            "library": [
-              {}
-            ]
-          },
-          {
-            "package-name": "vector",
-            "version-range": "^>=0.12 || ^>=0.13",
+            "package-name": "bytestring",
+            "version-range": ">=0.9.1.5 && <0.12",
             "library": [
               {}
             ]
@@ -202,35 +222,14 @@
     "condTreeConstraints": [
       {
         "package-name": "base",
-        "version-range": ">=4.6 && <4.19",
+        "version-range": ">=4.1 && <4.19",
         "library": [
           {}
         ]
       },
       {
-        "package-name": "base-compat",
-        "version-range": "^>=0.10.5 || ^>=0.11.0 || ^>=0.12.0 || ^>=0.13.0",
-        "library": [
-          {}
-        ]
-      },
-      {
-        "package-name": "base-orphans",
-        "version-range": "^>=0.8 || ^>=0.9.0",
-        "library": [
-          {}
-        ]
-      },
-      {
-        "package-name": "containers",
-        "version-range": "^>=0.5.0.0 || ^>=0.6.0.1",
-        "library": [
-          {}
-        ]
-      },
-      {
-        "package-name": "vector",
-        "version-range": "^>=0.12 || ^>=0.13",
+        "package-name": "bytestring",
+        "version-range": ">=0.9.1.5 && <0.12",
         "library": [
           {}
         ]
