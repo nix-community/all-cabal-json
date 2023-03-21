@@ -1,44 +1,46 @@
 {
   "description": {
     "spec-version": {
-      "Left": [
-        3,
-        0
-      ]
+      "Right": ">=1.10"
     },
     "package": {
-      "name": "borsh",
+      "name": "http-api-data",
       "version": [
         0,
-        3,
-        0
+        5,
+        1
       ]
     },
     "license": {
-      "Left": {
-        "license-expression": {
-          "expression": {
-            "id": "BSD_3_Clause"
-          },
-          "exception-id": null
-        }
-      }
+      "Right": "BSD3"
     },
     "license-files": [
       "LICENSE"
     ],
     "copyright": "",
-    "maintainer": "edsko@well-typed.com",
-    "author": "Edsko de Vries, Finley McIlwaine",
-    "stability": "",
+    "maintainer": "Nickolay Kudasov <nickolay.kudasov@gmail.com>",
+    "author": "Nickolay Kudasov <nickolay.kudasov@gmail.com>",
+    "stability": "unstable",
     "tested-with": [
+      {
+        "compiler": "GHC",
+        "versionRange": "==8.0.2"
+      },
+      {
+        "compiler": "GHC",
+        "versionRange": "==8.2.2"
+      },
+      {
+        "compiler": "GHC",
+        "versionRange": "==8.4.4"
+      },
       {
         "compiler": "GHC",
         "versionRange": "==8.6.5"
       },
       {
         "compiler": "GHC",
-        "versionRange": "==8.8.3"
+        "versionRange": "==8.8.4"
       },
       {
         "compiler": "GHC",
@@ -50,32 +52,35 @@
       },
       {
         "compiler": "GHC",
-        "versionRange": "==9.2.2"
+        "versionRange": "==9.2.7"
+      },
+      {
+        "compiler": "GHC",
+        "versionRange": "==9.4.4"
+      },
+      {
+        "compiler": "GHC",
+        "versionRange": "==9.6.1"
       }
     ],
-    "homepage": "",
+    "homepage": "http://github.com/fizruk/http-api-data",
     "pkg-url": "",
-    "bug-reports": "https://github.com/well-typed/borsh/issues",
+    "bug-reports": "",
     "source-repos": [
       {
         "kind": {},
         "type": "Git",
-        "location": "https://github.com/well-typed/borsh",
+        "location": "https://github.com/fizruk/http-api-data",
         "module": null,
         "branch": null,
         "tag": null,
         "subdir": null
       }
     ],
-    "synopsis": "Implementation of BORSH serialisation",
-    "description": "This package provides type classes and combinators for\nserialisation\\/deserialisation to\\/from [Borsh](https://borsh.io/) format.\nUnlike [CBOR](http://cbor.io/), Borsh is a non self-describing serialisation\nformat. It is designed such that any object serialises to a canonical and\ndeterministic string of bytes.\n\nThe library supports incremental encoding and incremental decoding, and\nsupports the use of the @ST@ monad in the decoder for efficient decoding for\ntypes such as arrays. However, the library has currently not been optimized\nfor speed, and there may well be low-hanging fruit to make it faster.",
-    "category": "Codec",
-    "custom-fields": [
-      [
-        "x-revision",
-        "1"
-      ]
-    ],
+    "synopsis": "Converting to/from HTTP API data like URL pieces, headers and query parameters.",
+    "description": "This package defines typeclasses used for converting Haskell data types to and from HTTP API data.\n\nPlease see README.md",
+    "category": "Web",
+    "custom-fields": [],
     "build-type-raw": "Simple",
     "custom-setup": null,
     "library": null,
@@ -86,28 +91,44 @@
     "benchmarks": [],
     "data-files": [],
     "data-dir": ".",
-    "extra-source-files": [],
+    "extra-source-files": [
+      "include/overlapping-compat.h",
+      "test/*.hs",
+      "CHANGELOG.md",
+      "README.md"
+    ],
     "extra-tmp-files": [],
-    "extra-doc-files": [
-      "CHANGELOG.md"
-    ]
+    "extra-doc-files": []
   },
+  "package-flags": [
+    {
+      "name": "use-text-show",
+      "description": "Use text-show library for efficient ToHttpApiData implementations.",
+      "default": false,
+      "manual": true
+    }
+  ],
   "library": {
     "condTreeData": {
       "name": {},
       "exposed-modules": [
         [
-          "Codec",
-          "Borsh"
+          "Web",
+          "HttpApiData"
         ],
         [
-          "Codec",
-          "Borsh",
-          "Incremental"
+          "Web",
+          "FormUrlEncoded"
         ],
         [
-          "Data",
-          "FixedSizeArray"
+          "Web",
+          "Internal",
+          "FormUrlEncoded"
+        ],
+        [
+          "Web",
+          "Internal",
+          "HttpApiData"
         ]
       ],
       "re-exported-modules": [],
@@ -133,158 +154,14 @@
         "cxxSources": [],
         "jsSources": [],
         "hsSourceDirs": [
-          "src"
+          "src/"
         ],
-        "otherModules": [
-          [
-            "Codec",
-            "Borsh",
-            "Class"
-          ],
-          [
-            "Codec",
-            "Borsh",
-            "Decoding"
-          ],
-          [
-            "Codec",
-            "Borsh",
-            "Encoding"
-          ],
-          [
-            "Codec",
-            "Borsh",
-            "Incremental",
-            "Decoder"
-          ],
-          [
-            "Codec",
-            "Borsh",
-            "Incremental",
-            "Located"
-          ],
-          [
-            "Codec",
-            "Borsh",
-            "Incremental",
-            "Monad"
-          ],
-          [
-            "Codec",
-            "Borsh",
-            "Internal",
-            "Util",
-            "BitwiseCast"
-          ],
-          [
-            "Codec",
-            "Borsh",
-            "Internal",
-            "Util",
-            "ByteString"
-          ],
-          [
-            "Codec",
-            "Borsh",
-            "Internal",
-            "Util",
-            "ByteSwap"
-          ],
-          [
-            "Codec",
-            "Borsh",
-            "Internal",
-            "Util",
-            "SOP"
-          ]
-        ],
+        "otherModules": [],
         "virtualModules": [],
         "autogenModules": [],
         "defaultLanguage": "Haskell2010",
         "otherLanguages": [],
-        "defaultExtensions": [
-          {
-            "enable-extension": "BangPatterns"
-          },
-          {
-            "enable-extension": "ConstraintKinds"
-          },
-          {
-            "enable-extension": "DataKinds"
-          },
-          {
-            "enable-extension": "DefaultSignatures"
-          },
-          {
-            "enable-extension": "DeriveAnyClass"
-          },
-          {
-            "enable-extension": "DeriveFunctor"
-          },
-          {
-            "enable-extension": "DeriveGeneric"
-          },
-          {
-            "enable-extension": "DeriveTraversable"
-          },
-          {
-            "enable-extension": "DerivingStrategies"
-          },
-          {
-            "enable-extension": "DerivingVia"
-          },
-          {
-            "enable-extension": "FlexibleContexts"
-          },
-          {
-            "enable-extension": "FlexibleInstances"
-          },
-          {
-            "enable-extension": "GADTs"
-          },
-          {
-            "enable-extension": "GeneralizedNewtypeDeriving"
-          },
-          {
-            "enable-extension": "InstanceSigs"
-          },
-          {
-            "enable-extension": "KindSignatures"
-          },
-          {
-            "enable-extension": "LambdaCase"
-          },
-          {
-            "enable-extension": "MultiParamTypeClasses"
-          },
-          {
-            "enable-extension": "NumericUnderscores"
-          },
-          {
-            "enable-extension": "RankNTypes"
-          },
-          {
-            "enable-extension": "ScopedTypeVariables"
-          },
-          {
-            "enable-extension": "StandaloneDeriving"
-          },
-          {
-            "enable-extension": "TupleSections"
-          },
-          {
-            "enable-extension": "TypeApplications"
-          },
-          {
-            "enable-extension": "TypeFamilies"
-          },
-          {
-            "enable-extension": "TypeOperators"
-          },
-          {
-            "enable-extension": "UndecidableInstances"
-          }
-        ],
+        "defaultExtensions": [],
         "otherExtensions": [],
         "oldExtensions": [],
         "extraLibs": [],
@@ -293,14 +170,15 @@
         "extraLibFlavours": [],
         "extraDynLibFlavours": [],
         "extraLibDirs": [],
-        "includeDirs": [],
+        "includeDirs": [
+          "include/"
+        ],
         "includes": [],
         "autogenIncludes": [],
         "installIncludes": [],
         "options": [
           [
-            "-Wall",
-            "-Wredundant-constraints"
+            "-Wall"
           ],
           []
         ],
@@ -320,56 +198,105 @@
         "targetBuildDepends": [
           {
             "package-name": "base",
-            "version-range": ">=4.12 && <4.18",
+            "version-range": ">=4.9 && <4.19",
             "library": [
               {}
             ]
           },
           {
             "package-name": "bytestring",
-            "version-range": ">=0.10 && <0.12",
+            "version-range": ">=0.10.8.1 && <0.12",
             "library": [
               {}
             ]
           },
           {
             "package-name": "containers",
-            "version-range": ">=0.6 && <0.7",
-            "library": [
-              {}
-            ]
-          },
-          {
-            "package-name": "generics-sop",
-            "version-range": ">=0.5 && <0.6",
-            "library": [
-              {}
-            ]
-          },
-          {
-            "package-name": "sop-core",
-            "version-range": ">=0.5 && <0.6",
+            "version-range": ">=0.5.7.1 && <0.7",
             "library": [
               {}
             ]
           },
           {
             "package-name": "text",
-            "version-range": ">=1.2 && <2.1",
+            "version-range": ">=1.2.3.0 && <1.3 || >=2.0 && <2.1",
             "library": [
               {}
             ]
           },
           {
-            "package-name": "vector",
-            "version-range": ">=0.13 && <0.14",
+            "package-name": "transformers",
+            "version-range": ">=0.5.2.0 && <0.7",
             "library": [
               {}
             ]
           },
           {
-            "package-name": "wide-word",
-            "version-range": ">=0.1 && <0.2",
+            "package-name": "attoparsec",
+            "version-range": ">=0.13.2.2 && <0.15",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "attoparsec-iso8601",
+            "version-range": ">=1.1.0.0 && <1.2",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "base-compat",
+            "version-range": ">=0.10.5 && <0.14",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "cookie",
+            "version-range": ">=0.4.3 && <0.5",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "hashable",
+            "version-range": ">=1.2.7.0 && <1.5",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "http-types",
+            "version-range": ">=0.12.3 && <0.13",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "tagged",
+            "version-range": ">=0.8.5 && <0.9",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "time-compat",
+            "version-range": ">=1.9.5 && <1.10",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "unordered-containers",
+            "version-range": ">=0.2.10.0 && <0.3",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "uuid-types",
+            "version-range": ">=1.0.3 && <1.1",
             "library": [
               {}
             ]
@@ -381,56 +308,105 @@
     "condTreeConstraints": [
       {
         "package-name": "base",
-        "version-range": ">=4.12 && <4.18",
+        "version-range": ">=4.9 && <4.19",
         "library": [
           {}
         ]
       },
       {
         "package-name": "bytestring",
-        "version-range": ">=0.10 && <0.12",
+        "version-range": ">=0.10.8.1 && <0.12",
         "library": [
           {}
         ]
       },
       {
         "package-name": "containers",
-        "version-range": ">=0.6 && <0.7",
-        "library": [
-          {}
-        ]
-      },
-      {
-        "package-name": "generics-sop",
-        "version-range": ">=0.5 && <0.6",
-        "library": [
-          {}
-        ]
-      },
-      {
-        "package-name": "sop-core",
-        "version-range": ">=0.5 && <0.6",
+        "version-range": ">=0.5.7.1 && <0.7",
         "library": [
           {}
         ]
       },
       {
         "package-name": "text",
-        "version-range": ">=1.2 && <2.1",
+        "version-range": ">=1.2.3.0 && <1.3 || >=2.0 && <2.1",
         "library": [
           {}
         ]
       },
       {
-        "package-name": "vector",
-        "version-range": ">=0.13 && <0.14",
+        "package-name": "transformers",
+        "version-range": ">=0.5.2.0 && <0.7",
         "library": [
           {}
         ]
       },
       {
-        "package-name": "wide-word",
-        "version-range": ">=0.1 && <0.2",
+        "package-name": "attoparsec",
+        "version-range": ">=0.13.2.2 && <0.15",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "attoparsec-iso8601",
+        "version-range": ">=1.1.0.0 && <1.2",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "base-compat",
+        "version-range": ">=0.10.5 && <0.14",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "cookie",
+        "version-range": ">=0.4.3 && <0.5",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "hashable",
+        "version-range": ">=1.2.7.0 && <1.5",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "http-types",
+        "version-range": ">=0.12.3 && <0.13",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "tagged",
+        "version-range": ">=0.8.5 && <0.9",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "time-compat",
+        "version-range": ">=1.9.5 && <1.10",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "unordered-containers",
+        "version-range": ">=0.2.10.0 && <0.3",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "uuid-types",
+        "version-range": ">=1.0.3 && <1.1",
         "library": [
           {}
         ]
@@ -440,8 +416,7 @@
       {
         "condBranchCondition": {
           "variable": {
-            "compiler": "GHC",
-            "version": ">=8.10"
+            "flag": "use-text-show"
           }
         },
         "condBranchIfTrue": {
@@ -456,7 +431,9 @@
               "buildable": true,
               "buildTools": [],
               "buildToolDepends": [],
-              "cppOptions": [],
+              "cppOptions": [
+                "-DUSE_TEXT_SHOW"
+              ],
               "asmOptions": [],
               "cmmOptions": [],
               "ccOptions": [],
@@ -490,9 +467,7 @@
               "autogenIncludes": [],
               "installIncludes": [],
               "options": [
-                [
-                  "-Wunused-packages"
-                ],
+                [],
                 []
               ],
               "profOptions": [
@@ -508,18 +483,34 @@
                 []
               ],
               "customFieldsBI": [],
-              "targetBuildDepends": [],
+              "targetBuildDepends": [
+                {
+                  "package-name": "text-show",
+                  "version-range": ">=3.8.2 && <3.11",
+                  "library": [
+                    {}
+                  ]
+                }
+              ],
               "mixins": []
             }
           },
-          "condTreeConstraints": [],
+          "condTreeConstraints": [
+            {
+              "package-name": "text-show",
+              "version-range": ">=3.8.2 && <3.11",
+              "library": [
+                {}
+              ]
+            }
+          ],
           "condTreeComponents": []
         }
       }
     ]
   },
   "test-suites": {
-    "test-borsh": {
+    "spec": {
       "condTreeData": {
         "name": "",
         "interface": {
@@ -527,12 +518,18 @@
             1,
             0
           ],
-          "filepath": "Main.hs"
+          "filepath": "Spec.hs"
         },
         "build-info": {
           "buildable": true,
           "buildTools": [],
-          "buildToolDepends": [],
+          "buildToolDepends": [
+            {
+              "package-name": "hspec-discover",
+              "executable-component-name": "hspec-discover",
+              "version-range": ">=2.7.1 && <2.11"
+            }
+          ],
           "cppOptions": [],
           "asmOptions": [],
           "cmmOptions": [],
@@ -552,168 +549,26 @@
           ],
           "otherModules": [
             [
-              "Test",
-              "Codec",
-              "Borsh",
-              "ExampleType",
-              "BTree"
+              "Web",
+              "Internal",
+              "FormUrlEncodedSpec"
             ],
             [
-              "Test",
-              "Codec",
-              "Borsh",
-              "ExampleType",
-              "NTree"
+              "Web",
+              "Internal",
+              "HttpApiDataSpec"
             ],
             [
-              "Test",
-              "Codec",
-              "Borsh",
-              "ExampleType",
-              "SimpleList"
-            ],
-            [
-              "Test",
-              "Codec",
-              "Borsh",
-              "ExampleType",
-              "SimpleStructs"
-            ],
-            [
-              "Test",
-              "Codec",
-              "Borsh",
-              "Roundtrip"
-            ],
-            [
-              "Test",
-              "Codec",
-              "Borsh",
-              "Size"
-            ],
-            [
-              "Test",
-              "Codec",
-              "Borsh",
-              "Util",
-              "Length"
-            ],
-            [
-              "Test",
-              "Codec",
-              "Borsh",
-              "Util",
-              "Orphans"
-            ],
-            [
-              "Test",
-              "Codec",
-              "Borsh",
-              "Util",
-              "QuickCheck"
-            ],
-            [
-              "Test",
-              "Codec",
-              "Borsh",
-              "Util",
-              "RandomType"
-            ],
-            [
-              "Test",
-              "Codec",
-              "Borsh",
-              "Util",
-              "SOP"
+              "Web",
+              "Internal",
+              "TestInstances"
             ]
           ],
           "virtualModules": [],
           "autogenModules": [],
           "defaultLanguage": "Haskell2010",
           "otherLanguages": [],
-          "defaultExtensions": [
-            {
-              "enable-extension": "BangPatterns"
-            },
-            {
-              "enable-extension": "ConstraintKinds"
-            },
-            {
-              "enable-extension": "DataKinds"
-            },
-            {
-              "enable-extension": "DefaultSignatures"
-            },
-            {
-              "enable-extension": "DeriveAnyClass"
-            },
-            {
-              "enable-extension": "DeriveFunctor"
-            },
-            {
-              "enable-extension": "DeriveGeneric"
-            },
-            {
-              "enable-extension": "DeriveTraversable"
-            },
-            {
-              "enable-extension": "DerivingStrategies"
-            },
-            {
-              "enable-extension": "DerivingVia"
-            },
-            {
-              "enable-extension": "FlexibleContexts"
-            },
-            {
-              "enable-extension": "FlexibleInstances"
-            },
-            {
-              "enable-extension": "GADTs"
-            },
-            {
-              "enable-extension": "GeneralizedNewtypeDeriving"
-            },
-            {
-              "enable-extension": "InstanceSigs"
-            },
-            {
-              "enable-extension": "KindSignatures"
-            },
-            {
-              "enable-extension": "LambdaCase"
-            },
-            {
-              "enable-extension": "MultiParamTypeClasses"
-            },
-            {
-              "enable-extension": "NumericUnderscores"
-            },
-            {
-              "enable-extension": "RankNTypes"
-            },
-            {
-              "enable-extension": "ScopedTypeVariables"
-            },
-            {
-              "enable-extension": "StandaloneDeriving"
-            },
-            {
-              "enable-extension": "TupleSections"
-            },
-            {
-              "enable-extension": "TypeApplications"
-            },
-            {
-              "enable-extension": "TypeFamilies"
-            },
-            {
-              "enable-extension": "TypeOperators"
-            },
-            {
-              "enable-extension": "UndecidableInstances"
-            }
-          ],
+          "defaultExtensions": [],
           "otherExtensions": [],
           "oldExtensions": [],
           "extraLibs": [],
@@ -728,8 +583,7 @@
           "installIncludes": [],
           "options": [
             [
-              "-Wall",
-              "-Wredundant-constraints"
+              "-Wall"
             ],
             []
           ],
@@ -749,13 +603,13 @@
           "targetBuildDepends": [
             {
               "package-name": "base",
-              "version-range": ">=4.12 && <4.18",
+              "version-range": "-any",
               "library": [
                 {}
               ]
             },
             {
-              "package-name": "borsh",
+              "package-name": "base-compat",
               "version-range": "-any",
               "library": [
                 {}
@@ -769,63 +623,14 @@
               ]
             },
             {
-              "package-name": "containers",
+              "package-name": "cookie",
               "version-range": "-any",
               "library": [
                 {}
               ]
             },
             {
-              "package-name": "generics-sop",
-              "version-range": "-any",
-              "library": [
-                {}
-              ]
-            },
-            {
-              "package-name": "optics-core",
-              "version-range": "-any",
-              "library": [
-                {}
-              ]
-            },
-            {
-              "package-name": "profunctors",
-              "version-range": "-any",
-              "library": [
-                {}
-              ]
-            },
-            {
-              "package-name": "QuickCheck",
-              "version-range": "-any",
-              "library": [
-                {}
-              ]
-            },
-            {
-              "package-name": "quickcheck-instances",
-              "version-range": "-any",
-              "library": [
-                {}
-              ]
-            },
-            {
-              "package-name": "sop-core",
-              "version-range": "-any",
-              "library": [
-                {}
-              ]
-            },
-            {
-              "package-name": "tasty",
-              "version-range": "-any",
-              "library": [
-                {}
-              ]
-            },
-            {
-              "package-name": "tasty-quickcheck",
+              "package-name": "http-api-data",
               "version-range": "-any",
               "library": [
                 {}
@@ -839,8 +644,50 @@
               ]
             },
             {
-              "package-name": "wide-word",
+              "package-name": "time-compat",
               "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "unordered-containers",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "uuid-types",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "HUnit",
+              "version-range": ">=1.6.0.0 && <1.7",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "hspec",
+              "version-range": ">=2.7.1 && <2.11",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "QuickCheck",
+              "version-range": ">=2.13.1 && <2.15",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "quickcheck-instances",
+              "version-range": ">=0.3.25.2 && <0.4",
               "library": [
                 {}
               ]
@@ -852,13 +699,13 @@
       "condTreeConstraints": [
         {
           "package-name": "base",
-          "version-range": ">=4.12 && <4.18",
+          "version-range": "-any",
           "library": [
             {}
           ]
         },
         {
-          "package-name": "borsh",
+          "package-name": "base-compat",
           "version-range": "-any",
           "library": [
             {}
@@ -872,63 +719,14 @@
           ]
         },
         {
-          "package-name": "containers",
+          "package-name": "cookie",
           "version-range": "-any",
           "library": [
             {}
           ]
         },
         {
-          "package-name": "generics-sop",
-          "version-range": "-any",
-          "library": [
-            {}
-          ]
-        },
-        {
-          "package-name": "optics-core",
-          "version-range": "-any",
-          "library": [
-            {}
-          ]
-        },
-        {
-          "package-name": "profunctors",
-          "version-range": "-any",
-          "library": [
-            {}
-          ]
-        },
-        {
-          "package-name": "QuickCheck",
-          "version-range": "-any",
-          "library": [
-            {}
-          ]
-        },
-        {
-          "package-name": "quickcheck-instances",
-          "version-range": "-any",
-          "library": [
-            {}
-          ]
-        },
-        {
-          "package-name": "sop-core",
-          "version-range": "-any",
-          "library": [
-            {}
-          ]
-        },
-        {
-          "package-name": "tasty",
-          "version-range": "-any",
-          "library": [
-            {}
-          ]
-        },
-        {
-          "package-name": "tasty-quickcheck",
+          "package-name": "http-api-data",
           "version-range": "-any",
           "library": [
             {}
@@ -942,8 +740,50 @@
           ]
         },
         {
-          "package-name": "wide-word",
+          "package-name": "time-compat",
           "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "unordered-containers",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "uuid-types",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "HUnit",
+          "version-range": ">=1.6.0.0 && <1.7",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "hspec",
+          "version-range": ">=2.7.1 && <2.11",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "QuickCheck",
+          "version-range": ">=2.13.1 && <2.15",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "quickcheck-instances",
+          "version-range": ">=0.3.25.2 && <0.4",
           "library": [
             {}
           ]
@@ -952,9 +792,11 @@
       "condTreeComponents": [
         {
           "condBranchCondition": {
-            "variable": {
-              "compiler": "GHC",
-              "version": ">=8.10"
+            "cond_not": {
+              "variable": {
+                "compiler": "GHC",
+                "version": ">=7.10"
+              }
             }
           },
           "condBranchIfTrue": {
@@ -1004,9 +846,7 @@
                 "autogenIncludes": [],
                 "installIncludes": [],
                 "options": [
-                  [
-                    "-Wunused-packages"
-                  ],
+                  [],
                   []
                 ],
                 "profOptions": [
@@ -1022,11 +862,27 @@
                   []
                 ],
                 "customFieldsBI": [],
-                "targetBuildDepends": [],
+                "targetBuildDepends": [
+                  {
+                    "package-name": "nats",
+                    "version-range": "-any",
+                    "library": [
+                      {}
+                    ]
+                  }
+                ],
                 "mixins": []
               }
             },
-            "condTreeConstraints": [],
+            "condTreeConstraints": [
+              {
+                "package-name": "nats",
+                "version-range": "-any",
+                "library": [
+                  {}
+                ]
+              }
+            ],
             "condTreeComponents": []
           }
         }
