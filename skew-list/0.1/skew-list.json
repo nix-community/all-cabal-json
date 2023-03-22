@@ -33,7 +33,7 @@
     "tested-with": [
       {
         "compiler": "GHC",
-        "versionRange": "==8.6.5 || ==8.8.4 || ==8.10.7 || ==9.0.2 || ==9.2.5 || ==9.4.4"
+        "versionRange": "==8.6.5 || ==8.8.4 || ==8.10.7 || ==9.0.2 || ==9.2.7 || ==9.4.4 || ==9.6.1"
       }
     ],
     "homepage": "https://github.com/phadej/skew-list",
@@ -53,7 +53,12 @@
     "synopsis": "Random access lists: skew binary",
     "description": "This package provides ordinary random access list, 'SkewList'\nimplemented using skew binary approach.\n\nIt's worth comparing to ordinary lists, binary random access list (as in @ral@ package) and vectors (@vector@ package)\nacross two operations: indexing and consing.\n\n+------------------------------+------------+----------+\n|                              | Consing    | Indexing |\n+------------------------------+------------+----------+\n| Ordinary list, @[a]@         | O(1)       | O(n)     |\n+------------------------------+------------+----------+\n| Binary list, @RAList a@      | O(log n)   | O(log n) |\n+------------------------------+------------+----------+\n| Vector, @Vector@             | O(n)       | O(1)     |\n+------------------------------+------------+----------+\n| Sequence, @Seq@              | O(1)       | O(log n) |\n+------------------------------+------------+----------+\n| Skew binary list, @SkewList@ | O(1)       | O(log n) |\n+------------------------------+------------+----------+\n\n@SkewList@ improves upon ordinary list, the cons operation is still\nconstant time (though with higher constant factor), but indexing\ncan be done in a logarithmic time.\n\nBinary list cons is slower, as it might need to walk over whole\n/log n/ sized structure.\n\n@Vector@ is the other end of trade-off spectrum: indexing is constant time\noperation, but consing a new element will need to copy whole spine.\n\n@Seq@ from \"Data.Sequence\" has similar (but amortized) complexity bounds for\ncons and index as @SkewList@.  However (it seems) that indexing is quicker for\n@SkewList@ in practice. Also @SkewList@ has strict spine.\nOn the other hand, @Seq@ has quick append if you need that.\n\nIf you need both: fast consing and index, consider using @SkewList@.",
     "category": "Data",
-    "custom-fields": [],
+    "custom-fields": [
+      [
+        "x-revision",
+        "1"
+      ]
+    ],
     "build-type-raw": "Simple",
     "custom-setup": null,
     "library": null,
@@ -167,7 +172,7 @@
         "targetBuildDepends": [
           {
             "package-name": "base",
-            "version-range": ">=4.12.0.0 && <4.18",
+            "version-range": ">=4.12.0.0 && <4.19",
             "library": [
               {}
             ]
@@ -202,7 +207,7 @@
           },
           {
             "package-name": "strict",
-            "version-range": "^>=0.4.0.1",
+            "version-range": "^>=0.4.0.1 || ^>=0.5",
             "library": [
               {}
             ]
@@ -214,7 +219,7 @@
     "condTreeConstraints": [
       {
         "package-name": "base",
-        "version-range": ">=4.12.0.0 && <4.18",
+        "version-range": ">=4.12.0.0 && <4.19",
         "library": [
           {}
         ]
@@ -249,7 +254,7 @@
       },
       {
         "package-name": "strict",
-        "version-range": "^>=0.4.0.1",
+        "version-range": "^>=0.4.0.1 || ^>=0.5",
         "library": [
           {}
         ]
