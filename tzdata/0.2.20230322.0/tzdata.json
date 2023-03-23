@@ -1,52 +1,47 @@
 {
   "description": {
     "spec-version": {
-      "Left": [
-        2,
-        2
-      ]
+      "Right": ">=1.10"
     },
     "package": {
-      "name": "array-builder",
+      "name": "tzdata",
       "version": [
         0,
-        1,
         2,
+        20230322,
         0
       ]
     },
     "license": {
-      "Left": {
-        "license-expression": {
-          "expression": {
-            "id": "BSD_3_Clause"
-          },
-          "exception-id": null
-        }
-      }
+      "Right": "OtherLicense"
     },
     "license-files": [
       "LICENSE"
     ],
-    "copyright": "2019 Andrew Martin",
-    "maintainer": "andrew.thaddeus@gmail.com",
-    "author": "Andrew Martin",
-    "stability": "",
+    "copyright": "",
+    "maintainer": "Janus Troelsen <ysangkok@gmail.com>",
+    "author": "Mihaly Barasz, Gergely Risko",
+    "stability": "experimental",
     "tested-with": [],
-    "homepage": "https://github.com/andrewthad/array-builder",
+    "homepage": "https://github.com/ysangkok/haskell-tzdata",
     "pkg-url": "",
-    "bug-reports": "https://github.com/andrewthad/array-builder/issues",
-    "source-repos": [],
-    "synopsis": "Builders for arrays",
-    "description": "",
-    "category": "Data",
-    "custom-fields": [
-      [
-        "x-revision",
-        "1"
-      ]
+    "bug-reports": "https://github.com/ysangkok/haskell-tzdata/issues",
+    "source-repos": [
+      {
+        "kind": {},
+        "type": "Git",
+        "location": "https://github.com/ysangkok/haskell-tzdata.git",
+        "module": null,
+        "branch": null,
+        "tag": null,
+        "subdir": null
+      }
     ],
-    "build-type-raw": null,
+    "synopsis": "Time zone database (as files and as a module)",
+    "description": "The goal of this package is to distribute the standard Time Zone\nDatabase in a cabal package, so that it can be used in Haskell\nprograms uniformly on all platforms.\n\nThis package currently ships the @2023a@ version of the time zone\ndatabase.  The version of the time zone database shipped is always\nreflected in the version of this package: @x.y.YYYYMMDD.z@, then\n@YYYYMMDD@ is the official release date of time zone database.\n\nThis version contains the \"fat\" variant of the time zone files (which is not\nthe default for the upstream since @2020b@) to facilitate the transition. The\nnext major version (@0.3@) will ship the \"slim\" variant.\n\nSee: <http://www.iana.org/time-zones> for more info about the time\nzone database.\n\nSee also the @tz@ package <http://hackage.haskell.org/package/tz> or\nthe @timezone-olson@ and @timezone-series@ packages that provide\nfacilities to /use/ the data shipped here. (The @tz@ package\nautomatically installs this package.)",
+    "category": "Data",
+    "custom-fields": [],
+    "build-type-raw": "Simple",
     "custom-setup": null,
     "library": null,
     "sublibraries": [],
@@ -54,10 +49,34 @@
     "foreign-libs": [],
     "test-suites": [],
     "benchmarks": [],
-    "data-files": [],
-    "data-dir": ".",
+    "data-files": [
+      "*.tab",
+      "*.zone",
+      "Chile/*.zone",
+      "Etc/*.zone",
+      "Canada/*.zone",
+      "Indian/*.zone",
+      "Africa/*.zone",
+      "Asia/*.zone",
+      "Antarctica/*.zone",
+      "Europe/*.zone",
+      "America/*.zone",
+      "America/Kentucky/*.zone",
+      "America/North_Dakota/*.zone",
+      "America/Argentina/*.zone",
+      "America/Indiana/*.zone",
+      "Mexico/*.zone",
+      "Brazil/*.zone",
+      "Atlantic/*.zone",
+      "Arctic/*.zone",
+      "Australia/*.zone",
+      "Pacific/*.zone",
+      "US/*.zone"
+    ],
+    "data-dir": "tzdata",
     "extra-source-files": [
-      "CHANGELOG.md"
+      "README.md",
+      "Data/Time/Zones/DB.hs.template"
     ],
     "extra-tmp-files": [],
     "extra-doc-files": []
@@ -68,29 +87,15 @@
       "exposed-modules": [
         [
           "Data",
-          "Builder"
+          "Time",
+          "Zones",
+          "DB"
         ],
         [
           "Data",
-          "Builder",
-          "Catenable"
-        ],
-        [
-          "Data",
-          "Builder",
-          "Catenable",
-          "Bytes"
-        ],
-        [
-          "Data",
-          "Builder",
-          "Catenable",
-          "Text"
-        ],
-        [
-          "Data",
-          "Builder",
-          "ST"
+          "Time",
+          "Zones",
+          "Files"
         ]
       ],
       "re-exported-modules": [],
@@ -115,12 +120,10 @@
         "cSources": [],
         "cxxSources": [],
         "jsSources": [],
-        "hsSourceDirs": [
-          "src"
-        ],
+        "hsSourceDirs": [],
         "otherModules": [
           [
-            "Compat"
+            "Paths_tzdata"
           ]
         ],
         "virtualModules": [],
@@ -128,7 +131,11 @@
         "defaultLanguage": "Haskell2010",
         "otherLanguages": [],
         "defaultExtensions": [],
-        "otherExtensions": [],
+        "otherExtensions": [
+          {
+            "enable-extension": "LambdaCase"
+          }
+        ],
         "oldExtensions": [],
         "extraLibs": [],
         "extraGHCiLibs": [],
@@ -142,8 +149,7 @@
         "installIncludes": [],
         "options": [
           [
-            "-Wall",
-            "-O2"
+            "-Wall"
           ],
           []
         ],
@@ -162,50 +168,36 @@
         "customFieldsBI": [],
         "targetBuildDepends": [
           {
-            "package-name": "array-chunks",
-            "version-range": ">=0.1 && <0.2",
-            "library": [
-              {}
-            ]
-          },
-          {
             "package-name": "base",
-            "version-range": ">=4.12 && <5",
+            "version-range": ">=4 && <5",
             "library": [
               {}
             ]
           },
           {
-            "package-name": "bytebuild",
-            "version-range": ">=0.3.5",
+            "package-name": "bytestring",
+            "version-range": ">=0.9 && <0.12",
             "library": [
               {}
             ]
           },
           {
-            "package-name": "byteslice",
-            "version-range": ">=0.2.7",
+            "package-name": "containers",
+            "version-range": ">=0.5 && <0.7",
             "library": [
               {}
             ]
           },
           {
-            "package-name": "primitive",
-            "version-range": ">=0.6.4 && <0.10",
+            "package-name": "deepseq",
+            "version-range": ">=1.1 && <1.5",
             "library": [
               {}
             ]
           },
           {
-            "package-name": "run-st",
-            "version-range": ">=0.1 && <0.2",
-            "library": [
-              {}
-            ]
-          },
-          {
-            "package-name": "text-short",
-            "version-range": ">=0.1.3",
+            "package-name": "vector",
+            "version-range": ">=0.9 && <0.14",
             "library": [
               {}
             ]
@@ -216,50 +208,36 @@
     },
     "condTreeConstraints": [
       {
-        "package-name": "array-chunks",
-        "version-range": ">=0.1 && <0.2",
-        "library": [
-          {}
-        ]
-      },
-      {
         "package-name": "base",
-        "version-range": ">=4.12 && <5",
+        "version-range": ">=4 && <5",
         "library": [
           {}
         ]
       },
       {
-        "package-name": "bytebuild",
-        "version-range": ">=0.3.5",
+        "package-name": "bytestring",
+        "version-range": ">=0.9 && <0.12",
         "library": [
           {}
         ]
       },
       {
-        "package-name": "byteslice",
-        "version-range": ">=0.2.7",
+        "package-name": "containers",
+        "version-range": ">=0.5 && <0.7",
         "library": [
           {}
         ]
       },
       {
-        "package-name": "primitive",
-        "version-range": ">=0.6.4 && <0.10",
+        "package-name": "deepseq",
+        "version-range": ">=1.1 && <1.5",
         "library": [
           {}
         ]
       },
       {
-        "package-name": "run-st",
-        "version-range": ">=0.1 && <0.2",
-        "library": [
-          {}
-        ]
-      },
-      {
-        "package-name": "text-short",
-        "version-range": ">=0.1.3",
+        "package-name": "vector",
+        "version-range": ">=0.9 && <0.14",
         "library": [
           {}
         ]
@@ -268,9 +246,11 @@
     "condTreeComponents": [
       {
         "condBranchCondition": {
-          "variable": {
-            "compiler": "GHC",
-            "version": ">=8.9"
+          "cond_not": {
+            "variable": {
+              "compiler": "GHC",
+              "version": ">=7.8"
+            }
           }
         },
         "condBranchIfTrue": {
@@ -299,9 +279,7 @@
               "cSources": [],
               "cxxSources": [],
               "jsSources": [],
-              "hsSourceDirs": [
-                "src-post-8.9"
-              ],
+              "hsSourceDirs": [],
               "otherModules": [],
               "virtualModules": [],
               "autogenModules": [],
@@ -337,89 +315,34 @@
                 []
               ],
               "customFieldsBI": [],
-              "targetBuildDepends": [],
+              "targetBuildDepends": [
+                {
+                  "package-name": "tagged",
+                  "version-range": ">=0.8.6 && <0.9",
+                  "library": [
+                    {}
+                  ]
+                }
+              ],
               "mixins": []
             }
           },
-          "condTreeConstraints": [],
-          "condTreeComponents": []
-        },
-        "condBranchIfFalse": {
-          "condTreeData": {
-            "name": {},
-            "exposed-modules": [],
-            "re-exported-modules": [],
-            "signatures": [],
-            "exposed": true,
-            "visibility": "LibraryVisibilityPublic",
-            "build-info": {
-              "buildable": true,
-              "buildTools": [],
-              "buildToolDepends": [],
-              "cppOptions": [],
-              "asmOptions": [],
-              "cmmOptions": [],
-              "ccOptions": [],
-              "cxxOptions": [],
-              "ldOptions": [],
-              "pkgconfigDepends": [],
-              "frameworks": [],
-              "extraFrameworkDirs": [],
-              "asmSources": [],
-              "cmmSources": [],
-              "cSources": [],
-              "cxxSources": [],
-              "jsSources": [],
-              "hsSourceDirs": [
-                "src-pre-8.9"
-              ],
-              "otherModules": [],
-              "virtualModules": [],
-              "autogenModules": [],
-              "defaultLanguage": null,
-              "otherLanguages": [],
-              "defaultExtensions": [],
-              "otherExtensions": [],
-              "oldExtensions": [],
-              "extraLibs": [],
-              "extraGHCiLibs": [],
-              "extraBundledLibs": [],
-              "extraLibFlavours": [],
-              "extraDynLibFlavours": [],
-              "extraLibDirs": [],
-              "includeDirs": [],
-              "includes": [],
-              "autogenIncludes": [],
-              "installIncludes": [],
-              "options": [
-                [],
-                []
-              ],
-              "profOptions": [
-                [],
-                []
-              ],
-              "sharedOptions": [
-                [],
-                []
-              ],
-              "staticOptions": [
-                [],
-                []
-              ],
-              "customFieldsBI": [],
-              "targetBuildDepends": [],
-              "mixins": []
+          "condTreeConstraints": [
+            {
+              "package-name": "tagged",
+              "version-range": ">=0.8.6 && <0.9",
+              "library": [
+                {}
+              ]
             }
-          },
-          "condTreeConstraints": [],
+          ],
           "condTreeComponents": []
         }
       }
     ]
   },
   "test-suites": {
-    "test": {
+    "test-db": {
       "condTreeData": {
         "name": "",
         "interface": {
@@ -427,7 +350,7 @@
             1,
             0
           ],
-          "filepath": "Main.hs"
+          "filepath": "testDB.hs"
         },
         "build-info": {
           "buildable": true,
@@ -448,7 +371,7 @@
           "cxxSources": [],
           "jsSources": [],
           "hsSourceDirs": [
-            "test"
+            "tests"
           ],
           "otherModules": [],
           "virtualModules": [],
@@ -470,8 +393,7 @@
           "installIncludes": [],
           "options": [
             [
-              "-Wall",
-              "-O2"
+              "-Wall"
             ],
             []
           ],
@@ -490,7 +412,7 @@
           "customFieldsBI": [],
           "targetBuildDepends": [
             {
-              "package-name": "array-builder",
+              "package-name": "tzdata",
               "version-range": "-any",
               "library": [
                 {}
@@ -498,7 +420,21 @@
             },
             {
               "package-name": "base",
-              "version-range": "-any",
+              "version-range": ">=4 && <5",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "bytestring",
+              "version-range": ">=0.9 && <0.12",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "HUnit",
+              "version-range": ">=1.2 && <1.7",
               "library": [
                 {}
               ]
@@ -516,6 +452,20 @@
               "library": [
                 {}
               ]
+            },
+            {
+              "package-name": "tasty-th",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "unix",
+              "version-range": ">=2.6 && <3",
+              "library": [
+                {}
+              ]
             }
           ],
           "mixins": []
@@ -523,7 +473,7 @@
       },
       "condTreeConstraints": [
         {
-          "package-name": "array-builder",
+          "package-name": "tzdata",
           "version-range": "-any",
           "library": [
             {}
@@ -531,7 +481,21 @@
         },
         {
           "package-name": "base",
-          "version-range": "-any",
+          "version-range": ">=4 && <5",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "bytestring",
+          "version-range": ">=0.9 && <0.12",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "HUnit",
+          "version-range": ">=1.2 && <1.7",
           "library": [
             {}
           ]
@@ -546,6 +510,20 @@
         {
           "package-name": "tasty-hunit",
           "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "tasty-th",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "unix",
+          "version-range": ">=2.6 && <3",
           "library": [
             {}
           ]
