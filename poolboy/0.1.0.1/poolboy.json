@@ -2,15 +2,16 @@
   "description": {
     "spec-version": {
       "Left": [
-        2,
-        2
+        3,
+        0
       ]
     },
     "package": {
-      "name": "optics-th",
+      "name": "poolboy",
       "version": [
         0,
-        4,
+        1,
+        0,
         1
       ]
     },
@@ -18,7 +19,7 @@
       "Left": {
         "license-expression": {
           "expression": {
-            "id": "BSD_3_Clause"
+            "id": "ISC"
           },
           "exception-id": null
         }
@@ -28,42 +29,23 @@
       "LICENSE"
     ],
     "copyright": "",
-    "maintainer": "optics@well-typed.com",
-    "author": "Andrzej Rybczak",
+    "maintainer": "gautier.difolco@gmail.com",
+    "author": "Gautier DI FOLCO",
     "stability": "",
     "tested-with": [
       {
         "compiler": "GHC",
-        "versionRange": "==8.2.2 || ==8.4.4 || ==8.6.5 || ==8.8.4 || ==8.10.7 || ==9.0.2 || ==9.2.2"
-      },
-      {
-        "compiler": "GHCJS",
-        "versionRange": "==8.4"
+        "versionRange": "==9.2.4"
       }
     ],
-    "homepage": "",
+    "homepage": "https://github.com/blackheaven/poolboy",
     "pkg-url": "",
-    "bug-reports": "https://github.com/well-typed/optics/issues",
-    "source-repos": [
-      {
-        "kind": {},
-        "type": "Git",
-        "location": "https://github.com/well-typed/optics.git",
-        "module": null,
-        "branch": null,
-        "tag": null,
-        "subdir": "optics-th"
-      }
-    ],
-    "synopsis": "Optics construction using TemplateHaskell",
-    "description": "This package is part of the @<https://hackage.haskell.org/package/optics optics>@\npackage family.  It provides machinery to construct optics using @TemplateHaskell@.\n\nSee the @template-haskell-optics@ package for optics to work with @template-haskell@ types.",
-    "category": "Data, Optics, Lenses",
-    "custom-fields": [
-      [
-        "x-revision",
-        "4"
-      ]
-    ],
+    "bug-reports": "",
+    "source-repos": [],
+    "synopsis": "Simple work queue for bounded concurrency",
+    "description": "In-memory work queue helping with load management.",
+    "category": "Data",
+    "custom-fields": [],
     "build-type-raw": "Simple",
     "custom-setup": null,
     "library": null,
@@ -76,35 +58,15 @@
     "data-dir": ".",
     "extra-source-files": [],
     "extra-tmp-files": [],
-    "extra-doc-files": [
-      "CHANGELOG.md"
-    ]
+    "extra-doc-files": []
   },
   "library": {
     "condTreeData": {
       "name": {},
       "exposed-modules": [
         [
-          "Optics",
-          "TH"
-        ],
-        [
-          "Optics",
-          "TH",
-          "Internal",
-          "Utils"
-        ],
-        [
-          "Optics",
-          "TH",
-          "Internal",
-          "Product"
-        ],
-        [
-          "Optics",
-          "TH",
-          "Internal",
-          "Sum"
+          "Data",
+          "Poolboy"
         ]
       ],
       "re-exported-modules": [],
@@ -134,50 +96,41 @@
         ],
         "otherModules": [
           [
-            "Language",
-            "Haskell",
-            "TH",
-            "Optics",
-            "Internal"
+            "Paths_poolboy"
           ]
         ],
         "virtualModules": [],
-        "autogenModules": [],
+        "autogenModules": [
+          [
+            "Paths_poolboy"
+          ]
+        ],
         "defaultLanguage": "Haskell2010",
         "otherLanguages": [],
         "defaultExtensions": [
           {
-            "enable-extension": "BangPatterns"
-          },
-          {
-            "enable-extension": "ConstraintKinds"
+            "enable-extension": "DataKinds"
           },
           {
             "enable-extension": "DefaultSignatures"
           },
           {
-            "enable-extension": "DeriveFoldable"
-          },
-          {
-            "enable-extension": "DeriveFunctor"
+            "enable-extension": "DeriveAnyClass"
           },
           {
             "enable-extension": "DeriveGeneric"
           },
           {
-            "enable-extension": "DeriveTraversable"
+            "enable-extension": "DerivingStrategies"
           },
           {
-            "enable-extension": "EmptyCase"
+            "enable-extension": "DerivingVia"
+          },
+          {
+            "enable-extension": "DuplicateRecordFields"
           },
           {
             "enable-extension": "FlexibleContexts"
-          },
-          {
-            "enable-extension": "FlexibleInstances"
-          },
-          {
-            "enable-extension": "FunctionalDependencies"
           },
           {
             "enable-extension": "GADTs"
@@ -186,28 +139,25 @@
             "enable-extension": "GeneralizedNewtypeDeriving"
           },
           {
-            "enable-extension": "InstanceSigs"
-          },
-          {
             "enable-extension": "KindSignatures"
           },
           {
             "enable-extension": "LambdaCase"
           },
           {
-            "enable-extension": "OverloadedLabels"
+            "enable-extension": "OverloadedStrings"
           },
           {
-            "enable-extension": "PatternSynonyms"
+            "unknown-extension": "OverloadedRecordDot"
           },
           {
             "enable-extension": "RankNTypes"
           },
           {
-            "enable-extension": "ScopedTypeVariables"
+            "enable-extension": "RecordWildCards"
           },
           {
-            "enable-extension": "TupleSections"
+            "enable-extension": "ScopedTypeVariables"
           },
           {
             "enable-extension": "TypeApplications"
@@ -217,9 +167,6 @@
           },
           {
             "enable-extension": "TypeOperators"
-          },
-          {
-            "enable-extension": "ViewPatterns"
           }
         ],
         "otherExtensions": [],
@@ -237,7 +184,12 @@
         "options": [
           [
             "-Wall",
-            "-Wcompat"
+            "-Wcompat",
+            "-Widentities",
+            "-Wincomplete-record-updates",
+            "-Wincomplete-uni-patterns",
+            "-Wpartial-fields",
+            "-Wredundant-constraints"
           ],
           []
         ],
@@ -257,49 +209,21 @@
         "targetBuildDepends": [
           {
             "package-name": "base",
-            "version-range": ">=4.10 && <5",
+            "version-range": "==4.*",
             "library": [
               {}
             ]
           },
           {
-            "package-name": "containers",
-            "version-range": ">=0.5.10.2 && <0.7",
+            "package-name": "safe-exceptions",
+            "version-range": "==0.1.*",
             "library": [
               {}
             ]
           },
           {
-            "package-name": "mtl",
-            "version-range": ">=2.2.2 && <2.4",
-            "library": [
-              {}
-            ]
-          },
-          {
-            "package-name": "optics-core",
-            "version-range": ">=0.4.1 && <0.5",
-            "library": [
-              {}
-            ]
-          },
-          {
-            "package-name": "template-haskell",
-            "version-range": ">=2.12 && <2.21",
-            "library": [
-              {}
-            ]
-          },
-          {
-            "package-name": "th-abstraction",
-            "version-range": ">=0.4 && <0.6",
-            "library": [
-              {}
-            ]
-          },
-          {
-            "package-name": "transformers",
-            "version-range": ">=0.5 && <0.7",
+            "package-name": "stm",
+            "version-range": "==2.*",
             "library": [
               {}
             ]
@@ -311,49 +235,21 @@
     "condTreeConstraints": [
       {
         "package-name": "base",
-        "version-range": ">=4.10 && <5",
+        "version-range": "==4.*",
         "library": [
           {}
         ]
       },
       {
-        "package-name": "containers",
-        "version-range": ">=0.5.10.2 && <0.7",
+        "package-name": "safe-exceptions",
+        "version-range": "==0.1.*",
         "library": [
           {}
         ]
       },
       {
-        "package-name": "mtl",
-        "version-range": ">=2.2.2 && <2.4",
-        "library": [
-          {}
-        ]
-      },
-      {
-        "package-name": "optics-core",
-        "version-range": ">=0.4.1 && <0.5",
-        "library": [
-          {}
-        ]
-      },
-      {
-        "package-name": "template-haskell",
-        "version-range": ">=2.12 && <2.21",
-        "library": [
-          {}
-        ]
-      },
-      {
-        "package-name": "th-abstraction",
-        "version-range": ">=0.4 && <0.6",
-        "library": [
-          {}
-        ]
-      },
-      {
-        "package-name": "transformers",
-        "version-range": ">=0.5 && <0.7",
+        "package-name": "stm",
+        "version-range": "==2.*",
         "library": [
           {}
         ]
@@ -362,7 +258,7 @@
     "condTreeComponents": []
   },
   "test-suites": {
-    "optics-th-tests": {
+    "poolboy-test": {
       "condTreeData": {
         "name": "",
         "interface": {
@@ -370,7 +266,7 @@
             1,
             0
           ],
-          "filepath": "Optics/TH/Tests.hs"
+          "filepath": "Spec.hs"
         },
         "build-info": {
           "buildable": true,
@@ -391,59 +287,45 @@
           "cxxSources": [],
           "jsSources": [],
           "hsSourceDirs": [
-            "tests"
+            "test"
           ],
           "otherModules": [
             [
-              "Optics",
-              "TH",
-              "Tests",
-              "DuplicateRecordFields"
-            ],
-            [
-              "Optics",
-              "TH",
-              "Tests",
-              "T799"
+              "Paths_poolboy"
             ]
           ],
           "virtualModules": [],
-          "autogenModules": [],
+          "autogenModules": [
+            [
+              "Paths_poolboy"
+            ]
+          ],
           "defaultLanguage": "Haskell2010",
           "otherLanguages": [],
           "defaultExtensions": [
             {
-              "enable-extension": "BangPatterns"
-            },
-            {
-              "enable-extension": "ConstraintKinds"
+              "enable-extension": "DataKinds"
             },
             {
               "enable-extension": "DefaultSignatures"
             },
             {
-              "enable-extension": "DeriveFoldable"
-            },
-            {
-              "enable-extension": "DeriveFunctor"
+              "enable-extension": "DeriveAnyClass"
             },
             {
               "enable-extension": "DeriveGeneric"
             },
             {
-              "enable-extension": "DeriveTraversable"
+              "enable-extension": "DerivingStrategies"
             },
             {
-              "enable-extension": "EmptyCase"
+              "enable-extension": "DerivingVia"
+            },
+            {
+              "enable-extension": "DuplicateRecordFields"
             },
             {
               "enable-extension": "FlexibleContexts"
-            },
-            {
-              "enable-extension": "FlexibleInstances"
-            },
-            {
-              "enable-extension": "FunctionalDependencies"
             },
             {
               "enable-extension": "GADTs"
@@ -452,28 +334,25 @@
               "enable-extension": "GeneralizedNewtypeDeriving"
             },
             {
-              "enable-extension": "InstanceSigs"
-            },
-            {
               "enable-extension": "KindSignatures"
             },
             {
               "enable-extension": "LambdaCase"
             },
             {
-              "enable-extension": "OverloadedLabels"
+              "enable-extension": "OverloadedStrings"
             },
             {
-              "enable-extension": "PatternSynonyms"
+              "unknown-extension": "OverloadedRecordDot"
             },
             {
               "enable-extension": "RankNTypes"
             },
             {
-              "enable-extension": "ScopedTypeVariables"
+              "enable-extension": "RecordWildCards"
             },
             {
-              "enable-extension": "TupleSections"
+              "enable-extension": "ScopedTypeVariables"
             },
             {
               "enable-extension": "TypeApplications"
@@ -483,9 +362,6 @@
             },
             {
               "enable-extension": "TypeOperators"
-            },
-            {
-              "enable-extension": "ViewPatterns"
             }
           ],
           "otherExtensions": [],
@@ -502,8 +378,16 @@
           "installIncludes": [],
           "options": [
             [
+              "-threaded",
+              "-rtsopts",
+              "-with-rtsopts=-N",
               "-Wall",
-              "-Wcompat"
+              "-Wcompat",
+              "-Widentities",
+              "-Wincomplete-record-updates",
+              "-Wincomplete-uni-patterns",
+              "-Wpartial-fields",
+              "-Wredundant-constraints"
             ],
             []
           ],
@@ -529,21 +413,21 @@
               ]
             },
             {
-              "package-name": "optics-core",
+              "package-name": "poolboy",
               "version-range": "-any",
               "library": [
                 {}
               ]
             },
             {
-              "package-name": "optics-th",
+              "package-name": "hspec",
               "version-range": "-any",
               "library": [
                 {}
               ]
             },
             {
-              "package-name": "tagged",
+              "package-name": "hspec-core",
               "version-range": "-any",
               "library": [
                 {}
@@ -562,21 +446,21 @@
           ]
         },
         {
-          "package-name": "optics-core",
+          "package-name": "poolboy",
           "version-range": "-any",
           "library": [
             {}
           ]
         },
         {
-          "package-name": "optics-th",
+          "package-name": "hspec",
           "version-range": "-any",
           "library": [
             {}
           ]
         },
         {
-          "package-name": "tagged",
+          "package-name": "hspec-core",
           "version-range": "-any",
           "library": [
             {}
