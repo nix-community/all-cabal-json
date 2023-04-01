@@ -7,18 +7,19 @@
       ]
     },
     "package": {
-      "name": "nothunks",
+      "name": "hls-class-plugin",
       "version": [
-        0,
         1,
-        3
+        1,
+        1,
+        1
       ]
     },
     "license": {
       "Left": {
         "license-expression": {
           "expression": {
-            "id": "MIT"
+            "id": "Apache_2_0"
           },
           "exception-id": null
         }
@@ -27,35 +28,30 @@
     "license-files": [
       "LICENSE"
     ],
-    "copyright": "2018-2021 IOHK",
-    "maintainer": "operations@iohk.io",
-    "author": "IOHK",
+    "copyright": "",
+    "maintainer": "jjc9310@gmail.com",
+    "author": "Junyoung Clare Jang",
     "stability": "",
     "tested-with": [],
-    "homepage": "",
+    "homepage": "https://github.com/haskell/haskell-language-server#readme",
     "pkg-url": "",
-    "bug-reports": "https://github.com/input-output-hk/nothunks",
+    "bug-reports": "https://github.com/haskell/haskell-language-server/issues",
     "source-repos": [
       {
         "kind": {},
         "type": "Git",
-        "location": "https://github.com/input-output-hk/nothunks",
+        "location": "https://github.com/haskell/haskell-language-server.git",
         "module": null,
         "branch": null,
         "tag": null,
         "subdir": null
       }
     ],
-    "synopsis": "Examine values for unexpected thunks",
-    "description": "Long lived application data typically should not contain\nany thunks. This library can be used to examine values for\nunexpected thunks, which can then be used in assertions.\nThis can be invaluable in avoiding memory leaks, or tracking\ndown existing ones.",
+    "synopsis": "Class/instance management plugin for Haskell Language Server",
+    "description": "Class/instance management plugin for Haskell Language Server.\nFor usage, please see README of HLS on GitHub at <https://github.com/haskell/haskell-language-server#readme>",
     "category": "Development",
-    "custom-fields": [
-      [
-        "x-revision",
-        "2"
-      ]
-    ],
-    "build-type-raw": null,
+    "custom-fields": [],
+    "build-type-raw": "Simple",
     "custom-setup": null,
     "library": null,
     "sublibraries": [],
@@ -66,37 +62,19 @@
     "data-files": [],
     "data-dir": ".",
     "extra-source-files": [
-      "CHANGELOG.md"
+      "LICENSE",
+      "test/testdata/*.hs"
     ],
     "extra-tmp-files": [],
     "extra-doc-files": []
   },
-  "package-flags": [
-    {
-      "name": "bytestring",
-      "description": "Provide instances for bytestring",
-      "default": true,
-      "manual": false
-    },
-    {
-      "name": "text",
-      "description": "Provide instances for text",
-      "default": true,
-      "manual": false
-    },
-    {
-      "name": "vector",
-      "description": "Provide instances for vector",
-      "default": true,
-      "manual": false
-    }
-  ],
   "library": {
     "condTreeData": {
       "name": {},
       "exposed-modules": [
         [
-          "NoThunks",
+          "Ide",
+          "Plugin",
           "Class"
         ]
       ],
@@ -125,12 +103,53 @@
         "hsSourceDirs": [
           "src"
         ],
-        "otherModules": [],
+        "otherModules": [
+          [
+            "Ide",
+            "Plugin",
+            "Class",
+            "CodeAction"
+          ],
+          [
+            "Ide",
+            "Plugin",
+            "Class",
+            "CodeLens"
+          ],
+          [
+            "Ide",
+            "Plugin",
+            "Class",
+            "ExactPrint"
+          ],
+          [
+            "Ide",
+            "Plugin",
+            "Class",
+            "Types"
+          ],
+          [
+            "Ide",
+            "Plugin",
+            "Class",
+            "Utils"
+          ]
+        ],
         "virtualModules": [],
         "autogenModules": [],
         "defaultLanguage": "Haskell2010",
         "otherLanguages": [],
-        "defaultExtensions": [],
+        "defaultExtensions": [
+          {
+            "enable-extension": "DataKinds"
+          },
+          {
+            "enable-extension": "TypeOperators"
+          },
+          {
+            "enable-extension": "OverloadedStrings"
+          }
+        ],
         "otherExtensions": [],
         "oldExtensions": [],
         "extraLibs": [],
@@ -145,7 +164,9 @@
         "installIncludes": [],
         "options": [
           [
-            "-Wall"
+            "-Wall",
+            "-Wno-unticked-promoted-constructors",
+            "-Wno-name-shadowing"
           ],
           []
         ],
@@ -164,35 +185,98 @@
         "customFieldsBI": [],
         "targetBuildDepends": [
           {
+            "package-name": "aeson",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
             "package-name": "base",
-            "version-range": "<0",
+            "version-range": ">=4.12 && <5",
             "library": [
               {}
             ]
           },
           {
             "package-name": "containers",
-            "version-range": ">=0.5 && <0.7",
+            "version-range": "-any",
             "library": [
               {}
             ]
           },
           {
-            "package-name": "stm",
-            "version-range": ">=2.5 && <2.6",
+            "package-name": "deepseq",
+            "version-range": "-any",
             "library": [
               {}
             ]
           },
           {
-            "package-name": "time",
-            "version-range": ">=1.5 && <1.13",
+            "package-name": "extra",
+            "version-range": "-any",
             "library": [
               {}
             ]
           },
           {
-            "package-name": "ghc-heap",
+            "package-name": "ghc",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "ghcide",
+            "version-range": "^>=1.9 || ^>=1.10",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "ghc-boot-th",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "hls-graph",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "hls-plugin-api",
+            "version-range": "^>=1.6",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "lens",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "lsp",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "text",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "transformers",
             "version-range": "-any",
             "library": [
               {}
@@ -204,35 +288,98 @@
     },
     "condTreeConstraints": [
       {
+        "package-name": "aeson",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
         "package-name": "base",
-        "version-range": "<0",
+        "version-range": ">=4.12 && <5",
         "library": [
           {}
         ]
       },
       {
         "package-name": "containers",
-        "version-range": ">=0.5 && <0.7",
+        "version-range": "-any",
         "library": [
           {}
         ]
       },
       {
-        "package-name": "stm",
-        "version-range": ">=2.5 && <2.6",
+        "package-name": "deepseq",
+        "version-range": "-any",
         "library": [
           {}
         ]
       },
       {
-        "package-name": "time",
-        "version-range": ">=1.5 && <1.13",
+        "package-name": "extra",
+        "version-range": "-any",
         "library": [
           {}
         ]
       },
       {
-        "package-name": "ghc-heap",
+        "package-name": "ghc",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "ghcide",
+        "version-range": "^>=1.9 || ^>=1.10",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "ghc-boot-th",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "hls-graph",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "hls-plugin-api",
+        "version-range": "^>=1.6",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "lens",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "lsp",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "text",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "transformers",
         "version-range": "-any",
         "library": [
           {}
@@ -243,7 +390,8 @@
       {
         "condBranchCondition": {
           "variable": {
-            "flag": "bytestring"
+            "compiler": "GHC",
+            "version": ">=9.2.1"
           }
         },
         "condBranchIfTrue": {
@@ -310,8 +458,8 @@
               "customFieldsBI": [],
               "targetBuildDepends": [
                 {
-                  "package-name": "bytestring",
-                  "version-range": ">=0.10 && <0.12",
+                  "package-name": "ghc-exactprint",
+                  "version-range": ">=1.5",
                   "library": [
                     {}
                   ]
@@ -322,23 +470,16 @@
           },
           "condTreeConstraints": [
             {
-              "package-name": "bytestring",
-              "version-range": ">=0.10 && <0.12",
+              "package-name": "ghc-exactprint",
+              "version-range": ">=1.5",
               "library": [
                 {}
               ]
             }
           ],
           "condTreeComponents": []
-        }
-      },
-      {
-        "condBranchCondition": {
-          "variable": {
-            "flag": "text"
-          }
         },
-        "condBranchIfTrue": {
+        "condBranchIfFalse": {
           "condTreeData": {
             "name": {},
             "exposed-modules": [],
@@ -402,8 +543,8 @@
               "customFieldsBI": [],
               "targetBuildDepends": [
                 {
-                  "package-name": "text",
-                  "version-range": ">=1.2 && <1.3 || >=2.0 && <2.1",
+                  "package-name": "ghc-exactprint",
+                  "version-range": ">=0.6.4 && <1.1",
                   "library": [
                     {}
                   ]
@@ -414,100 +555,8 @@
           },
           "condTreeConstraints": [
             {
-              "package-name": "text",
-              "version-range": ">=1.2 && <1.3 || >=2.0 && <2.1",
-              "library": [
-                {}
-              ]
-            }
-          ],
-          "condTreeComponents": []
-        }
-      },
-      {
-        "condBranchCondition": {
-          "variable": {
-            "flag": "vector"
-          }
-        },
-        "condBranchIfTrue": {
-          "condTreeData": {
-            "name": {},
-            "exposed-modules": [],
-            "re-exported-modules": [],
-            "signatures": [],
-            "exposed": true,
-            "visibility": "LibraryVisibilityPublic",
-            "build-info": {
-              "buildable": true,
-              "buildTools": [],
-              "buildToolDepends": [],
-              "cppOptions": [],
-              "asmOptions": [],
-              "cmmOptions": [],
-              "ccOptions": [],
-              "cxxOptions": [],
-              "ldOptions": [],
-              "pkgconfigDepends": [],
-              "frameworks": [],
-              "extraFrameworkDirs": [],
-              "asmSources": [],
-              "cmmSources": [],
-              "cSources": [],
-              "cxxSources": [],
-              "jsSources": [],
-              "hsSourceDirs": [],
-              "otherModules": [],
-              "virtualModules": [],
-              "autogenModules": [],
-              "defaultLanguage": null,
-              "otherLanguages": [],
-              "defaultExtensions": [],
-              "otherExtensions": [],
-              "oldExtensions": [],
-              "extraLibs": [],
-              "extraGHCiLibs": [],
-              "extraBundledLibs": [],
-              "extraLibFlavours": [],
-              "extraDynLibFlavours": [],
-              "extraLibDirs": [],
-              "includeDirs": [],
-              "includes": [],
-              "autogenIncludes": [],
-              "installIncludes": [],
-              "options": [
-                [],
-                []
-              ],
-              "profOptions": [
-                [],
-                []
-              ],
-              "sharedOptions": [
-                [],
-                []
-              ],
-              "staticOptions": [
-                [],
-                []
-              ],
-              "customFieldsBI": [],
-              "targetBuildDepends": [
-                {
-                  "package-name": "vector",
-                  "version-range": ">=0.12 && <0.14",
-                  "library": [
-                    {}
-                  ]
-                }
-              ],
-              "mixins": []
-            }
-          },
-          "condTreeConstraints": [
-            {
-              "package-name": "vector",
-              "version-range": ">=0.12 && <0.14",
+              "package-name": "ghc-exactprint",
+              "version-range": ">=0.6.4 && <1.1",
               "library": [
                 {}
               ]
@@ -519,7 +568,7 @@
     ]
   },
   "test-suites": {
-    "nothunks-test": {
+    "tests": {
       "condTreeData": {
         "name": "",
         "interface": {
@@ -550,13 +599,7 @@
           "hsSourceDirs": [
             "test"
           ],
-          "otherModules": [
-            [
-              "Test",
-              "NoThunks",
-              "Class"
-            ]
-          ],
+          "otherModules": [],
           "virtualModules": [],
           "autogenModules": [],
           "defaultLanguage": "Haskell2010",
@@ -576,7 +619,9 @@
           "installIncludes": [],
           "options": [
             [
-              "-Wall"
+              "-threaded",
+              "-rtsopts",
+              "-with-rtsopts=-N"
             ],
             []
           ],
@@ -595,6 +640,13 @@
           "customFieldsBI": [],
           "targetBuildDepends": [
             {
+              "package-name": "aeson",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
               "package-name": "base",
               "version-range": "-any",
               "library": [
@@ -602,57 +654,57 @@
               ]
             },
             {
-              "package-name": "nothunks",
+              "package-name": "filepath",
               "version-range": "-any",
               "library": [
                 {}
               ]
             },
             {
-              "package-name": "containers",
+              "package-name": "ghcide",
               "version-range": "-any",
               "library": [
                 {}
               ]
             },
             {
-              "package-name": "stm",
+              "package-name": "hls-class-plugin",
               "version-range": "-any",
               "library": [
                 {}
               ]
             },
             {
-              "package-name": "ghc-prim",
+              "package-name": "hls-plugin-api",
               "version-range": "-any",
               "library": [
                 {}
               ]
             },
             {
-              "package-name": "hedgehog",
-              "version-range": ">=1.0 && <1.1",
+              "package-name": "hls-test-utils",
+              "version-range": "^>=1.5",
               "library": [
                 {}
               ]
             },
             {
-              "package-name": "random",
-              "version-range": ">=1.1 && <1.3",
+              "package-name": "lens",
+              "version-range": "-any",
               "library": [
                 {}
               ]
             },
             {
-              "package-name": "tasty",
-              "version-range": ">=1.3 && <1.5",
+              "package-name": "lsp-types",
+              "version-range": "-any",
               "library": [
                 {}
               ]
             },
             {
-              "package-name": "tasty-hedgehog",
-              "version-range": ">=1.0 && <1.2",
+              "package-name": "text",
+              "version-range": "-any",
               "library": [
                 {}
               ]
@@ -663,6 +715,13 @@
       },
       "condTreeConstraints": [
         {
+          "package-name": "aeson",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
           "package-name": "base",
           "version-range": "-any",
           "library": [
@@ -670,57 +729,57 @@
           ]
         },
         {
-          "package-name": "nothunks",
+          "package-name": "filepath",
           "version-range": "-any",
           "library": [
             {}
           ]
         },
         {
-          "package-name": "containers",
+          "package-name": "ghcide",
           "version-range": "-any",
           "library": [
             {}
           ]
         },
         {
-          "package-name": "stm",
+          "package-name": "hls-class-plugin",
           "version-range": "-any",
           "library": [
             {}
           ]
         },
         {
-          "package-name": "ghc-prim",
+          "package-name": "hls-plugin-api",
           "version-range": "-any",
           "library": [
             {}
           ]
         },
         {
-          "package-name": "hedgehog",
-          "version-range": ">=1.0 && <1.1",
+          "package-name": "hls-test-utils",
+          "version-range": "^>=1.5",
           "library": [
             {}
           ]
         },
         {
-          "package-name": "random",
-          "version-range": ">=1.1 && <1.3",
+          "package-name": "lens",
+          "version-range": "-any",
           "library": [
             {}
           ]
         },
         {
-          "package-name": "tasty",
-          "version-range": ">=1.3 && <1.5",
+          "package-name": "lsp-types",
+          "version-range": "-any",
           "library": [
             {}
           ]
         },
         {
-          "package-name": "tasty-hedgehog",
-          "version-range": ">=1.0 && <1.2",
+          "package-name": "text",
+          "version-range": "-any",
           "library": [
             {}
           ]
