@@ -1,52 +1,57 @@
 {
   "description": {
     "spec-version": {
-      "Right": ">=1.10"
+      "Left": [
+        3,
+        0
+      ]
     },
     "package": {
-      "name": "language-sygus",
+      "name": "attoparsec-run",
       "version": [
         0,
-        1,
-        1,
-        3
+        0,
+        2,
+        0
       ]
     },
     "license": {
-      "Right": "BSD3"
+      "Left": {
+        "license-expression": {
+          "expression": {
+            "id": "Apache_2_0"
+          },
+          "exception-id": null
+        }
+      }
     },
     "license-files": [
-      "LICENSE"
+      "license.txt"
     ],
     "copyright": "",
-    "maintainer": "william.hallahan@yale.edu",
-    "author": "Bill Hallahan",
+    "maintainer": "Chris Martin, Julie Moronuki",
+    "author": "Chris Martin",
     "stability": "",
     "tested-with": [],
-    "homepage": "",
+    "homepage": "https://github.com/typeclasses/attoparsec-run",
     "pkg-url": "",
-    "bug-reports": "",
+    "bug-reports": "https://github.com/typeclasses/attoparsec-run/issues",
     "source-repos": [
       {
         "kind": {},
         "type": "Git",
-        "location": "https://github.com/BillHallahan/language-sygus.git",
+        "location": "git://github.com/typeclasses/attoparsec-run.git",
         "module": null,
         "branch": null,
         "tag": null,
         "subdir": null
       }
     ],
-    "synopsis": "A parser and printer for the SyGuS 2.0 language.   ",
-    "description": "A parser and printer for the SyGuS 2.0 language.  <https://sygus.org/assets/pdf/SyGuS-IF_2.0.pdf>",
-    "category": "Language",
-    "custom-fields": [
-      [
-        "x-revision",
-        "2"
-      ]
-    ],
-    "build-type-raw": "Simple",
+    "synopsis": "Conveniently run Attoparsec parsers",
+    "description": "This package fixes a number of problems with the API that\nAttoparsec provides for running parsers. The difficulties stem from\nthe that that Attoparsec's @IResult@ type encompasses three situations:\nWhen parsing has succeeded, when parsing has failed, and when parsing\nis awaiting further input. This is insufficient to describe situations\nin which we know we are dealing with a subset of these three cases.\nWe address this by introducing two smaller types: @FinalResult@ and\n@ParseError@.",
+    "category": "Parsing",
+    "custom-fields": [],
+    "build-type-raw": null,
     "custom-setup": null,
     "library": null,
     "sublibraries": [],
@@ -57,7 +62,7 @@
     "data-files": [],
     "data-dir": ".",
     "extra-source-files": [
-      "ChangeLog.md"
+      "*.md"
     ],
     "extra-tmp-files": [],
     "extra-doc-files": []
@@ -67,20 +72,21 @@
       "name": {},
       "exposed-modules": [
         [
-          "Sygus",
-          "LexSygus"
+          "Data",
+          "Attoparsec",
+          "Run"
         ],
         [
-          "Sygus",
-          "ParseSygus"
+          "Data",
+          "Attoparsec",
+          "ByteString",
+          "Run"
         ],
         [
-          "Sygus",
-          "Print"
-        ],
-        [
-          "Sygus",
-          "Syntax"
+          "Data",
+          "Attoparsec",
+          "Text",
+          "Run"
         ]
       ],
       "re-exported-modules": [],
@@ -89,16 +95,7 @@
       "visibility": "LibraryVisibilityPublic",
       "build-info": {
         "buildable": true,
-        "buildTools": [
-          {
-            "package-name": "alex",
-            "include-renaming": "-any"
-          },
-          {
-            "package-name": "happy",
-            "include-renaming": "-any"
-          }
-        ],
+        "buildTools": [],
         "buildToolDepends": [],
         "cppOptions": [],
         "asmOptions": [],
@@ -115,14 +112,18 @@
         "cxxSources": [],
         "jsSources": [],
         "hsSourceDirs": [
-          "src"
+          "library"
         ],
         "otherModules": [],
         "virtualModules": [],
         "autogenModules": [],
         "defaultLanguage": "Haskell2010",
         "otherLanguages": [],
-        "defaultExtensions": [],
+        "defaultExtensions": [
+          {
+            "enable-extension": "FlexibleContexts"
+          }
+        ],
         "otherExtensions": [],
         "oldExtensions": [],
         "extraLibs": [],
@@ -156,29 +157,36 @@
         "customFieldsBI": [],
         "targetBuildDepends": [
           {
-            "package-name": "array",
-            "version-range": ">=0.3 && <0.6",
+            "package-name": "attoparsec",
+            "version-range": "^>=0.14.4",
             "library": [
               {}
             ]
           },
           {
             "package-name": "base",
-            "version-range": ">=4.10 && <4.19",
+            "version-range": "^>=4.14 || ^>=4.15 || ^>=4.16 || ^>=4.17 || ^>=4.18",
             "library": [
               {}
             ]
           },
           {
-            "package-name": "hashable",
-            "version-range": ">=1.2.6.0 && <=1.4.2.0",
+            "package-name": "bytestring",
+            "version-range": "^>=0.10.12 || ^>=0.11",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "mtl",
+            "version-range": "^>=2.2.2 || ^>=2.3",
             "library": [
               {}
             ]
           },
           {
             "package-name": "text",
-            "version-range": ">=1.1 && <2.1",
+            "version-range": "^>=1.2.4 || ^>=2.0",
             "library": [
               {}
             ]
@@ -189,29 +197,36 @@
     },
     "condTreeConstraints": [
       {
-        "package-name": "array",
-        "version-range": ">=0.3 && <0.6",
+        "package-name": "attoparsec",
+        "version-range": "^>=0.14.4",
         "library": [
           {}
         ]
       },
       {
         "package-name": "base",
-        "version-range": ">=4.10 && <4.19",
+        "version-range": "^>=4.14 || ^>=4.15 || ^>=4.16 || ^>=4.17 || ^>=4.18",
         "library": [
           {}
         ]
       },
       {
-        "package-name": "hashable",
-        "version-range": ">=1.2.6.0 && <=1.4.2.0",
+        "package-name": "bytestring",
+        "version-range": "^>=0.10.12 || ^>=0.11",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "mtl",
+        "version-range": "^>=2.2.2 || ^>=2.3",
         "library": [
           {}
         ]
       },
       {
         "package-name": "text",
-        "version-range": ">=1.1 && <2.1",
+        "version-range": "^>=1.2.4 || ^>=2.0",
         "library": [
           {}
         ]
@@ -220,7 +235,7 @@
     "condTreeComponents": []
   },
   "test-suites": {
-    "test": {
+    "test-attoparsec-run": {
       "condTreeData": {
         "name": "",
         "interface": {
@@ -228,7 +243,7 @@
             1,
             0
           ],
-          "filepath": "Test.hs"
+          "filepath": "Main.hs"
         },
         "build-info": {
           "buildable": true,
@@ -249,14 +264,21 @@
           "cxxSources": [],
           "jsSources": [],
           "hsSourceDirs": [
-            "tests"
+            "test"
           ],
           "otherModules": [],
           "virtualModules": [],
           "autogenModules": [],
           "defaultLanguage": "Haskell2010",
           "otherLanguages": [],
-          "defaultExtensions": [],
+          "defaultExtensions": [
+            {
+              "enable-extension": "FlexibleContexts"
+            },
+            {
+              "enable-extension": "OverloadedStrings"
+            }
+          ],
           "otherExtensions": [],
           "oldExtensions": [],
           "extraLibs": [],
@@ -271,8 +293,7 @@
           "installIncludes": [],
           "options": [
             [
-              "-Wall",
-              "-threaded"
+              "-Wall"
             ],
             []
           ],
@@ -291,43 +312,50 @@
           "customFieldsBI": [],
           "targetBuildDepends": [
             {
+              "package-name": "attoparsec",
+              "version-range": "^>=0.14.4",
+              "library": [
+                {}
+              ]
+            },
+            {
               "package-name": "base",
-              "version-range": "-any",
+              "version-range": "^>=4.14 || ^>=4.15 || ^>=4.16 || ^>=4.17 || ^>=4.18",
               "library": [
                 {}
               ]
             },
             {
-              "package-name": "deepseq",
-              "version-range": ">=1.1 && <1.5",
+              "package-name": "bytestring",
+              "version-range": "^>=0.10.12 || ^>=0.11",
               "library": [
                 {}
               ]
             },
             {
-              "package-name": "language-sygus",
-              "version-range": "-any",
-              "library": [
-                {}
-              ]
-            },
-            {
-              "package-name": "tasty",
-              "version-range": ">=1.0",
-              "library": [
-                {}
-              ]
-            },
-            {
-              "package-name": "tasty-hunit",
-              "version-range": ">=0.10",
+              "package-name": "mtl",
+              "version-range": "^>=2.2.2 || ^>=2.3",
               "library": [
                 {}
               ]
             },
             {
               "package-name": "text",
+              "version-range": "^>=1.2.4 || ^>=2.0",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "attoparsec-run",
               "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "hspec",
+              "version-range": "^>=2.8.5 || ^>=2.9 || ^>=2.10",
               "library": [
                 {}
               ]
@@ -338,43 +366,50 @@
       },
       "condTreeConstraints": [
         {
+          "package-name": "attoparsec",
+          "version-range": "^>=0.14.4",
+          "library": [
+            {}
+          ]
+        },
+        {
           "package-name": "base",
-          "version-range": "-any",
+          "version-range": "^>=4.14 || ^>=4.15 || ^>=4.16 || ^>=4.17 || ^>=4.18",
           "library": [
             {}
           ]
         },
         {
-          "package-name": "deepseq",
-          "version-range": ">=1.1 && <1.5",
+          "package-name": "bytestring",
+          "version-range": "^>=0.10.12 || ^>=0.11",
           "library": [
             {}
           ]
         },
         {
-          "package-name": "language-sygus",
-          "version-range": "-any",
-          "library": [
-            {}
-          ]
-        },
-        {
-          "package-name": "tasty",
-          "version-range": ">=1.0",
-          "library": [
-            {}
-          ]
-        },
-        {
-          "package-name": "tasty-hunit",
-          "version-range": ">=0.10",
+          "package-name": "mtl",
+          "version-range": "^>=2.2.2 || ^>=2.3",
           "library": [
             {}
           ]
         },
         {
           "package-name": "text",
+          "version-range": "^>=1.2.4 || ^>=2.0",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "attoparsec-run",
           "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "hspec",
+          "version-range": "^>=2.8.5 || ^>=2.9 || ^>=2.10",
           "library": [
             {}
           ]
