@@ -7,10 +7,12 @@
       ]
     },
     "package": {
-      "name": "months",
+      "name": "array-builder",
       "version": [
         0,
-        2
+        1,
+        3,
+        0
       ]
     },
     "license": {
@@ -26,39 +28,19 @@
     "license-files": [
       "LICENSE"
     ],
-    "copyright": "",
-    "maintainer": "Oleg Grenrus <oleg.grenrus@iki.fi>",
-    "author": "Oleg Grenrus <oleg.grenrus@iki.fi>",
+    "copyright": "2019 Andrew Martin",
+    "maintainer": "andrew.thaddeus@gmail.com",
+    "author": "Andrew Martin",
     "stability": "",
-    "tested-with": [
-      {
-        "compiler": "GHC",
-        "versionRange": "==7.8.4 || ==7.10.3 || ==8.0.2 || ==8.2.2 || ==8.4.4 || ==8.6.5 || ==8.8.4 || ==8.10.7 || ==9.0.2 || ==9.2.7 || ==9.4.4 || ==9.6.1"
-      }
-    ],
-    "homepage": "https://github.com/phadej/months",
+    "tested-with": [],
+    "homepage": "https://github.com/andrewthad/array-builder",
     "pkg-url": "",
-    "bug-reports": "https://github.com/phadej/months/issues",
-    "source-repos": [
-      {
-        "kind": {},
-        "type": "Git",
-        "location": "https://github.com/phadej/months",
-        "module": null,
-        "branch": null,
-        "tag": null,
-        "subdir": null
-      }
-    ],
-    "synopsis": "MonthName",
-    "description": "Month and Quarter enumerations and some basic function and instances.",
-    "category": "Data, Time",
-    "custom-fields": [
-      [
-        "x-revision",
-        "7"
-      ]
-    ],
+    "bug-reports": "https://github.com/andrewthad/array-builder/issues",
+    "source-repos": [],
+    "synopsis": "Builders for arrays",
+    "description": "",
+    "category": "Data",
+    "custom-fields": [],
     "build-type-raw": null,
     "custom-setup": null,
     "library": null,
@@ -75,28 +57,35 @@
     "extra-tmp-files": [],
     "extra-doc-files": []
   },
-  "package-flags": [
-    {
-      "name": "aeson",
-      "description": "Provide aeson instances",
-      "default": true,
-      "manual": true
-    },
-    {
-      "name": "intervals",
-      "description": "Provide to Interval functions",
-      "default": true,
-      "manual": true
-    }
-  ],
   "library": {
     "condTreeData": {
       "name": {},
       "exposed-modules": [
         [
           "Data",
-          "Time",
-          "MonthName"
+          "Builder"
+        ],
+        [
+          "Data",
+          "Builder",
+          "Catenable"
+        ],
+        [
+          "Data",
+          "Builder",
+          "Catenable",
+          "Bytes"
+        ],
+        [
+          "Data",
+          "Builder",
+          "Catenable",
+          "Text"
+        ],
+        [
+          "Data",
+          "Builder",
+          "ST"
         ]
       ],
       "re-exported-modules": [],
@@ -124,7 +113,11 @@
         "hsSourceDirs": [
           "src"
         ],
-        "otherModules": [],
+        "otherModules": [
+          [
+            "Compat"
+          ]
+        ],
         "virtualModules": [],
         "autogenModules": [],
         "defaultLanguage": "Haskell2010",
@@ -144,7 +137,8 @@
         "installIncludes": [],
         "options": [
           [
-            "-Wall"
+            "-Wall",
+            "-O2"
           ],
           []
         ],
@@ -163,57 +157,64 @@
         "customFieldsBI": [],
         "targetBuildDepends": [
           {
+            "package-name": "array-chunks",
+            "version-range": ">=0.1 && <0.2",
+            "library": [
+              {}
+            ]
+          },
+          {
             "package-name": "base",
-            "version-range": ">=4.7 && <4.19",
+            "version-range": ">=4.12 && <5",
             "library": [
               {}
             ]
           },
           {
-            "package-name": "deepseq",
-            "version-range": "^>=1.3.0.0 || ^>=1.4.0.0",
+            "package-name": "bytebuild",
+            "version-range": ">=0.3.5",
             "library": [
               {}
             ]
           },
           {
-            "package-name": "text",
-            "version-range": "^>=1.2.3.0 || ^>=2.0",
+            "package-name": "byteslice",
+            "version-range": ">=0.2.7",
             "library": [
               {}
             ]
           },
           {
-            "package-name": "attoparsec",
-            "version-range": "^>=0.13.2.2 || ^>=0.14.1",
+            "package-name": "bytestring",
+            "version-range": "-any",
             "library": [
               {}
             ]
           },
           {
-            "package-name": "base-compat",
-            "version-range": "^>=0.11 || ^>=0.12.0 || ^>=0.13.0",
+            "package-name": "natural-arithmetic",
+            "version-range": ">=0.1.3",
             "library": [
               {}
             ]
           },
           {
-            "package-name": "hashable",
-            "version-range": "^>=1.3.1.0 || ^>=1.4.0.1",
+            "package-name": "primitive",
+            "version-range": ">=0.6.4 && <0.10",
             "library": [
               {}
             ]
           },
           {
-            "package-name": "QuickCheck",
-            "version-range": "^>=2.14.2",
+            "package-name": "run-st",
+            "version-range": ">=0.1 && <0.2",
             "library": [
               {}
             ]
           },
           {
-            "package-name": "time-compat",
-            "version-range": "^>=1.9.5",
+            "package-name": "text-short",
+            "version-range": ">=0.1.3",
             "library": [
               {}
             ]
@@ -224,57 +225,64 @@
     },
     "condTreeConstraints": [
       {
+        "package-name": "array-chunks",
+        "version-range": ">=0.1 && <0.2",
+        "library": [
+          {}
+        ]
+      },
+      {
         "package-name": "base",
-        "version-range": ">=4.7 && <4.19",
+        "version-range": ">=4.12 && <5",
         "library": [
           {}
         ]
       },
       {
-        "package-name": "deepseq",
-        "version-range": "^>=1.3.0.0 || ^>=1.4.0.0",
+        "package-name": "bytebuild",
+        "version-range": ">=0.3.5",
         "library": [
           {}
         ]
       },
       {
-        "package-name": "text",
-        "version-range": "^>=1.2.3.0 || ^>=2.0",
+        "package-name": "byteslice",
+        "version-range": ">=0.2.7",
         "library": [
           {}
         ]
       },
       {
-        "package-name": "attoparsec",
-        "version-range": "^>=0.13.2.2 || ^>=0.14.1",
+        "package-name": "bytestring",
+        "version-range": "-any",
         "library": [
           {}
         ]
       },
       {
-        "package-name": "base-compat",
-        "version-range": "^>=0.11 || ^>=0.12.0 || ^>=0.13.0",
+        "package-name": "natural-arithmetic",
+        "version-range": ">=0.1.3",
         "library": [
           {}
         ]
       },
       {
-        "package-name": "hashable",
-        "version-range": "^>=1.3.1.0 || ^>=1.4.0.1",
+        "package-name": "primitive",
+        "version-range": ">=0.6.4 && <0.10",
         "library": [
           {}
         ]
       },
       {
-        "package-name": "QuickCheck",
-        "version-range": "^>=2.14.2",
+        "package-name": "run-st",
+        "version-range": ">=0.1 && <0.2",
         "library": [
           {}
         ]
       },
       {
-        "package-name": "time-compat",
-        "version-range": "^>=1.9.5",
+        "package-name": "text-short",
+        "version-range": ">=0.1.3",
         "library": [
           {}
         ]
@@ -284,7 +292,8 @@
       {
         "condBranchCondition": {
           "variable": {
-            "flag": "aeson"
+            "compiler": "GHC",
+            "version": ">=8.9"
           }
         },
         "condBranchIfTrue": {
@@ -313,7 +322,9 @@
               "cSources": [],
               "cxxSources": [],
               "jsSources": [],
-              "hsSourceDirs": [],
+              "hsSourceDirs": [
+                "src-post-8.9"
+              ],
               "otherModules": [],
               "virtualModules": [],
               "autogenModules": [],
@@ -349,37 +360,14 @@
                 []
               ],
               "customFieldsBI": [],
-              "targetBuildDepends": [
-                {
-                  "package-name": "aeson",
-                  "version-range": "^>=1.5.6.0 || ^>=2.0.0.0 || ^>=2.1.0.0",
-                  "library": [
-                    {}
-                  ]
-                }
-              ],
+              "targetBuildDepends": [],
               "mixins": []
             }
           },
-          "condTreeConstraints": [
-            {
-              "package-name": "aeson",
-              "version-range": "^>=1.5.6.0 || ^>=2.0.0.0 || ^>=2.1.0.0",
-              "library": [
-                {}
-              ]
-            }
-          ],
+          "condTreeConstraints": [],
           "condTreeComponents": []
-        }
-      },
-      {
-        "condBranchCondition": {
-          "variable": {
-            "flag": "intervals"
-          }
         },
-        "condBranchIfTrue": {
+        "condBranchIfFalse": {
           "condTreeData": {
             "name": {},
             "exposed-modules": [],
@@ -405,7 +393,9 @@
               "cSources": [],
               "cxxSources": [],
               "jsSources": [],
-              "hsSourceDirs": [],
+              "hsSourceDirs": [
+                "src-pre-8.9"
+              ],
               "otherModules": [],
               "virtualModules": [],
               "autogenModules": [],
@@ -441,30 +431,150 @@
                 []
               ],
               "customFieldsBI": [],
-              "targetBuildDepends": [
-                {
-                  "package-name": "intervals",
-                  "version-range": "^>=0.9",
-                  "library": [
-                    {}
-                  ]
-                }
-              ],
+              "targetBuildDepends": [],
               "mixins": []
             }
           },
-          "condTreeConstraints": [
-            {
-              "package-name": "intervals",
-              "version-range": "^>=0.9",
-              "library": [
-                {}
-              ]
-            }
-          ],
+          "condTreeConstraints": [],
           "condTreeComponents": []
         }
       }
     ]
+  },
+  "test-suites": {
+    "test": {
+      "condTreeData": {
+        "name": "",
+        "interface": {
+          "version": [
+            1,
+            0
+          ],
+          "filepath": "Main.hs"
+        },
+        "build-info": {
+          "buildable": true,
+          "buildTools": [],
+          "buildToolDepends": [],
+          "cppOptions": [],
+          "asmOptions": [],
+          "cmmOptions": [],
+          "ccOptions": [],
+          "cxxOptions": [],
+          "ldOptions": [],
+          "pkgconfigDepends": [],
+          "frameworks": [],
+          "extraFrameworkDirs": [],
+          "asmSources": [],
+          "cmmSources": [],
+          "cSources": [],
+          "cxxSources": [],
+          "jsSources": [],
+          "hsSourceDirs": [
+            "test"
+          ],
+          "otherModules": [],
+          "virtualModules": [],
+          "autogenModules": [],
+          "defaultLanguage": "Haskell2010",
+          "otherLanguages": [],
+          "defaultExtensions": [],
+          "otherExtensions": [],
+          "oldExtensions": [],
+          "extraLibs": [],
+          "extraGHCiLibs": [],
+          "extraBundledLibs": [],
+          "extraLibFlavours": [],
+          "extraDynLibFlavours": [],
+          "extraLibDirs": [],
+          "includeDirs": [],
+          "includes": [],
+          "autogenIncludes": [],
+          "installIncludes": [],
+          "options": [
+            [
+              "-Wall",
+              "-O2"
+            ],
+            []
+          ],
+          "profOptions": [
+            [],
+            []
+          ],
+          "sharedOptions": [
+            [],
+            []
+          ],
+          "staticOptions": [
+            [],
+            []
+          ],
+          "customFieldsBI": [],
+          "targetBuildDepends": [
+            {
+              "package-name": "array-builder",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "base",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "tasty",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "tasty-hunit",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            }
+          ],
+          "mixins": []
+        }
+      },
+      "condTreeConstraints": [
+        {
+          "package-name": "array-builder",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "base",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "tasty",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "tasty-hunit",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        }
+      ],
+      "condTreeComponents": []
+    }
   }
 }
