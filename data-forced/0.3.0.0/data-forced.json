@@ -1,41 +1,56 @@
 {
   "description": {
     "spec-version": {
-      "Right": ">=1.10"
+      "Left": [
+        3,
+        0
+      ]
     },
     "package": {
-      "name": "finite-typelits",
+      "name": "data-forced",
       "version": [
         0,
-        1,
-        6,
+        3,
+        0,
         0
       ]
     },
     "license": {
-      "Right": "BSD3"
+      "Left": {
+        "license-expression": {
+          "expression": {
+            "id": "MIT"
+          },
+          "exception-id": null
+        }
+      }
     },
     "license-files": [
       "LICENSE"
     ],
-    "copyright": "",
-    "maintainer": "mniip@mniip.com",
-    "author": "mniip",
+    "copyright": "2023",
+    "maintainer": "ruben.astud@gmail.com",
+    "author": "Ruben Astudillo",
     "stability": "",
     "tested-with": [],
-    "homepage": "https://github.com/mniip/finite-typelits",
+    "homepage": "https://github.com/RubenAstudillo/data-forced",
     "pkg-url": "",
-    "bug-reports": "",
-    "source-repos": [],
-    "synopsis": "A type inhabited by finitely many values, indexed by type-level naturals",
-    "description": "A type inhabited by finitely many values, indexed by type-level naturals.",
-    "category": "Data",
-    "custom-fields": [
-      [
-        "x-revision",
-        "1"
-      ]
+    "bug-reports": "https://github.com/RubenAstudillo/data-forced/issues",
+    "source-repos": [
+      {
+        "kind": {},
+        "type": "Git",
+        "location": "https://github.com/RubenAstudillo/data-forced",
+        "module": null,
+        "branch": null,
+        "tag": null,
+        "subdir": null
+      }
     ],
+    "synopsis": "Specify that lifted values were forced to WHNF or NF.",
+    "description": "Alternative to bang patterns using CBV functions and unlifted data types.\nTag your values to maintain the invariant that they were forced. Avoid\nliveness leaks on long lived data structures.\n\nMain tutorial on the only module. Here is a taste of how it will look\nlike.\n\n> {-# Language QualifiedDo #-}\n> \n> import qualified Data.Forced as DF\n> import Data.Forced hiding (pure, fmap, (\\<*\\>), return, (>>=), (>>))\n> import Data.Map.Lazy qualified as ML\n> \n> noThunksForWHNF :: IO ()\n> noThunksForWHNF = do\n>   -- map0 actually evaluated on here.\n>   let map0 :: Demand (ML.Map Char (ForcedWHNF Int))\n>       map0 = DF.do\n>         v <- demandWHNF (const (2 + 2) 'a')\n>         DF.pure $ ML.insert 'a' v ML.empty\n> \n>   map1 <- extractDemand map0\n>   go (ML.lookup 'a' map1)\n> \n> -- pattern matching for de-structuring, no construction allowed.\n> go :: ForcedWHNF Int -> IO ()\n> go (ForcedWHNF i) =  print i",
+    "category": "Data",
+    "custom-fields": [],
     "build-type-raw": "Simple",
     "custom-setup": null,
     "library": null,
@@ -48,7 +63,9 @@
     "data-dir": ".",
     "extra-source-files": [],
     "extra-tmp-files": [],
-    "extra-doc-files": []
+    "extra-doc-files": [
+      "CHANGELOG.md"
+    ]
   },
   "library": {
     "condTreeData": {
@@ -56,12 +73,7 @@
       "exposed-modules": [
         [
           "Data",
-          "Finite"
-        ],
-        [
-          "Data",
-          "Finite",
-          "Internal"
+          "Forced"
         ]
       ],
       "re-exported-modules": [],
@@ -92,7 +104,7 @@
         "otherModules": [],
         "virtualModules": [],
         "autogenModules": [],
-        "defaultLanguage": "Haskell2010",
+        "defaultLanguage": "GHC2021",
         "otherLanguages": [],
         "defaultExtensions": [],
         "otherExtensions": [],
@@ -129,14 +141,21 @@
         "targetBuildDepends": [
           {
             "package-name": "base",
-            "version-range": ">=4.7 && <4.19",
+            "version-range": "^>=4.16.4.0",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "data-elevator",
+            "version-range": ">=0.1.0.0",
             "library": [
               {}
             ]
           },
           {
             "package-name": "deepseq",
-            "version-range": ">=1.4",
+            "version-range": ">=1.4.6.0",
             "library": [
               {}
             ]
@@ -148,14 +167,21 @@
     "condTreeConstraints": [
       {
         "package-name": "base",
-        "version-range": ">=4.7 && <4.19",
+        "version-range": "^>=4.16.4.0",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "data-elevator",
+        "version-range": ">=0.1.0.0",
         "library": [
           {}
         ]
       },
       {
         "package-name": "deepseq",
-        "version-range": ">=1.4",
+        "version-range": ">=1.4.6.0",
         "library": [
           {}
         ]
@@ -164,7 +190,7 @@
     "condTreeComponents": []
   },
   "test-suites": {
-    "finite-typelits-tests": {
+    "data-forced-test": {
       "condTreeData": {
         "name": "",
         "interface": {
@@ -172,7 +198,7 @@
             1,
             0
           ],
-          "filepath": "test/Main.hs"
+          "filepath": "Main.hs"
         },
         "build-info": {
           "buildable": true,
@@ -192,11 +218,13 @@
           "cSources": [],
           "cxxSources": [],
           "jsSources": [],
-          "hsSourceDirs": [],
+          "hsSourceDirs": [
+            "test"
+          ],
           "otherModules": [],
           "virtualModules": [],
           "autogenModules": [],
-          "defaultLanguage": "Haskell2010",
+          "defaultLanguage": "GHC2021",
           "otherLanguages": [],
           "defaultExtensions": [],
           "otherExtensions": [],
@@ -212,7 +240,9 @@
           "autogenIncludes": [],
           "installIncludes": [],
           "options": [
-            [],
+            [
+              "-Wall"
+            ],
             []
           ],
           "profOptions": [
@@ -230,28 +260,28 @@
           "customFieldsBI": [],
           "targetBuildDepends": [
             {
-              "package-name": "finite-typelits",
+              "package-name": "base",
+              "version-range": "^>=4.16.4.0",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "containers",
               "version-range": "-any",
               "library": [
                 {}
               ]
             },
             {
-              "package-name": "base",
-              "version-range": ">=4.9 && <4.19",
+              "package-name": "HUnit",
+              "version-range": "-any",
               "library": [
                 {}
               ]
             },
             {
-              "package-name": "deepseq",
-              "version-range": ">=1.4",
-              "library": [
-                {}
-              ]
-            },
-            {
-              "package-name": "QuickCheck",
+              "package-name": "data-forced",
               "version-range": "-any",
               "library": [
                 {}
@@ -263,28 +293,28 @@
       },
       "condTreeConstraints": [
         {
-          "package-name": "finite-typelits",
+          "package-name": "base",
+          "version-range": "^>=4.16.4.0",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "containers",
           "version-range": "-any",
           "library": [
             {}
           ]
         },
         {
-          "package-name": "base",
-          "version-range": ">=4.9 && <4.19",
+          "package-name": "HUnit",
+          "version-range": "-any",
           "library": [
             {}
           ]
         },
         {
-          "package-name": "deepseq",
-          "version-range": ">=1.4",
-          "library": [
-            {}
-          ]
-        },
-        {
-          "package-name": "QuickCheck",
+          "package-name": "data-forced",
           "version-range": "-any",
           "library": [
             {}
