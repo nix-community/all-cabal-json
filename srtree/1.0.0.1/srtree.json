@@ -1,14 +1,18 @@
 {
   "description": {
     "spec-version": {
-      "Right": ">=1.8"
+      "Left": [
+        1,
+        12
+      ]
     },
     "package": {
-      "name": "network-transport-inmemory",
+      "name": "srtree",
       "version": [
+        1,
         0,
-        5,
-        2
+        0,
+        1
       ]
     },
     "license": {
@@ -17,51 +21,29 @@
     "license-files": [
       "LICENSE"
     ],
-    "copyright": "Well-Typed LLP, Tweag I/O Limited",
-    "maintainer": "Facundo Domínguez <facundo.dominguez@tweag.io>",
-    "author": "Duncan Coutts, Nicolas Wu, Edsko de Vries, Alexander Vershilov",
-    "stability": "experimental",
-    "tested-with": [
-      {
-        "compiler": "GHC",
-        "versionRange": "==7.4.1"
-      },
-      {
-        "compiler": "GHC",
-        "versionRange": "==7.4.2"
-      },
-      {
-        "compiler": "GHC",
-        "versionRange": "==7.8.3"
-      },
-      {
-        "compiler": "GHC",
-        "versionRange": "==7.10"
-      }
-    ],
-    "homepage": "http://haskell-distributed.github.com",
+    "copyright": "2023 Fabricio Olivetti de França",
+    "maintainer": "fabricio.olivetti@gmail.com",
+    "author": "Fabricio Olivetti de França",
+    "stability": "",
+    "tested-with": [],
+    "homepage": "https://github.com/folivetti/srtree#readme",
     "pkg-url": "",
-    "bug-reports": "https://github.com/haskell-distributed/network-transport-inmemory/issues",
+    "bug-reports": "https://github.com/folivetti/srtree/issues",
     "source-repos": [
       {
         "kind": {},
         "type": "Git",
-        "location": "https://github.com/haskell-distributed/network-transport-inmemory",
+        "location": "https://github.com/folivetti/srtree",
         "module": null,
         "branch": null,
         "tag": null,
         "subdir": null
       }
     ],
-    "synopsis": "In-memory instantiation of Network.Transport",
-    "description": "This is a transport implementation that could be used for local\ncommunication in the same address space (i.e. one process).\n\nIt could be used either for testing purposes or for local\ncommunication that require the network-transport semantics.\n\nNB: network-tranpsport-inmemory does not support cross-transport\ncommunication. All endpoints that want to comminicate should be\ncreated using the same transport.",
-    "category": "Network",
-    "custom-fields": [
-      [
-        "x-revision",
-        "2"
-      ]
-    ],
+    "synopsis": "A general framework to work with Symbolic Regression expression trees.",
+    "description": "A Symbolic Regression Tree data structure to work with mathematical expressions with support to first order derivative and simplification;",
+    "category": "Math, Data, Data Structures",
+    "custom-fields": [],
     "build-type-raw": "Simple",
     "custom-setup": null,
     "library": null,
@@ -73,7 +55,8 @@
     "data-files": [],
     "data-dir": ".",
     "extra-source-files": [
-      "ChangeLog"
+      "README.md",
+      "ChangeLog.md"
     ],
     "extra-tmp-files": [],
     "extra-doc-files": []
@@ -83,21 +66,28 @@
       "name": {},
       "exposed-modules": [
         [
-          "Network",
-          "Transport",
-          "InMemory"
+          "Data",
+          "SRTree"
         ],
         [
-          "Network",
-          "Transport",
-          "InMemory",
+          "Data",
+          "SRTree",
           "Internal"
         ],
         [
-          "Network",
-          "Transport",
-          "InMemory",
-          "Debug"
+          "Data",
+          "SRTree",
+          "Print"
+        ],
+        [
+          "Data",
+          "SRTree",
+          "Random"
+        ],
+        [
+          "Data",
+          "SRTree",
+          "Recursion"
         ]
       ],
       "re-exported-modules": [],
@@ -125,10 +115,14 @@
         "hsSourceDirs": [
           "src"
         ],
-        "otherModules": [],
+        "otherModules": [
+          [
+            "Paths_srtree"
+          ]
+        ],
         "virtualModules": [],
         "autogenModules": [],
-        "defaultLanguage": null,
+        "defaultLanguage": "Haskell2010",
         "otherLanguages": [],
         "defaultExtensions": [],
         "otherExtensions": [],
@@ -144,9 +138,7 @@
         "autogenIncludes": [],
         "installIncludes": [],
         "options": [
-          [
-            "-Wall"
-          ],
+          [],
           []
         ],
         "profOptions": [
@@ -165,42 +157,35 @@
         "targetBuildDepends": [
           {
             "package-name": "base",
-            "version-range": ">=4.6 && <5",
-            "library": [
-              {}
-            ]
-          },
-          {
-            "package-name": "network-transport",
-            "version-range": ">=0.4.0.0 && <0.6",
-            "library": [
-              {}
-            ]
-          },
-          {
-            "package-name": "data-accessor",
-            "version-range": ">=0.2 && <0.3",
-            "library": [
-              {}
-            ]
-          },
-          {
-            "package-name": "bytestring",
-            "version-range": ">=0.9 && <0.12",
+            "version-range": ">=4.16 && <4.18",
             "library": [
               {}
             ]
           },
           {
             "package-name": "containers",
-            "version-range": ">=0.4 && <0.7",
+            "version-range": "==0.6.*",
             "library": [
               {}
             ]
           },
           {
-            "package-name": "stm",
-            "version-range": ">=2.0 && <3.0",
+            "package-name": "mtl",
+            "version-range": "==2.2.*",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "random",
+            "version-range": "==1.2.*",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "vector",
+            "version-range": ">=0.12 && <0.14",
             "library": [
               {}
             ]
@@ -212,42 +197,35 @@
     "condTreeConstraints": [
       {
         "package-name": "base",
-        "version-range": ">=4.6 && <5",
-        "library": [
-          {}
-        ]
-      },
-      {
-        "package-name": "network-transport",
-        "version-range": ">=0.4.0.0 && <0.6",
-        "library": [
-          {}
-        ]
-      },
-      {
-        "package-name": "data-accessor",
-        "version-range": ">=0.2 && <0.3",
-        "library": [
-          {}
-        ]
-      },
-      {
-        "package-name": "bytestring",
-        "version-range": ">=0.9 && <0.12",
+        "version-range": ">=4.16 && <4.18",
         "library": [
           {}
         ]
       },
       {
         "package-name": "containers",
-        "version-range": ">=0.4 && <0.7",
+        "version-range": "==0.6.*",
         "library": [
           {}
         ]
       },
       {
-        "package-name": "stm",
-        "version-range": ">=2.0 && <3.0",
+        "package-name": "mtl",
+        "version-range": "==2.2.*",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "random",
+        "version-range": "==1.2.*",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "vector",
+        "version-range": ">=0.12 && <0.14",
         "library": [
           {}
         ]
@@ -255,19 +233,14 @@
     ],
     "condTreeComponents": []
   },
-  "test-suites": {
-    "TestMulticastInMemory": {
+  "executables": {
+    "bench-srtree": {
       "condTreeData": {
-        "name": "",
-        "interface": {
-          "version": [
-            1,
-            0
-          ],
-          "filepath": "TestMulticastInMemory.hs"
-        },
+        "name": "bench-srtree",
+        "module-path": "Main.hs",
+        "scope": "public",
         "build-info": {
-          "buildable": false,
+          "buildable": true,
           "buildTools": [],
           "buildToolDepends": [],
           "cppOptions": [],
@@ -285,12 +258,16 @@
           "cxxSources": [],
           "jsSources": [],
           "hsSourceDirs": [
-            "tests"
+            "app"
           ],
-          "otherModules": [],
+          "otherModules": [
+            [
+              "Paths_srtree"
+            ]
+          ],
           "virtualModules": [],
           "autogenModules": [],
-          "defaultLanguage": null,
+          "defaultLanguage": "Haskell2010",
           "otherLanguages": [],
           "defaultExtensions": [],
           "otherExtensions": [],
@@ -307,8 +284,11 @@
           "installIncludes": [],
           "options": [
             [
-              "-Wall",
-              "-fno-warn-unused-do-bind"
+              "-threaded",
+              "-rtsopts",
+              "-with-rtsopts=-N",
+              "-O2",
+              "-optc-O3"
             ],
             []
           ],
@@ -327,29 +307,57 @@
           "customFieldsBI": [],
           "targetBuildDepends": [
             {
+              "package-name": "ad",
+              "version-range": ">=4.5.0 && <4.6",
+              "library": [
+                {}
+              ]
+            },
+            {
               "package-name": "base",
-              "version-range": ">=4.6 && <5",
+              "version-range": ">=4.16 && <4.18",
               "library": [
                 {}
               ]
             },
             {
-              "package-name": "network-transport-inmemory",
+              "package-name": "containers",
+              "version-range": "==0.6.*",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "criterion",
+              "version-range": ">=1.5.0 && <1.7",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "mtl",
+              "version-range": "==2.2.*",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "random",
+              "version-range": "==1.2.*",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "srtree",
               "version-range": "-any",
               "library": [
                 {}
               ]
             },
             {
-              "package-name": "network-transport",
-              "version-range": "-any",
-              "library": [
-                {}
-              ]
-            },
-            {
-              "package-name": "network-transport-tests",
-              "version-range": ">=0.1 && <0.4",
+              "package-name": "vector",
+              "version-range": ">=0.12 && <0.14",
               "library": [
                 {}
               ]
@@ -360,37 +368,67 @@
       },
       "condTreeConstraints": [
         {
+          "package-name": "ad",
+          "version-range": ">=4.5.0 && <4.6",
+          "library": [
+            {}
+          ]
+        },
+        {
           "package-name": "base",
-          "version-range": ">=4.6 && <5",
+          "version-range": ">=4.16 && <4.18",
           "library": [
             {}
           ]
         },
         {
-          "package-name": "network-transport-inmemory",
+          "package-name": "containers",
+          "version-range": "==0.6.*",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "criterion",
+          "version-range": ">=1.5.0 && <1.7",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "mtl",
+          "version-range": "==2.2.*",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "random",
+          "version-range": "==1.2.*",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "srtree",
           "version-range": "-any",
           "library": [
             {}
           ]
         },
         {
-          "package-name": "network-transport",
-          "version-range": "-any",
-          "library": [
-            {}
-          ]
-        },
-        {
-          "package-name": "network-transport-tests",
-          "version-range": ">=0.1 && <0.4",
+          "package-name": "vector",
+          "version-range": ">=0.12 && <0.14",
           "library": [
             {}
           ]
         }
       ],
       "condTreeComponents": []
-    },
-    "TestInMemory": {
+    }
+  },
+  "test-suites": {
+    "srtree-test": {
       "condTreeData": {
         "name": "",
         "interface": {
@@ -398,7 +436,7 @@
             1,
             0
           ],
-          "filepath": "TestInMemory.hs"
+          "filepath": "Spec.hs"
         },
         "build-info": {
           "buildable": true,
@@ -419,12 +457,16 @@
           "cxxSources": [],
           "jsSources": [],
           "hsSourceDirs": [
-            "tests"
+            "test"
           ],
-          "otherModules": [],
+          "otherModules": [
+            [
+              "Paths_srtree"
+            ]
+          ],
           "virtualModules": [],
           "autogenModules": [],
-          "defaultLanguage": null,
+          "defaultLanguage": "Haskell2010",
           "otherLanguages": [],
           "defaultExtensions": [],
           "otherExtensions": [],
@@ -441,8 +483,9 @@
           "installIncludes": [],
           "options": [
             [
-              "-Wall",
-              "-fno-warn-unused-do-bind"
+              "-threaded",
+              "-rtsopts",
+              "-with-rtsopts=-N"
             ],
             []
           ],
@@ -461,29 +504,57 @@
           "customFieldsBI": [],
           "targetBuildDepends": [
             {
+              "package-name": "HUnit",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "ad",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
               "package-name": "base",
-              "version-range": ">=4.6 && <5",
+              "version-range": ">=4.16 && <4.18",
               "library": [
                 {}
               ]
             },
             {
-              "package-name": "network-transport-inmemory",
+              "package-name": "containers",
+              "version-range": "==0.6.*",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "mtl",
+              "version-range": "==2.2.*",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "random",
+              "version-range": "==1.2.*",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "srtree",
               "version-range": "-any",
               "library": [
                 {}
               ]
             },
             {
-              "package-name": "network-transport-tests",
-              "version-range": ">=0.1 && <0.4",
-              "library": [
-                {}
-              ]
-            },
-            {
-              "package-name": "network-transport",
-              "version-range": "-any",
+              "package-name": "vector",
+              "version-range": ">=0.12 && <0.14",
               "library": [
                 {}
               ]
@@ -494,29 +565,57 @@
       },
       "condTreeConstraints": [
         {
+          "package-name": "HUnit",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "ad",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
           "package-name": "base",
-          "version-range": ">=4.6 && <5",
+          "version-range": ">=4.16 && <4.18",
           "library": [
             {}
           ]
         },
         {
-          "package-name": "network-transport-inmemory",
+          "package-name": "containers",
+          "version-range": "==0.6.*",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "mtl",
+          "version-range": "==2.2.*",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "random",
+          "version-range": "==1.2.*",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "srtree",
           "version-range": "-any",
           "library": [
             {}
           ]
         },
         {
-          "package-name": "network-transport-tests",
-          "version-range": ">=0.1 && <0.4",
-          "library": [
-            {}
-          ]
-        },
-        {
-          "package-name": "network-transport",
-          "version-range": "-any",
+          "package-name": "vector",
+          "version-range": ">=0.12 && <0.14",
           "library": [
             {}
           ]
