@@ -2,51 +2,49 @@
   "description": {
     "spec-version": {
       "Left": [
-        2,
-        2
+        1,
+        12
       ]
     },
     "package": {
-      "name": "error-codes",
+      "name": "thread-utils-finalizers",
       "version": [
         0,
         1,
-        0,
-        1
+        1,
+        0
       ]
     },
     "license": {
-      "Left": {
-        "license-expression": {
-          "expression": {
-            "id": "BSD_3_Clause"
-          },
-          "exception-id": null
-        }
-      }
+      "Right": "BSD3"
     },
     "license-files": [
       "LICENSE"
     ],
-    "copyright": "2019 Andrew Martin",
-    "maintainer": "andrew.thaddeus@gmail.com",
-    "author": "Andrew Martin",
+    "copyright": "2021 Ian Duncan",
+    "maintainer": "ian@iankduncan.com",
+    "author": "Ian Duncan",
     "stability": "",
     "tested-with": [],
-    "homepage": "https://github.com/andrewthad/error-codes",
+    "homepage": "https://github.com/iand675/thread-utils#readme",
     "pkg-url": "",
-    "bug-reports": "https://github.com/andrewthad/error-codes/issues",
-    "source-repos": [],
-    "synopsis": "Error code functions",
-    "description": "",
-    "category": "System",
-    "custom-fields": [
-      [
-        "x-revision",
-        "1"
-      ]
+    "bug-reports": "https://github.com/iand675/thread-utils/issues",
+    "source-repos": [
+      {
+        "kind": {},
+        "type": "Git",
+        "location": "https://github.com/iand675/thread-utils",
+        "module": null,
+        "branch": null,
+        "tag": null,
+        "subdir": null
+      }
     ],
-    "build-type-raw": null,
+    "synopsis": "Perform finalization for threads.",
+    "description": "Please see the README on GitHub at <https://github.com/iand675/thread-finalizers#readme>",
+    "category": "Concurrency",
+    "custom-fields": [],
+    "build-type-raw": "Simple",
     "custom-setup": null,
     "library": null,
     "sublibraries": [],
@@ -57,7 +55,8 @@
     "data-files": [],
     "data-dir": ".",
     "extra-source-files": [
-      "README.md"
+      "README.md",
+      "ChangeLog.md"
     ],
     "extra-tmp-files": [],
     "extra-doc-files": []
@@ -67,10 +66,10 @@
       "name": {},
       "exposed-modules": [
         [
-          "Foreign",
-          "C",
-          "Error",
-          "Describe"
+          "Control",
+          "Concurrent",
+          "Thread",
+          "Finalizers"
         ]
       ],
       "re-exported-modules": [],
@@ -98,7 +97,11 @@
         "hsSourceDirs": [
           "src"
         ],
-        "otherModules": [],
+        "otherModules": [
+          [
+            "Paths_thread_utils_finalizers"
+          ]
+        ],
         "virtualModules": [],
         "autogenModules": [],
         "defaultLanguage": "Haskell2010",
@@ -117,10 +120,7 @@
         "autogenIncludes": [],
         "installIncludes": [],
         "options": [
-          [
-            "-Wall",
-            "-O2"
-          ],
+          [],
           []
         ],
         "profOptions": [
@@ -139,21 +139,14 @@
         "targetBuildDepends": [
           {
             "package-name": "base",
-            "version-range": ">=4.11.1 && <5",
+            "version-range": ">=4.7 && <5",
             "library": [
               {}
             ]
           },
           {
-            "package-name": "primitive",
-            "version-range": ">=0.7 && <0.10",
-            "library": [
-              {}
-            ]
-          },
-          {
-            "package-name": "primitive-unlifted",
-            "version-range": ">=0.1 && <0.2",
+            "package-name": "ghc-prim",
+            "version-range": "-any",
             "library": [
               {}
             ]
@@ -165,21 +158,14 @@
     "condTreeConstraints": [
       {
         "package-name": "base",
-        "version-range": ">=4.11.1 && <5",
+        "version-range": ">=4.7 && <5",
         "library": [
           {}
         ]
       },
       {
-        "package-name": "primitive",
-        "version-range": ">=0.7 && <0.10",
-        "library": [
-          {}
-        ]
-      },
-      {
-        "package-name": "primitive-unlifted",
-        "version-range": ">=0.1 && <0.2",
+        "package-name": "ghc-prim",
+        "version-range": "-any",
         "library": [
           {}
         ]
@@ -188,7 +174,7 @@
     "condTreeComponents": []
   },
   "test-suites": {
-    "test": {
+    "thread-finalizers-test": {
       "condTreeData": {
         "name": "",
         "interface": {
@@ -196,7 +182,7 @@
             1,
             0
           ],
-          "filepath": "Main.hs"
+          "filepath": "Spec.hs"
         },
         "build-info": {
           "buildable": true,
@@ -219,7 +205,11 @@
           "hsSourceDirs": [
             "test"
           ],
-          "otherModules": [],
+          "otherModules": [
+            [
+              "Paths_thread_utils_finalizers"
+            ]
+          ],
           "virtualModules": [],
           "autogenModules": [],
           "defaultLanguage": "Haskell2010",
@@ -239,8 +229,9 @@
           "installIncludes": [],
           "options": [
             [
-              "-Wall",
-              "-O2"
+              "-threaded",
+              "-rtsopts",
+              "-with-rtsopts=-N"
             ],
             []
           ],
@@ -260,13 +251,20 @@
           "targetBuildDepends": [
             {
               "package-name": "base",
+              "version-range": ">=4.7 && <5",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "ghc-prim",
               "version-range": "-any",
               "library": [
                 {}
               ]
             },
             {
-              "package-name": "error-codes",
+              "package-name": "thread-utils-finalizers",
               "version-range": "-any",
               "library": [
                 {}
@@ -279,13 +277,20 @@
       "condTreeConstraints": [
         {
           "package-name": "base",
+          "version-range": ">=4.7 && <5",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "ghc-prim",
           "version-range": "-any",
           "library": [
             {}
           ]
         },
         {
-          "package-name": "error-codes",
+          "package-name": "thread-utils-finalizers",
           "version-range": "-any",
           "library": [
             {}

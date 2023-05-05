@@ -2,24 +2,24 @@
   "description": {
     "spec-version": {
       "Left": [
-        2,
-        2
+        3,
+        0
       ]
     },
     "package": {
-      "name": "error-codes",
+      "name": "om-plugin-imports",
       "version": [
         0,
         1,
         0,
-        1
+        3
       ]
     },
     "license": {
       "Left": {
         "license-expression": {
           "expression": {
-            "id": "BSD_3_Clause"
+            "id": "MIT"
           },
           "exception-id": null
         }
@@ -28,25 +28,20 @@
     "license-files": [
       "LICENSE"
     ],
-    "copyright": "2019 Andrew Martin",
-    "maintainer": "andrew.thaddeus@gmail.com",
-    "author": "Andrew Martin",
+    "copyright": "2022 Rick Owens",
+    "maintainer": "rick@owensmurray.com",
+    "author": "Rick Owens",
     "stability": "",
     "tested-with": [],
-    "homepage": "https://github.com/andrewthad/error-codes",
+    "homepage": "https://github.com/owensmurray/om-plugin-imports",
     "pkg-url": "",
-    "bug-reports": "https://github.com/andrewthad/error-codes/issues",
+    "bug-reports": "",
     "source-repos": [],
-    "synopsis": "Error code functions",
-    "description": "",
-    "category": "System",
-    "custom-fields": [
-      [
-        "x-revision",
-        "1"
-      ]
-    ],
-    "build-type-raw": null,
+    "synopsis": "Plugin-based import warnings",
+    "description": "This is a plutin that acts similar to\n`-ddump-minimal-imports`, but the style\nof imports dumped to the dump directory\nis better. Where \"better\" means it will\nsatisfy `-Wmissing-import-lists` (which\n`-ddump-minimal-imports does not always), and it\nwill omit the explicit import list for imports\nthat are already qualified. The files are dumped\nto <dump-dir>/<module-name>.full-imports. No files\nwill be dumped unless `-dumpdir` is explicitly\npassed by the user.",
+    "category": "Compiler Plugin",
+    "custom-fields": [],
+    "build-type-raw": "Simple",
     "custom-setup": null,
     "library": null,
     "sublibraries": [],
@@ -57,7 +52,8 @@
     "data-files": [],
     "data-dir": ".",
     "extra-source-files": [
-      "README.md"
+      "README.md",
+      "LICENSE"
     ],
     "extra-tmp-files": [],
     "extra-doc-files": []
@@ -67,10 +63,9 @@
       "name": {},
       "exposed-modules": [
         [
-          "Foreign",
-          "C",
-          "Error",
-          "Describe"
+          "OM",
+          "Plugin",
+          "Imports"
         ]
       ],
       "re-exported-modules": [],
@@ -119,7 +114,10 @@
         "options": [
           [
             "-Wall",
-            "-O2"
+            "-Wmissing-deriving-strategies",
+            "-Wmissing-export-lists",
+            "-Wmissing-import-lists",
+            "-Wredundant-constraints"
           ],
           []
         ],
@@ -139,21 +137,28 @@
         "targetBuildDepends": [
           {
             "package-name": "base",
-            "version-range": ">=4.11.1 && <5",
+            "version-range": ">=4.17 && <4.18",
             "library": [
               {}
             ]
           },
           {
-            "package-name": "primitive",
-            "version-range": ">=0.7 && <0.10",
+            "package-name": "containers",
+            "version-range": ">=0.6.4.1 && <0.7",
             "library": [
               {}
             ]
           },
           {
-            "package-name": "primitive-unlifted",
-            "version-range": ">=0.1 && <0.2",
+            "package-name": "ghc",
+            "version-range": ">=9.4.0 && <9.5",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "safe",
+            "version-range": ">=0.3.19 && <0.4",
             "library": [
               {}
             ]
@@ -165,21 +170,28 @@
     "condTreeConstraints": [
       {
         "package-name": "base",
-        "version-range": ">=4.11.1 && <5",
+        "version-range": ">=4.17 && <4.18",
         "library": [
           {}
         ]
       },
       {
-        "package-name": "primitive",
-        "version-range": ">=0.7 && <0.10",
+        "package-name": "containers",
+        "version-range": ">=0.6.4.1 && <0.7",
         "library": [
           {}
         ]
       },
       {
-        "package-name": "primitive-unlifted",
-        "version-range": ">=0.1 && <0.2",
+        "package-name": "ghc",
+        "version-range": ">=9.4.0 && <9.5",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "safe",
+        "version-range": ">=0.3.19 && <0.4",
         "library": [
           {}
         ]
@@ -187,17 +199,12 @@
     ],
     "condTreeComponents": []
   },
-  "test-suites": {
-    "test": {
+  "executables": {
+    "om-import-warnings-test": {
       "condTreeData": {
-        "name": "",
-        "interface": {
-          "version": [
-            1,
-            0
-          ],
-          "filepath": "Main.hs"
-        },
+        "name": "om-import-warnings-test",
+        "module-path": "test.hs",
+        "scope": "public",
         "build-info": {
           "buildable": true,
           "buildTools": [],
@@ -217,7 +224,7 @@
           "cxxSources": [],
           "jsSources": [],
           "hsSourceDirs": [
-            "test"
+            "app"
           ],
           "otherModules": [],
           "virtualModules": [],
@@ -238,10 +245,7 @@
           "autogenIncludes": [],
           "installIncludes": [],
           "options": [
-            [
-              "-Wall",
-              "-O2"
-            ],
+            [],
             []
           ],
           "profOptions": [
@@ -260,13 +264,34 @@
           "targetBuildDepends": [
             {
               "package-name": "base",
-              "version-range": "-any",
+              "version-range": ">=4.17 && <4.18",
               "library": [
                 {}
               ]
             },
             {
-              "package-name": "error-codes",
+              "package-name": "containers",
+              "version-range": ">=0.6.4.1 && <0.7",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "ghc",
+              "version-range": ">=9.4.0 && <9.5",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "safe",
+              "version-range": ">=0.3.19 && <0.4",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "om-plugin-imports",
               "version-range": "-any",
               "library": [
                 {}
@@ -279,13 +304,34 @@
       "condTreeConstraints": [
         {
           "package-name": "base",
-          "version-range": "-any",
+          "version-range": ">=4.17 && <4.18",
           "library": [
             {}
           ]
         },
         {
-          "package-name": "error-codes",
+          "package-name": "containers",
+          "version-range": ">=0.6.4.1 && <0.7",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "ghc",
+          "version-range": ">=9.4.0 && <9.5",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "safe",
+          "version-range": ">=0.3.19 && <0.4",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "om-plugin-imports",
           "version-range": "-any",
           "library": [
             {}
