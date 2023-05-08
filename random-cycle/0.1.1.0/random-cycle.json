@@ -2,43 +2,49 @@
   "description": {
     "spec-version": {
       "Left": [
-        1,
-        12
+        2,
+        4
       ]
     },
     "package": {
-      "name": "tensors",
+      "name": "random-cycle",
       "version": [
         0,
         1,
-        5
+        1,
+        0
       ]
     },
     "license": {
-      "Right": "BSD3"
+      "Left": {
+        "license-expression": {
+          "expression": {
+            "id": "GPL_3_0_or_later"
+          },
+          "exception-id": null
+        }
+      }
     },
-    "license-files": [
-      "LICENSE"
-    ],
-    "copyright": "(c) 2018 Daniel YU",
-    "maintainer": "Daniel YU <leptonyu@gmail.com>",
-    "author": "Daniel YU",
+    "license-files": [],
+    "copyright": "Brendan R. Brown, 2023",
+    "maintainer": "brendanrbrown@runbox.com",
+    "author": "Brendan Brown",
     "stability": "",
-    "tested-with": [],
-    "homepage": "https://github.com/leptonyu/tensors#readme",
-    "pkg-url": "",
-    "bug-reports": "",
-    "source-repos": [],
-    "synopsis": "Tensor in Haskell",
-    "description": "Tensor use type level programming in haskell.",
-    "category": "Library",
-    "custom-fields": [
-      [
-        "x-revision",
-        "3"
-      ]
+    "tested-with": [
+      {
+        "compiler": "GHC",
+        "versionRange": "==9.2.5"
+      }
     ],
-    "build-type-raw": "Simple",
+    "homepage": "https://sr.ht/~brendanrbrown/random-cycle",
+    "pkg-url": "",
+    "bug-reports": "https://todo.sr.ht/~brendanrbrown/random-cycle",
+    "source-repos": [],
+    "synopsis": "Uniform draws of partitions and cycle-partitions, with thinning.",
+    "description": "A Haskell library for efficient uniform random sampling of cycle partition\ngraphs on sets of vertices, and partitions of lists or vectors. Selection\ncan be subject to conditions.",
+    "category": "Math, Graphs",
+    "custom-fields": [],
+    "build-type-raw": null,
     "custom-setup": null,
     "library": null,
     "sublibraries": [],
@@ -49,7 +55,9 @@
     "data-files": [],
     "data-dir": ".",
     "extra-source-files": [
-      "README.md"
+      "CHANGELOG.md",
+      "README.md",
+      "LICENSE"
     ],
     "extra-tmp-files": [],
     "extra-doc-files": []
@@ -59,8 +67,12 @@
       "name": {},
       "exposed-modules": [
         [
-          "Data",
-          "Tensor"
+          "RandomCycle",
+          "List"
+        ],
+        [
+          "RandomCycle",
+          "Vector"
         ]
       ],
       "re-exported-modules": [],
@@ -90,79 +102,26 @@
         ],
         "otherModules": [
           [
-            "Data",
-            "Tensor",
-            "Type"
+            "RandomCycle",
+            "List",
+            "Partition"
           ],
           [
-            "Data",
-            "Tensor",
-            "Tensor"
+            "RandomCycle",
+            "Vector",
+            "Partition"
           ],
           [
-            "Data",
-            "Tensor",
-            "Matrix"
-          ],
-          [
-            "Data",
-            "Tensor",
-            "Space"
-          ],
-          [
-            "Data",
-            "Tensor",
-            "Statistics"
+            "RandomCycle",
+            "Vector",
+            "Cycle"
           ]
         ],
         "virtualModules": [],
         "autogenModules": [],
         "defaultLanguage": "Haskell2010",
         "otherLanguages": [],
-        "defaultExtensions": [
-          {
-            "enable-extension": "AllowAmbiguousTypes"
-          },
-          {
-            "enable-extension": "DataKinds"
-          },
-          {
-            "enable-extension": "ExistentialQuantification"
-          },
-          {
-            "enable-extension": "FlexibleContexts"
-          },
-          {
-            "enable-extension": "FlexibleInstances"
-          },
-          {
-            "enable-extension": "FunctionalDependencies"
-          },
-          {
-            "enable-extension": "KindSignatures"
-          },
-          {
-            "enable-extension": "MultiParamTypeClasses"
-          },
-          {
-            "enable-extension": "PolyKinds"
-          },
-          {
-            "enable-extension": "RankNTypes"
-          },
-          {
-            "enable-extension": "ScopedTypeVariables"
-          },
-          {
-            "enable-extension": "TypeFamilies"
-          },
-          {
-            "enable-extension": "TypeOperators"
-          },
-          {
-            "enable-extension": "TypeSynonymInstances"
-          }
-        ],
+        "defaultExtensions": [],
         "otherExtensions": [],
         "oldExtensions": [],
         "extraLibs": [],
@@ -179,10 +138,11 @@
           [
             "-Wall",
             "-Wcompat",
+            "-Widentities",
             "-Wincomplete-record-updates",
             "-Wincomplete-uni-patterns",
-            "-fno-warn-orphans",
-            "-fno-warn-missing-signatures"
+            "-Wpartial-fields",
+            "-Wredundant-constraints"
           ],
           []
         ],
@@ -202,21 +162,35 @@
         "targetBuildDepends": [
           {
             "package-name": "base",
-            "version-range": ">=4.9 && <5",
+            "version-range": ">=4.14.3.0 && <4.18.0.0",
             "library": [
               {}
             ]
           },
           {
-            "package-name": "deepseq",
-            "version-range": ">=1.4.4.0 && <1.5",
+            "package-name": "primitive",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "mwc-random",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "random",
+            "version-range": "-any",
             "library": [
               {}
             ]
           },
           {
             "package-name": "vector",
-            "version-range": ">=0.12.0.2 && <0.14",
+            "version-range": "-any",
             "library": [
               {}
             ]
@@ -228,21 +202,35 @@
     "condTreeConstraints": [
       {
         "package-name": "base",
-        "version-range": ">=4.9 && <5",
+        "version-range": ">=4.14.3.0 && <4.18.0.0",
         "library": [
           {}
         ]
       },
       {
-        "package-name": "deepseq",
-        "version-range": ">=1.4.4.0 && <1.5",
+        "package-name": "primitive",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "mwc-random",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "random",
+        "version-range": "-any",
         "library": [
           {}
         ]
       },
       {
         "package-name": "vector",
-        "version-range": ">=0.12.0.2 && <0.14",
+        "version-range": "-any",
         "library": [
           {}
         ]
@@ -251,7 +239,7 @@
     "condTreeComponents": []
   },
   "test-suites": {
-    "spec": {
+    "random-cycle-test": {
       "condTreeData": {
         "name": "",
         "interface": {
@@ -259,7 +247,7 @@
             1,
             0
           ],
-          "filepath": "Spec.hs"
+          "filepath": "Main.hs"
         },
         "build-info": {
           "buildable": true,
@@ -280,91 +268,21 @@
           "cxxSources": [],
           "jsSources": [],
           "hsSourceDirs": [
-            "test",
-            "src"
+            "test"
           ],
           "otherModules": [
             [
-              "Data",
-              "Tensor"
+              "TestPartitions"
             ],
             [
-              "Data",
-              "Tensor",
-              "Matrix"
-            ],
-            [
-              "Data",
-              "Tensor",
-              "Space"
-            ],
-            [
-              "Data",
-              "Tensor",
-              "Statistics"
-            ],
-            [
-              "Data",
-              "Tensor",
-              "Tensor"
-            ],
-            [
-              "Data",
-              "Tensor",
-              "Type"
-            ],
-            [
-              "Paths_tensors"
+              "TestCycles"
             ]
           ],
           "virtualModules": [],
           "autogenModules": [],
           "defaultLanguage": "Haskell2010",
           "otherLanguages": [],
-          "defaultExtensions": [
-            {
-              "enable-extension": "AllowAmbiguousTypes"
-            },
-            {
-              "enable-extension": "DataKinds"
-            },
-            {
-              "enable-extension": "ExistentialQuantification"
-            },
-            {
-              "enable-extension": "FlexibleContexts"
-            },
-            {
-              "enable-extension": "FlexibleInstances"
-            },
-            {
-              "enable-extension": "FunctionalDependencies"
-            },
-            {
-              "enable-extension": "KindSignatures"
-            },
-            {
-              "enable-extension": "MultiParamTypeClasses"
-            },
-            {
-              "enable-extension": "PolyKinds"
-            },
-            {
-              "enable-extension": "RankNTypes"
-            },
-            {
-              "enable-extension": "ScopedTypeVariables"
-            },
-            {
-              "enable-extension": "TypeFamilies"
-            },
-            {
-              "enable-extension": "TypeOperators"
-            },
-            {
-              "enable-extension": "TypeSynonymInstances"
-            }
-          ],
+          "defaultExtensions": [],
           "otherExtensions": [],
           "oldExtensions": [],
           "extraLibs": [],
@@ -378,14 +296,7 @@
           "autogenIncludes": [],
           "installIncludes": [],
           "options": [
-            [
-              "-Wall",
-              "-Wcompat",
-              "-Wincomplete-record-updates",
-              "-Wincomplete-uni-patterns",
-              "-fno-warn-orphans",
-              "-fno-warn-missing-signatures"
-            ],
+            [],
             []
           ],
           "profOptions": [
@@ -403,43 +314,64 @@
           "customFieldsBI": [],
           "targetBuildDepends": [
             {
-              "package-name": "QuickCheck",
-              "version-range": ">=2.11.1 && <2.15",
-              "library": [
-                {}
-              ]
-            },
-            {
               "package-name": "base",
-              "version-range": ">=4.9 && <5",
+              "version-range": ">=4.14.3.0 && <=4.17.0.0",
               "library": [
                 {}
               ]
             },
             {
-              "package-name": "deepseq",
-              "version-range": ">=1.4.4.0 && <1.5",
+              "package-name": "random-cycle",
+              "version-range": "-any",
               "library": [
                 {}
               ]
             },
             {
-              "package-name": "hspec",
-              "version-range": "==2.*",
+              "package-name": "algebraic-graphs",
+              "version-range": "-any",
               "library": [
                 {}
               ]
             },
             {
-              "package-name": "reflection",
-              "version-range": ">=2.1.4 && <2.2",
+              "package-name": "tasty",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "tasty-hunit",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "tasty-quickcheck",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "random",
+              "version-range": "-any",
               "library": [
                 {}
               ]
             },
             {
               "package-name": "vector",
-              "version-range": ">=0.12.0.2 && <0.14",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "vector-algorithms",
+              "version-range": "-any",
               "library": [
                 {}
               ]
@@ -450,43 +382,64 @@
       },
       "condTreeConstraints": [
         {
-          "package-name": "QuickCheck",
-          "version-range": ">=2.11.1 && <2.15",
-          "library": [
-            {}
-          ]
-        },
-        {
           "package-name": "base",
-          "version-range": ">=4.9 && <5",
+          "version-range": ">=4.14.3.0 && <=4.17.0.0",
           "library": [
             {}
           ]
         },
         {
-          "package-name": "deepseq",
-          "version-range": ">=1.4.4.0 && <1.5",
+          "package-name": "random-cycle",
+          "version-range": "-any",
           "library": [
             {}
           ]
         },
         {
-          "package-name": "hspec",
-          "version-range": "==2.*",
+          "package-name": "algebraic-graphs",
+          "version-range": "-any",
           "library": [
             {}
           ]
         },
         {
-          "package-name": "reflection",
-          "version-range": ">=2.1.4 && <2.2",
+          "package-name": "tasty",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "tasty-hunit",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "tasty-quickcheck",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "random",
+          "version-range": "-any",
           "library": [
             {}
           ]
         },
         {
           "package-name": "vector",
-          "version-range": ">=0.12.0.2 && <0.14",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "vector-algorithms",
+          "version-range": "-any",
           "library": [
             {}
           ]
@@ -496,7 +449,7 @@
     }
   },
   "benchmarks": {
-    "bm": {
+    "benches": {
       "condTreeData": {
         "name": "",
         "interface": {
@@ -504,7 +457,7 @@
             1,
             0
           ],
-          "filepath": "Bench.hs"
+          "filepath": "Main.hs"
         },
         "build-info": {
           "buildable": true,
@@ -525,91 +478,18 @@
           "cxxSources": [],
           "jsSources": [],
           "hsSourceDirs": [
-            "bench",
-            "src"
+            "benches"
           ],
           "otherModules": [
             [
-              "Data",
-              "Tensor"
-            ],
-            [
-              "Data",
-              "Tensor",
-              "Matrix"
-            ],
-            [
-              "Data",
-              "Tensor",
-              "Space"
-            ],
-            [
-              "Data",
-              "Tensor",
-              "Statistics"
-            ],
-            [
-              "Data",
-              "Tensor",
-              "Tensor"
-            ],
-            [
-              "Data",
-              "Tensor",
-              "Type"
-            ],
-            [
-              "Paths_tensors"
+              "RunTimes"
             ]
           ],
           "virtualModules": [],
           "autogenModules": [],
           "defaultLanguage": "Haskell2010",
           "otherLanguages": [],
-          "defaultExtensions": [
-            {
-              "enable-extension": "AllowAmbiguousTypes"
-            },
-            {
-              "enable-extension": "DataKinds"
-            },
-            {
-              "enable-extension": "ExistentialQuantification"
-            },
-            {
-              "enable-extension": "FlexibleContexts"
-            },
-            {
-              "enable-extension": "FlexibleInstances"
-            },
-            {
-              "enable-extension": "FunctionalDependencies"
-            },
-            {
-              "enable-extension": "KindSignatures"
-            },
-            {
-              "enable-extension": "MultiParamTypeClasses"
-            },
-            {
-              "enable-extension": "PolyKinds"
-            },
-            {
-              "enable-extension": "RankNTypes"
-            },
-            {
-              "enable-extension": "ScopedTypeVariables"
-            },
-            {
-              "enable-extension": "TypeFamilies"
-            },
-            {
-              "enable-extension": "TypeOperators"
-            },
-            {
-              "enable-extension": "TypeSynonymInstances"
-            }
-          ],
+          "defaultExtensions": [],
           "otherExtensions": [],
           "oldExtensions": [],
           "extraLibs": [],
@@ -623,14 +503,7 @@
           "autogenIncludes": [],
           "installIncludes": [],
           "options": [
-            [
-              "-Wall",
-              "-Wcompat",
-              "-Wincomplete-record-updates",
-              "-Wincomplete-uni-patterns",
-              "-fno-warn-orphans",
-              "-fno-warn-missing-signatures"
-            ],
+            [],
             []
           ],
           "profOptions": [
@@ -649,28 +522,35 @@
           "targetBuildDepends": [
             {
               "package-name": "base",
-              "version-range": ">=4.9 && <5",
+              "version-range": "^>=4.16.3.0",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "random-cycle",
+              "version-range": "-any",
               "library": [
                 {}
               ]
             },
             {
               "package-name": "criterion",
-              "version-range": ">=1.5.9.0 && <1.7",
+              "version-range": "-any",
               "library": [
                 {}
               ]
             },
             {
-              "package-name": "deepseq",
-              "version-range": ">=1.4.4.0 && <1.5",
+              "package-name": "random",
+              "version-range": "-any",
               "library": [
                 {}
               ]
             },
             {
               "package-name": "vector",
-              "version-range": ">=0.12.0.2 && <0.14",
+              "version-range": "-any",
               "library": [
                 {}
               ]
@@ -682,28 +562,35 @@
       "condTreeConstraints": [
         {
           "package-name": "base",
-          "version-range": ">=4.9 && <5",
+          "version-range": "^>=4.16.3.0",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "random-cycle",
+          "version-range": "-any",
           "library": [
             {}
           ]
         },
         {
           "package-name": "criterion",
-          "version-range": ">=1.5.9.0 && <1.7",
+          "version-range": "-any",
           "library": [
             {}
           ]
         },
         {
-          "package-name": "deepseq",
-          "version-range": ">=1.4.4.0 && <1.5",
+          "package-name": "random",
+          "version-range": "-any",
           "library": [
             {}
           ]
         },
         {
           "package-name": "vector",
-          "version-range": ">=0.12.0.2 && <0.14",
+          "version-range": "-any",
           "library": [
             {}
           ]
