@@ -1,61 +1,46 @@
 {
   "description": {
     "spec-version": {
-      "Left": [
-        3,
-        0
-      ]
+      "Right": ">=1.10"
     },
     "package": {
-      "name": "multicurryable",
+      "name": "hasql-notifications",
       "version": [
         0,
-        1,
+        2,
         0,
-        1
+        5
       ]
     },
     "license": {
-      "Left": {
-        "license-expression": {
-          "expression": {
-            "id": "BSD_3_Clause"
-          },
-          "exception-id": null
-        }
-      }
+      "Right": "BSD3"
     },
     "license-files": [
       "LICENSE"
     ],
-    "copyright": "",
-    "maintainer": "diaz_carrete@yahoo.com",
-    "author": "Daniel Díaz",
+    "copyright": "2020 Diogo Biazus",
+    "maintainer": "diogo@biazus.ca",
+    "author": "Diogo Biazus",
     "stability": "",
     "tested-with": [],
-    "homepage": "",
+    "homepage": "https://github.com/diogob/hasql-notifications",
     "pkg-url": "",
     "bug-reports": "",
     "source-repos": [
       {
         "kind": {},
         "type": "Git",
-        "location": "https://github.com/danidiaz/multicurryable.git",
+        "location": "https://github.com/diogob/hasql-notifications",
         "module": null,
         "branch": null,
         "tag": null,
         "subdir": null
       }
     ],
-    "synopsis": "Uncurry functions with multiple arguments.",
-    "description": "This library provides a version of \"uncurry\" which takes a\nfunction of multiple arguments and stores the arguments into an n-ary product\nfrom \"sop-core\". The first non-function type encountered in the signature is \nconsidered the \"end of the function\".\n\nThis library also provides a way of reassociating a sequence of nested Eithers,\nso that the innermost Rigth value floats to the top-level Right branch.",
-    "category": "Data",
-    "custom-fields": [
-      [
-        "x-revision",
-        "1"
-      ]
-    ],
+    "synopsis": "LISTEN/NOTIFY support for Hasql",
+    "description": "Use PostgreSQL Asynchronous notification support with your Hasql Types.",
+    "category": "Hasql, Database, PostgreSQL",
+    "custom-fields": [],
     "build-type-raw": "Simple",
     "custom-setup": null,
     "library": null,
@@ -66,18 +51,19 @@
     "benchmarks": [],
     "data-files": [],
     "data-dir": ".",
-    "extra-source-files": [],
+    "extra-source-files": [
+      "README.md"
+    ],
     "extra-tmp-files": [],
-    "extra-doc-files": [
-      "CHANGELOG.md"
-    ]
+    "extra-doc-files": []
   },
   "library": {
     "condTreeData": {
       "name": {},
       "exposed-modules": [
         [
-          "Multicurryable"
+          "Hasql",
+          "Notifications"
         ]
       ],
       "re-exported-modules": [],
@@ -103,14 +89,18 @@
         "cxxSources": [],
         "jsSources": [],
         "hsSourceDirs": [
-          "lib"
+          "src"
         ],
         "otherModules": [],
         "virtualModules": [],
         "autogenModules": [],
-        "defaultLanguage": "GHC2021",
+        "defaultLanguage": "Haskell2010",
         "otherLanguages": [],
-        "defaultExtensions": [],
+        "defaultExtensions": [
+          {
+            "enable-extension": "OverloadedStrings"
+          }
+        ],
         "otherExtensions": [],
         "oldExtensions": [],
         "extraLibs": [],
@@ -145,14 +135,49 @@
         "targetBuildDepends": [
           {
             "package-name": "base",
-            "version-range": ">=4.16 && <5",
+            "version-range": ">=4.7 && <5",
             "library": [
               {}
             ]
           },
           {
-            "package-name": "sop-core",
-            "version-range": "^>=0.5.0.2",
+            "package-name": "bytestring",
+            "version-range": ">=0.10.8.2",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "text",
+            "version-range": ">=1.2.3.1 && <2.2",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "hasql-pool",
+            "version-range": ">=0.4 && <0.11",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "bytestring",
+            "version-range": ">=0.10",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "postgresql-libpq",
+            "version-range": ">=0.9 && <1.0",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "hasql",
+            "version-range": ">=0.19",
             "library": [
               {}
             ]
@@ -164,14 +189,49 @@
     "condTreeConstraints": [
       {
         "package-name": "base",
-        "version-range": ">=4.16 && <5",
+        "version-range": ">=4.7 && <5",
         "library": [
           {}
         ]
       },
       {
-        "package-name": "sop-core",
-        "version-range": "^>=0.5.0.2",
+        "package-name": "bytestring",
+        "version-range": ">=0.10.8.2",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "text",
+        "version-range": ">=1.2.3.1 && <2.2",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "hasql-pool",
+        "version-range": ">=0.4 && <0.11",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "bytestring",
+        "version-range": ">=0.10",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "postgresql-libpq",
+        "version-range": ">=0.9 && <1.0",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "hasql",
+        "version-range": ">=0.19",
         "library": [
           {}
         ]
@@ -179,17 +239,12 @@
     ],
     "condTreeComponents": []
   },
-  "test-suites": {
-    "doctests": {
+  "executables": {
+    "hasql-notifications": {
       "condTreeData": {
-        "name": "",
-        "interface": {
-          "version": [
-            1,
-            0
-          ],
-          "filepath": "doctests.hs"
-        },
+        "name": "hasql-notifications",
+        "module-path": "Main.hs",
+        "scope": "public",
         "build-info": {
           "buildable": true,
           "buildTools": [],
@@ -209,14 +264,18 @@
           "cxxSources": [],
           "jsSources": [],
           "hsSourceDirs": [
-            "test"
+            "app"
           ],
           "otherModules": [],
           "virtualModules": [],
           "autogenModules": [],
-          "defaultLanguage": "GHC2021",
+          "defaultLanguage": "Haskell2010",
           "otherLanguages": [],
-          "defaultExtensions": [],
+          "defaultExtensions": [
+            {
+              "enable-extension": "OverloadedStrings"
+            }
+          ],
           "otherExtensions": [],
           "oldExtensions": [],
           "extraLibs": [],
@@ -231,7 +290,9 @@
           "installIncludes": [],
           "options": [
             [
-              "-Wall"
+              "-threaded",
+              "-rtsopts",
+              "-with-rtsopts=-N"
             ],
             []
           ],
@@ -251,20 +312,20 @@
           "targetBuildDepends": [
             {
               "package-name": "base",
-              "version-range": ">=4.16 && <5",
+              "version-range": "-any",
               "library": [
                 {}
               ]
             },
             {
-              "package-name": "doctest",
-              "version-range": "^>=0.20.1",
+              "package-name": "hasql",
+              "version-range": "-any",
               "library": [
                 {}
               ]
             },
             {
-              "package-name": "multicurryable",
+              "package-name": "hasql-notifications",
               "version-range": "-any",
               "library": [
                 {}
@@ -277,20 +338,20 @@
       "condTreeConstraints": [
         {
           "package-name": "base",
-          "version-range": ">=4.16 && <5",
+          "version-range": "-any",
           "library": [
             {}
           ]
         },
         {
-          "package-name": "doctest",
-          "version-range": "^>=0.20.1",
+          "package-name": "hasql",
+          "version-range": "-any",
           "library": [
             {}
           ]
         },
         {
-          "package-name": "multicurryable",
+          "package-name": "hasql-notifications",
           "version-range": "-any",
           "library": [
             {}
@@ -298,8 +359,10 @@
         }
       ],
       "condTreeComponents": []
-    },
-    "multicurryable-test": {
+    }
+  },
+  "test-suites": {
+    "hasql-notifications-test": {
       "condTreeData": {
         "name": "",
         "interface": {
@@ -307,7 +370,7 @@
             1,
             0
           ],
-          "filepath": "tests.hs"
+          "filepath": "Spec.hs"
         },
         "build-info": {
           "buildable": true,
@@ -330,12 +393,21 @@
           "hsSourceDirs": [
             "test"
           ],
-          "otherModules": [],
+          "otherModules": [
+            [
+              "Hasql",
+              "NotificationsSpec"
+            ]
+          ],
           "virtualModules": [],
           "autogenModules": [],
-          "defaultLanguage": "GHC2021",
+          "defaultLanguage": "Haskell2010",
           "otherLanguages": [],
-          "defaultExtensions": [],
+          "defaultExtensions": [
+            {
+              "enable-extension": "OverloadedStrings"
+            }
+          ],
           "otherExtensions": [],
           "oldExtensions": [],
           "extraLibs": [],
@@ -350,7 +422,9 @@
           "installIncludes": [],
           "options": [
             [
-              "-Wall"
+              "-threaded",
+              "-rtsopts",
+              "-with-rtsopts=-N"
             ],
             []
           ],
@@ -370,20 +444,41 @@
           "targetBuildDepends": [
             {
               "package-name": "base",
-              "version-range": ">=4.16 && <5",
+              "version-range": "-any",
               "library": [
                 {}
               ]
             },
             {
-              "package-name": "sop-core",
-              "version-range": "^>=0.5.0.2",
+              "package-name": "hasql",
+              "version-range": "-any",
               "library": [
                 {}
               ]
             },
             {
-              "package-name": "multicurryable",
+              "package-name": "hasql-notifications",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "hspec",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "bytestring",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "QuickCheck",
               "version-range": "-any",
               "library": [
                 {}
@@ -396,20 +491,41 @@
       "condTreeConstraints": [
         {
           "package-name": "base",
-          "version-range": ">=4.16 && <5",
+          "version-range": "-any",
           "library": [
             {}
           ]
         },
         {
-          "package-name": "sop-core",
-          "version-range": "^>=0.5.0.2",
+          "package-name": "hasql",
+          "version-range": "-any",
           "library": [
             {}
           ]
         },
         {
-          "package-name": "multicurryable",
+          "package-name": "hasql-notifications",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "hspec",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "bytestring",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "QuickCheck",
           "version-range": "-any",
           "library": [
             {}
