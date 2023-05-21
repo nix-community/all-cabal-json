@@ -1,0 +1,944 @@
+{
+  "description": {
+    "spec-version": {
+      "Right": ">=1.10"
+    },
+    "package": {
+      "name": "linearmap-category",
+      "version": [
+        0,
+        6,
+        0,
+        1
+      ]
+    },
+    "license": {
+      "Right": "OtherLicense"
+    },
+    "license-files": [
+      "LICENSE"
+    ],
+    "copyright": "",
+    "maintainer": "(@) jsag $ hvl.no",
+    "author": "Justus Sagemüller",
+    "stability": "",
+    "tested-with": [],
+    "homepage": "https://github.com/leftaroundabout/linearmap-family",
+    "pkg-url": "",
+    "bug-reports": "",
+    "source-repos": [],
+    "synopsis": "Native, complete-ish, matrix-free linear algebra.",
+    "description": "The term /numerical linear algebra/ is often used almost\nsynonymous with /matrix modifications/. However, what's interesting\nfor most applications are really just /points in some vector space/\nand linear mappings between them, not matrices (which represent\npoints or mappings, but inherently depend on a particular choice\nof basis / coordinate system).\n\nThis library implements the crucial LA operations like solving\nlinear equations and eigenvalue problems, without requiring\nthat the vectors are represented in some particular basis.\nThis appoach offers:\n1. conceptual elegance (only operations that are actually\ngeometrically sensible will typecheck – this is far stronger than\njust confirming that the dimensions match, as some other libraries\ndo)\n2. opportunity to type tensors more expressively. E.g. instead of\nhaving a tensor with many dimensions that can easily be confused,\none can have e.g. a space of images and take the tensor product\nwith a linear batch space, etc..\n3. it opens up optimisation possibilities: the vectors can be\nunboxed, use dedicated sparse compression, possibly carry out the\ncomputations on accelerated hardware (GPU etc.). The spaces can in\nprinciple even be infinite-dimensional (e.g. function spaces).\n\nThe linear algebra algorithms in this package only require the\nvectors to support fundamental operations like addition, scalar\nproducts, double-dual-space coercion and tensor products. These\nare expressed by a hierarchy of type classes, none of which requires\na basis representation.\nBasis representations are optional to allow storage in matrix-based\nbackends, but this too is done in a way that allows e.g. taking the\ntensor product of a lazy function space with a static-dimensional\nmatrix space with a low-dimensional channels space, and then only\nthe inner dimensions will be stored in a packed format.",
+    "category": "Math",
+    "custom-fields": [],
+    "build-type-raw": "Simple",
+    "custom-setup": null,
+    "library": null,
+    "sublibraries": [],
+    "executables": [],
+    "foreign-libs": [],
+    "test-suites": [],
+    "benchmarks": [],
+    "data-files": [],
+    "data-dir": ".",
+    "extra-source-files": [],
+    "extra-tmp-files": [],
+    "extra-doc-files": []
+  },
+  "package-flags": [
+    {
+      "name": "singletons3",
+      "description": "Whether to use a version of the singletons package after its split in a core- and base part",
+      "default": true,
+      "manual": false
+    }
+  ],
+  "library": {
+    "condTreeData": {
+      "name": {},
+      "exposed-modules": [
+        [
+          "Math",
+          "LinearMap",
+          "Category"
+        ],
+        [
+          "Math",
+          "LinearMap",
+          "Category",
+          "Instances",
+          "Deriving"
+        ],
+        [
+          "Math",
+          "LinearMap",
+          "Coercion"
+        ],
+        [
+          "Math",
+          "VectorSpace",
+          "ZeroDimensional"
+        ],
+        [
+          "Math",
+          "VectorSpace",
+          "Dual"
+        ],
+        [
+          "Math",
+          "VectorSpace",
+          "MiscUtil",
+          "MultiConstraints"
+        ],
+        [
+          "Math",
+          "LinearMap",
+          "Category",
+          "Derivatives"
+        ],
+        [
+          "Math",
+          "VectorSpace",
+          "DimensionAware",
+          "Theorems",
+          "MaybeNat"
+        ],
+        [
+          "Math",
+          "VectorSpace",
+          "DimensionAware"
+        ]
+      ],
+      "re-exported-modules": [],
+      "signatures": [],
+      "exposed": true,
+      "visibility": "LibraryVisibilityPublic",
+      "build-info": {
+        "buildable": true,
+        "buildTools": [],
+        "buildToolDepends": [],
+        "cppOptions": [],
+        "asmOptions": [],
+        "cmmOptions": [],
+        "ccOptions": [],
+        "cxxOptions": [],
+        "ldOptions": [],
+        "pkgconfigDepends": [],
+        "frameworks": [],
+        "extraFrameworkDirs": [],
+        "asmSources": [],
+        "cmmSources": [],
+        "cSources": [],
+        "cxxSources": [],
+        "jsSources": [],
+        "hsSourceDirs": [],
+        "otherModules": [
+          [
+            "Math",
+            "LinearMap",
+            "Category",
+            "Class"
+          ],
+          [
+            "Math",
+            "LinearMap",
+            "Asserted"
+          ],
+          [
+            "Math",
+            "LinearMap",
+            "Category",
+            "TensorQuot"
+          ],
+          [
+            "Math",
+            "LinearMap",
+            "Category",
+            "Instances"
+          ],
+          [
+            "Math",
+            "VectorSpace",
+            "Docile"
+          ]
+        ],
+        "virtualModules": [],
+        "autogenModules": [],
+        "defaultLanguage": "Haskell2010",
+        "otherLanguages": [],
+        "defaultExtensions": [],
+        "otherExtensions": [
+          {
+            "enable-extension": "FlexibleInstances"
+          },
+          {
+            "enable-extension": "UndecidableInstances"
+          },
+          {
+            "enable-extension": "FunctionalDependencies"
+          },
+          {
+            "enable-extension": "TypeOperators"
+          },
+          {
+            "enable-extension": "TypeFamilies"
+          }
+        ],
+        "oldExtensions": [],
+        "extraLibs": [],
+        "extraGHCiLibs": [],
+        "extraBundledLibs": [],
+        "extraLibFlavours": [],
+        "extraDynLibFlavours": [],
+        "extraLibDirs": [],
+        "includeDirs": [],
+        "includes": [],
+        "autogenIncludes": [],
+        "installIncludes": [],
+        "options": [
+          [],
+          []
+        ],
+        "profOptions": [
+          [],
+          []
+        ],
+        "sharedOptions": [
+          [],
+          []
+        ],
+        "staticOptions": [
+          [],
+          []
+        ],
+        "customFieldsBI": [],
+        "targetBuildDepends": [
+          {
+            "package-name": "base",
+            "version-range": ">=4.8 && <5",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "vector-space",
+            "version-range": ">=0.11 && <0.18",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "MemoTrie",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "constrained-categories",
+            "version-range": ">=0.3 && <0.5",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "containers",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "vector",
+            "version-range": ">=0.12 && <0.14",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "tagged",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "free-vector-spaces",
+            "version-range": ">=0.1.4 && <0.3",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "linear",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "lens",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "transformers",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "manifolds-core",
+            "version-range": ">=0.6.1.0 && <0.7",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "semigroups",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "hashable",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "data-default-class",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "ieee754",
+            "version-range": ">=0.7 && <0.9",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "call-stack",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "template-haskell",
+            "version-range": ">=2.12 && <2.21",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "th-abstraction",
+            "version-range": ">=0.4 && <0.6",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "ghc-typelits-natnormalise",
+            "version-range": ">=0.7 && <0.8",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "type-natural",
+            "version-range": ">=1.0 && <1.4",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "QuickCheck",
+            "version-range": ">=2.11 && <2.15",
+            "library": [
+              {}
+            ]
+          }
+        ],
+        "mixins": []
+      }
+    },
+    "condTreeConstraints": [
+      {
+        "package-name": "base",
+        "version-range": ">=4.8 && <5",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "vector-space",
+        "version-range": ">=0.11 && <0.18",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "MemoTrie",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "constrained-categories",
+        "version-range": ">=0.3 && <0.5",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "containers",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "vector",
+        "version-range": ">=0.12 && <0.14",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "tagged",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "free-vector-spaces",
+        "version-range": ">=0.1.4 && <0.3",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "linear",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "lens",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "transformers",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "manifolds-core",
+        "version-range": ">=0.6.1.0 && <0.7",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "semigroups",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "hashable",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "data-default-class",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "ieee754",
+        "version-range": ">=0.7 && <0.9",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "call-stack",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "template-haskell",
+        "version-range": ">=2.12 && <2.21",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "th-abstraction",
+        "version-range": ">=0.4 && <0.6",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "ghc-typelits-natnormalise",
+        "version-range": ">=0.7 && <0.8",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "type-natural",
+        "version-range": ">=1.0 && <1.4",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "QuickCheck",
+        "version-range": ">=2.11 && <2.15",
+        "library": [
+          {}
+        ]
+      }
+    ],
+    "condTreeComponents": [
+      {
+        "condBranchCondition": {
+          "variable": {
+            "flag": "singletons3"
+          }
+        },
+        "condBranchIfTrue": {
+          "condTreeData": {
+            "name": {},
+            "exposed-modules": [],
+            "re-exported-modules": [],
+            "signatures": [],
+            "exposed": true,
+            "visibility": "LibraryVisibilityPublic",
+            "build-info": {
+              "buildable": true,
+              "buildTools": [],
+              "buildToolDepends": [],
+              "cppOptions": [],
+              "asmOptions": [],
+              "cmmOptions": [],
+              "ccOptions": [],
+              "cxxOptions": [],
+              "ldOptions": [],
+              "pkgconfigDepends": [],
+              "frameworks": [],
+              "extraFrameworkDirs": [],
+              "asmSources": [],
+              "cmmSources": [],
+              "cSources": [],
+              "cxxSources": [],
+              "jsSources": [],
+              "hsSourceDirs": [],
+              "otherModules": [],
+              "virtualModules": [],
+              "autogenModules": [],
+              "defaultLanguage": null,
+              "otherLanguages": [],
+              "defaultExtensions": [],
+              "otherExtensions": [],
+              "oldExtensions": [],
+              "extraLibs": [],
+              "extraGHCiLibs": [],
+              "extraBundledLibs": [],
+              "extraLibFlavours": [],
+              "extraDynLibFlavours": [],
+              "extraLibDirs": [],
+              "includeDirs": [],
+              "includes": [],
+              "autogenIncludes": [],
+              "installIncludes": [],
+              "options": [
+                [],
+                []
+              ],
+              "profOptions": [
+                [],
+                []
+              ],
+              "sharedOptions": [
+                [],
+                []
+              ],
+              "staticOptions": [
+                [],
+                []
+              ],
+              "customFieldsBI": [],
+              "targetBuildDepends": [
+                {
+                  "package-name": "singletons",
+                  "version-range": ">=3.0 && <3.3",
+                  "library": [
+                    {}
+                  ]
+                },
+                {
+                  "package-name": "singletons-base",
+                  "version-range": ">=3.0 && <3.3",
+                  "library": [
+                    {}
+                  ]
+                }
+              ],
+              "mixins": []
+            }
+          },
+          "condTreeConstraints": [
+            {
+              "package-name": "singletons",
+              "version-range": ">=3.0 && <3.3",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "singletons-base",
+              "version-range": ">=3.0 && <3.3",
+              "library": [
+                {}
+              ]
+            }
+          ],
+          "condTreeComponents": []
+        },
+        "condBranchIfFalse": {
+          "condTreeData": {
+            "name": {},
+            "exposed-modules": [],
+            "re-exported-modules": [],
+            "signatures": [],
+            "exposed": true,
+            "visibility": "LibraryVisibilityPublic",
+            "build-info": {
+              "buildable": true,
+              "buildTools": [],
+              "buildToolDepends": [],
+              "cppOptions": [],
+              "asmOptions": [],
+              "cmmOptions": [],
+              "ccOptions": [],
+              "cxxOptions": [],
+              "ldOptions": [],
+              "pkgconfigDepends": [],
+              "frameworks": [],
+              "extraFrameworkDirs": [],
+              "asmSources": [],
+              "cmmSources": [],
+              "cSources": [],
+              "cxxSources": [],
+              "jsSources": [],
+              "hsSourceDirs": [],
+              "otherModules": [],
+              "virtualModules": [],
+              "autogenModules": [],
+              "defaultLanguage": null,
+              "otherLanguages": [],
+              "defaultExtensions": [],
+              "otherExtensions": [],
+              "oldExtensions": [],
+              "extraLibs": [],
+              "extraGHCiLibs": [],
+              "extraBundledLibs": [],
+              "extraLibFlavours": [],
+              "extraDynLibFlavours": [],
+              "extraLibDirs": [],
+              "includeDirs": [],
+              "includes": [],
+              "autogenIncludes": [],
+              "installIncludes": [],
+              "options": [
+                [],
+                []
+              ],
+              "profOptions": [
+                [],
+                []
+              ],
+              "sharedOptions": [
+                [],
+                []
+              ],
+              "staticOptions": [
+                [],
+                []
+              ],
+              "customFieldsBI": [],
+              "targetBuildDepends": [
+                {
+                  "package-name": "singletons",
+                  "version-range": ">=2.7 && <3.0",
+                  "library": [
+                    {}
+                  ]
+                }
+              ],
+              "mixins": []
+            }
+          },
+          "condTreeConstraints": [
+            {
+              "package-name": "singletons",
+              "version-range": ">=2.7 && <3.0",
+              "library": [
+                {}
+              ]
+            }
+          ],
+          "condTreeComponents": []
+        }
+      }
+    ]
+  },
+  "test-suites": {
+    "tasty": {
+      "condTreeData": {
+        "name": "",
+        "interface": {
+          "version": [
+            1,
+            0
+          ],
+          "filepath": "test.hs"
+        },
+        "build-info": {
+          "buildable": true,
+          "buildTools": [],
+          "buildToolDepends": [],
+          "cppOptions": [],
+          "asmOptions": [],
+          "cmmOptions": [],
+          "ccOptions": [],
+          "cxxOptions": [],
+          "ldOptions": [],
+          "pkgconfigDepends": [],
+          "frameworks": [],
+          "extraFrameworkDirs": [],
+          "asmSources": [],
+          "cmmSources": [],
+          "cSources": [],
+          "cxxSources": [],
+          "jsSources": [],
+          "hsSourceDirs": [
+            "test/tasty"
+          ],
+          "otherModules": [],
+          "virtualModules": [],
+          "autogenModules": [],
+          "defaultLanguage": "Haskell2010",
+          "otherLanguages": [],
+          "defaultExtensions": [],
+          "otherExtensions": [],
+          "oldExtensions": [],
+          "extraLibs": [],
+          "extraGHCiLibs": [],
+          "extraBundledLibs": [],
+          "extraLibFlavours": [],
+          "extraDynLibFlavours": [],
+          "extraLibDirs": [],
+          "includeDirs": [],
+          "includes": [],
+          "autogenIncludes": [],
+          "installIncludes": [],
+          "options": [
+            [
+              "-threaded",
+              "-with-rtsopts -N8 -M2G"
+            ],
+            []
+          ],
+          "profOptions": [
+            [],
+            []
+          ],
+          "sharedOptions": [
+            [],
+            []
+          ],
+          "staticOptions": [
+            [],
+            []
+          ],
+          "customFieldsBI": [],
+          "targetBuildDepends": [
+            {
+              "package-name": "base",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "linearmap-category",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "vector-space",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "QuickCheck",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "manifolds-core",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "linear",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "vector",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "constrained-categories",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "tasty",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "tasty-quickcheck",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            }
+          ],
+          "mixins": []
+        }
+      },
+      "condTreeConstraints": [
+        {
+          "package-name": "base",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "linearmap-category",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "vector-space",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "QuickCheck",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "manifolds-core",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "linear",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "vector",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "constrained-categories",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "tasty",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "tasty-quickcheck",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        }
+      ],
+      "condTreeComponents": []
+    }
+  }
+}
