@@ -1,56 +1,49 @@
 {
   "description": {
     "spec-version": {
-      "Right": ">=1.10"
+      "Left": [
+        1,
+        12
+      ]
     },
     "package": {
-      "name": "reflex-process",
+      "name": "pandoc-symreg",
       "version": [
         0,
-        3,
+        2,
         1,
-        2
+        1
       ]
     },
     "license": {
-      "Right": "BSD3"
+      "Right": "OtherLicense"
     },
     "license-files": [
       "LICENSE"
     ],
-    "copyright": "2020 Obsidian Systems LLC",
-    "maintainer": "maintainer@obsidian.systems",
-    "author": "Obsidian Systems LLC",
+    "copyright": "2023 Fabricio Olivetti de França",
+    "maintainer": "fabricio.olivetti@gmail.com",
+    "author": "Fabricio Olivetti de França",
     "stability": "",
-    "tested-with": [
-      {
-        "compiler": "GHC",
-        "versionRange": "==8.6.5 || ==8.10.7 || ==9.6.1"
-      }
-    ],
-    "homepage": "",
+    "tested-with": [],
+    "homepage": "https://github.com/folivetti/pandoc-symreg#readme",
     "pkg-url": "",
-    "bug-reports": "https://github.com/reflex-frp/reflex-process/issues",
+    "bug-reports": "https://github.com/folivetti/pandoc-symreg/issues",
     "source-repos": [
       {
         "kind": {},
         "type": "Git",
-        "location": "https://github.com/reflex-frp/reflex-process",
+        "location": "https://github.com/folivetti/pandoc-symreg",
         "module": null,
         "branch": null,
         "tag": null,
         "subdir": null
       }
     ],
-    "synopsis": "Reflex FRP interface for running system processes",
-    "description": "Run and interact with system processes from within a Reflex FRP application.\n\n<https://reflex-frp.org>",
-    "category": "System, FRP",
-    "custom-fields": [
-      [
-        "x-revision",
-        "2"
-      ]
-    ],
+    "synopsis": "A tool to convert symbolic regression expressions into different formats.",
+    "description": "A pandoc-like cli tool and library to convert symbolic regression expressions to convenient formats",
+    "category": "Text, Math",
+    "custom-fields": [],
     "build-type-raw": "Simple",
     "custom-setup": null,
     "library": null,
@@ -62,8 +55,8 @@
     "data-files": [],
     "data-dir": ".",
     "extra-source-files": [
-      "ChangeLog.md",
-      "README.md"
+      "README.md",
+      "CHANGELOG.md"
     ],
     "extra-tmp-files": [],
     "extra-doc-files": []
@@ -73,8 +66,13 @@
       "name": {},
       "exposed-modules": [
         [
-          "Reflex",
-          "Process"
+          "Text",
+          "ParseSR"
+        ],
+        [
+          "Text",
+          "ParseSR",
+          "IO"
         ]
       ],
       "re-exported-modules": [],
@@ -102,7 +100,11 @@
         "hsSourceDirs": [
           "src"
         ],
-        "otherModules": [],
+        "otherModules": [
+          [
+            "Paths_pandoc_symreg"
+          ]
+        ],
         "virtualModules": [],
         "autogenModules": [],
         "defaultLanguage": "Haskell2010",
@@ -122,7 +124,16 @@
         "installIncludes": [],
         "options": [
           [
-            "-Wall"
+            "-Wall",
+            "-Wcompat",
+            "-Widentities",
+            "-Wincomplete-record-updates",
+            "-Wincomplete-uni-patterns",
+            "-Wmissing-export-lists",
+            "-Wmissing-home-modules",
+            "-Wpartial-fields",
+            "-Wredundant-constraints",
+            "-fno-warn-unused-do-bind"
           ],
           []
         ],
@@ -141,50 +152,57 @@
         "customFieldsBI": [],
         "targetBuildDepends": [
           {
-            "package-name": "base",
-            "version-range": ">=4.12 && <4.19",
+            "package-name": "attoparsec",
+            "version-range": "==0.14.*",
             "library": [
               {}
             ]
           },
           {
-            "package-name": "async",
-            "version-range": ">=2 && <3",
+            "package-name": "attoparsec-expr",
+            "version-range": "==0.1.*",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "base",
+            "version-range": ">=4.7 && <5",
             "library": [
               {}
             ]
           },
           {
             "package-name": "bytestring",
-            "version-range": ">=0.10 && <0.12",
+            "version-range": "==0.11.*",
             "library": [
               {}
             ]
           },
           {
-            "package-name": "data-default",
-            "version-range": ">=0.2 && <0.8",
+            "package-name": "mtl",
+            "version-range": "==2.2.*",
             "library": [
               {}
             ]
           },
           {
-            "package-name": "process",
-            "version-range": ">=1.6.4 && <1.7",
+            "package-name": "optparse-applicative",
+            "version-range": "==0.18.*",
             "library": [
               {}
             ]
           },
           {
-            "package-name": "reflex",
-            "version-range": ">=0.7.1 && <1",
+            "package-name": "srtree",
+            "version-range": ">=1.0.0.4 && <1.1",
             "library": [
               {}
             ]
           },
           {
-            "package-name": "unix",
-            "version-range": ">=2.7 && <2.9",
+            "package-name": "srtree-eqsat",
+            "version-range": "-any",
             "library": [
               {}
             ]
@@ -195,50 +213,57 @@
     },
     "condTreeConstraints": [
       {
-        "package-name": "base",
-        "version-range": ">=4.12 && <4.19",
+        "package-name": "attoparsec",
+        "version-range": "==0.14.*",
         "library": [
           {}
         ]
       },
       {
-        "package-name": "async",
-        "version-range": ">=2 && <3",
+        "package-name": "attoparsec-expr",
+        "version-range": "==0.1.*",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "base",
+        "version-range": ">=4.7 && <5",
         "library": [
           {}
         ]
       },
       {
         "package-name": "bytestring",
-        "version-range": ">=0.10 && <0.12",
+        "version-range": "==0.11.*",
         "library": [
           {}
         ]
       },
       {
-        "package-name": "data-default",
-        "version-range": ">=0.2 && <0.8",
+        "package-name": "mtl",
+        "version-range": "==2.2.*",
         "library": [
           {}
         ]
       },
       {
-        "package-name": "process",
-        "version-range": ">=1.6.4 && <1.7",
+        "package-name": "optparse-applicative",
+        "version-range": "==0.18.*",
         "library": [
           {}
         ]
       },
       {
-        "package-name": "reflex",
-        "version-range": ">=0.7.1 && <1",
+        "package-name": "srtree",
+        "version-range": ">=1.0.0.4 && <1.1",
         "library": [
           {}
         ]
       },
       {
-        "package-name": "unix",
-        "version-range": ">=2.7 && <2.9",
+        "package-name": "srtree-eqsat",
+        "version-range": "-any",
         "library": [
           {}
         ]
@@ -247,10 +272,10 @@
     "condTreeComponents": []
   },
   "executables": {
-    "readme": {
+    "pandoc-symreg": {
       "condTreeData": {
-        "name": "readme",
-        "module-path": "README.lhs",
+        "name": "pandoc-symreg",
+        "module-path": "Main.hs",
         "scope": "public",
         "build-info": {
           "buildable": true,
@@ -270,8 +295,14 @@
           "cSources": [],
           "cxxSources": [],
           "jsSources": [],
-          "hsSourceDirs": [],
-          "otherModules": [],
+          "hsSourceDirs": [
+            "app"
+          ],
+          "otherModules": [
+            [
+              "Paths_pandoc_symreg"
+            ]
+          ],
           "virtualModules": [],
           "autogenModules": [],
           "defaultLanguage": "Haskell2010",
@@ -291,9 +322,19 @@
           "installIncludes": [],
           "options": [
             [
+              "-Wall",
+              "-Wcompat",
+              "-Widentities",
+              "-Wincomplete-record-updates",
+              "-Wincomplete-uni-patterns",
+              "-Wmissing-export-lists",
+              "-Wmissing-home-modules",
+              "-Wpartial-fields",
+              "-Wredundant-constraints",
+              "-fno-warn-unused-do-bind",
               "-threaded",
-              "-optL",
-              "-q"
+              "-rtsopts",
+              "-with-rtsopts=-N"
             ],
             []
           ],
@@ -312,63 +353,63 @@
           "customFieldsBI": [],
           "targetBuildDepends": [
             {
+              "package-name": "attoparsec",
+              "version-range": "==0.14.*",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "attoparsec-expr",
+              "version-range": "==0.1.*",
+              "library": [
+                {}
+              ]
+            },
+            {
               "package-name": "base",
+              "version-range": ">=4.7 && <5",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "bytestring",
+              "version-range": "==0.11.*",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "mtl",
+              "version-range": "==2.2.*",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "optparse-applicative",
+              "version-range": "==0.18.*",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "pandoc-symreg",
               "version-range": "-any",
               "library": [
                 {}
               ]
             },
             {
-              "package-name": "containers",
-              "version-range": ">=0.5 && <0.7",
+              "package-name": "srtree",
+              "version-range": ">=1.0.0.4 && <1.1",
               "library": [
                 {}
               ]
             },
             {
-              "package-name": "data-default",
-              "version-range": "-any",
-              "library": [
-                {}
-              ]
-            },
-            {
-              "package-name": "process",
-              "version-range": "-any",
-              "library": [
-                {}
-              ]
-            },
-            {
-              "package-name": "reflex",
-              "version-range": "-any",
-              "library": [
-                {}
-              ]
-            },
-            {
-              "package-name": "reflex-process",
-              "version-range": "-any",
-              "library": [
-                {}
-              ]
-            },
-            {
-              "package-name": "reflex-vty",
-              "version-range": ">=0.2 && <0.5",
-              "library": [
-                {}
-              ]
-            },
-            {
-              "package-name": "text",
-              "version-range": ">=1.2.3 && <2.1",
-              "library": [
-                {}
-              ]
-            },
-            {
-              "package-name": "vty",
+              "package-name": "srtree-eqsat",
               "version-range": "-any",
               "library": [
                 {}
@@ -380,63 +421,63 @@
       },
       "condTreeConstraints": [
         {
+          "package-name": "attoparsec",
+          "version-range": "==0.14.*",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "attoparsec-expr",
+          "version-range": "==0.1.*",
+          "library": [
+            {}
+          ]
+        },
+        {
           "package-name": "base",
+          "version-range": ">=4.7 && <5",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "bytestring",
+          "version-range": "==0.11.*",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "mtl",
+          "version-range": "==2.2.*",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "optparse-applicative",
+          "version-range": "==0.18.*",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "pandoc-symreg",
           "version-range": "-any",
           "library": [
             {}
           ]
         },
         {
-          "package-name": "containers",
-          "version-range": ">=0.5 && <0.7",
+          "package-name": "srtree",
+          "version-range": ">=1.0.0.4 && <1.1",
           "library": [
             {}
           ]
         },
         {
-          "package-name": "data-default",
-          "version-range": "-any",
-          "library": [
-            {}
-          ]
-        },
-        {
-          "package-name": "process",
-          "version-range": "-any",
-          "library": [
-            {}
-          ]
-        },
-        {
-          "package-name": "reflex",
-          "version-range": "-any",
-          "library": [
-            {}
-          ]
-        },
-        {
-          "package-name": "reflex-process",
-          "version-range": "-any",
-          "library": [
-            {}
-          ]
-        },
-        {
-          "package-name": "reflex-vty",
-          "version-range": ">=0.2 && <0.5",
-          "library": [
-            {}
-          ]
-        },
-        {
-          "package-name": "text",
-          "version-range": ">=1.2.3 && <2.1",
-          "library": [
-            {}
-          ]
-        },
-        {
-          "package-name": "vty",
+          "package-name": "srtree-eqsat",
           "version-range": "-any",
           "library": [
             {}
@@ -447,7 +488,7 @@
     }
   },
   "test-suites": {
-    "tests": {
+    "pandoc-symreg-test": {
       "condTreeData": {
         "name": "",
         "interface": {
@@ -455,7 +496,7 @@
             1,
             0
           ],
-          "filepath": "Main.hs"
+          "filepath": "Spec.hs"
         },
         "build-info": {
           "buildable": true,
@@ -478,7 +519,11 @@
           "hsSourceDirs": [
             "test"
           ],
-          "otherModules": [],
+          "otherModules": [
+            [
+              "Paths_pandoc_symreg"
+            ]
+          ],
           "virtualModules": [],
           "autogenModules": [],
           "defaultLanguage": "Haskell2010",
@@ -498,10 +543,19 @@
           "installIncludes": [],
           "options": [
             [
-              "-O2",
               "-Wall",
+              "-Wcompat",
+              "-Widentities",
+              "-Wincomplete-record-updates",
+              "-Wincomplete-uni-patterns",
+              "-Wmissing-export-lists",
+              "-Wmissing-home-modules",
+              "-Wpartial-fields",
+              "-Wredundant-constraints",
+              "-fno-warn-unused-do-bind",
+              "-threaded",
               "-rtsopts",
-              "-threaded"
+              "-with-rtsopts=-N"
             ],
             []
           ],
@@ -520,91 +574,63 @@
           "customFieldsBI": [],
           "targetBuildDepends": [
             {
-              "package-name": "async",
-              "version-range": "-any",
+              "package-name": "attoparsec",
+              "version-range": "==0.14.*",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "attoparsec-expr",
+              "version-range": "==0.1.*",
               "library": [
                 {}
               ]
             },
             {
               "package-name": "base",
-              "version-range": "-any",
+              "version-range": ">=4.7 && <5",
               "library": [
                 {}
               ]
             },
             {
               "package-name": "bytestring",
-              "version-range": "-any",
-              "library": [
-                {}
-              ]
-            },
-            {
-              "package-name": "containers",
-              "version-range": "-any",
-              "library": [
-                {}
-              ]
-            },
-            {
-              "package-name": "dependent-sum",
-              "version-range": "-any",
-              "library": [
-                {}
-              ]
-            },
-            {
-              "package-name": "hspec",
-              "version-range": "-any",
+              "version-range": "==0.11.*",
               "library": [
                 {}
               ]
             },
             {
               "package-name": "mtl",
+              "version-range": "==2.2.*",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "optparse-applicative",
+              "version-range": "==0.18.*",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "pandoc-symreg",
               "version-range": "-any",
               "library": [
                 {}
               ]
             },
             {
-              "package-name": "primitive",
-              "version-range": "-any",
+              "package-name": "srtree",
+              "version-range": ">=1.0.0.4 && <1.1",
               "library": [
                 {}
               ]
             },
             {
-              "package-name": "process",
-              "version-range": "-any",
-              "library": [
-                {}
-              ]
-            },
-            {
-              "package-name": "ref-tf",
-              "version-range": "-any",
-              "library": [
-                {}
-              ]
-            },
-            {
-              "package-name": "reflex",
-              "version-range": "-any",
-              "library": [
-                {}
-              ]
-            },
-            {
-              "package-name": "reflex-process",
-              "version-range": "-any",
-              "library": [
-                {}
-              ]
-            },
-            {
-              "package-name": "unix",
+              "package-name": "srtree-eqsat",
               "version-range": "-any",
               "library": [
                 {}
@@ -616,91 +642,63 @@
       },
       "condTreeConstraints": [
         {
-          "package-name": "async",
-          "version-range": "-any",
+          "package-name": "attoparsec",
+          "version-range": "==0.14.*",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "attoparsec-expr",
+          "version-range": "==0.1.*",
           "library": [
             {}
           ]
         },
         {
           "package-name": "base",
-          "version-range": "-any",
+          "version-range": ">=4.7 && <5",
           "library": [
             {}
           ]
         },
         {
           "package-name": "bytestring",
-          "version-range": "-any",
-          "library": [
-            {}
-          ]
-        },
-        {
-          "package-name": "containers",
-          "version-range": "-any",
-          "library": [
-            {}
-          ]
-        },
-        {
-          "package-name": "dependent-sum",
-          "version-range": "-any",
-          "library": [
-            {}
-          ]
-        },
-        {
-          "package-name": "hspec",
-          "version-range": "-any",
+          "version-range": "==0.11.*",
           "library": [
             {}
           ]
         },
         {
           "package-name": "mtl",
+          "version-range": "==2.2.*",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "optparse-applicative",
+          "version-range": "==0.18.*",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "pandoc-symreg",
           "version-range": "-any",
           "library": [
             {}
           ]
         },
         {
-          "package-name": "primitive",
-          "version-range": "-any",
+          "package-name": "srtree",
+          "version-range": ">=1.0.0.4 && <1.1",
           "library": [
             {}
           ]
         },
         {
-          "package-name": "process",
-          "version-range": "-any",
-          "library": [
-            {}
-          ]
-        },
-        {
-          "package-name": "ref-tf",
-          "version-range": "-any",
-          "library": [
-            {}
-          ]
-        },
-        {
-          "package-name": "reflex",
-          "version-range": "-any",
-          "library": [
-            {}
-          ]
-        },
-        {
-          "package-name": "reflex-process",
-          "version-range": "-any",
-          "library": [
-            {}
-          ]
-        },
-        {
-          "package-name": "unix",
+          "package-name": "srtree-eqsat",
           "version-range": "-any",
           "library": [
             {}
