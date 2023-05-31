@@ -2,16 +2,16 @@
   "description": {
     "spec-version": {
       "Left": [
-        3,
-        0
+        2,
+        2
       ]
     },
     "package": {
-      "name": "attoparsec-run",
+      "name": "md5",
       "version": [
         0,
+        1,
         0,
-        2,
         0
       ]
     },
@@ -19,44 +19,29 @@
       "Left": {
         "license-expression": {
           "expression": {
-            "id": "Apache_2_0"
+            "id": "BSD_3_Clause"
           },
           "exception-id": null
         }
       }
     },
     "license-files": [
-      "license.txt"
+      "LICENSE"
     ],
-    "copyright": "",
-    "maintainer": "Chris Martin, Julie Moronuki",
-    "author": "Chris Martin",
+    "copyright": "2023 Andrew Martin",
+    "maintainer": "andrew.thaddeus@gmail.com",
+    "author": "Andrew Martin",
     "stability": "",
     "tested-with": [],
-    "homepage": "https://github.com/typeclasses/attoparsec-run",
+    "homepage": "https://github.com/byteverse/md5",
     "pkg-url": "",
-    "bug-reports": "https://github.com/typeclasses/attoparsec-run/issues",
-    "source-repos": [
-      {
-        "kind": {},
-        "type": "Git",
-        "location": "git://github.com/typeclasses/attoparsec-run.git",
-        "module": null,
-        "branch": null,
-        "tag": null,
-        "subdir": null
-      }
-    ],
-    "synopsis": "Conveniently run Attoparsec parsers",
-    "description": "This package fixes a number of problems with the API that\nAttoparsec provides for running parsers. The difficulties stem from\nthe that that Attoparsec's @IResult@ type encompasses three situations:\nWhen parsing has succeeded, when parsing has failed, and when parsing\nis awaiting further input. This is insufficient to describe situations\nin which we know we are dealing with a subset of these three cases.\nWe address this by introducing two smaller types: @FinalResult@ and\n@ParseError@.",
-    "category": "Parsing",
-    "custom-fields": [
-      [
-        "x-revision",
-        "1"
-      ]
-    ],
-    "build-type-raw": null,
+    "bug-reports": "https://github.com/byteverse/md5/issues",
+    "source-repos": [],
+    "synopsis": "MD5 Hash",
+    "description": "This library is a copy of cryptohash-md5 that works on GC-managed\nbyte arrays instead of ByteString. The C code is a copied from\nthat library. If you find an issue with the C code, you should\nopen an issue on cryptohash-md5.",
+    "category": "Data",
+    "custom-fields": [],
+    "build-type-raw": "Simple",
     "custom-setup": null,
     "library": null,
     "sublibraries": [],
@@ -67,7 +52,8 @@
     "data-files": [],
     "data-dir": ".",
     "extra-source-files": [
-      "*.md"
+      "CHANGELOG.md",
+      "cbits/md5.h"
     ],
     "extra-tmp-files": [],
     "extra-doc-files": []
@@ -77,21 +63,8 @@
       "name": {},
       "exposed-modules": [
         [
-          "Data",
-          "Attoparsec",
-          "Run"
-        ],
-        [
-          "Data",
-          "Attoparsec",
-          "ByteString",
-          "Run"
-        ],
-        [
-          "Data",
-          "Attoparsec",
-          "Text",
-          "Run"
+          "Hash",
+          "Md5"
         ]
       ],
       "re-exported-modules": [],
@@ -105,7 +78,10 @@
         "cppOptions": [],
         "asmOptions": [],
         "cmmOptions": [],
-        "ccOptions": [],
+        "ccOptions": [
+          "-Wall",
+          "-O3"
+        ],
         "cxxOptions": [],
         "ldOptions": [],
         "pkgconfigDepends": [],
@@ -117,18 +93,20 @@
         "cxxSources": [],
         "jsSources": [],
         "hsSourceDirs": [
-          "library"
+          "src"
         ],
-        "otherModules": [],
+        "otherModules": [
+          [
+            "Hash",
+            "Md5",
+            "Internal"
+          ]
+        ],
         "virtualModules": [],
         "autogenModules": [],
         "defaultLanguage": "Haskell2010",
         "otherLanguages": [],
-        "defaultExtensions": [
-          {
-            "enable-extension": "FlexibleContexts"
-          }
-        ],
+        "defaultExtensions": [],
         "otherExtensions": [],
         "oldExtensions": [],
         "extraLibs": [],
@@ -137,12 +115,15 @@
         "extraLibFlavours": [],
         "extraDynLibFlavours": [],
         "extraLibDirs": [],
-        "includeDirs": [],
+        "includeDirs": [
+          "cbits"
+        ],
         "includes": [],
         "autogenIncludes": [],
         "installIncludes": [],
         "options": [
           [
+            "-O2",
             "-Wall"
           ],
           []
@@ -162,36 +143,29 @@
         "customFieldsBI": [],
         "targetBuildDepends": [
           {
-            "package-name": "attoparsec",
-            "version-range": "^>=0.14.4",
-            "library": [
-              {}
-            ]
-          },
-          {
             "package-name": "base",
-            "version-range": "^>=4.14 || ^>=4.15 || ^>=4.16 || ^>=4.17 || ^>=4.18",
+            "version-range": ">=4.12 && <5",
             "library": [
               {}
             ]
           },
           {
-            "package-name": "bytestring",
-            "version-range": "^>=0.10.12 || ^>=0.11",
+            "package-name": "primitive",
+            "version-range": ">=0.7 && <0.8",
             "library": [
               {}
             ]
           },
           {
-            "package-name": "mtl",
-            "version-range": "^>=2.2.2 || ^>=2.3",
+            "package-name": "bytebuild",
+            "version-range": ">=0.3.4 && <0.4",
             "library": [
               {}
             ]
           },
           {
-            "package-name": "text",
-            "version-range": "^>=1.2.4 || ^>=2.0",
+            "package-name": "byteslice",
+            "version-range": ">=0.2.2 && <0.3",
             "library": [
               {}
             ]
@@ -202,36 +176,29 @@
     },
     "condTreeConstraints": [
       {
-        "package-name": "attoparsec",
-        "version-range": "^>=0.14.4",
-        "library": [
-          {}
-        ]
-      },
-      {
         "package-name": "base",
-        "version-range": "^>=4.14 || ^>=4.15 || ^>=4.16 || ^>=4.17 || ^>=4.18",
+        "version-range": ">=4.12 && <5",
         "library": [
           {}
         ]
       },
       {
-        "package-name": "bytestring",
-        "version-range": "^>=0.10.12 || ^>=0.11",
+        "package-name": "primitive",
+        "version-range": ">=0.7 && <0.8",
         "library": [
           {}
         ]
       },
       {
-        "package-name": "mtl",
-        "version-range": "^>=2.2.2 || ^>=2.3",
+        "package-name": "bytebuild",
+        "version-range": ">=0.3.4 && <0.4",
         "library": [
           {}
         ]
       },
       {
-        "package-name": "text",
-        "version-range": "^>=1.2.4 || ^>=2.0",
+        "package-name": "byteslice",
+        "version-range": ">=0.2.2 && <0.3",
         "library": [
           {}
         ]
@@ -240,7 +207,7 @@
     "condTreeComponents": []
   },
   "test-suites": {
-    "test-attoparsec-run": {
+    "test": {
       "condTreeData": {
         "name": "",
         "interface": {
@@ -276,14 +243,7 @@
           "autogenModules": [],
           "defaultLanguage": "Haskell2010",
           "otherLanguages": [],
-          "defaultExtensions": [
-            {
-              "enable-extension": "FlexibleContexts"
-            },
-            {
-              "enable-extension": "OverloadedStrings"
-            }
-          ],
+          "defaultExtensions": [],
           "otherExtensions": [],
           "oldExtensions": [],
           "extraLibs": [],
@@ -298,6 +258,7 @@
           "installIncludes": [],
           "options": [
             [
+              "-O2",
               "-Wall"
             ],
             []
@@ -317,50 +278,43 @@
           "customFieldsBI": [],
           "targetBuildDepends": [
             {
-              "package-name": "attoparsec",
-              "version-range": "^>=0.14.4",
-              "library": [
-                {}
-              ]
-            },
-            {
               "package-name": "base",
-              "version-range": "^>=4.14 || ^>=4.15 || ^>=4.16 || ^>=4.17 || ^>=4.18",
-              "library": [
-                {}
-              ]
-            },
-            {
-              "package-name": "bytestring",
-              "version-range": "^>=0.10.12 || ^>=0.11",
-              "library": [
-                {}
-              ]
-            },
-            {
-              "package-name": "mtl",
-              "version-range": "^>=2.2.2 || ^>=2.3",
-              "library": [
-                {}
-              ]
-            },
-            {
-              "package-name": "text",
-              "version-range": "^>=1.2.4 || ^>=2.0",
-              "library": [
-                {}
-              ]
-            },
-            {
-              "package-name": "attoparsec-run",
               "version-range": "-any",
               "library": [
                 {}
               ]
             },
             {
-              "package-name": "hspec",
-              "version-range": "^>=2.8.5 || ^>=2.9 || ^>=2.10 || ^>=2.11",
+              "package-name": "bytebuild",
+              "version-range": ">=0.3.4",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "byteslice",
+              "version-range": ">=0.1.4.0",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "natural-arithmetic",
+              "version-range": ">=0.1.1",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "primitive",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "md5",
+              "version-range": "-any",
               "library": [
                 {}
               ]
@@ -371,50 +325,43 @@
       },
       "condTreeConstraints": [
         {
-          "package-name": "attoparsec",
-          "version-range": "^>=0.14.4",
-          "library": [
-            {}
-          ]
-        },
-        {
           "package-name": "base",
-          "version-range": "^>=4.14 || ^>=4.15 || ^>=4.16 || ^>=4.17 || ^>=4.18",
-          "library": [
-            {}
-          ]
-        },
-        {
-          "package-name": "bytestring",
-          "version-range": "^>=0.10.12 || ^>=0.11",
-          "library": [
-            {}
-          ]
-        },
-        {
-          "package-name": "mtl",
-          "version-range": "^>=2.2.2 || ^>=2.3",
-          "library": [
-            {}
-          ]
-        },
-        {
-          "package-name": "text",
-          "version-range": "^>=1.2.4 || ^>=2.0",
-          "library": [
-            {}
-          ]
-        },
-        {
-          "package-name": "attoparsec-run",
           "version-range": "-any",
           "library": [
             {}
           ]
         },
         {
-          "package-name": "hspec",
-          "version-range": "^>=2.8.5 || ^>=2.9 || ^>=2.10 || ^>=2.11",
+          "package-name": "bytebuild",
+          "version-range": ">=0.3.4",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "byteslice",
+          "version-range": ">=0.1.4.0",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "natural-arithmetic",
+          "version-range": ">=0.1.1",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "primitive",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "md5",
+          "version-range": "-any",
           "library": [
             {}
           ]
