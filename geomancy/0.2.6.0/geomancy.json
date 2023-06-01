@@ -2,51 +2,49 @@
   "description": {
     "spec-version": {
       "Left": [
-        3,
-        0
+        1,
+        12
       ]
     },
     "package": {
-      "name": "grab",
+      "name": "geomancy",
       "version": [
         0,
-        0,
-        0,
-        8
+        2,
+        6,
+        0
       ]
     },
     "license": {
-      "Left": {
-        "license-expression": {
-          "expression": {
-            "id": "MIT"
-          },
-          "exception-id": null
-        }
-      }
+      "Right": "BSD3"
     },
     "license-files": [
-      "license.txt"
+      "LICENSE"
     ],
-    "copyright": "2021 Mission Valley Software LLC",
-    "maintainer": "Chris Martin, Julie Moronuki",
-    "author": "Chris Martin",
+    "copyright": "2021 Alexander Bondarenko",
+    "maintainer": "aenor.realm@gmail.com",
+    "author": "Alexander Bondarenko",
     "stability": "",
     "tested-with": [],
-    "homepage": "https://github.com/typeclasses/grab",
+    "homepage": "",
     "pkg-url": "",
-    "bug-reports": "https://github.com/typeclasses/grab/issues",
-    "source-repos": [],
-    "synopsis": "Applicative non-linear consumption",
-    "description": "== The Grab type\n\nA grab consumes some portion (none, part, or all) of\nits input @bag@, and returns a @residue@ consisting of\nthe unconsumed input, some monoidal @log@ (e.g. a list\nof error messages), and some @desideratum@ (the object\nof desire) produced from the consumed input, or\n@Nothing@ if the grab failed.\n\n> newtype Grab bag residue log desideratum =\n>   Grab (\n>     bag -> (residue, log, Maybe desideratum)\n>   )\n\nGrabs are useful as parsers for inputs such as JSON\nobjects or lists of form parameters, where the input data\nis not necessarily given linearly in the same order in\nwhich we want to consume it.\n\n== Applicative composition\n\nA @Simple@ grab (where the @bag@ and @residue@ are the\nsame type) has an @Applicative@ instance.\n\n> instance (bag ~ residue, Monoid log) =>\n>     Applicative (Grab bag residue log)\n\nFor example, we can create two simple list grabs, one that\ngrabs multiples of two, and the other that grabs multiples\nof three:\n\n> twos, threes :: Monoid log =>\n>     Control.Grab.Simple [Integer] log [Integer]\n> twos   = partition (Data.List.partition (\\x -> mod x 2 == 0))\n> threes = partition (Data.List.partition (\\x -> mod x 3 == 0))\n\n> λ> runGrabMaybe ((,) <$> twos @() <*> threes @()) [1..10]\n> Just ([2,4,6,8,10],[3,9])\n\nNotice that the second part of the resulting tuple contains only\nthe /odd/ multiples of three. Because @twos@ runs first, it\nconsumes @6@ before the @threes@ can get it.\n\n== Pipeline composition\n\n@a / b@ is a pipeline of two grabs, where the desideratum from\n@a@ is the @bag@ for @b@.\n.\n> (/) :: Semigroup log\n>     => Grab bag residue log x\n>     -> Grab x  _residue log desideratum\n>     -> Grab bag residue log desideratum\n\n> λ> runGrabMaybe (twos @() / threes @()) [1..10]\n> Just [6]\n\n> λ> runGrabMaybe ((,) <$> (twos @() / threes @()) <*> threes @()) [1..10]\n> Just ([6],[3,9])",
-    "category": "Control",
-    "custom-fields": [
-      [
-        "x-revision",
-        "1"
-      ]
+    "bug-reports": "",
+    "source-repos": [
+      {
+        "kind": {},
+        "type": "Git",
+        "location": "https://gitlab.com/dpwiz/geomancy",
+        "module": null,
+        "branch": null,
+        "tag": null,
+        "subdir": null
+      }
     ],
-    "build-type-raw": null,
+    "synopsis": "Geometry and matrix manipulation",
+    "description": "Sometimes it is unavoidable you have to do stuff on CPU.\nLet's at least do it faster.",
+    "category": "Graphics",
+    "custom-fields": [],
+    "build-type-raw": "Simple",
     "custom-setup": null,
     "library": null,
     "sublibraries": [],
@@ -57,7 +55,8 @@
     "data-files": [],
     "data-dir": ".",
     "extra-source-files": [
-      "changelog.md"
+      "README.md",
+      "ChangeLog.md"
     ],
     "extra-tmp-files": [],
     "extra-doc-files": []
@@ -67,8 +66,99 @@
       "name": {},
       "exposed-modules": [
         [
-          "Control",
-          "Grab"
+          "Geomancy"
+        ],
+        [
+          "Geomancy",
+          "Elementwise"
+        ],
+        [
+          "Geomancy",
+          "Gl",
+          "Funs"
+        ],
+        [
+          "Geomancy",
+          "Interpolate"
+        ],
+        [
+          "Geomancy",
+          "IVec2"
+        ],
+        [
+          "Geomancy",
+          "IVec3"
+        ],
+        [
+          "Geomancy",
+          "IVec4"
+        ],
+        [
+          "Geomancy",
+          "Mat4"
+        ],
+        [
+          "Geomancy",
+          "Point"
+        ],
+        [
+          "Geomancy",
+          "Quaternion"
+        ],
+        [
+          "Geomancy",
+          "Swizzle"
+        ],
+        [
+          "Geomancy",
+          "Transform"
+        ],
+        [
+          "Geomancy",
+          "Transform",
+          "Tree"
+        ],
+        [
+          "Geomancy",
+          "Tree"
+        ],
+        [
+          "Geomancy",
+          "UVec2"
+        ],
+        [
+          "Geomancy",
+          "UVec3"
+        ],
+        [
+          "Geomancy",
+          "UVec4"
+        ],
+        [
+          "Geomancy",
+          "Vec2"
+        ],
+        [
+          "Geomancy",
+          "Vec3"
+        ],
+        [
+          "Geomancy",
+          "Vec4"
+        ],
+        [
+          "Geomancy",
+          "Vector"
+        ],
+        [
+          "Geomancy",
+          "Vulkan",
+          "Projection"
+        ],
+        [
+          "Geomancy",
+          "Vulkan",
+          "View"
         ]
       ],
       "re-exported-modules": [],
@@ -90,13 +180,19 @@
         "extraFrameworkDirs": [],
         "asmSources": [],
         "cmmSources": [],
-        "cSources": [],
+        "cSources": [
+          "cbits/mat4.c"
+        ],
         "cxxSources": [],
         "jsSources": [],
         "hsSourceDirs": [
           "src"
         ],
-        "otherModules": [],
+        "otherModules": [
+          [
+            "Paths_geomancy"
+          ]
+        ],
         "virtualModules": [],
         "autogenModules": [],
         "defaultLanguage": "Haskell2010",
@@ -116,7 +212,7 @@
         "installIncludes": [],
         "options": [
           [
-            "-fdefer-typed-holes"
+            "-Wall"
           ],
           []
         ],
@@ -136,7 +232,49 @@
         "targetBuildDepends": [
           {
             "package-name": "base",
-            "version-range": "^>=4.12 || ^>=4.13 || ^>=4.14 || ^>=4.15 || ^>=4.16 || ^>=4.17",
+            "version-range": ">=4.7 && <5",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "containers",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "deepseq",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "gl-block",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "mono-traversable",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "ptrdiff",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "simple-affine-space",
+            "version-range": "-any",
             "library": [
               {}
             ]
@@ -148,7 +286,49 @@
     "condTreeConstraints": [
       {
         "package-name": "base",
-        "version-range": "^>=4.12 || ^>=4.13 || ^>=4.14 || ^>=4.15 || ^>=4.16 || ^>=4.17",
+        "version-range": ">=4.7 && <5",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "containers",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "deepseq",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "gl-block",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "mono-traversable",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "ptrdiff",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "simple-affine-space",
+        "version-range": "-any",
         "library": [
           {}
         ]
@@ -157,7 +337,7 @@
     "condTreeComponents": []
   },
   "test-suites": {
-    "grab-test": {
+    "geomancy-test": {
       "condTreeData": {
         "name": "",
         "interface": {
@@ -165,7 +345,7 @@
             1,
             0
           ],
-          "filepath": "Main.hs"
+          "filepath": "Spec.hs"
         },
         "build-info": {
           "buildable": true,
@@ -188,126 +368,11 @@
           "hsSourceDirs": [
             "test"
           ],
-          "otherModules": [],
-          "virtualModules": [],
-          "autogenModules": [],
-          "defaultLanguage": "Haskell2010",
-          "otherLanguages": [],
-          "defaultExtensions": [],
-          "otherExtensions": [],
-          "oldExtensions": [],
-          "extraLibs": [],
-          "extraGHCiLibs": [],
-          "extraBundledLibs": [],
-          "extraLibFlavours": [],
-          "extraDynLibFlavours": [],
-          "extraLibDirs": [],
-          "includeDirs": [],
-          "includes": [],
-          "autogenIncludes": [],
-          "installIncludes": [],
-          "options": [
-            [],
-            []
+          "otherModules": [
+            [
+              "Paths_geomancy"
+            ]
           ],
-          "profOptions": [
-            [],
-            []
-          ],
-          "sharedOptions": [
-            [],
-            []
-          ],
-          "staticOptions": [
-            [],
-            []
-          ],
-          "customFieldsBI": [],
-          "targetBuildDepends": [
-            {
-              "package-name": "base",
-              "version-range": "^>=4.12 || ^>=4.13 || ^>=4.14 || ^>=4.15 || ^>=4.16 || ^>=4.17",
-              "library": [
-                {}
-              ]
-            },
-            {
-              "package-name": "grab",
-              "version-range": "-any",
-              "library": [
-                {}
-              ]
-            },
-            {
-              "package-name": "hedgehog",
-              "version-range": "^>=1.0 || ^>=1.1 || ^>=1.2",
-              "library": [
-                {}
-              ]
-            }
-          ],
-          "mixins": []
-        }
-      },
-      "condTreeConstraints": [
-        {
-          "package-name": "base",
-          "version-range": "^>=4.12 || ^>=4.13 || ^>=4.14 || ^>=4.15 || ^>=4.16 || ^>=4.17",
-          "library": [
-            {}
-          ]
-        },
-        {
-          "package-name": "grab",
-          "version-range": "-any",
-          "library": [
-            {}
-          ]
-        },
-        {
-          "package-name": "hedgehog",
-          "version-range": "^>=1.0 || ^>=1.1 || ^>=1.2",
-          "library": [
-            {}
-          ]
-        }
-      ],
-      "condTreeComponents": []
-    }
-  },
-  "benchmarks": {
-    "grab-space-bench": {
-      "condTreeData": {
-        "name": "",
-        "interface": {
-          "version": [
-            1,
-            0
-          ],
-          "filepath": "Main.hs"
-        },
-        "build-info": {
-          "buildable": true,
-          "buildTools": [],
-          "buildToolDepends": [],
-          "cppOptions": [],
-          "asmOptions": [],
-          "cmmOptions": [],
-          "ccOptions": [],
-          "cxxOptions": [],
-          "ldOptions": [],
-          "pkgconfigDepends": [],
-          "frameworks": [],
-          "extraFrameworkDirs": [],
-          "asmSources": [],
-          "cmmSources": [],
-          "cSources": [],
-          "cxxSources": [],
-          "jsSources": [],
-          "hsSourceDirs": [
-            "bench/space"
-          ],
-          "otherModules": [],
           "virtualModules": [],
           "autogenModules": [],
           "defaultLanguage": "Haskell2010",
@@ -327,7 +392,12 @@
           "installIncludes": [],
           "options": [
             [
-              "-with-rtsopts=-K1K"
+              "-Wall",
+              "-threaded",
+              "-rtsopts",
+              "-with-rtsopts=-N",
+              "-with-rtsopts=-qn1",
+              "-with-rtsopts=-A128m"
             ],
             []
           ],
@@ -347,13 +417,41 @@
           "targetBuildDepends": [
             {
               "package-name": "base",
-              "version-range": "^>=4.12 || ^>=4.13 || ^>=4.14 || ^>=4.15 || ^>=4.16 || ^>=4.17",
+              "version-range": ">=4.7 && <5",
               "library": [
                 {}
               ]
             },
             {
-              "package-name": "grab",
+              "package-name": "deepseq",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "geomancy",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "hedgehog",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "linear",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "simple-affine-space",
               "version-range": "-any",
               "library": [
                 {}
@@ -366,13 +464,41 @@
       "condTreeConstraints": [
         {
           "package-name": "base",
-          "version-range": "^>=4.12 || ^>=4.13 || ^>=4.14 || ^>=4.15 || ^>=4.16 || ^>=4.17",
+          "version-range": ">=4.7 && <5",
           "library": [
             {}
           ]
         },
         {
-          "package-name": "grab",
+          "package-name": "deepseq",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "geomancy",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "hedgehog",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "linear",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "simple-affine-space",
           "version-range": "-any",
           "library": [
             {}
@@ -380,8 +506,10 @@
         }
       ],
       "condTreeComponents": []
-    },
-    "grab-time-bench": {
+    }
+  },
+  "benchmarks": {
+    "geomancy-bench": {
       "condTreeData": {
         "name": "",
         "interface": {
@@ -410,9 +538,13 @@
           "cxxSources": [],
           "jsSources": [],
           "hsSourceDirs": [
-            "bench/time"
+            "bench"
           ],
-          "otherModules": [],
+          "otherModules": [
+            [
+              "Paths_geomancy"
+            ]
+          ],
           "virtualModules": [],
           "autogenModules": [],
           "defaultLanguage": "Haskell2010",
@@ -431,7 +563,14 @@
           "autogenIncludes": [],
           "installIncludes": [],
           "options": [
-            [],
+            [
+              "-Wall",
+              "-threaded",
+              "-rtsopts",
+              "-with-rtsopts=-N",
+              "-with-rtsopts=-qn1",
+              "-with-rtsopts=-A16m"
+            ],
             []
           ],
           "profOptions": [
@@ -450,20 +589,41 @@
           "targetBuildDepends": [
             {
               "package-name": "base",
-              "version-range": "^>=4.12 || ^>=4.13 || ^>=4.14 || ^>=4.15 || ^>=4.16 || ^>=4.17",
+              "version-range": ">=4.7 && <5",
               "library": [
                 {}
               ]
             },
             {
               "package-name": "criterion",
-              "version-range": "^>=1.5",
+              "version-range": "-any",
               "library": [
                 {}
               ]
             },
             {
-              "package-name": "grab",
+              "package-name": "deepseq",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "geomancy",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "linear",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "simple-affine-space",
               "version-range": "-any",
               "library": [
                 {}
@@ -476,20 +636,41 @@
       "condTreeConstraints": [
         {
           "package-name": "base",
-          "version-range": "^>=4.12 || ^>=4.13 || ^>=4.14 || ^>=4.15 || ^>=4.16 || ^>=4.17",
+          "version-range": ">=4.7 && <5",
           "library": [
             {}
           ]
         },
         {
           "package-name": "criterion",
-          "version-range": "^>=1.5",
+          "version-range": "-any",
           "library": [
             {}
           ]
         },
         {
-          "package-name": "grab",
+          "package-name": "deepseq",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "geomancy",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "linear",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "simple-affine-space",
           "version-range": "-any",
           "library": [
             {}
