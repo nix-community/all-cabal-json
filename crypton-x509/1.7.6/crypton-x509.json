@@ -4,12 +4,11 @@
       "Right": ">=1.10"
     },
     "package": {
-      "name": "bitwise",
+      "name": "crypton-x509",
       "version": [
         1,
-        0,
-        0,
-        1
+        7,
+        6
       ]
     },
     "license": {
@@ -18,41 +17,32 @@
     "license-files": [
       "LICENSE"
     ],
-    "copyright": "(c) 2012,2016,2018 Claude Heiland-Allen",
-    "maintainer": "claude@mathr.co.uk",
-    "author": "Claude Heiland-Allen",
-    "stability": "",
+    "copyright": "Vincent Hanquez <vincent@snarc.org>",
+    "maintainer": "Kazu Yamamoto <kazu@iij.ad.jp>",
+    "author": "Vincent Hanquez <vincent@snarc.org>",
+    "stability": "experimental",
     "tested-with": [],
-    "homepage": "https://code.mathr.co.uk/bitwise",
+    "homepage": "https://github.com/kazu-yamamoto/crypton-certificate",
     "pkg-url": "",
     "bug-reports": "",
     "source-repos": [
       {
         "kind": {},
         "type": "Git",
-        "location": "https://code.mathr.co.uk/bitwise.git",
+        "location": "https://github.com/kazu-yamamoto/crypton-certificate",
         "module": null,
         "branch": null,
         "tag": null,
-        "subdir": null
-      },
-      {
-        "kind": {},
-        "type": "Git",
-        "location": "https://code.mathr.co.uk/bitwise.git",
-        "module": null,
-        "branch": null,
-        "tag": "v1.0.0.1",
-        "subdir": null
+        "subdir": "x509"
       }
     ],
-    "synopsis": "fast multi-dimensional unboxed bit packed Bool arrays",
-    "description": "Unboxed multidimensional bit packed Bool arrays with fast aggregate\noperations based on lifting Bool operations to bitwise operations.\n\nThere are many other bit packed structures out there, but none met\nall of these requirements:\n\n(1) unboxed bit packed Bool array,\n\n(2) multi-dimensional indexing,\n\n(3) fast (de)serialization, or interoperable with foreign code,\n\n(4) fast aggregate operations (fold, map, zip).\n\nQuick tour of the bitwise library:\n\n[Data.Bits.Bitwise] Lift boolean operations on 'Bool' to bitwise\noperations on 'Data.Bits.Bits'.\n\n[Data.Array.BitArray] Immutable bit arrays.\n\n[Data.Array.BitArray.ST] Mutable bit arrays in 'Control.Monad.ST.ST'.\n\n[Data.Array.BitArray.IO] Mutable bit arrays in 'IO'.\n\n[Data.Array.BitArray.ByteString] (De)serialization.\n\n[Codec.Image.PBM] Portable bitmap monochrome 2D image format.\n\nVery rough performance benchmarks:\n\n* immutable random access single bit reads:\n@BitArray ix@ is about 40% slower than @UArray ix Bool@,\n\n* 'Control.Monad.ST.ST' mutable random access single bit reads:\n@STBitArray s ix@ is about the same as @STUArray s ix Bool@,\n\n* immutable map @Bool -> Bool@:\n@BitArray ix@ is about 85x faster than @UArray ix Bool@,\n\n* immutable zipWith @Bool -> Bool -> Bool@:\n@BitArray ix@ is about 1300x faster than @UArray ix Bool@.",
-    "category": "Data, Data Structures, Bit Vectors",
+    "synopsis": "X509 reader and writer",
+    "description": "X509 reader and writer. please see README",
+    "category": "Data",
     "custom-fields": [
       [
         "x-revision",
-        "8"
+        "1"
       ]
     ],
     "build-type-raw": "Simple",
@@ -75,36 +65,12 @@
       "exposed-modules": [
         [
           "Data",
-          "Bits",
-          "Bitwise"
+          "X509"
         ],
         [
           "Data",
-          "Array",
-          "BitArray"
-        ],
-        [
-          "Data",
-          "Array",
-          "BitArray",
-          "IO"
-        ],
-        [
-          "Data",
-          "Array",
-          "BitArray",
-          "ST"
-        ],
-        [
-          "Data",
-          "Array",
-          "BitArray",
-          "ByteString"
-        ],
-        [
-          "Codec",
-          "Image",
-          "PBM"
+          "X509",
+          "EC"
         ]
       ],
       "re-exported-modules": [],
@@ -129,15 +95,67 @@
         "cSources": [],
         "cxxSources": [],
         "jsSources": [],
-        "hsSourceDirs": [
-          "src"
-        ],
+        "hsSourceDirs": [],
         "otherModules": [
           [
             "Data",
-            "Array",
-            "BitArray",
+            "X509",
             "Internal"
+          ],
+          [
+            "Data",
+            "X509",
+            "CertificateChain"
+          ],
+          [
+            "Data",
+            "X509",
+            "AlgorithmIdentifier"
+          ],
+          [
+            "Data",
+            "X509",
+            "DistinguishedName"
+          ],
+          [
+            "Data",
+            "X509",
+            "Cert"
+          ],
+          [
+            "Data",
+            "X509",
+            "PublicKey"
+          ],
+          [
+            "Data",
+            "X509",
+            "PrivateKey"
+          ],
+          [
+            "Data",
+            "X509",
+            "Ext"
+          ],
+          [
+            "Data",
+            "X509",
+            "ExtensionRaw"
+          ],
+          [
+            "Data",
+            "X509",
+            "CRL"
+          ],
+          [
+            "Data",
+            "X509",
+            "OID"
+          ],
+          [
+            "Data",
+            "X509",
+            "Signed"
           ]
         ],
         "virtualModules": [],
@@ -145,11 +163,7 @@
         "defaultLanguage": "Haskell2010",
         "otherLanguages": [],
         "defaultExtensions": [],
-        "otherExtensions": [
-          {
-            "enable-extension": "PatternGuards"
-          }
-        ],
+        "otherExtensions": [],
         "oldExtensions": [],
         "extraLibs": [],
         "extraGHCiLibs": [],
@@ -183,21 +197,77 @@
         "targetBuildDepends": [
           {
             "package-name": "base",
-            "version-range": ">=4.7 && <4.19",
+            "version-range": ">=4.7 && <5",
             "library": [
               {}
             ]
           },
           {
             "package-name": "bytestring",
-            "version-range": "<0.12",
+            "version-range": "-any",
             "library": [
               {}
             ]
           },
           {
-            "package-name": "array",
-            "version-range": "<0.6",
+            "package-name": "memory",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "transformers",
+            "version-range": ">=0.4",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "containers",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "hourglass",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "pem",
+            "version-range": ">=0.1",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "asn1-types",
+            "version-range": ">=0.3.1 && <0.4",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "asn1-encoding",
+            "version-range": ">=0.9 && <0.10",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "asn1-parse",
+            "version-range": ">=0.9.3 && <0.10",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "crypton",
+            "version-range": ">=0.24",
             "library": [
               {}
             ]
@@ -209,21 +279,77 @@
     "condTreeConstraints": [
       {
         "package-name": "base",
-        "version-range": ">=4.7 && <4.19",
+        "version-range": ">=4.7 && <5",
         "library": [
           {}
         ]
       },
       {
         "package-name": "bytestring",
-        "version-range": "<0.12",
+        "version-range": "-any",
         "library": [
           {}
         ]
       },
       {
-        "package-name": "array",
-        "version-range": "<0.6",
+        "package-name": "memory",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "transformers",
+        "version-range": ">=0.4",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "containers",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "hourglass",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "pem",
+        "version-range": ">=0.1",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "asn1-types",
+        "version-range": ">=0.3.1 && <0.4",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "asn1-encoding",
+        "version-range": ">=0.9 && <0.10",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "asn1-parse",
+        "version-range": ">=0.9.3 && <0.10",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "crypton",
+        "version-range": ">=0.24",
         "library": [
           {}
         ]
@@ -232,7 +358,7 @@
     "condTreeComponents": []
   },
   "test-suites": {
-    "bitwise-testsuite": {
+    "test-x509": {
       "condTreeData": {
         "name": "",
         "interface": {
@@ -240,7 +366,7 @@
             1,
             0
           ],
-          "filepath": "extra/testsuite.hs"
+          "filepath": "Tests.hs"
         },
         "build-info": {
           "buildable": true,
@@ -260,7 +386,9 @@
           "cSources": [],
           "cxxSources": [],
           "jsSources": [],
-          "hsSourceDirs": [],
+          "hsSourceDirs": [
+            "Tests"
+          ],
           "otherModules": [],
           "virtualModules": [],
           "autogenModules": [],
@@ -280,7 +408,11 @@
           "autogenIncludes": [],
           "installIncludes": [],
           "options": [
-            [],
+            [
+              "-Wall",
+              "-fno-warn-orphans",
+              "-fno-warn-missing-signatures"
+            ],
             []
           ],
           "profOptions": [
@@ -298,139 +430,8 @@
           "customFieldsBI": [],
           "targetBuildDepends": [
             {
-              "package-name": "bitwise",
-              "version-range": "-any",
-              "library": [
-                {}
-              ]
-            },
-            {
               "package-name": "base",
-              "version-range": "-any",
-              "library": [
-                {}
-              ]
-            },
-            {
-              "package-name": "QuickCheck",
-              "version-range": ">=2.4 && <2.15",
-              "library": [
-                {}
-              ]
-            }
-          ],
-          "mixins": []
-        }
-      },
-      "condTreeConstraints": [
-        {
-          "package-name": "bitwise",
-          "version-range": "-any",
-          "library": [
-            {}
-          ]
-        },
-        {
-          "package-name": "base",
-          "version-range": "-any",
-          "library": [
-            {}
-          ]
-        },
-        {
-          "package-name": "QuickCheck",
-          "version-range": ">=2.4 && <2.15",
-          "library": [
-            {}
-          ]
-        }
-      ],
-      "condTreeComponents": []
-    }
-  },
-  "benchmarks": {
-    "bitwise-benchmark": {
-      "condTreeData": {
-        "name": "",
-        "interface": {
-          "version": [
-            1,
-            0
-          ],
-          "filepath": "extra/benchmark.hs"
-        },
-        "build-info": {
-          "buildable": true,
-          "buildTools": [],
-          "buildToolDepends": [],
-          "cppOptions": [],
-          "asmOptions": [],
-          "cmmOptions": [],
-          "ccOptions": [],
-          "cxxOptions": [],
-          "ldOptions": [],
-          "pkgconfigDepends": [],
-          "frameworks": [],
-          "extraFrameworkDirs": [],
-          "asmSources": [],
-          "cmmSources": [],
-          "cSources": [],
-          "cxxSources": [],
-          "jsSources": [],
-          "hsSourceDirs": [],
-          "otherModules": [],
-          "virtualModules": [],
-          "autogenModules": [],
-          "defaultLanguage": "Haskell2010",
-          "otherLanguages": [],
-          "defaultExtensions": [],
-          "otherExtensions": [],
-          "oldExtensions": [],
-          "extraLibs": [],
-          "extraGHCiLibs": [],
-          "extraBundledLibs": [],
-          "extraLibFlavours": [],
-          "extraDynLibFlavours": [],
-          "extraLibDirs": [],
-          "includeDirs": [],
-          "includes": [],
-          "autogenIncludes": [],
-          "installIncludes": [],
-          "options": [
-            [],
-            []
-          ],
-          "profOptions": [
-            [],
-            []
-          ],
-          "sharedOptions": [
-            [],
-            []
-          ],
-          "staticOptions": [
-            [],
-            []
-          ],
-          "customFieldsBI": [],
-          "targetBuildDepends": [
-            {
-              "package-name": "bitwise",
-              "version-range": "-any",
-              "library": [
-                {}
-              ]
-            },
-            {
-              "package-name": "base",
-              "version-range": "-any",
-              "library": [
-                {}
-              ]
-            },
-            {
-              "package-name": "array",
-              "version-range": "-any",
+              "version-range": ">=3 && <5",
               "library": [
                 {}
               ]
@@ -443,8 +444,50 @@
               ]
             },
             {
-              "package-name": "criterion",
-              "version-range": ">=0.6 && <1.7",
+              "package-name": "mtl",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "tasty",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "tasty-quickcheck",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "hourglass",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "asn1-types",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "x509",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "crypton",
+              "version-range": "-any",
               "library": [
                 {}
               ]
@@ -455,22 +498,8 @@
       },
       "condTreeConstraints": [
         {
-          "package-name": "bitwise",
-          "version-range": "-any",
-          "library": [
-            {}
-          ]
-        },
-        {
           "package-name": "base",
-          "version-range": "-any",
-          "library": [
-            {}
-          ]
-        },
-        {
-          "package-name": "array",
-          "version-range": "-any",
+          "version-range": ">=3 && <5",
           "library": [
             {}
           ]
@@ -483,8 +512,50 @@
           ]
         },
         {
-          "package-name": "criterion",
-          "version-range": ">=0.6 && <1.7",
+          "package-name": "mtl",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "tasty",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "tasty-quickcheck",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "hourglass",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "asn1-types",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "x509",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "crypton",
+          "version-range": "-any",
           "library": [
             {}
           ]

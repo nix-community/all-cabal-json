@@ -4,57 +4,33 @@
       "Right": ">=1.10"
     },
     "package": {
-      "name": "bitwise",
+      "name": "http-client-tls",
       "version": [
-        1,
         0,
-        0,
-        1
+        3,
+        6,
+        2
       ]
     },
     "license": {
-      "Right": "BSD3"
+      "Right": "MIT"
     },
     "license-files": [
       "LICENSE"
     ],
-    "copyright": "(c) 2012,2016,2018 Claude Heiland-Allen",
-    "maintainer": "claude@mathr.co.uk",
-    "author": "Claude Heiland-Allen",
+    "copyright": "",
+    "maintainer": "michael@snoyman.com",
+    "author": "Michael Snoyman",
     "stability": "",
     "tested-with": [],
-    "homepage": "https://code.mathr.co.uk/bitwise",
+    "homepage": "https://github.com/snoyberg/http-client",
     "pkg-url": "",
     "bug-reports": "",
-    "source-repos": [
-      {
-        "kind": {},
-        "type": "Git",
-        "location": "https://code.mathr.co.uk/bitwise.git",
-        "module": null,
-        "branch": null,
-        "tag": null,
-        "subdir": null
-      },
-      {
-        "kind": {},
-        "type": "Git",
-        "location": "https://code.mathr.co.uk/bitwise.git",
-        "module": null,
-        "branch": null,
-        "tag": "v1.0.0.1",
-        "subdir": null
-      }
-    ],
-    "synopsis": "fast multi-dimensional unboxed bit packed Bool arrays",
-    "description": "Unboxed multidimensional bit packed Bool arrays with fast aggregate\noperations based on lifting Bool operations to bitwise operations.\n\nThere are many other bit packed structures out there, but none met\nall of these requirements:\n\n(1) unboxed bit packed Bool array,\n\n(2) multi-dimensional indexing,\n\n(3) fast (de)serialization, or interoperable with foreign code,\n\n(4) fast aggregate operations (fold, map, zip).\n\nQuick tour of the bitwise library:\n\n[Data.Bits.Bitwise] Lift boolean operations on 'Bool' to bitwise\noperations on 'Data.Bits.Bits'.\n\n[Data.Array.BitArray] Immutable bit arrays.\n\n[Data.Array.BitArray.ST] Mutable bit arrays in 'Control.Monad.ST.ST'.\n\n[Data.Array.BitArray.IO] Mutable bit arrays in 'IO'.\n\n[Data.Array.BitArray.ByteString] (De)serialization.\n\n[Codec.Image.PBM] Portable bitmap monochrome 2D image format.\n\nVery rough performance benchmarks:\n\n* immutable random access single bit reads:\n@BitArray ix@ is about 40% slower than @UArray ix Bool@,\n\n* 'Control.Monad.ST.ST' mutable random access single bit reads:\n@STBitArray s ix@ is about the same as @STUArray s ix Bool@,\n\n* immutable map @Bool -> Bool@:\n@BitArray ix@ is about 85x faster than @UArray ix Bool@,\n\n* immutable zipWith @Bool -> Bool -> Bool@:\n@BitArray ix@ is about 1300x faster than @UArray ix Bool@.",
-    "category": "Data, Data Structures, Bit Vectors",
-    "custom-fields": [
-      [
-        "x-revision",
-        "8"
-      ]
-    ],
+    "source-repos": [],
+    "synopsis": "http-client backend using the connection package and tls library",
+    "description": "Hackage documentation generation is not reliable. For up to date documentation, please see: <https://www.stackage.org/package/http-client-tls>.",
+    "category": "Network",
+    "custom-fields": [],
     "build-type-raw": "Simple",
     "custom-setup": null,
     "library": null,
@@ -65,7 +41,10 @@
     "benchmarks": [],
     "data-files": [],
     "data-dir": ".",
-    "extra-source-files": [],
+    "extra-source-files": [
+      "README.md",
+      "ChangeLog.md"
+    ],
     "extra-tmp-files": [],
     "extra-doc-files": []
   },
@@ -74,37 +53,10 @@
       "name": {},
       "exposed-modules": [
         [
-          "Data",
-          "Bits",
-          "Bitwise"
-        ],
-        [
-          "Data",
-          "Array",
-          "BitArray"
-        ],
-        [
-          "Data",
-          "Array",
-          "BitArray",
-          "IO"
-        ],
-        [
-          "Data",
-          "Array",
-          "BitArray",
-          "ST"
-        ],
-        [
-          "Data",
-          "Array",
-          "BitArray",
-          "ByteString"
-        ],
-        [
-          "Codec",
-          "Image",
-          "PBM"
+          "Network",
+          "HTTP",
+          "Client",
+          "TLS"
         ]
       ],
       "re-exported-modules": [],
@@ -129,17 +81,8 @@
         "cSources": [],
         "cxxSources": [],
         "jsSources": [],
-        "hsSourceDirs": [
-          "src"
-        ],
-        "otherModules": [
-          [
-            "Data",
-            "Array",
-            "BitArray",
-            "Internal"
-          ]
-        ],
+        "hsSourceDirs": [],
+        "otherModules": [],
         "virtualModules": [],
         "autogenModules": [],
         "defaultLanguage": "Haskell2010",
@@ -147,7 +90,7 @@
         "defaultExtensions": [],
         "otherExtensions": [
           {
-            "enable-extension": "PatternGuards"
+            "enable-extension": "ScopedTypeVariables"
           }
         ],
         "oldExtensions": [],
@@ -183,21 +126,112 @@
         "targetBuildDepends": [
           {
             "package-name": "base",
-            "version-range": ">=4.7 && <4.19",
+            "version-range": ">=4.10 && <5",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "data-default-class",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "http-client",
+            "version-range": ">=0.7.11",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "crypton-connection",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "network",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "tls",
+            "version-range": ">=1.2",
             "library": [
               {}
             ]
           },
           {
             "package-name": "bytestring",
-            "version-range": "<0.12",
+            "version-range": "-any",
             "library": [
               {}
             ]
           },
           {
-            "package-name": "array",
-            "version-range": "<0.6",
+            "package-name": "case-insensitive",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "transformers",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "http-types",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "crypton",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "memory",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "exceptions",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "containers",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "text",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "network-uri",
+            "version-range": "-any",
             "library": [
               {}
             ]
@@ -209,21 +243,112 @@
     "condTreeConstraints": [
       {
         "package-name": "base",
-        "version-range": ">=4.7 && <4.19",
+        "version-range": ">=4.10 && <5",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "data-default-class",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "http-client",
+        "version-range": ">=0.7.11",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "crypton-connection",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "network",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "tls",
+        "version-range": ">=1.2",
         "library": [
           {}
         ]
       },
       {
         "package-name": "bytestring",
-        "version-range": "<0.12",
+        "version-range": "-any",
         "library": [
           {}
         ]
       },
       {
-        "package-name": "array",
-        "version-range": "<0.6",
+        "package-name": "case-insensitive",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "transformers",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "http-types",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "crypton",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "memory",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "exceptions",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "containers",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "text",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "network-uri",
+        "version-range": "-any",
         "library": [
           {}
         ]
@@ -232,7 +357,7 @@
     "condTreeComponents": []
   },
   "test-suites": {
-    "bitwise-testsuite": {
+    "spec": {
       "condTreeData": {
         "name": "",
         "interface": {
@@ -240,7 +365,7 @@
             1,
             0
           ],
-          "filepath": "extra/testsuite.hs"
+          "filepath": "Spec.hs"
         },
         "build-info": {
           "buildable": true,
@@ -260,7 +385,9 @@
           "cSources": [],
           "cxxSources": [],
           "jsSources": [],
-          "hsSourceDirs": [],
+          "hsSourceDirs": [
+            "test"
+          ],
           "otherModules": [],
           "virtualModules": [],
           "autogenModules": [],
@@ -298,13 +425,6 @@
           "customFieldsBI": [],
           "targetBuildDepends": [
             {
-              "package-name": "bitwise",
-              "version-range": "-any",
-              "library": [
-                {}
-              ]
-            },
-            {
               "package-name": "base",
               "version-range": "-any",
               "library": [
@@ -312,8 +432,29 @@
               ]
             },
             {
-              "package-name": "QuickCheck",
-              "version-range": ">=2.4 && <2.15",
+              "package-name": "hspec",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "http-client",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "http-client-tls",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "http-types",
+              "version-range": "-any",
               "library": [
                 {}
               ]
@@ -324,13 +465,6 @@
       },
       "condTreeConstraints": [
         {
-          "package-name": "bitwise",
-          "version-range": "-any",
-          "library": [
-            {}
-          ]
-        },
-        {
           "package-name": "base",
           "version-range": "-any",
           "library": [
@@ -338,8 +472,29 @@
           ]
         },
         {
-          "package-name": "QuickCheck",
-          "version-range": ">=2.4 && <2.15",
+          "package-name": "hspec",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "http-client",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "http-client-tls",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "http-types",
+          "version-range": "-any",
           "library": [
             {}
           ]
@@ -349,7 +504,7 @@
     }
   },
   "benchmarks": {
-    "bitwise-benchmark": {
+    "benchmark": {
       "condTreeData": {
         "name": "",
         "interface": {
@@ -357,7 +512,7 @@
             1,
             0
           ],
-          "filepath": "extra/benchmark.hs"
+          "filepath": "Bench.hs"
         },
         "build-info": {
           "buildable": true,
@@ -377,7 +532,9 @@
           "cSources": [],
           "cxxSources": [],
           "jsSources": [],
-          "hsSourceDirs": [],
+          "hsSourceDirs": [
+            "bench"
+          ],
           "otherModules": [],
           "virtualModules": [],
           "autogenModules": [],
@@ -415,13 +572,6 @@
           "customFieldsBI": [],
           "targetBuildDepends": [
             {
-              "package-name": "bitwise",
-              "version-range": "-any",
-              "library": [
-                {}
-              ]
-            },
-            {
               "package-name": "base",
               "version-range": "-any",
               "library": [
@@ -429,22 +579,22 @@
               ]
             },
             {
-              "package-name": "array",
+              "package-name": "gauge",
               "version-range": "-any",
               "library": [
                 {}
               ]
             },
             {
-              "package-name": "bytestring",
+              "package-name": "http-client",
               "version-range": "-any",
               "library": [
                 {}
               ]
             },
             {
-              "package-name": "criterion",
-              "version-range": ">=0.6 && <1.7",
+              "package-name": "http-client-tls",
+              "version-range": "-any",
               "library": [
                 {}
               ]
@@ -455,13 +605,6 @@
       },
       "condTreeConstraints": [
         {
-          "package-name": "bitwise",
-          "version-range": "-any",
-          "library": [
-            {}
-          ]
-        },
-        {
           "package-name": "base",
           "version-range": "-any",
           "library": [
@@ -469,22 +612,22 @@
           ]
         },
         {
-          "package-name": "array",
+          "package-name": "gauge",
           "version-range": "-any",
           "library": [
             {}
           ]
         },
         {
-          "package-name": "bytestring",
+          "package-name": "http-client",
           "version-range": "-any",
           "library": [
             {}
           ]
         },
         {
-          "package-name": "criterion",
-          "version-range": ">=0.6 && <1.7",
+          "package-name": "http-client-tls",
+          "version-range": "-any",
           "library": [
             {}
           ]
