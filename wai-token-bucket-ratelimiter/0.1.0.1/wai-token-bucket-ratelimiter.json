@@ -1,68 +1,56 @@
 {
   "description": {
     "spec-version": {
-      "Right": ">=1.10"
+      "Left": [
+        3,
+        0
+      ]
     },
     "package": {
-      "name": "row-types",
+      "name": "wai-token-bucket-ratelimiter",
       "version": [
-        1,
         0,
         1,
-        2
+        0,
+        1
       ]
     },
     "license": {
-      "Right": "MIT"
+      "Left": {
+        "license-expression": {
+          "expression": {
+            "id": "Apache_2_0"
+          },
+          "exception-id": null
+        }
+      }
     },
     "license-files": [
       "LICENSE"
     ],
     "copyright": "",
-    "maintainer": "dwincort@gmail.com",
-    "author": "Daniel Winograd-Cort, Matthew Farkas-Dyck",
+    "maintainer": "aditya.mmy@gmail.com",
+    "author": "Aditya Manthramurthy",
     "stability": "",
-    "tested-with": [
-      {
-        "compiler": "GHC",
-        "versionRange": "==8.6.5"
-      },
-      {
-        "compiler": "GHC",
-        "versionRange": "==8.8.3"
-      },
-      {
-        "compiler": "GHC",
-        "versionRange": "==8.10.7"
-      },
-      {
-        "compiler": "GHC",
-        "versionRange": "==9.0.1"
-      }
-    ],
-    "homepage": "https://github.com/dwincort/row-types",
+    "tested-with": [],
+    "homepage": "https://github.com/donatello/wai-token-bucket-ratelimiter",
     "pkg-url": "",
     "bug-reports": "",
     "source-repos": [
       {
         "kind": {},
         "type": "Git",
-        "location": "https://github.com/target/row-types/",
+        "location": "https://github.com/donatello/wai-token-bucket-ratelimiter.git",
         "module": null,
         "branch": null,
         "tag": null,
         "subdir": null
       }
     ],
-    "synopsis": "Open Records and Variants",
-    "description": "This package uses closed type families and type literals to implement open\nrecords and variants.\nThe core is based off of the <https://hackage.haskell.org/package/CTRex CTRex>\npackage, but it also includes polymorphic variants and a number of\nadditional functions.  That said, it is not a proper superset of CTRex as it\nspecifically forbids records from having more than one element of the same\nlabel.",
-    "category": "Data, Data Structures",
-    "custom-fields": [
-      [
-        "x-revision",
-        "1"
-      ]
-    ],
+    "synopsis": "A request rate limiting middleware using token buckets",
+    "description": "This package provides a WAI middleware to perform request rate limiting using\nthe <https://en.m.wikipedia.org/wiki/Token_bucket Token Bucket Algorithm>.",
+    "category": "Web",
+    "custom-fields": [],
     "build-type-raw": "Simple",
     "custom-setup": null,
     "library": null,
@@ -73,48 +61,26 @@
     "benchmarks": [],
     "data-files": [],
     "data-dir": ".",
-    "extra-source-files": [
-      "examples/Examples.lhs",
-      "README.md",
-      "CHANGELOG.md",
-      "LICENSE",
-      "NOTICE"
-    ],
+    "extra-source-files": [],
     "extra-tmp-files": [],
-    "extra-doc-files": []
+    "extra-doc-files": [
+      "CHANGELOG.md",
+      "README.md"
+    ]
   },
   "library": {
     "condTreeData": {
       "name": {},
       "exposed-modules": [
         [
-          "Data",
-          "Row"
+          "Network",
+          "Wai",
+          "RateLimitMiddleware"
         ],
         [
-          "Data",
-          "Row",
-          "Internal"
-        ],
-        [
-          "Data",
-          "Row",
-          "Dictionaries"
-        ],
-        [
-          "Data",
-          "Row",
-          "Records"
-        ],
-        [
-          "Data",
-          "Row",
-          "Variants"
-        ],
-        [
-          "Data",
-          "Row",
-          "Switch"
+          "Control",
+          "Concurrent",
+          "TokenBucket"
         ]
       ],
       "re-exported-modules": [],
@@ -145,26 +111,17 @@
         "otherModules": [],
         "virtualModules": [],
         "autogenModules": [],
-        "defaultLanguage": "Haskell2010",
+        "defaultLanguage": "GHC2021",
         "otherLanguages": [],
         "defaultExtensions": [
           {
-            "enable-extension": "DataKinds"
+            "enable-extension": "OverloadedStrings"
           },
           {
-            "enable-extension": "ExplicitForAll"
+            "enable-extension": "RecordWildCards"
           },
           {
-            "enable-extension": "GADTs"
-          },
-          {
-            "enable-extension": "OverloadedLabels"
-          },
-          {
-            "enable-extension": "TypeApplications"
-          },
-          {
-            "enable-extension": "TypeOperators"
+            "enable-extension": "DerivingStrategies"
           }
         ],
         "otherExtensions": [],
@@ -181,7 +138,7 @@
         "installIncludes": [],
         "options": [
           [
-            "-W"
+            "-Wall"
           ],
           []
         ],
@@ -201,56 +158,42 @@
         "targetBuildDepends": [
           {
             "package-name": "base",
-            "version-range": ">=2 && <6",
+            "version-range": ">=4.16 && <5",
             "library": [
               {}
             ]
           },
           {
-            "package-name": "constraints",
-            "version-range": ">=0.11",
+            "package-name": "wai",
+            "version-range": ">=3.0 && <4",
             "library": [
               {}
             ]
           },
           {
-            "package-name": "deepseq",
-            "version-range": ">=1.4",
-            "library": [
-              {}
-            ]
-          },
-          {
-            "package-name": "hashable",
-            "version-range": ">=1.2",
+            "package-name": "http-types",
+            "version-range": "<1",
             "library": [
               {}
             ]
           },
           {
             "package-name": "unordered-containers",
-            "version-range": ">=0.2",
+            "version-range": ">=0.2.19.1 && <0.3",
             "library": [
               {}
             ]
           },
           {
-            "package-name": "generic-lens",
-            "version-range": ">=1.0.0.0",
+            "package-name": "hashable",
+            "version-range": ">=1.4 && <2",
             "library": [
               {}
             ]
           },
           {
-            "package-name": "profunctors",
-            "version-range": ">=5.0",
-            "library": [
-              {}
-            ]
-          },
-          {
-            "package-name": "text",
-            "version-range": "-any",
+            "package-name": "clock",
+            "version-range": ">=0.8.3 && <1",
             "library": [
               {}
             ]
@@ -262,56 +205,42 @@
     "condTreeConstraints": [
       {
         "package-name": "base",
-        "version-range": ">=2 && <6",
+        "version-range": ">=4.16 && <5",
         "library": [
           {}
         ]
       },
       {
-        "package-name": "constraints",
-        "version-range": ">=0.11",
+        "package-name": "wai",
+        "version-range": ">=3.0 && <4",
         "library": [
           {}
         ]
       },
       {
-        "package-name": "deepseq",
-        "version-range": ">=1.4",
-        "library": [
-          {}
-        ]
-      },
-      {
-        "package-name": "hashable",
-        "version-range": ">=1.2",
+        "package-name": "http-types",
+        "version-range": "<1",
         "library": [
           {}
         ]
       },
       {
         "package-name": "unordered-containers",
-        "version-range": ">=0.2",
+        "version-range": ">=0.2.19.1 && <0.3",
         "library": [
           {}
         ]
       },
       {
-        "package-name": "generic-lens",
-        "version-range": ">=1.0.0.0",
+        "package-name": "hashable",
+        "version-range": ">=1.4 && <2",
         "library": [
           {}
         ]
       },
       {
-        "package-name": "profunctors",
-        "version-range": ">=5.0",
-        "library": [
-          {}
-        ]
-      },
-      {
-        "package-name": "text",
-        "version-range": "-any",
+        "package-name": "clock",
+        "version-range": ">=0.8.3 && <1",
         "library": [
           {}
         ]
@@ -320,7 +249,7 @@
     "condTreeComponents": []
   },
   "test-suites": {
-    "test": {
+    "wai-token-bucket-ratelimiter-test": {
       "condTreeData": {
         "name": "",
         "interface": {
@@ -333,7 +262,13 @@
         "build-info": {
           "buildable": true,
           "buildTools": [],
-          "buildToolDepends": [],
+          "buildToolDepends": [
+            {
+              "package-name": "hspec-discover",
+              "executable-component-name": "hspec-discover",
+              "version-range": "==2.*"
+            }
+          ],
           "cppOptions": [],
           "asmOptions": [],
           "cmmOptions": [],
@@ -349,60 +284,26 @@
           "cxxSources": [],
           "jsSources": [],
           "hsSourceDirs": [
-            "tests",
-            "examples"
+            "test"
           ],
           "otherModules": [
             [
-              "Examples"
-            ],
-            [
-              "DiffPerformance"
-            ],
-            [
-              "MergePerformance"
-            ],
-            [
-              "UnionPerformance"
+              "RateLimiterSpec"
             ]
           ],
           "virtualModules": [],
           "autogenModules": [],
-          "defaultLanguage": "Haskell2010",
+          "defaultLanguage": "GHC2021",
           "otherLanguages": [],
           "defaultExtensions": [
             {
-              "enable-extension": "AllowAmbiguousTypes"
+              "enable-extension": "OverloadedStrings"
             },
             {
-              "enable-extension": "DataKinds"
+              "enable-extension": "RecordWildCards"
             },
             {
-              "enable-extension": "FlexibleContexts"
-            },
-            {
-              "enable-extension": "OverloadedLabels"
-            },
-            {
-              "enable-extension": "PatternSynonyms"
-            },
-            {
-              "enable-extension": "RankNTypes"
-            },
-            {
-              "enable-extension": "ScopedTypeVariables"
-            },
-            {
-              "enable-extension": "TypeApplications"
-            },
-            {
-              "enable-extension": "TypeFamilies"
-            },
-            {
-              "enable-extension": "TypeOperators"
-            },
-            {
-              "enable-extension": "ViewPatterns"
+              "enable-extension": "DerivingStrategies"
             }
           ],
           "otherExtensions": [],
@@ -419,10 +320,11 @@
           "installIncludes": [],
           "options": [
             [
-              "-W",
-              "+RTS",
-              "-M1G",
-              "-RTS"
+              "-Wall",
+              "-Wall",
+              "-threaded",
+              "-rtsopts",
+              "-with-rtsopts=-N"
             ],
             []
           ],
@@ -442,20 +344,55 @@
           "targetBuildDepends": [
             {
               "package-name": "base",
-              "version-range": ">=2 && <6",
+              "version-range": "-any",
               "library": [
                 {}
               ]
             },
             {
-              "package-name": "generic-lens",
-              "version-range": ">=1.1.0.0",
+              "package-name": "hspec",
+              "version-range": ">=2.10 && <3",
               "library": [
                 {}
               ]
             },
             {
-              "package-name": "row-types",
+              "package-name": "wai-token-bucket-ratelimiter",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "wai",
+              "version-range": ">=3.0 && <4",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "http-types",
+              "version-range": "<1",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "bytestring",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "http-client",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "warp",
               "version-range": "-any",
               "library": [
                 {}
@@ -468,20 +405,55 @@
       "condTreeConstraints": [
         {
           "package-name": "base",
-          "version-range": ">=2 && <6",
+          "version-range": "-any",
           "library": [
             {}
           ]
         },
         {
-          "package-name": "generic-lens",
-          "version-range": ">=1.1.0.0",
+          "package-name": "hspec",
+          "version-range": ">=2.10 && <3",
           "library": [
             {}
           ]
         },
         {
-          "package-name": "row-types",
+          "package-name": "wai-token-bucket-ratelimiter",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "wai",
+          "version-range": ">=3.0 && <4",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "http-types",
+          "version-range": "<1",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "bytestring",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "http-client",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "warp",
           "version-range": "-any",
           "library": [
             {}
@@ -492,7 +464,7 @@
     }
   },
   "benchmarks": {
-    "perf": {
+    "wai-token-bucket-ratelimiter-benchmark": {
       "condTreeData": {
         "name": "",
         "interface": {
@@ -500,7 +472,7 @@
             1,
             0
           ],
-          "filepath": "Main.hs"
+          "filepath": "Benchmark.hs"
         },
         "build-info": {
           "buildable": true,
@@ -521,39 +493,14 @@
           "cxxSources": [],
           "jsSources": [],
           "hsSourceDirs": [
-            "benchmarks/perf"
+            "bench"
           ],
           "otherModules": [],
           "virtualModules": [],
           "autogenModules": [],
-          "defaultLanguage": "Haskell2010",
+          "defaultLanguage": "GHC2021",
           "otherLanguages": [],
-          "defaultExtensions": [
-            {
-              "enable-extension": "AllowAmbiguousTypes"
-            },
-            {
-              "enable-extension": "DataKinds"
-            },
-            {
-              "enable-extension": "OverloadedLabels"
-            },
-            {
-              "enable-extension": "RankNTypes"
-            },
-            {
-              "enable-extension": "ScopedTypeVariables"
-            },
-            {
-              "enable-extension": "TypeApplications"
-            },
-            {
-              "enable-extension": "TypeFamilies"
-            },
-            {
-              "enable-extension": "TypeOperators"
-            }
-          ],
+          "defaultExtensions": [],
           "otherExtensions": [],
           "oldExtensions": [],
           "extraLibs": [],
@@ -568,7 +515,10 @@
           "installIncludes": [],
           "options": [
             [
-              "-W"
+              "-Wall",
+              "-threaded",
+              "-rtsopts",
+              "-with-rtsopts=-N"
             ],
             []
           ],
@@ -588,28 +538,28 @@
           "targetBuildDepends": [
             {
               "package-name": "base",
-              "version-range": ">=2 && <6",
-              "library": [
-                {}
-              ]
-            },
-            {
-              "package-name": "row-types",
               "version-range": "-any",
               "library": [
                 {}
               ]
             },
             {
-              "package-name": "deepseq",
-              "version-range": ">=1.4",
+              "package-name": "criterion",
+              "version-range": ">=1.6 && <2",
               "library": [
                 {}
               ]
             },
             {
-              "package-name": "gauge",
-              "version-range": ">=0.2.0",
+              "package-name": "wai-token-bucket-ratelimiter",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "async",
+              "version-range": ">=2.2.4 && <3",
               "library": [
                 {}
               ]
@@ -621,28 +571,28 @@
       "condTreeConstraints": [
         {
           "package-name": "base",
-          "version-range": ">=2 && <6",
-          "library": [
-            {}
-          ]
-        },
-        {
-          "package-name": "row-types",
           "version-range": "-any",
           "library": [
             {}
           ]
         },
         {
-          "package-name": "deepseq",
-          "version-range": ">=1.4",
+          "package-name": "criterion",
+          "version-range": ">=1.6 && <2",
           "library": [
             {}
           ]
         },
         {
-          "package-name": "gauge",
-          "version-range": ">=0.2.0",
+          "package-name": "wai-token-bucket-ratelimiter",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "async",
+          "version-range": ">=2.2.4 && <3",
           "library": [
             {}
           ]
