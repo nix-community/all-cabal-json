@@ -7,19 +7,19 @@
       ]
     },
     "package": {
-      "name": "hex-text",
+      "name": "ascii-case",
       "version": [
-        0,
         1,
         0,
-        8
+        1,
+        3
       ]
     },
     "license": {
       "Left": {
         "license-expression": {
           "expression": {
-            "id": "MIT"
+            "id": "Apache_2_0"
           },
           "exception-id": null
         }
@@ -28,34 +28,29 @@
     "license-files": [
       "license.txt"
     ],
-    "copyright": "2021 Mission Valley Software LLC",
+    "copyright": "",
     "maintainer": "Chris Martin, Julie Moronuki",
     "author": "Chris Martin",
     "stability": "",
     "tested-with": [],
-    "homepage": "https://github.com/typeclasses/hex-text",
+    "homepage": "https://github.com/typeclasses/ascii-case",
     "pkg-url": "",
-    "bug-reports": "https://github.com/typeclasses/hex-text/issues",
+    "bug-reports": "https://github.com/typeclasses/ascii-case/issues",
     "source-repos": [
       {
         "kind": {},
         "type": "Git",
-        "location": "https://github.com/typeclasses/hex-text",
+        "location": "git://github.com/typeclasses/ascii-case.git",
         "module": null,
         "branch": null,
         "tag": null,
         "subdir": null
       }
     ],
-    "synopsis": "ByteString-Text hexidecimal conversions",
-    "description": "Encode a ByteString as a hexidecimal Text value,\nor decode hexidecimal Text as a ByteString.",
-    "category": "Text",
-    "custom-fields": [
-      [
-        "x-revision",
-        "2"
-      ]
-    ],
+    "synopsis": "ASCII letter case",
+    "description": "This package defines a @Case@ type that describes the\ntwo varieties of ASCII letter: capital and small.",
+    "category": "Data, Text",
+    "custom-fields": [],
     "build-type-raw": null,
     "custom-setup": null,
     "library": null,
@@ -77,8 +72,8 @@
       "name": {},
       "exposed-modules": [
         [
-          "Text",
-          "Hex"
+          "ASCII",
+          "Case"
         ]
       ],
       "re-exported-modules": [],
@@ -104,14 +99,26 @@
         "cxxSources": [],
         "jsSources": [],
         "hsSourceDirs": [
-          "src"
+          "library"
         ],
         "otherModules": [],
         "virtualModules": [],
         "autogenModules": [],
-        "defaultLanguage": "Haskell2010",
+        "defaultLanguage": "GHC2021",
         "otherLanguages": [],
         "defaultExtensions": [
+          {
+            "enable-extension": "BlockArguments"
+          },
+          {
+            "enable-extension": "DeriveAnyClass"
+          },
+          {
+            "enable-extension": "DerivingStrategies"
+          },
+          {
+            "enable-extension": "LambdaCase"
+          },
           {
             "disable-extension": "ImplicitPrelude"
           }
@@ -149,29 +156,22 @@
         "customFieldsBI": [],
         "targetBuildDepends": [
           {
+            "package-name": "ascii-char",
+            "version-range": "^>=1.0",
+            "library": [
+              {}
+            ]
+          },
+          {
             "package-name": "base",
-            "version-range": "^>=4.14 || ^>=4.15 || ^>=4.16 || ^>=4.17 || ^>=4.18",
+            "version-range": "^>=4.16 || ^>=4.17 || ^>=4.18",
             "library": [
               {}
             ]
           },
           {
-            "package-name": "base16-bytestring",
-            "version-range": "^>=1.0.2",
-            "library": [
-              {}
-            ]
-          },
-          {
-            "package-name": "bytestring",
-            "version-range": "^>=0.10.12 || ^>=0.11",
-            "library": [
-              {}
-            ]
-          },
-          {
-            "package-name": "text",
-            "version-range": "^>=1.2.4 || ^>=2.0",
+            "package-name": "hashable",
+            "version-range": "^>=1.3.5 || ^>=1.4",
             "library": [
               {}
             ]
@@ -182,29 +182,22 @@
     },
     "condTreeConstraints": [
       {
+        "package-name": "ascii-char",
+        "version-range": "^>=1.0",
+        "library": [
+          {}
+        ]
+      },
+      {
         "package-name": "base",
-        "version-range": "^>=4.14 || ^>=4.15 || ^>=4.16 || ^>=4.17 || ^>=4.18",
+        "version-range": "^>=4.16 || ^>=4.17 || ^>=4.18",
         "library": [
           {}
         ]
       },
       {
-        "package-name": "base16-bytestring",
-        "version-range": "^>=1.0.2",
-        "library": [
-          {}
-        ]
-      },
-      {
-        "package-name": "bytestring",
-        "version-range": "^>=0.10.12 || ^>=0.11",
-        "library": [
-          {}
-        ]
-      },
-      {
-        "package-name": "text",
-        "version-range": "^>=1.2.4 || ^>=2.0",
+        "package-name": "hashable",
+        "version-range": "^>=1.3.5 || ^>=1.4",
         "library": [
           {}
         ]
@@ -213,7 +206,7 @@
     "condTreeComponents": []
   },
   "test-suites": {
-    "test-hex-text": {
+    "test-ascii-case": {
       "condTreeData": {
         "name": "",
         "interface": {
@@ -247,9 +240,21 @@
           "otherModules": [],
           "virtualModules": [],
           "autogenModules": [],
-          "defaultLanguage": "Haskell2010",
+          "defaultLanguage": "GHC2021",
           "otherLanguages": [],
           "defaultExtensions": [
+            {
+              "enable-extension": "BlockArguments"
+            },
+            {
+              "enable-extension": "DeriveAnyClass"
+            },
+            {
+              "enable-extension": "DerivingStrategies"
+            },
+            {
+              "enable-extension": "LambdaCase"
+            },
             {
               "disable-extension": "ImplicitPrelude"
             }
@@ -267,7 +272,9 @@
           "autogenIncludes": [],
           "installIncludes": [],
           "options": [
-            [],
+            [
+              "-Wall"
+            ],
             []
           ],
           "profOptions": [
@@ -285,35 +292,21 @@
           "customFieldsBI": [],
           "targetBuildDepends": [
             {
+              "package-name": "ascii-char",
+              "version-range": "^>=1.0",
+              "library": [
+                {}
+              ]
+            },
+            {
               "package-name": "base",
-              "version-range": "^>=4.14 || ^>=4.15 || ^>=4.16 || ^>=4.17 || ^>=4.18",
+              "version-range": "^>=4.16 || ^>=4.17 || ^>=4.18",
               "library": [
                 {}
               ]
             },
             {
-              "package-name": "base16-bytestring",
-              "version-range": "^>=1.0.2",
-              "library": [
-                {}
-              ]
-            },
-            {
-              "package-name": "bytestring",
-              "version-range": "^>=0.10.12 || ^>=0.11",
-              "library": [
-                {}
-              ]
-            },
-            {
-              "package-name": "text",
-              "version-range": "^>=1.2.4 || ^>=2.0",
-              "library": [
-                {}
-              ]
-            },
-            {
-              "package-name": "hex-text",
+              "package-name": "ascii-case",
               "version-range": "-any",
               "library": [
                 {}
@@ -332,35 +325,21 @@
       },
       "condTreeConstraints": [
         {
+          "package-name": "ascii-char",
+          "version-range": "^>=1.0",
+          "library": [
+            {}
+          ]
+        },
+        {
           "package-name": "base",
-          "version-range": "^>=4.14 || ^>=4.15 || ^>=4.16 || ^>=4.17 || ^>=4.18",
+          "version-range": "^>=4.16 || ^>=4.17 || ^>=4.18",
           "library": [
             {}
           ]
         },
         {
-          "package-name": "base16-bytestring",
-          "version-range": "^>=1.0.2",
-          "library": [
-            {}
-          ]
-        },
-        {
-          "package-name": "bytestring",
-          "version-range": "^>=0.10.12 || ^>=0.11",
-          "library": [
-            {}
-          ]
-        },
-        {
-          "package-name": "text",
-          "version-range": "^>=1.2.4 || ^>=2.0",
-          "library": [
-            {}
-          ]
-        },
-        {
-          "package-name": "hex-text",
+          "package-name": "ascii-case",
           "version-range": "-any",
           "library": [
             {}
