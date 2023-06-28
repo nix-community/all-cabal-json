@@ -1,0 +1,367 @@
+{
+  "description": {
+    "spec-version": {
+      "Left": [
+        2,
+        4
+      ]
+    },
+    "package": {
+      "name": "jaskell",
+      "version": [
+        0,
+        1,
+        0,
+        0
+      ]
+    },
+    "license": {
+      "Left": {
+        "license-expression": {
+          "expression": {
+            "id": "MIT"
+          },
+          "exception-id": null
+        }
+      }
+    },
+    "license-files": [
+      "LICENSE"
+    ],
+    "copyright": "",
+    "maintainer": "ombspring@gmail.com",
+    "author": "Owen Bechtel",
+    "stability": "",
+    "tested-with": [],
+    "homepage": "https://github.com/UnaryPlus/jaskell",
+    "pkg-url": "",
+    "bug-reports": "https://github.com/UnaryPlus/jaskell/issues",
+    "source-repos": [
+      {
+        "kind": {},
+        "type": "Git",
+        "location": "https://github.com/UnaryPlus/jaskell.git",
+        "module": null,
+        "branch": null,
+        "tag": null,
+        "subdir": null
+      }
+    ],
+    "synopsis": "Stack-based concatenative language embedded in Haskell",
+    "description": "Jaskell is a stack-based programming language implemented using normal Haskell\ntypes and functions, along with a quasiquoter that allows for a more elegant syntax\nthan what pure Haskell supports. Since it is embedded in Haskell, Jaskell is purely\nfunctional and, unlike other stack-based languages, statically typed. The standard\nlibrary is based on that of [Joy](https://www.kevinalbrecht.com/code/joy-mirror/),\nand the name \\\"Jaskell\\\" is a portmanteau of \\\"Joy\\\" and \\\"Haskell.\\\"\n\nA Jaskell program is a sequence of commands. Each command is a function which takes\na stack &#8212; represented in Haskell as a left-nested tuple &#8212; and returns another stack.\nIn order to accomodate side effects, commands need not actually be functions; any\narrow is allowed as a command. The two most useful arrow types are @(->)@ and @Kleisli IO@.\n\nTwo example programs are shown below. The first program asks for the user's name and then\nprints a greeting. The second program defines a @qsort@ function and then uses it to\nsort a list.\n\n> {-# LANGUAGE QuasiQuotes #-}\n> import qualified Jaskell\n> import Jaskell.Quote (jsl)\n> import Jaskell.Prelude\n>\n> main :: IO ()\n> main = Jaskell.runK [jsl|\n>   \"What's your name?\" !putStrLn [ \"Hello, \", ?getLine, \"!\" ] $concat !putStrLn\n>   |]\n>\n> sorted :: ((), [Int])\n> sorted = Jaskell.run [jsl|\n>   DEF small =\n>     { $null } { uncons $null } disjoin ;\n>   DEF qsort =\n>     small { } { uncons { < } split rolldown }\n>     { swap cons ++ } binrec' ;\n>   [3,5,1,6,4,2] qsort\n>   |]",
+    "category": "Language",
+    "custom-fields": [],
+    "build-type-raw": null,
+    "custom-setup": null,
+    "library": null,
+    "sublibraries": [],
+    "executables": [],
+    "foreign-libs": [],
+    "test-suites": [],
+    "benchmarks": [],
+    "data-files": [],
+    "data-dir": ".",
+    "extra-source-files": [
+      "CHANGELOG.md",
+      "README.md"
+    ],
+    "extra-tmp-files": [],
+    "extra-doc-files": []
+  },
+  "library": {
+    "condTreeData": {
+      "name": {},
+      "exposed-modules": [
+        [
+          "Jaskell"
+        ],
+        [
+          "Jaskell",
+          "Prelude"
+        ],
+        [
+          "Jaskell",
+          "Quote"
+        ]
+      ],
+      "re-exported-modules": [],
+      "signatures": [],
+      "exposed": true,
+      "visibility": "LibraryVisibilityPublic",
+      "build-info": {
+        "buildable": true,
+        "buildTools": [],
+        "buildToolDepends": [],
+        "cppOptions": [],
+        "asmOptions": [],
+        "cmmOptions": [],
+        "ccOptions": [],
+        "cxxOptions": [],
+        "ldOptions": [],
+        "pkgconfigDepends": [],
+        "frameworks": [],
+        "extraFrameworkDirs": [],
+        "asmSources": [],
+        "cmmSources": [],
+        "cSources": [],
+        "cxxSources": [],
+        "jsSources": [],
+        "hsSourceDirs": [
+          "src"
+        ],
+        "otherModules": [],
+        "virtualModules": [],
+        "autogenModules": [],
+        "defaultLanguage": "Haskell2010",
+        "otherLanguages": [],
+        "defaultExtensions": [],
+        "otherExtensions": [],
+        "oldExtensions": [],
+        "extraLibs": [],
+        "extraGHCiLibs": [],
+        "extraBundledLibs": [],
+        "extraLibFlavours": [],
+        "extraDynLibFlavours": [],
+        "extraLibDirs": [],
+        "includeDirs": [],
+        "includes": [],
+        "autogenIncludes": [],
+        "installIncludes": [],
+        "options": [
+          [
+            "-Wall"
+          ],
+          []
+        ],
+        "profOptions": [
+          [],
+          []
+        ],
+        "sharedOptions": [
+          [],
+          []
+        ],
+        "staticOptions": [
+          [],
+          []
+        ],
+        "customFieldsBI": [],
+        "targetBuildDepends": [
+          {
+            "package-name": "base",
+            "version-range": ">=4.13.0.0 && <5",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "megaparsec",
+            "version-range": ">=9.0.0 && <10",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "template-haskell",
+            "version-range": ">=2.16.0.0 && <2.21",
+            "library": [
+              {}
+            ]
+          }
+        ],
+        "mixins": []
+      }
+    },
+    "condTreeConstraints": [
+      {
+        "package-name": "base",
+        "version-range": ">=4.13.0.0 && <5",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "megaparsec",
+        "version-range": ">=9.0.0 && <10",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "template-haskell",
+        "version-range": ">=2.16.0.0 && <2.21",
+        "library": [
+          {}
+        ]
+      }
+    ],
+    "condTreeComponents": []
+  },
+  "test-suites": {
+    "test": {
+      "condTreeData": {
+        "name": "",
+        "interface": {
+          "version": [
+            1,
+            0
+          ],
+          "filepath": "Spec.hs"
+        },
+        "build-info": {
+          "buildable": true,
+          "buildTools": [],
+          "buildToolDepends": [
+            {
+              "package-name": "hspec-discover",
+              "executable-component-name": "hspec-discover",
+              "version-range": "-any"
+            }
+          ],
+          "cppOptions": [],
+          "asmOptions": [],
+          "cmmOptions": [],
+          "ccOptions": [],
+          "cxxOptions": [],
+          "ldOptions": [],
+          "pkgconfigDepends": [],
+          "frameworks": [],
+          "extraFrameworkDirs": [],
+          "asmSources": [],
+          "cmmSources": [],
+          "cSources": [],
+          "cxxSources": [],
+          "jsSources": [],
+          "hsSourceDirs": [
+            "test"
+          ],
+          "otherModules": [
+            [
+              "JaskellSpec"
+            ],
+            [
+              "Jaskell",
+              "PreludeSpec"
+            ],
+            [
+              "Jaskell",
+              "QuoteSpec"
+            ]
+          ],
+          "virtualModules": [],
+          "autogenModules": [],
+          "defaultLanguage": "Haskell2010",
+          "otherLanguages": [],
+          "defaultExtensions": [],
+          "otherExtensions": [],
+          "oldExtensions": [],
+          "extraLibs": [],
+          "extraGHCiLibs": [],
+          "extraBundledLibs": [],
+          "extraLibFlavours": [],
+          "extraDynLibFlavours": [],
+          "extraLibDirs": [],
+          "includeDirs": [],
+          "includes": [],
+          "autogenIncludes": [],
+          "installIncludes": [],
+          "options": [
+            [
+              "-Wall"
+            ],
+            []
+          ],
+          "profOptions": [
+            [],
+            []
+          ],
+          "sharedOptions": [
+            [],
+            []
+          ],
+          "staticOptions": [
+            [],
+            []
+          ],
+          "customFieldsBI": [],
+          "targetBuildDepends": [
+            {
+              "package-name": "base",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "hspec",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "megaparsec",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "directory",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "jaskell",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            }
+          ],
+          "mixins": []
+        }
+      },
+      "condTreeConstraints": [
+        {
+          "package-name": "base",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "hspec",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "megaparsec",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "directory",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "jaskell",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        }
+      ],
+      "condTreeComponents": []
+    }
+  }
+}

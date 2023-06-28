@@ -1,0 +1,453 @@
+{
+  "description": {
+    "spec-version": {
+      "Left": [
+        3,
+        0
+      ]
+    },
+    "package": {
+      "name": "json-spec-openapi",
+      "version": [
+        0,
+        1,
+        0,
+        0
+      ]
+    },
+    "license": {
+      "Left": {
+        "license-expression": {
+          "expression": {
+            "id": "MIT"
+          },
+          "exception-id": null
+        }
+      }
+    },
+    "license-files": [
+      "LICENSE"
+    ],
+    "copyright": "2022 Rick Owens",
+    "maintainer": "rick@owensmurray.com",
+    "author": "Rick Owens",
+    "stability": "",
+    "tested-with": [],
+    "homepage": "https://github.com/owensmurray/json-spec-openapi",
+    "pkg-url": "",
+    "bug-reports": "",
+    "source-repos": [],
+    "synopsis": "json-spec-openapi",
+    "description": "This package provides a way to produce\n[`openapi3`](https://hackage.haskell.org/package/openapi3) documentation from a\n[`json-spec`](https://hackage.haskell.org/package/json-spec-0.1.0.0)\nspecification.\n\n= Example\n\nGiven this data type:\n\n> data User = User\n>   {      name :: Text\n>   , lastLogin :: UTCTime\n>   }\n>   deriving ToSchema via (EncodingSchema User) -- <-- ToSchema instance defined here\n> instance HasJsonEncodingSpec User where\n>   type EncodingSpec User =\n>     JsonObject\n>       '[ '(\"name\", JsonString)\n>        , '(\"last-login\", JsonDateTime)\n>        ]\n>   toJSONStructure user =\n>     (Field @\"name\" (name user),\n>     (Field @\"last-login\" (lastLogin user),\n>     ()))\n\nCalling `Data.Aeson.encode (Data.OpenApi3.toSchema (Proxy :: Proxy User))`\nwill produce the following Schema:\n\n> {\n>   \"additionalProperties\": false,\n>   \"properties\": {\n>     \"last-login\": {\n>       \"format\": \"date-time\",\n>       \"type\": \"string\"\n>     },\n>     \"name\": {\n>       \"type\": \"string\"\n>     }\n>   },\n>   \"required\": [\n>     \"name\",\n>     \"last-login\"\n>   ],\n>   \"type\": \"object\"\n> }",
+    "category": "JSON, OpenApi",
+    "custom-fields": [],
+    "build-type-raw": "Simple",
+    "custom-setup": null,
+    "library": null,
+    "sublibraries": [],
+    "executables": [],
+    "foreign-libs": [],
+    "test-suites": [],
+    "benchmarks": [],
+    "data-files": [],
+    "data-dir": ".",
+    "extra-source-files": [
+      "README.md",
+      "LICENSE"
+    ],
+    "extra-tmp-files": [],
+    "extra-doc-files": []
+  },
+  "library": {
+    "condTreeData": {
+      "name": {},
+      "exposed-modules": [
+        [
+          "Data",
+          "JsonSpec",
+          "OpenApi"
+        ]
+      ],
+      "re-exported-modules": [],
+      "signatures": [],
+      "exposed": true,
+      "visibility": "LibraryVisibilityPublic",
+      "build-info": {
+        "buildable": true,
+        "buildTools": [],
+        "buildToolDepends": [],
+        "cppOptions": [],
+        "asmOptions": [],
+        "cmmOptions": [],
+        "ccOptions": [],
+        "cxxOptions": [],
+        "ldOptions": [],
+        "pkgconfigDepends": [],
+        "frameworks": [],
+        "extraFrameworkDirs": [],
+        "asmSources": [],
+        "cmmSources": [],
+        "cSources": [],
+        "cxxSources": [],
+        "jsSources": [],
+        "hsSourceDirs": [
+          "src"
+        ],
+        "otherModules": [],
+        "virtualModules": [],
+        "autogenModules": [],
+        "defaultLanguage": "Haskell2010",
+        "otherLanguages": [],
+        "defaultExtensions": [],
+        "otherExtensions": [],
+        "oldExtensions": [],
+        "extraLibs": [],
+        "extraGHCiLibs": [],
+        "extraBundledLibs": [],
+        "extraLibFlavours": [],
+        "extraDynLibFlavours": [],
+        "extraLibDirs": [],
+        "includeDirs": [],
+        "includes": [],
+        "autogenIncludes": [],
+        "installIncludes": [],
+        "options": [
+          [
+            "-Wmissing-deriving-strategies",
+            "-Wmissing-export-lists",
+            "-Wmissing-import-lists",
+            "-Wredundant-constraints",
+            "-Wall"
+          ],
+          []
+        ],
+        "profOptions": [
+          [],
+          []
+        ],
+        "sharedOptions": [
+          [],
+          []
+        ],
+        "staticOptions": [
+          [],
+          []
+        ],
+        "customFieldsBI": [],
+        "targetBuildDepends": [
+          {
+            "package-name": "base",
+            "version-range": ">=4.17 && <4.18",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "json-spec",
+            "version-range": ">=0.1.0.0 && <0.2",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "lens",
+            "version-range": ">=5.2.2 && <5.3",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "openapi3",
+            "version-range": ">=3.2.3 && <3.3",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "text",
+            "version-range": ">=2.0.2 && <2.1",
+            "library": [
+              {}
+            ]
+          }
+        ],
+        "mixins": []
+      }
+    },
+    "condTreeConstraints": [
+      {
+        "package-name": "base",
+        "version-range": ">=4.17 && <4.18",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "json-spec",
+        "version-range": ">=0.1.0.0 && <0.2",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "lens",
+        "version-range": ">=5.2.2 && <5.3",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "openapi3",
+        "version-range": ">=3.2.3 && <3.3",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "text",
+        "version-range": ">=2.0.2 && <2.1",
+        "library": [
+          {}
+        ]
+      }
+    ],
+    "condTreeComponents": []
+  },
+  "test-suites": {
+    "json-spec-openapi-tests": {
+      "condTreeData": {
+        "name": "",
+        "interface": {
+          "version": [
+            1,
+            0
+          ],
+          "filepath": "test.hs"
+        },
+        "build-info": {
+          "buildable": true,
+          "buildTools": [],
+          "buildToolDepends": [],
+          "cppOptions": [],
+          "asmOptions": [],
+          "cmmOptions": [],
+          "ccOptions": [],
+          "cxxOptions": [],
+          "ldOptions": [],
+          "pkgconfigDepends": [],
+          "frameworks": [],
+          "extraFrameworkDirs": [],
+          "asmSources": [],
+          "cmmSources": [],
+          "cSources": [],
+          "cxxSources": [],
+          "jsSources": [],
+          "hsSourceDirs": [
+            "test"
+          ],
+          "otherModules": [],
+          "virtualModules": [],
+          "autogenModules": [],
+          "defaultLanguage": "Haskell2010",
+          "otherLanguages": [],
+          "defaultExtensions": [],
+          "otherExtensions": [],
+          "oldExtensions": [],
+          "extraLibs": [],
+          "extraGHCiLibs": [],
+          "extraBundledLibs": [],
+          "extraLibFlavours": [],
+          "extraDynLibFlavours": [],
+          "extraLibDirs": [],
+          "includeDirs": [],
+          "includes": [],
+          "autogenIncludes": [],
+          "installIncludes": [],
+          "options": [
+            [
+              "-Wmissing-deriving-strategies",
+              "-Wmissing-export-lists",
+              "-Wmissing-import-lists",
+              "-Wredundant-constraints",
+              "-Wall"
+            ],
+            []
+          ],
+          "profOptions": [
+            [],
+            []
+          ],
+          "sharedOptions": [
+            [],
+            []
+          ],
+          "staticOptions": [
+            [],
+            []
+          ],
+          "customFieldsBI": [],
+          "targetBuildDepends": [
+            {
+              "package-name": "base",
+              "version-range": ">=4.17 && <4.18",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "json-spec",
+              "version-range": ">=0.1.0.0 && <0.2",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "lens",
+              "version-range": ">=5.2.2 && <5.3",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "openapi3",
+              "version-range": ">=3.2.3 && <3.3",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "text",
+              "version-range": ">=2.0.2 && <2.1",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "json-spec-openapi",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "aeson",
+              "version-range": ">=2.1.2.1 && <2.2",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "bytestring",
+              "version-range": ">=0.11.4.0 && <0.12",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "hspec",
+              "version-range": ">=2.11.1 && <2.12",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "scientific",
+              "version-range": ">=0.3.7.0 && <0.4",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "time",
+              "version-range": ">=1.12.2 && <1.13",
+              "library": [
+                {}
+              ]
+            }
+          ],
+          "mixins": []
+        }
+      },
+      "condTreeConstraints": [
+        {
+          "package-name": "base",
+          "version-range": ">=4.17 && <4.18",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "json-spec",
+          "version-range": ">=0.1.0.0 && <0.2",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "lens",
+          "version-range": ">=5.2.2 && <5.3",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "openapi3",
+          "version-range": ">=3.2.3 && <3.3",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "text",
+          "version-range": ">=2.0.2 && <2.1",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "json-spec-openapi",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "aeson",
+          "version-range": ">=2.1.2.1 && <2.2",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "bytestring",
+          "version-range": ">=0.11.4.0 && <0.12",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "hspec",
+          "version-range": ">=2.11.1 && <2.12",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "scientific",
+          "version-range": ">=0.3.7.0 && <0.4",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "time",
+          "version-range": ">=1.12.2 && <1.13",
+          "library": [
+            {}
+          ]
+        }
+      ],
+      "condTreeComponents": []
+    }
+  }
+}
