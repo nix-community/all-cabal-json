@@ -1,52 +1,45 @@
 {
   "description": {
     "spec-version": {
-      "Right": ">=1.10"
+      "Left": [
+        2,
+        4
+      ]
     },
     "package": {
-      "name": "raven-haskell",
+      "name": "mmzk-typeid",
       "version": [
         0,
-        1,
-        4,
-        1
+        2,
+        0,
+        0
       ]
     },
     "license": {
-      "Right": "MIT"
+      "Left": {
+        "license-expression": {
+          "expression": {
+            "id": "MIT"
+          },
+          "exception-id": null
+        }
+      }
     },
-    "license-files": [
-      "LICENSE"
-    ],
+    "license-files": [],
     "copyright": "",
-    "maintainer": "aenor.realm@gmail.com",
-    "author": "Alexander Bondarenko",
+    "maintainer": "Yitang Chen <mmzk1526@ic.ac.uk>",
+    "author": "Yitang Chen <mmzk1526@ic.ac.uk>",
     "stability": "",
     "tested-with": [],
-    "homepage": "https://gitlab.com/dpwiz/raven-haskell",
+    "homepage": "https://github.com/MMZK1526/mmzk-typeid",
     "pkg-url": "",
-    "bug-reports": "",
-    "source-repos": [
-      {
-        "kind": {},
-        "type": "Git",
-        "location": "https://gitlab.com/dpwiz/raven-haskell",
-        "module": null,
-        "branch": null,
-        "tag": null,
-        "subdir": null
-      }
-    ],
-    "synopsis": "Haskell client for Sentry logging service.",
-    "description": "",
-    "category": "Logging",
-    "custom-fields": [
-      [
-        "x-revision",
-        "1"
-      ]
-    ],
-    "build-type-raw": "Simple",
+    "bug-reports": "https://github.com/MMZK1526/mmzk-typeid/issues",
+    "source-repos": [],
+    "synopsis": "A TypeID implementation for Haskell",
+    "description": "TypeID is a type-safe, K-sortable, globally unique identifier inspired by Stripe IDs.\n\nThe specification is available at https://github.com/jetpack-io/typeid.\n\nThis library supports generating and parsing speç-conforming TypeIDs, with the following additional features:\n\n- Batch generating TypeIDs with the same 'UUID'v7 timestamp\n\n- Encode prefixes at type-level for better type-safety\n\nPlease enable the following extensions if working with 'KindID':\n\n> {-# LANGUAGE DataKinds #-}\n> {-# LANGUAGE PolyKinds #-}\n> {-# LANGUAGE TypeApplications #-}\n> {-# LANGUAGE TypeFamilies #-}\n\nWhile the following is not required, it is quite convenient to have\n\n> {-# LANGUAGE OverloadedStrings #-}\n\nFor a quick \"how-to-use\" guide, please refer to the README.md file at https://github.com/MMZK1526/mmzk-typeid#readme.",
+    "category": "Data, UUID, TypeID",
+    "custom-fields": [],
+    "build-type-raw": null,
     "custom-setup": null,
     "library": null,
     "sublibraries": [],
@@ -57,53 +50,40 @@
     "data-files": [],
     "data-dir": ".",
     "extra-source-files": [
-      "README.md"
+      "CHANGELOG.md",
+      "LICENSE",
+      "test/invalid.json",
+      "test/valid.json"
     ],
     "extra-tmp-files": [],
     "extra-doc-files": []
   },
-  "package-flags": [
-    {
-      "name": "tests",
-      "description": "",
-      "default": false,
-      "manual": true
-    }
-  ],
   "library": {
     "condTreeData": {
       "name": {},
       "exposed-modules": [
         [
-          "System",
-          "Log",
-          "Raven"
+          "Data",
+          "KindID"
         ],
         [
-          "System",
-          "Log",
-          "Raven",
-          "Interfaces"
+          "Data",
+          "TypeID"
         ],
         [
-          "System",
-          "Log",
-          "Raven",
-          "Types"
+          "Data",
+          "TypeID",
+          "Class"
         ],
         [
-          "System",
-          "Log",
-          "Raven",
-          "Transport",
-          "Debug"
+          "Data",
+          "TypeID",
+          "Error"
         ],
         [
-          "System",
-          "Log",
-          "Raven",
-          "Transport",
-          "HttpConduit"
+          "Data",
+          "UUID",
+          "V7"
         ]
       ],
       "re-exported-modules": [],
@@ -131,12 +111,48 @@
         "hsSourceDirs": [
           "src"
         ],
-        "otherModules": [],
+        "otherModules": [
+          [
+            "Data",
+            "KindID",
+            "Internal"
+          ],
+          [
+            "Data",
+            "TypeID",
+            "Internal"
+          ]
+        ],
         "virtualModules": [],
         "autogenModules": [],
         "defaultLanguage": "Haskell2010",
         "otherLanguages": [],
-        "defaultExtensions": [],
+        "defaultExtensions": [
+          {
+            "enable-extension": "BlockArguments"
+          },
+          {
+            "enable-extension": "DataKinds"
+          },
+          {
+            "enable-extension": "InstanceSigs"
+          },
+          {
+            "enable-extension": "MultiWayIf"
+          },
+          {
+            "enable-extension": "OverloadedStrings"
+          },
+          {
+            "enable-extension": "PolyKinds"
+          },
+          {
+            "enable-extension": "TypeApplications"
+          },
+          {
+            "enable-extension": "TypeFamilies"
+          }
+        ],
         "otherExtensions": [],
         "oldExtensions": [],
         "extraLibs": [],
@@ -150,9 +166,7 @@
         "autogenIncludes": [],
         "installIncludes": [],
         "options": [
-          [
-            "-Wall"
-          ],
+          [],
           []
         ],
         "profOptions": [
@@ -171,84 +185,63 @@
         "targetBuildDepends": [
           {
             "package-name": "base",
-            "version-range": "==4.*",
+            "version-range": ">=4.16 && <5",
             "library": [
               {}
             ]
           },
           {
             "package-name": "aeson",
-            "version-range": "<2.2",
+            "version-range": ">=2.1 && <3",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "array",
+            "version-range": "^>=0.5",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "binary",
+            "version-range": ">=0.8.5 && <0.9",
             "library": [
               {}
             ]
           },
           {
             "package-name": "bytestring",
-            "version-range": ">=0.10",
+            "version-range": "^>=0.11",
             "library": [
               {}
             ]
           },
           {
-            "package-name": "http-conduit",
-            "version-range": ">=0.4.30",
-            "library": [
-              {}
-            ]
-          },
-          {
-            "package-name": "mtl",
-            "version-range": "-any",
-            "library": [
-              {}
-            ]
-          },
-          {
-            "package-name": "network",
-            "version-range": "-any",
-            "library": [
-              {}
-            ]
-          },
-          {
-            "package-name": "random",
-            "version-range": ">=1.0",
-            "library": [
-              {}
-            ]
-          },
-          {
-            "package-name": "resourcet",
-            "version-range": "-any",
+            "package-name": "entropy",
+            "version-range": "^>=0.4",
             "library": [
               {}
             ]
           },
           {
             "package-name": "text",
-            "version-range": "-any",
+            "version-range": "^>=2.0",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "transformers",
+            "version-range": "^>=0.6",
             "library": [
               {}
             ]
           },
           {
             "package-name": "time",
-            "version-range": ">=1.5.0.1",
-            "library": [
-              {}
-            ]
-          },
-          {
-            "package-name": "unordered-containers",
-            "version-range": "-any",
-            "library": [
-              {}
-            ]
-          },
-          {
-            "package-name": "uuid-types",
-            "version-range": "-any",
+            "version-range": ">=1.11 && <1.13",
             "library": [
               {}
             ]
@@ -260,84 +253,63 @@
     "condTreeConstraints": [
       {
         "package-name": "base",
-        "version-range": "==4.*",
+        "version-range": ">=4.16 && <5",
         "library": [
           {}
         ]
       },
       {
         "package-name": "aeson",
-        "version-range": "<2.2",
+        "version-range": ">=2.1 && <3",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "array",
+        "version-range": "^>=0.5",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "binary",
+        "version-range": ">=0.8.5 && <0.9",
         "library": [
           {}
         ]
       },
       {
         "package-name": "bytestring",
-        "version-range": ">=0.10",
+        "version-range": "^>=0.11",
         "library": [
           {}
         ]
       },
       {
-        "package-name": "http-conduit",
-        "version-range": ">=0.4.30",
-        "library": [
-          {}
-        ]
-      },
-      {
-        "package-name": "mtl",
-        "version-range": "-any",
-        "library": [
-          {}
-        ]
-      },
-      {
-        "package-name": "network",
-        "version-range": "-any",
-        "library": [
-          {}
-        ]
-      },
-      {
-        "package-name": "random",
-        "version-range": ">=1.0",
-        "library": [
-          {}
-        ]
-      },
-      {
-        "package-name": "resourcet",
-        "version-range": "-any",
+        "package-name": "entropy",
+        "version-range": "^>=0.4",
         "library": [
           {}
         ]
       },
       {
         "package-name": "text",
-        "version-range": "-any",
+        "version-range": "^>=2.0",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "transformers",
+        "version-range": "^>=0.6",
         "library": [
           {}
         ]
       },
       {
         "package-name": "time",
-        "version-range": ">=1.5.0.1",
-        "library": [
-          {}
-        ]
-      },
-      {
-        "package-name": "unordered-containers",
-        "version-range": "-any",
-        "library": [
-          {}
-        ]
-      },
-      {
-        "package-name": "uuid-types",
-        "version-range": "-any",
+        "version-range": ">=1.11 && <1.13",
         "library": [
           {}
         ]
@@ -354,7 +326,7 @@
             1,
             0
           ],
-          "filepath": "Test.hs"
+          "filepath": "Spec.hs"
         },
         "build-info": {
           "buildable": true,
@@ -375,14 +347,74 @@
           "cxxSources": [],
           "jsSources": [],
           "hsSourceDirs": [
+            "src",
             "test"
           ],
-          "otherModules": [],
+          "otherModules": [
+            [
+              "Data",
+              "KindID"
+            ],
+            [
+              "Data",
+              "KindID",
+              "Internal"
+            ],
+            [
+              "Data",
+              "TypeID"
+            ],
+            [
+              "Data",
+              "TypeID",
+              "Class"
+            ],
+            [
+              "Data",
+              "TypeID",
+              "Error"
+            ],
+            [
+              "Data",
+              "TypeID",
+              "Internal"
+            ],
+            [
+              "Data",
+              "UUID",
+              "V7"
+            ]
+          ],
           "virtualModules": [],
           "autogenModules": [],
           "defaultLanguage": "Haskell2010",
           "otherLanguages": [],
-          "defaultExtensions": [],
+          "defaultExtensions": [
+            {
+              "enable-extension": "BlockArguments"
+            },
+            {
+              "enable-extension": "DataKinds"
+            },
+            {
+              "enable-extension": "InstanceSigs"
+            },
+            {
+              "enable-extension": "MultiWayIf"
+            },
+            {
+              "enable-extension": "OverloadedStrings"
+            },
+            {
+              "enable-extension": "PolyKinds"
+            },
+            {
+              "enable-extension": "TypeApplications"
+            },
+            {
+              "enable-extension": "TypeFamilies"
+            }
+          ],
           "otherExtensions": [],
           "oldExtensions": [],
           "extraLibs": [],
@@ -428,6 +460,20 @@
               ]
             },
             {
+              "package-name": "array",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "binary",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
               "package-name": "bytestring",
               "version-range": "-any",
               "library": [
@@ -435,14 +481,35 @@
               ]
             },
             {
-              "package-name": "hspec",
+              "package-name": "containers",
+              "version-range": "^>=0.6",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "entropy",
               "version-range": "-any",
               "library": [
                 {}
               ]
             },
             {
-              "package-name": "raven-haskell",
+              "package-name": "hspec",
+              "version-range": "^>=2.11",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "text",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "transformers",
               "version-range": "-any",
               "library": [
                 {}
@@ -450,13 +517,6 @@
             },
             {
               "package-name": "time",
-              "version-range": "-any",
-              "library": [
-                {}
-              ]
-            },
-            {
-              "package-name": "unordered-containers",
               "version-range": "-any",
               "library": [
                 {}
@@ -482,6 +542,20 @@
           ]
         },
         {
+          "package-name": "array",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "binary",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
           "package-name": "bytestring",
           "version-range": "-any",
           "library": [
@@ -489,14 +563,35 @@
           ]
         },
         {
-          "package-name": "hspec",
+          "package-name": "containers",
+          "version-range": "^>=0.6",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "entropy",
           "version-range": "-any",
           "library": [
             {}
           ]
         },
         {
-          "package-name": "raven-haskell",
+          "package-name": "hspec",
+          "version-range": "^>=2.11",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "text",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "transformers",
           "version-range": "-any",
           "library": [
             {}
@@ -508,96 +603,9 @@
           "library": [
             {}
           ]
-        },
-        {
-          "package-name": "unordered-containers",
-          "version-range": "-any",
-          "library": [
-            {}
-          ]
         }
       ],
-      "condTreeComponents": [
-        {
-          "condBranchCondition": {
-            "cond_not": {
-              "variable": {
-                "flag": "tests"
-              }
-            }
-          },
-          "condBranchIfTrue": {
-            "condTreeData": {
-              "name": "",
-              "interface": {
-                "type": {
-                  "name": "",
-                  "version": []
-                }
-              },
-              "build-info": {
-                "buildable": false,
-                "buildTools": [],
-                "buildToolDepends": [],
-                "cppOptions": [],
-                "asmOptions": [],
-                "cmmOptions": [],
-                "ccOptions": [],
-                "cxxOptions": [],
-                "ldOptions": [],
-                "pkgconfigDepends": [],
-                "frameworks": [],
-                "extraFrameworkDirs": [],
-                "asmSources": [],
-                "cmmSources": [],
-                "cSources": [],
-                "cxxSources": [],
-                "jsSources": [],
-                "hsSourceDirs": [],
-                "otherModules": [],
-                "virtualModules": [],
-                "autogenModules": [],
-                "defaultLanguage": null,
-                "otherLanguages": [],
-                "defaultExtensions": [],
-                "otherExtensions": [],
-                "oldExtensions": [],
-                "extraLibs": [],
-                "extraGHCiLibs": [],
-                "extraBundledLibs": [],
-                "extraLibFlavours": [],
-                "extraDynLibFlavours": [],
-                "extraLibDirs": [],
-                "includeDirs": [],
-                "includes": [],
-                "autogenIncludes": [],
-                "installIncludes": [],
-                "options": [
-                  [],
-                  []
-                ],
-                "profOptions": [
-                  [],
-                  []
-                ],
-                "sharedOptions": [
-                  [],
-                  []
-                ],
-                "staticOptions": [
-                  [],
-                  []
-                ],
-                "customFieldsBI": [],
-                "targetBuildDepends": [],
-                "mixins": []
-              }
-            },
-            "condTreeConstraints": [],
-            "condTreeComponents": []
-          }
-        }
-      ]
+      "condTreeComponents": []
     }
   }
 }
