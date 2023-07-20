@@ -4,48 +4,42 @@
       "Right": ">=1.10"
     },
     "package": {
-      "name": "clientsession",
+      "name": "amqp",
       "version": [
         0,
-        9,
-        2,
-        0
+        22,
+        2
       ]
     },
     "license": {
-      "Right": "MIT"
+      "Right": "BSD3"
     },
     "license-files": [
       "LICENSE"
     ],
     "copyright": "",
-    "maintainer": "Michael Snoyman <michael@snoyman.com>",
-    "author": "Michael Snoyman <michael@snoyman.com>, Felipe Lessa <felipe.lessa@gmail.com>",
-    "stability": "stable",
+    "maintainer": "Holger Reinhardt <hreinhardt@gmail.com>",
+    "author": "Holger Reinhardt",
+    "stability": "alpha",
     "tested-with": [],
-    "homepage": "http://github.com/yesodweb/clientsession/tree/master",
+    "homepage": "https://github.com/hreinhardt/amqp",
     "pkg-url": "",
-    "bug-reports": "",
+    "bug-reports": "https://github.com/hreinhardt/amqp/issues",
     "source-repos": [
       {
         "kind": {},
         "type": "Git",
-        "location": "https://github.com/yesodweb/clientsession.git",
+        "location": "https://github.com/hreinhardt/amqp",
         "module": null,
         "branch": null,
         "tag": null,
         "subdir": null
       }
     ],
-    "synopsis": "Securely store session data in a client-side cookie.",
-    "description": "Achieves security through AES-CTR encryption and\nSkein-MAC-512-256 authentication.  Uses Base64\nencoding to avoid any issues with characters.",
-    "category": "Web",
-    "custom-fields": [
-      [
-        "x-revision",
-        "1"
-      ]
-    ],
+    "synopsis": "Client library for AMQP servers (currently only RabbitMQ)",
+    "description": "Client library for AMQP servers (currently only RabbitMQ)",
+    "category": "Network",
+    "custom-fields": [],
     "build-type-raw": "Simple",
     "custom-setup": null,
     "library": null,
@@ -57,29 +51,30 @@
     "data-files": [],
     "data-dir": ".",
     "extra-source-files": [
-      "tests/runtests.hs",
-      "bench.hs",
-      "ChangeLog.md",
-      "README.md"
+      "examples/ExampleConsumer.hs",
+      "examples/ExampleProducer.hs",
+      "changelog.md"
     ],
     "extra-tmp-files": [],
     "extra-doc-files": []
   },
-  "package-flags": [
-    {
-      "name": "test",
-      "description": "Build the executable to run unit tests",
-      "default": false,
-      "manual": false
-    }
-  ],
   "library": {
     "condTreeData": {
       "name": {},
       "exposed-modules": [
         [
-          "Web",
-          "ClientSession"
+          "Network",
+          "AMQP"
+        ],
+        [
+          "Network",
+          "AMQP",
+          "Types"
+        ],
+        [
+          "Network",
+          "AMQP",
+          "Lifted"
         ]
       ],
       "re-exported-modules": [],
@@ -104,13 +99,35 @@
         "cSources": [],
         "cxxSources": [],
         "jsSources": [],
-        "hsSourceDirs": [
-          "src"
-        ],
+        "hsSourceDirs": [],
         "otherModules": [
           [
-            "System",
-            "LookupEnv"
+            "Network",
+            "AMQP",
+            "ChannelAllocator"
+          ],
+          [
+            "Network",
+            "AMQP",
+            "Generated"
+          ],
+          [
+            "Network",
+            "AMQP",
+            "Helpers"
+          ],
+          [
+            "Network",
+            "AMQP",
+            "Protocol"
+          ],
+          [
+            "Network",
+            "AMQP",
+            "Internal"
+          ],
+          [
+            "Paths_amqp"
           ]
         ],
         "virtualModules": [],
@@ -152,7 +169,21 @@
         "targetBuildDepends": [
           {
             "package-name": "base",
-            "version-range": ">=4.8 && <5",
+            "version-range": ">=4 && <5",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "binary",
+            "version-range": ">=0.5",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "containers",
+            "version-range": ">=0.2",
             "library": [
               {}
             ]
@@ -165,64 +196,71 @@
             ]
           },
           {
-            "package-name": "cereal",
+            "package-name": "data-binary-ieee754",
+            "version-range": ">=0.4.2.1",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "text",
+            "version-range": ">=0.11.2",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "split",
+            "version-range": ">=0.2",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "clock",
+            "version-range": ">=0.4.0.1",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "monad-control",
             "version-range": ">=0.3",
             "library": [
               {}
             ]
           },
           {
-            "package-name": "directory",
-            "version-range": ">=1",
+            "package-name": "crypton-connection",
+            "version-range": ">=0.3.1 && <=0.4",
             "library": [
               {}
             ]
           },
           {
-            "package-name": "tagged",
-            "version-range": ">=0.1",
-            "library": [
-              {}
-            ]
-          },
-          {
-            "package-name": "crypto-api",
-            "version-range": ">=0.8",
-            "library": [
-              {}
-            ]
-          },
-          {
-            "package-name": "skein",
-            "version-range": "==1.0.*",
-            "library": [
-              {}
-            ]
-          },
-          {
-            "package-name": "base64-bytestring",
-            "version-range": ">=0.1.1.1",
-            "library": [
-              {}
-            ]
-          },
-          {
-            "package-name": "entropy",
-            "version-range": ">=0.2.1",
-            "library": [
-              {}
-            ]
-          },
-          {
-            "package-name": "cryptonite",
-            "version-range": ">=0.15",
-            "library": [
-              {}
-            ]
-          },
-          {
-            "package-name": "setenv",
+            "package-name": "vector",
             "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "stm",
+            "version-range": ">=2.4.0",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "network-uri",
+            "version-range": ">=2.6",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "network",
+            "version-range": ">2.6",
             "library": [
               {}
             ]
@@ -234,7 +272,21 @@
     "condTreeConstraints": [
       {
         "package-name": "base",
-        "version-range": ">=4.8 && <5",
+        "version-range": ">=4 && <5",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "binary",
+        "version-range": ">=0.5",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "containers",
+        "version-range": ">=0.2",
         "library": [
           {}
         ]
@@ -247,64 +299,71 @@
         ]
       },
       {
-        "package-name": "cereal",
+        "package-name": "data-binary-ieee754",
+        "version-range": ">=0.4.2.1",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "text",
+        "version-range": ">=0.11.2",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "split",
+        "version-range": ">=0.2",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "clock",
+        "version-range": ">=0.4.0.1",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "monad-control",
         "version-range": ">=0.3",
         "library": [
           {}
         ]
       },
       {
-        "package-name": "directory",
-        "version-range": ">=1",
+        "package-name": "crypton-connection",
+        "version-range": ">=0.3.1 && <=0.4",
         "library": [
           {}
         ]
       },
       {
-        "package-name": "tagged",
-        "version-range": ">=0.1",
-        "library": [
-          {}
-        ]
-      },
-      {
-        "package-name": "crypto-api",
-        "version-range": ">=0.8",
-        "library": [
-          {}
-        ]
-      },
-      {
-        "package-name": "skein",
-        "version-range": "==1.0.*",
-        "library": [
-          {}
-        ]
-      },
-      {
-        "package-name": "base64-bytestring",
-        "version-range": ">=0.1.1.1",
-        "library": [
-          {}
-        ]
-      },
-      {
-        "package-name": "entropy",
-        "version-range": ">=0.2.1",
-        "library": [
-          {}
-        ]
-      },
-      {
-        "package-name": "cryptonite",
-        "version-range": ">=0.15",
-        "library": [
-          {}
-        ]
-      },
-      {
-        "package-name": "setenv",
+        "package-name": "vector",
         "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "stm",
+        "version-range": ">=2.4.0",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "network-uri",
+        "version-range": ">=2.6",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "network",
+        "version-range": ">2.6",
         "library": [
           {}
         ]
@@ -313,10 +372,10 @@
     "condTreeComponents": []
   },
   "executables": {
-    "clientsession-generate": {
+    "amqp-builder": {
       "condTreeData": {
-        "name": "clientsession-generate",
-        "module-path": "generate.hs",
+        "name": "amqp-builder",
+        "module-path": "Builder.hs",
         "scope": "public",
         "build-info": {
           "buildable": true,
@@ -337,7 +396,7 @@
           "cxxSources": [],
           "jsSources": [],
           "hsSourceDirs": [
-            "bin"
+            "Tools"
           ],
           "otherModules": [],
           "virtualModules": [],
@@ -379,14 +438,21 @@
           "targetBuildDepends": [
             {
               "package-name": "base",
-              "version-range": "-any",
+              "version-range": ">=4 && <5",
               "library": [
                 {}
               ]
             },
             {
-              "package-name": "clientsession",
-              "version-range": "-any",
+              "package-name": "xml",
+              "version-range": "==1.3.*",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "containers",
+              "version-range": ">=0.2",
               "library": [
                 {}
               ]
@@ -398,14 +464,21 @@
       "condTreeConstraints": [
         {
           "package-name": "base",
-          "version-range": "-any",
+          "version-range": ">=4 && <5",
           "library": [
             {}
           ]
         },
         {
-          "package-name": "clientsession",
-          "version-range": "-any",
+          "package-name": "xml",
+          "version-range": "==1.3.*",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "containers",
+          "version-range": ">=0.2",
           "library": [
             {}
           ]
@@ -415,7 +488,7 @@
     }
   },
   "test-suites": {
-    "runtests": {
+    "spec": {
       "condTreeData": {
         "name": "",
         "interface": {
@@ -423,7 +496,7 @@
             1,
             0
           ],
-          "filepath": "runtests.hs"
+          "filepath": "Runner.hs"
         },
         "build-info": {
           "buildable": true,
@@ -444,9 +517,38 @@
           "cxxSources": [],
           "jsSources": [],
           "hsSourceDirs": [
-            "tests"
+            ".",
+            "test"
           ],
-          "otherModules": [],
+          "otherModules": [
+            [
+              "BasicPublishSpec"
+            ],
+            [
+              "BasicRejectSpec"
+            ],
+            [
+              "ChannelSpec"
+            ],
+            [
+              "ConnectionSpec"
+            ],
+            [
+              "ExchangeDeclareSpec"
+            ],
+            [
+              "ExchangeDeleteSpec"
+            ],
+            [
+              "QueueDeclareSpec"
+            ],
+            [
+              "QueueDeleteSpec"
+            ],
+            [
+              "QueuePurgeSpec"
+            ]
+          ],
           "virtualModules": [],
           "autogenModules": [],
           "defaultLanguage": "Haskell2010",
@@ -486,7 +588,21 @@
           "targetBuildDepends": [
             {
               "package-name": "base",
-              "version-range": "-any",
+              "version-range": ">=4 && <5",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "binary",
+              "version-range": ">=0.5",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "containers",
+              "version-range": ">=0.2",
               "library": [
                 {}
               ]
@@ -499,6 +615,34 @@
               ]
             },
             {
+              "package-name": "data-binary-ieee754",
+              "version-range": ">=0.4.2.1",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "text",
+              "version-range": ">=0.11.2",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "split",
+              "version-range": ">=0.2",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "clock",
+              "version-range": ">=0.4.0.1",
+              "library": [
+                {}
+              ]
+            },
+            {
               "package-name": "hspec",
               "version-range": ">=1.3",
               "library": [
@@ -506,43 +650,43 @@
               ]
             },
             {
-              "package-name": "QuickCheck",
-              "version-range": ">=2",
+              "package-name": "hspec-expectations",
+              "version-range": ">=0.3.3",
               "library": [
                 {}
               ]
             },
             {
-              "package-name": "HUnit",
+              "package-name": "crypton-connection",
+              "version-range": ">=0.3.1 && <=0.4",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "vector",
               "version-range": "-any",
               "library": [
                 {}
               ]
             },
             {
-              "package-name": "transformers",
-              "version-range": "-any",
+              "package-name": "stm",
+              "version-range": ">=2.4.0",
               "library": [
                 {}
               ]
             },
             {
-              "package-name": "containers",
-              "version-range": "-any",
+              "package-name": "network-uri",
+              "version-range": ">=2.6",
               "library": [
                 {}
               ]
             },
             {
-              "package-name": "cereal",
-              "version-range": "-any",
-              "library": [
-                {}
-              ]
-            },
-            {
-              "package-name": "clientsession",
-              "version-range": "-any",
+              "package-name": "network",
+              "version-range": ">2.6",
               "library": [
                 {}
               ]
@@ -554,7 +698,21 @@
       "condTreeConstraints": [
         {
           "package-name": "base",
-          "version-range": "-any",
+          "version-range": ">=4 && <5",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "binary",
+          "version-range": ">=0.5",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "containers",
+          "version-range": ">=0.2",
           "library": [
             {}
           ]
@@ -567,6 +725,34 @@
           ]
         },
         {
+          "package-name": "data-binary-ieee754",
+          "version-range": ">=0.4.2.1",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "text",
+          "version-range": ">=0.11.2",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "split",
+          "version-range": ">=0.2",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "clock",
+          "version-range": ">=0.4.0.1",
+          "library": [
+            {}
+          ]
+        },
+        {
           "package-name": "hspec",
           "version-range": ">=1.3",
           "library": [
@@ -574,43 +760,43 @@
           ]
         },
         {
-          "package-name": "QuickCheck",
-          "version-range": ">=2",
+          "package-name": "hspec-expectations",
+          "version-range": ">=0.3.3",
           "library": [
             {}
           ]
         },
         {
-          "package-name": "HUnit",
+          "package-name": "crypton-connection",
+          "version-range": ">=0.3.1 && <=0.4",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "vector",
           "version-range": "-any",
           "library": [
             {}
           ]
         },
         {
-          "package-name": "transformers",
-          "version-range": "-any",
+          "package-name": "stm",
+          "version-range": ">=2.4.0",
           "library": [
             {}
           ]
         },
         {
-          "package-name": "containers",
-          "version-range": "-any",
+          "package-name": "network-uri",
+          "version-range": ">=2.6",
           "library": [
             {}
           ]
         },
         {
-          "package-name": "cereal",
-          "version-range": "-any",
-          "library": [
-            {}
-          ]
-        },
-        {
-          "package-name": "clientsession",
-          "version-range": "-any",
+          "package-name": "network",
+          "version-range": ">2.6",
           "library": [
             {}
           ]

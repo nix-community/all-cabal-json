@@ -7,11 +7,12 @@
       ]
     },
     "package": {
-      "name": "hspec-expectations",
+      "name": "hashids",
       "version": [
+        1,
+        1,
         0,
-        8,
-        3
+        1
       ]
     },
     "license": {
@@ -20,34 +21,29 @@
     "license-files": [
       "LICENSE"
     ],
-    "copyright": "(c) 2011-2023 Simon Hengel",
-    "maintainer": "Simon Hengel <sol@typeful.net>",
-    "author": "Simon Hengel <sol@typeful.net>",
+    "copyright": "",
+    "maintainer": "Johannes Hildén <hildenjohannes@gmail.com>",
+    "author": "Johannes Hildén <hildenjohannes@gmail.com>",
     "stability": "",
     "tested-with": [],
-    "homepage": "https://github.com/hspec/hspec-expectations#readme",
+    "homepage": "http://hashids.org/",
     "pkg-url": "",
-    "bug-reports": "https://github.com/hspec/hspec-expectations/issues",
+    "bug-reports": "https://github.com/laserpants/hashids-haskell/issues",
     "source-repos": [
       {
         "kind": {},
         "type": "Git",
-        "location": "https://github.com/hspec/hspec-expectations",
+        "location": "https://github.com/laserpants/hashids-haskell",
         "module": null,
         "branch": null,
         "tag": null,
         "subdir": null
       }
     ],
-    "synopsis": "Catchy combinators for HUnit",
-    "description": "Catchy combinators for HUnit: <https://github.com/hspec/hspec-expectations#readme>",
-    "category": "Testing",
-    "custom-fields": [
-      [
-        "x-revision",
-        "1"
-      ]
-    ],
+    "synopsis": "Hashids generates short, unique, non-sequential ids from numbers.",
+    "description": "This is a Haskell port of the Hashids library. It is typically used to encode numbers to a format suitable to appear in visible places like urls. It converts numbers like 347 into strings like yr8, or a list of numbers like [27, 986] into 3kTMd. You can also decode those ids back. This is useful in bundling several parameters into one.",
+    "category": "Web",
+    "custom-fields": [],
     "build-type-raw": "Simple",
     "custom-setup": null,
     "library": null,
@@ -58,7 +54,9 @@
     "benchmarks": [],
     "data-files": [],
     "data-dir": ".",
-    "extra-source-files": [],
+    "extra-source-files": [
+      "test/testdata/testdata1.txt"
+    ],
     "extra-tmp-files": [],
     "extra-doc-files": []
   },
@@ -67,15 +65,8 @@
       "name": {},
       "exposed-modules": [
         [
-          "Test",
-          "Hspec",
-          "Expectations"
-        ],
-        [
-          "Test",
-          "Hspec",
-          "Expectations",
-          "Contrib"
+          "Web",
+          "Hashids"
         ]
       ],
       "re-exported-modules": [],
@@ -105,13 +96,7 @@
         ],
         "otherModules": [
           [
-            "Test",
-            "Hspec",
-            "Expectations",
-            "Matcher"
-          ],
-          [
-            "Paths_hspec_expectations"
+            "Paths_hashids"
           ]
         ],
         "virtualModules": [],
@@ -133,7 +118,8 @@
         "installIncludes": [],
         "options": [
           [
-            "-Wall"
+            "-Wall",
+            "-Wcompat"
           ],
           []
         ],
@@ -152,22 +138,29 @@
         "customFieldsBI": [],
         "targetBuildDepends": [
           {
-            "package-name": "HUnit",
-            "version-range": ">=1.5.0.0",
-            "library": [
-              {}
-            ]
-          },
-          {
             "package-name": "base",
-            "version-range": "==4.*",
+            "version-range": ">=4.9 && <5",
             "library": [
               {}
             ]
           },
           {
-            "package-name": "call-stack",
-            "version-range": "-any",
+            "package-name": "bytestring",
+            "version-range": ">=0.10.8.1 && <=0.12.0.0",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "containers",
+            "version-range": ">=0.5.7.1 && <0.7.0",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "split",
+            "version-range": ">=0.2.3.2 && <0.3.0.0",
             "library": [
               {}
             ]
@@ -178,22 +171,29 @@
     },
     "condTreeConstraints": [
       {
-        "package-name": "HUnit",
-        "version-range": ">=1.5.0.0",
-        "library": [
-          {}
-        ]
-      },
-      {
         "package-name": "base",
-        "version-range": "==4.*",
+        "version-range": ">=4.9 && <5",
         "library": [
           {}
         ]
       },
       {
-        "package-name": "call-stack",
-        "version-range": "-any",
+        "package-name": "bytestring",
+        "version-range": ">=0.10.8.1 && <=0.12.0.0",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "containers",
+        "version-range": ">=0.5.7.1 && <0.7.0",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "split",
+        "version-range": ">=0.2.3.2 && <0.3.0.0",
         "library": [
           {}
         ]
@@ -202,7 +202,7 @@
     "condTreeComponents": []
   },
   "test-suites": {
-    "spec": {
+    "hashids-test": {
       "condTreeData": {
         "name": "",
         "interface": {
@@ -210,7 +210,7 @@
             1,
             0
           ],
-          "filepath": "Spec.hs"
+          "filepath": "Test.hs"
         },
         "build-info": {
           "buildable": true,
@@ -231,49 +231,23 @@
           "cxxSources": [],
           "jsSources": [],
           "hsSourceDirs": [
-            "test",
-            "src"
+            "test"
           ],
           "otherModules": [
             [
-              "Helper"
+              "Test",
+              "Web",
+              "Hashids",
+              "Gen"
             ],
             [
               "Test",
-              "Hspec",
-              "Expectations",
-              "ContribSpec"
+              "Web",
+              "Hashids",
+              "Property"
             ],
             [
-              "Test",
-              "Hspec",
-              "Expectations",
-              "MatcherSpec"
-            ],
-            [
-              "Test",
-              "Hspec",
-              "ExpectationsSpec"
-            ],
-            [
-              "Test",
-              "Hspec",
-              "Expectations"
-            ],
-            [
-              "Test",
-              "Hspec",
-              "Expectations",
-              "Contrib"
-            ],
-            [
-              "Test",
-              "Hspec",
-              "Expectations",
-              "Matcher"
-            ],
-            [
-              "Paths_hspec_expectations"
+              "Paths_hashids"
             ]
           ],
           "virtualModules": [],
@@ -295,7 +269,9 @@
           "installIncludes": [],
           "options": [
             [
-              "-Wall"
+              "-Wall",
+              "-Wcompat",
+              "-threaded"
             ],
             []
           ],
@@ -314,29 +290,43 @@
           "customFieldsBI": [],
           "targetBuildDepends": [
             {
-              "package-name": "HUnit",
-              "version-range": ">=1.5.0.0",
-              "library": [
-                {}
-              ]
-            },
-            {
               "package-name": "base",
-              "version-range": ">=4.8",
+              "version-range": ">=4.9 && <5",
               "library": [
                 {}
               ]
             },
             {
-              "package-name": "call-stack",
+              "package-name": "bytestring",
+              "version-range": ">=0.10.8.1 && <=0.12.0.0",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "containers",
+              "version-range": ">=0.5.7.1 && <0.7.0",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "hashids",
               "version-range": "-any",
               "library": [
                 {}
               ]
             },
             {
-              "package-name": "nanospec",
+              "package-name": "hedgehog",
               "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "split",
+              "version-range": ">=0.2.3.2 && <0.3.0.0",
               "library": [
                 {}
               ]
@@ -347,29 +337,43 @@
       },
       "condTreeConstraints": [
         {
-          "package-name": "HUnit",
-          "version-range": ">=1.5.0.0",
-          "library": [
-            {}
-          ]
-        },
-        {
           "package-name": "base",
-          "version-range": ">=4.8",
+          "version-range": ">=4.9 && <5",
           "library": [
             {}
           ]
         },
         {
-          "package-name": "call-stack",
+          "package-name": "bytestring",
+          "version-range": ">=0.10.8.1 && <=0.12.0.0",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "containers",
+          "version-range": ">=0.5.7.1 && <0.7.0",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "hashids",
           "version-range": "-any",
           "library": [
             {}
           ]
         },
         {
-          "package-name": "nanospec",
+          "package-name": "hedgehog",
           "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "split",
+          "version-range": ">=0.2.3.2 && <0.3.0.0",
           "library": [
             {}
           ]
