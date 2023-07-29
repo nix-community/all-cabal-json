@@ -3,49 +3,46 @@
     "spec-version": {
       "Left": [
         2,
-        2
+        0
       ]
     },
     "package": {
-      "name": "base64-bytes",
+      "name": "secp256k1-haskell",
       "version": [
+        1,
         0,
-        1,
-        1,
         0
       ]
     },
     "license": {
-      "Left": {
-        "license-expression": {
-          "expression": {
-            "id": "BSD_3_Clause"
-          },
-          "exception-id": null
-        }
-      }
+      "Right": "MIT"
     },
     "license-files": [
       "LICENSE"
     ],
-    "copyright": "2019 Andrew Martin",
-    "maintainer": "andrew.thaddeus@gmail.com",
-    "author": "Andrew Martin",
+    "copyright": "(c) 2017 Jean-Pierre Rupp",
+    "maintainer": "jprupp@protonmail.ch",
+    "author": "Jean-Pierre Rupp",
     "stability": "",
     "tested-with": [],
-    "homepage": "https://github.com/andrewthad/base64-bytes",
+    "homepage": "http://github.com/haskoin/secp256k1-haskell#readme",
     "pkg-url": "",
-    "bug-reports": "https://github.com/andrewthad/base64-bytes/issues",
-    "source-repos": [],
-    "synopsis": "Base64 encoding of byte sequences",
-    "description": "",
-    "category": "Data",
-    "custom-fields": [
-      [
-        "x-revision",
-        "1"
-      ]
+    "bug-reports": "https://github.com/haskoin/secp256k1-haskell/issues",
+    "source-repos": [
+      {
+        "kind": {},
+        "type": "Git",
+        "location": "https://github.com/haskoin/secp256k1-haskell",
+        "module": null,
+        "branch": null,
+        "tag": null,
+        "subdir": null
+      }
     ],
+    "synopsis": "Bindings for secp256k1",
+    "description": "Sign and verify signatures using the secp256k1 library.",
+    "category": "Crypto",
+    "custom-fields": [],
     "build-type-raw": "Simple",
     "custom-setup": null,
     "library": null,
@@ -57,7 +54,8 @@
     "data-files": [],
     "data-dir": ".",
     "extra-source-files": [
-      "CHANGELOG.md"
+      "CHANGELOG.md",
+      "README.md"
     ],
     "extra-tmp-files": [],
     "extra-doc-files": []
@@ -67,15 +65,16 @@
       "name": {},
       "exposed-modules": [
         [
-          "Data",
-          "Bytes",
-          "Base64"
+          "Crypto",
+          "Secp256k1"
         ],
         [
-          "Data",
-          "Bytes",
-          "Base64",
-          "Url"
+          "Crypto",
+          "Secp256k1",
+          "Internal"
+        ],
+        [
+          "Paths_secp256k1_haskell"
         ]
       ],
       "re-exported-modules": [],
@@ -92,7 +91,12 @@
         "ccOptions": [],
         "cxxOptions": [],
         "ldOptions": [],
-        "pkgconfigDepends": [],
+        "pkgconfigDepends": [
+          {
+            "pkgconfigName": "libsecp256k1",
+            "pkgconfigVersionRange": "-any"
+          }
+        ],
         "frameworks": [],
         "extraFrameworkDirs": [],
         "asmSources": [],
@@ -105,7 +109,11 @@
         ],
         "otherModules": [],
         "virtualModules": [],
-        "autogenModules": [],
+        "autogenModules": [
+          [
+            "Paths_secp256k1_haskell"
+          ]
+        ],
         "defaultLanguage": "Haskell2010",
         "otherLanguages": [],
         "defaultExtensions": [],
@@ -122,10 +130,7 @@
         "autogenIncludes": [],
         "installIncludes": [],
         "options": [
-          [
-            "-Wall",
-            "-O2"
-          ],
+          [],
           []
         ],
         "profOptions": [
@@ -143,57 +148,64 @@
         "customFieldsBI": [],
         "targetBuildDepends": [
           {
+            "package-name": "QuickCheck",
+            "version-range": ">=2.9.2 && <2.15",
+            "library": [
+              {}
+            ]
+          },
+          {
             "package-name": "base",
-            "version-range": ">=4.12 && <5",
+            "version-range": ">=4.9 && <5",
             "library": [
               {}
             ]
           },
           {
-            "package-name": "primitive",
-            "version-range": ">=0.7 && <0.10",
+            "package-name": "base16",
+            "version-range": ">=1.0",
             "library": [
               {}
             ]
           },
           {
-            "package-name": "byte-order",
-            "version-range": ">=0.1.1 && <0.2",
+            "package-name": "bytestring",
+            "version-range": ">=0.10.8 && <0.12",
             "library": [
               {}
             ]
           },
           {
-            "package-name": "byteslice",
-            "version-range": ">=0.1.4 && <0.3",
+            "package-name": "deepseq",
+            "version-range": ">=1.4.2 && <1.5",
             "library": [
               {}
             ]
           },
           {
-            "package-name": "run-st",
-            "version-range": ">=0.1 && <0.2",
+            "package-name": "entropy",
+            "version-range": ">=0.3.8 && <0.5",
             "library": [
               {}
             ]
           },
           {
-            "package-name": "bytebuild",
-            "version-range": ">=0.3.4 && <0.4",
+            "package-name": "hashable",
+            "version-range": ">=1.2.6 && <1.5",
             "library": [
               {}
             ]
           },
           {
-            "package-name": "natural-arithmetic",
-            "version-range": ">=0.1.1 && <0.2",
+            "package-name": "string-conversions",
+            "version-range": "==0.4.*",
             "library": [
               {}
             ]
           },
           {
-            "package-name": "word-compat",
-            "version-range": ">=0.0.4",
+            "package-name": "unliftio-core",
+            "version-range": ">=0.1.0 && <0.3",
             "library": [
               {}
             ]
@@ -204,57 +216,64 @@
     },
     "condTreeConstraints": [
       {
+        "package-name": "QuickCheck",
+        "version-range": ">=2.9.2 && <2.15",
+        "library": [
+          {}
+        ]
+      },
+      {
         "package-name": "base",
-        "version-range": ">=4.12 && <5",
+        "version-range": ">=4.9 && <5",
         "library": [
           {}
         ]
       },
       {
-        "package-name": "primitive",
-        "version-range": ">=0.7 && <0.10",
+        "package-name": "base16",
+        "version-range": ">=1.0",
         "library": [
           {}
         ]
       },
       {
-        "package-name": "byte-order",
-        "version-range": ">=0.1.1 && <0.2",
+        "package-name": "bytestring",
+        "version-range": ">=0.10.8 && <0.12",
         "library": [
           {}
         ]
       },
       {
-        "package-name": "byteslice",
-        "version-range": ">=0.1.4 && <0.3",
+        "package-name": "deepseq",
+        "version-range": ">=1.4.2 && <1.5",
         "library": [
           {}
         ]
       },
       {
-        "package-name": "run-st",
-        "version-range": ">=0.1 && <0.2",
+        "package-name": "entropy",
+        "version-range": ">=0.3.8 && <0.5",
         "library": [
           {}
         ]
       },
       {
-        "package-name": "bytebuild",
-        "version-range": ">=0.3.4 && <0.4",
+        "package-name": "hashable",
+        "version-range": ">=1.2.6 && <1.5",
         "library": [
           {}
         ]
       },
       {
-        "package-name": "natural-arithmetic",
-        "version-range": ">=0.1.1 && <0.2",
+        "package-name": "string-conversions",
+        "version-range": "==0.4.*",
         "library": [
           {}
         ]
       },
       {
-        "package-name": "word-compat",
-        "version-range": ">=0.0.4",
+        "package-name": "unliftio-core",
+        "version-range": ">=0.1.0 && <0.3",
         "library": [
           {}
         ]
@@ -263,7 +282,7 @@
     "condTreeComponents": []
   },
   "test-suites": {
-    "test": {
+    "spec": {
       "condTreeData": {
         "name": "",
         "interface": {
@@ -271,12 +290,18 @@
             1,
             0
           ],
-          "filepath": "Main.hs"
+          "filepath": "Spec.hs"
         },
         "build-info": {
           "buildable": true,
           "buildTools": [],
-          "buildToolDepends": [],
+          "buildToolDepends": [
+            {
+              "package-name": "hspec-discover",
+              "executable-component-name": "hspec-discover",
+              "version-range": "-any"
+            }
+          ],
           "cppOptions": [],
           "asmOptions": [],
           "cmmOptions": [],
@@ -294,9 +319,26 @@
           "hsSourceDirs": [
             "test"
           ],
-          "otherModules": [],
+          "otherModules": [
+            [
+              "Crypto",
+              "Secp256k1",
+              "InternalSpec"
+            ],
+            [
+              "Crypto",
+              "Secp256k1Spec"
+            ],
+            [
+              "Paths_secp256k1_haskell"
+            ]
+          ],
           "virtualModules": [],
-          "autogenModules": [],
+          "autogenModules": [
+            [
+              "Paths_secp256k1_haskell"
+            ]
+          ],
           "defaultLanguage": "Haskell2010",
           "otherLanguages": [],
           "defaultExtensions": [],
@@ -314,8 +356,9 @@
           "installIncludes": [],
           "options": [
             [
-              "-O2",
-              "-Wall"
+              "-threaded",
+              "-rtsopts",
+              "-with-rtsopts=-N"
             ],
             []
           ],
@@ -334,228 +377,99 @@
           "customFieldsBI": [],
           "targetBuildDepends": [
             {
-              "package-name": "base",
+              "package-name": "HUnit",
               "version-range": "-any",
               "library": [
                 {}
               ]
             },
             {
-              "package-name": "base64-bytes",
-              "version-range": "-any",
+              "package-name": "QuickCheck",
+              "version-range": ">=2.9.2 && <2.15",
               "library": [
                 {}
               ]
             },
-            {
-              "package-name": "natural-arithmetic",
-              "version-range": ">=0.1.1",
-              "library": [
-                {}
-              ]
-            },
-            {
-              "package-name": "bytebuild",
-              "version-range": "-any",
-              "library": [
-                {}
-              ]
-            },
-            {
-              "package-name": "primitive",
-              "version-range": "-any",
-              "library": [
-                {}
-              ]
-            },
-            {
-              "package-name": "byteslice",
-              "version-range": ">=0.1.4.0",
-              "library": [
-                {}
-              ]
-            }
-          ],
-          "mixins": []
-        }
-      },
-      "condTreeConstraints": [
-        {
-          "package-name": "base",
-          "version-range": "-any",
-          "library": [
-            {}
-          ]
-        },
-        {
-          "package-name": "base64-bytes",
-          "version-range": "-any",
-          "library": [
-            {}
-          ]
-        },
-        {
-          "package-name": "natural-arithmetic",
-          "version-range": ">=0.1.1",
-          "library": [
-            {}
-          ]
-        },
-        {
-          "package-name": "bytebuild",
-          "version-range": "-any",
-          "library": [
-            {}
-          ]
-        },
-        {
-          "package-name": "primitive",
-          "version-range": "-any",
-          "library": [
-            {}
-          ]
-        },
-        {
-          "package-name": "byteslice",
-          "version-range": ">=0.1.4.0",
-          "library": [
-            {}
-          ]
-        }
-      ],
-      "condTreeComponents": []
-    }
-  },
-  "benchmarks": {
-    "bench": {
-      "condTreeData": {
-        "name": "",
-        "interface": {
-          "version": [
-            1,
-            0
-          ],
-          "filepath": "Main.hs"
-        },
-        "build-info": {
-          "buildable": true,
-          "buildTools": [],
-          "buildToolDepends": [],
-          "cppOptions": [],
-          "asmOptions": [],
-          "cmmOptions": [],
-          "ccOptions": [],
-          "cxxOptions": [],
-          "ldOptions": [],
-          "pkgconfigDepends": [],
-          "frameworks": [],
-          "extraFrameworkDirs": [],
-          "asmSources": [],
-          "cmmSources": [],
-          "cSources": [],
-          "cxxSources": [],
-          "jsSources": [],
-          "hsSourceDirs": [
-            "bench"
-          ],
-          "otherModules": [],
-          "virtualModules": [],
-          "autogenModules": [],
-          "defaultLanguage": "Haskell2010",
-          "otherLanguages": [],
-          "defaultExtensions": [],
-          "otherExtensions": [],
-          "oldExtensions": [],
-          "extraLibs": [],
-          "extraGHCiLibs": [],
-          "extraBundledLibs": [],
-          "extraLibFlavours": [],
-          "extraDynLibFlavours": [],
-          "extraLibDirs": [],
-          "includeDirs": [],
-          "includes": [],
-          "autogenIncludes": [],
-          "installIncludes": [],
-          "options": [
-            [
-              "-Wall",
-              "-O2"
-            ],
-            []
-          ],
-          "profOptions": [
-            [],
-            []
-          ],
-          "sharedOptions": [
-            [],
-            []
-          ],
-          "staticOptions": [
-            [],
-            []
-          ],
-          "customFieldsBI": [],
-          "targetBuildDepends": [
             {
               "package-name": "base",
-              "version-range": "-any",
+              "version-range": ">=4.9 && <5",
               "library": [
                 {}
               ]
             },
             {
-              "package-name": "base64-bytes",
-              "version-range": "-any",
-              "library": [
-                {}
-              ]
-            },
-            {
-              "package-name": "byteslice",
-              "version-range": "-any",
+              "package-name": "base16",
+              "version-range": ">=1.0",
               "library": [
                 {}
               ]
             },
             {
               "package-name": "bytestring",
+              "version-range": ">=0.10.8 && <0.12",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "deepseq",
+              "version-range": ">=1.4.2 && <1.5",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "entropy",
+              "version-range": ">=0.3.8 && <0.5",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "hashable",
+              "version-range": ">=1.2.6 && <1.5",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "hspec",
               "version-range": "-any",
               "library": [
                 {}
               ]
             },
             {
-              "package-name": "gauge",
+              "package-name": "monad-par",
               "version-range": "-any",
               "library": [
                 {}
               ]
             },
             {
-              "package-name": "primitive",
+              "package-name": "mtl",
               "version-range": "-any",
               "library": [
                 {}
               ]
             },
             {
-              "package-name": "base64-bytestring",
+              "package-name": "secp256k1-haskell",
               "version-range": "-any",
               "library": [
                 {}
               ]
             },
             {
-              "package-name": "base64",
-              "version-range": ">=0.3",
+              "package-name": "string-conversions",
+              "version-range": "==0.4.*",
               "library": [
                 {}
               ]
             },
             {
-              "package-name": "random",
-              "version-range": ">=1.1",
+              "package-name": "unliftio-core",
+              "version-range": ">=0.1.0 && <0.3",
               "library": [
                 {}
               ]
@@ -566,64 +480,99 @@
       },
       "condTreeConstraints": [
         {
+          "package-name": "HUnit",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "QuickCheck",
+          "version-range": ">=2.9.2 && <2.15",
+          "library": [
+            {}
+          ]
+        },
+        {
           "package-name": "base",
-          "version-range": "-any",
+          "version-range": ">=4.9 && <5",
           "library": [
             {}
           ]
         },
         {
-          "package-name": "base64-bytes",
-          "version-range": "-any",
-          "library": [
-            {}
-          ]
-        },
-        {
-          "package-name": "byteslice",
-          "version-range": "-any",
+          "package-name": "base16",
+          "version-range": ">=1.0",
           "library": [
             {}
           ]
         },
         {
           "package-name": "bytestring",
+          "version-range": ">=0.10.8 && <0.12",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "deepseq",
+          "version-range": ">=1.4.2 && <1.5",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "entropy",
+          "version-range": ">=0.3.8 && <0.5",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "hashable",
+          "version-range": ">=1.2.6 && <1.5",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "hspec",
           "version-range": "-any",
           "library": [
             {}
           ]
         },
         {
-          "package-name": "gauge",
+          "package-name": "monad-par",
           "version-range": "-any",
           "library": [
             {}
           ]
         },
         {
-          "package-name": "primitive",
+          "package-name": "mtl",
           "version-range": "-any",
           "library": [
             {}
           ]
         },
         {
-          "package-name": "base64-bytestring",
+          "package-name": "secp256k1-haskell",
           "version-range": "-any",
           "library": [
             {}
           ]
         },
         {
-          "package-name": "base64",
-          "version-range": ">=0.3",
+          "package-name": "string-conversions",
+          "version-range": "==0.4.*",
           "library": [
             {}
           ]
         },
         {
-          "package-name": "random",
-          "version-range": ">=1.1",
+          "package-name": "unliftio-core",
+          "version-range": ">=0.1.0 && <0.3",
           "library": [
             {}
           ]
