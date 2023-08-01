@@ -2,24 +2,24 @@
   "description": {
     "spec-version": {
       "Left": [
-        2,
-        4
+        3,
+        0
       ]
     },
     "package": {
-      "name": "effectful-th",
+      "name": "strict-list",
       "version": [
+        0,
         1,
-        0,
-        0,
-        1
+        7,
+        2
       ]
     },
     "license": {
       "Left": {
         "license-expression": {
           "expression": {
-            "id": "BSD_3_Clause"
+            "id": "MIT"
           },
           "exception-id": null
         }
@@ -28,40 +28,30 @@
     "license-files": [
       "LICENSE"
     ],
-    "copyright": "",
-    "maintainer": "andrzej@rybczak.net",
-    "author": "Andrzej Rybczak",
+    "copyright": "(c) 2019, Nikita Volkov",
+    "maintainer": "Nikita Volkov <nikita.y.volkov@mail.ru>",
+    "author": "Nikita Volkov <nikita.y.volkov@mail.ru>",
     "stability": "",
-    "tested-with": [
-      {
-        "compiler": "GHC",
-        "versionRange": "==8.8.4 || ==8.10.7 || ==9.0.2 || ==9.2.5 || ==9.4.4"
-      }
-    ],
-    "homepage": "",
+    "tested-with": [],
+    "homepage": "https://github.com/nikita-volkov/strict-list",
     "pkg-url": "",
-    "bug-reports": "https://github.com/haskell-effectful/effectful/issues",
+    "bug-reports": "https://github.com/nikita-volkov/strict-list/issues",
     "source-repos": [
       {
         "kind": {},
         "type": "Git",
-        "location": "https://github.com/haskell-effectful/effectful.git",
+        "location": "git://github.com/nikita-volkov/strict-list.git",
         "module": null,
         "branch": null,
         "tag": null,
         "subdir": null
       }
     ],
-    "synopsis": "Template Haskell utilities for the effectful library.",
-    "description": "Generate functions for performing operations of dynamically dispatched effects\nvia Template Haskell.",
-    "category": "Control",
-    "custom-fields": [
-      [
-        "x-revision",
-        "3"
-      ]
-    ],
-    "build-type-raw": "Simple",
+    "synopsis": "Strict linked list",
+    "description": "Implementation of strict linked list with care taken about stack.",
+    "category": "",
+    "custom-fields": [],
+    "build-type-raw": null,
     "custom-setup": null,
     "library": null,
     "sublibraries": [],
@@ -71,10 +61,7 @@
     "benchmarks": [],
     "data-files": [],
     "data-dir": ".",
-    "extra-source-files": [
-      "CHANGELOG.md",
-      "README.md"
-    ],
+    "extra-source-files": [],
     "extra-tmp-files": [],
     "extra-doc-files": []
   },
@@ -83,8 +70,7 @@
       "name": {},
       "exposed-modules": [
         [
-          "Effectful",
-          "TH"
+          "StrictList"
         ]
       ],
       "re-exported-modules": [],
@@ -110,22 +96,27 @@
         "cxxSources": [],
         "jsSources": [],
         "hsSourceDirs": [
-          "src"
+          "library"
         ],
-        "otherModules": [],
+        "otherModules": [
+          [
+            "StrictList",
+            "Prelude"
+          ]
+        ],
         "virtualModules": [],
         "autogenModules": [],
         "defaultLanguage": "Haskell2010",
         "otherLanguages": [],
         "defaultExtensions": [
           {
+            "disable-extension": "ImplicitPrelude"
+          },
+          {
             "enable-extension": "BangPatterns"
           },
           {
-            "enable-extension": "ConstraintKinds"
-          },
-          {
-            "enable-extension": "DataKinds"
+            "enable-extension": "DeriveDataTypeable"
           },
           {
             "enable-extension": "DeriveFunctor"
@@ -134,34 +125,19 @@
             "enable-extension": "DeriveGeneric"
           },
           {
+            "enable-extension": "DeriveTraversable"
+          },
+          {
             "enable-extension": "FlexibleContexts"
           },
           {
             "enable-extension": "FlexibleInstances"
           },
           {
-            "enable-extension": "GADTs"
-          },
-          {
-            "enable-extension": "GeneralizedNewtypeDeriving"
-          },
-          {
             "enable-extension": "LambdaCase"
           },
           {
-            "enable-extension": "MultiParamTypeClasses"
-          },
-          {
-            "disable-extension": "StarIsType"
-          },
-          {
             "enable-extension": "RankNTypes"
-          },
-          {
-            "enable-extension": "RecordWildCards"
-          },
-          {
-            "enable-extension": "RoleAnnotations"
           },
           {
             "enable-extension": "ScopedTypeVariables"
@@ -170,16 +146,10 @@
             "enable-extension": "StandaloneDeriving"
           },
           {
-            "enable-extension": "TupleSections"
-          },
-          {
             "enable-extension": "TypeApplications"
           },
           {
             "enable-extension": "TypeFamilies"
-          },
-          {
-            "enable-extension": "TypeOperators"
           }
         ],
         "otherExtensions": [],
@@ -195,11 +165,7 @@
         "autogenIncludes": [],
         "installIncludes": [],
         "options": [
-          [
-            "-Wall",
-            "-Wcompat",
-            "-Wno-unticked-promoted-constructors"
-          ],
+          [],
           []
         ],
         "profOptions": [
@@ -218,42 +184,28 @@
         "targetBuildDepends": [
           {
             "package-name": "base",
-            "version-range": ">=4.13 && <5",
+            "version-range": ">=4.9 && <5",
             "library": [
               {}
             ]
           },
           {
-            "package-name": "containers",
-            "version-range": ">=0.6",
+            "package-name": "deepseq",
+            "version-range": ">=1.4.3 && <1.5",
             "library": [
               {}
             ]
           },
           {
-            "package-name": "effectful-core",
-            "version-range": ">=1.0.0.0 && <3.0.0.0",
+            "package-name": "hashable",
+            "version-range": ">=1.2 && <2",
             "library": [
               {}
             ]
           },
           {
-            "package-name": "exceptions",
-            "version-range": ">=0.10.4",
-            "library": [
-              {}
-            ]
-          },
-          {
-            "package-name": "template-haskell",
-            "version-range": ">=2.15 && <2.21",
-            "library": [
-              {}
-            ]
-          },
-          {
-            "package-name": "th-abstraction",
-            "version-range": ">=0.4 && <0.7",
+            "package-name": "semigroupoids",
+            "version-range": ">=5.3 && <7",
             "library": [
               {}
             ]
@@ -265,42 +217,28 @@
     "condTreeConstraints": [
       {
         "package-name": "base",
-        "version-range": ">=4.13 && <5",
+        "version-range": ">=4.9 && <5",
         "library": [
           {}
         ]
       },
       {
-        "package-name": "containers",
-        "version-range": ">=0.6",
+        "package-name": "deepseq",
+        "version-range": ">=1.4.3 && <1.5",
         "library": [
           {}
         ]
       },
       {
-        "package-name": "effectful-core",
-        "version-range": ">=1.0.0.0 && <3.0.0.0",
+        "package-name": "hashable",
+        "version-range": ">=1.2 && <2",
         "library": [
           {}
         ]
       },
       {
-        "package-name": "exceptions",
-        "version-range": ">=0.10.4",
-        "library": [
-          {}
-        ]
-      },
-      {
-        "package-name": "template-haskell",
-        "version-range": ">=2.15 && <2.21",
-        "library": [
-          {}
-        ]
-      },
-      {
-        "package-name": "th-abstraction",
-        "version-range": ">=0.4 && <0.7",
+        "package-name": "semigroupoids",
+        "version-range": ">=5.3 && <7",
         "library": [
           {}
         ]
@@ -309,7 +247,7 @@
     "condTreeComponents": []
   },
   "test-suites": {
-    "th-tests": {
+    "test": {
       "condTreeData": {
         "name": "",
         "interface": {
@@ -317,7 +255,7 @@
             1,
             0
           ],
-          "filepath": "ThTests.hs"
+          "filepath": "Main.hs"
         },
         "build-info": {
           "buildable": true,
@@ -338,7 +276,7 @@
           "cxxSources": [],
           "jsSources": [],
           "hsSourceDirs": [
-            "tests"
+            "test"
           ],
           "otherModules": [],
           "virtualModules": [],
@@ -347,13 +285,13 @@
           "otherLanguages": [],
           "defaultExtensions": [
             {
+              "disable-extension": "ImplicitPrelude"
+            },
+            {
               "enable-extension": "BangPatterns"
             },
             {
-              "enable-extension": "ConstraintKinds"
-            },
-            {
-              "enable-extension": "DataKinds"
+              "enable-extension": "DeriveDataTypeable"
             },
             {
               "enable-extension": "DeriveFunctor"
@@ -362,34 +300,19 @@
               "enable-extension": "DeriveGeneric"
             },
             {
+              "enable-extension": "DeriveTraversable"
+            },
+            {
               "enable-extension": "FlexibleContexts"
             },
             {
               "enable-extension": "FlexibleInstances"
             },
             {
-              "enable-extension": "GADTs"
-            },
-            {
-              "enable-extension": "GeneralizedNewtypeDeriving"
-            },
-            {
               "enable-extension": "LambdaCase"
             },
             {
-              "enable-extension": "MultiParamTypeClasses"
-            },
-            {
-              "disable-extension": "StarIsType"
-            },
-            {
               "enable-extension": "RankNTypes"
-            },
-            {
-              "enable-extension": "RecordWildCards"
-            },
-            {
-              "enable-extension": "RoleAnnotations"
             },
             {
               "enable-extension": "ScopedTypeVariables"
@@ -398,16 +321,10 @@
               "enable-extension": "StandaloneDeriving"
             },
             {
-              "enable-extension": "TupleSections"
-            },
-            {
               "enable-extension": "TypeApplications"
             },
             {
               "enable-extension": "TypeFamilies"
-            },
-            {
-              "enable-extension": "TypeOperators"
             }
           ],
           "otherExtensions": [],
@@ -423,11 +340,7 @@
           "autogenIncludes": [],
           "installIncludes": [],
           "options": [
-            [
-              "-Wall",
-              "-Wcompat",
-              "-Wno-unticked-promoted-constructors"
-            ],
+            [],
             []
           ],
           "profOptions": [
@@ -445,22 +358,29 @@
           "customFieldsBI": [],
           "targetBuildDepends": [
             {
-              "package-name": "base",
+              "package-name": "rerebase",
+              "version-range": "<2",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "strict-list",
               "version-range": "-any",
               "library": [
                 {}
               ]
             },
             {
-              "package-name": "effectful-core",
-              "version-range": "-any",
+              "package-name": "tasty",
+              "version-range": ">=0.12 && <2",
               "library": [
                 {}
               ]
             },
             {
-              "package-name": "effectful-th",
-              "version-range": "-any",
+              "package-name": "tasty-quickcheck",
+              "version-range": ">=0.9 && <0.11",
               "library": [
                 {}
               ]
@@ -471,22 +391,29 @@
       },
       "condTreeConstraints": [
         {
-          "package-name": "base",
+          "package-name": "rerebase",
+          "version-range": "<2",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "strict-list",
           "version-range": "-any",
           "library": [
             {}
           ]
         },
         {
-          "package-name": "effectful-core",
-          "version-range": "-any",
+          "package-name": "tasty",
+          "version-range": ">=0.12 && <2",
           "library": [
             {}
           ]
         },
         {
-          "package-name": "effectful-th",
-          "version-range": "-any",
+          "package-name": "tasty-quickcheck",
+          "version-range": ">=0.9 && <0.11",
           "library": [
             {}
           ]
