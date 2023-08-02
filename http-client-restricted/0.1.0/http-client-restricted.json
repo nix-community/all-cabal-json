@@ -1,16 +1,14 @@
 {
   "description": {
     "spec-version": {
-      "Left": [
-        1,
-        18
-      ]
+      "Right": ">=1.10"
     },
     "package": {
-      "name": "tasty-inspection-testing",
+      "name": "http-client-restricted",
       "version": [
         0,
-        2
+        1,
+        0
       ]
     },
     "license": {
@@ -19,67 +17,29 @@
     "license-files": [
       "LICENSE"
     ],
-    "copyright": "2017 Joachim Breitner, 2021 Andrew Lelechenko",
-    "maintainer": "Andrew Lelechenko <andrew.lelechenko@gmail.com>",
-    "author": "Joachim Breitner, Andrew Lelechenko",
+    "copyright": "2018 Joey Hess, 2013 Michael Snoyman",
+    "maintainer": "Joey Hess <id@joeyh.name>",
+    "author": "Joey Hess",
     "stability": "",
-    "tested-with": [
-      {
-        "compiler": "GHC",
-        "versionRange": "==9.2.2"
-      },
-      {
-        "compiler": "GHC",
-        "versionRange": "==9.0.2"
-      },
-      {
-        "compiler": "GHC",
-        "versionRange": "==8.10.7"
-      },
-      {
-        "compiler": "GHC",
-        "versionRange": "==8.8.4"
-      },
-      {
-        "compiler": "GHC",
-        "versionRange": "==8.6.5"
-      },
-      {
-        "compiler": "GHC",
-        "versionRange": "==8.4.4"
-      },
-      {
-        "compiler": "GHC",
-        "versionRange": "==8.2.2"
-      },
-      {
-        "compiler": "GHC",
-        "versionRange": "==8.0.2"
-      }
-    ],
-    "homepage": "https://github.com/Bodigrim/tasty-inspection-testing",
+    "tested-with": [],
+    "homepage": "",
     "pkg-url": "",
-    "bug-reports": "https://github.com/Bodigrim/tasty-inspection-testing/issues",
+    "bug-reports": "",
     "source-repos": [
       {
         "kind": {},
         "type": "Git",
-        "location": "https://github.com/Bodigrim/tasty-inspection-testing",
+        "location": "git://git.joeyh.name/haskell-http-client-restricted.git",
         "module": null,
         "branch": null,
         "tag": null,
         "subdir": null
       }
     ],
-    "synopsis": "Inspection testing support for tasty",
-    "description": "Integrate @inspection-testing@ into @tasty@ test suites.",
-    "category": "Testing",
-    "custom-fields": [
-      [
-        "x-revision",
-        "2"
-      ]
-    ],
+    "synopsis": "restricting the servers that http-client will use",
+    "description": "Addition to the http-client and http-client-tls\nlibraries, that restricts the HTTP servers that can be used.\n\nThis is useful when a security policy needs to eg, prevent connections to\nHTTP servers on localhost or a local network, or only allow connections\nto a specific HTTP server.\n\nIt handles restricting redirects as well as the initial HTTP connection,\nand it also guards against DNS poisoning attacks.",
+    "category": "Network",
+    "custom-fields": [],
     "build-type-raw": "Simple",
     "custom-setup": null,
     "library": null,
@@ -91,8 +51,7 @@
     "data-files": [],
     "data-dir": ".",
     "extra-source-files": [
-      "changelog.md",
-      "README.md"
+      "CHANGELOG"
     ],
     "extra-tmp-files": [],
     "extra-doc-files": []
@@ -102,15 +61,10 @@
       "name": {},
       "exposed-modules": [
         [
-          "Test",
-          "Tasty",
-          "Inspection"
-        ],
-        [
-          "Test",
-          "Tasty",
-          "Inspection",
-          "Plugin"
+          "Network",
+          "HTTP",
+          "Client",
+          "Restricted"
         ]
       ],
       "re-exported-modules": [],
@@ -135,17 +89,8 @@
         "cSources": [],
         "cxxSources": [],
         "jsSources": [],
-        "hsSourceDirs": [
-          "src"
-        ],
-        "otherModules": [
-          [
-            "Test",
-            "Tasty",
-            "Inspection",
-            "Internal"
-          ]
-        ],
+        "hsSourceDirs": [],
+        "otherModules": [],
         "virtualModules": [],
         "autogenModules": [],
         "defaultLanguage": "Haskell2010",
@@ -166,7 +111,7 @@
         "options": [
           [
             "-Wall",
-            "-Wcompat"
+            "-fno-warn-tabs"
           ],
           []
         ],
@@ -186,34 +131,55 @@
         "targetBuildDepends": [
           {
             "package-name": "base",
-            "version-range": "<4.20",
+            "version-range": ">=4.11.1.0 && <5.0",
             "library": [
               {}
             ]
           },
           {
-            "package-name": "ghc",
+            "package-name": "http-client",
+            "version-range": ">=0.7.11 && <0.8",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "http-client-tls",
+            "version-range": ">=0.3.6 && <0.4",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "crypton-connection",
+            "version-range": ">=0.3.1",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "data-default",
             "version-range": "-any",
             "library": [
               {}
             ]
           },
           {
-            "package-name": "inspection-testing",
-            "version-range": ">=0.5 && <0.6",
+            "package-name": "network",
+            "version-range": "(>=3.0.0.0)",
             "library": [
               {}
             ]
           },
           {
-            "package-name": "tasty",
+            "package-name": "network-bsd",
             "version-range": "-any",
             "library": [
               {}
             ]
           },
           {
-            "package-name": "template-haskell",
+            "package-name": "utf8-string",
             "version-range": "-any",
             "library": [
               {}
@@ -226,34 +192,55 @@
     "condTreeConstraints": [
       {
         "package-name": "base",
-        "version-range": "<4.20",
+        "version-range": ">=4.11.1.0 && <5.0",
         "library": [
           {}
         ]
       },
       {
-        "package-name": "ghc",
+        "package-name": "http-client",
+        "version-range": ">=0.7.11 && <0.8",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "http-client-tls",
+        "version-range": ">=0.3.6 && <0.4",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "crypton-connection",
+        "version-range": ">=0.3.1",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "data-default",
         "version-range": "-any",
         "library": [
           {}
         ]
       },
       {
-        "package-name": "inspection-testing",
-        "version-range": ">=0.5 && <0.6",
+        "package-name": "network",
+        "version-range": "(>=3.0.0.0)",
         "library": [
           {}
         ]
       },
       {
-        "package-name": "tasty",
+        "package-name": "network-bsd",
         "version-range": "-any",
         "library": [
           {}
         ]
       },
       {
-        "package-name": "template-haskell",
+        "package-name": "utf8-string",
         "version-range": "-any",
         "library": [
           {}
