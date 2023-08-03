@@ -1,64 +1,61 @@
 {
   "description": {
     "spec-version": {
-      "Right": ">=1.10"
+      "Left": [
+        2,
+        4
+      ]
     },
     "package": {
-      "name": "BiobaseNewick",
+      "name": "reflex-ghci",
       "version": [
         0,
+        2,
         0,
-        0,
-        2
+        1
       ]
     },
     "license": {
-      "Right": "BSD3"
+      "Left": {
+        "license-expression": {
+          "expression": {
+            "id": "BSD_3_Clause"
+          },
+          "exception-id": null
+        }
+      }
     },
     "license-files": [
       "LICENSE"
     ],
-    "copyright": "Christian Hoener zu Siederdissen, 2015-2017",
-    "maintainer": "choener@bioinf.uni-leipzig.de",
-    "author": "Christian Hoener zu Siederdissen",
-    "stability": "Experimental",
+    "copyright": "2020 Obsidian Systems LLC",
+    "maintainer": "maintainer@obsidian.systems",
+    "author": "Obsidian Systems LLC",
+    "stability": "",
     "tested-with": [
       {
         "compiler": "GHC",
-        "versionRange": "==7.10.3"
-      },
-      {
-        "compiler": "GHC",
-        "versionRange": "==8.0.1"
-      },
-      {
-        "compiler": "GHC",
-        "versionRange": "==8.0.2"
+        "versionRange": "==8.6.5 || ==8.8.4 || ==9.6.1"
       }
     ],
-    "homepage": "https://github.com/choener/BiobaseNewick",
+    "homepage": "",
     "pkg-url": "",
-    "bug-reports": "https://github.com/choener/BiobaseNewick/issues",
+    "bug-reports": "https://github.com/reflex-frp/reflex-ghci/issues",
     "source-repos": [
       {
         "kind": {},
         "type": "Git",
-        "location": "git://github.com/choener/BiobaseNewick",
+        "location": "https://github.com/reflex-frp/reflex-ghci",
         "module": null,
         "branch": null,
         "tag": null,
         "subdir": null
       }
     ],
-    "synopsis": "Newick file format parser.",
-    "description": "This is a simple parser for Newick trees. The parser returns a\nrose tree. Each node is labelled with the node name (or an\nempty string for anonymous nodes) and a distance (0 if not\ngiven).\n\nIncludes conversion to an efficient static forest.",
-    "category": "Bioinformatics",
-    "custom-fields": [
-      [
-        "x-revision",
-        "1"
-      ]
-    ],
+    "synopsis": "A GHCi widget library for use in reflex applications",
+    "description": "Run GHCi from within a Reflex FRP (<https://reflex-frp.org>) application and interact with it using a functional reactive interface.\n\n<<https://i.imgur.com/5y61Qx7.png>>",
+    "category": "FRP, Development,",
+    "custom-fields": [],
     "build-type-raw": "Simple",
     "custom-setup": null,
     "library": null,
@@ -70,8 +67,10 @@
     "data-files": [],
     "data-dir": ".",
     "extra-source-files": [
-      "changelog.md",
-      "README.md"
+      "ChangeLog.md",
+      "README.md",
+      "tests/**/*.hs",
+      "tests/**/*.cabal"
     ],
     "extra-tmp-files": [],
     "extra-doc-files": []
@@ -81,28 +80,19 @@
       "name": {},
       "exposed-modules": [
         [
-          "Biobase",
-          "Newick"
+          "Reflex",
+          "Process",
+          "GHCi"
         ],
         [
-          "Biobase",
-          "Newick",
-          "Export"
+          "Reflex",
+          "Process",
+          "Repl"
         ],
         [
-          "Biobase",
-          "Newick",
-          "Import"
-        ],
-        [
-          "Biobase",
-          "Newick",
-          "StaticForest"
-        ],
-        [
-          "Biobase",
-          "Newick",
-          "Types"
+          "Reflex",
+          "Vty",
+          "GHCi"
         ]
       ],
       "re-exported-modules": [],
@@ -127,23 +117,15 @@
         "cSources": [],
         "cxxSources": [],
         "jsSources": [],
-        "hsSourceDirs": [],
+        "hsSourceDirs": [
+          "src"
+        ],
         "otherModules": [],
         "virtualModules": [],
         "autogenModules": [],
         "defaultLanguage": "Haskell2010",
         "otherLanguages": [],
-        "defaultExtensions": [
-          {
-            "enable-extension": "DeriveGeneric"
-          },
-          {
-            "enable-extension": "DataKinds"
-          },
-          {
-            "enable-extension": "OverloadedStrings"
-          }
-        ],
+        "defaultExtensions": [],
         "otherExtensions": [],
         "oldExtensions": [],
         "extraLibs": [],
@@ -158,8 +140,7 @@
         "installIncludes": [],
         "options": [
           [
-            "-O2",
-            "-funbox-strict-fields"
+            "-Wall"
           ],
           []
         ],
@@ -179,91 +160,119 @@
         "targetBuildDepends": [
           {
             "package-name": "base",
-            "version-range": ">=4.7 && <5.0",
+            "version-range": ">=4.12 && <4.19",
             "library": [
               {}
             ]
           },
           {
-            "package-name": "aeson",
-            "version-range": ">=0.8",
-            "library": [
-              {}
-            ]
-          },
-          {
-            "package-name": "attoparsec",
-            "version-range": ">=0.12",
-            "library": [
-              {}
-            ]
-          },
-          {
-            "package-name": "binary",
-            "version-range": ">=0.7",
-            "library": [
-              {}
-            ]
-          },
-          {
-            "package-name": "cereal",
-            "version-range": ">=0.4",
-            "library": [
-              {}
-            ]
-          },
-          {
-            "package-name": "cereal-text",
-            "version-range": ">=0.1.0",
+            "package-name": "bytestring",
+            "version-range": ">=0.10 && <0.12",
             "library": [
               {}
             ]
           },
           {
             "package-name": "containers",
-            "version-range": ">=0.5",
+            "version-range": ">=0.6 && <0.7",
             "library": [
               {}
             ]
           },
           {
-            "package-name": "fgl",
-            "version-range": ">=5.5",
+            "package-name": "directory",
+            "version-range": ">=1.3 && <1.4",
             "library": [
               {}
             ]
           },
           {
-            "package-name": "QuickCheck",
-            "version-range": ">=2.7",
+            "package-name": "filepath",
+            "version-range": ">=1.4 && <1.5",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "fsnotify",
+            "version-range": ">=0.4 && <0.5",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "process",
+            "version-range": ">=1.6 && <1.7",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "reflex",
+            "version-range": ">=0.7.1.0 && <1",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "reflex-fsnotify",
+            "version-range": ">=0.3 && <0.4",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "reflex-process",
+            "version-range": ">=0.3.2 && <0.4",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "regex-tdfa",
+            "version-range": ">=1.2.3 && <1.4",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "reflex-vty",
+            "version-range": ">=0.3 && <0.6",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "semialign",
+            "version-range": ">1 && <2",
             "library": [
               {}
             ]
           },
           {
             "package-name": "text",
-            "version-range": ">=1.2",
+            "version-range": ">=1.2 && <2.1",
             "library": [
               {}
             ]
           },
           {
-            "package-name": "text-binary",
-            "version-range": ">=0.1.0",
+            "package-name": "these",
+            "version-range": ">1 && <2",
             "library": [
               {}
             ]
           },
           {
-            "package-name": "vector",
-            "version-range": ">=0.10",
+            "package-name": "unix",
+            "version-range": ">=2.7 && <2.9",
             "library": [
               {}
             ]
           },
           {
-            "package-name": "ForestStructures",
-            "version-range": ">=0.0.0 && <0.0.2",
+            "package-name": "vty",
+            "version-range": ">=5.21 && <5.39",
             "library": [
               {}
             ]
@@ -275,91 +284,119 @@
     "condTreeConstraints": [
       {
         "package-name": "base",
-        "version-range": ">=4.7 && <5.0",
+        "version-range": ">=4.12 && <4.19",
         "library": [
           {}
         ]
       },
       {
-        "package-name": "aeson",
-        "version-range": ">=0.8",
-        "library": [
-          {}
-        ]
-      },
-      {
-        "package-name": "attoparsec",
-        "version-range": ">=0.12",
-        "library": [
-          {}
-        ]
-      },
-      {
-        "package-name": "binary",
-        "version-range": ">=0.7",
-        "library": [
-          {}
-        ]
-      },
-      {
-        "package-name": "cereal",
-        "version-range": ">=0.4",
-        "library": [
-          {}
-        ]
-      },
-      {
-        "package-name": "cereal-text",
-        "version-range": ">=0.1.0",
+        "package-name": "bytestring",
+        "version-range": ">=0.10 && <0.12",
         "library": [
           {}
         ]
       },
       {
         "package-name": "containers",
-        "version-range": ">=0.5",
+        "version-range": ">=0.6 && <0.7",
         "library": [
           {}
         ]
       },
       {
-        "package-name": "fgl",
-        "version-range": ">=5.5",
+        "package-name": "directory",
+        "version-range": ">=1.3 && <1.4",
         "library": [
           {}
         ]
       },
       {
-        "package-name": "QuickCheck",
-        "version-range": ">=2.7",
+        "package-name": "filepath",
+        "version-range": ">=1.4 && <1.5",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "fsnotify",
+        "version-range": ">=0.4 && <0.5",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "process",
+        "version-range": ">=1.6 && <1.7",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "reflex",
+        "version-range": ">=0.7.1.0 && <1",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "reflex-fsnotify",
+        "version-range": ">=0.3 && <0.4",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "reflex-process",
+        "version-range": ">=0.3.2 && <0.4",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "regex-tdfa",
+        "version-range": ">=1.2.3 && <1.4",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "reflex-vty",
+        "version-range": ">=0.3 && <0.6",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "semialign",
+        "version-range": ">1 && <2",
         "library": [
           {}
         ]
       },
       {
         "package-name": "text",
-        "version-range": ">=1.2",
+        "version-range": ">=1.2 && <2.1",
         "library": [
           {}
         ]
       },
       {
-        "package-name": "text-binary",
-        "version-range": ">=0.1.0",
+        "package-name": "these",
+        "version-range": ">1 && <2",
         "library": [
           {}
         ]
       },
       {
-        "package-name": "vector",
-        "version-range": ">=0.10",
+        "package-name": "unix",
+        "version-range": ">=2.7 && <2.9",
         "library": [
           {}
         ]
       },
       {
-        "package-name": "ForestStructures",
-        "version-range": ">=0.0.0 && <0.0.2",
+        "package-name": "vty",
+        "version-range": ">=5.21 && <5.39",
         "library": [
           {}
         ]
@@ -368,10 +405,10 @@
     "condTreeComponents": []
   },
   "executables": {
-    "TestForestStructure": {
+    "reflex-ghci": {
       "condTreeData": {
-        "name": "TestForestStructure",
-        "module-path": "TestForestStructure.hs",
+        "name": "reflex-ghci",
+        "module-path": "ghci.hs",
         "scope": "public",
         "build-info": {
           "buildable": true,
@@ -392,30 +429,22 @@
           "cxxSources": [],
           "jsSources": [],
           "hsSourceDirs": [
-            "src"
+            "src-bin"
           ],
-          "otherModules": [],
+          "otherModules": [
+            [
+              "Paths_reflex_ghci"
+            ]
+          ],
           "virtualModules": [],
-          "autogenModules": [],
+          "autogenModules": [
+            [
+              "Paths_reflex_ghci"
+            ]
+          ],
           "defaultLanguage": "Haskell2010",
           "otherLanguages": [],
-          "defaultExtensions": [
-            {
-              "enable-extension": "BangPatterns"
-            },
-            {
-              "enable-extension": "DataKinds"
-            },
-            {
-              "enable-extension": "DeriveDataTypeable"
-            },
-            {
-              "enable-extension": "RecordWildCards"
-            },
-            {
-              "enable-extension": "ScopedTypeVariables"
-            }
-          ],
+          "defaultExtensions": [],
           "otherExtensions": [],
           "oldExtensions": [],
           "extraLibs": [],
@@ -430,7 +459,8 @@
           "installIncludes": [],
           "options": [
             [
-              "-O2"
+              "-threaded",
+              "-rtsopts"
             ],
             []
           ],
@@ -456,8 +486,43 @@
               ]
             },
             {
-              "package-name": "cmdargs",
-              "version-range": ">=0.10",
+              "package-name": "optparse-applicative",
+              "version-range": ">=0.14.0 && <0.19",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "process",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "reflex",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "reflex-ghci",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "reflex-vty",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "reflex-process",
+              "version-range": "-any",
               "library": [
                 {}
               ]
@@ -470,21 +535,7 @@
               ]
             },
             {
-              "package-name": "vector",
-              "version-range": "-any",
-              "library": [
-                {}
-              ]
-            },
-            {
-              "package-name": "BiobaseNewick",
-              "version-range": "-any",
-              "library": [
-                {}
-              ]
-            },
-            {
-              "package-name": "ForestStructures",
+              "package-name": "vty",
               "version-range": "-any",
               "library": [
                 {}
@@ -503,8 +554,43 @@
           ]
         },
         {
-          "package-name": "cmdargs",
-          "version-range": ">=0.10",
+          "package-name": "optparse-applicative",
+          "version-range": ">=0.14.0 && <0.19",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "process",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "reflex",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "reflex-ghci",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "reflex-vty",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "reflex-process",
+          "version-range": "-any",
           "library": [
             {}
           ]
@@ -517,21 +603,7 @@
           ]
         },
         {
-          "package-name": "vector",
-          "version-range": "-any",
-          "library": [
-            {}
-          ]
-        },
-        {
-          "package-name": "BiobaseNewick",
-          "version-range": "-any",
-          "library": [
-            {}
-          ]
-        },
-        {
-          "package-name": "ForestStructures",
+          "package-name": "vty",
           "version-range": "-any",
           "library": [
             {}
@@ -542,7 +614,7 @@
     }
   },
   "test-suites": {
-    "properties": {
+    "test": {
       "condTreeData": {
         "name": "",
         "interface": {
@@ -550,7 +622,7 @@
             1,
             0
           ],
-          "filepath": "properties.hs"
+          "filepath": "test.hs"
         },
         "build-info": {
           "buildable": true,
@@ -578,14 +650,7 @@
           "autogenModules": [],
           "defaultLanguage": "Haskell2010",
           "otherLanguages": [],
-          "defaultExtensions": [
-            {
-              "enable-extension": "ScopedTypeVariables"
-            },
-            {
-              "enable-extension": "TemplateHaskell"
-            }
-          ],
+          "defaultExtensions": [],
           "otherExtensions": [],
           "oldExtensions": [],
           "extraLibs": [],
@@ -602,7 +667,7 @@
             [
               "-threaded",
               "-rtsopts",
-              "-with-rtsopts=-N"
+              "-Wall"
             ],
             []
           ],
@@ -628,57 +693,64 @@
               ]
             },
             {
-              "package-name": "aeson",
+              "package-name": "bytestring",
               "version-range": "-any",
               "library": [
                 {}
               ]
             },
             {
-              "package-name": "binary",
+              "package-name": "containers",
               "version-range": "-any",
               "library": [
                 {}
               ]
             },
             {
-              "package-name": "BiobaseNewick",
+              "package-name": "directory",
               "version-range": "-any",
               "library": [
                 {}
               ]
             },
             {
-              "package-name": "cereal",
+              "package-name": "filepath",
               "version-range": "-any",
               "library": [
                 {}
               ]
             },
             {
-              "package-name": "QuickCheck",
+              "package-name": "process",
               "version-range": "-any",
               "library": [
                 {}
               ]
             },
             {
-              "package-name": "test-framework",
-              "version-range": ">=0.8",
+              "package-name": "reflex",
+              "version-range": "-any",
               "library": [
                 {}
               ]
             },
             {
-              "package-name": "test-framework-quickcheck2",
-              "version-range": ">=0.3",
+              "package-name": "reflex-ghci",
+              "version-range": "-any",
               "library": [
                 {}
               ]
             },
             {
-              "package-name": "test-framework-th",
-              "version-range": ">=0.2",
+              "package-name": "reflex-process",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "temporary",
+              "version-range": ">=1.3 && <1.4",
               "library": [
                 {}
               ]
@@ -696,57 +768,64 @@
           ]
         },
         {
-          "package-name": "aeson",
+          "package-name": "bytestring",
           "version-range": "-any",
           "library": [
             {}
           ]
         },
         {
-          "package-name": "binary",
+          "package-name": "containers",
           "version-range": "-any",
           "library": [
             {}
           ]
         },
         {
-          "package-name": "BiobaseNewick",
+          "package-name": "directory",
           "version-range": "-any",
           "library": [
             {}
           ]
         },
         {
-          "package-name": "cereal",
+          "package-name": "filepath",
           "version-range": "-any",
           "library": [
             {}
           ]
         },
         {
-          "package-name": "QuickCheck",
+          "package-name": "process",
           "version-range": "-any",
           "library": [
             {}
           ]
         },
         {
-          "package-name": "test-framework",
-          "version-range": ">=0.8",
+          "package-name": "reflex",
+          "version-range": "-any",
           "library": [
             {}
           ]
         },
         {
-          "package-name": "test-framework-quickcheck2",
-          "version-range": ">=0.3",
+          "package-name": "reflex-ghci",
+          "version-range": "-any",
           "library": [
             {}
           ]
         },
         {
-          "package-name": "test-framework-th",
-          "version-range": ">=0.2",
+          "package-name": "reflex-process",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "temporary",
+          "version-range": ">=1.3 && <1.4",
           "library": [
             {}
           ]

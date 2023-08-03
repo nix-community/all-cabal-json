@@ -4,52 +4,43 @@
       "Right": ">=1.10"
     },
     "package": {
-      "name": "json-sop",
+      "name": "esqueleto-textsearch",
       "version": [
+        1,
         0,
-        2,
-        2
+        0,
+        3
       ]
     },
     "license": {
-      "Right": "BSD3"
+      "Right": "MIT"
     },
     "license-files": [
       "LICENSE"
     ],
-    "copyright": "",
-    "maintainer": "andres@well-typed.com",
-    "author": "Edsko de Vries <edsko@well-typed.com>, Andres Löh <andres@well-typed.com>",
+    "copyright": "2015 Alberto Valverde González",
+    "maintainer": "info@supercede.com",
+    "author": "Alberto Valverde González",
     "stability": "",
-    "tested-with": [
-      {
-        "compiler": "GHC",
-        "versionRange": "==8.8.4 || ==8.10.7 || ==9.0.2 || ==9.2.5 || ==9.4.4"
-      }
-    ],
-    "homepage": "",
+    "tested-with": [],
+    "homepage": "https://github.com/SupercedeTech/esqueleto-textsearch-ii",
     "pkg-url": "",
     "bug-reports": "",
     "source-repos": [
       {
         "kind": {},
         "type": "Git",
-        "location": "https://github.com/well-typed/json-sop",
+        "location": "https://github.com/SupercedeTech/esqueleto-textsearch-ii",
         "module": null,
         "branch": null,
         "tag": null,
         "subdir": null
       }
     ],
-    "synopsis": "Generics JSON (de)serialization using generics-sop",
-    "description": "This library contains generic serialization and deserialization functions\nimplemented using the @<https://hackage.haskell.org/package/generics-sop generics-sop>@\npackage for use with @<http://hackage.haskell.org/package/aeson aeson>@.\n",
-    "category": "Generics",
-    "custom-fields": [
-      [
-        "x-revision",
-        "1"
-      ]
-    ],
+    "synopsis": "PostgreSQL full text search for Esqueleto",
+    "description": "PostgreSQL text search functions for Esqueleto.",
+    "category": "Database",
+    "custom-fields": [],
     "build-type-raw": "Simple",
     "custom-setup": null,
     "library": null,
@@ -60,7 +51,10 @@
     "benchmarks": [],
     "data-files": [],
     "data-dir": ".",
-    "extra-source-files": [],
+    "extra-source-files": [
+      "README.md",
+      "Changelog.md"
+    ],
     "extra-tmp-files": [],
     "extra-doc-files": []
   },
@@ -69,15 +63,21 @@
       "name": {},
       "exposed-modules": [
         [
-          "Generics",
-          "SOP",
-          "JSON"
+          "Database",
+          "Esqueleto",
+          "TextSearch"
         ],
         [
-          "Generics",
-          "SOP",
-          "JSON",
-          "Model"
+          "Database",
+          "Esqueleto",
+          "TextSearch",
+          "Language"
+        ],
+        [
+          "Database",
+          "Esqueleto",
+          "TextSearch",
+          "Types"
         ]
       ],
       "re-exported-modules": [],
@@ -105,82 +105,13 @@
         "hsSourceDirs": [
           "src"
         ],
-        "otherModules": [
-          [
-            "Generics",
-            "SOP",
-            "Util",
-            "PartialResult"
-          ]
-        ],
+        "otherModules": [],
         "virtualModules": [],
         "autogenModules": [],
         "defaultLanguage": "Haskell2010",
         "otherLanguages": [],
-        "defaultExtensions": [
-          {
-            "enable-extension": "ScopedTypeVariables"
-          },
-          {
-            "enable-extension": "TypeFamilies"
-          },
-          {
-            "enable-extension": "RankNTypes"
-          },
-          {
-            "enable-extension": "TypeOperators"
-          },
-          {
-            "enable-extension": "GADTs"
-          },
-          {
-            "enable-extension": "ConstraintKinds"
-          },
-          {
-            "enable-extension": "MultiParamTypeClasses"
-          },
-          {
-            "enable-extension": "TypeSynonymInstances"
-          },
-          {
-            "enable-extension": "FlexibleInstances"
-          },
-          {
-            "enable-extension": "FlexibleContexts"
-          },
-          {
-            "enable-extension": "DeriveFunctor"
-          },
-          {
-            "enable-extension": "DeriveFoldable"
-          },
-          {
-            "enable-extension": "DeriveTraversable"
-          },
-          {
-            "enable-extension": "DefaultSignatures"
-          },
-          {
-            "enable-extension": "KindSignatures"
-          },
-          {
-            "enable-extension": "DataKinds"
-          },
-          {
-            "enable-extension": "FunctionalDependencies"
-          },
-          {
-            "enable-extension": "CPP"
-          }
-        ],
-        "otherExtensions": [
-          {
-            "enable-extension": "OverloadedStrings"
-          },
-          {
-            "enable-extension": "PolyKinds"
-          }
-        ],
+        "defaultExtensions": [],
+        "otherExtensions": [],
         "oldExtensions": [],
         "extraLibs": [],
         "extraGHCiLibs": [],
@@ -194,7 +125,8 @@
         "installIncludes": [],
         "options": [
           [
-            "-Wall"
+            "-Wall",
+            "-fwarn-incomplete-uni-patterns"
           ],
           []
         ],
@@ -214,70 +146,49 @@
         "targetBuildDepends": [
           {
             "package-name": "base",
-            "version-range": ">=4.11 && <4.19",
+            "version-range": ">=4.9 && <5",
             "library": [
               {}
             ]
           },
           {
-            "package-name": "generics-sop",
-            "version-range": ">=0.2.3 && <0.6",
+            "package-name": "data-default",
+            "version-range": "<0.8",
             "library": [
               {}
             ]
           },
           {
-            "package-name": "lens-sop",
-            "version-range": ">=0.3 && <0.4",
+            "package-name": "esqueleto",
+            "version-range": ">=3.2 && <3.6",
             "library": [
               {}
             ]
           },
           {
-            "package-name": "tagged",
-            "version-range": ">=0.7 && <0.9",
+            "package-name": "parsec",
+            "version-range": "<3.2",
             "library": [
               {}
             ]
           },
           {
-            "package-name": "aeson",
-            "version-range": ">=1.4 && <2.2",
+            "package-name": "persistent",
+            "version-range": ">=2.8.2 && <2.15",
             "library": [
               {}
             ]
           },
           {
-            "package-name": "vector",
-            "version-range": ">=0.10 && <0.14",
+            "package-name": "persistent-postgresql",
+            "version-range": ">=2.10 && <2.15",
             "library": [
               {}
             ]
           },
           {
             "package-name": "text",
-            "version-range": ">=1.1 && <2.1",
-            "library": [
-              {}
-            ]
-          },
-          {
-            "package-name": "unordered-containers",
-            "version-range": ">=0.2 && <0.3",
-            "library": [
-              {}
-            ]
-          },
-          {
-            "package-name": "time",
-            "version-range": ">=1.4 && <1.14",
-            "library": [
-              {}
-            ]
-          },
-          {
-            "package-name": "transformers",
-            "version-range": ">=0.3 && <0.7",
+            "version-range": ">=1.2 && <2.1",
             "library": [
               {}
             ]
@@ -289,70 +200,49 @@
     "condTreeConstraints": [
       {
         "package-name": "base",
-        "version-range": ">=4.11 && <4.19",
+        "version-range": ">=4.9 && <5",
         "library": [
           {}
         ]
       },
       {
-        "package-name": "generics-sop",
-        "version-range": ">=0.2.3 && <0.6",
+        "package-name": "data-default",
+        "version-range": "<0.8",
         "library": [
           {}
         ]
       },
       {
-        "package-name": "lens-sop",
-        "version-range": ">=0.3 && <0.4",
+        "package-name": "esqueleto",
+        "version-range": ">=3.2 && <3.6",
         "library": [
           {}
         ]
       },
       {
-        "package-name": "tagged",
-        "version-range": ">=0.7 && <0.9",
+        "package-name": "parsec",
+        "version-range": "<3.2",
         "library": [
           {}
         ]
       },
       {
-        "package-name": "aeson",
-        "version-range": ">=1.4 && <2.2",
+        "package-name": "persistent",
+        "version-range": ">=2.8.2 && <2.15",
         "library": [
           {}
         ]
       },
       {
-        "package-name": "vector",
-        "version-range": ">=0.10 && <0.14",
+        "package-name": "persistent-postgresql",
+        "version-range": ">=2.10 && <2.15",
         "library": [
           {}
         ]
       },
       {
         "package-name": "text",
-        "version-range": ">=1.1 && <2.1",
-        "library": [
-          {}
-        ]
-      },
-      {
-        "package-name": "unordered-containers",
-        "version-range": ">=0.2 && <0.3",
-        "library": [
-          {}
-        ]
-      },
-      {
-        "package-name": "time",
-        "version-range": ">=1.4 && <1.14",
-        "library": [
-          {}
-        ]
-      },
-      {
-        "package-name": "transformers",
-        "version-range": ">=0.3 && <0.7",
+        "version-range": ">=1.2 && <2.1",
         "library": [
           {}
         ]
@@ -361,7 +251,7 @@
     "condTreeComponents": []
   },
   "test-suites": {
-    "test-json-sop": {
+    "spec": {
       "condTreeData": {
         "name": "",
         "interface": {
@@ -369,7 +259,7 @@
             1,
             0
           ],
-          "filepath": "Test_JSON_SOP.hs"
+          "filepath": "Spec.hs"
         },
         "build-info": {
           "buildable": true,
@@ -392,7 +282,13 @@
           "hsSourceDirs": [
             "test"
           ],
-          "otherModules": [],
+          "otherModules": [
+            [
+              "Database",
+              "Esqueleto",
+              "TextSearchSpec"
+            ]
+          ],
           "virtualModules": [],
           "autogenModules": [],
           "defaultLanguage": "Haskell2010",
@@ -412,7 +308,8 @@
           "installIncludes": [],
           "options": [
             [
-              "-Wall"
+              "-Wall",
+              "-fwarn-incomplete-uni-patterns"
             ],
             []
           ],
@@ -438,35 +335,91 @@
               ]
             },
             {
-              "package-name": "json-sop",
+              "package-name": "esqueleto",
               "version-range": "-any",
               "library": [
                 {}
               ]
             },
             {
-              "package-name": "aeson",
+              "package-name": "esqueleto-textsearch",
               "version-range": "-any",
               "library": [
                 {}
               ]
             },
             {
-              "package-name": "tasty",
+              "package-name": "hspec",
               "version-range": "-any",
               "library": [
                 {}
               ]
             },
             {
-              "package-name": "tasty-quickcheck",
+              "package-name": "HUnit",
               "version-range": "-any",
               "library": [
                 {}
               ]
             },
             {
-              "package-name": "generics-sop",
+              "package-name": "monad-control",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "monad-logger",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "persistent",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "persistent-postgresql",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "persistent-template",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "QuickCheck",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "resourcet",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "text",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "transformers",
               "version-range": "-any",
               "library": [
                 {}
@@ -485,35 +438,91 @@
           ]
         },
         {
-          "package-name": "json-sop",
+          "package-name": "esqueleto",
           "version-range": "-any",
           "library": [
             {}
           ]
         },
         {
-          "package-name": "aeson",
+          "package-name": "esqueleto-textsearch",
           "version-range": "-any",
           "library": [
             {}
           ]
         },
         {
-          "package-name": "tasty",
+          "package-name": "hspec",
           "version-range": "-any",
           "library": [
             {}
           ]
         },
         {
-          "package-name": "tasty-quickcheck",
+          "package-name": "HUnit",
           "version-range": "-any",
           "library": [
             {}
           ]
         },
         {
-          "package-name": "generics-sop",
+          "package-name": "monad-control",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "monad-logger",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "persistent",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "persistent-postgresql",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "persistent-template",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "QuickCheck",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "resourcet",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "text",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "transformers",
           "version-range": "-any",
           "library": [
             {}
