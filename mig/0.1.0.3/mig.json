@@ -1,0 +1,406 @@
+{
+  "description": {
+    "spec-version": {
+      "Left": [
+        1,
+        12
+      ]
+    },
+    "package": {
+      "name": "mig",
+      "version": [
+        0,
+        1,
+        0,
+        3
+      ]
+    },
+    "license": {
+      "Right": "BSD3"
+    },
+    "license-files": [
+      "LICENSE"
+    ],
+    "copyright": "2023 Anton Kholomiov",
+    "maintainer": "anton.kholomiov@gmail.com",
+    "author": "Anton Kholomiov",
+    "stability": "",
+    "tested-with": [],
+    "homepage": "https://github.com/anton-k/mig#readme",
+    "pkg-url": "",
+    "bug-reports": "https://github.com/anton-k/mig/issues",
+    "source-repos": [
+      {
+        "kind": {},
+        "type": "Git",
+        "location": "https://github.com/anton-k/mig",
+        "module": null,
+        "branch": null,
+        "tag": null,
+        "subdir": null
+      }
+    ],
+    "synopsis": "Build lightweight and composable servers",
+    "description": "With library mig we can build lightweight and composable servers.\nThere are only couple of combinators to assemble servers from parts.\nIt supports generic handler functions as servant does. But strives to use more\nsimple model for API. It does not go to describing Server API at type level which\nleads to simpler error messages.\n\nThe main features are:\n\n* lightweight library\n\n* expressive DSL to compose servers\n\n* type-safe handlers\n\n* handlers are encoded with generic haskell functions\n\n* built on top of WAI and warp server libraries.\n\nExample of hello world server:\n\n> import Mig.Json.IO\n>\n> -- | We can render the server and run it on port 8085.\n> -- It uses wai and warp.\n> main :: IO ()\n> main = runServer 8085 server\n>\n> -- | Init simple hello world server which\n> -- replies on a single route\n> server :: Server IO\n> server =\n>   \"api\" /. \"v1\" /.\n>     mconcat\n>       [ \"hello\" /. hello\n>       , \"bye\" /. bye\n>       ]\n>\n> -- | Handler takes no inputs and marked as Get HTTP-request that returns Text.\n> hello :: Get Text\n> hello = Get $ pure \"Hello World\"\n>\n> -- | Handle with URL-param query and json body input as Post HTTP-request that returns Text.\n> bye :: Query \"name\" Text -> Body ByeRequest -> Post Text\n> bye (Query name) (Body req) = Post $\n>   pure $ \"Bye to \" <> name <> \" \" <> req.greeting\n\nPlease see:\n\n* quick start guide at <https://github.com/anton-k/mig#readme>\n\n* examples directory for more fun servers: at <https://github.com/anton-k/mig/tree/main/examples/mig-example-apps#readme>",
+    "category": "Web",
+    "custom-fields": [],
+    "build-type-raw": "Simple",
+    "custom-setup": null,
+    "library": null,
+    "sublibraries": [],
+    "executables": [],
+    "foreign-libs": [],
+    "test-suites": [],
+    "benchmarks": [],
+    "data-files": [],
+    "data-dir": ".",
+    "extra-source-files": [
+      "README.md",
+      "CHANGELOG.md"
+    ],
+    "extra-tmp-files": [],
+    "extra-doc-files": []
+  },
+  "library": {
+    "condTreeData": {
+      "name": {},
+      "exposed-modules": [
+        [
+          "Mig"
+        ],
+        [
+          "Mig",
+          "Common"
+        ],
+        [
+          "Mig",
+          "Html"
+        ],
+        [
+          "Mig",
+          "Html",
+          "IO"
+        ],
+        [
+          "Mig",
+          "Internal",
+          "Types"
+        ],
+        [
+          "Mig",
+          "Json"
+        ],
+        [
+          "Mig",
+          "Json",
+          "IO"
+        ]
+      ],
+      "re-exported-modules": [],
+      "signatures": [],
+      "exposed": true,
+      "visibility": "LibraryVisibilityPublic",
+      "build-info": {
+        "buildable": true,
+        "buildTools": [],
+        "buildToolDepends": [],
+        "cppOptions": [],
+        "asmOptions": [],
+        "cmmOptions": [],
+        "ccOptions": [],
+        "cxxOptions": [],
+        "ldOptions": [],
+        "pkgconfigDepends": [],
+        "frameworks": [],
+        "extraFrameworkDirs": [],
+        "asmSources": [],
+        "cmmSources": [],
+        "cSources": [],
+        "cxxSources": [],
+        "jsSources": [],
+        "hsSourceDirs": [
+          "src"
+        ],
+        "otherModules": [
+          [
+            "Paths_mig"
+          ]
+        ],
+        "virtualModules": [],
+        "autogenModules": [],
+        "defaultLanguage": "GHC2021",
+        "otherLanguages": [],
+        "defaultExtensions": [
+          {
+            "enable-extension": "ImportQualifiedPost"
+          },
+          {
+            "enable-extension": "OverloadedStrings"
+          },
+          {
+            "enable-extension": "TypeFamilies"
+          },
+          {
+            "unknown-extension": "OverloadedRecordDot"
+          },
+          {
+            "enable-extension": "DuplicateRecordFields"
+          },
+          {
+            "enable-extension": "LambdaCase"
+          },
+          {
+            "enable-extension": "DerivingStrategies"
+          },
+          {
+            "enable-extension": "DataKinds"
+          },
+          {
+            "enable-extension": "StrictData"
+          }
+        ],
+        "otherExtensions": [],
+        "oldExtensions": [],
+        "extraLibs": [],
+        "extraGHCiLibs": [],
+        "extraBundledLibs": [],
+        "extraLibFlavours": [],
+        "extraDynLibFlavours": [],
+        "extraLibDirs": [],
+        "includeDirs": [],
+        "includes": [],
+        "autogenIncludes": [],
+        "installIncludes": [],
+        "options": [
+          [
+            "-Wall",
+            "-Wcompat",
+            "-Widentities",
+            "-Wincomplete-record-updates",
+            "-Wincomplete-uni-patterns",
+            "-Wmissing-export-lists",
+            "-Wmissing-home-modules",
+            "-Wpartial-fields",
+            "-Wredundant-constraints"
+          ],
+          []
+        ],
+        "profOptions": [
+          [],
+          []
+        ],
+        "sharedOptions": [
+          [],
+          []
+        ],
+        "staticOptions": [
+          [],
+          []
+        ],
+        "customFieldsBI": [],
+        "targetBuildDepends": [
+          {
+            "package-name": "aeson",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "base",
+            "version-range": ">=4.7 && <5",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "blaze-html",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "blaze-markup",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "bytestring",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "case-insensitive",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "containers",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "exceptions",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "http-api-data",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "http-types",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "mtl",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "text",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "wai",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "warp",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          }
+        ],
+        "mixins": []
+      }
+    },
+    "condTreeConstraints": [
+      {
+        "package-name": "aeson",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "base",
+        "version-range": ">=4.7 && <5",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "blaze-html",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "blaze-markup",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "bytestring",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "case-insensitive",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "containers",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "exceptions",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "http-api-data",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "http-types",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "mtl",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "text",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "wai",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "warp",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      }
+    ],
+    "condTreeComponents": []
+  }
+}
