@@ -4,90 +4,64 @@
       "Right": ">=1.10"
     },
     "package": {
-      "name": "constraints",
+      "name": "uuagc",
       "version": [
         0,
-        13,
-        4
+        9,
+        55
       ]
     },
     "license": {
-      "Right": "BSD2"
+      "Right": "BSD3"
     },
     "license-files": [
       "LICENSE"
     ],
-    "copyright": "Copyright (C) 2011-2015 Edward A. Kmett",
-    "maintainer": "Edward A. Kmett <ekmett@gmail.com>",
-    "author": "Edward A. Kmett",
-    "stability": "experimental",
+    "copyright": "Universiteit Utrecht",
+    "maintainer": "Jeroen Bransen",
+    "author": "Software Technology at Universiteit Utrecht",
+    "stability": "Stable",
     "tested-with": [
       {
         "compiler": "GHC",
-        "versionRange": "==7.8.4"
-      },
-      {
-        "compiler": "GHC",
-        "versionRange": "==7.10.3"
-      },
-      {
-        "compiler": "GHC",
-        "versionRange": "==8.0.2"
-      },
-      {
-        "compiler": "GHC",
-        "versionRange": "==8.2.2"
-      },
-      {
-        "compiler": "GHC",
-        "versionRange": "==8.4.4"
-      },
-      {
-        "compiler": "GHC",
-        "versionRange": "==8.6.5"
-      },
-      {
-        "compiler": "GHC",
-        "versionRange": "==8.8.4"
-      },
-      {
-        "compiler": "GHC",
-        "versionRange": "==8.10.7"
-      },
-      {
-        "compiler": "GHC",
-        "versionRange": "==9.0.2"
-      },
-      {
-        "compiler": "GHC",
-        "versionRange": "==9.2.1"
+        "versionRange": ">=6.12"
       }
     ],
-    "homepage": "http://github.com/ekmett/constraints/",
+    "homepage": "https://github.com/UU-ComputerScience/uuagc",
     "pkg-url": "",
-    "bug-reports": "http://github.com/ekmett/constraints/issues",
-    "source-repos": [
-      {
-        "kind": {},
-        "type": "Git",
-        "location": "git://github.com/ekmett/constraints.git",
-        "module": null,
-        "branch": null,
-        "tag": null,
-        "subdir": null
-      }
-    ],
-    "synopsis": "Constraint manipulation",
-    "description": "GHC 7.4 gave us the ability to talk about @ConstraintKinds@. They stopped crashing the compiler in GHC 7.6.\n\nThis package provides a vocabulary for working with them.",
-    "category": "Constraints",
-    "custom-fields": [
-      [
-        "x-revision",
-        "1"
-      ]
-    ],
-    "build-type-raw": "Simple",
-    "custom-setup": null,
+    "bug-reports": "https://github.com/UU-ComputerScience/uuagc/issues",
+    "source-repos": [],
+    "synopsis": "Attribute Grammar System of Universiteit Utrecht",
+    "description": "Generates Haskell files from an attribute grammar specification",
+    "category": "Development",
+    "custom-fields": [],
+    "build-type-raw": "Custom",
+    "custom-setup": {
+      "setup-depends": [
+        {
+          "package-name": "base",
+          "version-range": ">=4 && <5",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "Cabal",
+          "version-range": ">=1.24 && <3.11",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "uuagc-cabal",
+          "version-range": ">=1.0",
+          "library": [
+            {}
+          ]
+        }
+      ],
+      "__defaultSetupDepends": false
+    },
     "library": null,
     "sublibraries": [],
     "executables": [],
@@ -97,39 +71,40 @@
     "data-files": [],
     "data-dir": ".",
     "extra-source-files": [
-      "README.markdown",
-      "CHANGELOG.markdown"
+      "README",
+      "uuagc_options",
+      "src-ag/*.ag",
+      "src-ag/LOAG/*.ag"
     ],
     "extra-tmp-files": [],
     "extra-doc-files": []
   },
+  "package-flags": [
+    {
+      "name": "bootstrap_external",
+      "description": "Use an external uuagc executable for bootstrapping",
+      "default": false,
+      "manual": true
+    },
+    {
+      "name": "with-loag",
+      "description": "Use MiniSat as external SAT-solver to schedule all Linear Ordered AGs",
+      "default": false,
+      "manual": true
+    }
+  ],
   "library": {
     "condTreeData": {
       "name": {},
       "exposed-modules": [
         [
-          "Data",
-          "Constraint"
+          "UU",
+          "UUAGC"
         ],
         [
-          "Data",
-          "Constraint",
-          "Deferrable"
-        ],
-        [
-          "Data",
-          "Constraint",
-          "Forall"
-        ],
-        [
-          "Data",
-          "Constraint",
-          "Lifting"
-        ],
-        [
-          "Data",
-          "Constraint",
-          "Unsafe"
+          "UU",
+          "UUAGC",
+          "Version"
         ]
       ],
       "re-exported-modules": [],
@@ -155,46 +130,221 @@
         "cxxSources": [],
         "jsSources": [],
         "hsSourceDirs": [
-          "src"
+          "src",
+          "src-version",
+          "src-ag",
+          "src-options"
         ],
-        "otherModules": [],
+        "otherModules": [
+          [
+            "Paths_uuagc"
+          ],
+          [
+            "Ag"
+          ],
+          [
+            "CommonTypes"
+          ],
+          [
+            "GrammarInfo"
+          ],
+          [
+            "HsTokenScanner"
+          ],
+          [
+            "Options"
+          ],
+          [
+            "PPUtil"
+          ],
+          [
+            "Parser"
+          ],
+          [
+            "Pretty"
+          ],
+          [
+            "Scanner"
+          ],
+          [
+            "SequentialComputation"
+          ],
+          [
+            "SequentialTypes"
+          ],
+          [
+            "TokenDef"
+          ],
+          [
+            "Version"
+          ],
+          [
+            "AbstractSyntax"
+          ],
+          [
+            "AbstractSyntaxDump"
+          ],
+          [
+            "Code"
+          ],
+          [
+            "CodeSyntax"
+          ],
+          [
+            "CodeSyntaxDump"
+          ],
+          [
+            "ConcreteSyntax"
+          ],
+          [
+            "DeclBlocks"
+          ],
+          [
+            "DefaultRules"
+          ],
+          [
+            "Desugar"
+          ],
+          [
+            "ErrorMessages"
+          ],
+          [
+            "Expression"
+          ],
+          [
+            "GenerateCode"
+          ],
+          [
+            "HsToken"
+          ],
+          [
+            "Interfaces"
+          ],
+          [
+            "InterfacesRules"
+          ],
+          [
+            "Order"
+          ],
+          [
+            "Patterns"
+          ],
+          [
+            "PrintCode"
+          ],
+          [
+            "PrintOcamlCode"
+          ],
+          [
+            "PrintCleanCode"
+          ],
+          [
+            "PrintVisitCode"
+          ],
+          [
+            "PrintErrorMessages"
+          ],
+          [
+            "SemHsTokens"
+          ],
+          [
+            "Transform"
+          ],
+          [
+            "ATermWrite"
+          ],
+          [
+            "ATermAbstractSyntax"
+          ],
+          [
+            "TfmToVisage"
+          ],
+          [
+            "Visage"
+          ],
+          [
+            "VisageSyntax"
+          ],
+          [
+            "VisagePatterns"
+          ],
+          [
+            "MirageSyntax"
+          ],
+          [
+            "TfmToMirage"
+          ],
+          [
+            "AG2AspectAG"
+          ],
+          [
+            "Macro"
+          ],
+          [
+            "RhsCheck"
+          ],
+          [
+            "ResolveLocals"
+          ],
+          [
+            "Knuth1"
+          ],
+          [
+            "KennedyWarren"
+          ],
+          [
+            "KWOrder"
+          ],
+          [
+            "ExecutionPlan"
+          ],
+          [
+            "ExecutionPlan2Hs"
+          ],
+          [
+            "ExecutionPlan2Clean"
+          ],
+          [
+            "ExecutionPlan2Caml"
+          ],
+          [
+            "LOAG",
+            "AOAG"
+          ],
+          [
+            "LOAG",
+            "Chordal"
+          ],
+          [
+            "LOAG",
+            "Common"
+          ],
+          [
+            "LOAG",
+            "Graphs"
+          ],
+          [
+            "LOAG",
+            "Order"
+          ],
+          [
+            "LOAG",
+            "Rep"
+          ]
+        ],
         "virtualModules": [],
         "autogenModules": [],
         "defaultLanguage": "Haskell2010",
         "otherLanguages": [],
-        "defaultExtensions": [],
-        "otherExtensions": [
+        "defaultExtensions": [
           {
-            "enable-extension": "FunctionalDependencies"
+            "enable-extension": "TypeSynonymInstances"
           },
           {
-            "enable-extension": "ScopedTypeVariables"
-          },
-          {
-            "enable-extension": "StandaloneDeriving"
-          },
-          {
-            "enable-extension": "FlexibleInstances"
-          },
-          {
-            "enable-extension": "FlexibleContexts"
-          },
-          {
-            "enable-extension": "ConstraintKinds"
-          },
-          {
-            "enable-extension": "KindSignatures"
-          },
-          {
-            "enable-extension": "TypeOperators"
-          },
-          {
-            "enable-extension": "Rank2Types"
-          },
-          {
-            "enable-extension": "GADTs"
+            "enable-extension": "MultiParamTypeClasses"
           }
         ],
+        "otherExtensions": [],
         "oldExtensions": [],
         "extraLibs": [],
         "extraGHCiLibs": [],
@@ -207,9 +357,7 @@
         "autogenIncludes": [],
         "installIncludes": [],
         "options": [
-          [
-            "-Wall"
-          ],
+          [],
           []
         ],
         "profOptions": [
@@ -227,64 +375,92 @@
         "customFieldsBI": [],
         "targetBuildDepends": [
           {
+            "package-name": "uuagc-cabal",
+            "version-range": ">=1.0.3.0",
+            "library": [
+              {}
+            ]
+          },
+          {
             "package-name": "base",
-            "version-range": ">=4.7 && <5",
+            "version-range": ">=4",
             "library": [
               {}
             ]
           },
           {
-            "package-name": "binary",
-            "version-range": ">=0.7.1 && <0.9",
-            "library": [
-              {}
-            ]
-          },
-          {
-            "package-name": "deepseq",
-            "version-range": ">=1.3 && <1.6",
+            "package-name": "base",
+            "version-range": "<5",
             "library": [
               {}
             ]
           },
           {
             "package-name": "ghc-prim",
-            "version-range": "-any",
+            "version-range": ">=0.2.0.0",
             "library": [
               {}
             ]
           },
           {
-            "package-name": "hashable",
-            "version-range": ">=1.2 && <1.5",
+            "package-name": "containers",
+            "version-range": ">=0.3",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "directory",
+            "version-range": ">=1.0.1.1",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "array",
+            "version-range": ">=0.3.0.1",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "uulib",
+            "version-range": ">=0.9.14",
             "library": [
               {}
             ]
           },
           {
             "package-name": "mtl",
-            "version-range": ">=2.1.2 && <2.4",
+            "version-range": ">=1.1.1.1",
             "library": [
               {}
             ]
           },
           {
-            "package-name": "transformers",
-            "version-range": ">=0.3.0.0 && <0.7",
+            "package-name": "haskell-src-exts",
+            "version-range": ">=1.11.1",
             "library": [
               {}
             ]
           },
           {
-            "package-name": "transformers-compat",
-            "version-range": ">=0.5 && <1",
+            "package-name": "filepath",
+            "version-range": ">=1.1.0.4",
             "library": [
               {}
             ]
           },
           {
-            "package-name": "type-equality",
-            "version-range": ">=1 && <2",
+            "package-name": "aeson",
+            "version-range": ">=1.4.7.1",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "bytestring",
+            "version-range": ">=0.9.2.1",
             "library": [
               {}
             ]
@@ -295,64 +471,92 @@
     },
     "condTreeConstraints": [
       {
+        "package-name": "uuagc-cabal",
+        "version-range": ">=1.0.3.0",
+        "library": [
+          {}
+        ]
+      },
+      {
         "package-name": "base",
-        "version-range": ">=4.7 && <5",
+        "version-range": ">=4",
         "library": [
           {}
         ]
       },
       {
-        "package-name": "binary",
-        "version-range": ">=0.7.1 && <0.9",
-        "library": [
-          {}
-        ]
-      },
-      {
-        "package-name": "deepseq",
-        "version-range": ">=1.3 && <1.6",
+        "package-name": "base",
+        "version-range": "<5",
         "library": [
           {}
         ]
       },
       {
         "package-name": "ghc-prim",
-        "version-range": "-any",
+        "version-range": ">=0.2.0.0",
         "library": [
           {}
         ]
       },
       {
-        "package-name": "hashable",
-        "version-range": ">=1.2 && <1.5",
+        "package-name": "containers",
+        "version-range": ">=0.3",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "directory",
+        "version-range": ">=1.0.1.1",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "array",
+        "version-range": ">=0.3.0.1",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "uulib",
+        "version-range": ">=0.9.14",
         "library": [
           {}
         ]
       },
       {
         "package-name": "mtl",
-        "version-range": ">=2.1.2 && <2.4",
+        "version-range": ">=1.1.1.1",
         "library": [
           {}
         ]
       },
       {
-        "package-name": "transformers",
-        "version-range": ">=0.3.0.0 && <0.7",
+        "package-name": "haskell-src-exts",
+        "version-range": ">=1.11.1",
         "library": [
           {}
         ]
       },
       {
-        "package-name": "transformers-compat",
-        "version-range": ">=0.5 && <1",
+        "package-name": "filepath",
+        "version-range": ">=1.1.0.4",
         "library": [
           {}
         ]
       },
       {
-        "package-name": "type-equality",
-        "version-range": ">=1 && <2",
+        "package-name": "aeson",
+        "version-range": ">=1.4.7.1",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "bytestring",
+        "version-range": ">=0.9.2.1",
         "library": [
           {}
         ]
@@ -362,8 +566,7 @@
       {
         "condBranchCondition": {
           "variable": {
-            "compiler": "GHC",
-            "version": "<8.0"
+            "flag": "with-loag"
           }
         },
         "condBranchIfTrue": {
@@ -378,7 +581,9 @@
               "buildable": true,
               "buildTools": [],
               "buildToolDepends": [],
-              "cppOptions": [],
+              "cppOptions": [
+                "-DWITH_LOAG"
+              ],
               "asmOptions": [],
               "cmmOptions": [],
               "ccOptions": [],
@@ -430,8 +635,8 @@
               "customFieldsBI": [],
               "targetBuildDepends": [
                 {
-                  "package-name": "semigroups",
-                  "version-range": ">=0.17 && <0.21",
+                  "package-name": "minisat",
+                  "version-range": "-any",
                   "library": [
                     {}
                   ]
@@ -442,8 +647,8 @@
           },
           "condTreeConstraints": [
             {
-              "package-name": "semigroups",
-              "version-range": ">=0.17 && <0.21",
+              "package-name": "minisat",
+              "version-range": "-any",
               "library": [
                 {}
               ]
@@ -454,26 +659,16 @@
       },
       {
         "condBranchCondition": {
-          "variable": {
-            "compiler": "GHC",
-            "version": ">=8"
+          "cond_not": {
+            "variable": {
+              "flag": "bootstrap_external"
+            }
           }
         },
         "condBranchIfTrue": {
           "condTreeData": {
             "name": {},
-            "exposed-modules": [
-              [
-                "Data",
-                "Constraint",
-                "Nat"
-              ],
-              [
-                "Data",
-                "Constraint",
-                "Symbol"
-              ]
-            ],
+            "exposed-modules": [],
             "re-exported-modules": [],
             "signatures": [],
             "exposed": true,
@@ -496,7 +691,9 @@
               "cSources": [],
               "cxxSources": [],
               "jsSources": [],
-              "hsSourceDirs": [],
+              "hsSourceDirs": [
+                "src-generated"
+              ],
               "otherModules": [],
               "virtualModules": [],
               "autogenModules": [],
@@ -543,8 +740,7 @@
       {
         "condBranchCondition": {
           "variable": {
-            "compiler": "GHC",
-            "version": ">=8.6"
+            "flag": "with-loag"
           }
         },
         "condBranchIfTrue": {
@@ -574,7 +770,17 @@
               "cxxSources": [],
               "jsSources": [],
               "hsSourceDirs": [],
-              "otherModules": [],
+              "otherModules": [
+                [
+                  "LOAG",
+                  "Solver",
+                  "MiniSat"
+                ],
+                [
+                  "LOAG",
+                  "Optimise"
+                ]
+              ],
               "virtualModules": [],
               "autogenModules": [],
               "defaultLanguage": null,
@@ -593,9 +799,7 @@
               "autogenIncludes": [],
               "installIncludes": [],
               "options": [
-                [
-                  "-Wno-star-is-type"
-                ],
+                [],
                 []
               ],
               "profOptions": [
@@ -621,27 +825,16 @@
       }
     ]
   },
-  "test-suites": {
-    "spec": {
+  "executables": {
+    "uuagc": {
       "condTreeData": {
-        "name": "",
-        "interface": {
-          "version": [
-            1,
-            0
-          ],
-          "filepath": "Spec.hs"
-        },
+        "name": "uuagc",
+        "module-path": "Main.hs",
+        "scope": "public",
         "build-info": {
           "buildable": true,
           "buildTools": [],
-          "buildToolDepends": [
-            {
-              "package-name": "hspec-discover",
-              "executable-component-name": "hspec-discover",
-              "version-range": ">=2"
-            }
-          ],
+          "buildToolDepends": [],
           "cppOptions": [],
           "asmOptions": [],
           "cmmOptions": [],
@@ -657,13 +850,9 @@
           "cxxSources": [],
           "jsSources": [],
           "hsSourceDirs": [
-            "tests"
+            "src-main"
           ],
-          "otherModules": [
-            [
-              "GH55Spec"
-            ]
-          ],
+          "otherModules": [],
           "virtualModules": [],
           "autogenModules": [],
           "defaultLanguage": "Haskell2010",
@@ -682,11 +871,7 @@
           "autogenIncludes": [],
           "installIncludes": [],
           "options": [
-            [
-              "-Wall",
-              "-threaded",
-              "-rtsopts"
-            ],
+            [],
             []
           ],
           "profOptions": [
@@ -704,22 +889,29 @@
           "customFieldsBI": [],
           "targetBuildDepends": [
             {
+              "package-name": "uuagc-cabal",
+              "version-range": ">=1.0.3.0",
+              "library": [
+                {}
+              ]
+            },
+            {
               "package-name": "base",
-              "version-range": ">=4.7 && <5",
+              "version-range": ">=4",
               "library": [
                 {}
               ]
             },
             {
-              "package-name": "constraints",
+              "package-name": "base",
+              "version-range": "<5",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "uuagc",
               "version-range": "-any",
-              "library": [
-                {}
-              ]
-            },
-            {
-              "package-name": "hspec",
-              "version-range": ">=2",
               "library": [
                 {}
               ]
@@ -730,22 +922,29 @@
       },
       "condTreeConstraints": [
         {
+          "package-name": "uuagc-cabal",
+          "version-range": ">=1.0.3.0",
+          "library": [
+            {}
+          ]
+        },
+        {
           "package-name": "base",
-          "version-range": ">=4.7 && <5",
+          "version-range": ">=4",
           "library": [
             {}
           ]
         },
         {
-          "package-name": "constraints",
+          "package-name": "base",
+          "version-range": "<5",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "uuagc",
           "version-range": "-any",
-          "library": [
-            {}
-          ]
-        },
-        {
-          "package-name": "hspec",
-          "version-range": ">=2",
           "library": [
             {}
           ]
