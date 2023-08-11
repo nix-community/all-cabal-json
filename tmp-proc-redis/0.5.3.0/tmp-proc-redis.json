@@ -1,56 +1,77 @@
 {
   "description": {
     "spec-version": {
-      "Right": ">=1.10"
+      "Left": [
+        3,
+        0
+      ]
     },
     "package": {
-      "name": "postgresql-simple-url",
+      "name": "tmp-proc-redis",
       "version": [
         0,
-        2,
-        1,
+        5,
+        3,
         0
       ]
     },
     "license": {
-      "Right": "MIT"
+      "Left": {
+        "license-expression": {
+          "expression": {
+            "id": "BSD_3_Clause"
+          },
+          "exception-id": null
+        }
+      }
     },
     "license-files": [
       "LICENSE"
     ],
-    "copyright": "Copyright © 2014-2018 Futurice OY, Oleg Grenrus",
-    "maintainer": "Oleg Grenrus <oleg.grenrus@iki.fi>",
-    "author": "Oleg Grenrus",
-    "stability": "experimental",
+    "copyright": "2021 Tim Emiola",
+    "maintainer": "adetokunbo@users.noreply.github.com",
+    "author": "Tim Emiola",
+    "stability": "",
     "tested-with": [
       {
         "compiler": "GHC",
-        "versionRange": "==7.6.3 || ==7.8.4 || ==7.10.3 || ==8.0.2 || ==8.2.2 || ==8.4.4 || ==8.6.5 || ==8.8.4 || ==8.10.7 || ==9.0.2 || ==9.2.8 || ==9.4.6 || ==9.6.2"
+        "versionRange": "==8.8.4"
+      },
+      {
+        "compiler": "GHC",
+        "versionRange": "==8.10.7"
+      },
+      {
+        "compiler": "GHC",
+        "versionRange": "==9.0.2"
+      },
+      {
+        "compiler": "GHC",
+        "versionRange": "==9.2.8"
+      },
+      {
+        "compiler": "GHC",
+        "versionRange": "==9.4.5"
       }
     ],
-    "homepage": "https://github.com/futurice/postgresql-simple-url",
+    "homepage": "",
     "pkg-url": "",
-    "bug-reports": "",
+    "bug-reports": "https://github.com/adetokunbo/tmp-proc/issues",
     "source-repos": [
       {
         "kind": {},
         "type": "Git",
-        "location": "https://github.com/futurice/postgresql-simple-url",
+        "location": "https://github.com/adetokunbo/tmp-proc.git",
         "module": null,
         "branch": null,
         "tag": null,
-        "subdir": null
+        "subdir": "tmp-proc-redis"
       }
     ],
-    "synopsis": "Parse postgres:// url into ConnectInfo",
-    "description": "The 'Database.PostgreSQL.Simple.URL' module in this package exports\ntwo helper functions 'parseDatabaseUrl' and 'urlToConnectInfo' to\nconstruct 'ConnectInfo' from URI (or string).\n\n@\n>>> parseDatabaseUrl \"postgres://foo:bar@example.com:2345/database\"\nJust (ConnectInfo \"example.com\" 2345 \"foo\" \"bar\" \"database\")\n@",
-    "category": "Database",
-    "custom-fields": [
-      [
-        "x-revision",
-        "8"
-      ]
-    ],
+    "synopsis": "Launch Redis in docker using tmp-proc",
+    "description": "Demos how to use tmp-proc to run Redis in docker in a unittest.",
+    "category": "testing, docker",
+    "custom-fields": [],
     "build-type-raw": "Simple",
     "custom-setup": null,
     "library": null,
@@ -62,8 +83,8 @@
     "data-files": [],
     "data-dir": ".",
     "extra-source-files": [
-      "README.md",
-      "CHANGELOG.md"
+      "ChangeLog.md",
+      "README.md"
     ],
     "extra-tmp-files": [],
     "extra-doc-files": []
@@ -73,10 +94,10 @@
       "name": {},
       "exposed-modules": [
         [
-          "Database",
-          "PostgreSQL",
-          "Simple",
-          "URL"
+          "System",
+          "TmpProc",
+          "Docker",
+          "Redis"
         ]
       ],
       "re-exported-modules": [],
@@ -124,6 +145,7 @@
         "installIncludes": [],
         "options": [
           [
+            "-fno-ignore-asserts",
             "-Wall"
           ],
           []
@@ -144,28 +166,35 @@
         "targetBuildDepends": [
           {
             "package-name": "base",
-            "version-range": ">=4.6 && <4.19",
+            "version-range": ">=4.11 && <5",
             "library": [
               {}
             ]
           },
           {
-            "package-name": "network-uri",
-            "version-range": ">=2.6 && <2.7",
+            "package-name": "bytestring",
+            "version-range": ">=0.10.8.2 && <0.12.1",
             "library": [
               {}
             ]
           },
           {
-            "package-name": "postgresql-simple",
-            "version-range": ">=0.4 && <0.8",
+            "package-name": "hedis",
+            "version-range": ">=0.10.4 && <0.16",
             "library": [
               {}
             ]
           },
           {
-            "package-name": "split",
-            "version-range": ">=0.2 && <0.3",
+            "package-name": "text",
+            "version-range": ">=1.2.3 && <2.2",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "tmp-proc",
+            "version-range": ">=0.5 && <0.6",
             "library": [
               {}
             ]
@@ -177,28 +206,35 @@
     "condTreeConstraints": [
       {
         "package-name": "base",
-        "version-range": ">=4.6 && <4.19",
+        "version-range": ">=4.11 && <5",
         "library": [
           {}
         ]
       },
       {
-        "package-name": "network-uri",
-        "version-range": ">=2.6 && <2.7",
+        "package-name": "bytestring",
+        "version-range": ">=0.10.8.2 && <0.12.1",
         "library": [
           {}
         ]
       },
       {
-        "package-name": "postgresql-simple",
-        "version-range": ">=0.4 && <0.8",
+        "package-name": "hedis",
+        "version-range": ">=0.10.4 && <0.16",
         "library": [
           {}
         ]
       },
       {
-        "package-name": "split",
-        "version-range": ">=0.2 && <0.3",
+        "package-name": "text",
+        "version-range": ">=1.2.3 && <2.2",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "tmp-proc",
+        "version-range": ">=0.5 && <0.6",
         "library": [
           {}
         ]
@@ -207,7 +243,7 @@
     "condTreeComponents": []
   },
   "test-suites": {
-    "test": {
+    "integration-test": {
       "condTreeData": {
         "name": "",
         "interface": {
@@ -215,7 +251,7 @@
             1,
             0
           ],
-          "filepath": "Tests.hs"
+          "filepath": "Spec.hs"
         },
         "build-info": {
           "buildable": true,
@@ -236,9 +272,16 @@
           "cxxSources": [],
           "jsSources": [],
           "hsSourceDirs": [
-            "tests"
+            "test"
           ],
-          "otherModules": [],
+          "otherModules": [
+            [
+              "Test",
+              "TmpProc",
+              "Docker",
+              "RedisSpec"
+            ]
+          ],
           "virtualModules": [],
           "autogenModules": [],
           "defaultLanguage": "Haskell2010",
@@ -258,6 +301,10 @@
           "installIncludes": [],
           "options": [
             [
+              "-threaded",
+              "-rtsopts",
+              "-with-rtsopts=-N",
+              "-fno-ignore-asserts",
               "-Wall"
             ],
             []
@@ -284,29 +331,50 @@
               ]
             },
             {
-              "package-name": "postgresql-simple",
+              "package-name": "bytestring",
               "version-range": "-any",
               "library": [
                 {}
               ]
             },
             {
-              "package-name": "postgresql-simple-url",
+              "package-name": "hedis",
               "version-range": "-any",
               "library": [
                 {}
               ]
             },
             {
-              "package-name": "tasty",
-              "version-range": ">=0.10 && <1.5",
+              "package-name": "hspec",
+              "version-range": "-any",
               "library": [
                 {}
               ]
             },
             {
-              "package-name": "tasty-quickcheck",
-              "version-range": ">=0.8 && <0.11",
+              "package-name": "hspec-tmp-proc",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "text",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "tmp-proc",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "tmp-proc-redis",
+              "version-range": "-any",
               "library": [
                 {}
               ]
@@ -324,29 +392,50 @@
           ]
         },
         {
-          "package-name": "postgresql-simple",
+          "package-name": "bytestring",
           "version-range": "-any",
           "library": [
             {}
           ]
         },
         {
-          "package-name": "postgresql-simple-url",
+          "package-name": "hedis",
           "version-range": "-any",
           "library": [
             {}
           ]
         },
         {
-          "package-name": "tasty",
-          "version-range": ">=0.10 && <1.5",
+          "package-name": "hspec",
+          "version-range": "-any",
           "library": [
             {}
           ]
         },
         {
-          "package-name": "tasty-quickcheck",
-          "version-range": ">=0.8 && <0.11",
+          "package-name": "hspec-tmp-proc",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "text",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "tmp-proc",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "tmp-proc-redis",
+          "version-range": "-any",
           "library": [
             {}
           ]

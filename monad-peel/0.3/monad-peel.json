@@ -4,53 +4,59 @@
       "Right": ">=1.10"
     },
     "package": {
-      "name": "postgresql-simple-url",
+      "name": "monad-peel",
       "version": [
         0,
-        2,
-        1,
-        0
+        3
       ]
     },
     "license": {
-      "Right": "MIT"
+      "Right": "BSD3"
     },
     "license-files": [
       "LICENSE"
     ],
-    "copyright": "Copyright © 2014-2018 Futurice OY, Oleg Grenrus",
-    "maintainer": "Oleg Grenrus <oleg.grenrus@iki.fi>",
-    "author": "Oleg Grenrus",
-    "stability": "experimental",
+    "copyright": "(c) 2010 Anders Kaseorg, 2015 Sergey Alirzaev",
+    "maintainer": "Sergey Alirzaev <zl29ah@gmail.com>",
+    "author": "Anders Kaseorg, Sergey Alirzaev",
+    "stability": "",
     "tested-with": [
       {
         "compiler": "GHC",
-        "versionRange": "==7.6.3 || ==7.8.4 || ==7.10.3 || ==8.0.2 || ==8.2.2 || ==8.4.4 || ==8.6.5 || ==8.8.4 || ==8.10.7 || ==9.0.2 || ==9.2.8 || ==9.4.6 || ==9.6.2"
+        "versionRange": "==8.0.2"
+      },
+      {
+        "compiler": "GHC",
+        "versionRange": "==8.4.3"
       }
     ],
-    "homepage": "https://github.com/futurice/postgresql-simple-url",
+    "homepage": "http://andersk.mit.edu/haskell/monad-peel/",
     "pkg-url": "",
     "bug-reports": "",
     "source-repos": [
       {
         "kind": {},
         "type": "Git",
-        "location": "https://github.com/futurice/postgresql-simple-url",
+        "location": "https://github.com/l29ah/monad-peel.git",
         "module": null,
         "branch": null,
         "tag": null,
         "subdir": null
+      },
+      {
+        "kind": {},
+        "type": "Git",
+        "location": "https://github.com/l29ah/monad-peel.git",
+        "module": null,
+        "branch": null,
+        "tag": "0.3",
+        "subdir": null
       }
     ],
-    "synopsis": "Parse postgres:// url into ConnectInfo",
-    "description": "The 'Database.PostgreSQL.Simple.URL' module in this package exports\ntwo helper functions 'parseDatabaseUrl' and 'urlToConnectInfo' to\nconstruct 'ConnectInfo' from URI (or string).\n\n@\n>>> parseDatabaseUrl \"postgres://foo:bar@example.com:2345/database\"\nJust (ConnectInfo \"example.com\" 2345 \"foo\" \"bar\" \"database\")\n@",
-    "category": "Database",
-    "custom-fields": [
-      [
-        "x-revision",
-        "8"
-      ]
-    ],
+    "synopsis": "Lift control operations like exception catching through monad transformers",
+    "description": "This package defines @MonadPeelIO@, a subset of @MonadIO@ into which\ngeneric control operations such as @catch@ can be lifted from @IO@.\nInstances are based on monad transformers in @MonadTransPeel@, which\nincludes all standard monad transformers in the @transformers@\nlibrary except @ContT@.  For convenience, it provides a wrapped\nversion of Control.Exception with types generalized from @IO@ to all\nmonads in @MonadPeelIO@.",
+    "category": "Control",
+    "custom-fields": [],
     "build-type-raw": "Simple",
     "custom-setup": null,
     "library": null,
@@ -61,10 +67,7 @@
     "benchmarks": [],
     "data-files": [],
     "data-dir": ".",
-    "extra-source-files": [
-      "README.md",
-      "CHANGELOG.md"
-    ],
+    "extra-source-files": [],
     "extra-tmp-files": [],
     "extra-doc-files": []
   },
@@ -73,10 +76,21 @@
       "name": {},
       "exposed-modules": [
         [
-          "Database",
-          "PostgreSQL",
-          "Simple",
-          "URL"
+          "Control",
+          "Monad",
+          "Trans",
+          "Peel"
+        ],
+        [
+          "Control",
+          "Monad",
+          "IO",
+          "Peel"
+        ],
+        [
+          "Control",
+          "Exception",
+          "Peel"
         ]
       ],
       "re-exported-modules": [],
@@ -101,9 +115,7 @@
         "cSources": [],
         "cxxSources": [],
         "jsSources": [],
-        "hsSourceDirs": [
-          "src"
-        ],
+        "hsSourceDirs": [],
         "otherModules": [],
         "virtualModules": [],
         "autogenModules": [],
@@ -123,9 +135,7 @@
         "autogenIncludes": [],
         "installIncludes": [],
         "options": [
-          [
-            "-Wall"
-          ],
+          [],
           []
         ],
         "profOptions": [
@@ -144,28 +154,21 @@
         "targetBuildDepends": [
           {
             "package-name": "base",
-            "version-range": ">=4.6 && <4.19",
+            "version-range": ">=3 && <5",
             "library": [
               {}
             ]
           },
           {
-            "package-name": "network-uri",
-            "version-range": ">=2.6 && <2.7",
+            "package-name": "extensible-exceptions",
+            "version-range": "-any",
             "library": [
               {}
             ]
           },
           {
-            "package-name": "postgresql-simple",
-            "version-range": ">=0.4 && <0.8",
-            "library": [
-              {}
-            ]
-          },
-          {
-            "package-name": "split",
-            "version-range": ">=0.2 && <0.3",
+            "package-name": "transformers",
+            "version-range": ">=0.2 && <0.7",
             "library": [
               {}
             ]
@@ -177,28 +180,21 @@
     "condTreeConstraints": [
       {
         "package-name": "base",
-        "version-range": ">=4.6 && <4.19",
+        "version-range": ">=3 && <5",
         "library": [
           {}
         ]
       },
       {
-        "package-name": "network-uri",
-        "version-range": ">=2.6 && <2.7",
+        "package-name": "extensible-exceptions",
+        "version-range": "-any",
         "library": [
           {}
         ]
       },
       {
-        "package-name": "postgresql-simple",
-        "version-range": ">=0.4 && <0.8",
-        "library": [
-          {}
-        ]
-      },
-      {
-        "package-name": "split",
-        "version-range": ">=0.2 && <0.3",
+        "package-name": "transformers",
+        "version-range": ">=0.2 && <0.7",
         "library": [
           {}
         ]
@@ -215,7 +211,7 @@
             1,
             0
           ],
-          "filepath": "Tests.hs"
+          "filepath": "test.hs"
         },
         "build-info": {
           "buildable": true,
@@ -235,9 +231,7 @@
           "cSources": [],
           "cxxSources": [],
           "jsSources": [],
-          "hsSourceDirs": [
-            "tests"
-          ],
+          "hsSourceDirs": [],
           "otherModules": [],
           "virtualModules": [],
           "autogenModules": [],
@@ -278,35 +272,42 @@
           "targetBuildDepends": [
             {
               "package-name": "base",
+              "version-range": ">=3 && <5",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "HUnit",
               "version-range": "-any",
               "library": [
                 {}
               ]
             },
             {
-              "package-name": "postgresql-simple",
+              "package-name": "test-framework",
               "version-range": "-any",
               "library": [
                 {}
               ]
             },
             {
-              "package-name": "postgresql-simple-url",
+              "package-name": "test-framework-hunit",
               "version-range": "-any",
               "library": [
                 {}
               ]
             },
             {
-              "package-name": "tasty",
-              "version-range": ">=0.10 && <1.5",
+              "package-name": "transformers",
+              "version-range": ">=0.2 && <0.6",
               "library": [
                 {}
               ]
             },
             {
-              "package-name": "tasty-quickcheck",
-              "version-range": ">=0.8 && <0.11",
+              "package-name": "extensible-exceptions",
+              "version-range": "-any",
               "library": [
                 {}
               ]
@@ -318,35 +319,42 @@
       "condTreeConstraints": [
         {
           "package-name": "base",
+          "version-range": ">=3 && <5",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "HUnit",
           "version-range": "-any",
           "library": [
             {}
           ]
         },
         {
-          "package-name": "postgresql-simple",
+          "package-name": "test-framework",
           "version-range": "-any",
           "library": [
             {}
           ]
         },
         {
-          "package-name": "postgresql-simple-url",
+          "package-name": "test-framework-hunit",
           "version-range": "-any",
           "library": [
             {}
           ]
         },
         {
-          "package-name": "tasty",
-          "version-range": ">=0.10 && <1.5",
+          "package-name": "transformers",
+          "version-range": ">=0.2 && <0.6",
           "library": [
             {}
           ]
         },
         {
-          "package-name": "tasty-quickcheck",
-          "version-range": ">=0.8 && <0.11",
+          "package-name": "extensible-exceptions",
+          "version-range": "-any",
           "library": [
             {}
           ]
