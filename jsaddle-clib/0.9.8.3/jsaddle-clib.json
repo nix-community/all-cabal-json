@@ -4,60 +4,43 @@
       "Right": ">=1.10"
     },
     "package": {
-      "name": "network-transport",
+      "name": "jsaddle-clib",
       "version": [
         0,
-        5,
-        6
+        9,
+        8,
+        3
       ]
     },
     "license": {
-      "Right": "BSD3"
+      "Right": "MIT"
     },
     "license-files": [
       "LICENSE"
     ],
-    "copyright": "Well-Typed LLP",
-    "maintainer": "Facundo Domínguez <facundo.dominguez@tweag.io>",
-    "author": "Duncan Coutts, Nicolas Wu, Edsko de Vries",
-    "stability": "experimental",
-    "tested-with": [
-      {
-        "compiler": "GHC",
-        "versionRange": "==7.6.3"
-      },
-      {
-        "compiler": "GHC",
-        "versionRange": "==7.8.4"
-      },
-      {
-        "compiler": "GHC",
-        "versionRange": "==7.10.3"
-      }
-    ],
-    "homepage": "http://haskell-distributed.github.com",
+    "copyright": "",
+    "maintainer": "Hamish Mackenzie <Hamish.K.Mackenzie@googlemail.com>",
+    "author": "Hamish Mackenzie",
+    "stability": "",
+    "tested-with": [],
+    "homepage": "",
     "pkg-url": "",
-    "bug-reports": "https://github.com/haskell-distributed/network-transport/issues",
+    "bug-reports": "",
     "source-repos": [
       {
         "kind": {},
         "type": "Git",
-        "location": "https://github.com/haskell-distributed/network-transport",
+        "location": "https://github.com/ghcjs/jsaddle",
         "module": null,
         "branch": null,
         "tag": null,
         "subdir": null
       }
     ],
-    "synopsis": "Network abstraction layer",
-    "description": "\"Network.Transport\" is a Network Abstraction Layer which provides\nthe following high-level concepts:\n\n* Nodes in the network are represented by 'EndPoint's. These are\nheavyweight stateful objects.\n\n* Each 'EndPoint' has an 'EndPointAddress'.\n\n* Connections can be established from one 'EndPoint' to another\nusing the 'EndPointAddress' of the remote end.\n\n* The 'EndPointAddress' can be serialised and sent over the\nnetwork, whereas 'EndPoint's and connections cannot.\n\n* Connections between 'EndPoint's are unidirectional and lightweight.\n\n* Outgoing messages are sent via a 'Connection' object that\nrepresents the sending end of the connection.\n\n* Incoming messages for /all/ of the incoming connections on\nan 'EndPoint' are collected via a shared receive queue.\n\n* In addition to incoming messages, 'EndPoint's are notified of\nother 'Event's such as new connections or broken connections.\n\nThis design was heavily influenced by the design of the Common\nCommunication Interface\n(<http://www.olcf.ornl.gov/center-projects/common-communication-interface>).\nImportant design goals are:\n\n* Connections should be lightweight: it should be no problem to\ncreate thousands of connections between endpoints.\n\n* Error handling is explicit: every function declares as part of\nits type which errors it can return (no exceptions are thrown)\n\n* Error handling is \"abstract\": errors that originate from\nimplementation specific problems (such as \"no more sockets\" in\nthe TCP implementation) get mapped to generic errors\n(\"insufficient resources\") at the Transport level.\n\nThis package provides the generic interface only; you will\nprobably also want to install at least one transport\nimplementation (network-transport-*).",
-    "category": "Network",
-    "custom-fields": [
-      [
-        "x-revision",
-        "1"
-      ]
-    ],
+    "synopsis": "Interface for JavaScript that works with GHCJS and GHC",
+    "description": "This package provides an EDSL for calling JavaScript that\ncan be used both from GHCJS and GHC.",
+    "category": "Web, Javascript",
+    "custom-fields": [],
     "build-type-raw": "Simple",
     "custom-setup": null,
     "library": null,
@@ -68,9 +51,7 @@
     "benchmarks": [],
     "data-files": [],
     "data-dir": ".",
-    "extra-source-files": [
-      "ChangeLog"
-    ],
+    "extra-source-files": [],
     "extra-tmp-files": [],
     "extra-doc-files": []
   },
@@ -79,17 +60,16 @@
       "name": {},
       "exposed-modules": [
         [
-          "Network",
-          "Transport"
+          "Language",
+          "Javascript",
+          "JSaddle",
+          "CLib"
         ],
         [
-          "Network",
-          "Transport",
-          "Util"
-        ],
-        [
-          "Network",
-          "Transport",
+          "Language",
+          "Javascript",
+          "JSaddle",
+          "CLib",
           "Internal"
         ]
       ],
@@ -123,28 +103,8 @@
         "autogenModules": [],
         "defaultLanguage": "Haskell2010",
         "otherLanguages": [],
-        "defaultExtensions": [
-          {
-            "enable-extension": "RankNTypes"
-          },
-          {
-            "enable-extension": "ScopedTypeVariables"
-          },
-          {
-            "enable-extension": "DeriveDataTypeable"
-          },
-          {
-            "enable-extension": "GeneralizedNewtypeDeriving"
-          },
-          {
-            "enable-extension": "CPP"
-          }
-        ],
-        "otherExtensions": [
-          {
-            "enable-extension": "ForeignFunctionInterface"
-          }
-        ],
+        "defaultExtensions": [],
+        "otherExtensions": [],
         "oldExtensions": [],
         "extraLibs": [],
         "extraGHCiLibs": [],
@@ -152,14 +112,20 @@
         "extraLibFlavours": [],
         "extraDynLibFlavours": [],
         "extraLibDirs": [],
-        "includeDirs": [],
-        "includes": [],
+        "includeDirs": [
+          "cbits/include"
+        ],
+        "includes": [
+          "jsaddle.h"
+        ],
         "autogenIncludes": [],
-        "installIncludes": [],
+        "installIncludes": [
+          "jsaddle.h"
+        ],
         "options": [
           [
-            "-Wall",
-            "-fno-warn-unused-do-bind"
+            "-ferror-spans",
+            "-Wall"
           ],
           []
         ],
@@ -178,43 +144,50 @@
         "customFieldsBI": [],
         "targetBuildDepends": [
           {
-            "package-name": "base",
-            "version-range": ">=4.6 && <5",
+            "package-name": "aeson",
+            "version-range": ">=0.8.0.2 && <2.3",
             "library": [
               {}
             ]
           },
           {
-            "package-name": "binary",
-            "version-range": ">=0.5 && <0.9",
+            "package-name": "base",
+            "version-range": "<5",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "base-compat",
+            "version-range": ">=0.9.0 && <0.14",
             "library": [
               {}
             ]
           },
           {
             "package-name": "bytestring",
-            "version-range": ">=0.9 && <0.13",
+            "version-range": ">=0.10.6.0 && <0.13",
             "library": [
               {}
             ]
           },
           {
-            "package-name": "hashable",
-            "version-range": ">=1.2.0.5 && <1.5",
+            "package-name": "jsaddle",
+            "version-range": ">=0.9.0.0 && <0.10",
             "library": [
               {}
             ]
           },
           {
-            "package-name": "transformers",
-            "version-range": ">=0.2 && <0.7",
+            "package-name": "data-default",
+            "version-range": "-any",
             "library": [
               {}
             ]
           },
           {
-            "package-name": "deepseq",
-            "version-range": ">=1.0 && <1.6",
+            "package-name": "text",
+            "version-range": "-any",
             "library": [
               {}
             ]
@@ -225,43 +198,50 @@
     },
     "condTreeConstraints": [
       {
-        "package-name": "base",
-        "version-range": ">=4.6 && <5",
+        "package-name": "aeson",
+        "version-range": ">=0.8.0.2 && <2.3",
         "library": [
           {}
         ]
       },
       {
-        "package-name": "binary",
-        "version-range": ">=0.5 && <0.9",
+        "package-name": "base",
+        "version-range": "<5",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "base-compat",
+        "version-range": ">=0.9.0 && <0.14",
         "library": [
           {}
         ]
       },
       {
         "package-name": "bytestring",
-        "version-range": ">=0.9 && <0.13",
+        "version-range": ">=0.10.6.0 && <0.13",
         "library": [
           {}
         ]
       },
       {
-        "package-name": "hashable",
-        "version-range": ">=1.2.0.5 && <1.5",
+        "package-name": "jsaddle",
+        "version-range": ">=0.9.0.0 && <0.10",
         "library": [
           {}
         ]
       },
       {
-        "package-name": "transformers",
-        "version-range": ">=0.2 && <0.7",
+        "package-name": "data-default",
+        "version-range": "-any",
         "library": [
           {}
         ]
       },
       {
-        "package-name": "deepseq",
-        "version-range": ">=1.0 && <1.6",
+        "package-name": "text",
+        "version-range": "-any",
         "library": [
           {}
         ]
@@ -271,8 +251,8 @@
       {
         "condBranchCondition": {
           "variable": {
-            "compiler": "GHC",
-            "version": "<7.6"
+            "compiler": "GHCJS",
+            "version": "-any"
           }
         },
         "condBranchIfTrue": {
@@ -301,7 +281,9 @@
               "cSources": [],
               "cxxSources": [],
               "jsSources": [],
-              "hsSourceDirs": [],
+              "hsSourceDirs": [
+                "src-ghcjs"
+              ],
               "otherModules": [],
               "virtualModules": [],
               "autogenModules": [],
@@ -337,37 +319,14 @@
                 []
               ],
               "customFieldsBI": [],
-              "targetBuildDepends": [
-                {
-                  "package-name": "ghc-prim",
-                  "version-range": ">=0.2 && <0.4",
-                  "library": [
-                    {}
-                  ]
-                }
-              ],
+              "targetBuildDepends": [],
               "mixins": []
             }
           },
-          "condTreeConstraints": [
-            {
-              "package-name": "ghc-prim",
-              "version-range": ">=0.2 && <0.4",
-              "library": [
-                {}
-              ]
-            }
-          ],
+          "condTreeConstraints": [],
           "condTreeComponents": []
-        }
-      },
-      {
-        "condBranchCondition": {
-          "variable": {
-            "os": "Windows"
-          }
         },
-        "condBranchIfTrue": {
+        "condBranchIfFalse": {
           "condTreeData": {
             "name": {},
             "exposed-modules": [],
@@ -393,7 +352,9 @@
               "cSources": [],
               "cxxSources": [],
               "jsSources": [],
-              "hsSourceDirs": [],
+              "hsSourceDirs": [
+                "src-ghc"
+              ],
               "otherModules": [],
               "virtualModules": [],
               "autogenModules": [],
@@ -402,9 +363,7 @@
               "defaultExtensions": [],
               "otherExtensions": [],
               "oldExtensions": [],
-              "extraLibs": [
-                "ws2_32"
-              ],
+              "extraLibs": [],
               "extraGHCiLibs": [],
               "extraBundledLibs": [],
               "extraLibFlavours": [],
