@@ -2,61 +2,49 @@
   "description": {
     "spec-version": {
       "Left": [
-        2,
-        4
+        1,
+        12
       ]
     },
     "package": {
-      "name": "yasi",
+      "name": "statsd-rupp",
       "version": [
         0,
-        2,
+        4,
         0,
-        1
+        3
       ]
     },
     "license": {
-      "Left": {
-        "license-expression": {
-          "expression": {
-            "id": "CC0_1_0"
-          },
-          "exception-id": null
-        }
-      }
+      "Right": "BSD3"
     },
     "license-files": [
       "LICENSE"
     ],
-    "copyright": "",
-    "maintainer": "amesgen@amesgen.de",
-    "author": "amesgen",
+    "copyright": "2023 Jean-Pierre Rupp",
+    "maintainer": "jprupp@protonmail.ch",
+    "author": "Jean-Pieerre Rupp",
     "stability": "",
     "tested-with": [],
-    "homepage": "https://github.com/amesgen/yasi",
+    "homepage": "https://github.com/jprupp/statsd-rupp#readme",
     "pkg-url": "",
-    "bug-reports": "https://github.com/amesgen/yasi/issues",
+    "bug-reports": "https://github.com/jprupp/statsd-rupp/issues",
     "source-repos": [
       {
         "kind": {},
         "type": "Git",
-        "location": "https://github.com/amesgen/yasi",
+        "location": "https://github.com/jprupp/statsd-rupp",
         "module": null,
         "branch": null,
         "tag": null,
         "subdir": null
       }
     ],
-    "synopsis": "Yet another string interpolator",
-    "description": "Yet another string interpolator,\nwith a different set of tradeoffs",
-    "category": "String, Text, QuasiQuotes",
-    "custom-fields": [
-      [
-        "x-revision",
-        "4"
-      ]
-    ],
-    "build-type-raw": null,
+    "synopsis": "Simple StatsD Client",
+    "description": "Please see the README on GitHub at <https://github.com/jprupp/statsd-rupp#readme>",
+    "category": "System",
+    "custom-fields": [],
+    "build-type-raw": "Simple",
     "custom-setup": null,
     "library": null,
     "sublibraries": [],
@@ -78,15 +66,15 @@
       "name": {},
       "exposed-modules": [
         [
-          "Yasi"
+          "System",
+          "Metrics",
+          "StatsD"
         ],
         [
-          "Yasi",
+          "System",
+          "Metrics",
+          "StatsD",
           "Internal"
-        ],
-        [
-          "Yasi",
-          "Util"
         ]
       ],
       "re-exported-modules": [],
@@ -114,49 +102,16 @@
         "hsSourceDirs": [
           "src"
         ],
-        "otherModules": [],
+        "otherModules": [
+          [
+            "Paths_statsd_rupp"
+          ]
+        ],
         "virtualModules": [],
         "autogenModules": [],
         "defaultLanguage": "Haskell2010",
         "otherLanguages": [],
-        "defaultExtensions": [
-          {
-            "enable-extension": "BlockArguments"
-          },
-          {
-            "enable-extension": "DeriveGeneric"
-          },
-          {
-            "enable-extension": "FlexibleContexts"
-          },
-          {
-            "enable-extension": "FlexibleInstances"
-          },
-          {
-            "enable-extension": "LambdaCase"
-          },
-          {
-            "enable-extension": "MultiParamTypeClasses"
-          },
-          {
-            "enable-extension": "OverloadedStrings"
-          },
-          {
-            "enable-extension": "QuasiQuotes"
-          },
-          {
-            "enable-extension": "RecordWildCards"
-          },
-          {
-            "enable-extension": "ScopedTypeVariables"
-          },
-          {
-            "enable-extension": "TemplateHaskell"
-          },
-          {
-            "enable-extension": "TupleSections"
-          }
-        ],
+        "defaultExtensions": [],
         "otherExtensions": [],
         "oldExtensions": [],
         "extraLibs": [],
@@ -172,12 +127,14 @@
         "options": [
           [
             "-Wall",
+            "-Wcompat",
+            "-Widentities",
             "-Wincomplete-record-updates",
             "-Wincomplete-uni-patterns",
-            "-Wredundant-constraints",
-            "-fno-warn-name-shadowing",
-            "-Wunused-packages",
-            "-Wmissing-export-lists"
+            "-Wmissing-export-lists",
+            "-Wmissing-home-modules",
+            "-Wpartial-fields",
+            "-Wredundant-constraints"
           ],
           []
         ],
@@ -197,35 +154,42 @@
         "targetBuildDepends": [
           {
             "package-name": "base",
-            "version-range": ">=4.14 && <5",
+            "version-range": ">=4.7 && <5",
             "library": [
               {}
             ]
           },
           {
-            "package-name": "template-haskell",
-            "version-range": ">=2.16 && <2.21",
+            "package-name": "bytestring",
+            "version-range": ">=0.11.5.1 && <2",
             "library": [
               {}
             ]
           },
           {
-            "package-name": "text",
-            "version-range": ">=1.2 && <2.2",
+            "package-name": "network",
+            "version-range": ">=3.1.4.0 && <4",
             "library": [
               {}
             ]
           },
           {
-            "package-name": "text-display",
-            "version-range": "^>=0.0.2",
+            "package-name": "unliftio",
+            "version-range": ">=0.2.25 && <2",
             "library": [
               {}
             ]
           },
           {
-            "package-name": "ghc-hs-meta",
-            "version-range": "^>=0.1",
+            "package-name": "unordered-containers",
+            "version-range": ">=0.2.19.1 && <2",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "vector",
+            "version-range": ">=0.13.0 && <2",
             "library": [
               {}
             ]
@@ -237,35 +201,42 @@
     "condTreeConstraints": [
       {
         "package-name": "base",
-        "version-range": ">=4.14 && <5",
+        "version-range": ">=4.7 && <5",
         "library": [
           {}
         ]
       },
       {
-        "package-name": "template-haskell",
-        "version-range": ">=2.16 && <2.21",
+        "package-name": "bytestring",
+        "version-range": ">=0.11.5.1 && <2",
         "library": [
           {}
         ]
       },
       {
-        "package-name": "text",
-        "version-range": ">=1.2 && <2.2",
+        "package-name": "network",
+        "version-range": ">=3.1.4.0 && <4",
         "library": [
           {}
         ]
       },
       {
-        "package-name": "text-display",
-        "version-range": "^>=0.0.2",
+        "package-name": "unliftio",
+        "version-range": ">=0.2.25 && <2",
         "library": [
           {}
         ]
       },
       {
-        "package-name": "ghc-hs-meta",
-        "version-range": "^>=0.1",
+        "package-name": "unordered-containers",
+        "version-range": ">=0.2.19.1 && <2",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "vector",
+        "version-range": ">=0.13.0 && <2",
         "library": [
           {}
         ]
@@ -274,7 +245,7 @@
     "condTreeComponents": []
   },
   "test-suites": {
-    "tasty": {
+    "statsd-rupp-test": {
       "condTreeData": {
         "name": "",
         "interface": {
@@ -282,18 +253,12 @@
             1,
             0
           ],
-          "filepath": "Driver.hs"
+          "filepath": "Spec.hs"
         },
         "build-info": {
           "buildable": true,
           "buildTools": [],
-          "buildToolDepends": [
-            {
-              "package-name": "tasty-discover",
-              "executable-component-name": "tasty-discover",
-              "version-range": "^>=4.2"
-            }
-          ],
+          "buildToolDepends": [],
           "cppOptions": [],
           "asmOptions": [],
           "cmmOptions": [],
@@ -313,57 +278,14 @@
           ],
           "otherModules": [
             [
-              "Segments"
-            ],
-            [
-              "Interpolations"
-            ],
-            [
-              "Util"
+              "Paths_statsd_rupp"
             ]
           ],
           "virtualModules": [],
           "autogenModules": [],
           "defaultLanguage": "Haskell2010",
           "otherLanguages": [],
-          "defaultExtensions": [
-            {
-              "enable-extension": "BlockArguments"
-            },
-            {
-              "enable-extension": "DeriveGeneric"
-            },
-            {
-              "enable-extension": "FlexibleContexts"
-            },
-            {
-              "enable-extension": "FlexibleInstances"
-            },
-            {
-              "enable-extension": "LambdaCase"
-            },
-            {
-              "enable-extension": "MultiParamTypeClasses"
-            },
-            {
-              "enable-extension": "OverloadedStrings"
-            },
-            {
-              "enable-extension": "QuasiQuotes"
-            },
-            {
-              "enable-extension": "RecordWildCards"
-            },
-            {
-              "enable-extension": "ScopedTypeVariables"
-            },
-            {
-              "enable-extension": "TemplateHaskell"
-            },
-            {
-              "enable-extension": "TupleSections"
-            }
-          ],
+          "defaultExtensions": [],
           "otherExtensions": [],
           "oldExtensions": [],
           "extraLibs": [],
@@ -379,11 +301,14 @@
           "options": [
             [
               "-Wall",
+              "-Wcompat",
+              "-Widentities",
               "-Wincomplete-record-updates",
               "-Wincomplete-uni-patterns",
+              "-Wmissing-export-lists",
+              "-Wmissing-home-modules",
+              "-Wpartial-fields",
               "-Wredundant-constraints",
-              "-fno-warn-name-shadowing",
-              "-Wunused-packages",
               "-threaded",
               "-rtsopts",
               "-with-rtsopts=-N"
@@ -405,57 +330,64 @@
           "customFieldsBI": [],
           "targetBuildDepends": [
             {
+              "package-name": "QuickCheck",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
               "package-name": "base",
+              "version-range": ">=4.7 && <5",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "bytestring",
+              "version-range": ">=0.11.5.1 && <2",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "hspec",
               "version-range": "-any",
               "library": [
                 {}
               ]
             },
             {
-              "package-name": "yasi",
+              "package-name": "network",
+              "version-range": ">=3.1.4.0 && <4",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "statsd-rupp",
               "version-range": "-any",
               "library": [
                 {}
               ]
             },
             {
-              "package-name": "text",
-              "version-range": "-any",
+              "package-name": "unliftio",
+              "version-range": ">=0.2.25 && <2",
               "library": [
                 {}
               ]
             },
             {
-              "package-name": "text-display",
-              "version-range": "-any",
+              "package-name": "unordered-containers",
+              "version-range": ">=0.2.19.1 && <2",
               "library": [
                 {}
               ]
             },
             {
-              "package-name": "tasty",
-              "version-range": ">=1.3 && <1.6",
-              "library": [
-                {}
-              ]
-            },
-            {
-              "package-name": "tasty-hunit",
-              "version-range": "^>=0.10",
-              "library": [
-                {}
-              ]
-            },
-            {
-              "package-name": "tasty-hedgehog",
-              "version-range": ">=1.0 && <1.5",
-              "library": [
-                {}
-              ]
-            },
-            {
-              "package-name": "hedgehog",
-              "version-range": ">=1.0 && <1.5",
+              "package-name": "vector",
+              "version-range": ">=0.13.0 && <2",
               "library": [
                 {}
               ]
@@ -466,57 +398,64 @@
       },
       "condTreeConstraints": [
         {
+          "package-name": "QuickCheck",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
           "package-name": "base",
+          "version-range": ">=4.7 && <5",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "bytestring",
+          "version-range": ">=0.11.5.1 && <2",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "hspec",
           "version-range": "-any",
           "library": [
             {}
           ]
         },
         {
-          "package-name": "yasi",
+          "package-name": "network",
+          "version-range": ">=3.1.4.0 && <4",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "statsd-rupp",
           "version-range": "-any",
           "library": [
             {}
           ]
         },
         {
-          "package-name": "text",
-          "version-range": "-any",
+          "package-name": "unliftio",
+          "version-range": ">=0.2.25 && <2",
           "library": [
             {}
           ]
         },
         {
-          "package-name": "text-display",
-          "version-range": "-any",
+          "package-name": "unordered-containers",
+          "version-range": ">=0.2.19.1 && <2",
           "library": [
             {}
           ]
         },
         {
-          "package-name": "tasty",
-          "version-range": ">=1.3 && <1.6",
-          "library": [
-            {}
-          ]
-        },
-        {
-          "package-name": "tasty-hunit",
-          "version-range": "^>=0.10",
-          "library": [
-            {}
-          ]
-        },
-        {
-          "package-name": "tasty-hedgehog",
-          "version-range": ">=1.0 && <1.5",
-          "library": [
-            {}
-          ]
-        },
-        {
-          "package-name": "hedgehog",
-          "version-range": ">=1.0 && <1.5",
+          "package-name": "vector",
+          "version-range": ">=0.13.0 && <2",
           "library": [
             {}
           ]
