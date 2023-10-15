@@ -1,0 +1,759 @@
+{
+  "description": {
+    "spec-version": {
+      "Right": ">=1.10"
+    },
+    "package": {
+      "name": "aivika-gpss",
+      "version": [
+        0,
+        7,
+        1
+      ]
+    },
+    "license": {
+      "Right": "BSD3"
+    },
+    "license-files": [
+      "LICENSE"
+    ],
+    "copyright": "(c) 2017-2023. David Sorokin <davsor@mail.ru>",
+    "maintainer": "David Sorokin <davsor@mail.ru>",
+    "author": "David Sorokin",
+    "stability": "",
+    "tested-with": [
+      {
+        "compiler": "GHC",
+        "versionRange": "==8.0.1"
+      }
+    ],
+    "homepage": "https://gitflic.ru/project/dsorokin/aivika-gpss",
+    "pkg-url": "",
+    "bug-reports": "",
+    "source-repos": [
+      {
+        "kind": {},
+        "type": "Git",
+        "location": "https://gitflic.ru/project/dsorokin/aivika-gpss",
+        "module": null,
+        "branch": null,
+        "tag": null,
+        "subdir": null
+      }
+    ],
+    "synopsis": "GPSS-like DSL for Aivika",
+    "description": "This package allows defining simulation models in terms of a GPSS-like\ndomain specific language, which can be useful if you are going to\ntranslate your models from GPSS into Aivika [1, 2].\n\nNote that the GPSS-like domain specific language is not equivalent to\nthe original GPSS language, but it may return very similar results in\nsome cases, while it can also return quite different results in other cases.\n\nThe package implements the most of GPSS simulation blocks, but the main difference\nis as follows.\n\nLike GPSS, the package tries to treat the transact priorities properly within each block.\nHere it works in a very similar way even for such non-trivial blocks as PREEMPT, GATHER\nand ASSEMBLE. But unlike GPSS, the blocks behave independently from each other, where\nthe transact priorities are not used when deciding which of the blocks will be activated next.\nThe order of activating the blocks is unpredictable.\n\nThere is a layer of emulation. The package creates a new discontinuous process for each new transact.\nThen that process becomes fully responsible for processing the transact by the blocks. Therefore,\nthe speed of simulation is slower than it could be when implementing the same model but based on\nusing the standard Aivika facilities.\n\nThe rough estimation is that this particular package is slower in 2-3 times than the existent GPSS\nsimulators in case of sequential simulation. But the point is that you can combine GPSS with\ndiscontinuous processes, events and even agents within the same model. Moreover, you can use GPSS\nin parallel and distributed simulation models.\n\nFinally, you can use the following prepared example [3].\n\n\\[1] <http://hackage.haskell.org/package/aivika>\n\n\\[2] <http://hackage.haskell.org/package/aivika-transformers>\n\n\\[3] <https://github.com/dsorokin/aivika-gpss-test>\n",
+    "category": "Simulation",
+    "custom-fields": [],
+    "build-type-raw": "Simple",
+    "custom-setup": null,
+    "library": null,
+    "sublibraries": [],
+    "executables": [],
+    "foreign-libs": [],
+    "test-suites": [],
+    "benchmarks": [],
+    "data-files": [],
+    "data-dir": ".",
+    "extra-source-files": [
+      "examples/Example2A.hs",
+      "examples/Example2ATrans.hs",
+      "examples/Example2B.hs",
+      "examples/Example2BTrans.hs",
+      "examples/Example2C.hs",
+      "examples/Example2CTrans.hs",
+      "examples/Example2D.hs",
+      "examples/Example2DTrans.hs",
+      "examples/Example2E.hs",
+      "examples/Example2ETrans.hs",
+      "examples/Example7-26.hs",
+      "examples/Example7-26Distributed.hs",
+      "examples/Example7-26Trans.hs",
+      "examples/Example7-28.hs",
+      "examples/Example7-28Trans.hs",
+      "examples/Example7-31.hs",
+      "examples/Example7-31Trans.hs",
+      "examples/Example7-35.hs",
+      "examples/Example7-35Trans.hs",
+      "CHANGELOG.md"
+    ],
+    "extra-tmp-files": [],
+    "extra-doc-files": []
+  },
+  "library": {
+    "condTreeData": {
+      "name": {},
+      "exposed-modules": [
+        [
+          "Simulation",
+          "Aivika",
+          "GPSS"
+        ],
+        [
+          "Simulation",
+          "Aivika",
+          "GPSS",
+          "Block"
+        ],
+        [
+          "Simulation",
+          "Aivika",
+          "GPSS",
+          "Block",
+          "Advance"
+        ],
+        [
+          "Simulation",
+          "Aivika",
+          "GPSS",
+          "Block",
+          "Assemble"
+        ],
+        [
+          "Simulation",
+          "Aivika",
+          "GPSS",
+          "Block",
+          "Assign"
+        ],
+        [
+          "Simulation",
+          "Aivika",
+          "GPSS",
+          "Block",
+          "Depart"
+        ],
+        [
+          "Simulation",
+          "Aivika",
+          "GPSS",
+          "Block",
+          "Enter"
+        ],
+        [
+          "Simulation",
+          "Aivika",
+          "GPSS",
+          "Block",
+          "Gather"
+        ],
+        [
+          "Simulation",
+          "Aivika",
+          "GPSS",
+          "Block",
+          "Generate"
+        ],
+        [
+          "Simulation",
+          "Aivika",
+          "GPSS",
+          "Block",
+          "Leave"
+        ],
+        [
+          "Simulation",
+          "Aivika",
+          "GPSS",
+          "Block",
+          "Link"
+        ],
+        [
+          "Simulation",
+          "Aivika",
+          "GPSS",
+          "Block",
+          "Loop"
+        ],
+        [
+          "Simulation",
+          "Aivika",
+          "GPSS",
+          "Block",
+          "Match"
+        ],
+        [
+          "Simulation",
+          "Aivika",
+          "GPSS",
+          "Block",
+          "Preempt"
+        ],
+        [
+          "Simulation",
+          "Aivika",
+          "GPSS",
+          "Block",
+          "Priority"
+        ],
+        [
+          "Simulation",
+          "Aivika",
+          "GPSS",
+          "Block",
+          "Queue"
+        ],
+        [
+          "Simulation",
+          "Aivika",
+          "GPSS",
+          "Block",
+          "Release"
+        ],
+        [
+          "Simulation",
+          "Aivika",
+          "GPSS",
+          "Block",
+          "Return"
+        ],
+        [
+          "Simulation",
+          "Aivika",
+          "GPSS",
+          "Block",
+          "Seize"
+        ],
+        [
+          "Simulation",
+          "Aivika",
+          "GPSS",
+          "Block",
+          "Split"
+        ],
+        [
+          "Simulation",
+          "Aivika",
+          "GPSS",
+          "Block",
+          "Terminate"
+        ],
+        [
+          "Simulation",
+          "Aivika",
+          "GPSS",
+          "Block",
+          "Test"
+        ],
+        [
+          "Simulation",
+          "Aivika",
+          "GPSS",
+          "Block",
+          "Transfer"
+        ],
+        [
+          "Simulation",
+          "Aivika",
+          "GPSS",
+          "Block",
+          "Unlink"
+        ],
+        [
+          "Simulation",
+          "Aivika",
+          "GPSS",
+          "AssemblySet"
+        ],
+        [
+          "Simulation",
+          "Aivika",
+          "GPSS",
+          "Facility"
+        ],
+        [
+          "Simulation",
+          "Aivika",
+          "GPSS",
+          "MatchChain"
+        ],
+        [
+          "Simulation",
+          "Aivika",
+          "GPSS",
+          "Queue"
+        ],
+        [
+          "Simulation",
+          "Aivika",
+          "GPSS",
+          "Results"
+        ],
+        [
+          "Simulation",
+          "Aivika",
+          "GPSS",
+          "Results",
+          "Locale"
+        ],
+        [
+          "Simulation",
+          "Aivika",
+          "GPSS",
+          "Results",
+          "Transform"
+        ],
+        [
+          "Simulation",
+          "Aivika",
+          "GPSS",
+          "Storage"
+        ],
+        [
+          "Simulation",
+          "Aivika",
+          "GPSS",
+          "Transact"
+        ],
+        [
+          "Simulation",
+          "Aivika",
+          "GPSS",
+          "TransactQueueStrategy"
+        ],
+        [
+          "Simulation",
+          "Aivika",
+          "Trans",
+          "GPSS"
+        ],
+        [
+          "Simulation",
+          "Aivika",
+          "Trans",
+          "GPSS",
+          "Block"
+        ],
+        [
+          "Simulation",
+          "Aivika",
+          "Trans",
+          "GPSS",
+          "Block",
+          "Advance"
+        ],
+        [
+          "Simulation",
+          "Aivika",
+          "Trans",
+          "GPSS",
+          "Block",
+          "Assemble"
+        ],
+        [
+          "Simulation",
+          "Aivika",
+          "Trans",
+          "GPSS",
+          "Block",
+          "Assign"
+        ],
+        [
+          "Simulation",
+          "Aivika",
+          "Trans",
+          "GPSS",
+          "Block",
+          "Depart"
+        ],
+        [
+          "Simulation",
+          "Aivika",
+          "Trans",
+          "GPSS",
+          "Block",
+          "Enter"
+        ],
+        [
+          "Simulation",
+          "Aivika",
+          "Trans",
+          "GPSS",
+          "Block",
+          "Gather"
+        ],
+        [
+          "Simulation",
+          "Aivika",
+          "Trans",
+          "GPSS",
+          "Block",
+          "Generate"
+        ],
+        [
+          "Simulation",
+          "Aivika",
+          "Trans",
+          "GPSS",
+          "Block",
+          "Leave"
+        ],
+        [
+          "Simulation",
+          "Aivika",
+          "Trans",
+          "GPSS",
+          "Block",
+          "Link"
+        ],
+        [
+          "Simulation",
+          "Aivika",
+          "Trans",
+          "GPSS",
+          "Block",
+          "Loop"
+        ],
+        [
+          "Simulation",
+          "Aivika",
+          "Trans",
+          "GPSS",
+          "Block",
+          "Match"
+        ],
+        [
+          "Simulation",
+          "Aivika",
+          "Trans",
+          "GPSS",
+          "Block",
+          "Preempt"
+        ],
+        [
+          "Simulation",
+          "Aivika",
+          "Trans",
+          "GPSS",
+          "Block",
+          "Priority"
+        ],
+        [
+          "Simulation",
+          "Aivika",
+          "Trans",
+          "GPSS",
+          "Block",
+          "Queue"
+        ],
+        [
+          "Simulation",
+          "Aivika",
+          "Trans",
+          "GPSS",
+          "Block",
+          "Release"
+        ],
+        [
+          "Simulation",
+          "Aivika",
+          "Trans",
+          "GPSS",
+          "Block",
+          "Return"
+        ],
+        [
+          "Simulation",
+          "Aivika",
+          "Trans",
+          "GPSS",
+          "Block",
+          "Seize"
+        ],
+        [
+          "Simulation",
+          "Aivika",
+          "Trans",
+          "GPSS",
+          "Block",
+          "Split"
+        ],
+        [
+          "Simulation",
+          "Aivika",
+          "Trans",
+          "GPSS",
+          "Block",
+          "Terminate"
+        ],
+        [
+          "Simulation",
+          "Aivika",
+          "Trans",
+          "GPSS",
+          "Block",
+          "Test"
+        ],
+        [
+          "Simulation",
+          "Aivika",
+          "Trans",
+          "GPSS",
+          "Block",
+          "Transfer"
+        ],
+        [
+          "Simulation",
+          "Aivika",
+          "Trans",
+          "GPSS",
+          "Block",
+          "Unlink"
+        ],
+        [
+          "Simulation",
+          "Aivika",
+          "Trans",
+          "GPSS",
+          "AssemblySet"
+        ],
+        [
+          "Simulation",
+          "Aivika",
+          "Trans",
+          "GPSS",
+          "Facility"
+        ],
+        [
+          "Simulation",
+          "Aivika",
+          "Trans",
+          "GPSS",
+          "MatchChain"
+        ],
+        [
+          "Simulation",
+          "Aivika",
+          "Trans",
+          "GPSS",
+          "Queue"
+        ],
+        [
+          "Simulation",
+          "Aivika",
+          "Trans",
+          "GPSS",
+          "Results"
+        ],
+        [
+          "Simulation",
+          "Aivika",
+          "Trans",
+          "GPSS",
+          "Results",
+          "Locale"
+        ],
+        [
+          "Simulation",
+          "Aivika",
+          "Trans",
+          "GPSS",
+          "Results",
+          "Transform"
+        ],
+        [
+          "Simulation",
+          "Aivika",
+          "Trans",
+          "GPSS",
+          "Storage"
+        ],
+        [
+          "Simulation",
+          "Aivika",
+          "Trans",
+          "GPSS",
+          "Transact"
+        ],
+        [
+          "Simulation",
+          "Aivika",
+          "Trans",
+          "GPSS",
+          "TransactQueueStrategy"
+        ]
+      ],
+      "re-exported-modules": [],
+      "signatures": [],
+      "exposed": true,
+      "visibility": "LibraryVisibilityPublic",
+      "build-info": {
+        "buildable": true,
+        "buildTools": [],
+        "buildToolDepends": [],
+        "cppOptions": [],
+        "asmOptions": [],
+        "cmmOptions": [],
+        "ccOptions": [],
+        "cxxOptions": [],
+        "ldOptions": [],
+        "pkgconfigDepends": [],
+        "frameworks": [],
+        "extraFrameworkDirs": [],
+        "asmSources": [],
+        "cmmSources": [],
+        "cSources": [],
+        "cxxSources": [],
+        "jsSources": [],
+        "hsSourceDirs": [],
+        "otherModules": [],
+        "virtualModules": [],
+        "autogenModules": [],
+        "defaultLanguage": "Haskell2010",
+        "otherLanguages": [],
+        "defaultExtensions": [],
+        "otherExtensions": [
+          {
+            "enable-extension": "MultiParamTypeClasses"
+          },
+          {
+            "enable-extension": "TypeFamilies"
+          },
+          {
+            "enable-extension": "FlexibleInstances"
+          },
+          {
+            "enable-extension": "FlexibleContexts"
+          },
+          {
+            "enable-extension": "KindSignatures"
+          }
+        ],
+        "oldExtensions": [],
+        "extraLibs": [],
+        "extraGHCiLibs": [],
+        "extraBundledLibs": [],
+        "extraLibFlavours": [],
+        "extraDynLibFlavours": [],
+        "extraLibDirs": [],
+        "includeDirs": [],
+        "includes": [],
+        "autogenIncludes": [],
+        "installIncludes": [],
+        "options": [
+          [
+            "-O2"
+          ],
+          []
+        ],
+        "profOptions": [
+          [],
+          []
+        ],
+        "sharedOptions": [
+          [],
+          []
+        ],
+        "staticOptions": [
+          [],
+          []
+        ],
+        "customFieldsBI": [],
+        "targetBuildDepends": [
+          {
+            "package-name": "base",
+            "version-range": ">=4.2 && <6",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "mtl",
+            "version-range": ">=1.1.0.2",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "containers",
+            "version-range": ">=0.4.0.0",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "hashable",
+            "version-range": ">=1.2.0.0",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "unordered-containers",
+            "version-range": ">=0.1.0.0",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "aivika",
+            "version-range": ">=6.0.0",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "aivika-transformers",
+            "version-range": ">=6.0.0",
+            "library": [
+              {}
+            ]
+          }
+        ],
+        "mixins": []
+      }
+    },
+    "condTreeConstraints": [
+      {
+        "package-name": "base",
+        "version-range": ">=4.2 && <6",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "mtl",
+        "version-range": ">=1.1.0.2",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "containers",
+        "version-range": ">=0.4.0.0",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "hashable",
+        "version-range": ">=1.2.0.0",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "unordered-containers",
+        "version-range": ">=0.1.0.0",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "aivika",
+        "version-range": ">=6.0.0",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "aivika-transformers",
+        "version-range": ">=6.0.0",
+        "library": [
+          {}
+        ]
+      }
+    ],
+    "condTreeComponents": []
+  }
+}
