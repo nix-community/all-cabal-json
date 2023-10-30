@@ -1,47 +1,38 @@
 {
   "description": {
     "spec-version": {
-      "Right": ">=1.10"
+      "Left": [
+        3,
+        0
+      ]
     },
     "package": {
-      "name": "lucid",
+      "name": "demangler",
       "version": [
+        1,
         2,
-        11,
-        20230408
+        0,
+        0
       ]
     },
     "license": {
-      "Right": "BSD3"
+      "Left": {
+        "license-expression": {
+          "expression": {
+            "id": "BSD_3_Clause"
+          },
+          "exception-id": null
+        }
+      }
     },
     "license-files": [
       "LICENSE"
     ],
-    "copyright": "2014-2021 Chris Done",
-    "maintainer": "chrisdone@gmail.com",
-    "author": "Chris Done",
+    "copyright": "",
+    "maintainer": "kquick@galois.com",
+    "author": "Galois, Inc.",
     "stability": "",
     "tested-with": [
-      {
-        "compiler": "GHC",
-        "versionRange": "==7.10.3"
-      },
-      {
-        "compiler": "GHC",
-        "versionRange": "==8.0.2"
-      },
-      {
-        "compiler": "GHC",
-        "versionRange": "==8.2.2"
-      },
-      {
-        "compiler": "GHC",
-        "versionRange": "==8.4.4"
-      },
-      {
-        "compiler": "GHC",
-        "versionRange": "==8.6.5"
-      },
       {
         "compiler": "GHC",
         "versionRange": "==8.8.4"
@@ -52,44 +43,39 @@
       },
       {
         "compiler": "GHC",
-        "versionRange": "==9.0.1"
+        "versionRange": "==9.0.2"
       },
       {
         "compiler": "GHC",
-        "versionRange": "==9.2.1"
+        "versionRange": "==9.2.8"
       },
       {
         "compiler": "GHC",
-        "versionRange": "==9.4.1"
+        "versionRange": "==9.4.6"
       },
       {
         "compiler": "GHC",
-        "versionRange": "==9.8"
+        "versionRange": "==9.6.3"
       }
     ],
-    "homepage": "https://github.com/chrisdone/lucid",
+    "homepage": "",
     "pkg-url": "",
     "bug-reports": "",
     "source-repos": [
       {
         "kind": {},
         "type": "Git",
-        "location": "https://github.com/chrisdone/lucid.git",
+        "location": "https://github.com/GaloisInc/demangler",
         "module": null,
         "branch": null,
         "tag": null,
         "subdir": null
       }
     ],
-    "synopsis": "Clear to write, read and edit DSL for HTML",
-    "description": "Clear to write, read and edit DSL for HTML.\n\n* Names are consistent, and do not conflict with base or are keywords (all have suffix @_@)\n\n* Same combinator can be used for attributes and elements (e.g. 'style_')\n\n* For more, read <https://chrisdone.com/posts/lucid the blog post>\n\nSee the \"Lucid\" module for more documentation.",
-    "category": "Web",
-    "custom-fields": [
-      [
-        "x-revision",
-        "1"
-      ]
-    ],
+    "synopsis": "Demangler for C++ mangled names.",
+    "description": "Provides a demangler (and mangler) for C++ names, with an intermediate\nrepresentation that captures the nuances of each composite name to allow\nfor semantic utilization of different portions of a name.\n.\nAlso provides text sharing for efficient storage of a large number of\ndemangled names.\n.\nSee https://itanium-cxx-abi.github.io/cxx-abi/abi.html#mangling for more\ndetails on mangling",
+    "category": "Development",
+    "custom-fields": [],
     "build-type-raw": "Simple",
     "custom-setup": null,
     "library": null,
@@ -101,30 +87,29 @@
     "data-files": [],
     "data-dir": ".",
     "extra-source-files": [
-      "README.md",
-      "CHANGELOG.md"
+      "test/initial-test-cases.txt",
+      "test/full-test-cases.txt"
     ],
     "extra-tmp-files": [],
-    "extra-doc-files": []
+    "extra-doc-files": [
+      "CHANGELOG.md",
+      "README.org"
+    ]
   },
+  "package-flags": [
+    {
+      "name": "debug",
+      "description": "build with debug output and panics enabled",
+      "default": false,
+      "manual": true
+    }
+  ],
   "library": {
     "condTreeData": {
       "name": {},
       "exposed-modules": [
         [
-          "Lucid"
-        ],
-        [
-          "Lucid",
-          "Base"
-        ],
-        [
-          "Lucid",
-          "Html5"
-        ],
-        [
-          "Lucid",
-          "Bootstrap"
+          "Demangler"
         ]
       ],
       "re-exported-modules": [],
@@ -150,9 +135,30 @@
         "cxxSources": [],
         "jsSources": [],
         "hsSourceDirs": [
-          "src/"
+          "src"
         ],
-        "otherModules": [],
+        "otherModules": [
+          [
+            "Demangler",
+            "Context"
+          ],
+          [
+            "Demangler",
+            "Engine"
+          ],
+          [
+            "Demangler",
+            "PPrint"
+          ],
+          [
+            "Demangler",
+            "Structure"
+          ],
+          [
+            "Demangler",
+            "Substitution"
+          ]
+        ],
         "virtualModules": [],
         "autogenModules": [],
         "defaultLanguage": "Haskell2010",
@@ -173,7 +179,15 @@
         "options": [
           [
             "-Wall",
-            "-O2"
+            "-Wunbanged-strict-patterns",
+            "-Wcompat",
+            "-Wincomplete-uni-patterns",
+            "-Wsimplifiable-class-constraints",
+            "-Wpartial-fields",
+            "-O2",
+            "-funbox-strict-fields",
+            "-fhide-source-paths",
+            "-threaded"
           ],
           []
         ],
@@ -193,63 +207,42 @@
         "targetBuildDepends": [
           {
             "package-name": "base",
-            "version-range": ">=4.8 && <4.20",
-            "library": [
-              {}
-            ]
-          },
-          {
-            "package-name": "bytestring",
-            "version-range": ">=0.10.6.0",
+            "version-range": ">=4.10 && <5",
             "library": [
               {}
             ]
           },
           {
             "package-name": "containers",
-            "version-range": ">=0.5.6.2",
+            "version-range": "-any",
             "library": [
               {}
             ]
           },
           {
-            "package-name": "transformers",
-            "version-range": ">=0.4.2.0",
+            "package-name": "lens",
+            "version-range": ">=5.0 && <5.3",
             "library": [
               {}
             ]
           },
           {
-            "package-name": "mtl",
-            "version-range": ">=2.2",
+            "package-name": "sayable",
+            "version-range": ">=1.2.3.0 && <1.3",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "template-haskell",
+            "version-range": "-any",
             "library": [
               {}
             ]
           },
           {
             "package-name": "text",
-            "version-range": ">=1.2.0.2",
-            "library": [
-              {}
-            ]
-          },
-          {
-            "package-name": "blaze-builder",
-            "version-range": ">=0.4.0.0",
-            "library": [
-              {}
-            ]
-          },
-          {
-            "package-name": "hashable",
-            "version-range": ">=1.2.3.2",
-            "library": [
-              {}
-            ]
-          },
-          {
-            "package-name": "mmorph",
-            "version-range": ">=1.0.3",
+            "version-range": "-any",
             "library": [
               {}
             ]
@@ -261,63 +254,42 @@
     "condTreeConstraints": [
       {
         "package-name": "base",
-        "version-range": ">=4.8 && <4.20",
-        "library": [
-          {}
-        ]
-      },
-      {
-        "package-name": "bytestring",
-        "version-range": ">=0.10.6.0",
+        "version-range": ">=4.10 && <5",
         "library": [
           {}
         ]
       },
       {
         "package-name": "containers",
-        "version-range": ">=0.5.6.2",
+        "version-range": "-any",
         "library": [
           {}
         ]
       },
       {
-        "package-name": "transformers",
-        "version-range": ">=0.4.2.0",
+        "package-name": "lens",
+        "version-range": ">=5.0 && <5.3",
         "library": [
           {}
         ]
       },
       {
-        "package-name": "mtl",
-        "version-range": ">=2.2",
+        "package-name": "sayable",
+        "version-range": ">=1.2.3.0 && <1.3",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "template-haskell",
+        "version-range": "-any",
         "library": [
           {}
         ]
       },
       {
         "package-name": "text",
-        "version-range": ">=1.2.0.2",
-        "library": [
-          {}
-        ]
-      },
-      {
-        "package-name": "blaze-builder",
-        "version-range": ">=0.4.0.0",
-        "library": [
-          {}
-        ]
-      },
-      {
-        "package-name": "hashable",
-        "version-range": ">=1.2.3.2",
-        "library": [
-          {}
-        ]
-      },
-      {
-        "package-name": "mmorph",
-        "version-range": ">=1.0.3",
+        "version-range": "-any",
         "library": [
           {}
         ]
@@ -326,11 +298,8 @@
     "condTreeComponents": [
       {
         "condBranchCondition": {
-          "cond_not": {
-            "variable": {
-              "compiler": "GHC",
-              "version": ">=8.0"
-            }
+          "variable": {
+            "flag": "debug"
           }
         },
         "condBranchIfTrue": {
@@ -397,8 +366,8 @@
               "customFieldsBI": [],
               "targetBuildDepends": [
                 {
-                  "package-name": "semigroups",
-                  "version-range": ">=0.16.1",
+                  "package-name": "panic",
+                  "version-range": "-any",
                   "library": [
                     {}
                   ]
@@ -409,8 +378,8 @@
           },
           "condTreeConstraints": [
             {
-              "package-name": "semigroups",
-              "version-range": ">=0.16.1",
+              "package-name": "panic",
+              "version-range": "-any",
               "library": [
                 {}
               ]
@@ -421,8 +390,161 @@
       }
     ]
   },
+  "executables": {
+    "demangle": {
+      "condTreeData": {
+        "name": "demangle",
+        "module-path": "Main.hs",
+        "scope": "public",
+        "build-info": {
+          "buildable": true,
+          "buildTools": [],
+          "buildToolDepends": [],
+          "cppOptions": [],
+          "asmOptions": [],
+          "cmmOptions": [],
+          "ccOptions": [],
+          "cxxOptions": [],
+          "ldOptions": [],
+          "pkgconfigDepends": [],
+          "frameworks": [],
+          "extraFrameworkDirs": [],
+          "asmSources": [],
+          "cmmSources": [],
+          "cSources": [],
+          "cxxSources": [],
+          "jsSources": [],
+          "hsSourceDirs": [
+            "app"
+          ],
+          "otherModules": [],
+          "virtualModules": [],
+          "autogenModules": [],
+          "defaultLanguage": "Haskell2010",
+          "otherLanguages": [],
+          "defaultExtensions": [],
+          "otherExtensions": [],
+          "oldExtensions": [],
+          "extraLibs": [],
+          "extraGHCiLibs": [],
+          "extraBundledLibs": [],
+          "extraLibFlavours": [],
+          "extraDynLibFlavours": [],
+          "extraLibDirs": [],
+          "includeDirs": [],
+          "includes": [],
+          "autogenIncludes": [],
+          "installIncludes": [],
+          "options": [
+            [
+              "-Wall",
+              "-Wunbanged-strict-patterns",
+              "-Wcompat",
+              "-Wincomplete-uni-patterns",
+              "-Wsimplifiable-class-constraints",
+              "-Wpartial-fields",
+              "-O2",
+              "-funbox-strict-fields",
+              "-fhide-source-paths",
+              "-threaded"
+            ],
+            []
+          ],
+          "profOptions": [
+            [],
+            []
+          ],
+          "sharedOptions": [
+            [],
+            []
+          ],
+          "staticOptions": [
+            [],
+            []
+          ],
+          "customFieldsBI": [],
+          "targetBuildDepends": [
+            {
+              "package-name": "base",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "demangler",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "sayable",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "text",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "transformers",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            }
+          ],
+          "mixins": []
+        }
+      },
+      "condTreeConstraints": [
+        {
+          "package-name": "base",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "demangler",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "sayable",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "text",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "transformers",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        }
+      ],
+      "condTreeComponents": []
+    }
+  },
   "test-suites": {
-    "test": {
+    "demangler-test": {
       "condTreeData": {
         "name": "",
         "interface": {
@@ -430,7 +552,7 @@
             1,
             0
           ],
-          "filepath": "Main.hs"
+          "filepath": "Test.hs"
         },
         "build-info": {
           "buildable": true,
@@ -453,199 +575,6 @@
           "hsSourceDirs": [
             "test"
           ],
-          "otherModules": [
-            [
-              "Example1"
-            ]
-          ],
-          "virtualModules": [],
-          "autogenModules": [],
-          "defaultLanguage": "Haskell2010",
-          "otherLanguages": [],
-          "defaultExtensions": [],
-          "otherExtensions": [],
-          "oldExtensions": [],
-          "extraLibs": [],
-          "extraGHCiLibs": [],
-          "extraBundledLibs": [],
-          "extraLibFlavours": [],
-          "extraDynLibFlavours": [],
-          "extraLibDirs": [],
-          "includeDirs": [],
-          "includes": [],
-          "autogenIncludes": [],
-          "installIncludes": [],
-          "options": [
-            [],
-            []
-          ],
-          "profOptions": [
-            [],
-            []
-          ],
-          "sharedOptions": [
-            [],
-            []
-          ],
-          "staticOptions": [
-            [],
-            []
-          ],
-          "customFieldsBI": [],
-          "targetBuildDepends": [
-            {
-              "package-name": "base",
-              "version-range": "-any",
-              "library": [
-                {}
-              ]
-            },
-            {
-              "package-name": "lucid",
-              "version-range": "-any",
-              "library": [
-                {}
-              ]
-            },
-            {
-              "package-name": "HUnit",
-              "version-range": "-any",
-              "library": [
-                {}
-              ]
-            },
-            {
-              "package-name": "hspec",
-              "version-range": "-any",
-              "library": [
-                {}
-              ]
-            },
-            {
-              "package-name": "parsec",
-              "version-range": "-any",
-              "library": [
-                {}
-              ]
-            },
-            {
-              "package-name": "bifunctors",
-              "version-range": "-any",
-              "library": [
-                {}
-              ]
-            },
-            {
-              "package-name": "text",
-              "version-range": "-any",
-              "library": [
-                {}
-              ]
-            },
-            {
-              "package-name": "mtl",
-              "version-range": "-any",
-              "library": [
-                {}
-              ]
-            }
-          ],
-          "mixins": []
-        }
-      },
-      "condTreeConstraints": [
-        {
-          "package-name": "base",
-          "version-range": "-any",
-          "library": [
-            {}
-          ]
-        },
-        {
-          "package-name": "lucid",
-          "version-range": "-any",
-          "library": [
-            {}
-          ]
-        },
-        {
-          "package-name": "HUnit",
-          "version-range": "-any",
-          "library": [
-            {}
-          ]
-        },
-        {
-          "package-name": "hspec",
-          "version-range": "-any",
-          "library": [
-            {}
-          ]
-        },
-        {
-          "package-name": "parsec",
-          "version-range": "-any",
-          "library": [
-            {}
-          ]
-        },
-        {
-          "package-name": "bifunctors",
-          "version-range": "-any",
-          "library": [
-            {}
-          ]
-        },
-        {
-          "package-name": "text",
-          "version-range": "-any",
-          "library": [
-            {}
-          ]
-        },
-        {
-          "package-name": "mtl",
-          "version-range": "-any",
-          "library": [
-            {}
-          ]
-        }
-      ],
-      "condTreeComponents": []
-    }
-  },
-  "benchmarks": {
-    "bench-io": {
-      "condTreeData": {
-        "name": "",
-        "interface": {
-          "version": [
-            1,
-            0
-          ],
-          "filepath": "IO.hs"
-        },
-        "build-info": {
-          "buildable": true,
-          "buildTools": [],
-          "buildToolDepends": [],
-          "cppOptions": [],
-          "asmOptions": [],
-          "cmmOptions": [],
-          "ccOptions": [],
-          "cxxOptions": [],
-          "ldOptions": [],
-          "pkgconfigDepends": [],
-          "frameworks": [],
-          "extraFrameworkDirs": [],
-          "asmSources": [],
-          "cmmSources": [],
-          "cSources": [],
-          "cxxSources": [],
-          "jsSources": [],
-          "hsSourceDirs": [
-            "benchmarks"
-          ],
           "otherModules": [],
           "virtualModules": [],
           "autogenModules": [],
@@ -666,7 +595,16 @@
           "installIncludes": [],
           "options": [
             [
-              "-O2"
+              "-Wall",
+              "-Wunbanged-strict-patterns",
+              "-Wcompat",
+              "-Wincomplete-uni-patterns",
+              "-Wsimplifiable-class-constraints",
+              "-Wpartial-fields",
+              "-O2",
+              "-funbox-strict-fields",
+              "-fhide-source-paths",
+              "-threaded"
             ],
             []
           ],
@@ -692,7 +630,56 @@
               ]
             },
             {
-              "package-name": "criterion",
+              "package-name": "demangler",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "hspec",
+              "version-range": ">=2.9 && <2.12",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "prettyprinter",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "process",
+              "version-range": ">=1.6 && <1.7",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "sayable",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "tasty",
+              "version-range": ">=1.4 && <1.5",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "tasty-hspec",
+              "version-range": ">=1.2 && <1.3",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "text",
               "version-range": "-any",
               "library": [
                 {}
@@ -704,20 +691,6 @@
               "library": [
                 {}
               ]
-            },
-            {
-              "package-name": "text",
-              "version-range": "-any",
-              "library": [
-                {}
-              ]
-            },
-            {
-              "package-name": "lucid",
-              "version-range": "-any",
-              "library": [
-                {}
-              ]
             }
           ],
           "mixins": []
@@ -732,7 +705,56 @@
           ]
         },
         {
-          "package-name": "criterion",
+          "package-name": "demangler",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "hspec",
+          "version-range": ">=2.9 && <2.12",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "prettyprinter",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "process",
+          "version-range": ">=1.6 && <1.7",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "sayable",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "tasty",
+          "version-range": ">=1.4 && <1.5",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "tasty-hspec",
+          "version-range": ">=1.2 && <1.3",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "text",
           "version-range": "-any",
           "library": [
             {}
@@ -740,199 +762,6 @@
         },
         {
           "package-name": "transformers",
-          "version-range": "-any",
-          "library": [
-            {}
-          ]
-        },
-        {
-          "package-name": "text",
-          "version-range": "-any",
-          "library": [
-            {}
-          ]
-        },
-        {
-          "package-name": "lucid",
-          "version-range": "-any",
-          "library": [
-            {}
-          ]
-        }
-      ],
-      "condTreeComponents": []
-    },
-    "bench": {
-      "condTreeData": {
-        "name": "",
-        "interface": {
-          "version": [
-            1,
-            0
-          ],
-          "filepath": "Main.hs"
-        },
-        "build-info": {
-          "buildable": true,
-          "buildTools": [],
-          "buildToolDepends": [],
-          "cppOptions": [],
-          "asmOptions": [],
-          "cmmOptions": [],
-          "ccOptions": [],
-          "cxxOptions": [],
-          "ldOptions": [],
-          "pkgconfigDepends": [],
-          "frameworks": [],
-          "extraFrameworkDirs": [],
-          "asmSources": [],
-          "cmmSources": [],
-          "cSources": [],
-          "cxxSources": [],
-          "jsSources": [],
-          "hsSourceDirs": [
-            "benchmarks"
-          ],
-          "otherModules": [
-            [
-              "HtmlBenchmarks"
-            ]
-          ],
-          "virtualModules": [],
-          "autogenModules": [],
-          "defaultLanguage": "Haskell2010",
-          "otherLanguages": [],
-          "defaultExtensions": [],
-          "otherExtensions": [],
-          "oldExtensions": [],
-          "extraLibs": [],
-          "extraGHCiLibs": [],
-          "extraBundledLibs": [],
-          "extraLibFlavours": [],
-          "extraDynLibFlavours": [],
-          "extraLibDirs": [],
-          "includeDirs": [],
-          "includes": [],
-          "autogenIncludes": [],
-          "installIncludes": [],
-          "options": [
-            [
-              "-O2"
-            ],
-            []
-          ],
-          "profOptions": [
-            [],
-            []
-          ],
-          "sharedOptions": [
-            [],
-            []
-          ],
-          "staticOptions": [
-            [],
-            []
-          ],
-          "customFieldsBI": [],
-          "targetBuildDepends": [
-            {
-              "package-name": "base",
-              "version-range": "-any",
-              "library": [
-                {}
-              ]
-            },
-            {
-              "package-name": "deepseq",
-              "version-range": "-any",
-              "library": [
-                {}
-              ]
-            },
-            {
-              "package-name": "criterion",
-              "version-range": "-any",
-              "library": [
-                {}
-              ]
-            },
-            {
-              "package-name": "blaze-builder",
-              "version-range": "-any",
-              "library": [
-                {}
-              ]
-            },
-            {
-              "package-name": "text",
-              "version-range": "-any",
-              "library": [
-                {}
-              ]
-            },
-            {
-              "package-name": "bytestring",
-              "version-range": "-any",
-              "library": [
-                {}
-              ]
-            },
-            {
-              "package-name": "lucid",
-              "version-range": "-any",
-              "library": [
-                {}
-              ]
-            }
-          ],
-          "mixins": []
-        }
-      },
-      "condTreeConstraints": [
-        {
-          "package-name": "base",
-          "version-range": "-any",
-          "library": [
-            {}
-          ]
-        },
-        {
-          "package-name": "deepseq",
-          "version-range": "-any",
-          "library": [
-            {}
-          ]
-        },
-        {
-          "package-name": "criterion",
-          "version-range": "-any",
-          "library": [
-            {}
-          ]
-        },
-        {
-          "package-name": "blaze-builder",
-          "version-range": "-any",
-          "library": [
-            {}
-          ]
-        },
-        {
-          "package-name": "text",
-          "version-range": "-any",
-          "library": [
-            {}
-          ]
-        },
-        {
-          "package-name": "bytestring",
-          "version-range": "-any",
-          "library": [
-            {}
-          ]
-        },
-        {
-          "package-name": "lucid",
           "version-range": "-any",
           "library": [
             {}
