@@ -2,54 +2,56 @@
   "description": {
     "spec-version": {
       "Left": [
-        1,
-        12
-      ]
-    },
-    "package": {
-      "name": "cached",
-      "version": [
-        0,
-        1,
-        0,
+        3,
         0
       ]
     },
+    "package": {
+      "name": "brick-list-skip",
+      "version": [
+        0,
+        1,
+        1,
+        7
+      ]
+    },
     "license": {
-      "Right": "BSD3"
+      "Left": {
+        "license-expression": {
+          "expression": {
+            "id": "NullBSD"
+          },
+          "exception-id": null
+        }
+      }
     },
     "license-files": [
       "LICENSE"
     ],
-    "copyright": "2018 Guillaume Chérel",
-    "maintainer": "guillaume.cherel@iscpif.fr",
-    "author": "Guillaume Chérel",
+    "copyright": "",
+    "maintainer": "amano.kenji@proton.me",
+    "author": "amano.kenji",
     "stability": "",
     "tested-with": [],
-    "homepage": "https://github.com/guillaumecherel/cached#readme",
+    "homepage": "https://codeberg.org/amano.kenji/brick-list-skip",
     "pkg-url": "",
-    "bug-reports": "https://github.com/guillaumecherel/cached/issues",
+    "bug-reports": "https://codeberg.org/amano.kenji/brick-list-skip/issues",
     "source-repos": [
       {
         "kind": {},
         "type": "Git",
-        "location": "https://github.com/guillaumecherel/cached",
+        "location": "https://codeberg.org/amano.kenji/brick-list-skip.git",
         "module": null,
         "branch": null,
         "tag": null,
         "subdir": null
       }
     ],
-    "synopsis": "Cache values to disk.",
-    "description": "The module `Data.Cached` lets you cache values to disk to avoid re-running\n(potentially long) computations between consecutive executions of your\nprogram. Cached values are recomputed only when needed, i.e. when other\ncached values on which they depend change. Independent computations are\nrun in parallel. It offers convenient fonctions for caching to text files,\nbut caching and uncaching using arbitrary IO actions is also possible.\n\nThe module was motivated by writing scientific data flows, simulation\nexperiments or data science scripts. Those often involve long\ncomputations and create \"flows\" where the output of some computation\nare the inputs of others, until final results are produced (values,\nfigures, statistical tests, etc.).\n\nSee the module \"Data.Cached\" documentation:",
-    "category": "Workflow, Data Flow",
-    "custom-fields": [
-      [
-        "x-revision",
-        "1"
-      ]
-    ],
-    "build-type-raw": "Simple",
+    "synopsis": "Skip a certain kind of items when moving in brick list",
+    "description": "This package contains functions that can be used in brick event handlers to skip a certain kind of items when\nmoving in brick list.\n\nFor example, you can skip a separator because selecting a separator doesn't make sense.\n\nYou can run demo programs to see how it works.\n\n== For Contributors\n\nThis library tries not to exceed 120 characters per line.",
+    "category": "User Interface",
+    "custom-fields": [],
+    "build-type-raw": null,
     "custom-setup": null,
     "library": null,
     "sublibraries": [],
@@ -60,24 +62,31 @@
     "data-files": [],
     "data-dir": ".",
     "extra-source-files": [
-      "README.md",
-      "ChangeLog.md"
+      "CHANGELOG.md"
     ],
     "extra-tmp-files": [],
-    "extra-doc-files": []
+    "extra-doc-files": [
+      "demo-01.png",
+      "demo-02.png"
+    ]
   },
+  "package-flags": [
+    {
+      "name": "demo",
+      "description": "Build demonstration programs",
+      "default": false,
+      "manual": false
+    }
+  ],
   "library": {
     "condTreeData": {
       "name": {},
       "exposed-modules": [
         [
-          "Data",
-          "Cached"
-        ],
-        [
-          "Data",
-          "Cached",
-          "Internal"
+          "Brick",
+          "Widgets",
+          "List",
+          "Skip"
         ]
       ],
       "re-exported-modules": [],
@@ -124,9 +133,7 @@
         "autogenIncludes": [],
         "installIncludes": [],
         "options": [
-          [
-            "-Wall"
-          ],
+          [],
           []
         ],
         "profOptions": [
@@ -145,35 +152,35 @@
         "targetBuildDepends": [
           {
             "package-name": "base",
-            "version-range": ">=4.7 && <5",
+            "version-range": ">=4.14 && <5",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "brick",
+            "version-range": ">=1.5 && <2.1",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "microlens",
+            "version-range": ">=0.4.13 && <0.5",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "vector",
+            "version-range": ">=0.12.3 && <0.14",
             "library": [
               {}
             ]
           },
           {
             "package-name": "containers",
-            "version-range": ">=0.5.10 && <0.8",
-            "library": [
-              {}
-            ]
-          },
-          {
-            "package-name": "protolude",
-            "version-range": ">=0.2.2 && <0.4",
-            "library": [
-              {}
-            ]
-          },
-          {
-            "package-name": "shake",
-            "version-range": ">=0.16.4 && <0.20",
-            "library": [
-              {}
-            ]
-          },
-          {
-            "package-name": "text",
-            "version-range": ">=1.2.3 && <1.3 || >=2.0 && <2.2",
+            "version-range": ">=0.6.4 && <0.7",
             "library": [
               {}
             ]
@@ -185,35 +192,35 @@
     "condTreeConstraints": [
       {
         "package-name": "base",
-        "version-range": ">=4.7 && <5",
+        "version-range": ">=4.14 && <5",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "brick",
+        "version-range": ">=1.5 && <2.1",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "microlens",
+        "version-range": ">=0.4.13 && <0.5",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "vector",
+        "version-range": ">=0.12.3 && <0.14",
         "library": [
           {}
         ]
       },
       {
         "package-name": "containers",
-        "version-range": ">=0.5.10 && <0.8",
-        "library": [
-          {}
-        ]
-      },
-      {
-        "package-name": "protolude",
-        "version-range": ">=0.2.2 && <0.4",
-        "library": [
-          {}
-        ]
-      },
-      {
-        "package-name": "shake",
-        "version-range": ">=0.16.4 && <0.20",
-        "library": [
-          {}
-        ]
-      },
-      {
-        "package-name": "text",
-        "version-range": ">=1.2.3 && <1.3 || >=2.0 && <2.2",
+        "version-range": ">=0.6.4 && <0.7",
         "library": [
           {}
         ]
@@ -221,17 +228,12 @@
     ],
     "condTreeComponents": []
   },
-  "test-suites": {
-    "cached-test": {
+  "executables": {
+    "brick-list-skip": {
       "condTreeData": {
-        "name": "",
-        "interface": {
-          "version": [
-            1,
-            0
-          ],
-          "filepath": "Spec.hs"
-        },
+        "name": "brick-list-skip",
+        "module-path": "BrickListSkip.hs",
+        "scope": "public",
         "build-info": {
           "buildable": true,
           "buildTools": [],
@@ -251,19 +253,9 @@
           "cxxSources": [],
           "jsSources": [],
           "hsSourceDirs": [
-            "test"
+            "demo"
           ],
-          "otherModules": [
-            [
-              "Test",
-              "Data",
-              "Cached"
-            ],
-            [
-              "Test",
-              "Util"
-            ]
-          ],
+          "otherModules": [],
           "virtualModules": [],
           "autogenModules": [],
           "defaultLanguage": "Haskell2010",
@@ -283,9 +275,7 @@
           "installIncludes": [],
           "options": [
             [
-              "-threaded",
-              "-rtsopts",
-              "-with-rtsopts=-N"
+              "-threaded"
             ],
             []
           ],
@@ -305,77 +295,42 @@
           "targetBuildDepends": [
             {
               "package-name": "base",
+              "version-range": ">=4.14 && <5",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "brick",
+              "version-range": ">=1.5 && <2.1",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "microlens",
+              "version-range": ">=0.4.13 && <0.5",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "vector",
+              "version-range": ">=0.12.3 && <0.14",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "brick-list-skip",
               "version-range": "-any",
               "library": [
                 {}
               ]
             },
             {
-              "package-name": "cached",
-              "version-range": "-any",
-              "library": [
-                {}
-              ]
-            },
-            {
-              "package-name": "containers",
-              "version-range": "-any",
-              "library": [
-                {}
-              ]
-            },
-            {
-              "package-name": "directory",
-              "version-range": ">=1.3.1 && <1.4",
-              "library": [
-                {}
-              ]
-            },
-            {
-              "package-name": "doctest",
-              "version-range": ">=0.16.0 && <0.23",
-              "library": [
-                {}
-              ]
-            },
-            {
-              "package-name": "filepath",
-              "version-range": ">=1.4.2 && <1.5",
-              "library": [
-                {}
-              ]
-            },
-            {
-              "package-name": "protolude",
-              "version-range": "-any",
-              "library": [
-                {}
-              ]
-            },
-            {
-              "package-name": "QuickCheck",
-              "version-range": ">=2.11.3 && <2.15",
-              "library": [
-                {}
-              ]
-            },
-            {
-              "package-name": "quickcheck-assertions",
-              "version-range": ">=0.3.0 && <0.4",
-              "library": [
-                {}
-              ]
-            },
-            {
-              "package-name": "shake",
-              "version-range": "-any",
-              "library": [
-                {}
-              ]
-            },
-            {
-              "package-name": "text",
-              "version-range": "-any",
+              "package-name": "vty",
+              "version-range": ">=5.36 && <6.1",
               "library": [
                 {}
               ]
@@ -387,83 +342,124 @@
       "condTreeConstraints": [
         {
           "package-name": "base",
+          "version-range": ">=4.14 && <5",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "brick",
+          "version-range": ">=1.5 && <2.1",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "microlens",
+          "version-range": ">=0.4.13 && <0.5",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "vector",
+          "version-range": ">=0.12.3 && <0.14",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "brick-list-skip",
           "version-range": "-any",
           "library": [
             {}
           ]
         },
         {
-          "package-name": "cached",
-          "version-range": "-any",
-          "library": [
-            {}
-          ]
-        },
-        {
-          "package-name": "containers",
-          "version-range": "-any",
-          "library": [
-            {}
-          ]
-        },
-        {
-          "package-name": "directory",
-          "version-range": ">=1.3.1 && <1.4",
-          "library": [
-            {}
-          ]
-        },
-        {
-          "package-name": "doctest",
-          "version-range": ">=0.16.0 && <0.23",
-          "library": [
-            {}
-          ]
-        },
-        {
-          "package-name": "filepath",
-          "version-range": ">=1.4.2 && <1.5",
-          "library": [
-            {}
-          ]
-        },
-        {
-          "package-name": "protolude",
-          "version-range": "-any",
-          "library": [
-            {}
-          ]
-        },
-        {
-          "package-name": "QuickCheck",
-          "version-range": ">=2.11.3 && <2.15",
-          "library": [
-            {}
-          ]
-        },
-        {
-          "package-name": "quickcheck-assertions",
-          "version-range": ">=0.3.0 && <0.4",
-          "library": [
-            {}
-          ]
-        },
-        {
-          "package-name": "shake",
-          "version-range": "-any",
-          "library": [
-            {}
-          ]
-        },
-        {
-          "package-name": "text",
-          "version-range": "-any",
+          "package-name": "vty",
+          "version-range": ">=5.36 && <6.1",
           "library": [
             {}
           ]
         }
       ],
-      "condTreeComponents": []
+      "condTreeComponents": [
+        {
+          "condBranchCondition": {
+            "cond_not": {
+              "variable": {
+                "flag": "demo"
+              }
+            }
+          },
+          "condBranchIfTrue": {
+            "condTreeData": {
+              "name": "brick-list-skip",
+              "module-path": "",
+              "scope": "public",
+              "build-info": {
+                "buildable": false,
+                "buildTools": [],
+                "buildToolDepends": [],
+                "cppOptions": [],
+                "asmOptions": [],
+                "cmmOptions": [],
+                "ccOptions": [],
+                "cxxOptions": [],
+                "ldOptions": [],
+                "pkgconfigDepends": [],
+                "frameworks": [],
+                "extraFrameworkDirs": [],
+                "asmSources": [],
+                "cmmSources": [],
+                "cSources": [],
+                "cxxSources": [],
+                "jsSources": [],
+                "hsSourceDirs": [],
+                "otherModules": [],
+                "virtualModules": [],
+                "autogenModules": [],
+                "defaultLanguage": null,
+                "otherLanguages": [],
+                "defaultExtensions": [],
+                "otherExtensions": [],
+                "oldExtensions": [],
+                "extraLibs": [],
+                "extraGHCiLibs": [],
+                "extraBundledLibs": [],
+                "extraLibFlavours": [],
+                "extraDynLibFlavours": [],
+                "extraLibDirs": [],
+                "includeDirs": [],
+                "includes": [],
+                "autogenIncludes": [],
+                "installIncludes": [],
+                "options": [
+                  [],
+                  []
+                ],
+                "profOptions": [
+                  [],
+                  []
+                ],
+                "sharedOptions": [
+                  [],
+                  []
+                ],
+                "staticOptions": [
+                  [],
+                  []
+                ],
+                "customFieldsBI": [],
+                "targetBuildDepends": [],
+                "mixins": []
+              }
+            },
+            "condTreeConstraints": [],
+            "condTreeComponents": []
+          }
+        }
+      ]
     }
   }
 }
