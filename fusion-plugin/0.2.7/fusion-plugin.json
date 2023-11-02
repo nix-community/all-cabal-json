@@ -1,56 +1,89 @@
 {
   "description": {
     "spec-version": {
-      "Right": ">=1.8.0.2"
+      "Left": [
+        2,
+        2
+      ]
     },
     "package": {
-      "name": "mvc",
+      "name": "fusion-plugin",
       "version": [
-        1,
-        1,
+        0,
+        2,
         7
       ]
     },
     "license": {
-      "Right": "BSD3"
+      "Left": {
+        "license-expression": {
+          "expression": {
+            "id": "Apache_2_0"
+          },
+          "exception-id": null
+        }
+      }
     },
     "license-files": [
       "LICENSE"
     ],
-    "copyright": "2014 Gabriella Gonzalez",
-    "maintainer": "GenuineGabriella@gmail.com",
-    "author": "Gabriella Gonzalez",
+    "copyright": "(c) 2019 Composewell Technologies",
+    "maintainer": "streamly@composewell.com",
+    "author": "Pranay Sashank",
     "stability": "",
     "tested-with": [
       {
         "compiler": "GHC",
-        "versionRange": "==8.0.2"
+        "versionRange": "==8.6.5"
+      },
+      {
+        "compiler": "GHC",
+        "versionRange": "==8.8.4"
+      },
+      {
+        "compiler": "GHC",
+        "versionRange": "==8.10.7"
+      },
+      {
+        "compiler": "GHC",
+        "versionRange": "==9.0.2"
+      },
+      {
+        "compiler": "GHC",
+        "versionRange": "==9.2.8"
+      },
+      {
+        "compiler": "GHC",
+        "versionRange": "==9.4.7"
+      },
+      {
+        "compiler": "GHC",
+        "versionRange": "==9.6.3"
+      },
+      {
+        "compiler": "GHC",
+        "versionRange": "==9.8.1"
       }
     ],
-    "homepage": "",
+    "homepage": "https://github.com/composewell/fusion-plugin",
     "pkg-url": "",
-    "bug-reports": "https://github.com/Gabriella439/Haskell-MVC-Library/issues",
+    "bug-reports": "https://github.com/composewell/fusion-plugin/issues",
     "source-repos": [
       {
         "kind": {},
         "type": "Git",
-        "location": "https://github.com/Gabriella439/Haskell-MVC-Library",
+        "location": "https://github.com/composewell/fusion-plugin",
         "module": null,
         "branch": null,
         "tag": null,
         "subdir": null
       }
     ],
-    "synopsis": "Model-view-controller",
-    "description": "Use the @mvc@ library to distill concurrent programs into pure and\nsingle-threaded programs using the @Model@-@View@-@Controller@ pattern.  This\ntransformation lets you:\n\n* replay your program deterministically,\n\n* do property-based testing of your model (like @QuickCheck@), and:\n\n* equationally reason about your pure core.",
-    "category": "Control, Concurrency",
-    "custom-fields": [
-      [
-        "x-revision",
-        "2"
-      ]
-    ],
-    "build-type-raw": "Simple",
+    "synopsis": "GHC plugin to make stream fusion more predictable.",
+    "description": "This plugin provides the programmer with a way to annotate certain\ntypes using a 'Fuse' pragma from the\n<https://hackage.haskell.org/package/fusion-plugin-types fusion-plugin-types>\npackage. The programmer would annotate the types that are to be\neliminated by fusion. During the simplifier phase the plugin goes\nthrough the relevant bindings and if one of these types are found\ninside a binding then that binding is marked to be inlined\nirrespective of the size.\n\nThis plugin was primarily motivated by\n<https://streamly.composewell.com streamly> but it can\nbe used in general.",
+    "category": "Development",
+    "custom-fields": [],
+    "build-type-raw": null,
     "custom-setup": null,
     "library": null,
     "sublibraries": [],
@@ -60,7 +93,16 @@
     "benchmarks": [],
     "data-files": [],
     "data-dir": ".",
-    "extra-source-files": [],
+    "extra-source-files": [
+      "CHANGELOG.md",
+      "NOTICE",
+      "README.md",
+      "design/README.md",
+      "design/join-constr-app.hs",
+      "design/rec-binder-example.core",
+      "design/rec-binder-example.hs",
+      "stack.yaml"
+    ],
     "extra-tmp-files": [],
     "extra-doc-files": []
   },
@@ -69,11 +111,8 @@
       "name": {},
       "exposed-modules": [
         [
-          "MVC"
-        ],
-        [
-          "MVC",
-          "Prelude"
+          "Fusion",
+          "Plugin"
         ]
       ],
       "re-exported-modules": [],
@@ -104,7 +143,7 @@
         "otherModules": [],
         "virtualModules": [],
         "autogenModules": [],
-        "defaultLanguage": null,
+        "defaultLanguage": "Haskell2010",
         "otherLanguages": [],
         "defaultExtensions": [],
         "otherExtensions": [],
@@ -141,63 +180,63 @@
         "targetBuildDepends": [
           {
             "package-name": "base",
-            "version-range": ">=4 && <5",
+            "version-range": ">=4.0 && <5.0",
             "library": [
               {}
             ]
           },
           {
-            "package-name": "async",
-            "version-range": ">=2.0.0 && <2.3",
+            "package-name": "containers",
+            "version-range": ">=0.5.6.2 && <0.8",
             "library": [
               {}
             ]
           },
           {
-            "package-name": "contravariant",
-            "version-range": "<1.6",
+            "package-name": "directory",
+            "version-range": ">=1.2.2.0 && <1.4",
             "library": [
               {}
             ]
           },
           {
-            "package-name": "foldl",
-            "version-range": ">=1.4",
+            "package-name": "filepath",
+            "version-range": ">=1.4 && <1.5",
             "library": [
               {}
             ]
           },
           {
-            "package-name": "managed",
-            "version-range": "<1.1",
+            "package-name": "ghc",
+            "version-range": ">=7.10.3 && <9.9",
             "library": [
               {}
             ]
           },
           {
-            "package-name": "mmorph",
-            "version-range": ">=1.0.2 && <1.3",
+            "package-name": "syb",
+            "version-range": ">=0.7 && <0.8",
             "library": [
               {}
             ]
           },
           {
-            "package-name": "pipes",
-            "version-range": ">=4.1.7 && <4.4",
-            "library": [
-              {}
-            ]
-          },
-          {
-            "package-name": "pipes-concurrency",
-            "version-range": ">=2.0.3 && <2.1",
+            "package-name": "time",
+            "version-range": ">=1.5 && <1.14",
             "library": [
               {}
             ]
           },
           {
             "package-name": "transformers",
-            "version-range": ">=0.2.0.0 && <0.7",
+            "version-range": ">=0.4 && <0.7",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "fusion-plugin-types",
+            "version-range": ">=0.1 && <0.2",
             "library": [
               {}
             ]
@@ -209,63 +248,63 @@
     "condTreeConstraints": [
       {
         "package-name": "base",
-        "version-range": ">=4 && <5",
+        "version-range": ">=4.0 && <5.0",
         "library": [
           {}
         ]
       },
       {
-        "package-name": "async",
-        "version-range": ">=2.0.0 && <2.3",
+        "package-name": "containers",
+        "version-range": ">=0.5.6.2 && <0.8",
         "library": [
           {}
         ]
       },
       {
-        "package-name": "contravariant",
-        "version-range": "<1.6",
+        "package-name": "directory",
+        "version-range": ">=1.2.2.0 && <1.4",
         "library": [
           {}
         ]
       },
       {
-        "package-name": "foldl",
-        "version-range": ">=1.4",
+        "package-name": "filepath",
+        "version-range": ">=1.4 && <1.5",
         "library": [
           {}
         ]
       },
       {
-        "package-name": "managed",
-        "version-range": "<1.1",
+        "package-name": "ghc",
+        "version-range": ">=7.10.3 && <9.9",
         "library": [
           {}
         ]
       },
       {
-        "package-name": "mmorph",
-        "version-range": ">=1.0.2 && <1.3",
+        "package-name": "syb",
+        "version-range": ">=0.7 && <0.8",
         "library": [
           {}
         ]
       },
       {
-        "package-name": "pipes",
-        "version-range": ">=4.1.7 && <4.4",
-        "library": [
-          {}
-        ]
-      },
-      {
-        "package-name": "pipes-concurrency",
-        "version-range": ">=2.0.3 && <2.1",
+        "package-name": "time",
+        "version-range": ">=1.5 && <1.14",
         "library": [
           {}
         ]
       },
       {
         "package-name": "transformers",
-        "version-range": ">=0.2.0.0 && <0.7",
+        "version-range": ">=0.4 && <0.7",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "fusion-plugin-types",
+        "version-range": ">=0.1 && <0.2",
         "library": [
           {}
         ]
@@ -274,11 +313,9 @@
     "condTreeComponents": [
       {
         "condBranchCondition": {
-          "cond_not": {
-            "variable": {
-              "compiler": "GHC",
-              "version": ">=8.0"
-            }
+          "variable": {
+            "compiler": "GHC",
+            "version": ">=8.0"
           }
         },
         "condBranchIfTrue": {
@@ -327,7 +364,14 @@
               "autogenIncludes": [],
               "installIncludes": [],
               "options": [
-                [],
+                [
+                  "-Wcompat",
+                  "-Wunrecognised-warning-flags",
+                  "-Widentities",
+                  "-Wincomplete-uni-patterns",
+                  "-Wredundant-constraints",
+                  "-Wnoncanonical-monad-instances"
+                ],
                 []
               ],
               "profOptions": [
@@ -343,27 +387,11 @@
                 []
               ],
               "customFieldsBI": [],
-              "targetBuildDepends": [
-                {
-                  "package-name": "semigroups",
-                  "version-range": "==0.18.*",
-                  "library": [
-                    {}
-                  ]
-                }
-              ],
+              "targetBuildDepends": [],
               "mixins": []
             }
           },
-          "condTreeConstraints": [
-            {
-              "package-name": "semigroups",
-              "version-range": "==0.18.*",
-              "library": [
-                {}
-              ]
-            }
-          ],
+          "condTreeConstraints": [],
           "condTreeComponents": []
         }
       }
