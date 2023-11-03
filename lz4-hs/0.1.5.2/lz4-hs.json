@@ -2,24 +2,24 @@
   "description": {
     "spec-version": {
       "Left": [
-        3,
-        0
+        2,
+        2
       ]
     },
     "package": {
-      "name": "relude",
+      "name": "lz4-hs",
       "version": [
+        0,
         1,
-        2,
-        1,
-        0
+        5,
+        2
       ]
     },
     "license": {
       "Left": {
         "license-expression": {
           "expression": {
-            "id": "MIT"
+            "id": "BSD_3_Clause"
           },
           "exception-id": null
         }
@@ -28,67 +28,29 @@
     "license-files": [
       "LICENSE"
     ],
-    "copyright": "2016 Stephen Diehl, 2016-2018 Serokell, 2018-2023 Kowainik",
-    "maintainer": "Kowainik <xrom.xkov@gmail.com>",
-    "author": "Dmitrii Kovanikov, Veronika Romashkina, Stephen Diehl, Serokell",
-    "stability": "stable",
-    "tested-with": [
-      {
-        "compiler": "GHC",
-        "versionRange": "==8.4.4"
-      },
-      {
-        "compiler": "GHC",
-        "versionRange": "==8.6.5"
-      },
-      {
-        "compiler": "GHC",
-        "versionRange": "==8.8.4"
-      },
-      {
-        "compiler": "GHC",
-        "versionRange": "==8.10.7"
-      },
-      {
-        "compiler": "GHC",
-        "versionRange": "==9.0.2"
-      },
-      {
-        "compiler": "GHC",
-        "versionRange": "==9.2.8"
-      },
-      {
-        "compiler": "GHC",
-        "versionRange": "==9.4.7"
-      },
-      {
-        "compiler": "GHC",
-        "versionRange": "==9.6.3"
-      }
-    ],
-    "homepage": "https://github.com/kowainik/relude",
+    "copyright": "Copyright: (c) 2020 Vanessa McHale",
+    "maintainer": "vamchale@gmail.com",
+    "author": "Vanessa McHale",
+    "stability": "",
+    "tested-with": [],
+    "homepage": "",
     "pkg-url": "",
-    "bug-reports": "https://github.com/kowainik/relude/issues",
+    "bug-reports": "",
     "source-repos": [
       {
         "kind": {},
-        "type": "Git",
-        "location": "git@github.com:kowainik/relude.git",
+        "type": "Darcs",
+        "location": "https://hub.darcs.net/vmchale/lz4",
         "module": null,
         "branch": null,
         "tag": null,
         "subdir": null
       }
     ],
-    "synopsis": "Safe, performant, user-friendly and lightweight Haskell Standard Library",
-    "description": "@__relude__@ is an alternative prelude library. If you find the default\n@Prelude@ unsatisfying, despite its advantages, consider using @relude@\ninstead.\n\n== Relude goals and design principles\n* __Productivity.__ You can be more productive with a \"non-standard\" standard\n  library, and @relude@ helps you with writing safer and more\n  efficient code faster.\n\n* __Total programming__. Usage of [/partial functions/](https://www.reddit.com/r/haskell/comments/5n51u3/why_are_partial_functions_as_in_head_tail_bad/)\n  can lead to unexpected bugs and runtime exceptions in pure\n  code. The types of partial functions lie about their behaviour. And\n  even if it is not always possible to rely only on total functions,\n  @relude@ strives to encourage best-practices and reduce the\n  chances of introducing a bug.\n\n    +---------------------------------+--------------------------------------------+\n    | __Partial__                     | __Total__                                  |\n    +=================================+============================================+\n    | @head :: [a] -> a@              | @head :: NonEmpty a -> a@                  |\n    +---------------------------------+--------------------------------------------+\n    | @tail :: [a] -> [a]@            | @tail :: NonEmpty a -> [a]@                |\n    +---------------------------------+--------------------------------------------+\n    | @read :: Read a => String -> a@ | @readMaybe :: Read a => String -> Maybe a@ |\n    +---------------------------------+--------------------------------------------+\n    | @fromJust :: Maybe a -> a@      | @fromMaybe :: a -> Maybe a -> a@           |\n    +---------------------------------+--------------------------------------------+\n\n* __Type-safety__. We use the /\"make invalid states unrepresentable\"/ motto as one\n  of our guiding principles. If it is possible, we express this concept through the\n  types.\n\n    /Example:/ @ whenNotNull :: Applicative f => [a] -> (NonEmpty a -> f ()) -> f () @\n\n* __Performance.__ We prefer @Text@ over @[String](https://www.reddit.com/r/haskell/comments/29jw0s/whats_wrong_with_string/)@,\n  use space-leaks-free functions (e.g. our custom performant @sum@ and @product@),\n  introduce @\\{\\-\\# INLINE \\#\\-\\}@ and @\\{\\-\\# SPECIALIZE \\#\\-\\}@ pragmas where\n  appropriate, and make efficient container types\n  (e.g. @Map@, @HashMap@, @Set@) more accessible.\n\n* __Minimalism__ (low number of dependencies). We do not force users of\n  @relude@ to stick to any specific lens or text formatting or logging\n  library. Where possible, @relude@ depends only on boot libraries.\n  The [Dependency graph](https://raw.githubusercontent.com/kowainik/relude/main/relude-dependency-graph.png)\n  of @relude@ can give you a clearer picture.\n\n* __Convenience__. Despite minimalism, we want to bring commonly used\n   types and functions into scope, and make available functions easier\n   to use. Some examples of conveniences:\n\n    1. No need to add @containers@, @unordered-containers@, @text@\n       and @bytestring@ to dependencies in your @.cabal@ file to\n       use the main API of these libraries\n    2. No need to import types like @NonEmpty@, @Text@, @Set@, @Reader[T]@, @MVar@, @STM@\n    3. Functions like @liftIO@, @fromMaybe@, @sortWith@ are available by default as well\n    4. @IO@ actions are lifted to @MonadIO@\n\n* __Excellent documentation.__\n\n    1. Tutorial\n    2. Migration guide from @Prelude@\n    3. Haddock for every function with examples tested by\n       [doctest](http://hackage.haskell.org/package/doctest).\n    4. Documentation regarding [internal module structure](http://hackage.haskell.org/package/relude/docs/Relude.html)\n    5. @relude@-specific [HLint](http://hackage.haskell.org/package/hlint) rules: @[.hlint.yaml](https://github.com/kowainik/relude/blob/main/.hlint.yaml)@\n\n* __User-friendliness.__ Anyone should be able to quickly migrate to @relude@. Only\n  some basic familiarity with the common libraries like @text@ and @containers@\n  should be enough (but not necessary).\n\n* __Exploration.__ We have space to experiment with new ideas and proposals\n  without introducing breaking changes. @relude@ uses the approach with\n  @Extra.*@ modules which are not exported by default. The chosen approach makes it quite\n  easy for us to provide new functionality without breaking anything and let\n  the users decide to use it or not.",
-    "category": "Prelude",
-    "custom-fields": [
-      [
-        "x-revision",
-        "1"
-      ]
-    ],
+    "synopsis": "lz4 bindings for Haskell",
+    "description": "lz4 streaming library via ByteString",
+    "category": "Codec, Compression, FFI",
+    "custom-fields": [],
     "build-type-raw": "Simple",
     "custom-setup": null,
     "library": null,
@@ -102,526 +64,28 @@
     "extra-source-files": [],
     "extra-tmp-files": [],
     "extra-doc-files": [
-      "CHANGELOG.md",
-      "README.md"
+      "README.md",
+      "CHANGELOG.md"
     ]
   },
+  "package-flags": [
+    {
+      "name": "cross",
+      "description": "Set this flag if cross-compiling",
+      "default": false,
+      "manual": true
+    }
+  ],
   "library": {
     "condTreeData": {
       "name": {},
       "exposed-modules": [
         [
-          "Relude"
-        ],
-        [
-          "Relude",
-          "Applicative"
-        ],
-        [
-          "Relude",
-          "Base"
-        ],
-        [
-          "Relude",
-          "Bool"
-        ],
-        [
-          "Relude",
-          "Bool",
-          "Guard"
-        ],
-        [
-          "Relude",
-          "Bool",
-          "Reexport"
-        ],
-        [
-          "Relude",
-          "Container"
-        ],
-        [
-          "Relude",
-          "Container",
-          "One"
-        ],
-        [
-          "Relude",
-          "Container",
-          "Reexport"
-        ],
-        [
-          "Relude",
-          "Debug"
-        ],
-        [
-          "Relude",
-          "DeepSeq"
-        ],
-        [
-          "Relude",
-          "Enum"
-        ],
-        [
-          "Relude",
-          "Exception"
-        ],
-        [
-          "Relude",
-          "File"
-        ],
-        [
-          "Relude",
-          "Foldable"
-        ],
-        [
-          "Relude",
-          "Foldable",
-          "Fold"
-        ],
-        [
-          "Relude",
-          "Foldable",
-          "Reexport"
-        ],
-        [
-          "Relude",
-          "Function"
-        ],
-        [
-          "Relude",
-          "Functor"
-        ],
-        [
-          "Relude",
-          "Functor",
-          "Fmap"
-        ],
-        [
-          "Relude",
-          "Functor",
-          "Reexport"
-        ],
-        [
-          "Relude",
-          "Lifted"
-        ],
-        [
-          "Relude",
-          "Lifted",
-          "Concurrent"
-        ],
-        [
-          "Relude",
-          "Lifted",
-          "Exit"
-        ],
-        [
-          "Relude",
-          "Lifted",
-          "File"
-        ],
-        [
-          "Relude",
-          "Lifted",
-          "IORef"
-        ],
-        [
-          "Relude",
-          "Lifted",
-          "Terminal"
-        ],
-        [
-          "Relude",
-          "Lifted",
-          "Handle"
-        ],
-        [
-          "Relude",
-          "Lifted",
-          "Env"
-        ],
-        [
-          "Relude",
-          "List"
-        ],
-        [
-          "Relude",
-          "List",
-          "NonEmpty"
-        ],
-        [
-          "Relude",
-          "List",
-          "Reexport"
-        ],
-        [
-          "Relude",
-          "Monad"
-        ],
-        [
-          "Relude",
-          "Monad",
-          "Either"
-        ],
-        [
-          "Relude",
-          "Monad",
-          "Maybe"
-        ],
-        [
-          "Relude",
-          "Monad",
-          "Reexport"
-        ],
-        [
-          "Relude",
-          "Monad",
-          "Trans"
-        ],
-        [
-          "Relude",
-          "Monoid"
-        ],
-        [
-          "Relude",
-          "Nub"
-        ],
-        [
-          "Relude",
-          "Numeric"
-        ],
-        [
-          "Relude",
-          "Print"
-        ],
-        [
-          "Relude",
-          "String"
-        ],
-        [
-          "Relude",
-          "String",
-          "Conversion"
-        ],
-        [
-          "Relude",
-          "String",
-          "Reexport"
-        ],
-        [
-          "Relude",
-          "Extra"
-        ],
-        [
-          "Relude",
-          "Extra",
-          "Bifunctor"
-        ],
-        [
-          "Relude",
-          "Extra",
-          "CallStack"
-        ],
-        [
-          "Relude",
-          "Extra",
-          "Enum"
-        ],
-        [
-          "Relude",
-          "Extra",
-          "Foldable"
-        ],
-        [
-          "Relude",
-          "Extra",
-          "Foldable1"
-        ],
-        [
-          "Relude",
-          "Extra",
-          "Group"
-        ],
-        [
-          "Relude",
-          "Extra",
-          "Lens"
-        ],
-        [
-          "Relude",
-          "Extra",
-          "Map"
-        ],
-        [
-          "Relude",
-          "Extra",
-          "Newtype"
-        ],
-        [
-          "Relude",
-          "Extra",
-          "Tuple"
-        ],
-        [
-          "Relude",
-          "Extra",
-          "Type"
-        ],
-        [
-          "Relude",
-          "Unsafe"
+          "Codec",
+          "Lz4"
         ]
       ],
-      "re-exported-modules": [
-        {
-          "moduleReexportOriginalPackage": null,
-          "moduleReexportOriginalName": [
-            "Data",
-            "IntMap",
-            "Lazy"
-          ],
-          "moduleReexportName": [
-            "Data",
-            "IntMap",
-            "Lazy"
-          ]
-        },
-        {
-          "moduleReexportOriginalPackage": null,
-          "moduleReexportOriginalName": [
-            "Data",
-            "IntMap",
-            "Strict"
-          ],
-          "moduleReexportName": [
-            "Data",
-            "IntMap",
-            "Strict"
-          ]
-        },
-        {
-          "moduleReexportOriginalPackage": null,
-          "moduleReexportOriginalName": [
-            "Data",
-            "IntSet"
-          ],
-          "moduleReexportName": [
-            "Data",
-            "IntSet"
-          ]
-        },
-        {
-          "moduleReexportOriginalPackage": null,
-          "moduleReexportOriginalName": [
-            "Data",
-            "Map",
-            "Lazy"
-          ],
-          "moduleReexportName": [
-            "Data",
-            "Map",
-            "Lazy"
-          ]
-        },
-        {
-          "moduleReexportOriginalPackage": null,
-          "moduleReexportOriginalName": [
-            "Data",
-            "Map",
-            "Strict"
-          ],
-          "moduleReexportName": [
-            "Data",
-            "Map",
-            "Strict"
-          ]
-        },
-        {
-          "moduleReexportOriginalPackage": null,
-          "moduleReexportOriginalName": [
-            "Data",
-            "Set"
-          ],
-          "moduleReexportName": [
-            "Data",
-            "Set"
-          ]
-        },
-        {
-          "moduleReexportOriginalPackage": null,
-          "moduleReexportOriginalName": [
-            "Data",
-            "Sequence"
-          ],
-          "moduleReexportName": [
-            "Data",
-            "Sequence"
-          ]
-        },
-        {
-          "moduleReexportOriginalPackage": null,
-          "moduleReexportOriginalName": [
-            "Data",
-            "Tree"
-          ],
-          "moduleReexportName": [
-            "Data",
-            "Tree"
-          ]
-        },
-        {
-          "moduleReexportOriginalPackage": null,
-          "moduleReexportOriginalName": [
-            "Data",
-            "HashMap",
-            "Lazy"
-          ],
-          "moduleReexportName": [
-            "Data",
-            "HashMap",
-            "Lazy"
-          ]
-        },
-        {
-          "moduleReexportOriginalPackage": null,
-          "moduleReexportOriginalName": [
-            "Data",
-            "HashMap",
-            "Strict"
-          ],
-          "moduleReexportName": [
-            "Data",
-            "HashMap",
-            "Strict"
-          ]
-        },
-        {
-          "moduleReexportOriginalPackage": null,
-          "moduleReexportOriginalName": [
-            "Data",
-            "HashSet"
-          ],
-          "moduleReexportName": [
-            "Data",
-            "HashSet"
-          ]
-        },
-        {
-          "moduleReexportOriginalPackage": null,
-          "moduleReexportOriginalName": [
-            "Data",
-            "Text"
-          ],
-          "moduleReexportName": [
-            "Data",
-            "Text"
-          ]
-        },
-        {
-          "moduleReexportOriginalPackage": null,
-          "moduleReexportOriginalName": [
-            "Data",
-            "Text",
-            "IO"
-          ],
-          "moduleReexportName": [
-            "Data",
-            "Text",
-            "IO"
-          ]
-        },
-        {
-          "moduleReexportOriginalPackage": null,
-          "moduleReexportOriginalName": [
-            "Data",
-            "Text",
-            "Lazy"
-          ],
-          "moduleReexportName": [
-            "Data",
-            "Text",
-            "Lazy"
-          ]
-        },
-        {
-          "moduleReexportOriginalPackage": null,
-          "moduleReexportOriginalName": [
-            "Data",
-            "Text",
-            "Lazy",
-            "IO"
-          ],
-          "moduleReexportName": [
-            "Data",
-            "Text",
-            "Lazy",
-            "IO"
-          ]
-        },
-        {
-          "moduleReexportOriginalPackage": null,
-          "moduleReexportOriginalName": [
-            "Data",
-            "Text",
-            "Read"
-          ],
-          "moduleReexportName": [
-            "Data",
-            "Text",
-            "Read"
-          ]
-        },
-        {
-          "moduleReexportOriginalPackage": null,
-          "moduleReexportOriginalName": [
-            "Data",
-            "ByteString"
-          ],
-          "moduleReexportName": [
-            "Data",
-            "ByteString"
-          ]
-        },
-        {
-          "moduleReexportOriginalPackage": null,
-          "moduleReexportOriginalName": [
-            "Data",
-            "ByteString",
-            "Builder"
-          ],
-          "moduleReexportName": [
-            "Data",
-            "ByteString",
-            "Builder"
-          ]
-        },
-        {
-          "moduleReexportOriginalPackage": null,
-          "moduleReexportOriginalName": [
-            "Data",
-            "ByteString",
-            "Lazy"
-          ],
-          "moduleReexportName": [
-            "Data",
-            "ByteString",
-            "Lazy"
-          ]
-        },
-        {
-          "moduleReexportOriginalPackage": null,
-          "moduleReexportOriginalName": [
-            "Data",
-            "ByteString",
-            "Short"
-          ],
-          "moduleReexportName": [
-            "Data",
-            "ByteString",
-            "Short"
-          ]
-        }
-      ],
+      "re-exported-modules": [],
       "signatures": [],
       "exposed": true,
       "visibility": "LibraryVisibilityPublic",
@@ -632,7 +96,9 @@
         "cppOptions": [],
         "asmOptions": [],
         "cmmOptions": [],
-        "ccOptions": [],
+        "ccOptions": [
+          "-O3"
+        ],
         "cxxOptions": [],
         "ldOptions": [],
         "pkgconfigDepends": [],
@@ -640,35 +106,34 @@
         "extraFrameworkDirs": [],
         "asmSources": [],
         "cmmSources": [],
-        "cSources": [],
+        "cSources": [
+          "cbits/lz4.c",
+          "cbits/lz4frame.c",
+          "cbits/lz4hc.c",
+          "cbits/xxhash.c"
+        ],
         "cxxSources": [],
         "jsSources": [],
         "hsSourceDirs": [
           "src"
         ],
-        "otherModules": [],
+        "otherModules": [
+          [
+            "Codec",
+            "Lz4",
+            "Foreign"
+          ]
+        ],
         "virtualModules": [],
         "autogenModules": [],
         "defaultLanguage": "Haskell2010",
         "otherLanguages": [],
-        "defaultExtensions": [
+        "defaultExtensions": [],
+        "otherExtensions": [
           {
-            "enable-extension": "InstanceSigs"
-          },
-          {
-            "disable-extension": "ImplicitPrelude"
-          },
-          {
-            "enable-extension": "OverloadedStrings"
-          },
-          {
-            "enable-extension": "ScopedTypeVariables"
-          },
-          {
-            "enable-extension": "TypeApplications"
+            "enable-extension": "BangPatterns"
           }
         ],
-        "otherExtensions": [],
         "oldExtensions": [],
         "extraLibs": [],
         "extraGHCiLibs": [],
@@ -676,20 +141,21 @@
         "extraLibFlavours": [],
         "extraDynLibFlavours": [],
         "extraLibDirs": [],
-        "includeDirs": [],
+        "includeDirs": [
+          "cbits"
+        ],
         "includes": [],
         "autogenIncludes": [],
-        "installIncludes": [],
+        "installIncludes": [
+          "cbits/lz4.h",
+          "cbits/lz4frame.h",
+          "cbits/lz4hc.h",
+          "cbits/xxhash.h"
+        ],
         "options": [
           [
             "-Wall",
-            "-Wcompat",
-            "-Widentities",
-            "-Wincomplete-uni-patterns",
-            "-Wincomplete-record-updates",
-            "-fwarn-implicit-prelude",
-            "-Wredundant-constraints",
-            "-fhide-source-paths"
+            "-Wall"
           ],
           []
         ],
@@ -709,77 +175,14 @@
         "targetBuildDepends": [
           {
             "package-name": "base",
-            "version-range": ">=4.11 && <4.20",
+            "version-range": ">=4.7 && <5",
             "library": [
               {}
             ]
           },
           {
             "package-name": "bytestring",
-            "version-range": ">=0.10 && <0.13",
-            "library": [
-              {}
-            ]
-          },
-          {
-            "package-name": "containers",
-            "version-range": ">=0.5.10 && <0.8",
-            "library": [
-              {}
-            ]
-          },
-          {
-            "package-name": "deepseq",
-            "version-range": ">=1.4 && <1.6",
-            "library": [
-              {}
-            ]
-          },
-          {
-            "package-name": "ghc-prim",
-            "version-range": ">=0.5.0.0 && <0.12",
-            "library": [
-              {}
-            ]
-          },
-          {
-            "package-name": "hashable",
-            "version-range": ">=1.2 && <1.5",
-            "library": [
-              {}
-            ]
-          },
-          {
-            "package-name": "mtl",
-            "version-range": ">=2.2 && <2.4",
-            "library": [
-              {}
-            ]
-          },
-          {
-            "package-name": "stm",
-            "version-range": ">=2.4 && <2.6",
-            "library": [
-              {}
-            ]
-          },
-          {
-            "package-name": "text",
-            "version-range": ">=1.2 && <2.2",
-            "library": [
-              {}
-            ]
-          },
-          {
-            "package-name": "transformers",
-            "version-range": ">=0.5 && <0.7",
-            "library": [
-              {}
-            ]
-          },
-          {
-            "package-name": "unordered-containers",
-            "version-range": ">=0.2.7 && <0.3",
+            "version-range": "-any",
             "library": [
               {}
             ]
@@ -791,83 +194,101 @@
     "condTreeConstraints": [
       {
         "package-name": "base",
-        "version-range": ">=4.11 && <4.20",
+        "version-range": ">=4.7 && <5",
         "library": [
           {}
         ]
       },
       {
         "package-name": "bytestring",
-        "version-range": ">=0.10 && <0.13",
-        "library": [
-          {}
-        ]
-      },
-      {
-        "package-name": "containers",
-        "version-range": ">=0.5.10 && <0.8",
-        "library": [
-          {}
-        ]
-      },
-      {
-        "package-name": "deepseq",
-        "version-range": ">=1.4 && <1.6",
-        "library": [
-          {}
-        ]
-      },
-      {
-        "package-name": "ghc-prim",
-        "version-range": ">=0.5.0.0 && <0.12",
-        "library": [
-          {}
-        ]
-      },
-      {
-        "package-name": "hashable",
-        "version-range": ">=1.2 && <1.5",
-        "library": [
-          {}
-        ]
-      },
-      {
-        "package-name": "mtl",
-        "version-range": ">=2.2 && <2.4",
-        "library": [
-          {}
-        ]
-      },
-      {
-        "package-name": "stm",
-        "version-range": ">=2.4 && <2.6",
-        "library": [
-          {}
-        ]
-      },
-      {
-        "package-name": "text",
-        "version-range": ">=1.2 && <2.2",
-        "library": [
-          {}
-        ]
-      },
-      {
-        "package-name": "transformers",
-        "version-range": ">=0.5 && <0.7",
-        "library": [
-          {}
-        ]
-      },
-      {
-        "package-name": "unordered-containers",
-        "version-range": ">=0.2.7 && <0.3",
+        "version-range": "-any",
         "library": [
           {}
         ]
       }
     ],
     "condTreeComponents": [
+      {
+        "condBranchCondition": {
+          "variable": {
+            "compiler": "GHC",
+            "version": ">=8.0"
+          }
+        },
+        "condBranchIfTrue": {
+          "condTreeData": {
+            "name": {},
+            "exposed-modules": [],
+            "re-exported-modules": [],
+            "signatures": [],
+            "exposed": true,
+            "visibility": "LibraryVisibilityPublic",
+            "build-info": {
+              "buildable": true,
+              "buildTools": [],
+              "buildToolDepends": [],
+              "cppOptions": [],
+              "asmOptions": [],
+              "cmmOptions": [],
+              "ccOptions": [],
+              "cxxOptions": [],
+              "ldOptions": [],
+              "pkgconfigDepends": [],
+              "frameworks": [],
+              "extraFrameworkDirs": [],
+              "asmSources": [],
+              "cmmSources": [],
+              "cSources": [],
+              "cxxSources": [],
+              "jsSources": [],
+              "hsSourceDirs": [],
+              "otherModules": [],
+              "virtualModules": [],
+              "autogenModules": [],
+              "defaultLanguage": null,
+              "otherLanguages": [],
+              "defaultExtensions": [],
+              "otherExtensions": [],
+              "oldExtensions": [],
+              "extraLibs": [],
+              "extraGHCiLibs": [],
+              "extraBundledLibs": [],
+              "extraLibFlavours": [],
+              "extraDynLibFlavours": [],
+              "extraLibDirs": [],
+              "includeDirs": [],
+              "includes": [],
+              "autogenIncludes": [],
+              "installIncludes": [],
+              "options": [
+                [
+                  "-Wincomplete-uni-patterns",
+                  "-Wincomplete-record-updates",
+                  "-Wredundant-constraints"
+                ],
+                []
+              ],
+              "profOptions": [
+                [],
+                []
+              ],
+              "sharedOptions": [
+                [],
+                []
+              ],
+              "staticOptions": [
+                [],
+                []
+              ],
+              "customFieldsBI": [],
+              "targetBuildDepends": [],
+              "mixins": []
+            }
+          },
+          "condTreeConstraints": [],
+          "condTreeComponents": []
+        }
+      },
       {
         "condBranchCondition": {
           "variable": {
@@ -922,8 +343,7 @@
               "installIncludes": [],
               "options": [
                 [
-                  "-Wmissing-export-lists",
-                  "-Wpartial-fields"
+                  "-Wmissing-export-lists"
                 ],
                 []
               ],
@@ -952,7 +372,7 @@
         "condBranchCondition": {
           "variable": {
             "compiler": "GHC",
-            "version": ">=8.8"
+            "version": ">=8.2"
           }
         },
         "condBranchIfTrue": {
@@ -1002,7 +422,7 @@
               "installIncludes": [],
               "options": [
                 [
-                  "-Wmissing-deriving-strategies"
+                  "-Wcpp-undef"
                 ],
                 []
               ],
@@ -1108,88 +528,10 @@
       },
       {
         "condBranchCondition": {
-          "variable": {
-            "compiler": "GHC",
-            "version": ">=9.0"
-          }
-        },
-        "condBranchIfTrue": {
-          "condTreeData": {
-            "name": {},
-            "exposed-modules": [],
-            "re-exported-modules": [],
-            "signatures": [],
-            "exposed": true,
-            "visibility": "LibraryVisibilityPublic",
-            "build-info": {
-              "buildable": true,
-              "buildTools": [],
-              "buildToolDepends": [],
-              "cppOptions": [],
-              "asmOptions": [],
-              "cmmOptions": [],
-              "ccOptions": [],
-              "cxxOptions": [],
-              "ldOptions": [],
-              "pkgconfigDepends": [],
-              "frameworks": [],
-              "extraFrameworkDirs": [],
-              "asmSources": [],
-              "cmmSources": [],
-              "cSources": [],
-              "cxxSources": [],
-              "jsSources": [],
-              "hsSourceDirs": [],
-              "otherModules": [],
-              "virtualModules": [],
-              "autogenModules": [],
-              "defaultLanguage": null,
-              "otherLanguages": [],
-              "defaultExtensions": [],
-              "otherExtensions": [],
-              "oldExtensions": [],
-              "extraLibs": [],
-              "extraGHCiLibs": [],
-              "extraBundledLibs": [],
-              "extraLibFlavours": [],
-              "extraDynLibFlavours": [],
-              "extraLibDirs": [],
-              "includeDirs": [],
-              "includes": [],
-              "autogenIncludes": [],
-              "installIncludes": [],
-              "options": [
-                [
-                  "-Winvalid-haddock"
-                ],
-                []
-              ],
-              "profOptions": [
-                [],
-                []
-              ],
-              "sharedOptions": [
-                [],
-                []
-              ],
-              "staticOptions": [
-                [],
-                []
-              ],
-              "customFieldsBI": [],
-              "targetBuildDepends": [],
-              "mixins": []
+          "cond_not": {
+            "variable": {
+              "flag": "cross"
             }
-          },
-          "condTreeConstraints": [],
-          "condTreeComponents": []
-        }
-      },
-      {
-        "condBranchCondition": {
-          "variable": {
-            "compiler": "GHC",
-            "version": ">=9.2"
           }
         },
         "condBranchIfTrue": {
@@ -1203,7 +545,13 @@
             "build-info": {
               "buildable": true,
               "buildTools": [],
-              "buildToolDepends": [],
+              "buildToolDepends": [
+                {
+                  "package-name": "c2hs",
+                  "executable-component-name": "c2hs",
+                  "version-range": ">=0.28.6"
+                }
+              ],
               "cppOptions": [],
               "asmOptions": [],
               "cmmOptions": [],
@@ -1238,90 +586,7 @@
               "autogenIncludes": [],
               "installIncludes": [],
               "options": [
-                [
-                  "-Wredundant-bang-patterns",
-                  "-Woperator-whitespace"
-                ],
-                []
-              ],
-              "profOptions": [
                 [],
-                []
-              ],
-              "sharedOptions": [
-                [],
-                []
-              ],
-              "staticOptions": [
-                [],
-                []
-              ],
-              "customFieldsBI": [],
-              "targetBuildDepends": [],
-              "mixins": []
-            }
-          },
-          "condTreeConstraints": [],
-          "condTreeComponents": []
-        }
-      },
-      {
-        "condBranchCondition": {
-          "variable": {
-            "compiler": "GHC",
-            "version": ">=9.4"
-          }
-        },
-        "condBranchIfTrue": {
-          "condTreeData": {
-            "name": {},
-            "exposed-modules": [],
-            "re-exported-modules": [],
-            "signatures": [],
-            "exposed": true,
-            "visibility": "LibraryVisibilityPublic",
-            "build-info": {
-              "buildable": true,
-              "buildTools": [],
-              "buildToolDepends": [],
-              "cppOptions": [],
-              "asmOptions": [],
-              "cmmOptions": [],
-              "ccOptions": [],
-              "cxxOptions": [],
-              "ldOptions": [],
-              "pkgconfigDepends": [],
-              "frameworks": [],
-              "extraFrameworkDirs": [],
-              "asmSources": [],
-              "cmmSources": [],
-              "cSources": [],
-              "cxxSources": [],
-              "jsSources": [],
-              "hsSourceDirs": [],
-              "otherModules": [],
-              "virtualModules": [],
-              "autogenModules": [],
-              "defaultLanguage": null,
-              "otherLanguages": [],
-              "defaultExtensions": [],
-              "otherExtensions": [],
-              "oldExtensions": [],
-              "extraLibs": [],
-              "extraGHCiLibs": [],
-              "extraBundledLibs": [],
-              "extraLibFlavours": [],
-              "extraDynLibFlavours": [],
-              "extraLibDirs": [],
-              "includeDirs": [],
-              "includes": [],
-              "autogenIncludes": [],
-              "installIncludes": [],
-              "options": [
-                [
-                  "-Wredundant-strictness-flags",
-                  "-Wforall-identifier"
-                ],
                 []
               ],
               "profOptions": [
@@ -1348,634 +613,7 @@
     ]
   },
   "test-suites": {
-    "relude-doctest": {
-      "condTreeData": {
-        "name": "",
-        "interface": {
-          "version": [
-            1,
-            0
-          ],
-          "filepath": "Doctest.hs"
-        },
-        "build-info": {
-          "buildable": true,
-          "buildTools": [],
-          "buildToolDepends": [],
-          "cppOptions": [],
-          "asmOptions": [],
-          "cmmOptions": [],
-          "ccOptions": [],
-          "cxxOptions": [],
-          "ldOptions": [],
-          "pkgconfigDepends": [],
-          "frameworks": [],
-          "extraFrameworkDirs": [],
-          "asmSources": [],
-          "cmmSources": [],
-          "cSources": [],
-          "cxxSources": [],
-          "jsSources": [],
-          "hsSourceDirs": [
-            "test"
-          ],
-          "otherModules": [],
-          "virtualModules": [],
-          "autogenModules": [],
-          "defaultLanguage": "Haskell2010",
-          "otherLanguages": [],
-          "defaultExtensions": [
-            {
-              "enable-extension": "InstanceSigs"
-            },
-            {
-              "disable-extension": "ImplicitPrelude"
-            },
-            {
-              "enable-extension": "OverloadedStrings"
-            },
-            {
-              "enable-extension": "ScopedTypeVariables"
-            },
-            {
-              "enable-extension": "TypeApplications"
-            }
-          ],
-          "otherExtensions": [],
-          "oldExtensions": [],
-          "extraLibs": [],
-          "extraGHCiLibs": [],
-          "extraBundledLibs": [],
-          "extraLibFlavours": [],
-          "extraDynLibFlavours": [],
-          "extraLibDirs": [],
-          "includeDirs": [],
-          "includes": [],
-          "autogenIncludes": [],
-          "installIncludes": [],
-          "options": [
-            [
-              "-Wall",
-              "-Wcompat",
-              "-Widentities",
-              "-Wincomplete-uni-patterns",
-              "-Wincomplete-record-updates",
-              "-fwarn-implicit-prelude",
-              "-Wredundant-constraints",
-              "-fhide-source-paths",
-              "-threaded"
-            ],
-            []
-          ],
-          "profOptions": [
-            [],
-            []
-          ],
-          "sharedOptions": [
-            [],
-            []
-          ],
-          "staticOptions": [
-            [],
-            []
-          ],
-          "customFieldsBI": [],
-          "targetBuildDepends": [
-            {
-              "package-name": "relude",
-              "version-range": "-any",
-              "library": [
-                {}
-              ]
-            },
-            {
-              "package-name": "doctest",
-              "version-range": ">=0.20 && <0.23",
-              "library": [
-                {}
-              ]
-            },
-            {
-              "package-name": "Glob",
-              "version-range": "-any",
-              "library": [
-                {}
-              ]
-            }
-          ],
-          "mixins": []
-        }
-      },
-      "condTreeConstraints": [
-        {
-          "package-name": "relude",
-          "version-range": "-any",
-          "library": [
-            {}
-          ]
-        },
-        {
-          "package-name": "doctest",
-          "version-range": ">=0.20 && <0.23",
-          "library": [
-            {}
-          ]
-        },
-        {
-          "package-name": "Glob",
-          "version-range": "-any",
-          "library": [
-            {}
-          ]
-        }
-      ],
-      "condTreeComponents": [
-        {
-          "condBranchCondition": {
-            "variable": {
-              "compiler": "GHC",
-              "version": ">=8.4"
-            }
-          },
-          "condBranchIfTrue": {
-            "condTreeData": {
-              "name": "",
-              "interface": {
-                "type": {
-                  "name": "",
-                  "version": []
-                }
-              },
-              "build-info": {
-                "buildable": true,
-                "buildTools": [],
-                "buildToolDepends": [],
-                "cppOptions": [],
-                "asmOptions": [],
-                "cmmOptions": [],
-                "ccOptions": [],
-                "cxxOptions": [],
-                "ldOptions": [],
-                "pkgconfigDepends": [],
-                "frameworks": [],
-                "extraFrameworkDirs": [],
-                "asmSources": [],
-                "cmmSources": [],
-                "cSources": [],
-                "cxxSources": [],
-                "jsSources": [],
-                "hsSourceDirs": [],
-                "otherModules": [],
-                "virtualModules": [],
-                "autogenModules": [],
-                "defaultLanguage": null,
-                "otherLanguages": [],
-                "defaultExtensions": [],
-                "otherExtensions": [],
-                "oldExtensions": [],
-                "extraLibs": [],
-                "extraGHCiLibs": [],
-                "extraBundledLibs": [],
-                "extraLibFlavours": [],
-                "extraDynLibFlavours": [],
-                "extraLibDirs": [],
-                "includeDirs": [],
-                "includes": [],
-                "autogenIncludes": [],
-                "installIncludes": [],
-                "options": [
-                  [
-                    "-Wmissing-export-lists",
-                    "-Wpartial-fields"
-                  ],
-                  []
-                ],
-                "profOptions": [
-                  [],
-                  []
-                ],
-                "sharedOptions": [
-                  [],
-                  []
-                ],
-                "staticOptions": [
-                  [],
-                  []
-                ],
-                "customFieldsBI": [],
-                "targetBuildDepends": [],
-                "mixins": []
-              }
-            },
-            "condTreeConstraints": [],
-            "condTreeComponents": []
-          }
-        },
-        {
-          "condBranchCondition": {
-            "variable": {
-              "compiler": "GHC",
-              "version": ">=8.8"
-            }
-          },
-          "condBranchIfTrue": {
-            "condTreeData": {
-              "name": "",
-              "interface": {
-                "type": {
-                  "name": "",
-                  "version": []
-                }
-              },
-              "build-info": {
-                "buildable": true,
-                "buildTools": [],
-                "buildToolDepends": [],
-                "cppOptions": [],
-                "asmOptions": [],
-                "cmmOptions": [],
-                "ccOptions": [],
-                "cxxOptions": [],
-                "ldOptions": [],
-                "pkgconfigDepends": [],
-                "frameworks": [],
-                "extraFrameworkDirs": [],
-                "asmSources": [],
-                "cmmSources": [],
-                "cSources": [],
-                "cxxSources": [],
-                "jsSources": [],
-                "hsSourceDirs": [],
-                "otherModules": [],
-                "virtualModules": [],
-                "autogenModules": [],
-                "defaultLanguage": null,
-                "otherLanguages": [],
-                "defaultExtensions": [],
-                "otherExtensions": [],
-                "oldExtensions": [],
-                "extraLibs": [],
-                "extraGHCiLibs": [],
-                "extraBundledLibs": [],
-                "extraLibFlavours": [],
-                "extraDynLibFlavours": [],
-                "extraLibDirs": [],
-                "includeDirs": [],
-                "includes": [],
-                "autogenIncludes": [],
-                "installIncludes": [],
-                "options": [
-                  [
-                    "-Wmissing-deriving-strategies"
-                  ],
-                  []
-                ],
-                "profOptions": [
-                  [],
-                  []
-                ],
-                "sharedOptions": [
-                  [],
-                  []
-                ],
-                "staticOptions": [
-                  [],
-                  []
-                ],
-                "customFieldsBI": [],
-                "targetBuildDepends": [],
-                "mixins": []
-              }
-            },
-            "condTreeConstraints": [],
-            "condTreeComponents": []
-          }
-        },
-        {
-          "condBranchCondition": {
-            "variable": {
-              "compiler": "GHC",
-              "version": ">=8.10"
-            }
-          },
-          "condBranchIfTrue": {
-            "condTreeData": {
-              "name": "",
-              "interface": {
-                "type": {
-                  "name": "",
-                  "version": []
-                }
-              },
-              "build-info": {
-                "buildable": true,
-                "buildTools": [],
-                "buildToolDepends": [],
-                "cppOptions": [],
-                "asmOptions": [],
-                "cmmOptions": [],
-                "ccOptions": [],
-                "cxxOptions": [],
-                "ldOptions": [],
-                "pkgconfigDepends": [],
-                "frameworks": [],
-                "extraFrameworkDirs": [],
-                "asmSources": [],
-                "cmmSources": [],
-                "cSources": [],
-                "cxxSources": [],
-                "jsSources": [],
-                "hsSourceDirs": [],
-                "otherModules": [],
-                "virtualModules": [],
-                "autogenModules": [],
-                "defaultLanguage": null,
-                "otherLanguages": [],
-                "defaultExtensions": [],
-                "otherExtensions": [],
-                "oldExtensions": [],
-                "extraLibs": [],
-                "extraGHCiLibs": [],
-                "extraBundledLibs": [],
-                "extraLibFlavours": [],
-                "extraDynLibFlavours": [],
-                "extraLibDirs": [],
-                "includeDirs": [],
-                "includes": [],
-                "autogenIncludes": [],
-                "installIncludes": [],
-                "options": [
-                  [
-                    "-Wunused-packages"
-                  ],
-                  []
-                ],
-                "profOptions": [
-                  [],
-                  []
-                ],
-                "sharedOptions": [
-                  [],
-                  []
-                ],
-                "staticOptions": [
-                  [],
-                  []
-                ],
-                "customFieldsBI": [],
-                "targetBuildDepends": [],
-                "mixins": []
-              }
-            },
-            "condTreeConstraints": [],
-            "condTreeComponents": []
-          }
-        },
-        {
-          "condBranchCondition": {
-            "variable": {
-              "compiler": "GHC",
-              "version": ">=9.0"
-            }
-          },
-          "condBranchIfTrue": {
-            "condTreeData": {
-              "name": "",
-              "interface": {
-                "type": {
-                  "name": "",
-                  "version": []
-                }
-              },
-              "build-info": {
-                "buildable": true,
-                "buildTools": [],
-                "buildToolDepends": [],
-                "cppOptions": [],
-                "asmOptions": [],
-                "cmmOptions": [],
-                "ccOptions": [],
-                "cxxOptions": [],
-                "ldOptions": [],
-                "pkgconfigDepends": [],
-                "frameworks": [],
-                "extraFrameworkDirs": [],
-                "asmSources": [],
-                "cmmSources": [],
-                "cSources": [],
-                "cxxSources": [],
-                "jsSources": [],
-                "hsSourceDirs": [],
-                "otherModules": [],
-                "virtualModules": [],
-                "autogenModules": [],
-                "defaultLanguage": null,
-                "otherLanguages": [],
-                "defaultExtensions": [],
-                "otherExtensions": [],
-                "oldExtensions": [],
-                "extraLibs": [],
-                "extraGHCiLibs": [],
-                "extraBundledLibs": [],
-                "extraLibFlavours": [],
-                "extraDynLibFlavours": [],
-                "extraLibDirs": [],
-                "includeDirs": [],
-                "includes": [],
-                "autogenIncludes": [],
-                "installIncludes": [],
-                "options": [
-                  [
-                    "-Winvalid-haddock"
-                  ],
-                  []
-                ],
-                "profOptions": [
-                  [],
-                  []
-                ],
-                "sharedOptions": [
-                  [],
-                  []
-                ],
-                "staticOptions": [
-                  [],
-                  []
-                ],
-                "customFieldsBI": [],
-                "targetBuildDepends": [],
-                "mixins": []
-              }
-            },
-            "condTreeConstraints": [],
-            "condTreeComponents": []
-          }
-        },
-        {
-          "condBranchCondition": {
-            "variable": {
-              "compiler": "GHC",
-              "version": ">=9.2"
-            }
-          },
-          "condBranchIfTrue": {
-            "condTreeData": {
-              "name": "",
-              "interface": {
-                "type": {
-                  "name": "",
-                  "version": []
-                }
-              },
-              "build-info": {
-                "buildable": true,
-                "buildTools": [],
-                "buildToolDepends": [],
-                "cppOptions": [],
-                "asmOptions": [],
-                "cmmOptions": [],
-                "ccOptions": [],
-                "cxxOptions": [],
-                "ldOptions": [],
-                "pkgconfigDepends": [],
-                "frameworks": [],
-                "extraFrameworkDirs": [],
-                "asmSources": [],
-                "cmmSources": [],
-                "cSources": [],
-                "cxxSources": [],
-                "jsSources": [],
-                "hsSourceDirs": [],
-                "otherModules": [],
-                "virtualModules": [],
-                "autogenModules": [],
-                "defaultLanguage": null,
-                "otherLanguages": [],
-                "defaultExtensions": [],
-                "otherExtensions": [],
-                "oldExtensions": [],
-                "extraLibs": [],
-                "extraGHCiLibs": [],
-                "extraBundledLibs": [],
-                "extraLibFlavours": [],
-                "extraDynLibFlavours": [],
-                "extraLibDirs": [],
-                "includeDirs": [],
-                "includes": [],
-                "autogenIncludes": [],
-                "installIncludes": [],
-                "options": [
-                  [
-                    "-Wredundant-bang-patterns",
-                    "-Woperator-whitespace"
-                  ],
-                  []
-                ],
-                "profOptions": [
-                  [],
-                  []
-                ],
-                "sharedOptions": [
-                  [],
-                  []
-                ],
-                "staticOptions": [
-                  [],
-                  []
-                ],
-                "customFieldsBI": [],
-                "targetBuildDepends": [],
-                "mixins": []
-              }
-            },
-            "condTreeConstraints": [],
-            "condTreeComponents": []
-          }
-        },
-        {
-          "condBranchCondition": {
-            "variable": {
-              "compiler": "GHC",
-              "version": ">=9.4"
-            }
-          },
-          "condBranchIfTrue": {
-            "condTreeData": {
-              "name": "",
-              "interface": {
-                "type": {
-                  "name": "",
-                  "version": []
-                }
-              },
-              "build-info": {
-                "buildable": true,
-                "buildTools": [],
-                "buildToolDepends": [],
-                "cppOptions": [],
-                "asmOptions": [],
-                "cmmOptions": [],
-                "ccOptions": [],
-                "cxxOptions": [],
-                "ldOptions": [],
-                "pkgconfigDepends": [],
-                "frameworks": [],
-                "extraFrameworkDirs": [],
-                "asmSources": [],
-                "cmmSources": [],
-                "cSources": [],
-                "cxxSources": [],
-                "jsSources": [],
-                "hsSourceDirs": [],
-                "otherModules": [],
-                "virtualModules": [],
-                "autogenModules": [],
-                "defaultLanguage": null,
-                "otherLanguages": [],
-                "defaultExtensions": [],
-                "otherExtensions": [],
-                "oldExtensions": [],
-                "extraLibs": [],
-                "extraGHCiLibs": [],
-                "extraBundledLibs": [],
-                "extraLibFlavours": [],
-                "extraDynLibFlavours": [],
-                "extraLibDirs": [],
-                "includeDirs": [],
-                "includes": [],
-                "autogenIncludes": [],
-                "installIncludes": [],
-                "options": [
-                  [
-                    "-Wredundant-strictness-flags",
-                    "-Wforall-identifier"
-                  ],
-                  []
-                ],
-                "profOptions": [
-                  [],
-                  []
-                ],
-                "sharedOptions": [
-                  [],
-                  []
-                ],
-                "staticOptions": [
-                  [],
-                  []
-                ],
-                "customFieldsBI": [],
-                "targetBuildDepends": [],
-                "mixins": []
-              }
-            },
-            "condTreeConstraints": [],
-            "condTreeComponents": []
-          }
-        }
-      ]
-    },
-    "relude-test": {
+    "lz4-test": {
       "condTreeData": {
         "name": "",
         "interface": {
@@ -2006,45 +644,12 @@
           "hsSourceDirs": [
             "test"
           ],
-          "otherModules": [
-            [
-              "Test",
-              "Relude",
-              "Gen"
-            ],
-            [
-              "Test",
-              "Relude",
-              "Container",
-              "One"
-            ],
-            [
-              "Test",
-              "Relude",
-              "Property"
-            ]
-          ],
+          "otherModules": [],
           "virtualModules": [],
           "autogenModules": [],
           "defaultLanguage": "Haskell2010",
           "otherLanguages": [],
-          "defaultExtensions": [
-            {
-              "enable-extension": "InstanceSigs"
-            },
-            {
-              "disable-extension": "ImplicitPrelude"
-            },
-            {
-              "enable-extension": "OverloadedStrings"
-            },
-            {
-              "enable-extension": "ScopedTypeVariables"
-            },
-            {
-              "enable-extension": "TypeApplications"
-            }
-          ],
+          "defaultExtensions": [],
           "otherExtensions": [],
           "oldExtensions": [],
           "extraLibs": [],
@@ -2059,15 +664,10 @@
           "installIncludes": [],
           "options": [
             [
-              "-Wall",
-              "-Wcompat",
-              "-Widentities",
-              "-Wincomplete-uni-patterns",
-              "-Wincomplete-record-updates",
-              "-fwarn-implicit-prelude",
-              "-Wredundant-constraints",
-              "-fhide-source-paths",
-              "-threaded"
+              "-threaded",
+              "-rtsopts",
+              "-with-rtsopts=-N -K1K",
+              "-Wall"
             ],
             []
           ],
@@ -2093,7 +693,21 @@
               ]
             },
             {
-              "package-name": "relude",
+              "package-name": "lz4-hs",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "tasty",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "tasty-hunit",
               "version-range": "-any",
               "library": [
                 {}
@@ -2102,27 +716,6 @@
             {
               "package-name": "bytestring",
               "version-range": "-any",
-              "library": [
-                {}
-              ]
-            },
-            {
-              "package-name": "containers",
-              "version-range": "-any",
-              "library": [
-                {}
-              ]
-            },
-            {
-              "package-name": "text",
-              "version-range": "-any",
-              "library": [
-                {}
-              ]
-            },
-            {
-              "package-name": "hedgehog",
-              "version-range": ">=1.0 && <1.5",
               "library": [
                 {}
               ]
@@ -2140,7 +733,21 @@
           ]
         },
         {
-          "package-name": "relude",
+          "package-name": "lz4-hs",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "tasty",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "tasty-hunit",
           "version-range": "-any",
           "library": [
             {}
@@ -2152,30 +759,91 @@
           "library": [
             {}
           ]
-        },
-        {
-          "package-name": "containers",
-          "version-range": "-any",
-          "library": [
-            {}
-          ]
-        },
-        {
-          "package-name": "text",
-          "version-range": "-any",
-          "library": [
-            {}
-          ]
-        },
-        {
-          "package-name": "hedgehog",
-          "version-range": ">=1.0 && <1.5",
-          "library": [
-            {}
-          ]
         }
       ],
       "condTreeComponents": [
+        {
+          "condBranchCondition": {
+            "variable": {
+              "compiler": "GHC",
+              "version": ">=8.0"
+            }
+          },
+          "condBranchIfTrue": {
+            "condTreeData": {
+              "name": "",
+              "interface": {
+                "type": {
+                  "name": "",
+                  "version": []
+                }
+              },
+              "build-info": {
+                "buildable": true,
+                "buildTools": [],
+                "buildToolDepends": [],
+                "cppOptions": [],
+                "asmOptions": [],
+                "cmmOptions": [],
+                "ccOptions": [],
+                "cxxOptions": [],
+                "ldOptions": [],
+                "pkgconfigDepends": [],
+                "frameworks": [],
+                "extraFrameworkDirs": [],
+                "asmSources": [],
+                "cmmSources": [],
+                "cSources": [],
+                "cxxSources": [],
+                "jsSources": [],
+                "hsSourceDirs": [],
+                "otherModules": [],
+                "virtualModules": [],
+                "autogenModules": [],
+                "defaultLanguage": null,
+                "otherLanguages": [],
+                "defaultExtensions": [],
+                "otherExtensions": [],
+                "oldExtensions": [],
+                "extraLibs": [],
+                "extraGHCiLibs": [],
+                "extraBundledLibs": [],
+                "extraLibFlavours": [],
+                "extraDynLibFlavours": [],
+                "extraLibDirs": [],
+                "includeDirs": [],
+                "includes": [],
+                "autogenIncludes": [],
+                "installIncludes": [],
+                "options": [
+                  [
+                    "-Wincomplete-uni-patterns",
+                    "-Wincomplete-record-updates",
+                    "-Wredundant-constraints"
+                  ],
+                  []
+                ],
+                "profOptions": [
+                  [],
+                  []
+                ],
+                "sharedOptions": [
+                  [],
+                  []
+                ],
+                "staticOptions": [
+                  [],
+                  []
+                ],
+                "customFieldsBI": [],
+                "targetBuildDepends": [],
+                "mixins": []
+              }
+            },
+            "condTreeConstraints": [],
+            "condTreeComponents": []
+          }
+        },
         {
           "condBranchCondition": {
             "variable": {
@@ -2231,8 +899,7 @@
                 "installIncludes": [],
                 "options": [
                   [
-                    "-Wmissing-export-lists",
-                    "-Wpartial-fields"
+                    "-Wmissing-export-lists"
                   ],
                   []
                 ],
@@ -2261,7 +928,7 @@
           "condBranchCondition": {
             "variable": {
               "compiler": "GHC",
-              "version": ">=8.8"
+              "version": ">=8.2"
             }
           },
           "condBranchIfTrue": {
@@ -2312,7 +979,7 @@
                 "installIncludes": [],
                 "options": [
                   [
-                    "-Wmissing-deriving-strategies"
+                    "-Wcpp-undef"
                   ],
                   []
                 ],
@@ -2393,248 +1060,6 @@
                 "options": [
                   [
                     "-Wunused-packages"
-                  ],
-                  []
-                ],
-                "profOptions": [
-                  [],
-                  []
-                ],
-                "sharedOptions": [
-                  [],
-                  []
-                ],
-                "staticOptions": [
-                  [],
-                  []
-                ],
-                "customFieldsBI": [],
-                "targetBuildDepends": [],
-                "mixins": []
-              }
-            },
-            "condTreeConstraints": [],
-            "condTreeComponents": []
-          }
-        },
-        {
-          "condBranchCondition": {
-            "variable": {
-              "compiler": "GHC",
-              "version": ">=9.0"
-            }
-          },
-          "condBranchIfTrue": {
-            "condTreeData": {
-              "name": "",
-              "interface": {
-                "type": {
-                  "name": "",
-                  "version": []
-                }
-              },
-              "build-info": {
-                "buildable": true,
-                "buildTools": [],
-                "buildToolDepends": [],
-                "cppOptions": [],
-                "asmOptions": [],
-                "cmmOptions": [],
-                "ccOptions": [],
-                "cxxOptions": [],
-                "ldOptions": [],
-                "pkgconfigDepends": [],
-                "frameworks": [],
-                "extraFrameworkDirs": [],
-                "asmSources": [],
-                "cmmSources": [],
-                "cSources": [],
-                "cxxSources": [],
-                "jsSources": [],
-                "hsSourceDirs": [],
-                "otherModules": [],
-                "virtualModules": [],
-                "autogenModules": [],
-                "defaultLanguage": null,
-                "otherLanguages": [],
-                "defaultExtensions": [],
-                "otherExtensions": [],
-                "oldExtensions": [],
-                "extraLibs": [],
-                "extraGHCiLibs": [],
-                "extraBundledLibs": [],
-                "extraLibFlavours": [],
-                "extraDynLibFlavours": [],
-                "extraLibDirs": [],
-                "includeDirs": [],
-                "includes": [],
-                "autogenIncludes": [],
-                "installIncludes": [],
-                "options": [
-                  [
-                    "-Winvalid-haddock"
-                  ],
-                  []
-                ],
-                "profOptions": [
-                  [],
-                  []
-                ],
-                "sharedOptions": [
-                  [],
-                  []
-                ],
-                "staticOptions": [
-                  [],
-                  []
-                ],
-                "customFieldsBI": [],
-                "targetBuildDepends": [],
-                "mixins": []
-              }
-            },
-            "condTreeConstraints": [],
-            "condTreeComponents": []
-          }
-        },
-        {
-          "condBranchCondition": {
-            "variable": {
-              "compiler": "GHC",
-              "version": ">=9.2"
-            }
-          },
-          "condBranchIfTrue": {
-            "condTreeData": {
-              "name": "",
-              "interface": {
-                "type": {
-                  "name": "",
-                  "version": []
-                }
-              },
-              "build-info": {
-                "buildable": true,
-                "buildTools": [],
-                "buildToolDepends": [],
-                "cppOptions": [],
-                "asmOptions": [],
-                "cmmOptions": [],
-                "ccOptions": [],
-                "cxxOptions": [],
-                "ldOptions": [],
-                "pkgconfigDepends": [],
-                "frameworks": [],
-                "extraFrameworkDirs": [],
-                "asmSources": [],
-                "cmmSources": [],
-                "cSources": [],
-                "cxxSources": [],
-                "jsSources": [],
-                "hsSourceDirs": [],
-                "otherModules": [],
-                "virtualModules": [],
-                "autogenModules": [],
-                "defaultLanguage": null,
-                "otherLanguages": [],
-                "defaultExtensions": [],
-                "otherExtensions": [],
-                "oldExtensions": [],
-                "extraLibs": [],
-                "extraGHCiLibs": [],
-                "extraBundledLibs": [],
-                "extraLibFlavours": [],
-                "extraDynLibFlavours": [],
-                "extraLibDirs": [],
-                "includeDirs": [],
-                "includes": [],
-                "autogenIncludes": [],
-                "installIncludes": [],
-                "options": [
-                  [
-                    "-Wredundant-bang-patterns",
-                    "-Woperator-whitespace"
-                  ],
-                  []
-                ],
-                "profOptions": [
-                  [],
-                  []
-                ],
-                "sharedOptions": [
-                  [],
-                  []
-                ],
-                "staticOptions": [
-                  [],
-                  []
-                ],
-                "customFieldsBI": [],
-                "targetBuildDepends": [],
-                "mixins": []
-              }
-            },
-            "condTreeConstraints": [],
-            "condTreeComponents": []
-          }
-        },
-        {
-          "condBranchCondition": {
-            "variable": {
-              "compiler": "GHC",
-              "version": ">=9.4"
-            }
-          },
-          "condBranchIfTrue": {
-            "condTreeData": {
-              "name": "",
-              "interface": {
-                "type": {
-                  "name": "",
-                  "version": []
-                }
-              },
-              "build-info": {
-                "buildable": true,
-                "buildTools": [],
-                "buildToolDepends": [],
-                "cppOptions": [],
-                "asmOptions": [],
-                "cmmOptions": [],
-                "ccOptions": [],
-                "cxxOptions": [],
-                "ldOptions": [],
-                "pkgconfigDepends": [],
-                "frameworks": [],
-                "extraFrameworkDirs": [],
-                "asmSources": [],
-                "cmmSources": [],
-                "cSources": [],
-                "cxxSources": [],
-                "jsSources": [],
-                "hsSourceDirs": [],
-                "otherModules": [],
-                "virtualModules": [],
-                "autogenModules": [],
-                "defaultLanguage": null,
-                "otherLanguages": [],
-                "defaultExtensions": [],
-                "otherExtensions": [],
-                "oldExtensions": [],
-                "extraLibs": [],
-                "extraGHCiLibs": [],
-                "extraBundledLibs": [],
-                "extraLibFlavours": [],
-                "extraDynLibFlavours": [],
-                "extraLibDirs": [],
-                "includeDirs": [],
-                "includes": [],
-                "autogenIncludes": [],
-                "installIncludes": [],
-                "options": [
-                  [
-                    "-Wredundant-strictness-flags",
-                    "-Wforall-identifier"
                   ],
                   []
                 ],
@@ -2663,7 +1088,7 @@
     }
   },
   "benchmarks": {
-    "relude-benchmark": {
+    "lz4-mem": {
       "condTreeData": {
         "name": "",
         "interface": {
@@ -2671,7 +1096,7 @@
             1,
             0
           ],
-          "filepath": "Main.hs"
+          "filepath": "Mem.hs"
         },
         "build-info": {
           "buildable": true,
@@ -2692,30 +1117,14 @@
           "cxxSources": [],
           "jsSources": [],
           "hsSourceDirs": [
-            "benchmark"
+            "mem"
           ],
           "otherModules": [],
           "virtualModules": [],
           "autogenModules": [],
           "defaultLanguage": "Haskell2010",
           "otherLanguages": [],
-          "defaultExtensions": [
-            {
-              "enable-extension": "InstanceSigs"
-            },
-            {
-              "disable-extension": "ImplicitPrelude"
-            },
-            {
-              "enable-extension": "OverloadedStrings"
-            },
-            {
-              "enable-extension": "ScopedTypeVariables"
-            },
-            {
-              "enable-extension": "TypeApplications"
-            }
-          ],
+          "defaultExtensions": [],
           "otherExtensions": [],
           "oldExtensions": [],
           "extraLibs": [],
@@ -2731,13 +1140,6 @@
           "options": [
             [
               "-Wall",
-              "-Wcompat",
-              "-Widentities",
-              "-Wincomplete-uni-patterns",
-              "-Wincomplete-record-updates",
-              "-fwarn-implicit-prelude",
-              "-Wredundant-constraints",
-              "-fhide-source-paths",
               "-rtsopts"
             ],
             []
@@ -2764,21 +1166,28 @@
               ]
             },
             {
-              "package-name": "relude",
+              "package-name": "lz4-hs",
               "version-range": "-any",
               "library": [
                 {}
               ]
             },
             {
-              "package-name": "tasty-bench",
+              "package-name": "bytestring",
               "version-range": "-any",
               "library": [
                 {}
               ]
             },
             {
-              "package-name": "unordered-containers",
+              "package-name": "filepath",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "temporary",
               "version-range": "-any",
               "library": [
                 {}
@@ -2797,21 +1206,28 @@
           ]
         },
         {
-          "package-name": "relude",
+          "package-name": "lz4-hs",
           "version-range": "-any",
           "library": [
             {}
           ]
         },
         {
-          "package-name": "tasty-bench",
+          "package-name": "bytestring",
           "version-range": "-any",
           "library": [
             {}
           ]
         },
         {
-          "package-name": "unordered-containers",
+          "package-name": "filepath",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "temporary",
           "version-range": "-any",
           "library": [
             {}
@@ -2819,6 +1235,88 @@
         }
       ],
       "condTreeComponents": [
+        {
+          "condBranchCondition": {
+            "variable": {
+              "compiler": "GHC",
+              "version": ">=8.0"
+            }
+          },
+          "condBranchIfTrue": {
+            "condTreeData": {
+              "name": "",
+              "interface": {
+                "benchmark-type": {
+                  "type": "",
+                  "version": []
+                }
+              },
+              "build-info": {
+                "buildable": true,
+                "buildTools": [],
+                "buildToolDepends": [],
+                "cppOptions": [],
+                "asmOptions": [],
+                "cmmOptions": [],
+                "ccOptions": [],
+                "cxxOptions": [],
+                "ldOptions": [],
+                "pkgconfigDepends": [],
+                "frameworks": [],
+                "extraFrameworkDirs": [],
+                "asmSources": [],
+                "cmmSources": [],
+                "cSources": [],
+                "cxxSources": [],
+                "jsSources": [],
+                "hsSourceDirs": [],
+                "otherModules": [],
+                "virtualModules": [],
+                "autogenModules": [],
+                "defaultLanguage": null,
+                "otherLanguages": [],
+                "defaultExtensions": [],
+                "otherExtensions": [],
+                "oldExtensions": [],
+                "extraLibs": [],
+                "extraGHCiLibs": [],
+                "extraBundledLibs": [],
+                "extraLibFlavours": [],
+                "extraDynLibFlavours": [],
+                "extraLibDirs": [],
+                "includeDirs": [],
+                "includes": [],
+                "autogenIncludes": [],
+                "installIncludes": [],
+                "options": [
+                  [
+                    "-Wincomplete-uni-patterns",
+                    "-Wincomplete-record-updates",
+                    "-Wredundant-constraints"
+                  ],
+                  []
+                ],
+                "profOptions": [
+                  [],
+                  []
+                ],
+                "sharedOptions": [
+                  [],
+                  []
+                ],
+                "staticOptions": [
+                  [],
+                  []
+                ],
+                "customFieldsBI": [],
+                "targetBuildDepends": [],
+                "mixins": []
+              }
+            },
+            "condTreeConstraints": [],
+            "condTreeComponents": []
+          }
+        },
         {
           "condBranchCondition": {
             "variable": {
@@ -2874,8 +1372,7 @@
                 "installIncludes": [],
                 "options": [
                   [
-                    "-Wmissing-export-lists",
-                    "-Wpartial-fields"
+                    "-Wmissing-export-lists"
                   ],
                   []
                 ],
@@ -2904,7 +1401,7 @@
           "condBranchCondition": {
             "variable": {
               "compiler": "GHC",
-              "version": ">=8.8"
+              "version": ">=8.2"
             }
           },
           "condBranchIfTrue": {
@@ -2955,7 +1452,7 @@
                 "installIncludes": [],
                 "options": [
                   [
-                    "-Wmissing-deriving-strategies"
+                    "-Wcpp-undef"
                   ],
                   []
                 ],
@@ -3059,12 +1556,174 @@
             "condTreeConstraints": [],
             "condTreeComponents": []
           }
+        }
+      ]
+    },
+    "lz4-bench": {
+      "condTreeData": {
+        "name": "",
+        "interface": {
+          "version": [
+            1,
+            0
+          ],
+          "filepath": "Bench.hs"
         },
+        "build-info": {
+          "buildable": true,
+          "buildTools": [],
+          "buildToolDepends": [],
+          "cppOptions": [],
+          "asmOptions": [],
+          "cmmOptions": [],
+          "ccOptions": [],
+          "cxxOptions": [],
+          "ldOptions": [],
+          "pkgconfigDepends": [],
+          "frameworks": [],
+          "extraFrameworkDirs": [],
+          "asmSources": [],
+          "cmmSources": [],
+          "cSources": [],
+          "cxxSources": [],
+          "jsSources": [],
+          "hsSourceDirs": [
+            "bench"
+          ],
+          "otherModules": [],
+          "virtualModules": [],
+          "autogenModules": [],
+          "defaultLanguage": "Haskell2010",
+          "otherLanguages": [],
+          "defaultExtensions": [],
+          "otherExtensions": [],
+          "oldExtensions": [],
+          "extraLibs": [],
+          "extraGHCiLibs": [],
+          "extraBundledLibs": [],
+          "extraLibFlavours": [],
+          "extraDynLibFlavours": [],
+          "extraLibDirs": [],
+          "includeDirs": [],
+          "includes": [],
+          "autogenIncludes": [],
+          "installIncludes": [],
+          "options": [
+            [
+              "-Wall"
+            ],
+            []
+          ],
+          "profOptions": [
+            [],
+            []
+          ],
+          "sharedOptions": [
+            [],
+            []
+          ],
+          "staticOptions": [
+            [],
+            []
+          ],
+          "customFieldsBI": [],
+          "targetBuildDepends": [
+            {
+              "package-name": "base",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "lz4-hs",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "criterion",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "bytestring",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "temporary",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "filepath",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            }
+          ],
+          "mixins": []
+        }
+      },
+      "condTreeConstraints": [
+        {
+          "package-name": "base",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "lz4-hs",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "criterion",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "bytestring",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "temporary",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "filepath",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        }
+      ],
+      "condTreeComponents": [
         {
           "condBranchCondition": {
             "variable": {
               "compiler": "GHC",
-              "version": ">=9.0"
+              "version": ">=8.0"
             }
           },
           "condBranchIfTrue": {
@@ -3115,7 +1774,9 @@
                 "installIncludes": [],
                 "options": [
                   [
-                    "-Winvalid-haddock"
+                    "-Wincomplete-uni-patterns",
+                    "-Wincomplete-record-updates",
+                    "-Wredundant-constraints"
                   ],
                   []
                 ],
@@ -3144,7 +1805,7 @@
           "condBranchCondition": {
             "variable": {
               "compiler": "GHC",
-              "version": ">=9.2"
+              "version": ">=8.4"
             }
           },
           "condBranchIfTrue": {
@@ -3195,8 +1856,7 @@
                 "installIncludes": [],
                 "options": [
                   [
-                    "-Wredundant-bang-patterns",
-                    "-Woperator-whitespace"
+                    "-Wmissing-export-lists"
                   ],
                   []
                 ],
@@ -3225,7 +1885,7 @@
           "condBranchCondition": {
             "variable": {
               "compiler": "GHC",
-              "version": ">=9.4"
+              "version": ">=8.2"
             }
           },
           "condBranchIfTrue": {
@@ -3276,8 +1936,87 @@
                 "installIncludes": [],
                 "options": [
                   [
-                    "-Wredundant-strictness-flags",
-                    "-Wforall-identifier"
+                    "-Wcpp-undef"
+                  ],
+                  []
+                ],
+                "profOptions": [
+                  [],
+                  []
+                ],
+                "sharedOptions": [
+                  [],
+                  []
+                ],
+                "staticOptions": [
+                  [],
+                  []
+                ],
+                "customFieldsBI": [],
+                "targetBuildDepends": [],
+                "mixins": []
+              }
+            },
+            "condTreeConstraints": [],
+            "condTreeComponents": []
+          }
+        },
+        {
+          "condBranchCondition": {
+            "variable": {
+              "compiler": "GHC",
+              "version": ">=8.10"
+            }
+          },
+          "condBranchIfTrue": {
+            "condTreeData": {
+              "name": "",
+              "interface": {
+                "benchmark-type": {
+                  "type": "",
+                  "version": []
+                }
+              },
+              "build-info": {
+                "buildable": true,
+                "buildTools": [],
+                "buildToolDepends": [],
+                "cppOptions": [],
+                "asmOptions": [],
+                "cmmOptions": [],
+                "ccOptions": [],
+                "cxxOptions": [],
+                "ldOptions": [],
+                "pkgconfigDepends": [],
+                "frameworks": [],
+                "extraFrameworkDirs": [],
+                "asmSources": [],
+                "cmmSources": [],
+                "cSources": [],
+                "cxxSources": [],
+                "jsSources": [],
+                "hsSourceDirs": [],
+                "otherModules": [],
+                "virtualModules": [],
+                "autogenModules": [],
+                "defaultLanguage": null,
+                "otherLanguages": [],
+                "defaultExtensions": [],
+                "otherExtensions": [],
+                "oldExtensions": [],
+                "extraLibs": [],
+                "extraGHCiLibs": [],
+                "extraBundledLibs": [],
+                "extraLibFlavours": [],
+                "extraDynLibFlavours": [],
+                "extraLibDirs": [],
+                "includeDirs": [],
+                "includes": [],
+                "autogenIncludes": [],
+                "installIncludes": [],
+                "options": [
+                  [
+                    "-Wunused-packages"
                   ],
                   []
                 ],
