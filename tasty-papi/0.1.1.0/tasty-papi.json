@@ -1,14 +1,18 @@
 {
   "description": {
     "spec-version": {
-      "Right": ">=1.8"
+      "Left": [
+        1,
+        18
+      ]
     },
     "package": {
-      "name": "RSA",
+      "name": "tasty-papi",
       "version": [
-        2,
-        4,
-        1
+        0,
+        1,
+        1,
+        0
       ]
     },
     "license": {
@@ -17,39 +21,29 @@
     "license-files": [
       "LICENSE"
     ],
-    "copyright": "",
-    "maintainer": "Adam Wick <awick@galois.com>",
-    "author": "Adam Wick <awick@galois.com>",
-    "stability": "stable",
-    "tested-with": [
-      {
-        "compiler": "GHC",
-        "versionRange": "==7.8.0"
-      }
-    ],
-    "homepage": "",
+    "copyright": "2023, Alexey Khudyakov",
+    "maintainer": "Alexey Khudyakov <alexey.skladnoy@gmail.com>",
+    "author": "Alexey Khudyakov <alexey.skladnoy@gmail.com>",
+    "stability": "",
+    "tested-with": [],
+    "homepage": "https://github.com/Shimuuar/tasty-papi",
     "pkg-url": "",
-    "bug-reports": "",
+    "bug-reports": "https://github.com/Shimuuar/tasty-papi/issues",
     "source-repos": [
       {
         "kind": {},
         "type": "Git",
-        "location": "git://github.com/GaloisInc/RSA.git",
+        "location": "http://github.com/Shimuuar/tasty-papi",
         "module": null,
         "branch": null,
         "tag": null,
         "subdir": null
       }
     ],
-    "synopsis": "Implementation of RSA, using the padding schemes of PKCS#1 v2.1.",
-    "description": "This library implements the RSA encryption and signature\nalgorithms for arbitrarily-sized ByteStrings. While the\nimplementations work, they are not necessarily the fastest ones\non the planet. Particularly key generation. The algorithms\nincluded are based of RFC 3447, or the Public-Key Cryptography\nStandard for RSA, version 2.1 (a.k.a, PKCS#1 v2.1).",
-    "category": "Cryptography, Codec",
-    "custom-fields": [
-      [
-        "x-revision",
-        "2"
-      ]
-    ],
+    "synopsis": "Bencmarking using instruction counting",
+    "description": "Benchmarking framework which uses instruction counters intead of\ntime measurements. Instruction count is only proxy for code\nperformance but unlike time could be measured deterministically.\nPAPI is used in order to access hardware counters.",
+    "category": "Development, Performance, Testing, Benchmarking",
+    "custom-fields": [],
     "build-type-raw": "Simple",
     "custom-setup": null,
     "library": null,
@@ -60,7 +54,10 @@
     "benchmarks": [],
     "data-files": [],
     "data-dir": ".",
-    "extra-source-files": [],
+    "extra-source-files": [
+      "README.md",
+      "Changelog.md"
+    ],
     "extra-tmp-files": [],
     "extra-doc-files": []
   },
@@ -69,21 +66,9 @@
       "name": {},
       "exposed-modules": [
         [
-          "Codec",
-          "Crypto",
-          "RSA"
-        ],
-        [
-          "Codec",
-          "Crypto",
-          "RSA",
-          "Exceptions"
-        ],
-        [
-          "Codec",
-          "Crypto",
-          "RSA",
-          "Pure"
+          "Test",
+          "Tasty",
+          "PAPI"
         ]
       ],
       "re-exported-modules": [],
@@ -108,25 +93,18 @@
         "cSources": [],
         "cxxSources": [],
         "jsSources": [],
-        "hsSourceDirs": [
-          "src"
-        ],
+        "hsSourceDirs": [],
         "otherModules": [],
         "virtualModules": [],
         "autogenModules": [],
-        "defaultLanguage": null,
+        "defaultLanguage": "Haskell2010",
         "otherLanguages": [],
         "defaultExtensions": [],
         "otherExtensions": [],
-        "oldExtensions": [
-          {
-            "enable-extension": "DeriveDataTypeable"
-          },
-          {
-            "enable-extension": "MultiWayIf"
-          }
+        "oldExtensions": [],
+        "extraLibs": [
+          "papi"
         ],
-        "extraLibs": [],
         "extraGHCiLibs": [],
         "extraBundledLibs": [],
         "extraLibFlavours": [],
@@ -138,8 +116,7 @@
         "installIncludes": [],
         "options": [
           [
-            "-Wall",
-            "-fno-warn-orphans"
+            "-Wall"
           ],
           []
         ],
@@ -159,42 +136,35 @@
         "targetBuildDepends": [
           {
             "package-name": "base",
-            "version-range": ">=4.6 && <7.0",
+            "version-range": ">=4.10 && <5",
             "library": [
               {}
             ]
           },
           {
-            "package-name": "binary",
-            "version-range": ">0.7 && <1.0",
+            "package-name": "tasty",
+            "version-range": ">=0.11.3",
             "library": [
               {}
             ]
           },
           {
-            "package-name": "bytestring",
-            "version-range": ">0.8 && <0.13",
+            "package-name": "containers",
+            "version-range": ">=0.5",
             "library": [
               {}
             ]
           },
           {
-            "package-name": "crypto-api",
-            "version-range": ">=0.10 && <0.14",
+            "package-name": "deepseq",
+            "version-range": "-any",
             "library": [
               {}
             ]
           },
           {
-            "package-name": "crypto-pubkey-types",
-            "version-range": ">=0.2 && <0.6",
-            "library": [
-              {}
-            ]
-          },
-          {
-            "package-name": "SHA",
-            "version-range": ">=1.6.4.1 && <2.0",
+            "package-name": "stm",
+            "version-range": "-any",
             "library": [
               {}
             ]
@@ -206,42 +176,35 @@
     "condTreeConstraints": [
       {
         "package-name": "base",
-        "version-range": ">=4.6 && <7.0",
+        "version-range": ">=4.10 && <5",
         "library": [
           {}
         ]
       },
       {
-        "package-name": "binary",
-        "version-range": ">0.7 && <1.0",
+        "package-name": "tasty",
+        "version-range": ">=0.11.3",
         "library": [
           {}
         ]
       },
       {
-        "package-name": "bytestring",
-        "version-range": ">0.8 && <0.13",
+        "package-name": "containers",
+        "version-range": ">=0.5",
         "library": [
           {}
         ]
       },
       {
-        "package-name": "crypto-api",
-        "version-range": ">=0.10 && <0.14",
+        "package-name": "deepseq",
+        "version-range": "-any",
         "library": [
           {}
         ]
       },
       {
-        "package-name": "crypto-pubkey-types",
-        "version-range": ">=0.2 && <0.6",
-        "library": [
-          {}
-        ]
-      },
-      {
-        "package-name": "SHA",
-        "version-range": ">=1.6.4.1 && <2.0",
+        "package-name": "stm",
+        "version-range": "-any",
         "library": [
           {}
         ]
@@ -250,9 +213,15 @@
     "condTreeComponents": [
       {
         "condBranchCondition": {
-          "variable": {
-            "compiler": "GHC",
-            "version": "<8.0"
+          "cond_or_1": {
+            "variable": {
+              "os": "OSX"
+            }
+          },
+          "cond_or_2": {
+            "variable": {
+              "os": "Windows"
+            }
           }
         },
         "condBranchIfTrue": {
@@ -264,7 +233,7 @@
             "exposed": true,
             "visibility": "LibraryVisibilityPublic",
             "build-info": {
-              "buildable": true,
+              "buildable": false,
               "buildTools": [],
               "buildToolDepends": [],
               "cppOptions": [],
@@ -317,34 +286,18 @@
                 []
               ],
               "customFieldsBI": [],
-              "targetBuildDepends": [
-                {
-                  "package-name": "cipher-aes128",
-                  "version-range": "<0.7.0.4",
-                  "library": [
-                    {}
-                  ]
-                }
-              ],
+              "targetBuildDepends": [],
               "mixins": []
             }
           },
-          "condTreeConstraints": [
-            {
-              "package-name": "cipher-aes128",
-              "version-range": "<0.7.0.4",
-              "library": [
-                {}
-              ]
-            }
-          ],
+          "condTreeConstraints": [],
           "condTreeComponents": []
         }
       }
     ]
   },
   "test-suites": {
-    "test-rsa": {
+    "tasty-papi-run": {
       "condTreeData": {
         "name": "",
         "interface": {
@@ -352,7 +305,7 @@
             1,
             0
           ],
-          "filepath": "Test.hs"
+          "filepath": "Main.hs"
         },
         "build-info": {
           "buildable": true,
@@ -373,34 +326,16 @@
           "cxxSources": [],
           "jsSources": [],
           "hsSourceDirs": [
-            "src",
-            "."
+            "tests"
           ],
-          "otherModules": [
-            [
-              "Codec",
-              "Crypto",
-              "RSA",
-              "Pure"
-            ]
-          ],
+          "otherModules": [],
           "virtualModules": [],
           "autogenModules": [],
-          "defaultLanguage": null,
+          "defaultLanguage": "Haskell2010",
           "otherLanguages": [],
           "defaultExtensions": [],
           "otherExtensions": [],
-          "oldExtensions": [
-            {
-              "enable-extension": "DeriveDataTypeable"
-            },
-            {
-              "enable-extension": "MultiWayIf"
-            },
-            {
-              "enable-extension": "ScopedTypeVariables"
-            }
-          ],
+          "oldExtensions": [],
           "extraLibs": [],
           "extraGHCiLibs": [],
           "extraBundledLibs": [],
@@ -413,8 +348,7 @@
           "installIncludes": [],
           "options": [
             [
-              "-Wall",
-              "-fno-warn-orphans"
+              "-Wall"
             ],
             []
           ],
@@ -440,64 +374,15 @@
               ]
             },
             {
-              "package-name": "binary",
+              "package-name": "tasty",
               "version-range": "-any",
               "library": [
                 {}
               ]
             },
             {
-              "package-name": "bytestring",
+              "package-name": "tasty-papi",
               "version-range": "-any",
-              "library": [
-                {}
-              ]
-            },
-            {
-              "package-name": "crypto-api",
-              "version-range": "-any",
-              "library": [
-                {}
-              ]
-            },
-            {
-              "package-name": "crypto-pubkey-types",
-              "version-range": "-any",
-              "library": [
-                {}
-              ]
-            },
-            {
-              "package-name": "QuickCheck",
-              "version-range": ">=2.5 && <3",
-              "library": [
-                {}
-              ]
-            },
-            {
-              "package-name": "tagged",
-              "version-range": ">=0.2 && <0.9",
-              "library": [
-                {}
-              ]
-            },
-            {
-              "package-name": "test-framework",
-              "version-range": ">=0.8.0.3 && <0.10",
-              "library": [
-                {}
-              ]
-            },
-            {
-              "package-name": "test-framework-quickcheck2",
-              "version-range": ">=0.3.0.2 && <0.5",
-              "library": [
-                {}
-              ]
-            },
-            {
-              "package-name": "SHA",
-              "version-range": ">=1.6.4.1 && <2.0",
               "library": [
                 {}
               ]
@@ -515,64 +400,15 @@
           ]
         },
         {
-          "package-name": "binary",
+          "package-name": "tasty",
           "version-range": "-any",
           "library": [
             {}
           ]
         },
         {
-          "package-name": "bytestring",
+          "package-name": "tasty-papi",
           "version-range": "-any",
-          "library": [
-            {}
-          ]
-        },
-        {
-          "package-name": "crypto-api",
-          "version-range": "-any",
-          "library": [
-            {}
-          ]
-        },
-        {
-          "package-name": "crypto-pubkey-types",
-          "version-range": "-any",
-          "library": [
-            {}
-          ]
-        },
-        {
-          "package-name": "QuickCheck",
-          "version-range": ">=2.5 && <3",
-          "library": [
-            {}
-          ]
-        },
-        {
-          "package-name": "tagged",
-          "version-range": ">=0.2 && <0.9",
-          "library": [
-            {}
-          ]
-        },
-        {
-          "package-name": "test-framework",
-          "version-range": ">=0.8.0.3 && <0.10",
-          "library": [
-            {}
-          ]
-        },
-        {
-          "package-name": "test-framework-quickcheck2",
-          "version-range": ">=0.3.0.2 && <0.5",
-          "library": [
-            {}
-          ]
-        },
-        {
-          "package-name": "SHA",
-          "version-range": ">=1.6.4.1 && <2.0",
           "library": [
             {}
           ]
