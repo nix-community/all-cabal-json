@@ -1,15 +1,18 @@
 {
   "description": {
     "spec-version": {
-      "Right": ">=1.10"
+      "Left": [
+        2,
+        0
+      ]
     },
     "package": {
-      "name": "threepenny-gui",
+      "name": "perceptual-hash",
       "version": [
         0,
-        9,
+        1,
         4,
-        0
+        7
       ]
     },
     "license": {
@@ -18,75 +21,29 @@
     "license-files": [
       "LICENSE"
     ],
-    "copyright": "",
-    "maintainer": "Heinrich Apfelmus <apfelmus at quantentunnel dot de>",
-    "author": "Heinrich Apfelmus",
+    "copyright": "Copyright: (c) 2019-2021 Vanessa McHale",
+    "maintainer": "vamchale@gmail.com",
+    "author": "Vanessa McHale",
     "stability": "",
-    "tested-with": [
-      {
-        "compiler": "GHC",
-        "versionRange": "==7.10.3"
-      },
-      {
-        "compiler": "GHC",
-        "versionRange": "==8.0.2"
-      },
-      {
-        "compiler": "GHC",
-        "versionRange": "==8.2.2"
-      },
-      {
-        "compiler": "GHC",
-        "versionRange": "==8.4.4"
-      },
-      {
-        "compiler": "GHC",
-        "versionRange": "==8.6.5"
-      },
-      {
-        "compiler": "GHC",
-        "versionRange": "==8.8.4"
-      },
-      {
-        "compiler": "GHC",
-        "versionRange": "==8.10.7"
-      },
-      {
-        "compiler": "GHC",
-        "versionRange": "==9.2.8"
-      },
-      {
-        "compiler": "GHC",
-        "versionRange": "==9.4.7"
-      },
-      {
-        "compiler": "GHC",
-        "versionRange": "==9.6.3"
-      }
-    ],
-    "homepage": "http://wiki.haskell.org/Threepenny-gui",
+    "tested-with": [],
+    "homepage": "",
     "pkg-url": "",
-    "bug-reports": "https://github.com/HeinrichApfelmus/threepenny-gui/issues",
+    "bug-reports": "",
     "source-repos": [
       {
         "kind": {},
         "type": "Git",
-        "location": "git://github.com/HeinrichApfelmus/threepenny-gui.git",
+        "location": "https://github.com/vmchale/phash",
         "module": null,
         "branch": null,
         "tag": null,
         "subdir": null
       }
     ],
-    "synopsis": "GUI framework that uses the web browser as a display.",
-    "description": "Threepenny-GUI is a GUI framework that uses the web browser as a display.\n\nIt's very easy to install because everyone has a web browser installed.\n\nA program written with Threepenny is essentially a small web server that\ndisplays the user interface as a web page to any browser that connects to it.\nYou can freely manipulate the HTML DOM and handle JavaScript events\nfrom your Haskell code.\n\nStability forecast: This is an experimental release! Send me your feedback!\nSignificant API changes are likely in future versions.\n\nNOTE: This library contains examples, but they are not built by default.\nTo build and install the example, use the @buildExamples@ flag like this\n\n@cabal install threepenny-gui -fbuildExamples@",
-    "category": "Web, GUI",
-    "custom-fields": [
-      [
-        "x-revision",
-        "3"
-      ]
-    ],
+    "synopsis": "Find duplicate images",
+    "description": "Find similar images using perceptual hashes",
+    "category": "Application, CommandLine, Images",
+    "custom-fields": [],
     "build-type-raw": "Simple",
     "custom-setup": null,
     "library": null,
@@ -96,35 +53,48 @@
     "test-suites": [],
     "benchmarks": [],
     "data-files": [
-      "samples/static/css/*.css",
-      "samples/static/css/*.png",
-      "samples/static/*.html",
-      "samples/static/*.png",
-      "samples/static/*.wav"
+      "demo-data/cat.png",
+      "demo-data/frog.jpeg",
+      "demo-data/frog.png",
+      "demo-data/meme.png",
+      "demo-data/meme-watermark.jpg",
+      "demo-data/liz-taylor.webp",
+      "demo-data/liz-taylor.png",
+      "demo-data/fashion.avif",
+      "demo-data/fashion.png"
     ],
     "data-dir": ".",
     "extra-source-files": [
-      "CHANGELOG.md",
-      "README.md",
-      "samples/README.md",
-      "js/*.html",
-      "js/*.css",
-      "js/*.js",
-      "js/lib/*.js"
+      "include/hs_phash.h"
     ],
     "extra-tmp-files": [],
-    "extra-doc-files": []
+    "extra-doc-files": [
+      "README.md",
+      "CHANGELOG.md"
+    ]
   },
   "package-flags": [
     {
-      "name": "buildexamples",
-      "description": "Build example executables.",
+      "name": "with-phash",
+      "description": "Use FFI bindings to pHash",
       "default": false,
       "manual": true
     },
     {
-      "name": "rebug",
-      "description": "The library uses some techniques that are highly\nnon-deterministic, for example garbage collection\nand concurrency.\nBugs in these subsystems are harder to find.\nActivating this flag will expose more of them.",
+      "name": "disable-webp",
+      "description": "Don't depend on webp FFI bindings",
+      "default": false,
+      "manual": false
+    },
+    {
+      "name": "disable-avif",
+      "description": "Don't depend on avif FFI bindings",
+      "default": false,
+      "manual": false
+    },
+    {
+      "name": "llvm",
+      "description": "Use LLVM backend to GHC rather than NCG",
       "default": false,
       "manual": true
     }
@@ -134,95 +104,7 @@
       "name": {},
       "exposed-modules": [
         [
-          "Foreign",
-          "JavaScript"
-        ],
-        [
-          "Foreign",
-          "RemotePtr"
-        ],
-        [
-          "Graphics",
-          "UI",
-          "Threepenny"
-        ],
-        [
-          "Graphics",
-          "UI",
-          "Threepenny",
-          "Attributes"
-        ],
-        [
-          "Graphics",
-          "UI",
-          "Threepenny",
-          "Canvas"
-        ],
-        [
-          "Graphics",
-          "UI",
-          "Threepenny",
-          "Core"
-        ],
-        [
-          "Graphics",
-          "UI",
-          "Threepenny",
-          "DragNDrop"
-        ],
-        [
-          "Graphics",
-          "UI",
-          "Threepenny",
-          "Elements"
-        ],
-        [
-          "Graphics",
-          "UI",
-          "Threepenny",
-          "Events"
-        ],
-        [
-          "Graphics",
-          "UI",
-          "Threepenny",
-          "JQuery"
-        ],
-        [
-          "Graphics",
-          "UI",
-          "Threepenny",
-          "SVG"
-        ],
-        [
-          "Graphics",
-          "UI",
-          "Threepenny",
-          "SVG",
-          "Attributes"
-        ],
-        [
-          "Graphics",
-          "UI",
-          "Threepenny",
-          "SVG",
-          "Elements"
-        ],
-        [
-          "Graphics",
-          "UI",
-          "Threepenny",
-          "Timer"
-        ],
-        [
-          "Graphics",
-          "UI",
-          "Threepenny",
-          "Widgets"
-        ],
-        [
-          "Reactive",
-          "Threepenny"
+          "PerceptualHash"
         ]
       ],
       "re-exported-modules": [],
@@ -232,10 +114,14 @@
       "build-info": {
         "buildable": true,
         "buildTools": [],
-        "buildToolDepends": [],
-        "cppOptions": [
-          "-DCABAL"
+        "buildToolDepends": [
+          {
+            "package-name": "cpphs",
+            "executable-component-name": "cpphs",
+            "version-range": "-any"
+          }
         ],
+        "cppOptions": [],
         "asmOptions": [],
         "cmmOptions": [],
         "ccOptions": [],
@@ -254,68 +140,7 @@
         ],
         "otherModules": [
           [
-            "Foreign",
-            "JavaScript",
-            "CallBuffer"
-          ],
-          [
-            "Foreign",
-            "JavaScript",
-            "EventLoop"
-          ],
-          [
-            "Foreign",
-            "JavaScript",
-            "Include"
-          ],
-          [
-            "Foreign",
-            "JavaScript",
-            "Marshal"
-          ],
-          [
-            "Foreign",
-            "JavaScript",
-            "Resources"
-          ],
-          [
-            "Foreign",
-            "JavaScript",
-            "Server"
-          ],
-          [
-            "Foreign",
-            "JavaScript",
-            "Types"
-          ],
-          [
-            "Graphics",
-            "UI",
-            "Threepenny",
-            "Internal"
-          ],
-          [
-            "Reactive",
-            "Threepenny",
-            "Memo"
-          ],
-          [
-            "Reactive",
-            "Threepenny",
-            "Monads"
-          ],
-          [
-            "Reactive",
-            "Threepenny",
-            "PulseLatch"
-          ],
-          [
-            "Reactive",
-            "Threepenny",
-            "Types"
-          ],
-          [
-            "Paths_threepenny_gui"
+            "Median"
           ]
         ],
         "virtualModules": [],
@@ -325,7 +150,10 @@
         "defaultExtensions": [],
         "otherExtensions": [
           {
-            "enable-extension": "CPP"
+            "enable-extension": "FlexibleContexts"
+          },
+          {
+            "enable-extension": "TypeFamilies"
           }
         ],
         "oldExtensions": [],
@@ -340,7 +168,10 @@
         "autogenIncludes": [],
         "installIncludes": [],
         "options": [
-          [],
+          [
+            "-Wall",
+            "-O2"
+          ],
           []
         ],
         "profOptions": [
@@ -359,161 +190,49 @@
         "targetBuildDepends": [
           {
             "package-name": "base",
-            "version-range": ">=4.8 && <4.19",
+            "version-range": ">=4.10 && <5",
             "library": [
               {}
             ]
           },
           {
-            "package-name": "aeson",
-            "version-range": "(>=0.7 && <0.10) || ==0.11.* || (>=1.0 && <2.3)",
+            "package-name": "hip",
+            "version-range": "-any",
             "library": [
               {}
             ]
           },
           {
-            "package-name": "async",
-            "version-range": ">=2.0 && <2.3",
-            "library": [
-              {}
-            ]
-          },
-          {
-            "package-name": "bytestring",
-            "version-range": ">=0.9.2 && <0.12",
-            "library": [
-              {}
-            ]
-          },
-          {
-            "package-name": "containers",
-            "version-range": ">=0.4.2 && <0.7",
-            "library": [
-              {}
-            ]
-          },
-          {
-            "package-name": "data-default",
-            "version-range": ">=0.5.0 && <0.8",
-            "library": [
-              {}
-            ]
-          },
-          {
-            "package-name": "deepseq",
-            "version-range": ">=1.3.0 && <1.5",
-            "library": [
-              {}
-            ]
-          },
-          {
-            "package-name": "exceptions",
-            "version-range": ">=0.6 && <0.11",
-            "library": [
-              {}
-            ]
-          },
-          {
-            "package-name": "filepath",
-            "version-range": ">=1.3.0 && <1.5.0",
-            "library": [
-              {}
-            ]
-          },
-          {
-            "package-name": "file-embed",
-            "version-range": ">=0.0.10 && <0.1",
-            "library": [
-              {}
-            ]
-          },
-          {
-            "package-name": "hashable",
-            "version-range": ">=1.2.0 && <1.5",
-            "library": [
-              {}
-            ]
-          },
-          {
-            "package-name": "safe",
-            "version-range": "==0.3.*",
-            "library": [
-              {}
-            ]
-          },
-          {
-            "package-name": "snap-server",
-            "version-range": ">=0.9.0 && <1.2",
-            "library": [
-              {}
-            ]
-          },
-          {
-            "package-name": "snap-core",
-            "version-range": ">=0.9.0 && <1.1",
-            "library": [
-              {}
-            ]
-          },
-          {
-            "package-name": "stm",
-            "version-range": ">=2.2 && <2.6",
-            "library": [
-              {}
-            ]
-          },
-          {
-            "package-name": "template-haskell",
-            "version-range": ">=2.7.0 && <2.23",
-            "library": [
-              {}
-            ]
-          },
-          {
-            "package-name": "text",
-            "version-range": ">=0.11 && <2.1",
-            "library": [
-              {}
-            ]
-          },
-          {
-            "package-name": "transformers",
-            "version-range": ">=0.3.0 && <0.7",
-            "library": [
-              {}
-            ]
-          },
-          {
-            "package-name": "unordered-containers",
-            "version-range": "==0.2.*",
-            "library": [
-              {}
-            ]
-          },
-          {
-            "package-name": "websockets",
-            "version-range": "(>=0.8 && <0.12.5) || (>0.12.5.0 && <0.13)",
-            "library": [
-              {}
-            ]
-          },
-          {
-            "package-name": "websockets-snap",
-            "version-range": ">=0.8 && <0.11",
-            "library": [
-              {}
-            ]
-          },
-          {
-            "package-name": "vault",
-            "version-range": "==0.3.*",
+            "package-name": "vector-algorithms",
+            "version-range": "-any",
             "library": [
               {}
             ]
           },
           {
             "package-name": "vector",
-            "version-range": ">=0.10 && <0.14",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "primitive",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "bytestring",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "JuicyPixels",
+            "version-range": "-any",
             "library": [
               {}
             ]
@@ -525,161 +244,49 @@
     "condTreeConstraints": [
       {
         "package-name": "base",
-        "version-range": ">=4.8 && <4.19",
+        "version-range": ">=4.10 && <5",
         "library": [
           {}
         ]
       },
       {
-        "package-name": "aeson",
-        "version-range": "(>=0.7 && <0.10) || ==0.11.* || (>=1.0 && <2.3)",
+        "package-name": "hip",
+        "version-range": "-any",
         "library": [
           {}
         ]
       },
       {
-        "package-name": "async",
-        "version-range": ">=2.0 && <2.3",
-        "library": [
-          {}
-        ]
-      },
-      {
-        "package-name": "bytestring",
-        "version-range": ">=0.9.2 && <0.12",
-        "library": [
-          {}
-        ]
-      },
-      {
-        "package-name": "containers",
-        "version-range": ">=0.4.2 && <0.7",
-        "library": [
-          {}
-        ]
-      },
-      {
-        "package-name": "data-default",
-        "version-range": ">=0.5.0 && <0.8",
-        "library": [
-          {}
-        ]
-      },
-      {
-        "package-name": "deepseq",
-        "version-range": ">=1.3.0 && <1.5",
-        "library": [
-          {}
-        ]
-      },
-      {
-        "package-name": "exceptions",
-        "version-range": ">=0.6 && <0.11",
-        "library": [
-          {}
-        ]
-      },
-      {
-        "package-name": "filepath",
-        "version-range": ">=1.3.0 && <1.5.0",
-        "library": [
-          {}
-        ]
-      },
-      {
-        "package-name": "file-embed",
-        "version-range": ">=0.0.10 && <0.1",
-        "library": [
-          {}
-        ]
-      },
-      {
-        "package-name": "hashable",
-        "version-range": ">=1.2.0 && <1.5",
-        "library": [
-          {}
-        ]
-      },
-      {
-        "package-name": "safe",
-        "version-range": "==0.3.*",
-        "library": [
-          {}
-        ]
-      },
-      {
-        "package-name": "snap-server",
-        "version-range": ">=0.9.0 && <1.2",
-        "library": [
-          {}
-        ]
-      },
-      {
-        "package-name": "snap-core",
-        "version-range": ">=0.9.0 && <1.1",
-        "library": [
-          {}
-        ]
-      },
-      {
-        "package-name": "stm",
-        "version-range": ">=2.2 && <2.6",
-        "library": [
-          {}
-        ]
-      },
-      {
-        "package-name": "template-haskell",
-        "version-range": ">=2.7.0 && <2.23",
-        "library": [
-          {}
-        ]
-      },
-      {
-        "package-name": "text",
-        "version-range": ">=0.11 && <2.1",
-        "library": [
-          {}
-        ]
-      },
-      {
-        "package-name": "transformers",
-        "version-range": ">=0.3.0 && <0.7",
-        "library": [
-          {}
-        ]
-      },
-      {
-        "package-name": "unordered-containers",
-        "version-range": "==0.2.*",
-        "library": [
-          {}
-        ]
-      },
-      {
-        "package-name": "websockets",
-        "version-range": "(>=0.8 && <0.12.5) || (>0.12.5.0 && <0.13)",
-        "library": [
-          {}
-        ]
-      },
-      {
-        "package-name": "websockets-snap",
-        "version-range": ">=0.8 && <0.11",
-        "library": [
-          {}
-        ]
-      },
-      {
-        "package-name": "vault",
-        "version-range": "==0.3.*",
+        "package-name": "vector-algorithms",
+        "version-range": "-any",
         "library": [
           {}
         ]
       },
       {
         "package-name": "vector",
-        "version-range": ">=0.10 && <0.14",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "primitive",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "bytestring",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "JuicyPixels",
+        "version-range": "-any",
         "library": [
           {}
         ]
@@ -688,8 +295,10 @@
     "condTreeComponents": [
       {
         "condBranchCondition": {
-          "variable": {
-            "flag": "rebug"
+          "cond_not": {
+            "variable": {
+              "flag": "disable-webp"
+            }
           }
         },
         "condBranchIfTrue": {
@@ -705,7 +314,7 @@
               "buildTools": [],
               "buildToolDepends": [],
               "cppOptions": [
-                "-DREBUG"
+                "-DWEBP"
               ],
               "asmOptions": [],
               "cmmOptions": [],
@@ -740,9 +349,355 @@
               "autogenIncludes": [],
               "installIncludes": [],
               "options": [
+                [],
+                []
+              ],
+              "profOptions": [
+                [],
+                []
+              ],
+              "sharedOptions": [
+                [],
+                []
+              ],
+              "staticOptions": [
+                [],
+                []
+              ],
+              "customFieldsBI": [],
+              "targetBuildDepends": [
+                {
+                  "package-name": "webp",
+                  "version-range": ">=0.1.0.3",
+                  "library": [
+                    {}
+                  ]
+                }
+              ],
+              "mixins": []
+            }
+          },
+          "condTreeConstraints": [
+            {
+              "package-name": "webp",
+              "version-range": ">=0.1.0.3",
+              "library": [
+                {}
+              ]
+            }
+          ],
+          "condTreeComponents": []
+        }
+      },
+      {
+        "condBranchCondition": {
+          "cond_not": {
+            "variable": {
+              "flag": "disable-avif"
+            }
+          }
+        },
+        "condBranchIfTrue": {
+          "condTreeData": {
+            "name": {},
+            "exposed-modules": [],
+            "re-exported-modules": [],
+            "signatures": [],
+            "exposed": true,
+            "visibility": "LibraryVisibilityPublic",
+            "build-info": {
+              "buildable": true,
+              "buildTools": [],
+              "buildToolDepends": [],
+              "cppOptions": [
+                "-DAVIF"
+              ],
+              "asmOptions": [],
+              "cmmOptions": [],
+              "ccOptions": [],
+              "cxxOptions": [],
+              "ldOptions": [],
+              "pkgconfigDepends": [],
+              "frameworks": [],
+              "extraFrameworkDirs": [],
+              "asmSources": [],
+              "cmmSources": [],
+              "cSources": [],
+              "cxxSources": [],
+              "jsSources": [],
+              "hsSourceDirs": [],
+              "otherModules": [],
+              "virtualModules": [],
+              "autogenModules": [],
+              "defaultLanguage": null,
+              "otherLanguages": [],
+              "defaultExtensions": [],
+              "otherExtensions": [],
+              "oldExtensions": [],
+              "extraLibs": [],
+              "extraGHCiLibs": [],
+              "extraBundledLibs": [],
+              "extraLibFlavours": [],
+              "extraDynLibFlavours": [],
+              "extraLibDirs": [],
+              "includeDirs": [],
+              "includes": [],
+              "autogenIncludes": [],
+              "installIncludes": [],
+              "options": [
+                [],
+                []
+              ],
+              "profOptions": [
+                [],
+                []
+              ],
+              "sharedOptions": [
+                [],
+                []
+              ],
+              "staticOptions": [
+                [],
+                []
+              ],
+              "customFieldsBI": [],
+              "targetBuildDepends": [
+                {
+                  "package-name": "avif",
+                  "version-range": "-any",
+                  "library": [
+                    {}
+                  ]
+                }
+              ],
+              "mixins": []
+            }
+          },
+          "condTreeConstraints": [
+            {
+              "package-name": "avif",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            }
+          ],
+          "condTreeComponents": []
+        }
+      },
+      {
+        "condBranchCondition": {
+          "variable": {
+            "flag": "llvm"
+          }
+        },
+        "condBranchIfTrue": {
+          "condTreeData": {
+            "name": {},
+            "exposed-modules": [],
+            "re-exported-modules": [],
+            "signatures": [],
+            "exposed": true,
+            "visibility": "LibraryVisibilityPublic",
+            "build-info": {
+              "buildable": true,
+              "buildTools": [],
+              "buildToolDepends": [],
+              "cppOptions": [],
+              "asmOptions": [],
+              "cmmOptions": [],
+              "ccOptions": [],
+              "cxxOptions": [],
+              "ldOptions": [],
+              "pkgconfigDepends": [],
+              "frameworks": [],
+              "extraFrameworkDirs": [],
+              "asmSources": [],
+              "cmmSources": [],
+              "cSources": [],
+              "cxxSources": [],
+              "jsSources": [],
+              "hsSourceDirs": [],
+              "otherModules": [],
+              "virtualModules": [],
+              "autogenModules": [],
+              "defaultLanguage": null,
+              "otherLanguages": [],
+              "defaultExtensions": [],
+              "otherExtensions": [],
+              "oldExtensions": [],
+              "extraLibs": [],
+              "extraGHCiLibs": [],
+              "extraBundledLibs": [],
+              "extraLibFlavours": [],
+              "extraDynLibFlavours": [],
+              "extraLibDirs": [],
+              "includeDirs": [],
+              "includes": [],
+              "autogenIncludes": [],
+              "installIncludes": [],
+              "options": [
                 [
-                  "-O2"
+                  "-fllvm"
                 ],
+                []
+              ],
+              "profOptions": [
+                [],
+                []
+              ],
+              "sharedOptions": [
+                [],
+                []
+              ],
+              "staticOptions": [
+                [],
+                []
+              ],
+              "customFieldsBI": [],
+              "targetBuildDepends": [],
+              "mixins": []
+            }
+          },
+          "condTreeConstraints": [],
+          "condTreeComponents": []
+        }
+      },
+      {
+        "condBranchCondition": {
+          "variable": {
+            "flag": "with-phash"
+          }
+        },
+        "condBranchIfTrue": {
+          "condTreeData": {
+            "name": {},
+            "exposed-modules": [],
+            "re-exported-modules": [],
+            "signatures": [],
+            "exposed": true,
+            "visibility": "LibraryVisibilityPublic",
+            "build-info": {
+              "buildable": true,
+              "buildTools": [],
+              "buildToolDepends": [],
+              "cppOptions": [],
+              "asmOptions": [],
+              "cmmOptions": [],
+              "ccOptions": [],
+              "cxxOptions": [],
+              "ldOptions": [],
+              "pkgconfigDepends": [],
+              "frameworks": [],
+              "extraFrameworkDirs": [],
+              "asmSources": [],
+              "cmmSources": [],
+              "cSources": [],
+              "cxxSources": [],
+              "jsSources": [],
+              "hsSourceDirs": [],
+              "otherModules": [],
+              "virtualModules": [],
+              "autogenModules": [],
+              "defaultLanguage": null,
+              "otherLanguages": [],
+              "defaultExtensions": [],
+              "otherExtensions": [],
+              "oldExtensions": [],
+              "extraLibs": [
+                "pHash"
+              ],
+              "extraGHCiLibs": [],
+              "extraBundledLibs": [],
+              "extraLibFlavours": [],
+              "extraDynLibFlavours": [],
+              "extraLibDirs": [],
+              "includeDirs": [],
+              "includes": [],
+              "autogenIncludes": [],
+              "installIncludes": [],
+              "options": [
+                [],
+                []
+              ],
+              "profOptions": [
+                [],
+                []
+              ],
+              "sharedOptions": [
+                [],
+                []
+              ],
+              "staticOptions": [
+                [],
+                []
+              ],
+              "customFieldsBI": [],
+              "targetBuildDepends": [],
+              "mixins": []
+            }
+          },
+          "condTreeConstraints": [],
+          "condTreeComponents": []
+        }
+      },
+      {
+        "condBranchCondition": {
+          "variable": {
+            "flag": "with-phash"
+          }
+        },
+        "condBranchIfTrue": {
+          "condTreeData": {
+            "name": {},
+            "exposed-modules": [
+              [
+                "ForeignHash"
+              ]
+            ],
+            "re-exported-modules": [],
+            "signatures": [],
+            "exposed": true,
+            "visibility": "LibraryVisibilityPublic",
+            "build-info": {
+              "buildable": true,
+              "buildTools": [],
+              "buildToolDepends": [],
+              "cppOptions": [],
+              "asmOptions": [],
+              "cmmOptions": [],
+              "ccOptions": [],
+              "cxxOptions": [],
+              "ldOptions": [],
+              "pkgconfigDepends": [],
+              "frameworks": [],
+              "extraFrameworkDirs": [],
+              "asmSources": [],
+              "cmmSources": [],
+              "cSources": [],
+              "cxxSources": [],
+              "jsSources": [],
+              "hsSourceDirs": [],
+              "otherModules": [],
+              "virtualModules": [],
+              "autogenModules": [],
+              "defaultLanguage": null,
+              "otherLanguages": [],
+              "defaultExtensions": [],
+              "otherExtensions": [],
+              "oldExtensions": [],
+              "extraLibs": [],
+              "extraGHCiLibs": [],
+              "extraBundledLibs": [],
+              "extraLibFlavours": [],
+              "extraDynLibFlavours": [],
+              "extraLibDirs": [],
+              "includeDirs": [],
+              "includes": [],
+              "autogenIncludes": [],
+              "installIncludes": [],
+              "options": [
+                [],
                 []
               ],
               "profOptions": [
@@ -820,8 +775,168 @@
               "installIncludes": [],
               "options": [
                 [
-                  "-Wcompat",
-                  "-Wnoncanonical-monad-instances"
+                  "-Wincomplete-uni-patterns",
+                  "-Wincomplete-record-updates",
+                  "-Wredundant-constraints",
+                  "-Widentities"
+                ],
+                []
+              ],
+              "profOptions": [
+                [],
+                []
+              ],
+              "sharedOptions": [
+                [],
+                []
+              ],
+              "staticOptions": [
+                [],
+                []
+              ],
+              "customFieldsBI": [],
+              "targetBuildDepends": [],
+              "mixins": []
+            }
+          },
+          "condTreeConstraints": [],
+          "condTreeComponents": []
+        }
+      },
+      {
+        "condBranchCondition": {
+          "variable": {
+            "compiler": "GHC",
+            "version": ">=8.4"
+          }
+        },
+        "condBranchIfTrue": {
+          "condTreeData": {
+            "name": {},
+            "exposed-modules": [],
+            "re-exported-modules": [],
+            "signatures": [],
+            "exposed": true,
+            "visibility": "LibraryVisibilityPublic",
+            "build-info": {
+              "buildable": true,
+              "buildTools": [],
+              "buildToolDepends": [],
+              "cppOptions": [],
+              "asmOptions": [],
+              "cmmOptions": [],
+              "ccOptions": [],
+              "cxxOptions": [],
+              "ldOptions": [],
+              "pkgconfigDepends": [],
+              "frameworks": [],
+              "extraFrameworkDirs": [],
+              "asmSources": [],
+              "cmmSources": [],
+              "cSources": [],
+              "cxxSources": [],
+              "jsSources": [],
+              "hsSourceDirs": [],
+              "otherModules": [],
+              "virtualModules": [],
+              "autogenModules": [],
+              "defaultLanguage": null,
+              "otherLanguages": [],
+              "defaultExtensions": [],
+              "otherExtensions": [],
+              "oldExtensions": [],
+              "extraLibs": [],
+              "extraGHCiLibs": [],
+              "extraBundledLibs": [],
+              "extraLibFlavours": [],
+              "extraDynLibFlavours": [],
+              "extraLibDirs": [],
+              "includeDirs": [],
+              "includes": [],
+              "autogenIncludes": [],
+              "installIncludes": [],
+              "options": [
+                [
+                  "-Wmissing-export-lists"
+                ],
+                []
+              ],
+              "profOptions": [
+                [],
+                []
+              ],
+              "sharedOptions": [
+                [],
+                []
+              ],
+              "staticOptions": [
+                [],
+                []
+              ],
+              "customFieldsBI": [],
+              "targetBuildDepends": [],
+              "mixins": []
+            }
+          },
+          "condTreeConstraints": [],
+          "condTreeComponents": []
+        }
+      },
+      {
+        "condBranchCondition": {
+          "variable": {
+            "compiler": "GHC",
+            "version": ">=8.10"
+          }
+        },
+        "condBranchIfTrue": {
+          "condTreeData": {
+            "name": {},
+            "exposed-modules": [],
+            "re-exported-modules": [],
+            "signatures": [],
+            "exposed": true,
+            "visibility": "LibraryVisibilityPublic",
+            "build-info": {
+              "buildable": true,
+              "buildTools": [],
+              "buildToolDepends": [],
+              "cppOptions": [],
+              "asmOptions": [],
+              "cmmOptions": [],
+              "ccOptions": [],
+              "cxxOptions": [],
+              "ldOptions": [],
+              "pkgconfigDepends": [],
+              "frameworks": [],
+              "extraFrameworkDirs": [],
+              "asmSources": [],
+              "cmmSources": [],
+              "cSources": [],
+              "cxxSources": [],
+              "jsSources": [],
+              "hsSourceDirs": [],
+              "otherModules": [],
+              "virtualModules": [],
+              "autogenModules": [],
+              "defaultLanguage": null,
+              "otherLanguages": [],
+              "defaultExtensions": [],
+              "otherExtensions": [],
+              "oldExtensions": [],
+              "extraLibs": [],
+              "extraGHCiLibs": [],
+              "extraBundledLibs": [],
+              "extraLibFlavours": [],
+              "extraDynLibFlavours": [],
+              "extraLibDirs": [],
+              "includeDirs": [],
+              "includes": [],
+              "autogenIncludes": [],
+              "installIncludes": [],
+              "options": [
+                [
+                  "-Wunused-packages"
                 ],
                 []
               ],
@@ -848,16 +963,458 @@
       }
     ]
   },
+  "foreign-libs": {
+    "hsphash": {
+      "condTreeData": {
+        "name": "hsphash",
+        "type": "ForeignLibNativeShared",
+        "options": [],
+        "build-info": {
+          "buildable": true,
+          "buildTools": [],
+          "buildToolDepends": [],
+          "cppOptions": [],
+          "asmOptions": [],
+          "cmmOptions": [],
+          "ccOptions": [],
+          "cxxOptions": [],
+          "ldOptions": [],
+          "pkgconfigDepends": [],
+          "frameworks": [],
+          "extraFrameworkDirs": [],
+          "asmSources": [],
+          "cmmSources": [],
+          "cSources": [],
+          "cxxSources": [],
+          "jsSources": [],
+          "hsSourceDirs": [
+            "foreign-src"
+          ],
+          "otherModules": [
+            [
+              "Export"
+            ]
+          ],
+          "virtualModules": [],
+          "autogenModules": [],
+          "defaultLanguage": "Haskell2010",
+          "otherLanguages": [],
+          "defaultExtensions": [],
+          "otherExtensions": [],
+          "oldExtensions": [],
+          "extraLibs": [],
+          "extraGHCiLibs": [],
+          "extraBundledLibs": [],
+          "extraLibFlavours": [],
+          "extraDynLibFlavours": [],
+          "extraLibDirs": [],
+          "includeDirs": [
+            "include"
+          ],
+          "includes": [],
+          "autogenIncludes": [],
+          "installIncludes": [
+            "hs_phash.h"
+          ],
+          "options": [
+            [
+              "-Wall"
+            ],
+            []
+          ],
+          "profOptions": [
+            [],
+            []
+          ],
+          "sharedOptions": [
+            [],
+            []
+          ],
+          "staticOptions": [
+            [],
+            []
+          ],
+          "customFieldsBI": [],
+          "targetBuildDepends": [
+            {
+              "package-name": "base",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "perceptual-hash",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            }
+          ],
+          "mixins": []
+        },
+        "version-info": [
+          1,
+          0,
+          0
+        ],
+        "linux-version": null,
+        "mod-def-files": []
+      },
+      "condTreeConstraints": [
+        {
+          "package-name": "base",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "perceptual-hash",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        }
+      ],
+      "condTreeComponents": [
+        {
+          "condBranchCondition": {
+            "variable": {
+              "os": "Windows"
+            }
+          },
+          "condBranchIfTrue": {
+            "condTreeData": {
+              "name": "hsphash",
+              "type": "ForeignLibTypeUnknown",
+              "options": [
+                "ForeignLibStandalone"
+              ],
+              "build-info": {
+                "buildable": true,
+                "buildTools": [],
+                "buildToolDepends": [],
+                "cppOptions": [],
+                "asmOptions": [],
+                "cmmOptions": [],
+                "ccOptions": [],
+                "cxxOptions": [],
+                "ldOptions": [],
+                "pkgconfigDepends": [],
+                "frameworks": [],
+                "extraFrameworkDirs": [],
+                "asmSources": [],
+                "cmmSources": [],
+                "cSources": [],
+                "cxxSources": [],
+                "jsSources": [],
+                "hsSourceDirs": [],
+                "otherModules": [],
+                "virtualModules": [],
+                "autogenModules": [],
+                "defaultLanguage": null,
+                "otherLanguages": [],
+                "defaultExtensions": [],
+                "otherExtensions": [],
+                "oldExtensions": [],
+                "extraLibs": [],
+                "extraGHCiLibs": [],
+                "extraBundledLibs": [],
+                "extraLibFlavours": [],
+                "extraDynLibFlavours": [],
+                "extraLibDirs": [],
+                "includeDirs": [],
+                "includes": [],
+                "autogenIncludes": [],
+                "installIncludes": [],
+                "options": [
+                  [],
+                  []
+                ],
+                "profOptions": [
+                  [],
+                  []
+                ],
+                "sharedOptions": [
+                  [],
+                  []
+                ],
+                "staticOptions": [
+                  [],
+                  []
+                ],
+                "customFieldsBI": [],
+                "targetBuildDepends": [],
+                "mixins": []
+              },
+              "version-info": null,
+              "linux-version": null,
+              "mod-def-files": []
+            },
+            "condTreeConstraints": [],
+            "condTreeComponents": []
+          }
+        },
+        {
+          "condBranchCondition": {
+            "variable": {
+              "compiler": "GHC",
+              "version": ">=8.0"
+            }
+          },
+          "condBranchIfTrue": {
+            "condTreeData": {
+              "name": "hsphash",
+              "type": "ForeignLibTypeUnknown",
+              "options": [],
+              "build-info": {
+                "buildable": true,
+                "buildTools": [],
+                "buildToolDepends": [],
+                "cppOptions": [],
+                "asmOptions": [],
+                "cmmOptions": [],
+                "ccOptions": [],
+                "cxxOptions": [],
+                "ldOptions": [],
+                "pkgconfigDepends": [],
+                "frameworks": [],
+                "extraFrameworkDirs": [],
+                "asmSources": [],
+                "cmmSources": [],
+                "cSources": [],
+                "cxxSources": [],
+                "jsSources": [],
+                "hsSourceDirs": [],
+                "otherModules": [],
+                "virtualModules": [],
+                "autogenModules": [],
+                "defaultLanguage": null,
+                "otherLanguages": [],
+                "defaultExtensions": [],
+                "otherExtensions": [],
+                "oldExtensions": [],
+                "extraLibs": [],
+                "extraGHCiLibs": [],
+                "extraBundledLibs": [],
+                "extraLibFlavours": [],
+                "extraDynLibFlavours": [],
+                "extraLibDirs": [],
+                "includeDirs": [],
+                "includes": [],
+                "autogenIncludes": [],
+                "installIncludes": [],
+                "options": [
+                  [
+                    "-Wincomplete-uni-patterns",
+                    "-Wincomplete-record-updates",
+                    "-Wredundant-constraints",
+                    "-Widentities"
+                  ],
+                  []
+                ],
+                "profOptions": [
+                  [],
+                  []
+                ],
+                "sharedOptions": [
+                  [],
+                  []
+                ],
+                "staticOptions": [
+                  [],
+                  []
+                ],
+                "customFieldsBI": [],
+                "targetBuildDepends": [],
+                "mixins": []
+              },
+              "version-info": null,
+              "linux-version": null,
+              "mod-def-files": []
+            },
+            "condTreeConstraints": [],
+            "condTreeComponents": []
+          }
+        },
+        {
+          "condBranchCondition": {
+            "variable": {
+              "compiler": "GHC",
+              "version": ">=8.4"
+            }
+          },
+          "condBranchIfTrue": {
+            "condTreeData": {
+              "name": "hsphash",
+              "type": "ForeignLibTypeUnknown",
+              "options": [],
+              "build-info": {
+                "buildable": true,
+                "buildTools": [],
+                "buildToolDepends": [],
+                "cppOptions": [],
+                "asmOptions": [],
+                "cmmOptions": [],
+                "ccOptions": [],
+                "cxxOptions": [],
+                "ldOptions": [],
+                "pkgconfigDepends": [],
+                "frameworks": [],
+                "extraFrameworkDirs": [],
+                "asmSources": [],
+                "cmmSources": [],
+                "cSources": [],
+                "cxxSources": [],
+                "jsSources": [],
+                "hsSourceDirs": [],
+                "otherModules": [],
+                "virtualModules": [],
+                "autogenModules": [],
+                "defaultLanguage": null,
+                "otherLanguages": [],
+                "defaultExtensions": [],
+                "otherExtensions": [],
+                "oldExtensions": [],
+                "extraLibs": [],
+                "extraGHCiLibs": [],
+                "extraBundledLibs": [],
+                "extraLibFlavours": [],
+                "extraDynLibFlavours": [],
+                "extraLibDirs": [],
+                "includeDirs": [],
+                "includes": [],
+                "autogenIncludes": [],
+                "installIncludes": [],
+                "options": [
+                  [
+                    "-Wmissing-export-lists"
+                  ],
+                  []
+                ],
+                "profOptions": [
+                  [],
+                  []
+                ],
+                "sharedOptions": [
+                  [],
+                  []
+                ],
+                "staticOptions": [
+                  [],
+                  []
+                ],
+                "customFieldsBI": [],
+                "targetBuildDepends": [],
+                "mixins": []
+              },
+              "version-info": null,
+              "linux-version": null,
+              "mod-def-files": []
+            },
+            "condTreeConstraints": [],
+            "condTreeComponents": []
+          }
+        },
+        {
+          "condBranchCondition": {
+            "variable": {
+              "compiler": "GHC",
+              "version": ">=8.10"
+            }
+          },
+          "condBranchIfTrue": {
+            "condTreeData": {
+              "name": "hsphash",
+              "type": "ForeignLibTypeUnknown",
+              "options": [],
+              "build-info": {
+                "buildable": true,
+                "buildTools": [],
+                "buildToolDepends": [],
+                "cppOptions": [],
+                "asmOptions": [],
+                "cmmOptions": [],
+                "ccOptions": [],
+                "cxxOptions": [],
+                "ldOptions": [],
+                "pkgconfigDepends": [],
+                "frameworks": [],
+                "extraFrameworkDirs": [],
+                "asmSources": [],
+                "cmmSources": [],
+                "cSources": [],
+                "cxxSources": [],
+                "jsSources": [],
+                "hsSourceDirs": [],
+                "otherModules": [],
+                "virtualModules": [],
+                "autogenModules": [],
+                "defaultLanguage": null,
+                "otherLanguages": [],
+                "defaultExtensions": [],
+                "otherExtensions": [],
+                "oldExtensions": [],
+                "extraLibs": [],
+                "extraGHCiLibs": [],
+                "extraBundledLibs": [],
+                "extraLibFlavours": [],
+                "extraDynLibFlavours": [],
+                "extraLibDirs": [],
+                "includeDirs": [],
+                "includes": [],
+                "autogenIncludes": [],
+                "installIncludes": [],
+                "options": [
+                  [
+                    "-Wunused-packages"
+                  ],
+                  []
+                ],
+                "profOptions": [
+                  [],
+                  []
+                ],
+                "sharedOptions": [
+                  [],
+                  []
+                ],
+                "staticOptions": [
+                  [],
+                  []
+                ],
+                "customFieldsBI": [],
+                "targetBuildDepends": [],
+                "mixins": []
+              },
+              "version-info": null,
+              "linux-version": null,
+              "mod-def-files": []
+            },
+            "condTreeConstraints": [],
+            "condTreeComponents": []
+          }
+        }
+      ]
+    }
+  },
   "executables": {
-    "threepenny-examples-buttons": {
+    "phash": {
       "condTreeData": {
-        "name": "threepenny-examples-buttons",
-        "module-path": "Buttons.hs",
+        "name": "phash",
+        "module-path": "Main.hs",
         "scope": "public",
         "build-info": {
           "buildable": true,
           "buildTools": [],
-          "buildToolDepends": [],
+          "buildToolDepends": [
+            {
+              "package-name": "cpphs",
+              "executable-component-name": "cpphs",
+              "version-range": "-any"
+            }
+          ],
           "cppOptions": [],
           "asmOptions": [],
           "cmmOptions": [],
@@ -873,22 +1430,33 @@
           "cxxSources": [],
           "jsSources": [],
           "hsSourceDirs": [
-            "samples"
+            "app"
           ],
           "otherModules": [
             [
-              "Paths_threepenny_gui"
+              "Paths_perceptual_hash"
             ],
             [
-              "Paths"
+              "Parser"
+            ],
+            [
+              "Parallel"
             ]
           ],
           "virtualModules": [],
-          "autogenModules": [],
+          "autogenModules": [
+            [
+              "Paths_perceptual_hash"
+            ]
+          ],
           "defaultLanguage": "Haskell2010",
           "otherLanguages": [],
           "defaultExtensions": [],
-          "otherExtensions": [],
+          "otherExtensions": [
+            {
+              "enable-extension": "ScopedTypeVariables"
+            }
+          ],
           "oldExtensions": [],
           "extraLibs": [],
           "extraGHCiLibs": [],
@@ -901,7 +1469,12 @@
           "autogenIncludes": [],
           "installIncludes": [],
           "options": [
-            [],
+            [
+              "-Wall",
+              "-threaded",
+              "-rtsopts",
+              "-with-rtsopts=-N -qg"
+            ],
             []
           ],
           "profOptions": [
@@ -917,21 +1490,123 @@
             []
           ],
           "customFieldsBI": [],
-          "targetBuildDepends": [],
+          "targetBuildDepends": [
+            {
+              "package-name": "base",
+              "version-range": ">=4.9 && <5",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "perceptual-hash",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "containers",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "filepath",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "optparse-applicative",
+              "version-range": ">=0.13.0.0",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "par-traverse",
+              "version-range": ">=0.2.1.0",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "stm",
+              "version-range": ">=2.3",
+              "library": [
+                {}
+              ]
+            }
+          ],
           "mixins": []
         }
       },
-      "condTreeConstraints": [],
+      "condTreeConstraints": [
+        {
+          "package-name": "base",
+          "version-range": ">=4.9 && <5",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "perceptual-hash",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "containers",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "filepath",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "optparse-applicative",
+          "version-range": ">=0.13.0.0",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "par-traverse",
+          "version-range": ">=0.2.1.0",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "stm",
+          "version-range": ">=2.3",
+          "library": [
+            {}
+          ]
+        }
+      ],
       "condTreeComponents": [
         {
           "condBranchCondition": {
-            "variable": {
-              "flag": "buildexamples"
+            "cond_not": {
+              "variable": {
+                "flag": "disable-webp"
+              }
             }
           },
           "condBranchIfTrue": {
             "condTreeData": {
-              "name": "threepenny-examples-buttons",
+              "name": "phash",
               "module-path": "",
               "scope": "public",
               "build-info": {
@@ -939,118 +1614,8 @@
                 "buildTools": [],
                 "buildToolDepends": [],
                 "cppOptions": [
-                  "-DCABAL"
+                  "-DWEBP"
                 ],
-                "asmOptions": [],
-                "cmmOptions": [],
-                "ccOptions": [],
-                "cxxOptions": [],
-                "ldOptions": [],
-                "pkgconfigDepends": [],
-                "frameworks": [],
-                "extraFrameworkDirs": [],
-                "asmSources": [],
-                "cmmSources": [],
-                "cSources": [],
-                "cxxSources": [],
-                "jsSources": [],
-                "hsSourceDirs": [],
-                "otherModules": [],
-                "virtualModules": [],
-                "autogenModules": [],
-                "defaultLanguage": null,
-                "otherLanguages": [],
-                "defaultExtensions": [],
-                "otherExtensions": [],
-                "oldExtensions": [],
-                "extraLibs": [],
-                "extraGHCiLibs": [],
-                "extraBundledLibs": [],
-                "extraLibFlavours": [],
-                "extraDynLibFlavours": [],
-                "extraLibDirs": [],
-                "includeDirs": [],
-                "includes": [],
-                "autogenIncludes": [],
-                "installIncludes": [],
-                "options": [
-                  [],
-                  []
-                ],
-                "profOptions": [
-                  [],
-                  []
-                ],
-                "sharedOptions": [
-                  [],
-                  []
-                ],
-                "staticOptions": [
-                  [],
-                  []
-                ],
-                "customFieldsBI": [],
-                "targetBuildDepends": [
-                  {
-                    "package-name": "base",
-                    "version-range": ">=4 && <5",
-                    "library": [
-                      {}
-                    ]
-                  },
-                  {
-                    "package-name": "threepenny-gui",
-                    "version-range": "-any",
-                    "library": [
-                      {}
-                    ]
-                  },
-                  {
-                    "package-name": "filepath",
-                    "version-range": "-any",
-                    "library": [
-                      {}
-                    ]
-                  }
-                ],
-                "mixins": []
-              }
-            },
-            "condTreeConstraints": [
-              {
-                "package-name": "base",
-                "version-range": ">=4 && <5",
-                "library": [
-                  {}
-                ]
-              },
-              {
-                "package-name": "threepenny-gui",
-                "version-range": "-any",
-                "library": [
-                  {}
-                ]
-              },
-              {
-                "package-name": "filepath",
-                "version-range": "-any",
-                "library": [
-                  {}
-                ]
-              }
-            ],
-            "condTreeComponents": []
-          },
-          "condBranchIfFalse": {
-            "condTreeData": {
-              "name": "threepenny-examples-buttons",
-              "module-path": "",
-              "scope": "public",
-              "build-info": {
-                "buildable": false,
-                "buildTools": [],
-                "buildToolDepends": [],
-                "cppOptions": [],
                 "asmOptions": [],
                 "cmmOptions": [],
                 "ccOptions": [],
@@ -1107,92 +1672,18 @@
             "condTreeConstraints": [],
             "condTreeComponents": []
           }
-        }
-      ]
-    },
-    "threepenny-examples-drummachine": {
-      "condTreeData": {
-        "name": "threepenny-examples-drummachine",
-        "module-path": "DrumMachine.hs",
-        "scope": "public",
-        "build-info": {
-          "buildable": true,
-          "buildTools": [],
-          "buildToolDepends": [],
-          "cppOptions": [],
-          "asmOptions": [],
-          "cmmOptions": [],
-          "ccOptions": [],
-          "cxxOptions": [],
-          "ldOptions": [],
-          "pkgconfigDepends": [],
-          "frameworks": [],
-          "extraFrameworkDirs": [],
-          "asmSources": [],
-          "cmmSources": [],
-          "cSources": [],
-          "cxxSources": [],
-          "jsSources": [],
-          "hsSourceDirs": [
-            "samples"
-          ],
-          "otherModules": [
-            [
-              "Paths_threepenny_gui"
-            ],
-            [
-              "Paths"
-            ]
-          ],
-          "virtualModules": [],
-          "autogenModules": [],
-          "defaultLanguage": "Haskell2010",
-          "otherLanguages": [],
-          "defaultExtensions": [],
-          "otherExtensions": [],
-          "oldExtensions": [],
-          "extraLibs": [],
-          "extraGHCiLibs": [],
-          "extraBundledLibs": [],
-          "extraLibFlavours": [],
-          "extraDynLibFlavours": [],
-          "extraLibDirs": [],
-          "includeDirs": [],
-          "includes": [],
-          "autogenIncludes": [],
-          "installIncludes": [],
-          "options": [
-            [],
-            []
-          ],
-          "profOptions": [
-            [],
-            []
-          ],
-          "sharedOptions": [
-            [],
-            []
-          ],
-          "staticOptions": [
-            [],
-            []
-          ],
-          "customFieldsBI": [],
-          "targetBuildDepends": [],
-          "mixins": []
-        }
-      },
-      "condTreeConstraints": [],
-      "condTreeComponents": [
+        },
         {
           "condBranchCondition": {
-            "variable": {
-              "flag": "buildexamples"
+            "cond_not": {
+              "variable": {
+                "flag": "disable-avif"
+              }
             }
           },
           "condBranchIfTrue": {
             "condTreeData": {
-              "name": "threepenny-examples-drummachine",
+              "name": "phash",
               "module-path": "",
               "scope": "public",
               "build-info": {
@@ -1200,118 +1691,8 @@
                 "buildTools": [],
                 "buildToolDepends": [],
                 "cppOptions": [
-                  "-DCABAL"
+                  "-DAVIF"
                 ],
-                "asmOptions": [],
-                "cmmOptions": [],
-                "ccOptions": [],
-                "cxxOptions": [],
-                "ldOptions": [],
-                "pkgconfigDepends": [],
-                "frameworks": [],
-                "extraFrameworkDirs": [],
-                "asmSources": [],
-                "cmmSources": [],
-                "cSources": [],
-                "cxxSources": [],
-                "jsSources": [],
-                "hsSourceDirs": [],
-                "otherModules": [],
-                "virtualModules": [],
-                "autogenModules": [],
-                "defaultLanguage": null,
-                "otherLanguages": [],
-                "defaultExtensions": [],
-                "otherExtensions": [],
-                "oldExtensions": [],
-                "extraLibs": [],
-                "extraGHCiLibs": [],
-                "extraBundledLibs": [],
-                "extraLibFlavours": [],
-                "extraDynLibFlavours": [],
-                "extraLibDirs": [],
-                "includeDirs": [],
-                "includes": [],
-                "autogenIncludes": [],
-                "installIncludes": [],
-                "options": [
-                  [],
-                  []
-                ],
-                "profOptions": [
-                  [],
-                  []
-                ],
-                "sharedOptions": [
-                  [],
-                  []
-                ],
-                "staticOptions": [
-                  [],
-                  []
-                ],
-                "customFieldsBI": [],
-                "targetBuildDepends": [
-                  {
-                    "package-name": "base",
-                    "version-range": ">=4 && <5",
-                    "library": [
-                      {}
-                    ]
-                  },
-                  {
-                    "package-name": "threepenny-gui",
-                    "version-range": "-any",
-                    "library": [
-                      {}
-                    ]
-                  },
-                  {
-                    "package-name": "filepath",
-                    "version-range": "-any",
-                    "library": [
-                      {}
-                    ]
-                  }
-                ],
-                "mixins": []
-              }
-            },
-            "condTreeConstraints": [
-              {
-                "package-name": "base",
-                "version-range": ">=4 && <5",
-                "library": [
-                  {}
-                ]
-              },
-              {
-                "package-name": "threepenny-gui",
-                "version-range": "-any",
-                "library": [
-                  {}
-                ]
-              },
-              {
-                "package-name": "filepath",
-                "version-range": "-any",
-                "library": [
-                  {}
-                ]
-              }
-            ],
-            "condTreeComponents": []
-          },
-          "condBranchIfFalse": {
-            "condTreeData": {
-              "name": "threepenny-examples-drummachine",
-              "module-path": "",
-              "scope": "public",
-              "build-info": {
-                "buildable": false,
-                "buildTools": [],
-                "buildToolDepends": [],
-                "cppOptions": [],
                 "asmOptions": [],
                 "cmmOptions": [],
                 "ccOptions": [],
@@ -1368,227 +1749,20 @@
             "condTreeConstraints": [],
             "condTreeComponents": []
           }
-        }
-      ]
-    },
-    "threepenny-examples-chat": {
-      "condTreeData": {
-        "name": "threepenny-examples-chat",
-        "module-path": "Chat.hs",
-        "scope": "public",
-        "build-info": {
-          "buildable": true,
-          "buildTools": [],
-          "buildToolDepends": [],
-          "cppOptions": [],
-          "asmOptions": [],
-          "cmmOptions": [],
-          "ccOptions": [],
-          "cxxOptions": [],
-          "ldOptions": [],
-          "pkgconfigDepends": [],
-          "frameworks": [],
-          "extraFrameworkDirs": [],
-          "asmSources": [],
-          "cmmSources": [],
-          "cSources": [],
-          "cxxSources": [],
-          "jsSources": [],
-          "hsSourceDirs": [
-            "samples"
-          ],
-          "otherModules": [
-            [
-              "Paths_threepenny_gui"
-            ],
-            [
-              "Paths"
-            ],
-            [
-              "Data",
-              "List",
-              "Extra"
-            ]
-          ],
-          "virtualModules": [],
-          "autogenModules": [],
-          "defaultLanguage": "Haskell2010",
-          "otherLanguages": [],
-          "defaultExtensions": [],
-          "otherExtensions": [],
-          "oldExtensions": [],
-          "extraLibs": [],
-          "extraGHCiLibs": [],
-          "extraBundledLibs": [],
-          "extraLibFlavours": [],
-          "extraDynLibFlavours": [],
-          "extraLibDirs": [],
-          "includeDirs": [],
-          "includes": [],
-          "autogenIncludes": [],
-          "installIncludes": [],
-          "options": [
-            [],
-            []
-          ],
-          "profOptions": [
-            [],
-            []
-          ],
-          "sharedOptions": [
-            [],
-            []
-          ],
-          "staticOptions": [
-            [],
-            []
-          ],
-          "customFieldsBI": [],
-          "targetBuildDepends": [],
-          "mixins": []
-        }
-      },
-      "condTreeConstraints": [],
-      "condTreeComponents": [
+        },
         {
           "condBranchCondition": {
             "variable": {
-              "flag": "buildexamples"
+              "flag": "llvm"
             }
           },
           "condBranchIfTrue": {
             "condTreeData": {
-              "name": "threepenny-examples-chat",
+              "name": "phash",
               "module-path": "",
               "scope": "public",
               "build-info": {
                 "buildable": true,
-                "buildTools": [],
-                "buildToolDepends": [],
-                "cppOptions": [
-                  "-DCABAL"
-                ],
-                "asmOptions": [],
-                "cmmOptions": [],
-                "ccOptions": [],
-                "cxxOptions": [],
-                "ldOptions": [],
-                "pkgconfigDepends": [],
-                "frameworks": [],
-                "extraFrameworkDirs": [],
-                "asmSources": [],
-                "cmmSources": [],
-                "cSources": [],
-                "cxxSources": [],
-                "jsSources": [],
-                "hsSourceDirs": [],
-                "otherModules": [],
-                "virtualModules": [],
-                "autogenModules": [],
-                "defaultLanguage": null,
-                "otherLanguages": [],
-                "defaultExtensions": [],
-                "otherExtensions": [],
-                "oldExtensions": [],
-                "extraLibs": [],
-                "extraGHCiLibs": [],
-                "extraBundledLibs": [],
-                "extraLibFlavours": [],
-                "extraDynLibFlavours": [],
-                "extraLibDirs": [],
-                "includeDirs": [],
-                "includes": [],
-                "autogenIncludes": [],
-                "installIncludes": [],
-                "options": [
-                  [],
-                  []
-                ],
-                "profOptions": [
-                  [],
-                  []
-                ],
-                "sharedOptions": [
-                  [],
-                  []
-                ],
-                "staticOptions": [
-                  [],
-                  []
-                ],
-                "customFieldsBI": [],
-                "targetBuildDepends": [
-                  {
-                    "package-name": "base",
-                    "version-range": ">=4 && <5",
-                    "library": [
-                      {}
-                    ]
-                  },
-                  {
-                    "package-name": "threepenny-gui",
-                    "version-range": "-any",
-                    "library": [
-                      {}
-                    ]
-                  },
-                  {
-                    "package-name": "filepath",
-                    "version-range": "-any",
-                    "library": [
-                      {}
-                    ]
-                  },
-                  {
-                    "package-name": "time",
-                    "version-range": "-any",
-                    "library": [
-                      {}
-                    ]
-                  }
-                ],
-                "mixins": []
-              }
-            },
-            "condTreeConstraints": [
-              {
-                "package-name": "base",
-                "version-range": ">=4 && <5",
-                "library": [
-                  {}
-                ]
-              },
-              {
-                "package-name": "threepenny-gui",
-                "version-range": "-any",
-                "library": [
-                  {}
-                ]
-              },
-              {
-                "package-name": "filepath",
-                "version-range": "-any",
-                "library": [
-                  {}
-                ]
-              },
-              {
-                "package-name": "time",
-                "version-range": "-any",
-                "library": [
-                  {}
-                ]
-              }
-            ],
-            "condTreeComponents": []
-          },
-          "condBranchIfFalse": {
-            "condTreeData": {
-              "name": "threepenny-examples-chat",
-              "module-path": "",
-              "scope": "public",
-              "build-info": {
-                "buildable": false,
                 "buildTools": [],
                 "buildToolDepends": [],
                 "cppOptions": [],
@@ -1625,7 +1799,9 @@
                 "autogenIncludes": [],
                 "installIncludes": [],
                 "options": [
-                  [],
+                  [
+                    "-fllvm"
+                  ],
                   []
                 ],
                 "profOptions": [
@@ -1648,208 +1824,21 @@
             "condTreeConstraints": [],
             "condTreeComponents": []
           }
-        }
-      ]
-    },
-    "threepenny-examples-canvas": {
-      "condTreeData": {
-        "name": "threepenny-examples-canvas",
-        "module-path": "Canvas.hs",
-        "scope": "public",
-        "build-info": {
-          "buildable": true,
-          "buildTools": [],
-          "buildToolDepends": [],
-          "cppOptions": [],
-          "asmOptions": [],
-          "cmmOptions": [],
-          "ccOptions": [],
-          "cxxOptions": [],
-          "ldOptions": [],
-          "pkgconfigDepends": [],
-          "frameworks": [],
-          "extraFrameworkDirs": [],
-          "asmSources": [],
-          "cmmSources": [],
-          "cSources": [],
-          "cxxSources": [],
-          "jsSources": [],
-          "hsSourceDirs": [
-            "samples"
-          ],
-          "otherModules": [
-            [
-              "Paths_threepenny_gui"
-            ],
-            [
-              "Paths"
-            ]
-          ],
-          "virtualModules": [],
-          "autogenModules": [],
-          "defaultLanguage": "Haskell2010",
-          "otherLanguages": [],
-          "defaultExtensions": [],
-          "otherExtensions": [],
-          "oldExtensions": [],
-          "extraLibs": [],
-          "extraGHCiLibs": [],
-          "extraBundledLibs": [],
-          "extraLibFlavours": [],
-          "extraDynLibFlavours": [],
-          "extraLibDirs": [],
-          "includeDirs": [],
-          "includes": [],
-          "autogenIncludes": [],
-          "installIncludes": [],
-          "options": [
-            [],
-            []
-          ],
-          "profOptions": [
-            [],
-            []
-          ],
-          "sharedOptions": [
-            [],
-            []
-          ],
-          "staticOptions": [
-            [],
-            []
-          ],
-          "customFieldsBI": [],
-          "targetBuildDepends": [],
-          "mixins": []
-        }
-      },
-      "condTreeConstraints": [],
-      "condTreeComponents": [
+        },
         {
           "condBranchCondition": {
             "variable": {
-              "flag": "buildexamples"
+              "compiler": "GHC",
+              "version": ">=8.0"
             }
           },
           "condBranchIfTrue": {
             "condTreeData": {
-              "name": "threepenny-examples-canvas",
+              "name": "phash",
               "module-path": "",
               "scope": "public",
               "build-info": {
                 "buildable": true,
-                "buildTools": [],
-                "buildToolDepends": [],
-                "cppOptions": [
-                  "-DCABAL"
-                ],
-                "asmOptions": [],
-                "cmmOptions": [],
-                "ccOptions": [],
-                "cxxOptions": [],
-                "ldOptions": [],
-                "pkgconfigDepends": [],
-                "frameworks": [],
-                "extraFrameworkDirs": [],
-                "asmSources": [],
-                "cmmSources": [],
-                "cSources": [],
-                "cxxSources": [],
-                "jsSources": [],
-                "hsSourceDirs": [],
-                "otherModules": [],
-                "virtualModules": [],
-                "autogenModules": [],
-                "defaultLanguage": null,
-                "otherLanguages": [],
-                "defaultExtensions": [],
-                "otherExtensions": [],
-                "oldExtensions": [],
-                "extraLibs": [],
-                "extraGHCiLibs": [],
-                "extraBundledLibs": [],
-                "extraLibFlavours": [],
-                "extraDynLibFlavours": [],
-                "extraLibDirs": [],
-                "includeDirs": [],
-                "includes": [],
-                "autogenIncludes": [],
-                "installIncludes": [],
-                "options": [
-                  [],
-                  []
-                ],
-                "profOptions": [
-                  [],
-                  []
-                ],
-                "sharedOptions": [
-                  [],
-                  []
-                ],
-                "staticOptions": [
-                  [],
-                  []
-                ],
-                "customFieldsBI": [],
-                "targetBuildDepends": [
-                  {
-                    "package-name": "base",
-                    "version-range": ">=4 && <5",
-                    "library": [
-                      {}
-                    ]
-                  },
-                  {
-                    "package-name": "filepath",
-                    "version-range": "-any",
-                    "library": [
-                      {}
-                    ]
-                  },
-                  {
-                    "package-name": "threepenny-gui",
-                    "version-range": "-any",
-                    "library": [
-                      {}
-                    ]
-                  }
-                ],
-                "mixins": []
-              }
-            },
-            "condTreeConstraints": [
-              {
-                "package-name": "base",
-                "version-range": ">=4 && <5",
-                "library": [
-                  {}
-                ]
-              },
-              {
-                "package-name": "filepath",
-                "version-range": "-any",
-                "library": [
-                  {}
-                ]
-              },
-              {
-                "package-name": "threepenny-gui",
-                "version-range": "-any",
-                "library": [
-                  {}
-                ]
-              }
-            ],
-            "condTreeComponents": []
-          },
-          "condBranchIfFalse": {
-            "condTreeData": {
-              "name": "threepenny-examples-canvas",
-              "module-path": "",
-              "scope": "public",
-              "build-info": {
-                "buildable": false,
                 "buildTools": [],
                 "buildToolDepends": [],
                 "cppOptions": [],
@@ -1886,7 +1875,12 @@
                 "autogenIncludes": [],
                 "installIncludes": [],
                 "options": [
-                  [],
+                  [
+                    "-Wincomplete-uni-patterns",
+                    "-Wincomplete-record-updates",
+                    "-Wredundant-constraints",
+                    "-Widentities"
+                  ],
                   []
                 ],
                 "profOptions": [
@@ -1909,208 +1903,21 @@
             "condTreeConstraints": [],
             "condTreeComponents": []
           }
-        }
-      ]
-    },
-    "threepenny-examples-dragndropexample": {
-      "condTreeData": {
-        "name": "threepenny-examples-dragndropexample",
-        "module-path": "DragNDropExample.hs",
-        "scope": "public",
-        "build-info": {
-          "buildable": true,
-          "buildTools": [],
-          "buildToolDepends": [],
-          "cppOptions": [],
-          "asmOptions": [],
-          "cmmOptions": [],
-          "ccOptions": [],
-          "cxxOptions": [],
-          "ldOptions": [],
-          "pkgconfigDepends": [],
-          "frameworks": [],
-          "extraFrameworkDirs": [],
-          "asmSources": [],
-          "cmmSources": [],
-          "cSources": [],
-          "cxxSources": [],
-          "jsSources": [],
-          "hsSourceDirs": [
-            "samples"
-          ],
-          "otherModules": [
-            [
-              "Paths_threepenny_gui"
-            ],
-            [
-              "Paths"
-            ]
-          ],
-          "virtualModules": [],
-          "autogenModules": [],
-          "defaultLanguage": "Haskell2010",
-          "otherLanguages": [],
-          "defaultExtensions": [],
-          "otherExtensions": [],
-          "oldExtensions": [],
-          "extraLibs": [],
-          "extraGHCiLibs": [],
-          "extraBundledLibs": [],
-          "extraLibFlavours": [],
-          "extraDynLibFlavours": [],
-          "extraLibDirs": [],
-          "includeDirs": [],
-          "includes": [],
-          "autogenIncludes": [],
-          "installIncludes": [],
-          "options": [
-            [],
-            []
-          ],
-          "profOptions": [
-            [],
-            []
-          ],
-          "sharedOptions": [
-            [],
-            []
-          ],
-          "staticOptions": [
-            [],
-            []
-          ],
-          "customFieldsBI": [],
-          "targetBuildDepends": [],
-          "mixins": []
-        }
-      },
-      "condTreeConstraints": [],
-      "condTreeComponents": [
+        },
         {
           "condBranchCondition": {
             "variable": {
-              "flag": "buildexamples"
+              "compiler": "GHC",
+              "version": ">=8.4"
             }
           },
           "condBranchIfTrue": {
             "condTreeData": {
-              "name": "threepenny-examples-dragndropexample",
+              "name": "phash",
               "module-path": "",
               "scope": "public",
               "build-info": {
                 "buildable": true,
-                "buildTools": [],
-                "buildToolDepends": [],
-                "cppOptions": [
-                  "-DCABAL"
-                ],
-                "asmOptions": [],
-                "cmmOptions": [],
-                "ccOptions": [],
-                "cxxOptions": [],
-                "ldOptions": [],
-                "pkgconfigDepends": [],
-                "frameworks": [],
-                "extraFrameworkDirs": [],
-                "asmSources": [],
-                "cmmSources": [],
-                "cSources": [],
-                "cxxSources": [],
-                "jsSources": [],
-                "hsSourceDirs": [],
-                "otherModules": [],
-                "virtualModules": [],
-                "autogenModules": [],
-                "defaultLanguage": null,
-                "otherLanguages": [],
-                "defaultExtensions": [],
-                "otherExtensions": [],
-                "oldExtensions": [],
-                "extraLibs": [],
-                "extraGHCiLibs": [],
-                "extraBundledLibs": [],
-                "extraLibFlavours": [],
-                "extraDynLibFlavours": [],
-                "extraLibDirs": [],
-                "includeDirs": [],
-                "includes": [],
-                "autogenIncludes": [],
-                "installIncludes": [],
-                "options": [
-                  [],
-                  []
-                ],
-                "profOptions": [
-                  [],
-                  []
-                ],
-                "sharedOptions": [
-                  [],
-                  []
-                ],
-                "staticOptions": [
-                  [],
-                  []
-                ],
-                "customFieldsBI": [],
-                "targetBuildDepends": [
-                  {
-                    "package-name": "base",
-                    "version-range": ">=4 && <5",
-                    "library": [
-                      {}
-                    ]
-                  },
-                  {
-                    "package-name": "threepenny-gui",
-                    "version-range": "-any",
-                    "library": [
-                      {}
-                    ]
-                  },
-                  {
-                    "package-name": "filepath",
-                    "version-range": "-any",
-                    "library": [
-                      {}
-                    ]
-                  }
-                ],
-                "mixins": []
-              }
-            },
-            "condTreeConstraints": [
-              {
-                "package-name": "base",
-                "version-range": ">=4 && <5",
-                "library": [
-                  {}
-                ]
-              },
-              {
-                "package-name": "threepenny-gui",
-                "version-range": "-any",
-                "library": [
-                  {}
-                ]
-              },
-              {
-                "package-name": "filepath",
-                "version-range": "-any",
-                "library": [
-                  {}
-                ]
-              }
-            ],
-            "condTreeComponents": []
-          },
-          "condBranchIfFalse": {
-            "condTreeData": {
-              "name": "threepenny-examples-dragndropexample",
-              "module-path": "",
-              "scope": "public",
-              "build-info": {
-                "buildable": false,
                 "buildTools": [],
                 "buildToolDepends": [],
                 "cppOptions": [],
@@ -2147,7 +1954,85 @@
                 "autogenIncludes": [],
                 "installIncludes": [],
                 "options": [
+                  [
+                    "-Wmissing-export-lists"
+                  ],
+                  []
+                ],
+                "profOptions": [
                   [],
+                  []
+                ],
+                "sharedOptions": [
+                  [],
+                  []
+                ],
+                "staticOptions": [
+                  [],
+                  []
+                ],
+                "customFieldsBI": [],
+                "targetBuildDepends": [],
+                "mixins": []
+              }
+            },
+            "condTreeConstraints": [],
+            "condTreeComponents": []
+          }
+        },
+        {
+          "condBranchCondition": {
+            "variable": {
+              "compiler": "GHC",
+              "version": ">=8.10"
+            }
+          },
+          "condBranchIfTrue": {
+            "condTreeData": {
+              "name": "phash",
+              "module-path": "",
+              "scope": "public",
+              "build-info": {
+                "buildable": true,
+                "buildTools": [],
+                "buildToolDepends": [],
+                "cppOptions": [],
+                "asmOptions": [],
+                "cmmOptions": [],
+                "ccOptions": [],
+                "cxxOptions": [],
+                "ldOptions": [],
+                "pkgconfigDepends": [],
+                "frameworks": [],
+                "extraFrameworkDirs": [],
+                "asmSources": [],
+                "cmmSources": [],
+                "cSources": [],
+                "cxxSources": [],
+                "jsSources": [],
+                "hsSourceDirs": [],
+                "otherModules": [],
+                "virtualModules": [],
+                "autogenModules": [],
+                "defaultLanguage": null,
+                "otherLanguages": [],
+                "defaultExtensions": [],
+                "otherExtensions": [],
+                "oldExtensions": [],
+                "extraLibs": [],
+                "extraGHCiLibs": [],
+                "extraBundledLibs": [],
+                "extraLibFlavours": [],
+                "extraDynLibFlavours": [],
+                "extraLibDirs": [],
+                "includeDirs": [],
+                "includes": [],
+                "autogenIncludes": [],
+                "installIncludes": [],
+                "options": [
+                  [
+                    "-Wunused-packages"
+                  ],
                   []
                 ],
                 "profOptions": [
@@ -2172,16 +2057,29 @@
           }
         }
       ]
-    },
-    "threepenny-examples-svg": {
+    }
+  },
+  "test-suites": {
+    "perceptual-hash-test": {
       "condTreeData": {
-        "name": "threepenny-examples-svg",
-        "module-path": "Svg.hs",
-        "scope": "public",
+        "name": "",
+        "interface": {
+          "version": [
+            1,
+            0
+          ],
+          "filepath": "Spec.hs"
+        },
         "build-info": {
           "buildable": true,
           "buildTools": [],
-          "buildToolDepends": [],
+          "buildToolDepends": [
+            {
+              "package-name": "cpphs",
+              "executable-component-name": "cpphs",
+              "version-range": "-any"
+            }
+          ],
           "cppOptions": [],
           "asmOptions": [],
           "cmmOptions": [],
@@ -2197,7 +2095,7 @@
           "cxxSources": [],
           "jsSources": [],
           "hsSourceDirs": [
-            "samples"
+            "test"
           ],
           "otherModules": [],
           "virtualModules": [],
@@ -2218,7 +2116,12 @@
           "autogenIncludes": [],
           "installIncludes": [],
           "options": [
-            [],
+            [
+              "-Wall",
+              "-threaded",
+              "-rtsopts",
+              "-with-rtsopts=-N -K1K"
+            ],
             []
           ],
           "profOptions": [
@@ -2234,126 +2137,80 @@
             []
           ],
           "customFieldsBI": [],
-          "targetBuildDepends": [],
+          "targetBuildDepends": [
+            {
+              "package-name": "base",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "perceptual-hash",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "hspec",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            }
+          ],
           "mixins": []
         }
       },
-      "condTreeConstraints": [],
+      "condTreeConstraints": [
+        {
+          "package-name": "base",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "perceptual-hash",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "hspec",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        }
+      ],
       "condTreeComponents": [
         {
           "condBranchCondition": {
-            "variable": {
-              "flag": "buildexamples"
+            "cond_not": {
+              "variable": {
+                "flag": "disable-webp"
+              }
             }
           },
           "condBranchIfTrue": {
             "condTreeData": {
-              "name": "threepenny-examples-svg",
-              "module-path": "",
-              "scope": "public",
+              "name": "",
+              "interface": {
+                "type": {
+                  "name": "",
+                  "version": []
+                }
+              },
               "build-info": {
                 "buildable": true,
                 "buildTools": [],
                 "buildToolDepends": [],
                 "cppOptions": [
-                  "-DCABAL"
+                  "-DWEBP"
                 ],
-                "asmOptions": [],
-                "cmmOptions": [],
-                "ccOptions": [],
-                "cxxOptions": [],
-                "ldOptions": [],
-                "pkgconfigDepends": [],
-                "frameworks": [],
-                "extraFrameworkDirs": [],
-                "asmSources": [],
-                "cmmSources": [],
-                "cSources": [],
-                "cxxSources": [],
-                "jsSources": [],
-                "hsSourceDirs": [],
-                "otherModules": [],
-                "virtualModules": [],
-                "autogenModules": [],
-                "defaultLanguage": null,
-                "otherLanguages": [],
-                "defaultExtensions": [],
-                "otherExtensions": [],
-                "oldExtensions": [],
-                "extraLibs": [],
-                "extraGHCiLibs": [],
-                "extraBundledLibs": [],
-                "extraLibFlavours": [],
-                "extraDynLibFlavours": [],
-                "extraLibDirs": [],
-                "includeDirs": [],
-                "includes": [],
-                "autogenIncludes": [],
-                "installIncludes": [],
-                "options": [
-                  [],
-                  []
-                ],
-                "profOptions": [
-                  [],
-                  []
-                ],
-                "sharedOptions": [
-                  [],
-                  []
-                ],
-                "staticOptions": [
-                  [],
-                  []
-                ],
-                "customFieldsBI": [],
-                "targetBuildDepends": [
-                  {
-                    "package-name": "base",
-                    "version-range": ">=4 && <5",
-                    "library": [
-                      {}
-                    ]
-                  },
-                  {
-                    "package-name": "threepenny-gui",
-                    "version-range": "-any",
-                    "library": [
-                      {}
-                    ]
-                  }
-                ],
-                "mixins": []
-              }
-            },
-            "condTreeConstraints": [
-              {
-                "package-name": "base",
-                "version-range": ">=4 && <5",
-                "library": [
-                  {}
-                ]
-              },
-              {
-                "package-name": "threepenny-gui",
-                "version-range": "-any",
-                "library": [
-                  {}
-                ]
-              }
-            ],
-            "condTreeComponents": []
-          },
-          "condBranchIfFalse": {
-            "condTreeData": {
-              "name": "threepenny-examples-svg",
-              "module-path": "",
-              "scope": "public",
-              "build-info": {
-                "buildable": false,
-                "buildTools": [],
-                "buildToolDepends": [],
-                "cppOptions": [],
                 "asmOptions": [],
                 "cmmOptions": [],
                 "ccOptions": [],
@@ -2410,190 +2267,31 @@
             "condTreeConstraints": [],
             "condTreeComponents": []
           }
-        }
-      ]
-    },
-    "threepenny-examples-bartab": {
-      "condTreeData": {
-        "name": "threepenny-examples-bartab",
-        "module-path": "BarTab.hs",
-        "scope": "public",
-        "build-info": {
-          "buildable": true,
-          "buildTools": [],
-          "buildToolDepends": [],
-          "cppOptions": [],
-          "asmOptions": [],
-          "cmmOptions": [],
-          "ccOptions": [],
-          "cxxOptions": [],
-          "ldOptions": [],
-          "pkgconfigDepends": [],
-          "frameworks": [],
-          "extraFrameworkDirs": [],
-          "asmSources": [],
-          "cmmSources": [],
-          "cSources": [],
-          "cxxSources": [],
-          "jsSources": [],
-          "hsSourceDirs": [
-            "samples"
-          ],
-          "otherModules": [],
-          "virtualModules": [],
-          "autogenModules": [],
-          "defaultLanguage": "Haskell2010",
-          "otherLanguages": [],
-          "defaultExtensions": [],
-          "otherExtensions": [],
-          "oldExtensions": [],
-          "extraLibs": [],
-          "extraGHCiLibs": [],
-          "extraBundledLibs": [],
-          "extraLibFlavours": [],
-          "extraDynLibFlavours": [],
-          "extraLibDirs": [],
-          "includeDirs": [],
-          "includes": [],
-          "autogenIncludes": [],
-          "installIncludes": [],
-          "options": [
-            [],
-            []
-          ],
-          "profOptions": [
-            [],
-            []
-          ],
-          "sharedOptions": [
-            [],
-            []
-          ],
-          "staticOptions": [
-            [],
-            []
-          ],
-          "customFieldsBI": [],
-          "targetBuildDepends": [],
-          "mixins": []
-        }
-      },
-      "condTreeConstraints": [],
-      "condTreeComponents": [
+        },
         {
           "condBranchCondition": {
-            "variable": {
-              "flag": "buildexamples"
+            "cond_not": {
+              "variable": {
+                "flag": "disable-avif"
+              }
             }
           },
           "condBranchIfTrue": {
             "condTreeData": {
-              "name": "threepenny-examples-bartab",
-              "module-path": "",
-              "scope": "public",
+              "name": "",
+              "interface": {
+                "type": {
+                  "name": "",
+                  "version": []
+                }
+              },
               "build-info": {
                 "buildable": true,
                 "buildTools": [],
                 "buildToolDepends": [],
                 "cppOptions": [
-                  "-DCABAL"
+                  "-DAVIF"
                 ],
-                "asmOptions": [],
-                "cmmOptions": [],
-                "ccOptions": [],
-                "cxxOptions": [],
-                "ldOptions": [],
-                "pkgconfigDepends": [],
-                "frameworks": [],
-                "extraFrameworkDirs": [],
-                "asmSources": [],
-                "cmmSources": [],
-                "cSources": [],
-                "cxxSources": [],
-                "jsSources": [],
-                "hsSourceDirs": [],
-                "otherModules": [],
-                "virtualModules": [],
-                "autogenModules": [],
-                "defaultLanguage": null,
-                "otherLanguages": [],
-                "defaultExtensions": [],
-                "otherExtensions": [],
-                "oldExtensions": [],
-                "extraLibs": [],
-                "extraGHCiLibs": [],
-                "extraBundledLibs": [],
-                "extraLibFlavours": [],
-                "extraDynLibFlavours": [],
-                "extraLibDirs": [],
-                "includeDirs": [],
-                "includes": [],
-                "autogenIncludes": [],
-                "installIncludes": [],
-                "options": [
-                  [],
-                  []
-                ],
-                "profOptions": [
-                  [],
-                  []
-                ],
-                "sharedOptions": [
-                  [],
-                  []
-                ],
-                "staticOptions": [
-                  [],
-                  []
-                ],
-                "customFieldsBI": [],
-                "targetBuildDepends": [
-                  {
-                    "package-name": "base",
-                    "version-range": ">=4 && <5",
-                    "library": [
-                      {}
-                    ]
-                  },
-                  {
-                    "package-name": "threepenny-gui",
-                    "version-range": "-any",
-                    "library": [
-                      {}
-                    ]
-                  }
-                ],
-                "mixins": []
-              }
-            },
-            "condTreeConstraints": [
-              {
-                "package-name": "base",
-                "version-range": ">=4 && <5",
-                "library": [
-                  {}
-                ]
-              },
-              {
-                "package-name": "threepenny-gui",
-                "version-range": "-any",
-                "library": [
-                  {}
-                ]
-              }
-            ],
-            "condTreeComponents": []
-          },
-          "condBranchIfFalse": {
-            "condTreeData": {
-              "name": "threepenny-examples-bartab",
-              "module-path": "",
-              "scope": "public",
-              "build-info": {
-                "buildable": false,
-                "buildTools": [],
-                "buildToolDepends": [],
-                "cppOptions": [],
                 "asmOptions": [],
                 "cmmOptions": [],
                 "ccOptions": [],
@@ -2650,94 +2348,28 @@
             "condTreeConstraints": [],
             "condTreeComponents": []
           }
-        }
-      ]
-    },
-    "threepenny-examples-currencyconverter": {
-      "condTreeData": {
-        "name": "threepenny-examples-currencyconverter",
-        "module-path": "CurrencyConverter.hs",
-        "scope": "public",
-        "build-info": {
-          "buildable": true,
-          "buildTools": [],
-          "buildToolDepends": [],
-          "cppOptions": [],
-          "asmOptions": [],
-          "cmmOptions": [],
-          "ccOptions": [],
-          "cxxOptions": [],
-          "ldOptions": [],
-          "pkgconfigDepends": [],
-          "frameworks": [],
-          "extraFrameworkDirs": [],
-          "asmSources": [],
-          "cmmSources": [],
-          "cSources": [],
-          "cxxSources": [],
-          "jsSources": [],
-          "hsSourceDirs": [
-            "samples"
-          ],
-          "otherModules": [],
-          "virtualModules": [],
-          "autogenModules": [],
-          "defaultLanguage": "Haskell2010",
-          "otherLanguages": [],
-          "defaultExtensions": [],
-          "otherExtensions": [],
-          "oldExtensions": [],
-          "extraLibs": [],
-          "extraGHCiLibs": [],
-          "extraBundledLibs": [],
-          "extraLibFlavours": [],
-          "extraDynLibFlavours": [],
-          "extraLibDirs": [],
-          "includeDirs": [],
-          "includes": [],
-          "autogenIncludes": [],
-          "installIncludes": [],
-          "options": [
-            [],
-            []
-          ],
-          "profOptions": [
-            [],
-            []
-          ],
-          "sharedOptions": [
-            [],
-            []
-          ],
-          "staticOptions": [
-            [],
-            []
-          ],
-          "customFieldsBI": [],
-          "targetBuildDepends": [],
-          "mixins": []
-        }
-      },
-      "condTreeConstraints": [],
-      "condTreeComponents": [
+        },
         {
           "condBranchCondition": {
             "variable": {
-              "flag": "buildexamples"
+              "compiler": "GHC",
+              "version": ">=8.0"
             }
           },
           "condBranchIfTrue": {
             "condTreeData": {
-              "name": "threepenny-examples-currencyconverter",
-              "module-path": "",
-              "scope": "public",
+              "name": "",
+              "interface": {
+                "type": {
+                  "name": "",
+                  "version": []
+                }
+              },
               "build-info": {
                 "buildable": true,
                 "buildTools": [],
                 "buildToolDepends": [],
-                "cppOptions": [
-                  "-DCABAL"
-                ],
+                "cppOptions": [],
                 "asmOptions": [],
                 "cmmOptions": [],
                 "ccOptions": [],
@@ -2771,7 +2403,12 @@
                 "autogenIncludes": [],
                 "installIncludes": [],
                 "options": [
-                  [],
+                  [
+                    "-Wincomplete-uni-patterns",
+                    "-Wincomplete-record-updates",
+                    "-Wredundant-constraints",
+                    "-Widentities"
+                  ],
                   []
                 ],
                 "profOptions": [
@@ -2787,67 +2424,437 @@
                   []
                 ],
                 "customFieldsBI": [],
-                "targetBuildDepends": [
-                  {
-                    "package-name": "base",
-                    "version-range": ">=4 && <5",
-                    "library": [
-                      {}
-                    ]
-                  },
-                  {
-                    "package-name": "threepenny-gui",
-                    "version-range": "-any",
-                    "library": [
-                      {}
-                    ]
-                  },
-                  {
-                    "package-name": "safe",
-                    "version-range": "-any",
-                    "library": [
-                      {}
-                    ]
-                  }
-                ],
+                "targetBuildDepends": [],
                 "mixins": []
               }
             },
-            "condTreeConstraints": [
-              {
-                "package-name": "base",
-                "version-range": ">=4 && <5",
-                "library": [
-                  {}
-                ]
-              },
-              {
-                "package-name": "threepenny-gui",
-                "version-range": "-any",
-                "library": [
-                  {}
-                ]
-              },
-              {
-                "package-name": "safe",
-                "version-range": "-any",
-                "library": [
-                  {}
-                ]
-              }
-            ],
+            "condTreeConstraints": [],
             "condTreeComponents": []
+          }
+        },
+        {
+          "condBranchCondition": {
+            "variable": {
+              "compiler": "GHC",
+              "version": ">=8.4"
+            }
           },
-          "condBranchIfFalse": {
+          "condBranchIfTrue": {
             "condTreeData": {
-              "name": "threepenny-examples-currencyconverter",
-              "module-path": "",
-              "scope": "public",
+              "name": "",
+              "interface": {
+                "type": {
+                  "name": "",
+                  "version": []
+                }
+              },
               "build-info": {
-                "buildable": false,
+                "buildable": true,
                 "buildTools": [],
                 "buildToolDepends": [],
                 "cppOptions": [],
+                "asmOptions": [],
+                "cmmOptions": [],
+                "ccOptions": [],
+                "cxxOptions": [],
+                "ldOptions": [],
+                "pkgconfigDepends": [],
+                "frameworks": [],
+                "extraFrameworkDirs": [],
+                "asmSources": [],
+                "cmmSources": [],
+                "cSources": [],
+                "cxxSources": [],
+                "jsSources": [],
+                "hsSourceDirs": [],
+                "otherModules": [],
+                "virtualModules": [],
+                "autogenModules": [],
+                "defaultLanguage": null,
+                "otherLanguages": [],
+                "defaultExtensions": [],
+                "otherExtensions": [],
+                "oldExtensions": [],
+                "extraLibs": [],
+                "extraGHCiLibs": [],
+                "extraBundledLibs": [],
+                "extraLibFlavours": [],
+                "extraDynLibFlavours": [],
+                "extraLibDirs": [],
+                "includeDirs": [],
+                "includes": [],
+                "autogenIncludes": [],
+                "installIncludes": [],
+                "options": [
+                  [
+                    "-Wmissing-export-lists"
+                  ],
+                  []
+                ],
+                "profOptions": [
+                  [],
+                  []
+                ],
+                "sharedOptions": [
+                  [],
+                  []
+                ],
+                "staticOptions": [
+                  [],
+                  []
+                ],
+                "customFieldsBI": [],
+                "targetBuildDepends": [],
+                "mixins": []
+              }
+            },
+            "condTreeConstraints": [],
+            "condTreeComponents": []
+          }
+        },
+        {
+          "condBranchCondition": {
+            "variable": {
+              "compiler": "GHC",
+              "version": ">=8.10"
+            }
+          },
+          "condBranchIfTrue": {
+            "condTreeData": {
+              "name": "",
+              "interface": {
+                "type": {
+                  "name": "",
+                  "version": []
+                }
+              },
+              "build-info": {
+                "buildable": true,
+                "buildTools": [],
+                "buildToolDepends": [],
+                "cppOptions": [],
+                "asmOptions": [],
+                "cmmOptions": [],
+                "ccOptions": [],
+                "cxxOptions": [],
+                "ldOptions": [],
+                "pkgconfigDepends": [],
+                "frameworks": [],
+                "extraFrameworkDirs": [],
+                "asmSources": [],
+                "cmmSources": [],
+                "cSources": [],
+                "cxxSources": [],
+                "jsSources": [],
+                "hsSourceDirs": [],
+                "otherModules": [],
+                "virtualModules": [],
+                "autogenModules": [],
+                "defaultLanguage": null,
+                "otherLanguages": [],
+                "defaultExtensions": [],
+                "otherExtensions": [],
+                "oldExtensions": [],
+                "extraLibs": [],
+                "extraGHCiLibs": [],
+                "extraBundledLibs": [],
+                "extraLibFlavours": [],
+                "extraDynLibFlavours": [],
+                "extraLibDirs": [],
+                "includeDirs": [],
+                "includes": [],
+                "autogenIncludes": [],
+                "installIncludes": [],
+                "options": [
+                  [
+                    "-Wunused-packages"
+                  ],
+                  []
+                ],
+                "profOptions": [
+                  [],
+                  []
+                ],
+                "sharedOptions": [
+                  [],
+                  []
+                ],
+                "staticOptions": [
+                  [],
+                  []
+                ],
+                "customFieldsBI": [],
+                "targetBuildDepends": [],
+                "mixins": []
+              }
+            },
+            "condTreeConstraints": [],
+            "condTreeComponents": []
+          }
+        }
+      ]
+    }
+  },
+  "benchmarks": {
+    "phash-bench": {
+      "condTreeData": {
+        "name": "",
+        "interface": {
+          "version": [
+            1,
+            0
+          ],
+          "filepath": "Bench.hs"
+        },
+        "build-info": {
+          "buildable": true,
+          "buildTools": [],
+          "buildToolDepends": [
+            {
+              "package-name": "cpphs",
+              "executable-component-name": "cpphs",
+              "version-range": "-any"
+            }
+          ],
+          "cppOptions": [],
+          "asmOptions": [],
+          "cmmOptions": [],
+          "ccOptions": [],
+          "cxxOptions": [],
+          "ldOptions": [],
+          "pkgconfigDepends": [],
+          "frameworks": [],
+          "extraFrameworkDirs": [],
+          "asmSources": [],
+          "cmmSources": [],
+          "cSources": [],
+          "cxxSources": [],
+          "jsSources": [],
+          "hsSourceDirs": [
+            "bench"
+          ],
+          "otherModules": [],
+          "virtualModules": [],
+          "autogenModules": [],
+          "defaultLanguage": "Haskell2010",
+          "otherLanguages": [],
+          "defaultExtensions": [],
+          "otherExtensions": [],
+          "oldExtensions": [],
+          "extraLibs": [],
+          "extraGHCiLibs": [],
+          "extraBundledLibs": [],
+          "extraLibFlavours": [],
+          "extraDynLibFlavours": [],
+          "extraLibDirs": [],
+          "includeDirs": [],
+          "includes": [],
+          "autogenIncludes": [],
+          "installIncludes": [],
+          "options": [
+            [
+              "-threaded",
+              "-rtsopts",
+              "-with-rtsopts=-N -qg",
+              "-Wall",
+              "-Wincomplete-uni-patterns",
+              "-Wincomplete-record-updates",
+              "-Wredundant-constraints"
+            ],
+            []
+          ],
+          "profOptions": [
+            [],
+            []
+          ],
+          "sharedOptions": [
+            [],
+            []
+          ],
+          "staticOptions": [
+            [],
+            []
+          ],
+          "customFieldsBI": [],
+          "targetBuildDepends": [
+            {
+              "package-name": "base",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "perceptual-hash",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "criterion",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "filepath",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            },
+            {
+              "package-name": "deepseq",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            }
+          ],
+          "mixins": []
+        }
+      },
+      "condTreeConstraints": [
+        {
+          "package-name": "base",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "perceptual-hash",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "criterion",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "filepath",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        },
+        {
+          "package-name": "deepseq",
+          "version-range": "-any",
+          "library": [
+            {}
+          ]
+        }
+      ],
+      "condTreeComponents": [
+        {
+          "condBranchCondition": {
+            "variable": {
+              "flag": "llvm"
+            }
+          },
+          "condBranchIfTrue": {
+            "condTreeData": {
+              "name": "",
+              "interface": {
+                "benchmark-type": {
+                  "type": "",
+                  "version": []
+                }
+              },
+              "build-info": {
+                "buildable": true,
+                "buildTools": [],
+                "buildToolDepends": [],
+                "cppOptions": [],
+                "asmOptions": [],
+                "cmmOptions": [],
+                "ccOptions": [],
+                "cxxOptions": [],
+                "ldOptions": [],
+                "pkgconfigDepends": [],
+                "frameworks": [],
+                "extraFrameworkDirs": [],
+                "asmSources": [],
+                "cmmSources": [],
+                "cSources": [],
+                "cxxSources": [],
+                "jsSources": [],
+                "hsSourceDirs": [],
+                "otherModules": [],
+                "virtualModules": [],
+                "autogenModules": [],
+                "defaultLanguage": null,
+                "otherLanguages": [],
+                "defaultExtensions": [],
+                "otherExtensions": [],
+                "oldExtensions": [],
+                "extraLibs": [],
+                "extraGHCiLibs": [],
+                "extraBundledLibs": [],
+                "extraLibFlavours": [],
+                "extraDynLibFlavours": [],
+                "extraLibDirs": [],
+                "includeDirs": [],
+                "includes": [],
+                "autogenIncludes": [],
+                "installIncludes": [],
+                "options": [
+                  [
+                    "-fllvm"
+                  ],
+                  []
+                ],
+                "profOptions": [
+                  [],
+                  []
+                ],
+                "sharedOptions": [
+                  [],
+                  []
+                ],
+                "staticOptions": [
+                  [],
+                  []
+                ],
+                "customFieldsBI": [],
+                "targetBuildDepends": [],
+                "mixins": []
+              }
+            },
+            "condTreeConstraints": [],
+            "condTreeComponents": []
+          }
+        },
+        {
+          "condBranchCondition": {
+            "variable": {
+              "flag": "with-phash"
+            }
+          },
+          "condBranchIfTrue": {
+            "condTreeData": {
+              "name": "",
+              "interface": {
+                "benchmark-type": {
+                  "type": "",
+                  "version": []
+                }
+              },
+              "build-info": {
+                "buildable": true,
+                "buildTools": [],
+                "buildToolDepends": [],
+                "cppOptions": [
+                  "-DFOREIGN_PHASH"
+                ],
                 "asmOptions": [],
                 "cmmOptions": [],
                 "ccOptions": [],
@@ -2904,201 +2911,25 @@
             "condTreeConstraints": [],
             "condTreeComponents": []
           }
-        }
-      ]
-    },
-    "threepenny-examples-crud": {
-      "condTreeData": {
-        "name": "threepenny-examples-crud",
-        "module-path": "CRUD.hs",
-        "scope": "public",
-        "build-info": {
-          "buildable": true,
-          "buildTools": [],
-          "buildToolDepends": [],
-          "cppOptions": [],
-          "asmOptions": [],
-          "cmmOptions": [],
-          "ccOptions": [],
-          "cxxOptions": [],
-          "ldOptions": [],
-          "pkgconfigDepends": [],
-          "frameworks": [],
-          "extraFrameworkDirs": [],
-          "asmSources": [],
-          "cmmSources": [],
-          "cSources": [],
-          "cxxSources": [],
-          "jsSources": [],
-          "hsSourceDirs": [
-            "samples"
-          ],
-          "otherModules": [],
-          "virtualModules": [],
-          "autogenModules": [],
-          "defaultLanguage": "Haskell2010",
-          "otherLanguages": [],
-          "defaultExtensions": [],
-          "otherExtensions": [],
-          "oldExtensions": [],
-          "extraLibs": [],
-          "extraGHCiLibs": [],
-          "extraBundledLibs": [],
-          "extraLibFlavours": [],
-          "extraDynLibFlavours": [],
-          "extraLibDirs": [],
-          "includeDirs": [],
-          "includes": [],
-          "autogenIncludes": [],
-          "installIncludes": [],
-          "options": [
-            [],
-            []
-          ],
-          "profOptions": [
-            [],
-            []
-          ],
-          "sharedOptions": [
-            [],
-            []
-          ],
-          "staticOptions": [
-            [],
-            []
-          ],
-          "customFieldsBI": [],
-          "targetBuildDepends": [],
-          "mixins": []
-        }
-      },
-      "condTreeConstraints": [],
-      "condTreeComponents": [
+        },
         {
           "condBranchCondition": {
             "variable": {
-              "flag": "buildexamples"
+              "compiler": "GHC",
+              "version": ">=8.4"
             }
           },
           "condBranchIfTrue": {
             "condTreeData": {
-              "name": "threepenny-examples-crud",
-              "module-path": "",
-              "scope": "public",
+              "name": "",
+              "interface": {
+                "benchmark-type": {
+                  "type": "",
+                  "version": []
+                }
+              },
               "build-info": {
                 "buildable": true,
-                "buildTools": [],
-                "buildToolDepends": [],
-                "cppOptions": [
-                  "-DCABAL"
-                ],
-                "asmOptions": [],
-                "cmmOptions": [],
-                "ccOptions": [],
-                "cxxOptions": [],
-                "ldOptions": [],
-                "pkgconfigDepends": [],
-                "frameworks": [],
-                "extraFrameworkDirs": [],
-                "asmSources": [],
-                "cmmSources": [],
-                "cSources": [],
-                "cxxSources": [],
-                "jsSources": [],
-                "hsSourceDirs": [],
-                "otherModules": [],
-                "virtualModules": [],
-                "autogenModules": [],
-                "defaultLanguage": null,
-                "otherLanguages": [],
-                "defaultExtensions": [],
-                "otherExtensions": [],
-                "oldExtensions": [],
-                "extraLibs": [],
-                "extraGHCiLibs": [],
-                "extraBundledLibs": [],
-                "extraLibFlavours": [],
-                "extraDynLibFlavours": [],
-                "extraLibDirs": [],
-                "includeDirs": [],
-                "includes": [],
-                "autogenIncludes": [],
-                "installIncludes": [],
-                "options": [
-                  [],
-                  []
-                ],
-                "profOptions": [
-                  [],
-                  []
-                ],
-                "sharedOptions": [
-                  [],
-                  []
-                ],
-                "staticOptions": [
-                  [],
-                  []
-                ],
-                "customFieldsBI": [],
-                "targetBuildDepends": [
-                  {
-                    "package-name": "base",
-                    "version-range": ">=4 && <5",
-                    "library": [
-                      {}
-                    ]
-                  },
-                  {
-                    "package-name": "containers",
-                    "version-range": "-any",
-                    "library": [
-                      {}
-                    ]
-                  },
-                  {
-                    "package-name": "threepenny-gui",
-                    "version-range": "-any",
-                    "library": [
-                      {}
-                    ]
-                  }
-                ],
-                "mixins": []
-              }
-            },
-            "condTreeConstraints": [
-              {
-                "package-name": "base",
-                "version-range": ">=4 && <5",
-                "library": [
-                  {}
-                ]
-              },
-              {
-                "package-name": "containers",
-                "version-range": "-any",
-                "library": [
-                  {}
-                ]
-              },
-              {
-                "package-name": "threepenny-gui",
-                "version-range": "-any",
-                "library": [
-                  {}
-                ]
-              }
-            ],
-            "condTreeComponents": []
-          },
-          "condBranchIfFalse": {
-            "condTreeData": {
-              "name": "threepenny-examples-crud",
-              "module-path": "",
-              "scope": "public",
-              "build-info": {
-                "buildable": false,
                 "buildTools": [],
                 "buildToolDepends": [],
                 "cppOptions": [],
@@ -3135,7 +2966,89 @@
                 "autogenIncludes": [],
                 "installIncludes": [],
                 "options": [
+                  [
+                    "-Wmissing-export-lists"
+                  ],
+                  []
+                ],
+                "profOptions": [
                   [],
+                  []
+                ],
+                "sharedOptions": [
+                  [],
+                  []
+                ],
+                "staticOptions": [
+                  [],
+                  []
+                ],
+                "customFieldsBI": [],
+                "targetBuildDepends": [],
+                "mixins": []
+              }
+            },
+            "condTreeConstraints": [],
+            "condTreeComponents": []
+          }
+        },
+        {
+          "condBranchCondition": {
+            "variable": {
+              "compiler": "GHC",
+              "version": ">=8.10"
+            }
+          },
+          "condBranchIfTrue": {
+            "condTreeData": {
+              "name": "",
+              "interface": {
+                "benchmark-type": {
+                  "type": "",
+                  "version": []
+                }
+              },
+              "build-info": {
+                "buildable": true,
+                "buildTools": [],
+                "buildToolDepends": [],
+                "cppOptions": [],
+                "asmOptions": [],
+                "cmmOptions": [],
+                "ccOptions": [],
+                "cxxOptions": [],
+                "ldOptions": [],
+                "pkgconfigDepends": [],
+                "frameworks": [],
+                "extraFrameworkDirs": [],
+                "asmSources": [],
+                "cmmSources": [],
+                "cSources": [],
+                "cxxSources": [],
+                "jsSources": [],
+                "hsSourceDirs": [],
+                "otherModules": [],
+                "virtualModules": [],
+                "autogenModules": [],
+                "defaultLanguage": null,
+                "otherLanguages": [],
+                "defaultExtensions": [],
+                "otherExtensions": [],
+                "oldExtensions": [],
+                "extraLibs": [],
+                "extraGHCiLibs": [],
+                "extraBundledLibs": [],
+                "extraLibFlavours": [],
+                "extraDynLibFlavours": [],
+                "extraLibDirs": [],
+                "includeDirs": [],
+                "includes": [],
+                "autogenIncludes": [],
+                "installIncludes": [],
+                "options": [
+                  [
+                    "-Wunused-packages"
+                  ],
                   []
                 ],
                 "profOptions": [
