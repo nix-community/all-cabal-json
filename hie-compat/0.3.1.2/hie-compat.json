@@ -1,56 +1,49 @@
 {
   "description": {
     "spec-version": {
-      "Right": ">=1.10"
+      "Left": [
+        1,
+        22
+      ]
     },
     "package": {
-      "name": "monoidal-containers",
+      "name": "hie-compat",
       "version": [
         0,
-        6,
-        4,
-        0
+        3,
+        1,
+        2
       ]
     },
     "license": {
-      "Right": "BSD3"
+      "Right": "OtherLicense"
     },
     "license-files": [
       "LICENSE"
     ],
-    "copyright": "(c) 2014 Ben Gamari",
-    "maintainer": "ben@smart-cactus.org",
-    "author": "Ben Gamari",
+    "copyright": "",
+    "maintainer": "zubin.duggal@gmail.com",
+    "author": "Zubin Duggal",
     "stability": "",
-    "tested-with": [
-      {
-        "compiler": "GHC",
-        "versionRange": "==8.2.2 || ==8.4.4 || ==8.6.5 || ==8.8.4 || ==8.10.2 || ==9.0.2 || ==9.2.1 || ==9.4.1"
-      }
-    ],
-    "homepage": "http://github.com/bgamari/monoidal-containers",
+    "tested-with": [],
+    "homepage": "https://github.com/haskell/haskell-language-server/tree/master/hie-compat#readme",
     "pkg-url": "",
-    "bug-reports": "",
+    "bug-reports": "https://github.com/haskell/haskell-language-server/issues",
     "source-repos": [
       {
         "kind": {},
         "type": "Git",
-        "location": "git://github.com/bgamari/monoidal-containers",
+        "location": "https://github.com/haskell/haskell-language-server.git",
         "module": null,
         "branch": null,
         "tag": null,
         "subdir": null
       }
     ],
-    "synopsis": "Containers with monoidal accumulation",
-    "description": "Containers with merging via monoidal accumulation. The 'Monoid' instances\nprovided by the @containers@ and @unordered-containers@ packages merge\nstructures in a left-biased manner instead of using the underlying monoidal\nstructure of the value.\n\nThis package wraps the types provided by these packages, but provides @Monoid@\ninstances implemented in terms of the value type's 'mappend'. For instance,\nthe @Monoid@ @Map@ instance looks like,\n\n@\ninstance (Ord k, Semigroup a) => Monoid (MonoidalMap k a)\n@",
-    "category": "Data",
-    "custom-fields": [
-      [
-        "x-revision",
-        "2"
-      ]
-    ],
+    "synopsis": "HIE files for GHC 8.8 and other HIE file backports",
+    "description": "Backports for HIE files to GHC 8.8, along with a few other backports\nof HIE file related fixes for ghcide.\nTHIS DOES NOT LET YOU READ HIE FILES WITH MISMATCHED VERSIONS OF GHC",
+    "category": "Development",
+    "custom-fields": [],
     "build-type-raw": "Simple",
     "custom-setup": null,
     "library": null,
@@ -62,49 +55,35 @@
     "data-files": [],
     "data-dir": ".",
     "extra-source-files": [
-      "Changelog.md"
+      "CHANGELOG.md",
+      "README.md"
     ],
     "extra-tmp-files": [],
     "extra-doc-files": []
   },
-  "package-flags": [
-    {
-      "name": "split-these",
-      "description": "Use split these/semialign packages",
-      "default": true,
-      "manual": false
-    }
-  ],
   "library": {
     "condTreeData": {
       "name": {},
       "exposed-modules": [
         [
-          "Data",
-          "HashMap",
-          "Monoidal"
+          "Compat",
+          "HieAst"
         ],
         [
-          "Data",
-          "IntMap",
-          "Monoidal"
+          "Compat",
+          "HieBin"
         ],
         [
-          "Data",
-          "IntMap",
-          "Monoidal",
-          "Strict"
+          "Compat",
+          "HieTypes"
         ],
         [
-          "Data",
-          "Map",
-          "Monoidal"
+          "Compat",
+          "HieDebug"
         ],
         [
-          "Data",
-          "Map",
-          "Monoidal",
-          "Strict"
+          "Compat",
+          "HieUtils"
         ]
       ],
       "re-exported-modules": [],
@@ -129,32 +108,14 @@
         "cSources": [],
         "cxxSources": [],
         "jsSources": [],
-        "hsSourceDirs": [
-          "src"
-        ],
+        "hsSourceDirs": [],
         "otherModules": [],
         "virtualModules": [],
         "autogenModules": [],
         "defaultLanguage": "Haskell2010",
         "otherLanguages": [],
         "defaultExtensions": [],
-        "otherExtensions": [
-          {
-            "enable-extension": "CPP"
-          },
-          {
-            "enable-extension": "DeriveDataTypeable"
-          },
-          {
-            "enable-extension": "DeriveTraversable"
-          },
-          {
-            "enable-extension": "GeneralizedNewtypeDeriving"
-          },
-          {
-            "enable-extension": "MultiParamTypeClasses"
-          }
-        ],
+        "otherExtensions": [],
         "oldExtensions": [],
         "extraLibs": [],
         "extraGHCiLibs": [],
@@ -167,7 +128,10 @@
         "autogenIncludes": [],
         "installIncludes": [],
         "options": [
-          [],
+          [
+            "-Wall",
+            "-Wno-name-shadowing"
+          ],
           []
         ],
         "profOptions": [
@@ -185,64 +149,64 @@
         "customFieldsBI": [],
         "targetBuildDepends": [
           {
-            "package-name": "aeson",
-            "version-range": ">=1.0 && <2.3",
+            "package-name": "base",
+            "version-range": "<4.20",
             "library": [
               {}
             ]
           },
           {
-            "package-name": "base",
-            "version-range": ">=4.7 && <4.20",
+            "package-name": "array",
+            "version-range": "-any",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "bytestring",
+            "version-range": "-any",
             "library": [
               {}
             ]
           },
           {
             "package-name": "containers",
-            "version-range": ">=0.5.9 && <0.8",
+            "version-range": "-any",
             "library": [
               {}
             ]
           },
           {
-            "package-name": "deepseq",
-            "version-range": ">=1.3 && <1.6",
+            "package-name": "directory",
+            "version-range": "-any",
             "library": [
               {}
             ]
           },
           {
-            "package-name": "hashable",
-            "version-range": ">=1.2 && <1.5",
+            "package-name": "filepath",
+            "version-range": "-any",
             "library": [
               {}
             ]
           },
           {
-            "package-name": "lens",
-            "version-range": ">=4.4 && <5.3",
+            "package-name": "transformers",
+            "version-range": "-any",
             "library": [
               {}
             ]
           },
           {
-            "package-name": "newtype",
-            "version-range": ">=0.2 && <0.3",
+            "package-name": "ghc",
+            "version-range": ">=8.10",
             "library": [
               {}
             ]
           },
           {
-            "package-name": "unordered-containers",
-            "version-range": ">=0.2 && <0.3",
-            "library": [
-              {}
-            ]
-          },
-          {
-            "package-name": "witherable",
-            "version-range": ">=0.4 && <0.5",
+            "package-name": "ghc-boot",
+            "version-range": "-any",
             "library": [
               {}
             ]
@@ -253,64 +217,64 @@
     },
     "condTreeConstraints": [
       {
-        "package-name": "aeson",
-        "version-range": ">=1.0 && <2.3",
+        "package-name": "base",
+        "version-range": "<4.20",
         "library": [
           {}
         ]
       },
       {
-        "package-name": "base",
-        "version-range": ">=4.7 && <4.20",
+        "package-name": "array",
+        "version-range": "-any",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "bytestring",
+        "version-range": "-any",
         "library": [
           {}
         ]
       },
       {
         "package-name": "containers",
-        "version-range": ">=0.5.9 && <0.8",
+        "version-range": "-any",
         "library": [
           {}
         ]
       },
       {
-        "package-name": "deepseq",
-        "version-range": ">=1.3 && <1.6",
+        "package-name": "directory",
+        "version-range": "-any",
         "library": [
           {}
         ]
       },
       {
-        "package-name": "hashable",
-        "version-range": ">=1.2 && <1.5",
+        "package-name": "filepath",
+        "version-range": "-any",
         "library": [
           {}
         ]
       },
       {
-        "package-name": "lens",
-        "version-range": ">=4.4 && <5.3",
+        "package-name": "transformers",
+        "version-range": "-any",
         "library": [
           {}
         ]
       },
       {
-        "package-name": "newtype",
-        "version-range": ">=0.2 && <0.3",
+        "package-name": "ghc",
+        "version-range": ">=8.10",
         "library": [
           {}
         ]
       },
       {
-        "package-name": "unordered-containers",
-        "version-range": ">=0.2 && <0.3",
-        "library": [
-          {}
-        ]
-      },
-      {
-        "package-name": "witherable",
-        "version-range": ">=0.4 && <0.5",
+        "package-name": "ghc-boot",
+        "version-range": "-any",
         "library": [
           {}
         ]
@@ -319,8 +283,17 @@
     "condTreeComponents": [
       {
         "condBranchCondition": {
-          "variable": {
-            "flag": "split-these"
+          "cond_and_1": {
+            "variable": {
+              "compiler": "GHC",
+              "version": ">=9.0"
+            }
+          },
+          "cond_and_2": {
+            "variable": {
+              "compiler": "GHC",
+              "version": "<9.1"
+            }
           }
         },
         "condBranchIfTrue": {
@@ -349,7 +322,10 @@
               "cSources": [],
               "cxxSources": [],
               "jsSources": [],
-              "hsSourceDirs": [],
+              "hsSourceDirs": [
+                "src-ghc90",
+                "src-reexport-ghc9"
+              ],
               "otherModules": [],
               "virtualModules": [],
               "autogenModules": [],
@@ -385,44 +361,30 @@
                 []
               ],
               "customFieldsBI": [],
-              "targetBuildDepends": [
-                {
-                  "package-name": "semialign",
-                  "version-range": ">=1 && <1.4",
-                  "library": [
-                    {}
-                  ]
-                },
-                {
-                  "package-name": "these",
-                  "version-range": ">=1 && <1.3",
-                  "library": [
-                    {}
-                  ]
-                }
-              ],
+              "targetBuildDepends": [],
               "mixins": []
             }
           },
-          "condTreeConstraints": [
-            {
-              "package-name": "semialign",
-              "version-range": ">=1 && <1.4",
-              "library": [
-                {}
-              ]
-            },
-            {
-              "package-name": "these",
-              "version-range": ">=1 && <1.3",
-              "library": [
-                {}
-              ]
-            }
-          ],
+          "condTreeConstraints": [],
           "condTreeComponents": []
+        }
+      },
+      {
+        "condBranchCondition": {
+          "cond_and_1": {
+            "variable": {
+              "compiler": "GHC",
+              "version": ">=9.2"
+            }
+          },
+          "cond_and_2": {
+            "variable": {
+              "compiler": "GHC",
+              "version": "<9.3"
+            }
+          }
         },
-        "condBranchIfFalse": {
+        "condBranchIfTrue": {
           "condTreeData": {
             "name": {},
             "exposed-modules": [],
@@ -448,7 +410,10 @@
               "cSources": [],
               "cxxSources": [],
               "jsSources": [],
-              "hsSourceDirs": [],
+              "hsSourceDirs": [
+                "src-ghc92",
+                "src-reexport-ghc9"
+              ],
               "otherModules": [],
               "virtualModules": [],
               "autogenModules": [],
@@ -484,27 +449,90 @@
                 []
               ],
               "customFieldsBI": [],
-              "targetBuildDepends": [
-                {
-                  "package-name": "these",
-                  "version-range": ">=0.7 && <0.9",
-                  "library": [
-                    {}
-                  ]
-                }
-              ],
+              "targetBuildDepends": [],
               "mixins": []
             }
           },
-          "condTreeConstraints": [
-            {
-              "package-name": "these",
-              "version-range": ">=0.7 && <0.9",
-              "library": [
-                {}
-              ]
+          "condTreeConstraints": [],
+          "condTreeComponents": []
+        }
+      },
+      {
+        "condBranchCondition": {
+          "variable": {
+            "compiler": "GHC",
+            "version": ">=9.4"
+          }
+        },
+        "condBranchIfTrue": {
+          "condTreeData": {
+            "name": {},
+            "exposed-modules": [],
+            "re-exported-modules": [],
+            "signatures": [],
+            "exposed": true,
+            "visibility": "LibraryVisibilityPublic",
+            "build-info": {
+              "buildable": true,
+              "buildTools": [],
+              "buildToolDepends": [],
+              "cppOptions": [],
+              "asmOptions": [],
+              "cmmOptions": [],
+              "ccOptions": [],
+              "cxxOptions": [],
+              "ldOptions": [],
+              "pkgconfigDepends": [],
+              "frameworks": [],
+              "extraFrameworkDirs": [],
+              "asmSources": [],
+              "cmmSources": [],
+              "cSources": [],
+              "cxxSources": [],
+              "jsSources": [],
+              "hsSourceDirs": [
+                "src-reexport-ghc92"
+              ],
+              "otherModules": [],
+              "virtualModules": [],
+              "autogenModules": [],
+              "defaultLanguage": null,
+              "otherLanguages": [],
+              "defaultExtensions": [],
+              "otherExtensions": [],
+              "oldExtensions": [],
+              "extraLibs": [],
+              "extraGHCiLibs": [],
+              "extraBundledLibs": [],
+              "extraLibFlavours": [],
+              "extraDynLibFlavours": [],
+              "extraLibDirs": [],
+              "includeDirs": [],
+              "includes": [],
+              "autogenIncludes": [],
+              "installIncludes": [],
+              "options": [
+                [],
+                []
+              ],
+              "profOptions": [
+                [],
+                []
+              ],
+              "sharedOptions": [
+                [],
+                []
+              ],
+              "staticOptions": [
+                [],
+                []
+              ],
+              "customFieldsBI": [],
+              "targetBuildDepends": [],
+              "mixins": []
             }
-          ],
+          },
+          "condTreeConstraints": [],
           "condTreeComponents": []
         }
       }
