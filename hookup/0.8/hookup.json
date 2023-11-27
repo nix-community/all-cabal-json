@@ -2,23 +2,22 @@
   "description": {
     "spec-version": {
       "Left": [
-        3,
-        0
+        2,
+        2
       ]
     },
     "package": {
-      "name": "transformers-either",
+      "name": "hookup",
       "version": [
         0,
-        1,
-        4
+        8
       ]
     },
     "license": {
       "Left": {
         "license-expression": {
           "expression": {
-            "id": "BSD_3_Clause"
+            "id": "ISC"
           },
           "exception-id": null
         }
@@ -27,39 +26,34 @@
     "license-files": [
       "LICENSE"
     ],
-    "copyright": "(c) 2023 Tim McGilchrist",
-    "maintainer": "Tim McGilchrist <timmcgil@gmail.com>",
-    "author": "Tim McGilchrist <timmcgil@gmail.com>",
+    "copyright": "2016-2020 Eric Mertens",
+    "maintainer": "emertens@gmail.com",
+    "author": "Eric Mertens",
     "stability": "",
     "tested-with": [
       {
         "compiler": "GHC",
-        "versionRange": "==8.0.2 || ==8.2.2 || ==8.4.4 || ==8.6.5 || ==8.8.4 || ==8.10.7 || ==9.0.2 || ==9.2.5 || ==9.4.4 || ==9.6.1"
+        "versionRange": "==9.4.7"
       }
     ],
-    "homepage": "http://github.com/tmcgilchrist/transformers-either/",
+    "homepage": "https://github.com/glguy/irc-core",
     "pkg-url": "",
-    "bug-reports": "http://github.com/tmcgilchrist/transformers-either/issues",
+    "bug-reports": "https://github.com/glguy/irc-core/issues",
     "source-repos": [
       {
         "kind": {},
         "type": "Git",
-        "location": "https://github.com/tmcgilchrist/transformers-either.git",
+        "location": "git://github.com/glguy/irc-core.git",
         "module": null,
-        "branch": null,
+        "branch": "v2",
         "tag": null,
         "subdir": null
       }
     ],
-    "synopsis": "An Either monad transformer",
-    "description": "Drop in alternative to ExceptT.\nUses a pattern synonym to maintain compatibility with the old EitherT types\nbut is actually ExceptT under the covers.",
-    "category": "System",
-    "custom-fields": [
-      [
-        "x-revision",
-        "1"
-      ]
-    ],
+    "synopsis": "Abstraction over creating network connections with SOCKS5 and TLS",
+    "description": "This package provides an abstraction for communicating with line-oriented\nnetwork services while abstracting over the use of SOCKS5 and TLS (via OpenSSL)",
+    "category": "Network",
+    "custom-fields": [],
     "build-type-raw": "Simple",
     "custom-setup": null,
     "library": null,
@@ -72,24 +66,20 @@
     "data-dir": ".",
     "extra-source-files": [],
     "extra-tmp-files": [],
-    "extra-doc-files": []
+    "extra-doc-files": [
+      "ChangeLog.md"
+    ]
   },
   "library": {
     "condTreeData": {
       "name": {},
       "exposed-modules": [
         [
-          "Control",
-          "Monad",
-          "Trans",
-          "Either"
+          "Hookup"
         ],
         [
-          "Control",
-          "Monad",
-          "Trans",
-          "Either",
-          "Exit"
+          "Hookup",
+          "OpenSSL"
         ]
       ],
       "re-exported-modules": [],
@@ -111,16 +101,27 @@
         "extraFrameworkDirs": [],
         "asmSources": [],
         "cmmSources": [],
-        "cSources": [],
+        "cSources": [
+          "cbits/pem_password_cb.c"
+        ],
         "cxxSources": [],
         "jsSources": [],
         "hsSourceDirs": [
           "src"
         ],
-        "otherModules": [],
+        "otherModules": [
+          [
+            "Hookup",
+            "Socks5"
+          ],
+          [
+            "Hookup",
+            "Concurrent"
+          ]
+        ],
         "virtualModules": [],
         "autogenModules": [],
-        "defaultLanguage": "Haskell98",
+        "defaultLanguage": "Haskell2010",
         "otherLanguages": [],
         "defaultExtensions": [],
         "otherExtensions": [],
@@ -136,9 +137,7 @@
         "autogenIncludes": [],
         "installIncludes": [],
         "options": [
-          [
-            "-Wall"
-          ],
+          [],
           []
         ],
         "profOptions": [
@@ -157,28 +156,56 @@
         "targetBuildDepends": [
           {
             "package-name": "base",
-            "version-range": ">=4.8 && <5",
+            "version-range": ">=4.11 && <4.20",
             "library": [
               {}
             ]
           },
           {
-            "package-name": "exceptions",
-            "version-range": ">=0.6 && <0.11",
+            "package-name": "async",
+            "version-range": "^>=2.2",
             "library": [
               {}
             ]
           },
           {
-            "package-name": "text",
-            "version-range": ">=1.2 && <2.2",
+            "package-name": "stm",
+            "version-range": "^>=2.5",
             "library": [
               {}
             ]
           },
           {
-            "package-name": "transformers",
-            "version-range": ">=0.4 && <0.7",
+            "package-name": "network",
+            "version-range": ">=3.0 && <3.2",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "bytestring",
+            "version-range": ">=0.10 && <0.13",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "attoparsec",
+            "version-range": "^>=0.14",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "HsOpenSSL",
+            "version-range": ">=0.11.2.3 && <0.12",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "HsOpenSSL-x509-system",
+            "version-range": ">=0.1 && <0.2",
             "library": [
               {}
             ]
@@ -190,28 +217,56 @@
     "condTreeConstraints": [
       {
         "package-name": "base",
-        "version-range": ">=4.8 && <5",
+        "version-range": ">=4.11 && <4.20",
         "library": [
           {}
         ]
       },
       {
-        "package-name": "exceptions",
-        "version-range": ">=0.6 && <0.11",
+        "package-name": "async",
+        "version-range": "^>=2.2",
         "library": [
           {}
         ]
       },
       {
-        "package-name": "text",
-        "version-range": ">=1.2 && <2.2",
+        "package-name": "stm",
+        "version-range": "^>=2.5",
         "library": [
           {}
         ]
       },
       {
-        "package-name": "transformers",
-        "version-range": ">=0.4 && <0.7",
+        "package-name": "network",
+        "version-range": ">=3.0 && <3.2",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "bytestring",
+        "version-range": ">=0.10 && <0.13",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "attoparsec",
+        "version-range": "^>=0.14",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "HsOpenSSL",
+        "version-range": ">=0.11.2.3 && <0.12",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "HsOpenSSL-x509-system",
+        "version-range": ">=0.1 && <0.2",
         "library": [
           {}
         ]
