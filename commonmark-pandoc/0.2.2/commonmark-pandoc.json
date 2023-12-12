@@ -1,60 +1,46 @@
 {
   "description": {
     "spec-version": {
-      "Left": [
-        2,
-        4
-      ]
+      "Right": ">=1.10"
     },
     "package": {
-      "name": "file-io",
+      "name": "commonmark-pandoc",
       "version": [
         0,
-        1,
-        0,
-        1
+        2,
+        2
       ]
     },
     "license": {
-      "Left": {
-        "license-expression": {
-          "expression": {
-            "id": "BSD_3_Clause"
-          },
-          "exception-id": null
-        }
-      }
+      "Right": "BSD3"
     },
-    "license-files": [],
-    "copyright": "Julian Ospald 2022",
-    "maintainer": "hasufell@posteo.de",
-    "author": "Julian Ospald",
+    "license-files": [
+      "LICENSE"
+    ],
+    "copyright": "2018-2021 John MacFarlane",
+    "maintainer": "jgm@berkeley.edu",
+    "author": "John MacFarlane",
     "stability": "",
     "tested-with": [],
-    "homepage": "https://github.com/hasufell/file-io",
+    "homepage": "https://github.com/jgm/commonmark-hs",
     "pkg-url": "",
-    "bug-reports": "https://github.com/hasufell/file-io/issues",
+    "bug-reports": "https://github.com/jgm/commonmark-hs/issues",
     "source-repos": [
       {
         "kind": {},
         "type": "Git",
-        "location": "https://github.com/hasufell/file-io.git",
+        "location": "https://github.com/jgm/commonmark-hs",
         "module": null,
         "branch": null,
         "tag": null,
         "subdir": null
       }
     ],
-    "synopsis": "Basic file IO operations via 'OsPath'",
-    "description": "Basic file IO operations like Prelude, but for 'OsPath'.",
-    "category": "System",
-    "custom-fields": [
-      [
-        "x-revision",
-        "2"
-      ]
-    ],
-    "build-type-raw": null,
+    "synopsis": "Bridge between commonmark and pandoc AST.",
+    "description": "This library provides typeclasses for rendering\ncommonmark to Pandoc types.",
+    "category": "Text",
+    "custom-fields": [],
+    "build-type-raw": "Simple",
     "custom-setup": null,
     "library": null,
     "sublibraries": [],
@@ -65,8 +51,8 @@
     "data-files": [],
     "data-dir": ".",
     "extra-source-files": [
-      "CHANGELOG.md",
-      "System/File/Common.hs"
+      "changelog.md",
+      "README.md"
     ],
     "extra-tmp-files": [],
     "extra-doc-files": []
@@ -76,14 +62,8 @@
       "name": {},
       "exposed-modules": [
         [
-          "System",
-          "File",
-          "OsPath"
-        ],
-        [
-          "System",
-          "File",
-          "PlatformPath"
+          "Commonmark",
+          "Pandoc"
         ]
       ],
       "re-exported-modules": [],
@@ -108,7 +88,9 @@
         "cSources": [],
         "cxxSources": [],
         "jsSources": [],
-        "hsSourceDirs": [],
+        "hsSourceDirs": [
+          "src"
+        ],
         "otherModules": [],
         "virtualModules": [],
         "autogenModules": [],
@@ -129,7 +111,8 @@
         "installIncludes": [],
         "options": [
           [
-            "-Wall"
+            "-Wall",
+            "-fno-warn-unused-do-bind"
           ],
           []
         ],
@@ -149,21 +132,35 @@
         "targetBuildDepends": [
           {
             "package-name": "base",
-            "version-range": ">=4.10 && <5",
+            "version-range": ">=4.9 && <5",
             "library": [
               {}
             ]
           },
           {
-            "package-name": "bytestring",
-            "version-range": ">=0.11.3.0",
+            "package-name": "commonmark",
+            "version-range": ">=0.2.4.1 && <0.3",
             "library": [
               {}
             ]
           },
           {
-            "package-name": "filepath",
-            "version-range": ">=1.4.100.0 && <1.5",
+            "package-name": "commonmark-extensions",
+            "version-range": ">=0.2.5 && <0.3",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "pandoc-types",
+            "version-range": ">=1.21 && <1.24",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "text",
+            "version-range": "-any",
             "library": [
               {}
             ]
@@ -175,21 +172,35 @@
     "condTreeConstraints": [
       {
         "package-name": "base",
-        "version-range": ">=4.10 && <5",
+        "version-range": ">=4.9 && <5",
         "library": [
           {}
         ]
       },
       {
-        "package-name": "bytestring",
-        "version-range": ">=0.11.3.0",
+        "package-name": "commonmark",
+        "version-range": ">=0.2.4.1 && <0.3",
         "library": [
           {}
         ]
       },
       {
-        "package-name": "filepath",
-        "version-range": ">=1.4.100.0 && <1.5",
+        "package-name": "commonmark-extensions",
+        "version-range": ">=0.2.5 && <0.3",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "pandoc-types",
+        "version-range": ">=1.21 && <1.24",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "text",
+        "version-range": "-any",
         "library": [
           {}
         ]
@@ -199,7 +210,8 @@
       {
         "condBranchCondition": {
           "variable": {
-            "os": "Windows"
+            "compiler": "GHC",
+            "version": ">=8.10"
           }
         },
         "condBranchIfTrue": {
@@ -229,13 +241,7 @@
               "cxxSources": [],
               "jsSources": [],
               "hsSourceDirs": [],
-              "otherModules": [
-                [
-                  "System",
-                  "File",
-                  "Windows"
-                ]
-              ],
+              "otherModules": [],
               "virtualModules": [],
               "autogenModules": [],
               "defaultLanguage": null,
@@ -254,7 +260,9 @@
               "autogenIncludes": [],
               "installIncludes": [],
               "options": [
-                [],
+                [
+                  "-Wunused-packages"
+                ],
                 []
               ],
               "profOptions": [
@@ -270,30 +278,22 @@
                 []
               ],
               "customFieldsBI": [],
-              "targetBuildDepends": [
-                {
-                  "package-name": "Win32",
-                  "version-range": ">=2.13.3.0",
-                  "library": [
-                    {}
-                  ]
-                }
-              ],
+              "targetBuildDepends": [],
               "mixins": []
             }
           },
-          "condTreeConstraints": [
-            {
-              "package-name": "Win32",
-              "version-range": ">=2.13.3.0",
-              "library": [
-                {}
-              ]
-            }
-          ],
+          "condTreeConstraints": [],
           "condTreeComponents": []
+        }
+      },
+      {
+        "condBranchCondition": {
+          "variable": {
+            "compiler": "GHC",
+            "version": ">=8.8"
+          }
         },
-        "condBranchIfFalse": {
+        "condBranchIfTrue": {
           "condTreeData": {
             "name": {},
             "exposed-modules": [],
@@ -320,13 +320,7 @@
               "cxxSources": [],
               "jsSources": [],
               "hsSourceDirs": [],
-              "otherModules": [
-                [
-                  "System",
-                  "File",
-                  "Posix"
-                ]
-              ],
+              "otherModules": [],
               "virtualModules": [],
               "autogenModules": [],
               "defaultLanguage": null,
@@ -345,7 +339,10 @@
               "autogenIncludes": [],
               "installIncludes": [],
               "options": [
-                [],
+                [
+                  "-fwrite-ide-info",
+                  "-hiedir=.hie"
+                ],
                 []
               ],
               "profOptions": [
@@ -361,27 +358,11 @@
                 []
               ],
               "customFieldsBI": [],
-              "targetBuildDepends": [
-                {
-                  "package-name": "unix",
-                  "version-range": ">=2.8.0.0",
-                  "library": [
-                    {}
-                  ]
-                }
-              ],
+              "targetBuildDepends": [],
               "mixins": []
             }
           },
-          "condTreeConstraints": [
-            {
-              "package-name": "unix",
-              "version-range": ">=2.8.0.0",
-              "library": [
-                {}
-              ]
-            }
-          ],
+          "condTreeConstraints": [],
           "condTreeComponents": []
         }
       }
