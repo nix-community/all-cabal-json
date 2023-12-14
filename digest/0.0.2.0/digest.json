@@ -1,0 +1,932 @@
+{
+  "description": {
+    "spec-version": {
+      "Left": [
+        2,
+        4
+      ]
+    },
+    "package": {
+      "name": "digest",
+      "version": [
+        0,
+        0,
+        2,
+        0
+      ]
+    },
+    "license": {
+      "Left": {
+        "license-expression": {
+          "expression": {
+            "id": "BSD_2_Clause"
+          },
+          "exception-id": null
+        }
+      }
+    },
+    "license-files": [
+      "LICENSE"
+    ],
+    "copyright": "(c) 2009 Eugene Kirpichov",
+    "maintainer": "Eugene Kirpichov <ekirpichov@gmail.com>",
+    "author": "Eugene Kirpichov <ekirpichov@gmail.com>",
+    "stability": "provisional",
+    "tested-with": [
+      {
+        "compiler": "GHC",
+        "versionRange": "==8.10.7 || ==9.0.2 || ==9.2.8 || ==9.4.8 || ==9.6.3 || ==9.8.1"
+      }
+    ],
+    "homepage": "",
+    "pkg-url": "",
+    "bug-reports": "",
+    "source-repos": [
+      {
+        "kind": {},
+        "type": "Git",
+        "location": "https://github.com/TeofilC/digest",
+        "module": null,
+        "branch": null,
+        "tag": null,
+        "subdir": null
+      }
+    ],
+    "synopsis": "CRC32 and Adler32 hashes for bytestrings",
+    "description": "This package provides efficient hash implementations for\nstrict and lazy bytestrings. For now, CRC32 and Adler32 are supported;\nthey are implemented as FFI bindings to efficient code from zlib.",
+    "category": "Cryptography",
+    "custom-fields": [],
+    "build-type-raw": "Simple",
+    "custom-setup": null,
+    "library": null,
+    "sublibraries": [],
+    "executables": [],
+    "foreign-libs": [],
+    "test-suites": [],
+    "benchmarks": [],
+    "data-files": [],
+    "data-dir": ".",
+    "extra-source-files": [
+      "CHANGELOG.md",
+      "external/crc32c/include/crc32c/crc32c.h",
+      "external/crc32c/LICENSE",
+      "external/crc32c/src/*.h",
+      "include/crc32c/crc32c_config.h",
+      "testing/trivial-reference.c",
+      "testing/trivial.expected",
+      "testing/trivial.hs"
+    ],
+    "extra-tmp-files": [],
+    "extra-doc-files": []
+  },
+  "package-flags": [
+    {
+      "name": "pkg-config",
+      "description": "Use @pkg-config(1)@ to locate @zlib@ library.",
+      "default": true,
+      "manual": true
+    },
+    {
+      "name": "have_builtin_prefetch",
+      "description": "The cxx compiler has the __builtin_prefetch intrinsic.",
+      "default": false,
+      "manual": true
+    },
+    {
+      "name": "have_mm_prefetch",
+      "description": "Targeting X86 and the compiler has the _mm_prefetch intrinsic.",
+      "default": false,
+      "manual": true
+    },
+    {
+      "name": "have_sse42",
+      "description": "Can be enabled to improve performance of CRC32C if targeting X86 and\nthe compiler has the _mm_crc32_u{8,32,64} intrinsics.",
+      "default": false,
+      "manual": true
+    },
+    {
+      "name": "have_arm64_crc32c",
+      "description": "Targeting ARM and the compiler has the __crc32c{b,h,w,d} and the\nvmull_p64 intrinsics.",
+      "default": false,
+      "manual": true
+    },
+    {
+      "name": "have_strong_getauxval",
+      "description": "The system libraries have the getauxval function in the <sys/auxv.h> header.\nShould be true on Linux and Android API level 20+.",
+      "default": false,
+      "manual": true
+    },
+    {
+      "name": "have_weak_getauxval",
+      "description": "The compiler supports defining getauxval as a weak symbol.\nShould be true for any compiler that supports __attribute__((weak)).",
+      "default": false,
+      "manual": true
+    }
+  ],
+  "library": {
+    "condTreeData": {
+      "name": {},
+      "exposed-modules": [
+        [
+          "Data",
+          "Digest",
+          "Adler32"
+        ],
+        [
+          "Data",
+          "Digest",
+          "CRC32"
+        ],
+        [
+          "Data",
+          "Digest",
+          "CRC32C"
+        ]
+      ],
+      "re-exported-modules": [],
+      "signatures": [],
+      "exposed": true,
+      "visibility": "LibraryVisibilityPublic",
+      "build-info": {
+        "buildable": true,
+        "buildTools": [],
+        "buildToolDepends": [],
+        "cppOptions": [],
+        "asmOptions": [],
+        "cmmOptions": [],
+        "ccOptions": [],
+        "cxxOptions": [
+          "-std=c++11"
+        ],
+        "ldOptions": [],
+        "pkgconfigDepends": [],
+        "frameworks": [],
+        "extraFrameworkDirs": [],
+        "asmSources": [],
+        "cmmSources": [],
+        "cSources": [],
+        "cxxSources": [
+          "external/crc32c/src/crc32c.cc",
+          "external/crc32c/src/crc32c_portable.cc"
+        ],
+        "jsSources": [],
+        "hsSourceDirs": [],
+        "otherModules": [],
+        "virtualModules": [],
+        "autogenModules": [],
+        "defaultLanguage": "Haskell2010",
+        "otherLanguages": [],
+        "defaultExtensions": [
+          {
+            "enable-extension": "CPP"
+          },
+          {
+            "enable-extension": "ForeignFunctionInterface"
+          }
+        ],
+        "otherExtensions": [],
+        "oldExtensions": [],
+        "extraLibs": [],
+        "extraGHCiLibs": [],
+        "extraBundledLibs": [],
+        "extraLibFlavours": [],
+        "extraDynLibFlavours": [],
+        "extraLibDirs": [],
+        "includeDirs": [
+          "include",
+          "external/crc32c/include"
+        ],
+        "includes": [
+          "zlib.h"
+        ],
+        "autogenIncludes": [],
+        "installIncludes": [],
+        "options": [
+          [
+            "-Wall"
+          ],
+          []
+        ],
+        "profOptions": [
+          [],
+          []
+        ],
+        "sharedOptions": [
+          [],
+          []
+        ],
+        "staticOptions": [
+          [],
+          []
+        ],
+        "customFieldsBI": [],
+        "targetBuildDepends": [
+          {
+            "package-name": "base",
+            "version-range": ">=4.12 && <5",
+            "library": [
+              {}
+            ]
+          },
+          {
+            "package-name": "bytestring",
+            "version-range": ">=0.10 && <0.13",
+            "library": [
+              {}
+            ]
+          }
+        ],
+        "mixins": []
+      }
+    },
+    "condTreeConstraints": [
+      {
+        "package-name": "base",
+        "version-range": ">=4.12 && <5",
+        "library": [
+          {}
+        ]
+      },
+      {
+        "package-name": "bytestring",
+        "version-range": ">=0.10 && <0.13",
+        "library": [
+          {}
+        ]
+      }
+    ],
+    "condTreeComponents": [
+      {
+        "condBranchCondition": {
+          "variable": {
+            "flag": "have_builtin_prefetch"
+          }
+        },
+        "condBranchIfTrue": {
+          "condTreeData": {
+            "name": {},
+            "exposed-modules": [],
+            "re-exported-modules": [],
+            "signatures": [],
+            "exposed": true,
+            "visibility": "LibraryVisibilityPublic",
+            "build-info": {
+              "buildable": true,
+              "buildTools": [],
+              "buildToolDepends": [],
+              "cppOptions": [],
+              "asmOptions": [],
+              "cmmOptions": [],
+              "ccOptions": [],
+              "cxxOptions": [
+                "-DHAVE_BUILTIN_PREFETCH"
+              ],
+              "ldOptions": [],
+              "pkgconfigDepends": [],
+              "frameworks": [],
+              "extraFrameworkDirs": [],
+              "asmSources": [],
+              "cmmSources": [],
+              "cSources": [],
+              "cxxSources": [],
+              "jsSources": [],
+              "hsSourceDirs": [],
+              "otherModules": [],
+              "virtualModules": [],
+              "autogenModules": [],
+              "defaultLanguage": null,
+              "otherLanguages": [],
+              "defaultExtensions": [],
+              "otherExtensions": [],
+              "oldExtensions": [],
+              "extraLibs": [],
+              "extraGHCiLibs": [],
+              "extraBundledLibs": [],
+              "extraLibFlavours": [],
+              "extraDynLibFlavours": [],
+              "extraLibDirs": [],
+              "includeDirs": [],
+              "includes": [],
+              "autogenIncludes": [],
+              "installIncludes": [],
+              "options": [
+                [],
+                []
+              ],
+              "profOptions": [
+                [],
+                []
+              ],
+              "sharedOptions": [
+                [],
+                []
+              ],
+              "staticOptions": [
+                [],
+                []
+              ],
+              "customFieldsBI": [],
+              "targetBuildDepends": [],
+              "mixins": []
+            }
+          },
+          "condTreeConstraints": [],
+          "condTreeComponents": []
+        }
+      },
+      {
+        "condBranchCondition": {
+          "variable": {
+            "flag": "have_mm_prefetch"
+          }
+        },
+        "condBranchIfTrue": {
+          "condTreeData": {
+            "name": {},
+            "exposed-modules": [],
+            "re-exported-modules": [],
+            "signatures": [],
+            "exposed": true,
+            "visibility": "LibraryVisibilityPublic",
+            "build-info": {
+              "buildable": true,
+              "buildTools": [],
+              "buildToolDepends": [],
+              "cppOptions": [],
+              "asmOptions": [],
+              "cmmOptions": [],
+              "ccOptions": [],
+              "cxxOptions": [
+                "-DHAVE_MM_PREFETCH"
+              ],
+              "ldOptions": [],
+              "pkgconfigDepends": [],
+              "frameworks": [],
+              "extraFrameworkDirs": [],
+              "asmSources": [],
+              "cmmSources": [],
+              "cSources": [],
+              "cxxSources": [],
+              "jsSources": [],
+              "hsSourceDirs": [],
+              "otherModules": [],
+              "virtualModules": [],
+              "autogenModules": [],
+              "defaultLanguage": null,
+              "otherLanguages": [],
+              "defaultExtensions": [],
+              "otherExtensions": [],
+              "oldExtensions": [],
+              "extraLibs": [],
+              "extraGHCiLibs": [],
+              "extraBundledLibs": [],
+              "extraLibFlavours": [],
+              "extraDynLibFlavours": [],
+              "extraLibDirs": [],
+              "includeDirs": [],
+              "includes": [],
+              "autogenIncludes": [],
+              "installIncludes": [],
+              "options": [
+                [],
+                []
+              ],
+              "profOptions": [
+                [],
+                []
+              ],
+              "sharedOptions": [
+                [],
+                []
+              ],
+              "staticOptions": [
+                [],
+                []
+              ],
+              "customFieldsBI": [],
+              "targetBuildDepends": [],
+              "mixins": []
+            }
+          },
+          "condTreeConstraints": [],
+          "condTreeComponents": []
+        }
+      },
+      {
+        "condBranchCondition": {
+          "cond_and_1": {
+            "variable": {
+              "arch": "X86_64"
+            }
+          },
+          "cond_and_2": {
+            "variable": {
+              "flag": "have_sse42"
+            }
+          }
+        },
+        "condBranchIfTrue": {
+          "condTreeData": {
+            "name": {},
+            "exposed-modules": [],
+            "re-exported-modules": [],
+            "signatures": [],
+            "exposed": true,
+            "visibility": "LibraryVisibilityPublic",
+            "build-info": {
+              "buildable": true,
+              "buildTools": [],
+              "buildToolDepends": [],
+              "cppOptions": [],
+              "asmOptions": [],
+              "cmmOptions": [],
+              "ccOptions": [],
+              "cxxOptions": [
+                "-DHAVE_SSE42",
+                "-msse4.2"
+              ],
+              "ldOptions": [],
+              "pkgconfigDepends": [],
+              "frameworks": [],
+              "extraFrameworkDirs": [],
+              "asmSources": [],
+              "cmmSources": [],
+              "cSources": [],
+              "cxxSources": [
+                "external/crc32c/src/crc32c_sse42.cc"
+              ],
+              "jsSources": [],
+              "hsSourceDirs": [],
+              "otherModules": [],
+              "virtualModules": [],
+              "autogenModules": [],
+              "defaultLanguage": null,
+              "otherLanguages": [],
+              "defaultExtensions": [],
+              "otherExtensions": [],
+              "oldExtensions": [],
+              "extraLibs": [],
+              "extraGHCiLibs": [],
+              "extraBundledLibs": [],
+              "extraLibFlavours": [],
+              "extraDynLibFlavours": [],
+              "extraLibDirs": [],
+              "includeDirs": [],
+              "includes": [],
+              "autogenIncludes": [],
+              "installIncludes": [],
+              "options": [
+                [],
+                []
+              ],
+              "profOptions": [
+                [],
+                []
+              ],
+              "sharedOptions": [
+                [],
+                []
+              ],
+              "staticOptions": [
+                [],
+                []
+              ],
+              "customFieldsBI": [],
+              "targetBuildDepends": [],
+              "mixins": []
+            }
+          },
+          "condTreeConstraints": [],
+          "condTreeComponents": []
+        }
+      },
+      {
+        "condBranchCondition": {
+          "cond_and_1": {
+            "variable": {
+              "arch": "AArch64"
+            }
+          },
+          "cond_and_2": {
+            "variable": {
+              "flag": "have_arm64_crc32c"
+            }
+          }
+        },
+        "condBranchIfTrue": {
+          "condTreeData": {
+            "name": {},
+            "exposed-modules": [],
+            "re-exported-modules": [],
+            "signatures": [],
+            "exposed": true,
+            "visibility": "LibraryVisibilityPublic",
+            "build-info": {
+              "buildable": true,
+              "buildTools": [],
+              "buildToolDepends": [],
+              "cppOptions": [],
+              "asmOptions": [],
+              "cmmOptions": [],
+              "ccOptions": [],
+              "cxxOptions": [
+                "-DHAVE_ARM64_CRC32C"
+              ],
+              "ldOptions": [],
+              "pkgconfigDepends": [],
+              "frameworks": [],
+              "extraFrameworkDirs": [],
+              "asmSources": [],
+              "cmmSources": [],
+              "cSources": [],
+              "cxxSources": [
+                "external/crc32c/src/crc32c_arm64.cc"
+              ],
+              "jsSources": [],
+              "hsSourceDirs": [],
+              "otherModules": [],
+              "virtualModules": [],
+              "autogenModules": [],
+              "defaultLanguage": null,
+              "otherLanguages": [],
+              "defaultExtensions": [],
+              "otherExtensions": [],
+              "oldExtensions": [],
+              "extraLibs": [],
+              "extraGHCiLibs": [],
+              "extraBundledLibs": [],
+              "extraLibFlavours": [],
+              "extraDynLibFlavours": [],
+              "extraLibDirs": [],
+              "includeDirs": [],
+              "includes": [],
+              "autogenIncludes": [],
+              "installIncludes": [],
+              "options": [
+                [],
+                []
+              ],
+              "profOptions": [
+                [],
+                []
+              ],
+              "sharedOptions": [
+                [],
+                []
+              ],
+              "staticOptions": [
+                [],
+                []
+              ],
+              "customFieldsBI": [],
+              "targetBuildDepends": [],
+              "mixins": []
+            }
+          },
+          "condTreeConstraints": [],
+          "condTreeComponents": []
+        }
+      },
+      {
+        "condBranchCondition": {
+          "variable": {
+            "flag": "have_strong_getauxval"
+          }
+        },
+        "condBranchIfTrue": {
+          "condTreeData": {
+            "name": {},
+            "exposed-modules": [],
+            "re-exported-modules": [],
+            "signatures": [],
+            "exposed": true,
+            "visibility": "LibraryVisibilityPublic",
+            "build-info": {
+              "buildable": true,
+              "buildTools": [],
+              "buildToolDepends": [],
+              "cppOptions": [],
+              "asmOptions": [],
+              "cmmOptions": [],
+              "ccOptions": [],
+              "cxxOptions": [
+                "-DHAVE_STRONG_GETAUXVAL"
+              ],
+              "ldOptions": [],
+              "pkgconfigDepends": [],
+              "frameworks": [],
+              "extraFrameworkDirs": [],
+              "asmSources": [],
+              "cmmSources": [],
+              "cSources": [],
+              "cxxSources": [],
+              "jsSources": [],
+              "hsSourceDirs": [],
+              "otherModules": [],
+              "virtualModules": [],
+              "autogenModules": [],
+              "defaultLanguage": null,
+              "otherLanguages": [],
+              "defaultExtensions": [],
+              "otherExtensions": [],
+              "oldExtensions": [],
+              "extraLibs": [],
+              "extraGHCiLibs": [],
+              "extraBundledLibs": [],
+              "extraLibFlavours": [],
+              "extraDynLibFlavours": [],
+              "extraLibDirs": [],
+              "includeDirs": [],
+              "includes": [],
+              "autogenIncludes": [],
+              "installIncludes": [],
+              "options": [
+                [],
+                []
+              ],
+              "profOptions": [
+                [],
+                []
+              ],
+              "sharedOptions": [
+                [],
+                []
+              ],
+              "staticOptions": [
+                [],
+                []
+              ],
+              "customFieldsBI": [],
+              "targetBuildDepends": [],
+              "mixins": []
+            }
+          },
+          "condTreeConstraints": [],
+          "condTreeComponents": []
+        }
+      },
+      {
+        "condBranchCondition": {
+          "variable": {
+            "flag": "have_weak_getauxval"
+          }
+        },
+        "condBranchIfTrue": {
+          "condTreeData": {
+            "name": {},
+            "exposed-modules": [],
+            "re-exported-modules": [],
+            "signatures": [],
+            "exposed": true,
+            "visibility": "LibraryVisibilityPublic",
+            "build-info": {
+              "buildable": true,
+              "buildTools": [],
+              "buildToolDepends": [],
+              "cppOptions": [],
+              "asmOptions": [],
+              "cmmOptions": [],
+              "ccOptions": [],
+              "cxxOptions": [
+                "-DHAVE_WEAK_GETAUXVAL"
+              ],
+              "ldOptions": [],
+              "pkgconfigDepends": [],
+              "frameworks": [],
+              "extraFrameworkDirs": [],
+              "asmSources": [],
+              "cmmSources": [],
+              "cSources": [],
+              "cxxSources": [],
+              "jsSources": [],
+              "hsSourceDirs": [],
+              "otherModules": [],
+              "virtualModules": [],
+              "autogenModules": [],
+              "defaultLanguage": null,
+              "otherLanguages": [],
+              "defaultExtensions": [],
+              "otherExtensions": [],
+              "oldExtensions": [],
+              "extraLibs": [],
+              "extraGHCiLibs": [],
+              "extraBundledLibs": [],
+              "extraLibFlavours": [],
+              "extraDynLibFlavours": [],
+              "extraLibDirs": [],
+              "includeDirs": [],
+              "includes": [],
+              "autogenIncludes": [],
+              "installIncludes": [],
+              "options": [
+                [],
+                []
+              ],
+              "profOptions": [
+                [],
+                []
+              ],
+              "sharedOptions": [
+                [],
+                []
+              ],
+              "staticOptions": [
+                [],
+                []
+              ],
+              "customFieldsBI": [],
+              "targetBuildDepends": [],
+              "mixins": []
+            }
+          },
+          "condTreeConstraints": [],
+          "condTreeComponents": []
+        }
+      },
+      {
+        "condBranchCondition": {
+          "cond_and_1": {
+            "cond_and_1": {
+              "variable": {
+                "flag": "pkg-config"
+              }
+            },
+            "cond_and_2": {
+              "cond_not": {
+                "variable": {
+                  "os": "Windows"
+                }
+              }
+            }
+          },
+          "cond_and_2": {
+            "cond_not": {
+              "variable": {
+                "os": "FreeBSD"
+              }
+            }
+          }
+        },
+        "condBranchIfTrue": {
+          "condTreeData": {
+            "name": {},
+            "exposed-modules": [],
+            "re-exported-modules": [],
+            "signatures": [],
+            "exposed": true,
+            "visibility": "LibraryVisibilityPublic",
+            "build-info": {
+              "buildable": true,
+              "buildTools": [],
+              "buildToolDepends": [],
+              "cppOptions": [],
+              "asmOptions": [],
+              "cmmOptions": [],
+              "ccOptions": [],
+              "cxxOptions": [],
+              "ldOptions": [],
+              "pkgconfigDepends": [
+                {
+                  "pkgconfigName": "zlib",
+                  "pkgconfigVersionRange": "-any"
+                }
+              ],
+              "frameworks": [],
+              "extraFrameworkDirs": [],
+              "asmSources": [],
+              "cmmSources": [],
+              "cSources": [],
+              "cxxSources": [],
+              "jsSources": [],
+              "hsSourceDirs": [],
+              "otherModules": [],
+              "virtualModules": [],
+              "autogenModules": [],
+              "defaultLanguage": null,
+              "otherLanguages": [],
+              "defaultExtensions": [],
+              "otherExtensions": [],
+              "oldExtensions": [],
+              "extraLibs": [],
+              "extraGHCiLibs": [],
+              "extraBundledLibs": [],
+              "extraLibFlavours": [],
+              "extraDynLibFlavours": [],
+              "extraLibDirs": [],
+              "includeDirs": [],
+              "includes": [],
+              "autogenIncludes": [],
+              "installIncludes": [],
+              "options": [
+                [],
+                []
+              ],
+              "profOptions": [
+                [],
+                []
+              ],
+              "sharedOptions": [
+                [],
+                []
+              ],
+              "staticOptions": [
+                [],
+                []
+              ],
+              "customFieldsBI": [],
+              "targetBuildDepends": [],
+              "mixins": []
+            }
+          },
+          "condTreeConstraints": [],
+          "condTreeComponents": []
+        },
+        "condBranchIfFalse": {
+          "condTreeData": {
+            "name": {},
+            "exposed-modules": [],
+            "re-exported-modules": [],
+            "signatures": [],
+            "exposed": true,
+            "visibility": "LibraryVisibilityPublic",
+            "build-info": {
+              "buildable": true,
+              "buildTools": [],
+              "buildToolDepends": [],
+              "cppOptions": [],
+              "asmOptions": [],
+              "cmmOptions": [],
+              "ccOptions": [],
+              "cxxOptions": [],
+              "ldOptions": [],
+              "pkgconfigDepends": [],
+              "frameworks": [],
+              "extraFrameworkDirs": [],
+              "asmSources": [],
+              "cmmSources": [],
+              "cSources": [],
+              "cxxSources": [],
+              "jsSources": [],
+              "hsSourceDirs": [],
+              "otherModules": [],
+              "virtualModules": [],
+              "autogenModules": [],
+              "defaultLanguage": null,
+              "otherLanguages": [],
+              "defaultExtensions": [],
+              "otherExtensions": [],
+              "oldExtensions": [],
+              "extraLibs": [],
+              "extraGHCiLibs": [],
+              "extraBundledLibs": [],
+              "extraLibFlavours": [],
+              "extraDynLibFlavours": [],
+              "extraLibDirs": [],
+              "includeDirs": [],
+              "includes": [],
+              "autogenIncludes": [],
+              "installIncludes": [],
+              "options": [
+                [],
+                []
+              ],
+              "profOptions": [
+                [],
+                []
+              ],
+              "sharedOptions": [
+                [],
+                []
+              ],
+              "staticOptions": [
+                [],
+                []
+              ],
+              "customFieldsBI": [],
+              "targetBuildDepends": [
+                {
+                  "package-name": "zlib",
+                  "version-range": "-any",
+                  "library": [
+                    {}
+                  ]
+                }
+              ],
+              "mixins": []
+            }
+          },
+          "condTreeConstraints": [
+            {
+              "package-name": "zlib",
+              "version-range": "-any",
+              "library": [
+                {}
+              ]
+            }
+          ],
+          "condTreeComponents": []
+        }
+      }
+    ]
+  }
+}
